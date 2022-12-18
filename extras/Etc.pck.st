@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 15 December 2022 at 1:27:08 pm'!
+'From Cuis 6.0 [latest update: #5597] on 18 December 2022 at 8:47:59 pm'!
 'Description '!
-!provides: 'Etc' 1 20!
+!provides: 'Etc' 1 21!
 !requires: 'Algebra' 1 7 nil!
 SystemOrganization addCategory: #Etc!
 SystemOrganization addCategory: #'Etc-Lie'!
@@ -206,26 +206,6 @@ ModuleElement subclass: #TupleOld
 TupleOld class
 	instanceVariableNames: ''!
 
-!classDefinition: #EuclideanGaussianElimination category: #Etc!
-GaussJordanEchelonization subclass: #EuclideanGaussianElimination
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Etc'!
-!classDefinition: 'EuclideanGaussianElimination class' category: #Etc!
-EuclideanGaussianElimination class
-	instanceVariableNames: ''!
-
-!classDefinition: #GaussBareiss category: #Etc!
-GaussJordanEchelonization subclass: #GaussBareiss
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Etc'!
-!classDefinition: 'GaussBareiss class' category: #Etc!
-GaussBareiss class
-	instanceVariableNames: ''!
-
 !classDefinition: #BerlekampMassey category: #Etc!
 Object subclass: #BerlekampMassey
 	instanceVariableNames: ''
@@ -244,6 +224,46 @@ Object subclass: #BitTuple2
 	category: 'Etc'!
 !classDefinition: 'BitTuple2 class' category: #Etc!
 BitTuple2 class
+	instanceVariableNames: ''!
+
+!classDefinition: #Echelonization category: #Etc!
+Object subclass: #Echelonization
+	instanceVariableNames: 'matrix echelon transformation'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'Echelonization class' category: #Etc!
+Echelonization class
+	instanceVariableNames: ''!
+
+!classDefinition: #GaussianElimination2 category: #Etc!
+Echelonization subclass: #GaussianElimination2
+	instanceVariableNames: 'pivots currentPivot determinantFactor'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'GaussianElimination2 class' category: #Etc!
+GaussianElimination2 class
+	instanceVariableNames: ''!
+
+!classDefinition: #HermiteEchelonization category: #Etc!
+Echelonization subclass: #HermiteEchelonization
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'HermiteEchelonization class' category: #Etc!
+HermiteEchelonization class
+	instanceVariableNames: ''!
+
+!classDefinition: #HowellEchelonization category: #Etc!
+Echelonization subclass: #HowellEchelonization
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'HowellEchelonization class' category: #Etc!
+HowellEchelonization class
 	instanceVariableNames: ''!
 
 !classDefinition: #ExtendedSmithReduction category: #Etc!
@@ -376,6 +396,26 @@ Object subclass: #RootSystemTest
 RootSystemTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #EuclideanGaussianElimination category: #Etc!
+ProtoObject subclass: #EuclideanGaussianElimination
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'EuclideanGaussianElimination class' category: #Etc!
+EuclideanGaussianElimination class
+	instanceVariableNames: ''!
+
+!classDefinition: #GaussBareiss category: #Etc!
+ProtoObject subclass: #GaussBareiss
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'GaussBareiss class' category: #Etc!
+GaussBareiss class
+	instanceVariableNames: ''!
+
 !classDefinition: #PolynomialCode category: #Etc!
 ProtoObject subclass: #PolynomialCode
 	instanceVariableNames: 'generator'
@@ -454,15 +494,6 @@ Different ways to create the 4-tuple (1,2,4,8) with integer coefficients:
 	(1,2,4,8)
 !
 
-!GaussBareiss commentStamp: '<historical>' prior: 0!
-This is the Gauss-Bereiss algorithm, a variant of Gassian elimination. It performs division-free Gaussian elimination on a matrix with coefficients in an integral domain, and computes the echelon form.
-
-Input: a matrix with coefficients in a an integral domain;
-Output: the reduced echelon form and the determinant.
-
-The algorithm performs O(n^3) ring operations for nxn matrices. While the standard Gaussian elimination suffers from exponential intermediate coefficients growth, the Gauss-Bareiss algorithm has bit complexity O(n^5).
-!
-
 !BerlekampMassey commentStamp: '<historical>' prior: 0!
 This is the Berlekamp-Massey algorithm. The initial purpose of this algorithm was to evaluate Binary BCH codes, but it has found many uses, including inverting matrices of constant diagonal, solving linear recurrences (synthesizing LFSRs with a specified output sequence), etc.
 
@@ -478,6 +509,27 @@ Example:
 	"A handy way to create a binary tuple:"
 	(1,0,1,1,0,1,1,1) % 2
 !
+
+!Echelonization commentStamp: '<historical>' prior: 0!
+Abstract superclass for matrix (row) echelonization algorithms.!
+
+!GaussianElimination2 commentStamp: '<historical>' prior: 0!
+This is the Gaussian Elimination algorithm.
+
+My instances perform Gaussian reduction on a matrix to compute its echelon form, linear dependency of the columns, rank, determinant, inverse, etc.
+
+Input: a matrix with coefficients in a field;
+Output: the reduced echelon form of the matrix, determinant and left inverse.
+
+The algorithm performs O(2n^3/3) field operations for n by n matrices, but due to exponential growth of intermediate coefficients it can be impractical in many situations (for example, with rational coefficients).!
+
+!HermiteEchelonization commentStamp: '<historical>' prior: 0!
+This is the Hermite row reduction algorithm. Given a matrix with coefficients in a computable Euclidean domain, it reduces the matrix to its row-style Hermite normal form.
+
+The algorithm is essentially Algorithm 2.4.4 in [Coh96] but modified to do row reduction instead of column reduction and generalized to Euclidean domains.!
+
+!HowellEchelonization commentStamp: 'len 8/14/2022 11:56:40' prior: 0!
+This is the Howell row reduction algorithm. Given a matrix with coefficients in a PIR with an extended GCD algorithm to compute Bezout coefficients (for example ℤ/mℤ or other Euclidean ring, possibly with zero divisors), it reduces the matrix to its Howell normal form. See [How86], [Sto00], [SM98], [FH16].!
 
 !RealBox commentStamp: '<historical>' prior: 0!
 Boxes in R^n built by the cartesian product of one-dimensional intervals (instances of RealInterval).
@@ -499,6 +551,15 @@ See [Coh96], Algorithm 2.4.14.!
 
 !SparseTuple commentStamp: 'len 7/21/2020 17:34:32' prior: 0!
 Sparse tuples are tuples that use a Dictionary to store the components, and zero entries are not stored explicitly. This makes them more efficient when most of the entries are zero.!
+
+!GaussBareiss commentStamp: '<historical>' prior: 0!
+This is the Gauss-Bereiss algorithm, a variant of Gassian elimination. It performs division-free Gaussian elimination on a matrix with coefficients in an integral domain, and computes the echelon form.
+
+Input: a matrix with coefficients in a an integral domain;
+Output: the reduced echelon form and the determinant.
+
+The algorithm performs O(n^3) ring operations for nxn matrices. While the standard Gaussian elimination suffers from exponential intermediate coefficients growth, the Gauss-Bareiss algorithm has bit complexity O(n^5).
+!
 
 !PolynomialCode commentStamp: '<historical>' prior: 0!
 In coding theory, a polynomial code is a type of linear code whose set of valid codewords consists of those polynomials (usually of some fixed length) that are divisible by some fixed polynomial (of shorter length, called the generator polynomial).
@@ -2839,42 +2900,6 @@ coefficients: anArray parent: aFreeModule
 new
 	^ self shouldNotImplement! !
 
-!EuclideanGaussianElimination methodsFor: 'private' stamp: 'len 12/13/2022 13:12:29'!
-reduceStep
-	"Perform one step in the reduction of the matrix using the current pivot."
-	| row j |
-	row _ currentPivot x.
-	j _ currentPivot y.
-	self assert: row = j.
-	1 to: echelon height do: [:i|
-		(i = j or: [echelon isZeroAt: i @ j])
-			ifFalse:
-				[| ajj aij euclid g bi bj ri rj |
-				ajj _ echelon at: j @ j.
-				aij _ echelon at: i @ j.
-				euclid _ ExtendedEuclid on: {aij. ajj}.
-				g _ euclid gcd.
-				bi _ euclid bezout first.
-				bj _ euclid bezout last.
-"				euclid validate ifFalse: [self halt]."
-				ri _ echelon rowAt: i.
-				rj _ echelon rowAt: j.
-				echelon rowAt: j put: ri * bi + (rj * bj).
-				echelon rowAt: i put: rj * (aij // g) - (ri * (ajj // g))]]! !
-
-!GaussBareiss methodsFor: 'private' stamp: 'len 12/13/2022 13:12:29'!
-reduceStep
-	"Perform one step reduction of the matrix using the current pivot."
-	| row col pivot value |
-	row _ currentPivot x.
-	col _ currentPivot y.
-	pivot _ echelon at: row @ col.
-	1 to: echelon height do: [:i|
-		(i = row or: [(value _ echelon at: i @ col) isZero])
-			ifFalse:
-				[self multiplyRow: i by: pivot.
-				self addRow: row times: value negated toRow: i]]! !
-
 !BerlekampMassey methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 09:33:44'!
 run
 	| F Fx x C L N m B d b s |
@@ -3162,6 +3187,232 @@ new
 newFrom: anInteger
 	anInteger isInteger ifTrue: [^ self bits: anInteger parent: One parent^anInteger highBit].
 	^ super newFrom: anInteger! !
+
+!Echelonization methodsFor: 'accessing' stamp: 'len 12/13/2022 13:24:19'!
+echelon
+	echelon isNil ifTrue: [echelon _ matrix copy. transformation _ nil. self run].
+	^ echelon! !
+
+!Echelonization methodsFor: 'accessing' stamp: 'len 12/13/2022 13:19:35'!
+echelonAndTransformation
+	transformation isNil ifTrue: [echelon _ matrix copy. transformation _ matrix codomain id copy. self run].
+	^ {echelon. transformation}! !
+
+!Echelonization methodsFor: 'operations' stamp: 'len 5/30/2019 07:21:15'!
+addRow: i0 times: aNumber toRow: i1
+	self addRow: i0 times: aNumber toRow: i1 startingAt: 1! !
+
+!Echelonization methodsFor: 'operations' stamp: 'len 12/13/2022 13:12:29'!
+addRow: i0 times: aNumber toRow: i1 startingAt: startIndex
+	"Transcript cr; show: 'addRow: ', i0 printString, ' toRow: ', i1 printString, ' startingAt: ', startIndex printString."
+	echelon addRow: i0 times: aNumber toRow: i1 startingAt: startIndex.
+	transformation ifNotNil: [transformation addRow: i0 times: aNumber toRow: i1]! !
+
+!Echelonization methodsFor: 'operations' stamp: 'len 1/19/2018 21:38:21'!
+multiplyRow: i by: aNumber
+	self multiplyRow: i by: aNumber startingAt: 1! !
+
+!Echelonization methodsFor: 'operations' stamp: 'len 12/13/2022 13:12:29'!
+multiplyRow: i by: aNumber startingAt: startIndex
+	"Transcript cr; show: 'multiplyRow: ', i printString, ' by: ', aNumber printString, ' startingAt: ', startIndex printString."
+	echelon multiplyRow: i by: aNumber startingAt: startIndex.
+	transformation ifNotNil: [transformation multiplyRow: i by: aNumber]! !
+
+!Echelonization methodsFor: 'operations' stamp: 'len 12/13/2022 13:12:29'!
+swapRow: i with: j
+	"Transcript cr; show: 'swapRow: ', i printString, ' with: ', j printString."
+	echelon swapRow: i with: j.
+	transformation ifNotNil: [transformation swapRow: i with: j]! !
+
+!Echelonization methodsFor: 'private' stamp: 'len 12/13/2022 13:15:17'!
+matrix: aMatrix
+	matrix _ aMatrix! !
+
+!Echelonization class methodsFor: 'instance creation' stamp: 'len 12/13/2022 13:22:22'!
+on: aMatrix
+	^ self new matrix: aMatrix! !
+
+!GaussianElimination2 methodsFor: 'accessing' stamp: 'len 12/13/2022 13:12:29'!
+determinant
+	"Answer the determinant of the matrix."
+	| determinant |
+	determinant _ echelon scalars one.
+	1 to: echelon height do: [:i|
+		determinant _ determinant * (echelon at: i@i)].
+	^ determinant / determinantFactor! !
+
+!GaussianElimination2 methodsFor: 'operations' stamp: 'len 5/30/2019 07:21:00'!
+addRow: i0 times: aNumber toRow: i1
+	self addRow: i0 times: aNumber toRow: i1 startingAt: currentPivot y! !
+
+!GaussianElimination2 methodsFor: 'operations' stamp: 'len 1/19/2018 21:54:00'!
+multiplyRow: i by: aNumber
+	self multiplyRow: i by: aNumber startingAt: currentPivot y! !
+
+!GaussianElimination2 methodsFor: 'operations' stamp: 'len 11/29/2022 19:22:41'!
+multiplyRow: i by: aNumber startingAt: startIndex
+	super multiplyRow: i by: aNumber startingAt: startIndex.
+	determinantFactor _ determinantFactor * aNumber! !
+
+!GaussianElimination2 methodsFor: 'operations' stamp: 'len 12/12/2022 13:43:37'!
+swapRow: i
+	"Swap the anInteger-th row with the row at the current pivot."
+	i = currentPivot x ifTrue: [^ self].
+	self swapRow: i with: currentPivot x.
+	pivots removeLast.
+	currentPivot _ pivots add: i @ currentPivot y! !
+
+!GaussianElimination2 methodsFor: 'operations' stamp: 'len 11/29/2022 19:23:22'!
+swapRow: i with: j
+	super swapRow: i with: j.
+	determinantFactor _ determinantFactor negated! !
+
+!GaussianElimination2 methodsFor: 'private' stamp: 'len 12/13/2022 13:12:29'!
+nextPivot
+	"Advance the position to the next available pivot."
+	| col |
+	col _ currentPivot y + 1.
+	[col <= echelon width]
+		whileTrue:
+			[1 to: echelon height do: [:each|
+				((pivots anySatisfy: [:one| one x = each]) or: [echelon isZeroAt: each @ col])
+						ifFalse: [^ currentPivot _ pivots add: each @ col]].
+			col _ col + 1].
+	^ nil! !
+
+!GaussianElimination2 methodsFor: 'private' stamp: 'len 12/13/2022 13:12:29'!
+reduceStep
+	"Perform one step in the reduction of the matrix using the current pivot."
+	| row col |
+	row _ currentPivot x.
+	col _ currentPivot y.
+	self multiplyRow: row by: (echelon at: row @ col) inverse.
+	1 to: echelon height do: [:i|
+		(i = row or: [echelon isZeroAt: i @ col])
+			ifFalse: [self addRow: row times: (echelon at: i @ col) negated toRow: i]]! !
+
+!GaussianElimination2 methodsFor: 'private' stamp: 'len 12/13/2022 13:23:24'!
+run
+	| row |
+	pivots _ OrderedCollection new: matrix height.
+	currentPivot _ 0 @ 0.
+	determinantFactor _ matrix scalars one.
+	row _ 1.
+	[self nextPivot isNil]
+		whileFalse:
+			[self swapRow: row.
+			row _ row + 1.
+			self reduceStep]! !
+
+!HermiteEchelonization methodsFor: 'private' stamp: 'len 12/17/2022 12:49:58'!
+reduceStep: k column: j
+	"Perform the reduction step on row k and column j."
+	| i0 b |
+	"2. Column finished?"
+	[i0 _ (echelon height to: k+1 by: -1)
+		detect: [:i| (echelon at: i@j) isZero not]
+		ifNone: [self multiplyRow: k by: (echelon at: k@j) normalization. ^ self "go to step 5"].
+	"3. Choose nonzero entry with smallest Euclidean valuation:"
+	i0 _ ((k to: i0) select: [:i| (echelon at: i@j) isZero not]) detectMin: [:i| (echelon at: i@j) gauge].
+	i0 > k ifTrue: [self swapRow: i0 with: k].
+	self multiplyRow: k by: (echelon at: k@j) normalization.
+	b _ echelon at: k@j.
+	"4. Reduce:"
+	echelon height to: k+1 by: -1 do: [:i| | q |
+		q _ (echelon at: i@j) // b.
+		self addRow: k times: q negated toRow: i]] repeat! !
+
+!HermiteEchelonization methodsFor: 'private' stamp: 'len 12/13/2022 13:12:29'!
+run
+	| n m k j b |
+	m _ echelon height.
+	n _ echelon width.
+	(m = 0 or: [n = 0]) ifTrue: [^ self]. "nothing to do"
+	"1. Initialize:"
+	k _ 1.
+	j _ 1.
+	[self reduceStep: k column: j.
+	"5. Final reductions:"
+	b _ echelon at: k@j.
+	b isZero
+		ifTrue:
+			[k _ k - 1]
+		ifFalse:
+			[1 to: k-1 do: [:i| | q |
+				q _ (echelon at: i@j) // b.
+				self addRow: k times: q negated toRow: i]].
+	"6. Finished?"
+	j = n or: [k = m]] whileFalse: [j _ j + 1. k _ k + 1].
+	^ echelon! !
+
+!HowellEchelonization methodsFor: 'private' stamp: 'len 12/13/2022 13:12:29'!
+cancel: aPoint with: anotherPoint
+	| a b mgcd g s t u v j i Aj Ai |
+	mgcd _ (a _ echelon at: aPoint) xxgcd: (b _ echelon at: anotherPoint).
+	g _ mgcd at: 1.
+	s _ mgcd at: 2.
+	t _ mgcd at: 3.
+	u _ mgcd at: 4.
+	v _ mgcd at: 5.
+	self assert: s*a + (t*b) = g.
+	self assert: (u*a + (v*b)) isZero.
+	self assert: (s*v - (t*u)) isOne.
+	"optimize!! avoid wasting memory"
+	j _ aPoint x.
+	i _ anotherPoint x.
+	Aj _ (echelon rowAt: j) copy.
+	Ai _ (echelon rowAt: i) copy.
+	echelon rowAt: j put: Aj*s + (Ai*t).
+	echelon rowAt: i put: Aj*u + (Ai*v).
+	transformation ifNotNil:
+		[Aj _ (transformation rowAt: j) copy.
+		Ai _ (transformation rowAt: i) copy.
+		transformation rowAt: j put: Aj*s + (Ai*t).
+		transformation rowAt: i put: Aj*u + (Ai*v)]! !
+
+!HowellEchelonization methodsFor: 'private' stamp: 'len 12/13/2022 13:12:29'!
+cancel: aPoint withTemporary: aTuple
+	| a b mgcd g s t u v j Aj |
+	mgcd _ (a _ echelon at: aPoint) xxgcd: (b _ aTuple at: aPoint y).
+	g _ mgcd at: 1.
+	s _ mgcd at: 2.
+	t _ mgcd at: 3.
+	u _ mgcd at: 4.
+	v _ mgcd at: 5.
+	self assert: s*a + (t*b) = g.
+	self assert: (u*a + (v*b)) isZero.
+	self assert: (s*v - (t*u)) isOne.
+	"optimize!! avoid wasting memory"
+	j _ aPoint x.
+	Aj _ (echelon rowAt: j) copy.
+	echelon rowAt: j put: Aj*s + (aTuple*t).
+	^ Aj*u + (aTuple*v)! !
+
+!HowellEchelonization methodsFor: 'private' stamp: 'len 12/13/2022 13:12:29'!
+run
+	| n m |
+	n _ echelon width.
+	m _ echelon height.
+	"If more columns than rows, augment the matrix with zero rows to make it square:"
+	n > m ifTrue:
+		[echelon _ echelon ⊓ (echelon domain ⇒ (echelon scalars ^ (n - m))) zero.
+		transformation ifNotNil: [transformation _ transformation ⊓ (transformation domain ⇒ (echelon scalars ^ (n - m))) zero].
+		m _ n].
+	"Put it in upper triangular form:"
+	1 to: n do: [:j| j+1 to: m do: [:i| self cancel: j@j with: i@j]].
+	self assert: echelon isUpperTriangular.
+	"Put it in Howell form:"
+	1 to: n do: [:j|
+		| B |
+		(echelon isZeroAt: j@j)
+			ifTrue:
+				[B _ (echelon rowAt: j) copy]
+			ifFalse:
+				[self multiplyRow: j by: (echelon at: j@j) normalization.
+				1 to: j-1 do: [:i| self addRow: j times: ((echelon at: i@j) // (echelon at: j@j)) negated toRow: i].
+				B _ (echelon rowAt: j) * (echelon at: j@j) annihilator].
+		j+1 to: n do: [:i| B _ self cancel: i@i withTemporary: B]].
+	^ echelon! !
 
 !ExtendedSmithReduction methodsFor: 'as yet unclassified' stamp: 'len 5/5/2019 12:43:36'!
 matrix
@@ -4123,6 +4374,42 @@ testWeylGroupAndSimpleRoots
 	R _ self rootSystem1.
 	W _ R weylGroup.
 	R roots do: [:r| self assert: (W anySatisfy: [:w| R simpleRoots includes: (w value: r)])]! !
+
+!EuclideanGaussianElimination methodsFor: 'private' stamp: 'len 12/13/2022 13:12:29'!
+reduceStep
+	"Perform one step in the reduction of the matrix using the current pivot."
+	| row j |
+	row _ currentPivot x.
+	j _ currentPivot y.
+	self assert: row = j.
+	1 to: echelon height do: [:i|
+		(i = j or: [echelon isZeroAt: i @ j])
+			ifFalse:
+				[| ajj aij euclid g bi bj ri rj |
+				ajj _ echelon at: j @ j.
+				aij _ echelon at: i @ j.
+				euclid _ ExtendedEuclid on: {aij. ajj}.
+				g _ euclid gcd.
+				bi _ euclid bezout first.
+				bj _ euclid bezout last.
+"				euclid validate ifFalse: [self halt]."
+				ri _ echelon rowAt: i.
+				rj _ echelon rowAt: j.
+				echelon rowAt: j put: ri * bi + (rj * bj).
+				echelon rowAt: i put: rj * (aij // g) - (ri * (ajj // g))]]! !
+
+!GaussBareiss methodsFor: 'private' stamp: 'len 12/13/2022 13:12:29'!
+reduceStep
+	"Perform one step reduction of the matrix using the current pivot."
+	| row col pivot value |
+	row _ currentPivot x.
+	col _ currentPivot y.
+	pivot _ echelon at: row @ col.
+	1 to: echelon height do: [:i|
+		(i = row or: [(value _ echelon at: i @ col) isZero])
+			ifFalse:
+				[self multiplyRow: i by: pivot.
+				self addRow: row times: value negated toRow: i]]! !
 
 !PolynomialCode methodsFor: 'accessing' stamp: 'len 4/4/2016 20:19'!
 generator

@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5597] on 18 December 2022 at 12:31:07 pm'!
+'From Cuis 6.0 [latest update: #5597] on 18 December 2022 at 8:47:51 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -58,7 +58,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 53!
+!provides: 'Algebra' 1 54!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -91,9 +91,8 @@ SystemOrganization addCategory: #'Algebra-Schemes-Projective Space'!
 SystemOrganization addCategory: #'Algebra-Sequences'!
 SystemOrganization addCategory: #'Algebra-Simplicial Complexes'!
 SystemOrganization addCategory: #'Algebra-Algorithms'!
-SystemOrganization addCategory: #'Algebra-Algorithms-Matrices'!
-SystemOrganization addCategory: #'Algebra-Algorithms-Groebner Bases'!
-SystemOrganization addCategory: #'Algebra-Algorithms-Groups'!
+SystemOrganization addCategory: #'Algebra-Algorithms-Echelonization'!
+SystemOrganization addCategory: #'Algebra-Algorithms-Standard Bases'!
 
 
 !classDefinition: #ContinuedFraction category: #'Algebra-Sequences'!
@@ -2426,6 +2425,16 @@ Object subclass: #NTT
 NTT class
 	instanceVariableNames: ''!
 
+!classDefinition: #ProductReplacementRandomGenerator category: #'Algebra-Algorithms'!
+Object subclass: #ProductReplacementRandomGenerator
+	instanceVariableNames: 'generators state'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algorithms'!
+!classDefinition: 'ProductReplacementRandomGenerator class' category: #'Algebra-Algorithms'!
+ProductReplacementRandomGenerator class
+	instanceVariableNames: ''!
+
 !classDefinition: #PseudoDivision category: #'Algebra-Algorithms'!
 Object subclass: #PseudoDivision
 	instanceVariableNames: 'dividend divisor quotient remainder'
@@ -2434,6 +2443,26 @@ Object subclass: #PseudoDivision
 	category: 'Algebra-Algorithms'!
 !classDefinition: 'PseudoDivision class' category: #'Algebra-Algorithms'!
 PseudoDivision class
+	instanceVariableNames: ''!
+
+!classDefinition: #SchreierSims category: #'Algebra-Algorithms'!
+Object subclass: #SchreierSims
+	instanceVariableNames: 'action generators base strongGeneratingSet trees order'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algorithms'!
+!classDefinition: 'SchreierSims class' category: #'Algebra-Algorithms'!
+SchreierSims class
+	instanceVariableNames: ''!
+
+!classDefinition: #SchreierTree category: #'Algebra-Algorithms'!
+Object subclass: #SchreierTree
+	instanceVariableNames: 'root generators action v inverses w orbit'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algorithms'!
+!classDefinition: 'SchreierTree class' category: #'Algebra-Algorithms'!
+SchreierTree class
 	instanceVariableNames: ''!
 
 !classDefinition: #TonelliShanks category: #'Algebra-Algorithms'!
@@ -2446,134 +2475,94 @@ Object subclass: #TonelliShanks
 TonelliShanks class
 	instanceVariableNames: ''!
 
-!classDefinition: #Coechelonization category: #'Algebra-Algorithms-Matrices'!
+!classDefinition: #Coechelonization category: #'Algebra-Algorithms-Echelonization'!
 Object subclass: #Coechelonization
 	instanceVariableNames: 'matrix echelon transformation'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Matrices'!
-!classDefinition: 'Coechelonization class' category: #'Algebra-Algorithms-Matrices'!
+	category: 'Algebra-Algorithms-Echelonization'!
+!classDefinition: 'Coechelonization class' category: #'Algebra-Algorithms-Echelonization'!
 Coechelonization class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussJordan category: #'Algebra-Algorithms-Matrices'!
-Coechelonization subclass: #GaussJordan
+!classDefinition: #GaussianElimination category: #'Algebra-Algorithms-Echelonization'!
+Coechelonization subclass: #GaussianElimination
 	instanceVariableNames: 'determinantFactor'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Matrices'!
-!classDefinition: 'GaussJordan class' category: #'Algebra-Algorithms-Matrices'!
-GaussJordan class
+	category: 'Algebra-Algorithms-Echelonization'!
+!classDefinition: 'GaussianElimination class' category: #'Algebra-Algorithms-Echelonization'!
+GaussianElimination class
 	instanceVariableNames: ''!
 
-!classDefinition: #HermiteReduction category: #'Algebra-Algorithms-Matrices'!
+!classDefinition: #HermiteReduction category: #'Algebra-Algorithms-Echelonization'!
 Coechelonization subclass: #HermiteReduction
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Matrices'!
-!classDefinition: 'HermiteReduction class' category: #'Algebra-Algorithms-Matrices'!
+	category: 'Algebra-Algorithms-Echelonization'!
+!classDefinition: 'HermiteReduction class' category: #'Algebra-Algorithms-Echelonization'!
 HermiteReduction class
 	instanceVariableNames: ''!
 
-!classDefinition: #HowellReduction category: #'Algebra-Algorithms-Matrices'!
+!classDefinition: #HowellReduction category: #'Algebra-Algorithms-Echelonization'!
 Coechelonization subclass: #HowellReduction
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Matrices'!
-!classDefinition: 'HowellReduction class' category: #'Algebra-Algorithms-Matrices'!
+	category: 'Algebra-Algorithms-Echelonization'!
+!classDefinition: 'HowellReduction class' category: #'Algebra-Algorithms-Echelonization'!
 HowellReduction class
 	instanceVariableNames: ''!
 
-!classDefinition: #MultivariateDivision category: #'Algebra-Algorithms-Groebner Bases'!
+!classDefinition: #MultivariateDivision category: #'Algebra-Algorithms-Standard Bases'!
 Object subclass: #MultivariateDivision
 	instanceVariableNames: 'dividend divisors quotients remainder'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Groebner Bases'!
-!classDefinition: 'MultivariateDivision class' category: #'Algebra-Algorithms-Groebner Bases'!
+	category: 'Algebra-Algorithms-Standard Bases'!
+!classDefinition: 'MultivariateDivision class' category: #'Algebra-Algorithms-Standard Bases'!
 MultivariateDivision class
 	instanceVariableNames: ''!
 
-!classDefinition: #StrongBuchberger category: #'Algebra-Algorithms-Groebner Bases'!
+!classDefinition: #StrongBuchberger category: #'Algebra-Algorithms-Standard Bases'!
 Object subclass: #StrongBuchberger
 	instanceVariableNames: 'matrix generators'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Groebner Bases'!
-!classDefinition: 'StrongBuchberger class' category: #'Algebra-Algorithms-Groebner Bases'!
+	category: 'Algebra-Algorithms-Standard Bases'!
+!classDefinition: 'StrongBuchberger class' category: #'Algebra-Algorithms-Standard Bases'!
 StrongBuchberger class
 	instanceVariableNames: ''!
 
-!classDefinition: #Buchberger category: #'Algebra-Algorithms-Groebner Bases'!
+!classDefinition: #Buchberger category: #'Algebra-Algorithms-Standard Bases'!
 StrongBuchberger subclass: #Buchberger
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Groebner Bases'!
-!classDefinition: 'Buchberger class' category: #'Algebra-Algorithms-Groebner Bases'!
+	category: 'Algebra-Algorithms-Standard Bases'!
+!classDefinition: 'Buchberger class' category: #'Algebra-Algorithms-Standard Bases'!
 Buchberger class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtendedStrongBuchberger category: #'Algebra-Algorithms-Groebner Bases'!
+!classDefinition: #ExtendedStrongBuchberger category: #'Algebra-Algorithms-Standard Bases'!
 StrongBuchberger subclass: #ExtendedStrongBuchberger
 	instanceVariableNames: 'combinations'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Groebner Bases'!
-!classDefinition: 'ExtendedStrongBuchberger class' category: #'Algebra-Algorithms-Groebner Bases'!
+	category: 'Algebra-Algorithms-Standard Bases'!
+!classDefinition: 'ExtendedStrongBuchberger class' category: #'Algebra-Algorithms-Standard Bases'!
 ExtendedStrongBuchberger class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtendedBuchberger category: #'Algebra-Algorithms-Groebner Bases'!
+!classDefinition: #ExtendedBuchberger category: #'Algebra-Algorithms-Standard Bases'!
 ExtendedStrongBuchberger subclass: #ExtendedBuchberger
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Groebner Bases'!
-!classDefinition: 'ExtendedBuchberger class' category: #'Algebra-Algorithms-Groebner Bases'!
+	category: 'Algebra-Algorithms-Standard Bases'!
+!classDefinition: 'ExtendedBuchberger class' category: #'Algebra-Algorithms-Standard Bases'!
 ExtendedBuchberger class
-	instanceVariableNames: ''!
-
-!classDefinition: #ProductReplacementRandomGenerator category: #'Algebra-Algorithms-Groups'!
-Object subclass: #ProductReplacementRandomGenerator
-	instanceVariableNames: 'generators state'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Groups'!
-!classDefinition: 'ProductReplacementRandomGenerator class' category: #'Algebra-Algorithms-Groups'!
-ProductReplacementRandomGenerator class
-	instanceVariableNames: ''!
-
-!classDefinition: #SchreierSims category: #'Algebra-Algorithms-Groups'!
-Object subclass: #SchreierSims
-	instanceVariableNames: 'action generators base strongGeneratingSet trees order'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Groups'!
-!classDefinition: 'SchreierSims class' category: #'Algebra-Algorithms-Groups'!
-SchreierSims class
-	instanceVariableNames: ''!
-
-!classDefinition: #SchreierTree category: #'Algebra-Algorithms-Groups'!
-Object subclass: #SchreierTree
-	instanceVariableNames: 'root generators action v inverses w orbit'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Groups'!
-!classDefinition: 'SchreierTree class' category: #'Algebra-Algorithms-Groups'!
-SchreierTree class
-	instanceVariableNames: ''!
-
-!classDefinition: #ToddCoxeter category: #'Algebra-Algorithms-Groups'!
-Object subclass: #ToddCoxeter
-	instanceVariableNames: 'group subgroup representatives generators'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Groups'!
-!classDefinition: 'ToddCoxeter class' category: #'Algebra-Algorithms-Groups'!
-ToddCoxeter class
 	instanceVariableNames: ''!
 
 
@@ -3529,6 +3518,9 @@ Number Theoretic Transforms, the analog of DFTs for the field of integers modulo
 
 The (pseudo) number theoretic transform may be meaningful in the ring Z/<m> even when the modulo m is not prime, provided a principal root of order n exists.!
 
+!ProductReplacementRandomGenerator commentStamp: '<historical>' prior: 0!
+Product Replacement Algorithm for generating random elements in a group from a set of generators. Essentially, it performs a random walk on a Cayley graph.!
+
 !PseudoDivision commentStamp: '<historical>' prior: 0!
 This is the pseudo-division algorithm for univariate polynomials over an arbitrary commutative ring.
 
@@ -3537,18 +3529,25 @@ Output: quotient and remainder polynomials q and r in R[x], such that b*f = q*g 
 
 The algorithm performs O(n^2) arithmetic operations for dense polynomials of degree n.!
 
+!SchreierTree commentStamp: '<historical>' prior: 0!
+Given a finite group G with a generating set S, and an action of G on X, a Schreier tree with root x for S is a representation of the orbit of x: it's a tree rooted at x with the elements of x^G as its vertices, and its edges describing the elements of S needed to get from x to each vertex, i.e. each edge {i,j} in the tree with i closer to the root than j is labeled by a generator s in S moving i to j.
+
+Schreier trees allow for fast computation of stabilizers by Schreier's Lemma: with the notation above, the stabilizer of x is generated by the set of Schreier generators <t(i) * s * t(s(i))^-1> where i runs over the orbit of x, s runs over the generating set S, and t(i) is an element of G moving x to i, i.e. a coset representative of i (see >>trace: and >>traceInverse:).
+
+See [Sim70], [HEO05, 4.4.2 The Schreier-Sims Algorithm].!
+
 !TonelliShanks commentStamp: '<historical>' prior: 0!
 This is the Tonelli-Shanks algorithm for computing square roots in a prime field Z/pZ (with odd p).
 
 See [Coh96] Algorithm 1.5.1.!
 
 !Coechelonization commentStamp: '<historical>' prior: 0!
-Abstract superclass for column-style echelonization algorithms. Given a matrix A, they compute a matrix E in (reduced) column echelon form and a unimodular matrix T such that A*T = E.!
+Abstract superclass for column-style echelonization algorithms. Given a matrix A, they compute a matrix E in reduced column echelon form and a unimodular matrix T such that A*T = E.!
 
-!GaussJordan commentStamp: '<historical>' prior: 0!
-This is the Gaussian elimination algorithm. It performs Gaussian elimination on a matrix to compute its column-style reduced echelon form. Can work with matrices over fields or more generally over division rings such as the quaternions.
+!GaussianElimination commentStamp: '<historical>' prior: 0!
+This is the Gauss-Jordan elimination algorithm. It performs Gaussian elimination on a matrix to compute its column-style reduced echelon form. It can work with matrices over fields or more general division rings such as the quaternions.
 
-The algorithm performs O(2n^3/3) field operations for n by n matrices, but due to exponential growth of intermediate coefficients it can be impractical in many situations (for example, with rational coefficients).!
+The algorithm performs O(2n^3/3) field operations for n by n matrices, but due to exponential growth of intermediate coefficients it can be impractical in many situations (for example over the rationals).!
 
 !HermiteReduction commentStamp: '<historical>' prior: 0!
 This is the Hermite column reduction algorithm. Given a matrix with coefficients in a Euclidean domain, it reduces the matrix to its column-style Hermite normal form.
@@ -3601,16 +3600,6 @@ Input: a matrix over a polynomial ring over a field with a choice of *global* mo
 Output: a reduced Groebner basis of the module generated by the columns, and a 'change of basis' matrix that maps the original generators to the Groebner basis.
 
 See Buchberger for a more general algorithm that works with both global and local monomial orderings.!
-
-!ProductReplacementRandomGenerator commentStamp: '<historical>' prior: 0!
-Product Replacement Algorithm for generating random elements in a group from a set of generators. Essentially, it performs a random walk on a Cayley graph.!
-
-!SchreierTree commentStamp: '<historical>' prior: 0!
-Given a finite group G with a generating set S, and an action of G on X, a Schreier tree with root x for S is a representation of the orbit of x: it's a tree rooted at x with the elements of x^G as its vertices, and its edges describing the elements of S needed to get from x to each vertex, i.e. each edge {i,j} in the tree with i closer to the root than j is labeled by a generator s in S moving i to j.
-
-Schreier trees allow for fast computation of stabilizers by Schreier's Lemma: with the notation above, the stabilizer of x is generated by the set of Schreier generators <t(i) * s * t(s(i))^-1> where i runs over the orbit of x, s runs over the generating set S, and t(i) is an element of G moving x to i, i.e. a coset representative of i (see >>trace: and >>traceInverse:).
-
-See [Sim70], [HEO05, 4.4.2 The Schreier-Sims Algorithm].!
 
 !ContinuedFraction methodsFor: 'accessing' stamp: 'len 12/2/2015 00:07'!
 coefficients
@@ -6229,13 +6218,11 @@ postCopy
 	If the elements of anArray are not elements of the receiver, they are coerced."
 	^ self new: anArray size fill: [:i| anArray at: i]! !
 
-!Structure methodsFor: 'elements' stamp: 'len 10/5/2022 17:41:58'!
+!Structure methodsFor: 'elements' stamp: 'len 12/18/2022 20:01:18'!
 adapt: anElement
 	"Coerce anElement *not* in the receiver to an element of the receiver. Subclasses should extend."
 	self isAmbient ifFalse: [(self ambient adapt: anElement) ifNotNil: [:coerced| (self contains: coerced) ifTrue: [^ coerced]]].
 	self category = anElement parent category ifTrue: [anElement parent → self ifNotNil: [:aMorphism| ^ aMorphism value: anElement]].
-"	self propertyAt: #inputCoercions ifPresent: [:aDictionary| aDictionary at: anElement parent ifPresent: [:aMorphism| ^ aMorphism]].
-	anElement parent propertyAt: #outputCoercions ifPresent: [:aDictionary| aDictionary at: self ifPresent: [:aMorphism| ^ aMorphism]]."
 	anElement parent carrier → self carrier ifNotNil: [:aMorphism| ^ aMorphism value: anElement].
 	^ nil! !
 
@@ -14658,18 +14645,18 @@ isSimple
 isTrivial
 	^ self asModule isTrivial! !
 
-!FiniteAlgebra methodsFor: 'private' stamp: 'len 7/7/2020 06:42:38'!
+!FiniteAlgebra methodsFor: 'private' stamp: 'len 12/18/2022 20:04:34'!
 module: aModule
-	self propertyAt: #asModule put: aModule! !
+	self propertyAt: #asModule put: aModule.
+	self addCoercionTo: aModule map: [:each| each asModuleElement]! !
 
-!FiniteAlgebra methodsFor: 'private' stamp: 'len 11/5/2022 13:49:39'!
+!FiniteAlgebra methodsFor: 'private' stamp: 'len 12/18/2022 20:04:46'!
 one: aModuleElement multiplication: aBilinearMap
 	| V |
 	V _ aBilinearMap domain at: 1.
-	self propertyAt: #asModule put: V.
+	self module: V.
 	self propertyAt: #multiplication put: aBilinearMap.
-	self propertyAt: #one put: (self fromModuleElement: aModuleElement).
-	self addCoercionTo: V map: [:each| each asModuleElement]! !
+	self propertyAt: #one put: (self fromModuleElement: aModuleElement)! !
 
 !FiniteAlgebra methodsFor: 'private' stamp: 'len 6/29/2022 07:30:41'!
 species
@@ -14758,7 +14745,7 @@ isExteriorAlgebra
 isInvolutive
 	^ true! !
 
-!CliffordAlgebra methodsFor: 'private' stamp: 'len 12/9/2022 10:24:22'!
+!CliffordAlgebra methodsFor: 'private' stamp: 'len 12/18/2022 20:10:20'!
 quadraticForm: aQuadraticForm
 	| V n basis C T table |
 	self propertyAt: #quadraticForm put: aQuadraticForm.
@@ -14767,7 +14754,7 @@ quadraticForm: aQuadraticForm
 	basis _ aQuadraticForm polarization orthogonalizationOf: V basis.
 	self propertyAt: #orthogonalBasis put: basis.
 	C _ V scalars ^ (2 ^ n).
-	self propertyAt: #asModule put: C.
+	self module: C.
 	"The embedding of V in the receiver is built such that the i-th element of the computed orthogonal basis is sent to the (2^(i-1) + 1)-th element of the basis of the receiver:"
 	T _ (V endomorphisms images: basis) inverse → (V to: C images: ((1 to: n) collect: [:i| C basis at: 1 << (i-1) + 1])).
 	self addCoercionFrom: V map: [:v| self fromModuleElement: (T value: v)].
@@ -23943,7 +23930,7 @@ content
 cosquare
 	^ self transpose inverse * self! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 12/18/2022 11:54:56'!
+!Matrix methodsFor: 'operations' stamp: 'len 12/18/2022 20:23:14'!
 determinant
 	| n a0 |
 	self checkIsSquare.
@@ -23961,7 +23948,7 @@ determinant
 	"For small matrices use Laplace expansion:"
 	n <= 6 ifTrue: [^ (1 to: n) sum: [:i| (self at: i@1) * (self cofactor: i@1)]].
 	"Over a field use Gaussian elimination:"
-	self scalars isField ifTrue: [^ (GaussJordan on: self) determinant].
+	self scalars isField ifTrue: [^ (GaussianElimination on: self) determinant].
 	"Otherwise get the determinant from the characteristic polynomial (possibly computed by Berkowitz algorithm):"
 	a0 _ self characteristicPolynomial independentCoefficient.
 	^ n even ifTrue: [a0] ifFalse: [a0 negated]! !
@@ -36038,6 +36025,25 @@ modulo: anInteger
 	"anInteger must be prime"
 	^ self new modulus: anInteger! !
 
+!ProductReplacementRandomGenerator methodsFor: 'accessing' stamp: 'len 5/25/2019 04:34:49'!
+generators: aCollection
+	generators _ aCollection.
+	state _ nil! !
+
+!ProductReplacementRandomGenerator methodsFor: 'generating' stamp: 'len 5/25/2019 04:36:25'!
+atRandom: aRandom
+	"Product Replacement Algorithm. After the initial precomputation, every new random element takes one multiplication and 1/2 inversion in the group."
+	| g h i |
+	state isNil ifTrue: "initial precomputation takes about 60 multiplications / inversions in the group"
+		[state _ generators asOrderedCollection.
+		60 - (state size min: 10) timesRepeat: [self atRandom: aRandom]].
+	g _ state atRandom: aRandom.
+	[(state at: (i _ state size atRandom: aRandom)) == g and: [state size > 1 "otherwise fails with cyclic groups"]] whileTrue.
+	(2 atRandom: aRandom) = 1 ifTrue: [g _ g inverse].
+	h _ aRandom nextBoolean ifTrue: [g · (state at: i)] ifFalse: [(state at: i) · g].
+	state size < 10 ifTrue: [state add: h] ifFalse: [state at: i put: h].
+	^ h! !
+
 !PseudoDivision methodsFor: 'printing' stamp: 'len 7/8/2016 05:47'!
 printOn: aStream
 	"Print a representation of the receiver on the stream aStream."
@@ -36122,6 +36128,176 @@ divide: aPolynomial by: anotherPolynomial
 	"Answer a pseudo-division algorithm to divide aPolynomial by anotherPolynomial."
 	^ self new divide: aPolynomial by: anotherPolynomial! !
 
+!SchreierSims methodsFor: 'accessing' stamp: 'len 6/30/2016 09:02'!
+base
+	"A base of a group G acting on X is a finite sequence of distinct points B={x1,..,xn} such that the stabilizer of B is {id}, i.e. the only element that fixes all xi is the identity."
+	base ifNil: [self run].
+	^ base! !
+
+!SchreierSims methodsFor: 'accessing' stamp: 'len 6/30/2016 10:13'!
+order
+	"Answer the order of the group."
+	order ifNil: [self run].
+	^ order! !
+
+!SchreierSims methodsFor: 'accessing' stamp: 'len 6/25/2016 20:06'!
+strongGeneratingSet
+	strongGeneratingSet ifNil: [self run].
+	^ strongGeneratingSet! !
+
+!SchreierSims methodsFor: 'accessing-private' stamp: 'len 6/22/2016 07:31'!
+action: aGroupAction
+	action _ aGroupAction! !
+
+!SchreierSims methodsFor: 'accessing-private' stamp: 'len 6/22/2016 16:32'!
+generators: aCollection
+	generators _ aCollection asArray! !
+
+!SchreierSims methodsFor: 'computing' stamp: 'len 6/23/2020 17:30:00'!
+contains: anElement
+	"Answer true if the group includes anElement."
+	^ (self strip: anElement) first = action group identity! !
+
+!SchreierSims methodsFor: 'computing' stamp: 'len 5/8/2019 19:33:18'!
+elementFromImage: anArray
+	| image g |
+	image _ anArray copy.
+	g _ action group identity.
+	trees withIndexDo: [:each :i|
+		g _ (each trace: (image at: i)) · g.
+		i to: base size do: [:j| image at: j put: (action value: {each traceInverse: (image at: i). image at: j})]].
+	^ g! !
+
+!SchreierSims methodsFor: 'computing' stamp: 'len 6/30/2016 10:02'!
+imageOf: anElement
+	^ base collect: [:each| action value: {anElement. each}]! !
+
+!SchreierSims methodsFor: 'computing' stamp: 'len 5/8/2019 19:33:34'!
+strip: anElement
+	| g |
+	g _ anElement.
+	trees withIndexDo: [:each :i| | b b2 |
+		b _ each root.
+		b2 _ action value: {g. b}.
+		(each orbits includes: b2)
+			ifFalse: [^ {g. i}].
+		g _ g · (each traceInverse: b2)].
+	^ {g. trees size + 1}! !
+
+!SchreierSims methodsFor: 'computing-private' stamp: 'len 7/1/2016 05:46'!
+buildBSGS
+	base _ OrderedCollection new.
+	strongGeneratingSet _ OrderedCollection new.
+	self buildPartialBSGS.
+	base size to: 1 by: -1 do: [:i| self schreierSimsStep: i]! !
+
+!SchreierSims methodsFor: 'computing-private' stamp: 'len 7/1/2016 00:39'!
+buildPartialBSGS
+	| id |
+	id _ action group identity.
+	generators do: [:each| each = id ifFalse: [strongGeneratingSet add: each]].
+	strongGeneratingSet copy do: [:s|
+		(base allSatisfy: [:b| (s value: b) = b])
+			ifTrue: [base add: (action space detect: [:one| action isFixedPoint: one])].
+			s squared = id ifFalse: [base add: s inverse]]! !
+
+!SchreierSims methodsFor: 'computing-private' stamp: 'len 7/19/2016 08:37'!
+run
+	| G |
+	G _ action group.
+	order _ 1.
+	base _ OrderedCollection new.
+	strongGeneratingSet _ OrderedCollection new.
+	trees _ OrderedCollection new.
+	G action space do: [:b| | tree |
+		G isTrivial ifTrue: [^ order].
+		tree _ SchreierTree root: b generators: G generators action: G action.
+		trees add: tree.
+		order _ order * tree orbit size.
+		G _ tree stabilizer].
+	self error: 'what?'.
+	^ order! !
+
+!SchreierTree methodsFor: 'accessing' stamp: 'len 6/24/2016 03:07'!
+orbit
+	^ orbit! !
+
+!SchreierTree methodsFor: 'accessing' stamp: 'len 5/8/2019 19:32:19'!
+stabilizer
+	"Answer the stabilizer of the root."
+	| stabilizerGenerators id |
+	stabilizerGenerators _ Set new.
+	id _ action group identity.
+	self orbit do: [:i|
+		generators do: [:s|
+			| g |
+			g _ (self traceInverse: (s value: i)) · s · (self trace: i).
+			g = id ifFalse: [stabilizerGenerators add: g]]].
+	^ action group span: stabilizerGenerators! !
+
+!SchreierTree methodsFor: 'accessing' stamp: 'len 5/8/2019 19:32:27'!
+trace: aPoint
+	"Trace the Schreier spanning tree (v,w) for the orbit containing aPoint.
+	Answer the transversal u(aPoint), i.e. an element such that root^u(aPoint) = aPoint.
+	This is the representative function, and in particular u(root^h) is a representative of the coset G_root * h, where G_root is the stabilizer at the root of this Schreier tree.
+	For an element g in G, there's an h in G_root g = h * u(root^g), and h = h * u(root^h)^-1."
+	| alpha u |
+	u _ action group identity.
+	alpha _ aPoint.
+	[(v at: alpha) notNil]
+		whileTrue:
+			[u _ u · (v at: alpha).
+			alpha _ w at: alpha].
+	^ u! !
+
+!SchreierTree methodsFor: 'accessing' stamp: 'len 5/8/2019 19:32:35'!
+traceInverse: aPoint
+	"Calculate inverses of coset representatives. See 'The Schreier-Sims Algorithm' pp 18. Assumes we're using a (strong) generating set that is closed under inversion. This makes backward pointers unnecesary."
+	| alpha u |
+	u _ action group identity.
+	alpha _ aPoint.
+	[(v at: alpha) notNil]
+		whileTrue:
+			[u _ (inverses at: alpha ifAbsentPut: [(v at: alpha) inverse]) · u.
+			alpha _ w at: alpha].
+	^ u! !
+
+!SchreierTree methodsFor: 'initialization' stamp: 'len 11/30/2016 14:45:01'!
+root: aPoint generators: anArray action: aGroupAction
+	| queue |
+	root _ aPoint.
+	generators _ anArray.
+	action _ aGroupAction.
+	v _ Dictionary new. "Schreier vector"
+	w _ Dictionary new. "backward pointers"
+	inverses _ Dictionary new. "inverses of the Schreier generators from v"
+	orbit _ Set with: aPoint.
+	v at: aPoint put: nil. "-1"
+	w at: aPoint put: nil. "-1"
+	queue _ OrderedCollection with: aPoint.
+	[| a |
+	a _ queue removeFirst.
+	1 to: generators size do: [:i|
+		| x g |
+		g _ generators at: i.
+		x _ action value: {g. a}.
+		(orbit includes: x)
+			ifFalse:
+				[orbit add: x.
+				queue add: x.
+				v at: x put: g.
+				w at: x put: a]].
+	queue isEmpty] whileFalse! !
+
+!SchreierTree methodsFor: 'private' stamp: 'len 7/8/2022 11:16:55'!
+validate
+	super validate.
+	self assert: (self stabilizer generators allSatisfy: [:each| (each value: root) = root])! !
+
+!SchreierTree class methodsFor: 'instance creation' stamp: 'len 6/24/2016 03:07'!
+root: aPoint generators: anArray action: aGroupAction
+	^ self new root: aPoint generators: anArray action: aGroupAction! !
+
 !TonelliShanks methodsFor: 'as yet unclassified' stamp: 'len 7/8/2019 04:16:30'!
 modulus: anInteger
 	| n |
@@ -36148,69 +36324,64 @@ squareRootOf: anInteger
 	t _ y. r - m - 1 timesRepeat: [t _ t squared \\ p]. "t _ y ^ (2 ^ (r - m - 1)) mod p"
 	y _ t squared \\ p. r _ m. x _ x * t \\ p. b _ b * y \\ p] repeat! !
 
-!Coechelonization methodsFor: 'as yet unclassified' stamp: 'len 12/17/2022 10:10:40'!
-addColumn: j0 times: anElement toColumn: j1
-	self addColumn: j0 times: anElement toColumn: j1 startingAt: 1! !
-
-!Coechelonization methodsFor: 'as yet unclassified' stamp: 'len 12/17/2022 10:11:52'!
-addColumn: j0 times: anElement toColumn: j1 startingAt: startIndex
-	echelon addColumn: j0 times: anElement toColumn: j1 startingAt: startIndex.
-	transformation ifNotNil: [transformation addColumn: j0 times: anElement toColumn: j1]! !
-
-!Coechelonization methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 10:56:00'!
+!Coechelonization methodsFor: 'accessing' stamp: 'len 12/18/2022 10:56:00'!
 echelon
 	echelon isNil ifTrue: [echelon _ matrix asColumnMajor copy. transformation _ nil. self run].
 	^ echelon! !
 
-!Coechelonization methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 11:01:29'!
+!Coechelonization methodsFor: 'accessing' stamp: 'len 12/18/2022 11:01:29'!
 echelonAndTransformation
 	transformation isNil ifTrue: [echelon _ matrix asColumnMajor copy. transformation _ matrix domain id asColumnMajor copy. self run].
 	^ {echelon. transformation}! !
 
-!Coechelonization methodsFor: 'as yet unclassified' stamp: 'len 12/17/2022 10:07:38'!
-matrix: aMatrix
-	matrix _ aMatrix! !
+!Coechelonization methodsFor: 'elementary operations' stamp: 'len 12/17/2022 10:10:40'!
+addColumn: j0 times: anElement toColumn: j1
+	self addColumn: j0 times: anElement toColumn: j1 startingAt: 1! !
 
-!Coechelonization methodsFor: 'as yet unclassified' stamp: 'len 12/17/2022 10:08:58'!
+!Coechelonization methodsFor: 'elementary operations' stamp: 'len 12/17/2022 10:11:52'!
+addColumn: j0 times: anElement toColumn: j1 startingAt: startIndex
+	echelon addColumn: j0 times: anElement toColumn: j1 startingAt: startIndex.
+	transformation ifNotNil: [transformation addColumn: j0 times: anElement toColumn: j1]! !
+
+!Coechelonization methodsFor: 'elementary operations' stamp: 'len 12/17/2022 10:08:58'!
 multiplyColumn: i by: anElement
 	self multiplyColumn: i by: anElement startingAt: 1! !
 
-!Coechelonization methodsFor: 'as yet unclassified' stamp: 'len 12/17/2022 10:09:31'!
+!Coechelonization methodsFor: 'elementary operations' stamp: 'len 12/17/2022 10:09:31'!
 multiplyColumn: i by: anElement startingAt: startIndex
 	echelon multiplyColumn: i by: anElement startingAt: startIndex.
 	transformation ifNotNil: [transformation multiplyColumn: i by: anElement]! !
 
-!Coechelonization methodsFor: 'as yet unclassified' stamp: 'len 12/17/2022 10:08:12'!
+!Coechelonization methodsFor: 'elementary operations' stamp: 'len 12/17/2022 10:08:12'!
 swapColumn: i with: j
 	echelon swapColumn: i with: j.
 	transformation ifNotNil: [transformation swapColumn: i with: j]! !
 
-!Coechelonization class methodsFor: 'instance creation' stamp: 'len 12/18/2022 12:08:52'!
+!Coechelonization methodsFor: 'private' stamp: 'len 12/17/2022 10:07:38'!
+matrix: aMatrix
+	matrix _ aMatrix! !
+
+!Coechelonization class methodsFor: 'instance creation' stamp: 'len 12/18/2022 20:23:14'!
 on: aMatrix
 	| R |
 	self = Coechelonization ifFalse: [^ self new matrix: aMatrix].
 	R _ aMatrix scalars.
-	^ (R isField
-		ifTrue: [GaussJordan]
+	^ (R isDivisionRing
+		ifTrue: [GaussianElimination]
 		ifFalse: [R isEuclideanDomain
 			ifTrue: [HermiteReduction]
 			ifFalse: [R isEuclidean
 					ifTrue: [HowellReduction]
 					ifFalse: [^ self notYetImplemented]]]) new matrix: aMatrix! !
 
-!GaussJordan methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 11:54:29'!
+!GaussianElimination methodsFor: 'accessing' stamp: 'len 12/18/2022 11:54:29'!
 determinant
 	| determinant |
 	determinant _ matrix scalars one.
 	1 to: self echelon height do: [:i| determinant _ determinant * (echelon at: i@i)].
 	^ determinant / determinantFactor! !
 
-!GaussJordan methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 11:52:26'!
-multiplyColumn: i by: aNumber startingAt: startIndex
-	super multiplyColumn: i by: aNumber startingAt: startIndex.
-	determinantFactor _ determinantFactor * aNumber! !
-
-!GaussJordan methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 12:27:26'!
+!GaussianElimination methodsFor: 'computing' stamp: 'len 12/18/2022 12:27:26'!
 reduceStep: pivot
 	"Perform the reduction step on row i and column j."
 	| i j j₀ |
@@ -36226,7 +36397,7 @@ reduceStep: pivot
 	echelon width to: j+1 by: -1 do: [:k|
 		self addColumn: j times: (echelon at: i@k) negated toColumn: k]] repeat! !
 
-!GaussJordan methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 11:53:42'!
+!GaussianElimination methodsFor: 'computing' stamp: 'len 12/18/2022 11:53:42'!
 run
 	| n m i j b |
 	determinantFactor _ matrix scalars one.
@@ -36246,13 +36417,18 @@ run
 				self addColumn: j times: q negated toColumn: k]].
 	j = n or: [i = m]] whileFalse: [i _ i + 1. j _ j + 1]! !
 
-!GaussJordan methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 11:53:23'!
+!GaussianElimination methodsFor: 'elementary operations' stamp: 'len 12/18/2022 11:52:26'!
+multiplyColumn: i by: aNumber startingAt: startIndex
+	super multiplyColumn: i by: aNumber startingAt: startIndex.
+	determinantFactor _ determinantFactor * aNumber! !
+
+!GaussianElimination methodsFor: 'elementary operations' stamp: 'len 12/18/2022 11:53:23'!
 swapColumn: i with: j
 	i = j ifTrue: [^ self].
 	super swapColumn: i with: j.
 	determinantFactor _ determinantFactor negated! !
 
-!HermiteReduction methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 12:16:17'!
+!HermiteReduction methodsFor: 'computing' stamp: 'len 12/18/2022 12:16:17'!
 reduceStep: pivot
 	"Perform the reduction step on row i and column j."
 	| i j j₀ b |
@@ -36272,7 +36448,7 @@ reduceStep: pivot
 		q _ (echelon at: i@k) // b.
 		self addColumn: j times: q negated toColumn: k]] repeat! !
 
-!HermiteReduction methodsFor: 'as yet unclassified' stamp: 'len 12/17/2022 12:58:37'!
+!HermiteReduction methodsFor: 'computing' stamp: 'len 12/17/2022 12:58:37'!
 run
 	| n m i j b |
 	m _ echelon height.
@@ -36294,7 +36470,7 @@ run
 	"6. Finished?"
 	j = n or: [i = m]] whileFalse: [i _ i + 1. j _ j + 1]! !
 
-!HowellReduction methodsFor: 'as yet unclassified' stamp: 'len 12/17/2022 11:09:14'!
+!HowellReduction methodsFor: 'computing' stamp: 'len 12/17/2022 11:09:14'!
 cancel: aPoint with: anotherPoint
 	| a b mgcd g s t u v j i Aj Ai |
 	mgcd _ (a _ echelon at: aPoint) xxgcd: (b _ echelon at: anotherPoint).
@@ -36319,7 +36495,7 @@ cancel: aPoint with: anotherPoint
 		transformation columnAt: j put: Aj*s + (Ai*t).
 		transformation columnAt: i put: Aj*u + (Ai*v)]! !
 
-!HowellReduction methodsFor: 'as yet unclassified' stamp: 'len 12/17/2022 11:08:46'!
+!HowellReduction methodsFor: 'computing' stamp: 'len 12/17/2022 11:08:46'!
 cancel: aPoint withTemporary: aTuple
 	| a b mgcd g s t u v j Aj |
 	mgcd _ (a _ echelon at: aPoint) xxgcd: (b _ aTuple at: aPoint x).
@@ -36337,7 +36513,7 @@ cancel: aPoint withTemporary: aTuple
 	echelon columnAt: j put: Aj*s + (aTuple*t).
 	^ Aj*u + (aTuple*v)! !
 
-!HowellReduction methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 11:05:12'!
+!HowellReduction methodsFor: 'computing' stamp: 'len 12/18/2022 19:48:52'!
 run
 	| n m |
 	n _ echelon width.
@@ -36352,7 +36528,7 @@ run
 	1 to: m do: [:i| i+1 to: n do: [:j| self cancel: i@i with: i@j]].
 	self assert: echelon isLowerTriangular.
 	"Put it in Howell form:"
-	1 to: n do: [:j|
+	1 to: m do: [:j|
 		| B |
 		(echelon isZeroAt: j@j)
 			ifTrue:
@@ -36361,7 +36537,7 @@ run
 				[self multiplyColumn: j by: (echelon at: j@j) normalization.
 				1 to: j-1 do: [:i| self addColumn: j times: ((echelon at: j@i) // (echelon at: j@j)) negated toColumn: i].
 				B _ (echelon columnAt: j) * (echelon at: j@j) annihilator].
-		j+1 to: n do: [:i| B _ self cancel: i@i withTemporary: B]]! !
+		j+1 to: m do: [:i| B _ self cancel: i@i withTemporary: B]]! !
 
 !MultivariateDivision methodsFor: 'printing' stamp: 'len 1/24/98 12:49'!
 printOn: aStream
@@ -36769,195 +36945,6 @@ process: anArray
 !ExtendedBuchberger methodsFor: 'private' stamp: 'len 12/12/2022 11:52:31'!
 compare: a with: b
 	^ a leadingMonomial >= b leadingMonomial! !
-
-!ProductReplacementRandomGenerator methodsFor: 'accessing' stamp: 'len 5/25/2019 04:34:49'!
-generators: aCollection
-	generators _ aCollection.
-	state _ nil! !
-
-!ProductReplacementRandomGenerator methodsFor: 'generating' stamp: 'len 5/25/2019 04:36:25'!
-atRandom: aRandom
-	"Product Replacement Algorithm. After the initial precomputation, every new random element takes one multiplication and 1/2 inversion in the group."
-	| g h i |
-	state isNil ifTrue: "initial precomputation takes about 60 multiplications / inversions in the group"
-		[state _ generators asOrderedCollection.
-		60 - (state size min: 10) timesRepeat: [self atRandom: aRandom]].
-	g _ state atRandom: aRandom.
-	[(state at: (i _ state size atRandom: aRandom)) == g and: [state size > 1 "otherwise fails with cyclic groups"]] whileTrue.
-	(2 atRandom: aRandom) = 1 ifTrue: [g _ g inverse].
-	h _ aRandom nextBoolean ifTrue: [g · (state at: i)] ifFalse: [(state at: i) · g].
-	state size < 10 ifTrue: [state add: h] ifFalse: [state at: i put: h].
-	^ h! !
-
-!SchreierSims methodsFor: 'accessing' stamp: 'len 6/30/2016 09:02'!
-base
-	"A base of a group G acting on X is a finite sequence of distinct points B={x1,..,xn} such that the stabilizer of B is {id}, i.e. the only element that fixes all xi is the identity."
-	base ifNil: [self run].
-	^ base! !
-
-!SchreierSims methodsFor: 'accessing' stamp: 'len 6/30/2016 10:13'!
-order
-	"Answer the order of the group."
-	order ifNil: [self run].
-	^ order! !
-
-!SchreierSims methodsFor: 'accessing' stamp: 'len 6/25/2016 20:06'!
-strongGeneratingSet
-	strongGeneratingSet ifNil: [self run].
-	^ strongGeneratingSet! !
-
-!SchreierSims methodsFor: 'accessing-private' stamp: 'len 6/22/2016 07:31'!
-action: aGroupAction
-	action _ aGroupAction! !
-
-!SchreierSims methodsFor: 'accessing-private' stamp: 'len 6/22/2016 16:32'!
-generators: aCollection
-	generators _ aCollection asArray! !
-
-!SchreierSims methodsFor: 'computing' stamp: 'len 6/23/2020 17:30:00'!
-contains: anElement
-	"Answer true if the group includes anElement."
-	^ (self strip: anElement) first = action group identity! !
-
-!SchreierSims methodsFor: 'computing' stamp: 'len 5/8/2019 19:33:18'!
-elementFromImage: anArray
-	| image g |
-	image _ anArray copy.
-	g _ action group identity.
-	trees withIndexDo: [:each :i|
-		g _ (each trace: (image at: i)) · g.
-		i to: base size do: [:j| image at: j put: (action value: {each traceInverse: (image at: i). image at: j})]].
-	^ g! !
-
-!SchreierSims methodsFor: 'computing' stamp: 'len 6/30/2016 10:02'!
-imageOf: anElement
-	^ base collect: [:each| action value: {anElement. each}]! !
-
-!SchreierSims methodsFor: 'computing' stamp: 'len 5/8/2019 19:33:34'!
-strip: anElement
-	| g |
-	g _ anElement.
-	trees withIndexDo: [:each :i| | b b2 |
-		b _ each root.
-		b2 _ action value: {g. b}.
-		(each orbits includes: b2)
-			ifFalse: [^ {g. i}].
-		g _ g · (each traceInverse: b2)].
-	^ {g. trees size + 1}! !
-
-!SchreierSims methodsFor: 'computing-private' stamp: 'len 7/1/2016 05:46'!
-buildBSGS
-	base _ OrderedCollection new.
-	strongGeneratingSet _ OrderedCollection new.
-	self buildPartialBSGS.
-	base size to: 1 by: -1 do: [:i| self schreierSimsStep: i]! !
-
-!SchreierSims methodsFor: 'computing-private' stamp: 'len 7/1/2016 00:39'!
-buildPartialBSGS
-	| id |
-	id _ action group identity.
-	generators do: [:each| each = id ifFalse: [strongGeneratingSet add: each]].
-	strongGeneratingSet copy do: [:s|
-		(base allSatisfy: [:b| (s value: b) = b])
-			ifTrue: [base add: (action space detect: [:one| action isFixedPoint: one])].
-			s squared = id ifFalse: [base add: s inverse]]! !
-
-!SchreierSims methodsFor: 'computing-private' stamp: 'len 7/19/2016 08:37'!
-run
-	| G |
-	G _ action group.
-	order _ 1.
-	base _ OrderedCollection new.
-	strongGeneratingSet _ OrderedCollection new.
-	trees _ OrderedCollection new.
-	G action space do: [:b| | tree |
-		G isTrivial ifTrue: [^ order].
-		tree _ SchreierTree root: b generators: G generators action: G action.
-		trees add: tree.
-		order _ order * tree orbit size.
-		G _ tree stabilizer].
-	self error: 'what?'.
-	^ order! !
-
-!SchreierTree methodsFor: 'accessing' stamp: 'len 6/24/2016 03:07'!
-orbit
-	^ orbit! !
-
-!SchreierTree methodsFor: 'accessing' stamp: 'len 5/8/2019 19:32:19'!
-stabilizer
-	"Answer the stabilizer of the root."
-	| stabilizerGenerators id |
-	stabilizerGenerators _ Set new.
-	id _ action group identity.
-	self orbit do: [:i|
-		generators do: [:s|
-			| g |
-			g _ (self traceInverse: (s value: i)) · s · (self trace: i).
-			g = id ifFalse: [stabilizerGenerators add: g]]].
-	^ action group span: stabilizerGenerators! !
-
-!SchreierTree methodsFor: 'accessing' stamp: 'len 5/8/2019 19:32:27'!
-trace: aPoint
-	"Trace the Schreier spanning tree (v,w) for the orbit containing aPoint.
-	Answer the transversal u(aPoint), i.e. an element such that root^u(aPoint) = aPoint.
-	This is the representative function, and in particular u(root^h) is a representative of the coset G_root * h, where G_root is the stabilizer at the root of this Schreier tree.
-	For an element g in G, there's an h in G_root g = h * u(root^g), and h = h * u(root^h)^-1."
-	| alpha u |
-	u _ action group identity.
-	alpha _ aPoint.
-	[(v at: alpha) notNil]
-		whileTrue:
-			[u _ u · (v at: alpha).
-			alpha _ w at: alpha].
-	^ u! !
-
-!SchreierTree methodsFor: 'accessing' stamp: 'len 5/8/2019 19:32:35'!
-traceInverse: aPoint
-	"Calculate inverses of coset representatives. See 'The Schreier-Sims Algorithm' pp 18. Assumes we're using a (strong) generating set that is closed under inversion. This makes backward pointers unnecesary."
-	| alpha u |
-	u _ action group identity.
-	alpha _ aPoint.
-	[(v at: alpha) notNil]
-		whileTrue:
-			[u _ (inverses at: alpha ifAbsentPut: [(v at: alpha) inverse]) · u.
-			alpha _ w at: alpha].
-	^ u! !
-
-!SchreierTree methodsFor: 'initialization' stamp: 'len 11/30/2016 14:45:01'!
-root: aPoint generators: anArray action: aGroupAction
-	| queue |
-	root _ aPoint.
-	generators _ anArray.
-	action _ aGroupAction.
-	v _ Dictionary new. "Schreier vector"
-	w _ Dictionary new. "backward pointers"
-	inverses _ Dictionary new. "inverses of the Schreier generators from v"
-	orbit _ Set with: aPoint.
-	v at: aPoint put: nil. "-1"
-	w at: aPoint put: nil. "-1"
-	queue _ OrderedCollection with: aPoint.
-	[| a |
-	a _ queue removeFirst.
-	1 to: generators size do: [:i|
-		| x g |
-		g _ generators at: i.
-		x _ action value: {g. a}.
-		(orbit includes: x)
-			ifFalse:
-				[orbit add: x.
-				queue add: x.
-				v at: x put: g.
-				w at: x put: a]].
-	queue isEmpty] whileFalse! !
-
-!SchreierTree methodsFor: 'private' stamp: 'len 7/8/2022 11:16:55'!
-validate
-	super validate.
-	self assert: (self stabilizer generators allSatisfy: [:each| (each value: root) = root])! !
-
-!SchreierTree class methodsFor: 'instance creation' stamp: 'len 6/24/2016 03:07'!
-root: aPoint generators: anArray action: aGroupAction
-	^ self new root: aPoint generators: anArray action: aGroupAction! !
 
 !Object methodsFor: '*algebra' stamp: 'len 4/22/2020 06:16:21'!
 adapt: anElement andSend: selector

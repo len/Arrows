@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 18 December 2022 at 8:58:01 am'!
+'From Cuis 6.0 [latest update: #5597] on 18 December 2022 at 8:48:05 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 29!
+!provides: 'Tests-Algebra' 1 30!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Tuples'!
@@ -2907,12 +2907,12 @@ testCliffordAlgebraScalarEmbedding
 	self assert: R one * a = x.
 	self assert: x asScalar = a! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:34:41'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 20:13:19'!
 testCliffordAlgebraScalarEmbedding2
-	| i |
-	i _ R scalars asIdeal → R asVectorSpace.
-	self assert: i isInjective.
-	self assert: i image = (R grade: 0) asVectorSpace! !
+	| ι |
+	ι _ R scalars asIdeal ⇒ R asVectorSpace !! (R scalars → R).
+	self assert: ι isInjective.
+	self assert: ι image = (R grade: 0) asVectorSpace! !
 
 !CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:27:23'!
 testCliffordAlgebraSpaceEmbedding
@@ -2924,12 +2924,12 @@ testCliffordAlgebraSpaceEmbedding
 	self assert: ((R grade: 1) includes: x).
 	self assert: x asVector = v! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:34:46'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 20:15:41'!
 testCliffordAlgebraSpaceEmbedding2
-	| i |
-	i _ R space → R asVectorSpace.
-	self assert: i isInjective.
-	self assert: i image = (R grade: 1) asVectorSpace! !
+	| ι |
+	ι _ R space ⇒ R asVectorSpace !! (R space carrier → R carrier).
+	self assert: ι isInjective.
+	self assert: ι image = (R grade: 1) asVectorSpace! !
 
 !CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:28:05'!
 testCliffordAlgebraUniversalProperty
@@ -7676,12 +7676,12 @@ testGroebnerCyclic5OverZ2
 	G _ I basis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 12/17/2022 10:02:09'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 12/18/2022 20:18:45'!
 testGroebnerCyclic5Reduced
 	| I G |
 	I _ (ℚ polynomialsIn: 5) cyclicIdeal.
 	G _ I basis "reduced".
-	self assert: I basis isReducedStandardBasis.
+	self assert: I basisMatrix isReducedStandardBasis.
 	self testGroebnerBasis: G ideal: I.
 	self assert: (I scalars * G) basis "reduced" = G! !
 
