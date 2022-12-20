@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5597] on 18 December 2022 at 8:48:05 pm'!
+'From Cuis 6.0 [latest update: #5597] on 20 December 2022 at 2:53:35 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 30!
+!provides: 'Tests-Algebra' 1 31!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Tuples'!
@@ -2435,7 +2435,7 @@ tearDown
 isAbstract
 	^ self name beginsWith: 'Abstract'! !
 
-!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:06:56'!
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2022 14:43:41'!
 testExtendedBuchbergerWithCyclic3
 	| R I A basisAndTransformation G T |
 	R _ scalars polynomialsIn: 3.
@@ -2445,7 +2445,7 @@ testExtendedBuchbergerWithCyclic3
 	basisAndTransformation _ A basisAndTransformation.
 	G _ basisAndTransformation first.
 	T _ basisAndTransformation second.
-	self assert: (A * T) = G! !
+	self assert: A * T = G! !
 
 !AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2022 11:06:33'!
 testGroebnerBasis: G ideal: I
@@ -4119,7 +4119,7 @@ newSquareMatrix
 	n _ (0 to: 5) atRandom: random.
 	^ (scalars^n) endomorphisms atRandom: random bits: (n*n*5+1 atRandom: random)! !
 
-!AbstractMatrixTest methodsFor: 'row operations' stamp: 'len 5/19/2022 13:06:33'!
+!AbstractMatrixTest methodsFor: 'row operations' stamp: 'len 12/19/2022 10:14:32'!
 testAddRowTimesScalar
 	| A B i1 i2 j x |
 	[A _ self newMatrix. A height > 0 and: [A width > 0]] whileFalse.
@@ -4128,7 +4128,7 @@ testAddRowTimesScalar
 	j _ A width atRandom: random.
 	B _ A copy.
 	x _ scalars atRandom: random bits: 50.
-	B addRow: i1 times: x toRow: i2 startingAt: j.
+	B addRow: i1 times: x to: i2 startingAt: j.
 	self assert: ((B rowAt: i2) copyFrom: j to: A width) = ((A rowAt: i1) * x + (A rowAt: i2) copyFrom: j to: A width).
 	self assert: ((B rowAt: i2) copyFrom: 1 to: j-1) = ((A rowAt: i2) copyFrom: 1 to: j-1)! !
 
@@ -4163,6 +4163,19 @@ testAdjugateCramerRule
 	A _ scalars matrix: 3 fill: [:i :j| scalars atRandom: random bits: 10].
 	I _ A identity.
 	self assert: A * A adjugate = (I * A determinant)! !
+
+!AbstractMatrixOverCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2022 14:46:38'!
+testCanonicalBases
+	| basisAndTransformation A G T U |
+	scalars hasCanonicalBases ifFalse: [^ self].
+	A _ self newMatrix: (6 atRandom: random) @ (6 atRandom: random).
+	basisAndTransformation _ A copy basisAndTransformation.
+	G _ basisAndTransformation first.
+	T _ basisAndTransformation second.
+"	self assert: B isStandardBasis."
+	self assert: A * T = G.
+	U _ A domain automorphisms atRandom: random.
+	self assert: (A * U) basis = G! !
 
 !AbstractMatrixOverCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 13:03:14'!
 testCayleyHamiltonTheorem
@@ -4201,9 +4214,9 @@ testDeterminant
 	self assert: (A * c) determinant = (c^n * A determinant).
 	self assert: A transpose determinant = A determinant! !
 
-!AbstractMatrixOverCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/15/2022 17:36:01'!
+!AbstractMatrixOverCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2022 14:40:23'!
 testEchelonization
-	| echelonization A E T |
+	| echelonization A E T U |
 	scalars isEuclidean ifFalse: [^ self].
 	A _ self newMatrix: (6 atRandom: random) @ (6 atRandom: random).
 	echelonization _ A echelonAndTransformation.
@@ -4211,13 +4224,17 @@ testEchelonization
 	T _ echelonization second.
 	self assert: E isEchelon.
 "	self assert: E isReducedEchelon."
-	self assert: T*A = E.
+	self assert: T * A = E.
+	U _ A codomain automorphisms atRandom: random.
+	self assert: (U * A) echelon = E.
 	echelonization _ A coechelonAndTransformation.
 	E _ echelonization first.
 	T _ echelonization second.
 	self assert: E transpose isEchelon.
 "	self assert: E isReducedEchelon."
-	self assert: A*T = E! !
+	self assert: A * T = E.
+	U _ A domain automorphisms atRandom: random.
+	self assert: (A * U) coechelon = E! !
 
 !AbstractMatrixOverFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:09:14'!
 testAbstractRankNullity
@@ -5718,8 +5735,8 @@ newSmallModule
 	(2 atRandom: random) = 1 ifTrue: [^ N].
 	^ M / N! !
 
-!AbstractModuleTest methodsFor: 'bugs' stamp: 'len 10/17/2022 18:32:22'!
-testModuleQuotientBySelfBug
+!AbstractModuleTest methodsFor: 'bugs' stamp: 'len 12/19/2022 11:51:05'!
+testQuotientBySelfBug
 	| V M |
 	V _ scalars ^ 3.
 	M _ V span: {V atRandom: random. V atRandom: random}.
@@ -10085,14 +10102,14 @@ testDiscriminant2
 	f _ x^2 - x - 36042.
 	self assert: f discriminant = 144169 "this is a prime, although looks like a square :)"! !
 
-!PolynomialTest methodsFor: 'etc' stamp: 'len 5/21/2022 16:17:00'!
+!PolynomialTest methodsFor: 'etc' stamp: 'len 12/19/2022 11:23:04'!
 testDomainError
-	| f g |
+	| f |
 	f _ ℤ polynomials atRandomBits: 10.
 	self should: [f / 10007] raise: Error.
-	g _ ℚ polynomials atRandomBits: 100 maxDegree: 5. "will have denominators"
+"	g _ ℚ polynomials atRandomBits: 100 maxDegree: 5. ""will have denominators""
 	self should: [f + g] raise: Error.
-	self should: [f * g] raise: Error! !
+	self should: [f * g] raise: Error"! !
 
 !PolynomialTest methodsFor: 'etc' stamp: 'len 5/23/2020 09:34:55'!
 testGaussLemma

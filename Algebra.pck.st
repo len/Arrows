@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5597] on 18 December 2022 at 8:47:51 pm'!
+'From Cuis 6.0 [latest update: #5597] on 20 December 2022 at 2:53:45 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -58,7 +58,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 54!
+!provides: 'Algebra' 1 55!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -2485,14 +2485,14 @@ Object subclass: #Coechelonization
 Coechelonization class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianElimination category: #'Algebra-Algorithms-Echelonization'!
-Coechelonization subclass: #GaussianElimination
+!classDefinition: #GaussJordanReduction category: #'Algebra-Algorithms-Echelonization'!
+Coechelonization subclass: #GaussJordanReduction
 	instanceVariableNames: 'determinantFactor'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Echelonization'!
-!classDefinition: 'GaussianElimination class' category: #'Algebra-Algorithms-Echelonization'!
-GaussianElimination class
+!classDefinition: 'GaussJordanReduction class' category: #'Algebra-Algorithms-Echelonization'!
+GaussJordanReduction class
 	instanceVariableNames: ''!
 
 !classDefinition: #HermiteReduction category: #'Algebra-Algorithms-Echelonization'!
@@ -3544,7 +3544,7 @@ See [Coh96] Algorithm 1.5.1.!
 !Coechelonization commentStamp: '<historical>' prior: 0!
 Abstract superclass for column-style echelonization algorithms. Given a matrix A, they compute a matrix E in reduced column echelon form and a unimodular matrix T such that A*T = E.!
 
-!GaussianElimination commentStamp: '<historical>' prior: 0!
+!GaussJordanReduction commentStamp: '<historical>' prior: 0!
 This is the Gauss-Jordan elimination algorithm. It performs Gaussian elimination on a matrix to compute its column-style reduced echelon form. It can work with matrices over fields or more general division rings such as the quaternions.
 
 The algorithm performs O(2n^3/3) field operations for n by n matrices, but due to exponential growth of intermediate coefficients it can be impractical in many situations (for example over the rationals).!
@@ -3554,8 +3554,8 @@ This is the Hermite column reduction algorithm. Given a matrix with coefficients
 
 The algorithm is a generalization of [Coh96, Algorithm 2.4.4] to arbitrary Euclidean domains.!
 
-!HowellReduction commentStamp: '<historical>' prior: 0!
-This is the Howell column reduction algorithm. Given a matrix with coefficients in a PIR with an extended GCD algorithm to compute Bezout coefficients (for example ℤ/mℤ or other Euclidean rings, possibly with zero divisors), it reduces the matrix to its column-style Howell normal form. See [How86], [Sto00], [SM98], [FH16].!
+!HowellReduction commentStamp: 'len 12/20/2022 06:18:00' prior: 0!
+This is the Howell column reduction algorithm. Given a matrix with coefficients in a PIR with an extended GCD algorithm to compute Bezout coefficients (for example ℤ/mℤ or other Euclidean rings, possibly with zero divisors), it reduces the matrix to its column-style Howell normal form in O(m^2 * max(m,n)) operations. See [How86], [Sto00], [SM98], [FH16].!
 
 !MultivariateDivision commentStamp: 'len 11/29/2022 10:14:14' prior: 0!
 This is the multivariate polynomial division algorithm for polynomials over a commutative ring.
@@ -4318,8 +4318,9 @@ copyWith: aBit
 	aBit = Zero ifTrue: [^ answer].
 	^ self error: 'not one or zero'! !
 
-!LargeBitTuple methodsFor: 'copying' stamp: 'len 11/22/2022 15:43:23'!
+!LargeBitTuple methodsFor: 'copying' stamp: 'len 12/20/2022 09:33:05'!
 postCopy
+	super postCopy.
 	words _ words copy! !
 
 !LargeBitTuple methodsFor: 'operations' stamp: 'len 11/25/2022 10:15:37'!
@@ -4687,8 +4688,9 @@ hash
 asArray
 	^ coefficients! !
 
-!DenseTuple methodsFor: 'copying' stamp: 'len 11/23/2022 10:36:11'!
+!DenseTuple methodsFor: 'copying' stamp: 'len 12/20/2022 09:33:08'!
 postCopy
+	super postCopy.
 	coefficients _ coefficients copy! !
 
 !DenseTuple methodsFor: 'private' stamp: 'len 11/23/2022 10:26:01'!
@@ -4966,8 +4968,9 @@ swap: oneIndex with: anotherIndex
 hash
 	^ coefficients hash! !
 
-!GaloisTuple methodsFor: 'copying' stamp: 'len 11/22/2022 15:44:54'!
+!GaloisTuple methodsFor: 'copying' stamp: 'len 12/20/2022 09:33:11'!
 postCopy
+	super postCopy.
 	coefficients _ coefficients copy! !
 
 !GaloisTuple methodsFor: 'copying' stamp: 'len 5/2/2022 07:44:49'!
@@ -5209,8 +5212,9 @@ hash
 	representatives do: [:each| each = 0 ifFalse: [answer _ answer hashMultiply + each hash]].
 	^ answer! !
 
-!ModularTuple methodsFor: 'copying' stamp: 'len 11/22/2022 15:45:32'!
+!ModularTuple methodsFor: 'copying' stamp: 'len 12/20/2022 09:33:14'!
 postCopy
+	super postCopy.
 	representatives _ representatives copy! !
 
 !ModularTuple methodsFor: 'copying' stamp: 'len 5/1/2022 19:42:47'!
@@ -5447,8 +5451,9 @@ swap: oneIndex with: anotherIndex
 hash
 	^ components hash! !
 
-!ProductTuple methodsFor: 'copying' stamp: 'len 11/22/2022 16:24:37'!
+!ProductTuple methodsFor: 'copying' stamp: 'len 12/20/2022 09:33:17'!
 postCopy
+	super postCopy.
 	components _ components collect: [:each| each copy]! !
 
 !ProductTuple methodsFor: 'operations' stamp: 'len 12/7/2022 19:21:47'!
@@ -6196,11 +6201,6 @@ asCartesianProduct
 !Structure methodsFor: 'converting' stamp: 'len 4/19/2020 07:09:10'!
 asSet
 	^ self elements asSet! !
-
-!Structure methodsFor: 'copying' stamp: 'len 3/19/2016 22:41'!
-postCopy
-	super postCopy.
-	properties _ properties copy! !
 
 !Structure methodsFor: 'elements' stamp: 'len 7/23/2021 10:38:25'!
 !! anObject
@@ -9210,7 +9210,7 @@ special
 shortName
 	^ 'GL'! !
 
-!GeneralLinearGroup methodsFor: 'random' stamp: 'len 6/10/2022 11:18:13'!
+!GeneralLinearGroup methodsFor: 'random' stamp: 'len 12/19/2022 10:11:58'!
 atRandom: aRandom
 	| matrix n |
 	self isTrivial ifTrue: [^ self identity].
@@ -9224,12 +9224,12 @@ atRandom: aRandom
 		matrix swapRow: i with: j.
 		i _ n atRandom: aRandom.
 		[j _ n atRandom: aRandom. j = i] whileTrue.
-		matrix addRow: i times: (self scalars atRandom: aRandom) toRow: j.
+		matrix addRow: i times: (self scalars atRandom: aRandom) to: j.
 		i _ n atRandom: aRandom.
 		matrix multiplyRow: i by: (self scalars units atRandom: aRandom)].
 	^ self space to: self space matrix: matrix! !
 
-!GeneralLinearGroup methodsFor: 'random' stamp: 'len 6/10/2022 11:18:22'!
+!GeneralLinearGroup methodsFor: 'random' stamp: 'len 12/19/2022 10:12:04'!
 atRandom: aRandom bits: bitSize
 	| matrix n scalarsBitSize |
 	self isTrivial ifTrue: [^ self identity].
@@ -9244,7 +9244,7 @@ atRandom: aRandom bits: bitSize
 		matrix swapRow: i with: j.
 		i _ n atRandom: aRandom.
 		[j _ n atRandom: aRandom. j = i] whileTrue.
-		matrix addRow: i times: (self scalars atRandom: aRandom bits: scalarsBitSize) toRow: j.
+		matrix addRow: i times: (self scalars atRandom: aRandom bits: scalarsBitSize) to: j.
 		i _ n atRandom: aRandom.
 		matrix multiplyRow: i by: (self scalars units atRandom: aRandom bits: scalarsBitSize)].
 	^ self space to: self space matrix: matrix! !
@@ -9389,7 +9389,7 @@ center
 shortName
 	^ 'SL'! !
 
-!SpecialLinearGroup methodsFor: 'random' stamp: 'len 6/10/2022 11:18:30'!
+!SpecialLinearGroup methodsFor: 'random' stamp: 'len 12/19/2022 10:12:09'!
 atRandom: aRandom
 	| matrix n |
 	self isTrivial ifTrue: [^ self identity].
@@ -9404,10 +9404,10 @@ atRandom: aRandom
 		matrix multiplyRow: i by: self scalars one negated.
 		i _ n atRandom: aRandom.
 		[j _ n atRandom: aRandom. j = i] whileTrue.
-		matrix addRow: i times: (self scalars atRandom: aRandom) toRow: j].
+		matrix addRow: i times: (self scalars atRandom: aRandom) to: j].
 	^ self space to: self space matrix: matrix! !
 
-!SpecialLinearGroup methodsFor: 'random' stamp: 'len 6/10/2022 11:18:37'!
+!SpecialLinearGroup methodsFor: 'random' stamp: 'len 12/19/2022 10:12:14'!
 atRandom: aRandom bits: bitSize
 	| matrix n scalarsBitSize |
 	self isTrivial ifTrue: [^ self identity].
@@ -9423,7 +9423,7 @@ atRandom: aRandom bits: bitSize
 		matrix multiplyRow: i by: self scalars one negated.
 		i _ n atRandom: aRandom.
 		[j _ n atRandom: aRandom. j = i] whileTrue.
-		matrix addRow: i times: (self scalars atRandom: aRandom bits: scalarsBitSize) toRow: j].
+		matrix addRow: i times: (self scalars atRandom: aRandom bits: scalarsBitSize) to: j].
 	^ self space to: self space matrix: matrix! !
 
 !SpecialLinearGroup methodsFor: 'testing' stamp: 'len 7/28/2020 11:05:34'!
@@ -9623,13 +9623,13 @@ zero
 Modules
 	^ self propertyAt: #Modules ifAbsentPut: [Modules over: self]! !
 
-!Ring methodsFor: 'computing-matrices' stamp: 'len 12/15/2022 17:36:17'!
+!Ring methodsFor: 'computing-matrices' stamp: 'len 12/20/2022 14:45:44'!
 basisAndTransformationOf: aMatrix
 	| coechelonization E T |
 	self isEuclidean ifFalse: [^ self subclassResponsibility].
 	coechelonization _ aMatrix coechelonAndTransformation.
 	E _ coechelonization first copyWithoutZeroColumns.
-	T _ coechelonization second copyFromRow: 1 to: E width.
+	T _ coechelonization second copyFromColumn: 1 to: E width.
 	^ {E. T}! !
 
 !Ring methodsFor: 'computing-matrices' stamp: 'len 12/15/2022 17:36:29'!
@@ -11211,15 +11211,16 @@ zero
 hash
 	^ self localizationIdeal hash! !
 
-!LocalRing methodsFor: 'computing-matrices' stamp: 'len 12/15/2022 10:54:28'!
+!LocalRing methodsFor: 'computing-matrices' stamp: 'len 12/19/2022 17:57:16'!
 matrix: B quotientBy: A
 	"Answer X such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
-	| X d1 d2 |
+	| X N d1 d2 |
 	X _ self^0 → A domain.
+	N _ A numerator.
 	d1 _ A denominator.
 	d2 _ B denominator.
 	B numerator columnsDo: [:b| | L i x |
-		L _ (b asMatrix ⊔ A numerator) syzygies.
+		L _ (b asMatrix ⊔ N) syzygies.
 		i _ (1 to: L width) detect: [:k| (self localizationIdeal includes: (L at: 1@k)) not] ifNone: [].
 		x _ i isNil ifTrue: [A domain zero] ifFalse: [((L copyFrom: 2@i to: L height@i) over: self) * (self numerator: d1 negated denominator: d2 * (L at: 1@i))].
 		X _ X ⊔ x].
@@ -13602,7 +13603,7 @@ asUnivariateIn: anIndeterminate
 lift
 	^ self propertyAt: #lift ifAbsentPut: [self class monomials: monomials over: scalars cover]! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 10/14/2022 10:32:12'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 12/19/2022 11:46:02'!
 adapt: anElement
 	(anElement isInteger or: [anElement isFraction])
 		ifTrue: [^ self constant: scalars !! anElement].
@@ -13610,22 +13611,14 @@ adapt: anElement
 		ifTrue: [^ self constant: anElement].
 	(monomials includes: anElement)
 		ifTrue: [^ self monomial: anElement].
-	(scalars adapt: anElement) ifNotNil: [:aScalar| ^ self constant: aScalar].
-	(super adapt: anElement) ifNotNil: [:aPolynomial| ^ aPolynomial].
-	(anElement isKindOf: Polynomial) ifFalse: [^ nil].
+	(anElement parent class = self class and: [anElement parent monomials = monomials]) ifFalse:
+			[(scalars adapt: anElement) ifNotNil: [:aScalar| ^ self constant: aScalar].
+			(super adapt: anElement) ifNotNil: [:aPolynomial| ^ aPolynomial]].
+	(anElement parent class = self class) ifFalse: [^ nil].
 	(self isUnivariate and: [anElement parent isUnivariate])
 		ifTrue: [^ self coefficients: anElement coefficients].
 	(anElement indeterminates allSatisfy: [:each| each <= self rank]) ifFalse: [^ nil]. "unknown indeterminates present"
-	^ self associations: anElement associations
-
-"	(f isKindOf: UnivariatePolynomial)
-		ifTrue:
-			[parts _ OrderedCollection new: f coefficients size.
-			f coefficients withIndexDo: [:each :i|
-				each isZero ifFalse: [parts add: (monomials x: 1 to: i-1) -> (scalars !! each)]]]
-		ifFalse:
-			[parts _ f parts collect: [:each| each copy key: monomials !! each key]]."
-! !
+	^ self associations: anElement associations! !
 
 !PolynomialRing methodsFor: 'elements' stamp: 'len 8/21/2022 08:15:14'!
 associations: aCollection
@@ -16766,7 +16759,7 @@ to: aModule validMatrix: aMatrix
 	aSubmodule isTrivial ifTrue: [^ self].
 	^ self ambient span: self generatorMatrix ⊔ aSubmodule generatorMatrix! !
 
-!Module methodsFor: 'operations' stamp: 'len 12/9/2022 06:47:02'!
+!Module methodsFor: 'operations' stamp: 'len 12/20/2022 10:47:23'!
 / aSubmodule
 	"Answer the quotient of the receiver by aSubmodule,
 	i.e. the module obtained by 'collapsing' the submodule to zero.
@@ -16800,7 +16793,7 @@ to: aModule validMatrix: aMatrix
 				self assert: P codomain = R codomain]
 			ifFalse:
 				[j _ j + 1]].
-	answer _ R isZero ifTrue: [R codomain copy] ifFalse: [QuotientModule relationsMatrix: R].
+	answer _ R isZero ifTrue: [FreeModule new: R codomain rank over: R scalars] ifFalse: [QuotientModule relationsMatrix: R].
 	answer addMap: ((self to: answer validMatrix: (P reductionBy: R)) name: 'π').
 	^ answer
 
@@ -23930,7 +23923,7 @@ content
 cosquare
 	^ self transpose inverse * self! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 12/18/2022 20:23:14'!
+!Matrix methodsFor: 'operations' stamp: 'len 12/20/2022 06:20:39'!
 determinant
 	| n a0 |
 	self checkIsSquare.
@@ -23948,7 +23941,7 @@ determinant
 	"For small matrices use Laplace expansion:"
 	n <= 6 ifTrue: [^ (1 to: n) sum: [:i| (self at: i@1) * (self cofactor: i@1)]].
 	"Over a field use Gaussian elimination:"
-	self scalars isField ifTrue: [^ (GaussianElimination on: self) determinant].
+	self scalars isField ifTrue: [^ (GaussJordanReduction on: self) determinant].
 	"Otherwise get the determinant from the characteristic polynomial (possibly computed by Berkowitz algorithm):"
 	a0 _ self characteristicPolynomial independentCoefficient.
 	^ n even ifTrue: [a0] ifFalse: [a0 negated]! !
@@ -24243,7 +24236,7 @@ SNFAndTransformations
 	S isSmithNormalForm] whileFalse.
 	^ {S. P. Q}! !
 
-!Matrix methodsFor: 'normal forms' stamp: 'len 1/2/2022 10:01:17'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/19/2022 10:12:26'!
 SNFOneStep
 	| L S R zero one j k |
 	L _ self codomain id.
@@ -24288,8 +24281,8 @@ SNFOneStep
 	"now everything in column 1 is divisible by the pivot at 1@1:"
 	2 to: S height do: [:i| | x |
 		x _ (S at: i@1) negated / (S at: 1@1).
-		S addRow: 1 times: x toRow: i.
-		L addRow: 1 times: x toRow: i].
+		S addRow: 1 times: x to: i.
+		L addRow: 1 times: x to: i].
 
 	self assert: L * self * R = S.
 
@@ -24938,43 +24931,84 @@ representative
 zero
 	^ self class from: domain to: codomain coefficients: coefficients zero! !
 
-!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/15/2022 11:54:01'!
-addColumn: src times: aNumber toColumn: dst
-	self addColumn: src times: aNumber toColumn: dst startingAt: 1! !
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/19/2022 10:23:37'!
+addColumn: j₁ times: anElement to: j₂
+	self addColumn: j₁ times: anElement to: j₂ startingAt: 1! !
 
-!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/15/2022 11:55:17'!
-addColumn: src times: anElement toColumn: dst startingAt: startRow
-	| height dstStart srcStart |
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/19/2022 10:30:38'!
+addColumn: j₁ times: anElement to: j₂ startingAt: startRow
+	| height start₁ start₂ |
 	height _ self height.
-	dstStart _ dst - 1 * height + startRow.
-	srcStart _ src - 1 * height + startRow.
+	start₁ _ j₁ - 1 * height + startRow.
+	start₂ _ j₂ - 1 * height + startRow.
 	coefficients
-		replaceFrom: dstStart to: dstStart + height - startRow
-		with: coefficients startingAt: dstStart
-		plus: coefficients startingAt: srcStart
+		replaceFrom: start₂ to: j₂ * height
+		with: coefficients startingAt: start₂
+		plus: coefficients startingAt: start₁
 		timesScalar: anElement! !
+
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/20/2022 11:09:25'!
+cancelColumn: j₁ and: j₂ with: mgcd
+	| s t u v A₁ A₂ |
+	s _ mgcd at: 2.
+	t _ mgcd at: 3.
+	u _ mgcd at: 4.
+	v _ mgcd at: 5.
+	A₁ _ (self columnAt: j₁) copy.
+	A₂ _ (self columnAt: j₂) copy.
+	self columnAt: j₁ put: A₁*s + (A₂*t).
+	self columnAt: j₂ put: A₁*u + (A₂*v)! !
+
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/20/2022 06:04:15'!
+copyColumn: j₁ times: anElement to: j₂
+	self copyColumn: j₁ times: anElement to: j₂ startingAt: 1! !
+
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/20/2022 06:03:43'!
+copyColumn: j₁ times: anElement to: j₂ startingAt: startRow
+	| height start₁ start₂ |
+	height _ self height.
+	start₁ _ j₁ - 1 * height + startRow.
+	start₂ _ j₂ - 1 * height + startRow.
+	coefficients
+		replaceFrom: start₂ to: j₂ * height
+		with: coefficients startingAt: start₁
+		timesScalar: anElement! !
+
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/20/2022 05:58:34'!
+copyColumn: j₁ to: j₂
+	self copyColumn: j₁ to: j₂ startingAt: 1! !
+
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/20/2022 05:58:14'!
+copyColumn: j₁ to: j₂ startingAt: startRow
+	| height start₁ start₂ |
+	height _ self height.
+	start₁ _ j₁ - 1 * height + startRow.
+	start₂ _ j₂ - 1 * height + startRow.
+	coefficients
+		replaceFrom: start₂ to: j₂ * height
+		with: coefficients startingAt: start₁! !
 
 !ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/15/2022 11:53:16'!
 multiplyColumn: j by: anElement
 	self multiplyColumn: j by: anElement startingAt: 1! !
 
-!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/15/2022 11:53:10'!
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/19/2022 10:20:08'!
 multiplyColumn: j by: anElement startingAt: startRow
 	| height start |
 	height _ self height.
 	start _ j - 1 * height + startRow.
 	coefficients
-		replaceFrom: start to: start + height - startRow
+		replaceFrom: start to: j * height
 		with: coefficients startingAt: start
 		timesScalar: anElement! !
 
-!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/17/2022 12:28:49'!
-swapColumn: j1 with: j2
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/19/2022 10:19:09'!
+swapColumn: j₁ with: j₂
 	| height |
 	height _ self height.
 	coefficients
-		swapFrom: j1 - 1 * height + 1 to: j1 * height
-		with: coefficients startingAt: j2 - 1 * height + 1! !
+		swapFrom: j₁ - 1 * height + 1 to: j₁ * height
+		with: coefficients startingAt: j₂ - 1 * height + 1! !
 
 !ColumnMajorMatrix methodsFor: 'comparing' stamp: 'len 12/15/2022 11:57:59'!
 = anObject
@@ -25012,8 +25046,10 @@ copyFrom: start to: stop
 		to: (codomain copyFrom: start x to: stop x)
 		coefficients: subcoefficients! !
 
-!ColumnMajorMatrix methodsFor: 'copying' stamp: 'len 12/15/2022 12:51:59'!
+!ColumnMajorMatrix methodsFor: 'copying' stamp: 'len 12/20/2022 09:45:45'!
 postCopy
+	super postCopy.
+	properties _ nil.
 	coefficients _ coefficients copy! !
 
 !ColumnMajorMatrix methodsFor: 'enumerating' stamp: 'len 12/15/2022 12:41:46'!
@@ -25270,8 +25306,10 @@ copyFrom: start to: stop
 		to: (codomain copyFrom: start x to: stop x)
 		coefficients: subcoefficients! !
 
-!RowMajorMatrix methodsFor: 'copying' stamp: 'len 11/22/2022 15:54:11'!
+!RowMajorMatrix methodsFor: 'copying' stamp: 'len 12/20/2022 09:46:05'!
 postCopy
+	super postCopy.
+	properties _ nil.
 	coefficients _ coefficients copy! !
 
 !RowMajorMatrix methodsFor: 'enumerating' stamp: 'len 4/21/2022 12:32:12'!
@@ -25434,45 +25472,45 @@ value: aTuple
 		withMatrix: coefficients width: self width
 		timesTuple: aTuple startingAt: 1! !
 
-!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 4/24/2022 20:33:20'!
-addRow: src times: aNumber toRow: dst
-	self addRow: src times: aNumber toRow: dst startingAt: 1! !
+!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 12/19/2022 10:24:22'!
+addRow: i₁ times: anElement to: i₂
+	self addRow: i₁ times: anElement to: i₂ startingAt: 1! !
 
-!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 5/20/2022 05:37:46'!
-addRow: src times: aNumber toRow: dst startingAt: startColumn
-	| width dstStart srcStart |
+!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 12/19/2022 10:26:58'!
+addRow: i₁ times: anElement to: i₂ startingAt: startColumn
+	| width start₁ start₂ |
 	width _ self width.
-	dstStart _ dst - 1 * width + startColumn.
-	srcStart _ src - 1 * width + startColumn.
+	start₁ _ i₁ - 1 * width + startColumn.
+	start₂ _ i₂ - 1 * width + startColumn.
 	coefficients
-		replaceFrom: dstStart to: dstStart + width - startColumn
-		with: coefficients startingAt: dstStart
-		plus: coefficients startingAt: srcStart
-		timesScalar: aNumber! !
+		replaceFrom: start₂ to: i₂ * width
+		with: coefficients startingAt: start₂
+		plus: coefficients startingAt: start₁
+		timesScalar: anElement! !
 
 !RowMajorMatrix methodsFor: 'row operations' stamp: 'len 12/15/2022 11:53:33'!
 multiplyRow: i by: anElement
 	self multiplyRow: i by: anElement startingAt: 1! !
 
-!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 12/15/2022 11:53:24'!
+!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 12/19/2022 10:27:36'!
 multiplyRow: i by: anElement startingAt: startColumn
 	| width start |
 	width _ self width.
 	start _ i - 1 * width + startColumn.
 	coefficients
-		replaceFrom: start to: start + width - startColumn
+		replaceFrom: start to: i * width
 		with: coefficients startingAt: start
 		timesScalar: anElement! !
 
-!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 4/25/2022 08:01:26'!
-swapRow: i1 with: i2
-	| width start1 start2 |
+!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 12/19/2022 10:28:49'!
+swapRow: i₁ with: i₂
+	| width start₁ start₂ |
 	width _ self width.
-	start1 _ i1 - 1 * width + 1.
-	start2 _ i2 - 1 * width + 1.
+	start₁ _ i₁ - 1 * width + 1.
+	start₂ _ i₂ - 1 * width + 1.
 	coefficients
-		swapFrom: start1 to: start1 + width - 1
-		with: coefficients startingAt: start2! !
+		swapFrom: start₁ to: i₁ * width
+		with: coefficients startingAt: start₂! !
 
 !RowMajorMatrix methodsFor: 'testing' stamp: 'len 4/21/2022 12:45:41'!
 isZero
@@ -28373,8 +28411,9 @@ copyWithout: anIndeterminate
 	"Answer a copy of the receiver with the given indeterminate removed."
 	^ parent exponents: (exponents copy at: anIndeterminate put: 0; yourself)! !
 
-!Monomial methodsFor: 'copying' stamp: 'len 11/21/2016 11:07:43'!
+!Monomial methodsFor: 'copying' stamp: 'len 12/20/2022 09:32:35'!
 postCopy
+	super postCopy.
 	exponents _ exponents copy.
 	degree _ nil! !
 
@@ -31722,8 +31761,9 @@ orderedBy: aMonomialOrdering
 	"Answer a copy of the receiver with a different monomial ordering."
 	^ (self parent orderedBy: aMonomialOrdering) !! self! !
 
-!Polynomial methodsFor: 'copying' stamp: 'len 11/22/2022 15:50:20'!
+!Polynomial methodsFor: 'copying' stamp: 'len 12/20/2022 09:32:49'!
 postCopy
+	super postCopy.
 	coefficients _ coefficients copy! !
 
 !Polynomial methodsFor: 'enumerating' stamp: 'len 4/27/2022 16:55:56'!
@@ -34200,8 +34240,9 @@ tail
 hash
 	^ coefficients hash! !
 
-!FreePolynomial methodsFor: 'copying' stamp: 'len 11/22/2022 15:50:45'!
+!FreePolynomial methodsFor: 'copying' stamp: 'len 12/20/2022 09:32:53'!
 postCopy
+	super postCopy.
 	coefficients _ coefficients copy! !
 
 !FreePolynomial methodsFor: 'enumerating' stamp: 'len 4/28/2022 06:59:02'!
@@ -36334,14 +36375,14 @@ echelonAndTransformation
 	transformation isNil ifTrue: [echelon _ matrix asColumnMajor copy. transformation _ matrix domain id asColumnMajor copy. self run].
 	^ {echelon. transformation}! !
 
-!Coechelonization methodsFor: 'elementary operations' stamp: 'len 12/17/2022 10:10:40'!
-addColumn: j0 times: anElement toColumn: j1
-	self addColumn: j0 times: anElement toColumn: j1 startingAt: 1! !
+!Coechelonization methodsFor: 'elementary operations' stamp: 'len 12/19/2022 10:07:06'!
+addColumn: j₀ times: anElement to: j₁
+	self addColumn: j₀ times: anElement to: j₁ startingAt: 1! !
 
-!Coechelonization methodsFor: 'elementary operations' stamp: 'len 12/17/2022 10:11:52'!
-addColumn: j0 times: anElement toColumn: j1 startingAt: startIndex
-	echelon addColumn: j0 times: anElement toColumn: j1 startingAt: startIndex.
-	transformation ifNotNil: [transformation addColumn: j0 times: anElement toColumn: j1]! !
+!Coechelonization methodsFor: 'elementary operations' stamp: 'len 12/19/2022 10:08:29'!
+addColumn: j₀ times: anElement to: j₁ startingAt: start
+	echelon addColumn: j₀ times: anElement to: j₁ startingAt: start.
+	transformation ifNotNil: [transformation addColumn: j₀ times: anElement to: j₁]! !
 
 !Coechelonization methodsFor: 'elementary operations' stamp: 'len 12/17/2022 10:08:58'!
 multiplyColumn: i by: anElement
@@ -36361,27 +36402,27 @@ swapColumn: i with: j
 matrix: aMatrix
 	matrix _ aMatrix! !
 
-!Coechelonization class methodsFor: 'instance creation' stamp: 'len 12/18/2022 20:23:14'!
+!Coechelonization class methodsFor: 'instance creation' stamp: 'len 12/20/2022 06:20:39'!
 on: aMatrix
 	| R |
 	self = Coechelonization ifFalse: [^ self new matrix: aMatrix].
 	R _ aMatrix scalars.
 	^ (R isDivisionRing
-		ifTrue: [GaussianElimination]
+		ifTrue: [GaussJordanReduction]
 		ifFalse: [R isEuclideanDomain
 			ifTrue: [HermiteReduction]
 			ifFalse: [R isEuclidean
 					ifTrue: [HowellReduction]
 					ifFalse: [^ self notYetImplemented]]]) new matrix: aMatrix! !
 
-!GaussianElimination methodsFor: 'accessing' stamp: 'len 12/18/2022 11:54:29'!
+!GaussJordanReduction methodsFor: 'accessing' stamp: 'len 12/18/2022 11:54:29'!
 determinant
 	| determinant |
 	determinant _ matrix scalars one.
 	1 to: self echelon height do: [:i| determinant _ determinant * (echelon at: i@i)].
 	^ determinant / determinantFactor! !
 
-!GaussianElimination methodsFor: 'computing' stamp: 'len 12/18/2022 12:27:26'!
+!GaussJordanReduction methodsFor: 'computing' stamp: 'len 12/19/2022 10:08:52'!
 reduceStep: pivot
 	"Perform the reduction step on row i and column j."
 	| i j j₀ |
@@ -36395,9 +36436,9 @@ reduceStep: pivot
 	self multiplyColumn: j by: (echelon at: pivot) inverse.
 	"4. Reduce:"
 	echelon width to: j+1 by: -1 do: [:k|
-		self addColumn: j times: (echelon at: i@k) negated toColumn: k]] repeat! !
+		self addColumn: j times: (echelon at: i@k) negated to: k]] repeat! !
 
-!GaussianElimination methodsFor: 'computing' stamp: 'len 12/18/2022 11:53:42'!
+!GaussJordanReduction methodsFor: 'computing' stamp: 'len 12/19/2022 10:09:03'!
 run
 	| n m i j b |
 	determinantFactor _ matrix scalars one.
@@ -36414,21 +36455,21 @@ run
 		ifFalse:
 			[1 to: j-1 do: [:k| | q |
 				q _ (echelon at: i@k) / b.
-				self addColumn: j times: q negated toColumn: k]].
+				self addColumn: j times: q negated to: k]].
 	j = n or: [i = m]] whileFalse: [i _ i + 1. j _ j + 1]! !
 
-!GaussianElimination methodsFor: 'elementary operations' stamp: 'len 12/18/2022 11:52:26'!
+!GaussJordanReduction methodsFor: 'elementary operations' stamp: 'len 12/18/2022 11:52:26'!
 multiplyColumn: i by: aNumber startingAt: startIndex
 	super multiplyColumn: i by: aNumber startingAt: startIndex.
 	determinantFactor _ determinantFactor * aNumber! !
 
-!GaussianElimination methodsFor: 'elementary operations' stamp: 'len 12/18/2022 11:53:23'!
+!GaussJordanReduction methodsFor: 'elementary operations' stamp: 'len 12/18/2022 11:53:23'!
 swapColumn: i with: j
 	i = j ifTrue: [^ self].
 	super swapColumn: i with: j.
 	determinantFactor _ determinantFactor negated! !
 
-!HermiteReduction methodsFor: 'computing' stamp: 'len 12/18/2022 12:16:17'!
+!HermiteReduction methodsFor: 'computing' stamp: 'len 12/19/2022 10:09:08'!
 reduceStep: pivot
 	"Perform the reduction step on row i and column j."
 	| i j j₀ b |
@@ -36446,9 +36487,9 @@ reduceStep: pivot
 	"4. Reduce:"
 	echelon width to: j+1 by: -1 do: [:k| | q |
 		q _ (echelon at: i@k) // b.
-		self addColumn: j times: q negated toColumn: k]] repeat! !
+		self addColumn: j times: q negated to: k]] repeat! !
 
-!HermiteReduction methodsFor: 'computing' stamp: 'len 12/17/2022 12:58:37'!
+!HermiteReduction methodsFor: 'computing' stamp: 'len 12/19/2022 10:09:22'!
 run
 	| n m i j b |
 	m _ echelon height.
@@ -36466,54 +36507,16 @@ run
 		ifFalse:
 			[1 to: j-1 do: [:k| | q |
 				q _ (echelon at: i@k) // b.
-				self addColumn: j times: q negated toColumn: k]].
+				self addColumn: j times: q negated to: k]].
 	"6. Finished?"
 	j = n or: [i = m]] whileFalse: [i _ i + 1. j _ j + 1]! !
 
-!HowellReduction methodsFor: 'computing' stamp: 'len 12/17/2022 11:09:14'!
-cancel: aPoint with: anotherPoint
-	| a b mgcd g s t u v j i Aj Ai |
-	mgcd _ (a _ echelon at: aPoint) xxgcd: (b _ echelon at: anotherPoint).
-	g _ mgcd at: 1.
-	s _ mgcd at: 2.
-	t _ mgcd at: 3.
-	u _ mgcd at: 4.
-	v _ mgcd at: 5.
-	self assert: s*a + (t*b) = g.
-	self assert: (u*a + (v*b)) isZero.
-	self assert: (s*v - (t*u)) isOne.
-	"optimize!! avoid wasting memory"
-	j _ aPoint y.
-	i _ anotherPoint y.
-	Aj _ (echelon columnAt: j) copy.
-	Ai _ (echelon columnAt: i) copy.
-	echelon columnAt: j put: Aj*s + (Ai*t).
-	echelon columnAt: i put: Aj*u + (Ai*v).
-	transformation ifNotNil:
-		[Aj _ (transformation columnAt: j) copy.
-		Ai _ (transformation columnAt: i) copy.
-		transformation columnAt: j put: Aj*s + (Ai*t).
-		transformation columnAt: i put: Aj*u + (Ai*v)]! !
+!HowellReduction methodsFor: 'computing' stamp: 'len 12/20/2022 06:26:58'!
+addZeroColumns: n
+	echelon _ echelon ⊔ (echelon scalars ^ n ⇒ echelon codomain) zero asColumnMajor.
+	transformation ifNotNil: [transformation _ transformation ⊔ (echelon scalars ^ n ⇒ transformation codomain) zero asColumnMajor]! !
 
-!HowellReduction methodsFor: 'computing' stamp: 'len 12/17/2022 11:08:46'!
-cancel: aPoint withTemporary: aTuple
-	| a b mgcd g s t u v j Aj |
-	mgcd _ (a _ echelon at: aPoint) xxgcd: (b _ aTuple at: aPoint x).
-	g _ mgcd at: 1.
-	s _ mgcd at: 2.
-	t _ mgcd at: 3.
-	u _ mgcd at: 4.
-	v _ mgcd at: 5.
-	self assert: s*a + (t*b) = g.
-	self assert: (u*a + (v*b)) isZero.
-	self assert: (s*v - (t*u)) isOne.
-	"optimize!! avoid wasting memory"
-	j _ aPoint y.
-	Aj _ (echelon columnAt: j) copy.
-	echelon columnAt: j put: Aj*s + (aTuple*t).
-	^ Aj*u + (aTuple*v)! !
-
-!HowellReduction methodsFor: 'computing' stamp: 'len 12/18/2022 19:48:52'!
+!HowellReduction methodsFor: 'computing' stamp: 'len 12/20/2022 09:50:07'!
 run
 	| n m |
 	n _ echelon width.
@@ -36521,23 +36524,69 @@ run
 	(m = 0 or: [n = 0]) ifTrue: [^ self]. "nothing to do"
 	"If more rows than columns, augment the matrix with zero columns to make it square:"
 	m > n ifTrue:
-		[echelon _ echelon ⊔ (echelon scalars ^ (m - n) ⇒ echelon codomain) zero asColumnMajor.
-		transformation ifNotNil: [transformation _ transformation ⊔ (echelon scalars ^ (m - n) ⇒ transformation codomain) zero asColumnMajor].
+		[self addZeroColumns: m - n.
 		n _ m].
 	"Put it in lower triangular form:"
-	1 to: m do: [:i| i+1 to: n do: [:j| self cancel: i@i with: i@j]].
+	1 to: m do: [:i| i+1 to: n do: [:j| self cancel: i@i with: j]].
 	self assert: echelon isLowerTriangular.
 	"Put it in Howell form:"
+	self addZeroColumns: 1. "augment with a zero column"
 	1 to: m do: [:j|
-		| B |
 		(echelon isZeroAt: j@j)
 			ifTrue:
-				[B _ (echelon columnAt: j) copy]
+				[self copyColumn: j to: m+1]
 			ifFalse:
 				[self multiplyColumn: j by: (echelon at: j@j) normalization.
-				1 to: j-1 do: [:i| self addColumn: j times: ((echelon at: j@i) // (echelon at: j@j)) negated toColumn: i].
-				B _ (echelon columnAt: j) * (echelon at: j@j) annihilator].
-		j+1 to: m do: [:i| B _ self cancel: i@i withTemporary: B]]! !
+				1 to: j-1 do: [:i| self addColumn: j times: ((echelon at: j@i) // (echelon at: j@j)) negated to: i].
+				self copyColumn: j times: (echelon at: j@j) annihilator to: m+1].
+		j+1 to: m do: [:i| self cancel: i@i with: m+1]].
+	"Sort columns:"
+	self sortColumns.
+	"Output first m columns:"
+	echelon _ echelon copyFromColumn: 1 to: m.
+	transformation ifNotNil: [transformation _ transformation copyFromColumn: 1 to: m]! !
+
+!HowellReduction methodsFor: 'computing' stamp: 'len 12/20/2022 14:32:59'!
+sortColumns
+	| height width i j |
+	height _ echelon height.
+	width _ echelon width.
+	i _ 1.
+	j _ 1.
+	[(echelon isZeroAt: i@j)
+		ifTrue:
+			[(j+1 to: width)
+				detect: [:k| (echelon isZeroAt: i@k) not]
+				ifFound: [:k| self swapColumn: k with: j]
+				ifNone: [j _ j - 1]].
+	j _ j + 1.
+	i _ i + 1.
+	i <= height] whileTrue! !
+
+!HowellReduction methodsFor: 'elementary operations' stamp: 'len 12/20/2022 11:14:40'!
+cancel: aPoint with: i
+	| mgcd |
+	mgcd _ (echelon at: aPoint) xxgcd: (echelon at: aPoint x @ i).
+	echelon cancelColumn: aPoint y and: i with: mgcd.
+	transformation ifNotNil: [transformation cancelColumn: aPoint y and: i with: mgcd]! !
+
+!HowellReduction methodsFor: 'elementary operations' stamp: 'len 12/20/2022 06:09:38'!
+copyColumn: j₀ times: anElement to: j₁
+	self copyColumn: j₀ times: anElement to: j₁ startingAt: 1! !
+
+!HowellReduction methodsFor: 'elementary operations' stamp: 'len 12/20/2022 06:08:46'!
+copyColumn: j₀ times: anElement to: j₁ startingAt: start
+	echelon copyColumn: j₀ times: anElement to: j₁ startingAt: start.
+	transformation ifNotNil: [transformation copyColumn: j₀ times: anElement to: j₁]! !
+
+!HowellReduction methodsFor: 'elementary operations' stamp: 'len 12/20/2022 06:09:26'!
+copyColumn: j₀ to: j₁
+	self copyColumn: j₀ to: j₁ startingAt: 1! !
+
+!HowellReduction methodsFor: 'elementary operations' stamp: 'len 12/20/2022 06:09:11'!
+copyColumn: j₀ to: j₁ startingAt: start
+	echelon copyColumn: j₀ to: j₁ startingAt: start.
+	transformation ifNotNil: [transformation copyColumn: j₀ to: j₁]! !
 
 !MultivariateDivision methodsFor: 'printing' stamp: 'len 1/24/98 12:49'!
 printOn: aStream

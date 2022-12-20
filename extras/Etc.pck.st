@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5597] on 18 December 2022 at 8:47:59 pm'!
+'From Cuis 6.0 [latest update: #5597] on 20 December 2022 at 2:53:31 pm'!
 'Description '!
-!provides: 'Etc' 1 21!
+!provides: 'Etc' 1 22!
 !requires: 'Algebra' 1 7 nil!
 SystemOrganization addCategory: #Etc!
 SystemOrganization addCategory: #'Etc-Lie'!
@@ -408,7 +408,7 @@ EuclideanGaussianElimination class
 
 !classDefinition: #GaussBareiss category: #Etc!
 ProtoObject subclass: #GaussBareiss
-	instanceVariableNames: ''
+	instanceVariableNames: 'currentPivot echelon'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
@@ -3198,15 +3198,15 @@ echelonAndTransformation
 	transformation isNil ifTrue: [echelon _ matrix copy. transformation _ matrix codomain id copy. self run].
 	^ {echelon. transformation}! !
 
-!Echelonization methodsFor: 'operations' stamp: 'len 5/30/2019 07:21:15'!
-addRow: i0 times: aNumber toRow: i1
-	self addRow: i0 times: aNumber toRow: i1 startingAt: 1! !
+!Echelonization methodsFor: 'operations' stamp: 'len 12/19/2022 10:13:41'!
+addRow: i0 times: aNumber to: i1
+	self addRow: i0 times: aNumber to: i1 startingAt: 1! !
 
-!Echelonization methodsFor: 'operations' stamp: 'len 12/13/2022 13:12:29'!
-addRow: i0 times: aNumber toRow: i1 startingAt: startIndex
+!Echelonization methodsFor: 'operations' stamp: 'len 12/19/2022 10:15:14'!
+addRow: i0 times: aNumber to: i1 startingAt: startIndex
 	"Transcript cr; show: 'addRow: ', i0 printString, ' toRow: ', i1 printString, ' startingAt: ', startIndex printString."
-	echelon addRow: i0 times: aNumber toRow: i1 startingAt: startIndex.
-	transformation ifNotNil: [transformation addRow: i0 times: aNumber toRow: i1]! !
+	echelon addRow: i0 times: aNumber to: i1 startingAt: startIndex.
+	transformation ifNotNil: [transformation addRow: i0 times: aNumber to: i1]! !
 
 !Echelonization methodsFor: 'operations' stamp: 'len 1/19/2018 21:38:21'!
 multiplyRow: i by: aNumber
@@ -3241,9 +3241,9 @@ determinant
 		determinant _ determinant * (echelon at: i@i)].
 	^ determinant / determinantFactor! !
 
-!GaussianElimination2 methodsFor: 'operations' stamp: 'len 5/30/2019 07:21:00'!
-addRow: i0 times: aNumber toRow: i1
-	self addRow: i0 times: aNumber toRow: i1 startingAt: currentPivot y! !
+!GaussianElimination2 methodsFor: 'operations' stamp: 'len 12/19/2022 10:14:52'!
+addRow: i0 times: aNumber to: i1
+	self addRow: i0 times: aNumber to: i1 startingAt: currentPivot y! !
 
 !GaussianElimination2 methodsFor: 'operations' stamp: 'len 1/19/2018 21:54:00'!
 multiplyRow: i by: aNumber
@@ -3280,7 +3280,7 @@ nextPivot
 			col _ col + 1].
 	^ nil! !
 
-!GaussianElimination2 methodsFor: 'private' stamp: 'len 12/13/2022 13:12:29'!
+!GaussianElimination2 methodsFor: 'private' stamp: 'len 12/19/2022 10:12:43'!
 reduceStep
 	"Perform one step in the reduction of the matrix using the current pivot."
 	| row col |
@@ -3289,7 +3289,7 @@ reduceStep
 	self multiplyRow: row by: (echelon at: row @ col) inverse.
 	1 to: echelon height do: [:i|
 		(i = row or: [echelon isZeroAt: i @ col])
-			ifFalse: [self addRow: row times: (echelon at: i @ col) negated toRow: i]]! !
+			ifFalse: [self addRow: row times: (echelon at: i @ col) negated to: i]]! !
 
 !GaussianElimination2 methodsFor: 'private' stamp: 'len 12/13/2022 13:23:24'!
 run
@@ -3304,7 +3304,7 @@ run
 			row _ row + 1.
 			self reduceStep]! !
 
-!HermiteEchelonization methodsFor: 'private' stamp: 'len 12/17/2022 12:49:58'!
+!HermiteEchelonization methodsFor: 'private' stamp: 'len 12/19/2022 10:12:48'!
 reduceStep: k column: j
 	"Perform the reduction step on row k and column j."
 	| i0 b |
@@ -3320,9 +3320,9 @@ reduceStep: k column: j
 	"4. Reduce:"
 	echelon height to: k+1 by: -1 do: [:i| | q |
 		q _ (echelon at: i@j) // b.
-		self addRow: k times: q negated toRow: i]] repeat! !
+		self addRow: k times: q negated to: i]] repeat! !
 
-!HermiteEchelonization methodsFor: 'private' stamp: 'len 12/13/2022 13:12:29'!
+!HermiteEchelonization methodsFor: 'private' stamp: 'len 12/19/2022 10:12:54'!
 run
 	| n m k j b |
 	m _ echelon height.
@@ -3340,7 +3340,7 @@ run
 		ifFalse:
 			[1 to: k-1 do: [:i| | q |
 				q _ (echelon at: i@j) // b.
-				self addRow: k times: q negated toRow: i]].
+				self addRow: k times: q negated to: i]].
 	"6. Finished?"
 	j = n or: [k = m]] whileFalse: [j _ j + 1. k _ k + 1].
 	^ echelon! !
@@ -3388,7 +3388,7 @@ cancel: aPoint withTemporary: aTuple
 	echelon rowAt: j put: Aj*s + (aTuple*t).
 	^ Aj*u + (aTuple*v)! !
 
-!HowellEchelonization methodsFor: 'private' stamp: 'len 12/13/2022 13:12:29'!
+!HowellEchelonization methodsFor: 'private' stamp: 'len 12/19/2022 10:13:06'!
 run
 	| n m |
 	n _ echelon width.
@@ -3409,7 +3409,7 @@ run
 				[B _ (echelon rowAt: j) copy]
 			ifFalse:
 				[self multiplyRow: j by: (echelon at: j@j) normalization.
-				1 to: j-1 do: [:i| self addRow: j times: ((echelon at: i@j) // (echelon at: j@j)) negated toRow: i].
+				1 to: j-1 do: [:i| self addRow: j times: ((echelon at: i@j) // (echelon at: j@j)) negated to: i].
 				B _ (echelon rowAt: j) * (echelon at: j@j) annihilator].
 		j+1 to: n do: [:i| B _ self cancel: i@i withTemporary: B]].
 	^ echelon! !
@@ -4398,7 +4398,7 @@ reduceStep
 				echelon rowAt: j put: ri * bi + (rj * bj).
 				echelon rowAt: i put: rj * (aij // g) - (ri * (ajj // g))]]! !
 
-!GaussBareiss methodsFor: 'private' stamp: 'len 12/13/2022 13:12:29'!
+!GaussBareiss methodsFor: 'private' stamp: 'len 12/19/2022 10:13:12'!
 reduceStep
 	"Perform one step reduction of the matrix using the current pivot."
 	| row col pivot value |
@@ -4409,7 +4409,7 @@ reduceStep
 		(i = row or: [(value _ echelon at: i @ col) isZero])
 			ifFalse:
 				[self multiplyRow: i by: pivot.
-				self addRow: row times: value negated toRow: i]]! !
+				self addRow: row times: value negated to: i]]! !
 
 !PolynomialCode methodsFor: 'accessing' stamp: 'len 4/4/2016 20:19'!
 generator
