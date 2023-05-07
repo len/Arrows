@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 10 December 2022 at 11:42:55 am'!
+'From Cuis 6.0 [latest update: #5597] on 7 May 2023 at 2:01:18 pm'!
 'Description '!
-!provides: 'Lattices' 1 9!
+!provides: 'Lattices' 1 10!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Lattices!
 
@@ -263,12 +263,12 @@ dual
 	"Answer the intersection of the receiver and the argument, assuming they are compatible."
 	^ self notYetImplemented! !
 
-!Lattice methodsFor: 'printing' stamp: 'len 7/29/2020 06:28:51'!
+!Lattice methodsFor: 'printing' stamp: 'len 5/6/2023 15:18:17'!
 printOn: aStream
 	self isTrivial ifTrue: [aStream print: 0. ^ self].
-	aStream nextPut: $<.
+	aStream nextPut: $⟨.
 	self basis do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
-	aStream nextPut: $>; nextPutAll: 'ℤ' sub! !
+	aStream nextPut: $⟩; nextPutAll: 'ℤ' sub! !
 
 !Lattice methodsFor: 'random' stamp: 'len 7/29/2020 06:21:59'!
 atRandom: aRandom bits: bitSize

@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 25 November 2022 at 10:26:08 am'!
+'From Cuis 6.0 [latest update: #5597] on 7 May 2023 at 2:01:31 pm'!
 'Description '!
-!provides: 'Elliptic Curves' 1 8!
+!provides: 'Elliptic Curves' 1 9!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #'Elliptic Curves'!
 
@@ -238,9 +238,9 @@ multiplicationBy: m
 	φ _ φ value: {F x. F y}.
 	^ "self from: self to: self representatives:" {φ / f squared. omega / (f^3). F z}! !
 
-!EllipticCurve methodsFor: 'points' stamp: 'len 7/4/2019 03:48:39'!
+!EllipticCurve methodsFor: 'points' stamp: 'len 5/6/2023 19:10:43'!
 pointAt: aTuple
-	aTuple size = 2 ifTrue: [^ EllipticCurvePoint on: self coordinates: (aTuple copyWith: aTuple scalars one)].
+	aTuple size = 2 ifTrue: [^ EllipticCurvePoint on: self coordinates: aTuple, aTuple scalars one].
 	^ EllipticCurvePoint on: self coordinates: aTuple! !
 
 !EllipticCurve methodsFor: 'points' stamp: 'len 8/27/2018 22:25:47'!
