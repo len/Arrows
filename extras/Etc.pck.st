@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5597] on 7 May 2023 at 2:01:28 pm'!
+'From Cuis 6.0 [latest update: #5597] on 7 May 2023 at 7:06:51 pm'!
 'Description '!
-!provides: 'Etc' 1 23!
+!provides: 'Etc' 1 24!
 !requires: 'Algebra' 1 7 nil!
 SystemOrganization addCategory: #Etc!
 SystemOrganization addCategory: #'Etc-Matrices'!
@@ -479,6 +479,16 @@ Object subclass: #ExtendedSmithReduction
 ExtendedSmithReduction class
 	instanceVariableNames: ''!
 
+!classDefinition: #LargeBitArray category: #Etc!
+Object subclass: #LargeBitArray
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'LargeBitArray class' category: #Etc!
+LargeBitArray class
+	instanceVariableNames: ''!
+
 !classDefinition: #ModularHermiteReduction category: #Etc!
 Object subclass: #ModularHermiteReduction
 	instanceVariableNames: 'matrix HNF'
@@ -527,6 +537,16 @@ Object subclass: #RealBox
 	category: 'Etc'!
 !classDefinition: 'RealBox class' category: #Etc!
 RealBox class
+	instanceVariableNames: ''!
+
+!classDefinition: #SmallBitArray category: #Etc!
+Object subclass: #SmallBitArray
+	instanceVariableNames: 'bits size'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'SmallBitArray class' category: #Etc!
+SmallBitArray class
 	instanceVariableNames: ''!
 
 !classDefinition: #SmithReduction category: #Etc!
@@ -810,6 +830,11 @@ Example:
 	(1,0,1,1,0,1,1,1) % 2
 !
 
+!LargeBitArray commentStamp: '<historical>' prior: 0!
+Arrays of integer residue classes modulo 2, i.e. binary arrays, bit strings, or arrays of bits. The coefficient field is ℤ/2ℤ.
+
+They are stored as a WordArray (32-bit words).!
+
 !RealBox commentStamp: '<historical>' prior: 0!
 Boxes in R^n built by the cartesian product of one-dimensional intervals (instances of RealInterval).
 
@@ -820,6 +845,11 @@ Example:
 		add: (RealInterval closed: 0 open: Infinity positive);
 		yourself.
 !
+
+!SmallBitArray commentStamp: '<historical>' prior: 0!
+Arrays of integer residue classes modulo 2, i.e. binary arrays, bit strings, or arrays of bits. The coefficient field is ℤ/2ℤ.
+
+They are stored as an Integer, and they are fast and memory-efficient when they fit in a SmallInteger.!
 
 !SmithReduction commentStamp: '<historical>' prior: 0!
 This is the Smith reduction algorithm. Given a matrix with coefficients in a PID, it reduces the matrix to its Smith normal form.
@@ -3352,13 +3382,13 @@ asAbelianGroup
 	"Answer the receiver as a ℤ-module."
 	^ self scalars asAbelianGroup ^⊕ self rank! !
 
-!PowerAlgebra methodsFor: 'elements' stamp: 'len 10/13/2022 04:40:39'!
+!PowerAlgebra methodsFor: 'elements' stamp: 'len 5/7/2023 17:23:07'!
 compose: anArray
-	^ ProductRingElement components: self scalars !!!! anArray parent: self! !
+	^ RingTuple components: self scalars !!!! anArray parent: self! !
 
-!PowerAlgebra methodsFor: 'elements' stamp: 'len 11/24/2022 17:50:53'!
+!PowerAlgebra methodsFor: 'elements' stamp: 'len 5/7/2023 17:23:07'!
 fromModuleElement: aTuple
-	^ ProductRingElement components: aTuple parent: self! !
+	^ RingTuple components: aTuple parent: self! !
 
 !PowerAlgebra methodsFor: 'morphisms' stamp: 'len 10/13/2022 04:50:49'!
 projection: i
@@ -5842,6 +5872,191 @@ run
 	elementaryDivisors add: ((S at: 1@1) gcd: D).
 	^ {L. S. R}! !
 
+!LargeBitArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:43:46'!
+bitAt: anInteger
+	anInteger <= size ifFalse: [^ self errorOutOfBounds].
+	^ words bitAt: anInteger! !
+
+!LargeBitArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:43:46'!
+bitAt: anInteger put: aBit
+	anInteger <= size ifFalse: [^ self errorOutOfBounds].
+	^ words bitAt: anInteger put: aBit! !
+
+!LargeBitArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:43:46'!
+lastNonzeroIndex
+	"Answer the index of the last nonzero entry, or nil."
+	| wordIndex |
+	(wordIndex _ words lastNonzeroIndex) ifNil: [^ nil].
+	^ wordIndex - 1 * 32 + (words at: wordIndex) highBit! !
+
+!LargeBitArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:43:46'!
+size
+	^ size! !
+
+!LargeBitArray methodsFor: 'comparing' stamp: 'len 5/4/2023 23:43:46'!
+= anObject
+	^ self class = anObject class and: [size = anObject size and: [words = anObject words]]! !
+
+!LargeBitArray methodsFor: 'comparing' stamp: 'len 5/4/2023 23:43:46'!
+hash
+	^ words hash! !
+
+!LargeBitArray methodsFor: 'converting' stamp: 'len 5/4/2023 23:43:46'!
+asInteger
+	| answer |
+	answer _ 0.
+	words reverseDo: [:each| answer _ answer << 32 bitXor: each].
+	^ answer! !
+
+!LargeBitArray methodsFor: 'copying' stamp: 'len 5/4/2023 23:43:46'!
+, anObject
+	self flag: #deprecated.
+	anObject class = self class ifFalse: [^ super , anObject].
+	^ (self class new: self size + anObject size)
+		replaceFrom: 1 to: self size with: self;
+		replaceFrom: self size + 1 to: self size + anObject size with: anObject! !
+
+!LargeBitArray methodsFor: 'copying' stamp: 'len 5/4/2023 23:43:46'!
+copyWith: aBit
+	| answer |
+	answer _ self class new: self size + 1 words: (size \\ 32 = 0 ifTrue: [words copyWith: 0] ifFalse: [words copy]).
+	aBit = One ifTrue: [^ answer at: self size+1 put: One; yourself].
+	aBit = Zero ifTrue: [^ answer].
+	^ self error: 'not one or zero'! !
+
+!LargeBitArray methodsFor: 'copying' stamp: 'len 5/4/2023 23:43:46'!
+postCopy
+	super postCopy.
+	words _ words copy! !
+
+!LargeBitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:43:46'!
+* anObject
+	| newWords |
+	anObject isInteger ifTrue: [^ anObject even ifTrue: [self zero] ifFalse: [self]].
+	self class = anObject class ifFalse: [^ super * anObject].
+	newWords _ WordArray new: (words size min: anObject words size).
+	1 to: newWords size do: [:i| newWords at: i put: ((words at: i) bitAnd: (anObject words at: i))].
+	^ self class new: (self size min: anObject size) words: newWords! !
+
+!LargeBitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:43:46'!
+· aTuple
+	| sum |
+	sum _ 0.
+	1 to: (words size min: aTuple words size) do: [:i|
+		sum _ ((words at: i) bitAnd: (aTuple words at: i)) bitParity bitXor: sum].
+	^ sum bitParity = 0 ifTrue: [Zero] ifFalse: [One]! !
+
+!LargeBitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:43:46'!
+parity
+	^ words inject: 0 into: [:result :each| result bitXor: each bitParity]! !
+
+!LargeBitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:43:46'!
+weight
+	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
+	^ words inject: 0 into: [:sum :each| sum + each bitCount]! !
+
+!LargeBitArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:43:46'!
+replaceFrom: start to: stop with: replacement startingAt: repStart	
+	| n shift i j w r |
+	(n _ stop - start + 1) <= 0 ifTrue: [^ self].
+"	start to: stop do: [:i| self bitAt: i put: (replacement bitAt: i-start+repStart)]"
+	shift _ start - 1 \\ 32.
+	i _ start - 1 // 32 + 1.
+	j _ repStart.
+	shift > 0 ifTrue:
+		[w _ words at: i.
+		r _ replacement wordAtBitIndex: j.
+		n < 32
+			ifTrue: [r _ r bitAnd: (1 << n - 1). w _ w bitAnd: (1 << n - 1 << shift) bitInvert]
+			ifFalse: [w _ w bitAnd: 1 << shift - 1].
+		words at: i put: (w bitXor: (r bitAnd: 1 << (32 - shift) - 1) << shift).
+		n _ n - (32 - shift).
+		j _ j + 32 - shift.
+		i _ i + 1].
+	[n > 32] whileTrue:
+		[w _ words at: i.
+		r _ replacement wordAtBitIndex: j.
+		words at: i put: r.
+		n _ n - 32.
+		j _ j + 32.
+		i _ i + 1].
+	n > 0 ifTrue:
+		[w _ words at: i.
+		r _ replacement wordAtBitIndex: j.
+		words at: i put: ((w bitAnd: (1 << n - 1) bitInvert) bitXor: (r bitAnd: 1 << n - 1))]! !
+
+!LargeBitArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:43:46'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2	
+	^ super replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2	
+
+"	| mask n slice |
+	(n _ stop - start + 1) < 0 ifTrue: [^ self].
+	startWords _ start - 1 // 32 + 1.
+	startBitPosition _ start - (startWords * 32).
+	stopWords _ stop - 1 // 32 + 1.
+	start1Words _ start1 - 1 // 32 + 1.
+	start1BitPosition _ start - (start1Words * 32).
+	start2Words _ start2 - 1 // 32 + 1.
+	start2BitPosition _ start - (start2Words * 32).
+	carry1 _ 0.
+	carry2 _ 0.
+	j _ start1 - 1 // 32 + 1.
+	k _ start2 - 1 // 32 + 1.
+	startWords to: stopWords do: [:i|
+		words at: i put: ((anArray1 wordAt: j) >> shift bitXor: carrier).
+		carrier _ (words at: j) << (32 - shift) bitAnd: 16rFFFFFFFF.
+		j _ j + 1].
+	n > 0 ifTrue: [newWords at: newWords size put: ((newWords at: newWords size) bitAnd: 16rFFFFFFFF >> (32 - (n \\ 32)))].
+	"! !
+
+!LargeBitArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:43:46'!
+wordAtBitIndex: bitIndex
+	| wordIndex shift answer |
+	wordIndex _ bitIndex - 1 // 32 + 1.
+	wordIndex > words size ifTrue: [^ 0].
+	answer _ words at: wordIndex.
+	(shift _ bitIndex - 1 \\ 32) = 0 ifTrue: [^ answer].
+	answer _ answer >> shift.
+	wordIndex = words size ifTrue: [^ answer].
+	^ answer bitXor: ((words at: wordIndex+1) << (32 - shift) bitAnd: 0xFFFFFFFF)! !
+
+!LargeBitArray methodsFor: 'testing' stamp: 'len 5/4/2023 23:43:46'!
+isZero
+	^ words isZero! !
+
+!LargeBitArray methodsFor: 'private' stamp: 'len 5/4/2023 23:43:46'!
+words
+	^ words! !
+
+!LargeBitArray methodsFor: 'private' stamp: 'len 5/4/2023 23:43:46'!
+words: aWordArray size: anInteger
+	| n |
+	n _ aWordArray size.
+	anInteger - 1 // 32 + 1 = n ifFalse: [self error: 'too many words'].
+"	words size = 0 or: [words last highBit <= (size \\ 32 + 1)]"
+	words _ aWordArray.
+	size _ anInteger! !
+
+!LargeBitArray class methodsFor: 'instance creation' stamp: 'len 5/4/2023 23:43:46'!
+new: anInteger
+	^ self new: anInteger words: (WordArray new: anInteger - 1 // 32 + 1)! !
+
+!LargeBitArray class methodsFor: 'instance creation' stamp: 'len 5/4/2023 23:43:46'!
+new: anInteger words: aWordArray
+	^ self basicNew words: aWordArray size: anInteger! !
+
+!LargeBitArray class methodsFor: 'instance creation' stamp: 'len 5/4/2023 23:43:46'!
+newFrom: anObject
+	| n r words |
+	anObject isInteger ifFalse: [^ super newFrom: anObject].
+	n _ anObject.
+	r _ n highBit.
+	words _ WordArray new: r - 1 // 32 + 1.
+	1 to: words size do: [:i|
+		words at: i put: (n bitAnd: 16rFFFFFFFF).
+		n _ n >> 32].
+	^ self new: r words: words! !
+
 !ModularHermiteReduction methodsFor: 'as yet unclassified' stamp: 'len 4/5/2018 15:36:20'!
 addColumn: a to: B
 	^ (B columnAugmented: a) HNF columnAt: B width + 1! !
@@ -6118,6 +6333,209 @@ isClosed
 isOpen
 	self do: [ :each | each isOpen ifFalse: [^ false]].
 	^ true! !
+
+!SmallBitArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:44:06'!
+atAllPut: aBit
+	| bit |
+	bit _ aBit.
+	bit isInteger ifTrue: [bit _ bit even ifTrue: [Zero] ifFalse: [One]].
+	bit = One
+		ifTrue: [bits _ 1 << size - 1]
+		ifFalse: [bit = Zero ifTrue: [bits _ 0] ifFalse: [self error: 'not a bit']]! !
+
+!SmallBitArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:44:06'!
+bitAt: anInteger
+	^ bits bitAt: anInteger! !
+
+!SmallBitArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:44:06'!
+bitAt: anInteger put: oneOrZero
+	(anInteger > self size and: [oneOrZero ~= 0]) ifTrue: [self error: 'index out of bounds'].
+	bits _ bits bitAt: anInteger put: oneOrZero.
+	^ oneOrZero! !
+
+!SmallBitArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:44:06'!
+lastNonzeroIndex
+	"Answer the index of the last nonzero entry, or nil."
+	| n |
+	^ (n _ bits highBit) = 0 ifFalse: [n]! !
+
+!SmallBitArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:44:06'!
+size
+	^ size! !
+
+!SmallBitArray methodsFor: 'comparing' stamp: 'len 5/4/2023 23:44:06'!
+= anObject
+	^ self class = anObject class and: [size = anObject size and: [bits = anObject asInteger]]! !
+
+!SmallBitArray methodsFor: 'comparing' stamp: 'len 5/4/2023 23:44:06'!
+hash
+	^ bits hash! !
+
+!SmallBitArray methodsFor: 'converting' stamp: 'len 5/4/2023 23:44:06'!
+asInteger
+	^ bits! !
+
+!SmallBitArray methodsFor: 'copying' stamp: 'len 5/4/2023 23:44:06'!
+, anObject
+	self flag: #deprecated.
+	anObject class = self class ifFalse: [^ super , anObject].
+	^ self class new: self size+anObject size bits: (bits bitXor: (anObject asInteger bitShift: self size))! !
+
+!SmallBitArray methodsFor: 'copying' stamp: 'len 5/4/2023 23:44:06'!
+copyFrom: start to: stop 
+	"Answer a copy of a subset of the receiver, starting from element at 
+	index start until element at index stop."
+	| n |
+	n _ stop - start + 1 max: 0.
+	^ self class new: n bits: ((bits bitShift: 1 - start) bitAnd: (1 bitShift: n) - 1)! !
+
+!SmallBitArray methodsFor: 'copying' stamp: 'len 5/4/2023 23:44:06'!
+copyWith: aBit
+	| answer |
+	answer _ self class new: self size + 1 bits: bits.
+	aBit = One ifTrue: [answer at: self size+1 put: One. ^ answer].
+	aBit = Zero ifFalse: [DomainError signal].
+	^ answer! !
+
+!SmallBitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:44:06'!
+* anObject
+	anObject isInteger ifTrue: [^ anObject even ifTrue: [self zero] ifFalse: [self]].
+	self class = anObject class ifFalse: [^ super * anObject].
+	^ self class new: (self size min: anObject size) bits: (bits bitAnd: anObject asInteger)! !
+
+!SmallBitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:44:06'!
++ anObject
+	anObject class = self class ifFalse: [^ (((anObject isInteger and: [anObject even]) or: [anObject isZero]) or: [size = 0]) ifTrue: [self] ifFalse: [self class new: size bits: (bits bitXor: (1 << size - 1))]].
+	^ self class
+		new: (self size max: anObject size)
+		bits: (bits bitXor: anObject asInteger)! !
+
+!SmallBitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:44:06'!
+>> anInteger
+	^ self class new: size bits: ((bits bitShift: anInteger) bitAnd: 1<<size - 1)! !
+
+!SmallBitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:44:06'!
+· aTuple
+	^ (bits bitAnd: aTuple asInteger) bitParity = 0 ifTrue: [Zero] ifFalse: [One]! !
+
+!SmallBitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:44:06'!
+autoconvolution
+	self flag: #fixme. "TODO: optimize"
+	^ self class new: (size * 2 - 1 max: 0) bits: (bits bitConvolution: bits)! !
+
+!SmallBitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:44:06'!
+convolution: aBitTuple
+	^ self class new: (size + aBitTuple size - 1 max: 0) bits: (bits bitConvolution: aBitTuple asInteger)! !
+
+!SmallBitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:44:06'!
+parity
+	^ bits bitParity! !
+
+!SmallBitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:44:06'!
+reduceBy: aBitTuple
+	| r b n m |
+	b _ aBitTuple asInteger.
+	(m _ b highBit) = 0 ifTrue: [^ self error: 'division by zero'].
+	m _ b highBit.
+	r _ bits.
+	[(n _ r highBit) >= m]
+		whileTrue:
+			[r _ r bitXor: b << (n-m)]. "also wasting some memory here"
+	bits _ r! !
+
+!SmallBitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:44:06'!
+reduceBy: aBitTuple leadingInverse: inv addingQuotientTo: anotherBitTuple
+	| q r b n m |
+	anotherBitTuple isNil ifTrue: [^ self reduceBy: aBitTuple].
+	b _ aBitTuple asInteger.
+	(m _ b highBit) = 0 ifTrue: [^ self error: 'division by zero'].
+	m _ b highBit.
+	q _ 0.
+	r _ bits.
+	[(n _ r highBit) >= m]
+		whileTrue:
+			[| i |
+			i _ n-m.
+			q _ q bitXor: 1 << i. "wasting some memory while creating 2^i"
+			r _ r bitXor: b << i]. "also wasting some memory here"
+	bits _ r.
+	q highBit <= anotherBitTuple size ifFalse: [^ self error: 'index out of bounds']. "unnecesary?"
+	anotherBitTuple bits: (anotherBitTuple asInteger bitXor: q) size: anotherBitTuple size! !
+
+!SmallBitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:44:06'!
+reversed
+	^ self class new: self size bits: (bits bitReverse: self size)! !
+
+!SmallBitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:44:06'!
+weight
+	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
+	^ self asInteger bitCount! !
+
+!SmallBitArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:06'!
+replaceFrom: start to: stop with: replacement startingAt: repStart	
+	| mask n slice |
+	(n _ stop - start + 1) <= 0 ifTrue: [^ self].
+	mask _ 1<<n - 1.
+	slice _ replacement asInteger >> (repStart-1) bitAnd: mask.
+	bits _ (bits bitAnd: (mask << (start-1)) bitInvert) bitXor: slice << (start-1)! !
+
+!SmallBitArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:06'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2	
+	| mask n slice |
+	(n _ stop - start + 1) <= 0 ifTrue: [^ self].
+	mask _ 1<<n - 1.
+	slice _ anArray1 asInteger >> (start1-1) bitAnd: mask.
+	slice _ (anArray2 asInteger >> (start2-1) bitAnd: mask) bitXor: slice.
+	bits _ (bits bitAnd: (mask << (start-1)) bitInvert) bitXor: slice << (start-1)! !
+
+!SmallBitArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:06'!
+replaceFrom: start to: stop with: anArray startingAt: srcStart plusScalar: anElement
+	| mask n slice |
+	(n _ stop - start + 1) <= 0 ifTrue: [^ self].
+	mask _ 1<<n - 1.
+	slice _ anArray asInteger >> (srcStart-1) bitAnd: mask.
+	anElement isZero ifFalse: [slice _ slice bitInvert bitAnd: mask].
+	bits _ (bits bitAnd: (mask << (start-1)) bitInvert) bitXor: slice << (start-1)! !
+
+!SmallBitArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:06'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2
+	| mask n slice |
+	(n _ stop - start + 1) <= 0 ifTrue: [^ self].
+	mask _ 1<<n - 1.
+	slice _ anArray1 asInteger >> (start1-1) bitAnd: mask.
+	slice _ anArray2 asInteger >> (start2-1) bitAnd: slice.
+	bits _ (bits bitAnd: (mask << (start-1)) bitInvert) bitXor: slice << (start-1)! !
+
+!SmallBitArray methodsFor: 'testing' stamp: 'len 5/4/2023 23:44:06'!
+isZero
+	^ bits = 0! !
+
+!SmallBitArray methodsFor: 'private' stamp: 'len 5/4/2023 23:44:06'!
+bits: anInteger size: anotherInteger
+	bits _ anInteger.
+	size _ anotherInteger! !
+
+!SmallBitArray methodsFor: 'private' stamp: 'len 5/4/2023 23:44:06'!
+validate
+	self assert: (bits >= 0 and: [size >= 0 and: [bits highBit <= size]])! !
+
+!SmallBitArray class methodsFor: 'instance creation' stamp: 'len 5/4/2023 23:44:06'!
+bits: anInteger
+	^ self new: anInteger highBit bits: anInteger! !
+
+!SmallBitArray class methodsFor: 'instance creation' stamp: 'len 5/4/2023 23:44:06'!
+new: anInteger
+	^ self new: anInteger bits: 0! !
+
+!SmallBitArray class methodsFor: 'instance creation' stamp: 'len 5/4/2023 23:44:06'!
+new: anInteger bits: anotherInteger
+	self assert: anotherInteger highBit <= anInteger.
+	^ self basicNew bits: anotherInteger size: anInteger! !
+
+!SmallBitArray class methodsFor: 'instance creation' stamp: 'len 5/4/2023 23:44:06'!
+newFrom: anInteger
+	anInteger isInteger ifTrue: [^ self bits: anInteger].
+	^ super newFrom: anInteger! !
 
 !SmithReduction methodsFor: 'accessing' stamp: 'len 5/28/2019 08:51:31'!
 invariants

@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5597] on 7 May 2023 at 2:01:13 pm'!
+'From Cuis 6.0 [latest update: #5597] on 7 May 2023 at 7:06:59 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 33!
+!provides: 'Tests-Algebra' 1 34!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -3808,10 +3808,10 @@ initialize
 	super initialize.
 	scalars _ ℤ/2! !
 
-!BitArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:08:11'!
+!BitArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/7/2023 17:47:48'!
 testBitArraySumBug
-	self assert: (SmallBitArray newFrom: 2r1011101) sum representative = 1.
-	self assert: (SmallBitArray newFrom: 2r10000100100010) sum representative = 0! !
+	self assert: (BitArray newFrom: 2r1011101) sum representative = 1.
+	self assert: (BitArray newFrom: 2r10000100100010) sum representative = 0! !
 
 !ByteModularArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:34:29'!
 initialize
@@ -12444,11 +12444,6 @@ testBitTupleReversed
 	i _ v size atRandom.
 	self assert: (v reversed at: i) = (v at: v size - i + 1).
 	self assert: v reversed reversed = v! !
-
-!TupleTest methodsFor: 'bit tuples' stamp: 'len 5/5/2023 12:59:21'!
-testBitTupleSum
-	self assert: (SmallBitArray newFrom: 2r1011101) sum representative = 1.
-	self assert: (SmallBitArray newFrom: 2r10000100100010) sum representative = 0! !
 
 !TupleTest methodsFor: 'integer tuples' stamp: 'len 7/27/2020 08:20:55'!
 testIntegerTupleOperations
