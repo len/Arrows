@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5597] on 7 May 2023 at 7:06:59 pm'!
+'From Cuis 6.0 [latest update: #5597] on 8 May 2023 at 11:43:21 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 34!
+!provides: 'Tests-Algebra' 1 35!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -1600,16 +1600,6 @@ Benchmark subclass: #SparsePolynomialMultiplicationBenchmark
 SparsePolynomialMultiplicationBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #TupleConvolutionBenchmark category: #'Tests-Algebra-Benchmarks'!
-Benchmark subclass: #TupleConvolutionBenchmark
-	instanceVariableNames: 'a b'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Benchmarks'!
-!classDefinition: 'TupleConvolutionBenchmark class' category: #'Tests-Algebra-Benchmarks'!
-TupleConvolutionBenchmark class
-	instanceVariableNames: ''!
-
 !classDefinition: #CASBenchmark category: #'Tests-Algebra-Benchmarks'!
 Object subclass: #CASBenchmark
 	instanceVariableNames: ''
@@ -2258,13 +2248,6 @@ testBigExponentsProduct	10.2 seconds.
 testProduct	0.289 per second.
 !
 
-!TupleConvolutionBenchmark commentStamp: 'len 6/6/2019 09:09:54' prior: 0!
-self new run
-
-
-
-testConvolution	3.02  runs per second!
-
 !CASBenchmark commentStamp: '<historical>' prior: 0!
 These benchmarks show some of the fundamental bottlenecks for a computational algebra system in pure Smalltalk. Many important algorithms end up doing these operations.
 
@@ -2723,16 +2706,16 @@ testRingHomomorphism: φ
 	self assert: (φ value: x + y) = ((φ value: x) + (φ value: y)).
 	self assert: (φ value: x * y) = ((φ value: x) * (φ value: y))! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/5/2022 14:07:34'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/8/2023 18:45:16'!
 testRingInvolution: aRing
 	| a b |
-	self assert: aRing one opposite = aRing one.
+	self assert: aRing one conjugate = aRing one.
 	100 timesRepeat:
 		[a _ aRing atRandom: random bits: 20.
 		b _ aRing atRandom: random bits: 20.
-		self assert: (a + b) opposite = (a opposite + b opposite).
-		self assert: (a * b) opposite = (b opposite * a opposite).
-		self assert: a opposite opposite = a]! !
+		self assert: (a + b) conjugate = (a conjugate + b conjugate).
+		self assert: (a * b) conjugate = (b conjugate * a conjugate).
+		self assert: a conjugate conjugate = a]! !
 
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:01:09'!
 testRingUnits
@@ -4033,16 +4016,16 @@ testHomogeneousTuples
 	d _ scalars^n x: 2.
 	self deny: c ~ d! !
 
-!AbstractTupleOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 12/9/2022 08:23:07'!
+!AbstractTupleOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 5/8/2023 18:19:42'!
 testModTupleOperations
 	| n a b modulus |
 	modulus _ scalars modulus.
 	n _ 5 atRandom.
 	a _ ℤ^n atRandomBits: 30.
 	b _ ℤ^n atRandomBits: 30.
-	#(+ - · convolution: *) do: [:op|
+	#(+ - · *) do: [:op|
 		self testTuple: a with: b operation: op modulo: modulus].
-	#(negated reversed copy sum product autoconvolution) do: [:op|
+	#(negated reversed copy sum product) do: [:op|
 		self testTuple: a operation: op modulo: modulus].! !
 
 !AbstractTupleOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:28:45'!
@@ -9816,6 +9799,33 @@ testSignature
 	F _ NumberField modulus: x^3 + (x^2) - (x*5) - 1.
 	self assert: F signature = #(3 0)! !
 
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/8/2023 18:24:20'!
+testSplittingField1
+	| p r f K |
+	p _ (4 atRandom + 1) nextPrime.
+	r _ 3 atRandom.
+	f _ (ℤ/p) polynomials !! [:x| x^(p^r) - x].
+	K _ f splittingField.
+	self assert: K isFiniteField.
+	self assert: K characteristic = p.
+	self assert: K degree = r! !
+
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/8/2023 01:01:17'!
+testSplittingField2
+	| f K |
+	f _ (ℤ/7) polynomials !! [:x| x^2 + 1].
+	K _ f splittingField.
+	self assert: K isFiniteField.
+	self assert: K size = 49! !
+
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/8/2023 01:03:37'!
+testSplittingField3
+	| f K |
+	f _ (ℤ/7) polynomials !! [:x| x^2 - 1].
+	K _ f splittingField.
+	self assert: K isFiniteField.
+	self assert: K size = 7! !
+
 !NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 7/16/2021 10:26:32'!
 testTotallyImaginary
 	| x E |
@@ -10313,13 +10323,13 @@ testPseudoDivisionUnivariate
 	self assert: division delta = 2.
 	division validate! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 7/8/2022 11:08:07'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 5/8/2023 16:38:46'!
 testPseudoDivisionUnivariate2
 	"Example from Zippel book"
 	| Zx a b |
 	Zx _ ℤ polynomials.
-	a _ Zx coefficients: #(1 0 1 0 -3 -3 8 2 -5) reversed.
-	b _ Zx coefficients: #(3 0 5 0 -4 -9 21) reversed.
+	a _ Zx !! #(1 0 1 0 -3 -3 8 2 -5) reversed.
+	b _ Zx !! #(3 0 5 0 -4 -9 21) reversed.
 	(a pseudoDivisionBy: b) validate! !
 
 !PolynomialTest methodsFor: 'division' stamp: 'len 5/23/2020 09:34:55'!
@@ -10338,14 +10348,14 @@ testPseudoDivisionZ6
 testPseudoDivisionZ8
 	self testPseudoDivision: ℤ / 8! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 5/23/2020 09:34:55'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 5/8/2023 16:38:53'!
 testPseudoRemainder
 	| Zx x a b r |
 	Zx _ ℤ polynomials.
 	x _ Zx x.
 	a _ x^8 + (x^6) - (3*(x^4)) - (3*(x^3)) + (8*(x^2)) + (2*x) - 5.
 	b _ 3*(x^6) + (5*(x^4)) - (4*(x^2)) - (9*x) + 21.
-	r _ Zx coefficients: #(-9 0 3 0 -15).
+	r _ Zx !! #(-9 0 3 0 -15).
 	self assert: (a pseudoRem: b) = r.
 	self assert: (a pseudoDivisionBy: b) remainder = r! !
 
@@ -10481,7 +10491,7 @@ testIsIrreducibleOverZ
 	self assert: (f*(x+1)) isIrreducible not.
 ! !
 
-!PolynomialTest methodsFor: 'etc' stamp: 'len 5/23/2020 09:34:55'!
+!PolynomialTest methodsFor: 'etc' stamp: 'len 5/8/2023 16:38:15'!
 testIsNilpotentOverZm
 	| m R N U d f k |
 	m _ (2 to: 100) atRandom.
@@ -10489,10 +10499,10 @@ testIsNilpotentOverZm
 	N _ R nilradical asSet.
 	U _ R units asSet.
 	d _ (1 to: 5) atRandom.
-	f _ R polynomials coefficients: ((1 to: d) collect: [:i| N atRandom]).
+	f _ R polynomials !! ((1 to: d) collect: [:i| N atRandom]).
 	self assert: f isNilpotent.
 	k _ (1 to: d) atRandom.
-	f _ R polynomials coefficients: ((1 to: d) collect: [:i| i=k ifTrue: [U atRandom] ifFalse: [N atRandom]]).
+	f _ R polynomials !! ((1 to: d) collect: [:i| i=k ifTrue: [U atRandom] ifFalse: [N atRandom]]).
 	self assert: f isNilpotent not! !
 
 !PolynomialTest methodsFor: 'etc' stamp: 'len 5/23/2020 09:34:55'!
@@ -10507,7 +10517,7 @@ testIsSeparableNot
 	f _ y^p - x.
 	self assert: f isSeparable not! !
 
-!PolynomialTest methodsFor: 'etc' stamp: 'len 5/23/2020 09:34:55'!
+!PolynomialTest methodsFor: 'etc' stamp: 'len 5/8/2023 16:38:29'!
 testIsUnitOverZm
 	| m R N U d f k |
 	m _ (2 to: 100) atRandom.
@@ -10515,14 +10525,22 @@ testIsUnitOverZm
 	N _ R nilradical asSet.
 	U _ R units asSet.
 	d _ (0 to: 5) atRandom.
-	f _ R polynomials coefficients: ({U atRandom}, ((1 to: d) collect: [:i| N atRandom])).
+	f _ R polynomials !! ({U atRandom}, ((1 to: d) collect: [:i| N atRandom])).
 	self assert: f isUnit.
-	f _ R polynomials coefficients: ({N atRandom}, ((1 to: d) collect: [:i| N atRandom])).
+	f _ R polynomials !! ({N atRandom}, ((1 to: d) collect: [:i| N atRandom])).
 	self assert: f isUnit not.
 	d _ (1 to: 5) atRandom.
 	k _ (1 to: d) atRandom.
-	f _ R polynomials coefficients: ({U atRandom}, ((1 to: d) collect: [:i| i=k ifTrue: [U atRandom] ifFalse: [N atRandom]])).
+	f _ R polynomials !! ({U atRandom}, ((1 to: d) collect: [:i| i=k ifTrue: [U atRandom] ifFalse: [N atRandom]])).
 	self assert: f isUnit not! !
+
+!PolynomialTest methodsFor: 'etc' stamp: 'len 5/8/2023 17:37:40'!
+testOddEvenDecomposition
+	| R x f |
+	R _ ℤ polynomials.
+	x _ R x.
+	f _ R atRandomMaxDegree: 10.
+	self assert: (f evenPart value: x^2) * x + (f oddPart value: x^2) = f! !
 
 !PolynomialTest methodsFor: 'etc' stamp: 'len 5/23/2020 09:34:55'!
 testQuotientRingBug
@@ -10779,7 +10797,7 @@ testFiniteFieldFactorization5
 	x _ R polynomials x.
 	self assert: (x^15 - 1) factorization = {x + 1. x^2 + x + 1. x^4 + (x^3) + (x^2) + x + 1. x^4 + x + 1. x^4 + (x^3) + 1} asBag! !
 
-!PolynomialTest methodsFor: 'factorization' stamp: 'len 8/5/2021 08:41:26'!
+!PolynomialTest methodsFor: 'factorization' stamp: 'len 5/8/2023 17:01:36'!
 testFiniteFieldIrreduciblePolynomials
 	"Z/<3>[x] has 8 irreducible monic polynomials of degree 3, out of 27 monic polynomials of degree 3."
 	| F Fx f count |
@@ -10787,7 +10805,7 @@ testFiniteFieldIrreduciblePolynomials
 	Fx _ F polynomials.
 	count _ 0.
 	F^3 do: [:each|
-		f _ (Fx coefficients: each, F one).
+		f _ Fx !! (each coefficients copyWith: F one).
 		f isIrreducible
 			ifTrue:
 				[count _ count + 1.
@@ -10944,12 +10962,12 @@ testMultivariateGCDBug
 	x _ ℚ polynomialsIn: 3 :: x.
 	self assert: (x^2 gcd: x) = x! !
 
-!PolynomialTest methodsFor: 'remainder sequences' stamp: 'len 5/23/2020 09:34:55'!
+!PolynomialTest methodsFor: 'remainder sequences' stamp: 'len 5/8/2023 16:37:16'!
 testEPRS
 	"Example from Zippel."
 	| a b eprs |
-	a _ ℤ polynomials coefficients: #(1 0 1 0 -3 -3 8 2 -5) reversed.
-	b _ ℤ polynomials coefficients: #(3 0 5 0 -4 -9 21) reversed.
+	a _ ℤ polynomials !! #(1 0 1 0 -3 -3 8 2 -5) reversed.
+	b _ ℤ polynomials !! #(3 0 5 0 -4 -9 21) reversed.
 	eprs _ a eprs: b :: collect: [:each| each coefficients reversed asArray] :: asArray.
 	self assert: eprs = #((1 0 1 0 -3 -3 8 2 -5)
 		(3 0 5 0 -4 -9 21)
@@ -10957,12 +10975,12 @@ testEPRS
 		(15795 30375 -59535) 
 		(1254542875143750 -1654608338437500) (12593338795500743100931141992187500))! !
 
-!PolynomialTest methodsFor: 'remainder sequences' stamp: 'len 5/23/2020 09:34:55'!
+!PolynomialTest methodsFor: 'remainder sequences' stamp: 'len 5/8/2023 16:38:38'!
 testPPRS
 	"Example from Zippel."
 	| a b pprs |
-	a _ ℤ polynomials coefficients: #(1 0 1 0 -3 -3 8 2 -5) reversed.
-	b _ ℤ polynomials coefficients: #(3 0 5 0 -4 -9 21) reversed.
+	a _ ℤ polynomials !! #(1 0 1 0 -3 -3 8 2 -5) reversed.
+	b _ ℤ polynomials !! #(3 0 5 0 -4 -9 21) reversed.
 	pprs _ a pprs: b :: collect: [:each| each coefficients reversed asArray] :: asArray.
 	self assert: pprs = #((1 0 1 0 -3 -3 8 2 -5) 
 		(3 0 5 0 -4 -9 21)
@@ -10971,12 +10989,12 @@ testPPRS
 		(4663 -6150)
 		(1))! !
 
-!PolynomialTest methodsFor: 'remainder sequences' stamp: 'len 5/23/2020 09:34:55'!
+!PolynomialTest methodsFor: 'remainder sequences' stamp: 'len 5/8/2023 16:39:01'!
 testSPRS
 	"Example from Zippel."
 	| a b sprs |
-	a _ ℤ polynomials coefficients: #(1 0 1 0 -3 -3 8 2 -5) reversed.
-	b _ ℤ polynomials coefficients: #(3 0 5 0 -4 -9 21) reversed.
+	a _ ℤ polynomials !! #(1 0 1 0 -3 -3 8 2 -5) reversed.
+	b _ ℤ polynomials !! #(3 0 5 0 -4 -9 21) reversed.
 	sprs _ a sprs: b :: collect: [:each| each coefficients reversed asArray] :: asArray.
 	self assert: sprs = #((1 0 1 0 -3 -3 8 2 -5)
 		#(3 0 5 0 -4 -9 21)
@@ -12426,15 +12444,15 @@ testBitTupleBug
 	self assert: ((1,1,0) % 2 :: sum = Z2 zero).
 	self assert: ((1,1,1) % 2 :: sum = Z2 one)! !
 
-!TupleTest methodsFor: 'bit tuples' stamp: 'len 12/9/2022 07:10:46'!
+!TupleTest methodsFor: 'bit tuples' stamp: 'len 5/8/2023 18:19:53'!
 testBitTupleOperations
 	| n a b |
 	n _ 120 atRandom.
 	a _ ℤ^n atRandomBits: n*2.
 	b _ ℤ^n atRandomBits: n*2.
-	#(+ - · convolution: *) do: [:op|
+	#(+ - · *) do: [:op|
 		self testTuple: a with: b operation: op modulo: 2].
-	#(negated reversed copy sum product autoconvolution) do: [:op|
+	#(negated reversed copy sum product) do: [:op|
 		self testTuple: a operation: op modulo: 2]! !
 
 !TupleTest methodsFor: 'bit tuples' stamp: 'len 6/1/2020 13:30:24'!
@@ -12524,23 +12542,16 @@ testHomogeneousTuples4
 testModTupleConcatenation
 	self assert: (1,2,3) % 7, ((2,3,4) % 7) = ((1,2,3,2,3,4) % 7)! !
 
-!TupleTest methodsFor: 'modular integer tuples' stamp: 'len 11/6/2016 13:49'!
-testModTupleConvolution
-	| a b |
-	a _ (1,2,3).
-	b _ (2,3,4).
-	self assert: (a % 7 convolution: b % 7) = ((a convolution: b) % 7)! !
-
-!TupleTest methodsFor: 'modular integer tuples' stamp: 'len 12/9/2022 07:10:27'!
+!TupleTest methodsFor: 'modular integer tuples' stamp: 'len 5/8/2023 18:20:13'!
 testModTupleOperations
 	| n a b modulus |
 	modulus _ 10 atRandom + 1.
 	n _ 5 atRandom.
 	a _ ℤ^n atRandomBits: 30.
 	b _ ℤ^n atRandomBits: 30.
-	#(+ - · convolution: *) do: [:op|
+	#(+ - · *) do: [:op|
 		self testTuple: a with: b operation: op modulo: modulus].
-	#(negated reversed copy sum product autoconvolution) do: [:op|
+	#(negated reversed copy sum product) do: [:op|
 		self testTuple: a operation: op modulo: modulus].! !
 
 !TupleTest methodsFor: 'modular integer tuples' stamp: 'len 5/5/2023 17:36:01'!
@@ -13015,22 +13026,6 @@ testBigExponentsProduct
 !SparsePolynomialMultiplicationBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/5/2016 08:44'!
 testProduct
 	p * pPlusOne! !
-
-!TupleConvolutionBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:34:55'!
-setUp
-	| n R |
-	n _ 80.
-	R _ ℤ^n.
-	a _ R atRandomBits: n*10.
-	b _ R atRandomBits: n*10! !
-
-!TupleConvolutionBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/6/2019 09:31:24'!
-testConvolution
-	a convolution: b! !
-
-!TupleConvolutionBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/6/2019 09:31:54'!
-testConvolution2
-	a convolution2: b! !
 
 !CASBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/19/2016 11:05:43'!
 run

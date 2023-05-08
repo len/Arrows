@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5597] on 7 May 2023 at 2:01:31 pm'!
+'From Cuis 6.0 [latest update: #5597] on 8 May 2023 at 11:43:08 pm'!
 'Description '!
-!provides: 'Elliptic Curves' 1 9!
+!provides: 'Elliptic Curves' 1 10!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #'Elliptic Curves'!
 
@@ -359,13 +359,13 @@ isZero
 kernelPolynomial
 	^ self propertyAt: #kernelPolynomial ifAbsentPut: [self computeKernelPolynomial]! !
 
-!EllipticCurvePoint methodsFor: 'accessing' stamp: 'len 11/11/2016 05:22'!
+!EllipticCurvePoint methodsFor: 'accessing' stamp: 'len 5/8/2023 23:30:14'!
 x
-	^ self coordinates at: 1! !
+	^ coordinates at: 1! !
 
-!EllipticCurvePoint methodsFor: 'accessing' stamp: 'len 11/11/2016 05:22'!
+!EllipticCurvePoint methodsFor: 'accessing' stamp: 'len 5/8/2023 23:30:19'!
 y
-	^ self coordinates at: 2! !
+	^ coordinates at: 2! !
 
 !EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 11/11/2016 09:58'!
 * anInteger
@@ -438,9 +438,9 @@ printOn: aStream
 		ifTrue: [aStream nextPutAll: 'O' italic]
 		ifFalse: [aStream nextPut: $(; print: self x; nextPut: $,; print: self y; nextPut: $)]! !
 
-!EllipticCurvePoint methodsFor: 'testing' stamp: 'len 11/9/2016 13:33'!
+!EllipticCurvePoint methodsFor: 'testing' stamp: 'len 5/8/2023 23:30:06'!
 isZero
-	^ (self coordinates at: 1) isZero and: [(self coordinates at: 3) isZero]! !
+	^ (coordinates at: 1) isZero and: [(coordinates at: 3) isZero]! !
 
 !WeierstrassEquation methodsFor: 'printing' stamp: 'len 2/12/2017 06:05:00'!
 printOn: aStream

@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5597] on 7 May 2023 at 7:06:51 pm'!
+'From Cuis 6.0 [latest update: #5597] on 8 May 2023 at 11:43:13 pm'!
 'Description '!
-!provides: 'Etc' 1 24!
+!provides: 'Etc' 1 25!
 !requires: 'Algebra' 1 7 nil!
 SystemOrganization addCategory: #Etc!
 SystemOrganization addCategory: #'Etc-Matrices'!
@@ -199,16 +199,6 @@ QuotientRing subclass: #GRAlgebra
 GRAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExteriorAlgebra category: #'Etc-Algebras-Solvable'!
-GRAlgebra subclass: #ExteriorAlgebra
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Etc-Algebras-Solvable'!
-!classDefinition: 'ExteriorAlgebra class' category: #'Etc-Algebras-Solvable'!
-ExteriorAlgebra class
-	instanceVariableNames: ''!
-
 !classDefinition: #PowerAlgebra category: #Etc!
 FiniteAlgebra subclass: #PowerAlgebra
 	instanceVariableNames: ''
@@ -217,16 +207,6 @@ FiniteAlgebra subclass: #PowerAlgebra
 	category: 'Etc'!
 !classDefinition: 'PowerAlgebra class' category: #Etc!
 PowerAlgebra class
-	instanceVariableNames: ''!
-
-!classDefinition: #CompletionRing category: #Etc!
-Ring subclass: #CompletionRing
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Etc'!
-!classDefinition: 'CompletionRing class' category: #Etc!
-CompletionRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #GAlgebra category: #'Etc-Algebras-Solvable'!
@@ -771,9 +751,6 @@ Prime fields Z/pZ for small primes p, such that it is feasable to build exponent
 
 The initialization of the tables is very fast. The main concern is memory usage. For a field Z/pZ, each of the two tables have p-1 elements. They are WordArrays (32 bits per entry), so a field Z/pZ uses about 8*(p-1) bytes of memory. For example, Z/65537 uses 524K of memory, and Z/1048583 (a 20-bits modulus) uses about 8M.
 !
-
-!CompletionRing commentStamp: '<historical>' prior: 0!
-Completion of a given commutative ring R at a given maximal ideal I. This is the inverse limit of the quotient rings R / I^n.!
 
 !Divisor commentStamp: '<historical>' prior: 0!
 Formal sums with integer or rational coefficients of prime divisors (integral closed subschemes of codimension 1) of an integral locally Noetherian scheme.!
@@ -3475,86 +3452,6 @@ isUFR
 !PowerAlgebra class methodsFor: 'instance creation' stamp: 'len 10/13/2022 04:58:29'!
 on: aFreeModule
 	^ self new module: aFreeModule! !
-
-!CompletionRing methodsFor: 'accessing' stamp: 'len 6/6/2019 11:56:17'!
-base
-	^ self completionIdeal scalars! !
-
-!CompletionRing methodsFor: 'accessing' stamp: 'len 6/6/2019 11:11:18'!
-completionIdeal
-	^ self propertyAt: #completionIdeal! !
-
-!CompletionRing methodsFor: 'accessing' stamp: 'len 6/6/2019 18:52:55'!
-dimension
-	"Answer the Krull dimension of the receiver."
-	(self base isNoetherian and: [self base isLocal])
-		ifTrue: [^ self base dimension].
-	^ super dimension! !
-
-!CompletionRing methodsFor: 'accessing' stamp: 'len 6/6/2019 10:56:36'!
-maximalIdeal
-	"Answer the unique maximal ideal in the receiver."
-	^ self * (self completionIdeal generators collect: [:each| self embed: each])! !
-
-!CompletionRing methodsFor: 'accessing' stamp: 'len 6/6/2019 16:52:57'!
-one
-	^ self embed: self base one! !
-
-!CompletionRing methodsFor: 'accessing' stamp: 'len 6/6/2019 16:53:02'!
-zero
-	^ self embed: self base zero! !
-
-!CompletionRing methodsFor: 'as yet unclassified' stamp: 'len 6/22/2019 03:13:21'!
-> aRing
-	self base > aRing ifTrue: [^ true].
-	^ super > aRing! !
-
-!CompletionRing methodsFor: 'as yet unclassified' stamp: 'len 6/22/2019 03:14:37'!
->= aRing
-	super >= aRing ifTrue: [^ true].
-	self base >= aRing ifTrue: [^ true].
-	^ false! !
-
-!CompletionRing methodsFor: 'as yet unclassified' stamp: 'len 6/6/2019 18:58:05'!
-hilbertSeriesAt: t
-	"Answer the Hilbert series of the receiver."
-	(self base isNoetherian and: [self base isLocal]) ifTrue: [^ self base hilbertSeriesAt: t].
-	^ super hilbertSeriesAt: t! !
-
-!CompletionRing methodsFor: 'comparing' stamp: 'len 6/6/2019 17:06:14'!
-= anObject
-	self == anObject ifTrue: [^ true].
-	^ (anObject isKindOf: CompletionRing) and: [anObject completionIdeal = self completionIdeal]! !
-
-!CompletionRing methodsFor: 'comparing' stamp: 'len 6/6/2019 17:06:28'!
-hash
-	^ self completionIdeal hash + self base hash! !
-
-!CompletionRing methodsFor: 'morphisms' stamp: 'len 10/6/2022 11:38:03'!
-from: aDomain
-	aDomain = self base ifTrue: [^ self addMap: ((self base into: self map: [:x| self embed: x]) name: 'ι')].
-	^ super from: aDomain! !
-
-!CompletionRing methodsFor: 'operations' stamp: 'len 6/6/2019 11:59:39'!
-jet: anInteger
-	"Answer the anInteger-th jet of the receiver, that is the quotient ring isomorphic to the anInteger-th truncation of the receiver."
-	^ self base / (self completionIdeal ^ anInteger)! !
-
-!CompletionRing methodsFor: 'testing' stamp: 'len 6/22/2019 03:11:07'!
-isCompletion
-	^ true! !
-
-!CompletionRing methodsFor: 'testing' stamp: 'len 6/6/2019 10:55:42'!
-isLocal
-	^ true! !
-
-!CompletionRing methodsFor: 'private' stamp: 'len 6/6/2019 11:11:28'!
-completionIdeal: anIdeal
-	self propertyAt: #completionIdeal put: anIdeal! !
-
-!CompletionRing class methodsFor: 'instance creation' stamp: 'len 6/6/2019 12:04:12'!
-at: anIdeal
-	^ self new completionIdeal: anIdeal! !
 
 !GAlgebra methodsFor: 'accessing' stamp: 'len 7/2/2022 12:15:04'!
 additiveConstants
