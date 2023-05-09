@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5597] on 8 May 2023 at 11:43:21 pm'!
+'From Cuis 6.0 [latest update: #5597] on 9 May 2023 at 5:24:49 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 35!
+!provides: 'Tests-Algebra' 1 36!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -4118,13 +4118,13 @@ initialize
 	super initialize.
 	scalars _ QuaternionAlgebra over: ℚ invariants: #(1 1)! !
 
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 8/4/2021 14:29:25'!
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/9/2023 13:21:09'!
 testMatrixAddition
 	| A B x |
 	A _ self newMatrix.
 	self assert: (A + A negated) isZero.
 	self assert: A + A zero = A.
-	B _ self newMatrix: A extent.
+	B _ self newMatrix: A height @ A width.
 	self assert: A + B = (B + A).
 	x _ A domain atRandom: random bits: 10.
 	self assert: (A+B)*x = (A*x + (B*x)).
@@ -10434,16 +10434,6 @@ testHeight
 	self assert: (x * 5 - 2) height =  5! !
 
 !PolynomialTest methodsFor: 'etc' stamp: 'len 5/23/2020 09:33:01'!
-testInclusionInFractionField
-	| R F |
-	R _ ℚ polynomials.
-	F _ R fractions.
-	self assert: R <= F.
-	self assert: F >= R.
-	self deny: R >= F.
-	self deny: F <= R! !
-
-!PolynomialTest methodsFor: 'etc' stamp: 'len 5/23/2020 09:33:01'!
 testInterpolation
 	| Qx f |
 	Qx _ ℚ polynomials.
@@ -11919,18 +11909,6 @@ testValuationRing2
 	| V |
 	V _ ℤ @ (ℤ * 5).
 	self testDVR: V! !
-
-!RingTest methodsFor: 'localizations' stamp: 'len 7/23/2022 13:19:01'!
-testLocalizationInclusions
-	| Z2 Z3 Z6 |
-	Z2 _ ℤ @ (ℤ * 2).
-	Z3 _ ℤ @ (ℤ * 3).
-	Z6 _ ℤ @ (ℤ * 6). "<- this is not a prime ideal, it shouldn't be allowed"
-	self assert: Z6 >= Z2.
-	self assert: Z6 >= Z3.
-	self deny: Z3 >= Z2.
-	self deny: Z2 >= Z3.
-	self deny: Z2 >= Z6! !
 
 !RingTest methodsFor: 'localizations' stamp: 'len 7/23/2022 13:19:11'!
 testLocalizationMaximalIdeal
