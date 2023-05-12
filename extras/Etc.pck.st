@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5597] on 12 May 2023 at 2:43:44 pm'!
+'From Cuis 6.0 [latest update: #5597] on 12 May 2023 at 10:30:14 pm'!
 'Description '!
 !provides: 'Etc' 1 26!
 !requires: 'Algebra' 1 7 nil!
@@ -157,6 +157,26 @@ Domain subclass: #Quiver
 	category: 'Etc-Algebras-Path'!
 !classDefinition: 'Quiver class' category: #'Etc-Algebras-Path'!
 Quiver class
+	instanceVariableNames: ''!
+
+!classDefinition: #ColumnMajorMatrix category: #'Etc-Matrices'!
+Matrix subclass: #ColumnMajorMatrix
+	instanceVariableNames: 'coefficients'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc-Matrices'!
+!classDefinition: 'ColumnMajorMatrix class' category: #'Etc-Matrices'!
+ColumnMajorMatrix class
+	instanceVariableNames: ''!
+
+!classDefinition: #PermutationMatrix category: #'Etc-Matrices'!
+Matrix subclass: #PermutationMatrix
+	instanceVariableNames: 'permutation'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc-Matrices'!
+!classDefinition: 'PermutationMatrix class' category: #'Etc-Matrices'!
+PermutationMatrix class
 	instanceVariableNames: ''!
 
 !classDefinition: #TriangularMatrix category: #'Etc-Matrices'!
@@ -382,7 +402,7 @@ RealBox class
 !classDefinition: #SmallBitArray category: #Etc!
 Object subclass: #SmallBitArray
 	instanceVariableNames: 'bits size'
-	classVariableNames: ''
+	classVariableNames: 'One Zero'
 	poolDictionaries: ''
 	category: 'Etc'!
 !classDefinition: 'SmallBitArray class' category: #Etc!
@@ -574,6 +594,9 @@ Prime fields Z/pZ for small primes p, such that it is feasable to build exponent
 
 The initialization of the tables is very fast. The main concern is memory usage. For a field Z/pZ, each of the two tables have p-1 elements. They are WordArrays (32 bits per entry), so a field Z/pZ uses about 8*(p-1) bytes of memory. For example, Z/65537 uses 524K of memory, and Z/1048583 (a 20-bits modulus) uses about 8M.
 !
+
+!ColumnMajorMatrix commentStamp: '<historical>' prior: 0!
+Matrices stored in column-major format. The coefficients are stored as the concatenation of the columns, starting with the first coefficient of the first column and ending with the last coefficient of the last column.!
 
 !Divisor commentStamp: '<historical>' prior: 0!
 Formal sums with integer or rational coefficients of prime divisors (integral closed subschemes of codimension 1) of an integral locally Noetherian scheme.!
@@ -1611,6 +1634,363 @@ source: aVertex walk: anArray
 !Quiver class methodsFor: 'as yet unclassified' stamp: 'len 7/11/2022 10:19:12'!
 edges: anArray
 	^ self new edges: anArray! !
+
+!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 12:42:26'!
+atRow: i column: j
+	^ coefficients at: j - 1 * self height + i! !
+
+!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 12:42:46'!
+atRow: i column: j ifAbsent: exceptionBlock
+	((i between: 1 and: self height) and: [j between: 1 and: self width])
+		ifFalse: [^ exceptionBlock value].
+	^ coefficients at: j - 1 * self height + i "ifAbsent: exceptionBlock"! !
+
+!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 12:43:01'!
+atRow: i column: j put: anObject
+	((i between: 1 and: self height) and: [j between: 1 and: self width])
+		ifFalse: [^ self error: 'indices out of bounds'].
+	^ coefficients at: j - 1 * self height + i put: anObject! !
+
+!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 5/5/2023 16:49:18'!
+columnAt: j
+	^ codomain coefficients: (coefficients copyFrom: j - 1 * self height + 1 to: j * self height)! !
+
+!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 5/5/2023 16:49:46'!
+columnAt: j put: aTuple
+	coefficients replaceFrom: j - 1 * self height + 1 to: j * self height with: aTuple coefficients startingAt: 1! !
+
+!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 11:51:15'!
+lift
+	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R."
+	^ self class from: domain lift to: codomain lift coefficients: coefficients lift! !
+
+!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 12:52:04'!
+projection: anInteger
+	"If the coefficients ring is a product ring, answer matrix induced by the projection to the anInteger-th component."
+	^ self class from: (domain over: (domain scalars at: anInteger)) to: (codomain over: (domain scalars at: anInteger)) coefficients: (coefficients projection: anInteger)! !
+
+!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 12:52:12'!
+representative
+	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R."
+	^ self class from: domain lift to: codomain lift coefficients: coefficients representative! !
+
+!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 12:53:59'!
+zero
+	^ self class from: domain to: codomain coefficients: coefficients zero! !
+
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/19/2022 10:23:37'!
+addColumn: j₁ times: anElement to: j₂
+	self addColumn: j₁ times: anElement to: j₂ startingAt: 1! !
+
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/19/2022 10:30:38'!
+addColumn: j₁ times: anElement to: j₂ startingAt: startRow
+	| height start₁ start₂ |
+	height _ self height.
+	start₁ _ j₁ - 1 * height + startRow.
+	start₂ _ j₂ - 1 * height + startRow.
+	coefficients
+		replaceFrom: start₂ to: j₂ * height
+		with: coefficients startingAt: start₂
+		plus: coefficients startingAt: start₁
+		timesScalar: anElement! !
+
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/20/2022 11:09:25'!
+cancelColumn: j₁ and: j₂ with: mgcd
+	| s t u v A₁ A₂ |
+	s _ mgcd at: 2.
+	t _ mgcd at: 3.
+	u _ mgcd at: 4.
+	v _ mgcd at: 5.
+	A₁ _ (self columnAt: j₁) copy.
+	A₂ _ (self columnAt: j₂) copy.
+	self columnAt: j₁ put: A₁*s + (A₂*t).
+	self columnAt: j₂ put: A₁*u + (A₂*v)! !
+
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/20/2022 06:04:15'!
+copyColumn: j₁ times: anElement to: j₂
+	self copyColumn: j₁ times: anElement to: j₂ startingAt: 1! !
+
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/20/2022 06:03:43'!
+copyColumn: j₁ times: anElement to: j₂ startingAt: startRow
+	| height start₁ start₂ |
+	height _ self height.
+	start₁ _ j₁ - 1 * height + startRow.
+	start₂ _ j₂ - 1 * height + startRow.
+	coefficients
+		replaceFrom: start₂ to: j₂ * height
+		with: coefficients startingAt: start₁
+		timesScalar: anElement! !
+
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/20/2022 05:58:34'!
+copyColumn: j₁ to: j₂
+	self copyColumn: j₁ to: j₂ startingAt: 1! !
+
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/20/2022 05:58:14'!
+copyColumn: j₁ to: j₂ startingAt: startRow
+	| height start₁ start₂ |
+	height _ self height.
+	start₁ _ j₁ - 1 * height + startRow.
+	start₂ _ j₂ - 1 * height + startRow.
+	coefficients
+		replaceFrom: start₂ to: j₂ * height
+		with: coefficients startingAt: start₁! !
+
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/15/2022 11:53:16'!
+multiplyColumn: j by: anElement
+	self multiplyColumn: j by: anElement startingAt: 1! !
+
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/19/2022 10:20:08'!
+multiplyColumn: j by: anElement startingAt: startRow
+	| height start |
+	height _ self height.
+	start _ j - 1 * height + startRow.
+	coefficients
+		replaceFrom: start to: j * height
+		with: coefficients startingAt: start
+		timesScalar: anElement! !
+
+!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/19/2022 10:19:09'!
+swapColumn: j₁ with: j₂
+	| height |
+	height _ self height.
+	coefficients
+		swapFrom: j₁ - 1 * height + 1 to: j₁ * height
+		with: coefficients startingAt: j₂ - 1 * height + 1! !
+
+!ColumnMajorMatrix methodsFor: 'comparing' stamp: 'len 12/15/2022 11:57:59'!
+= anObject
+	^ (self class = anObject class and: [coefficients = anObject coefficients]) or: [super = anObject]! !
+
+!ColumnMajorMatrix methodsFor: 'converting' stamp: 'len 12/18/2022 10:19:18'!
+asColumnMajor
+	^ self! !
+
+!ColumnMajorMatrix methodsFor: 'converting' stamp: 'len 5/12/2023 20:45:39'!
+asRowMajor
+	^ DenseMatrix from: self domain to: self codomain coefficients: self transpose coefficients! !
+
+!ColumnMajorMatrix methodsFor: 'converting' stamp: 'len 5/5/2023 17:16:22'!
+over: aRing
+	self scalars = aRing ifTrue: [^ self].
+	^ self class from: (domain over: aRing) to: (codomain over: aRing) coefficients: (aRing new: coefficients size fill: [:i| coefficients at: i])! !
+
+!ColumnMajorMatrix methodsFor: 'copying' stamp: 'len 12/15/2022 12:49:15'!
+copyFrom: start to: stop
+	"Answer the submatrix of the receiver from start to stop."
+	| h w subcoefficients |
+	(stop x > self height or: [stop y > self width]) ifTrue: [^ self error: 'index out of bounds'].
+	h _ stop x - start x + 1 max: 0.
+	w _ stop y - start y + 1 max: 0.
+	subcoefficients _ self scalars new: h*w.
+	h > 0 ifTrue: [start y to: stop y do: [:j| subcoefficients replaceFrom: j - start y * h + 1 to: j - start y * h + h with: coefficients startingAt: j - 1 * self height + start x]].
+	^ self class
+		from: (domain copyFrom: start y to: stop y)
+		to: (codomain copyFrom: start x to: stop x)
+		coefficients: subcoefficients! !
+
+!ColumnMajorMatrix methodsFor: 'copying' stamp: 'len 12/20/2022 09:45:45'!
+postCopy
+	super postCopy.
+	properties _ nil.
+	coefficients _ coefficients copy! !
+
+!ColumnMajorMatrix methodsFor: 'enumerating' stamp: 'len 12/15/2022 12:41:46'!
+allSatisfy: aBlock
+	^ coefficients allSatisfy: aBlock! !
+
+!ColumnMajorMatrix methodsFor: 'enumerating' stamp: 'len 12/15/2022 12:43:21'!
+collect: aBlock
+	^ self class from: domain to: codomain coefficients: (coefficients collect: aBlock)! !
+
+!ColumnMajorMatrix methodsFor: 'enumerating' stamp: 'len 12/15/2022 12:50:20'!
+diagonalDo: aBlock
+	| i step |
+	i _ 1.
+	step _ self height + 1.
+	[i <= coefficients size]
+		whileTrue:
+			[aBlock value: (coefficients at: i).
+			i _ i + step]! !
+
+!ColumnMajorMatrix methodsFor: 'enumerating' stamp: 'len 12/15/2022 12:50:40'!
+do: aBlock
+	coefficients do: aBlock! !
+
+!ColumnMajorMatrix methodsFor: 'enumerating' stamp: 'len 12/15/2022 13:01:21'!
+withIndicesDo: aBlock
+	| h i j |
+	h _ self height.
+	i _ 1.
+	j _ 1.
+	coefficients do: [:each|
+		aBlock value: each value: i value: j.
+		(i _ i + 1) > h ifTrue: [i _ 1. j _ j + 1]].! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 11:57:38'!
+* anObject
+	(self scalars includes: anObject) ifTrue: [^ self class from: domain to: codomain coefficients: coefficients * anObject].
+	anObject isInteger ifTrue: [^ self * (self scalars !! anObject)].
+	anObject isMatrix ifTrue: [^ self · anObject].
+	anObject isTuple ifTrue: [^ self value: anObject].
+	(anObject isKindOf: ModuleMap) ifTrue: [^ self · anObject].
+	^ DomainError signal! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 11:57:45'!
++ aMatrix
+	self class = aMatrix class ifFalse: [^ super + aMatrix].
+	self checkDomainsMatch: aMatrix.
+	self checkCodomainsMatch: aMatrix.
+	^ self class from: domain to: codomain coefficients: coefficients + aMatrix coefficients! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 11:57:53'!
+- aMatrix
+	self class = aMatrix class ifFalse: [^ super - aMatrix].
+	self checkDomainsMatch: aMatrix.
+	self checkCodomainsMatch: aMatrix.
+	^ self class from: domain to: codomain coefficients: coefficients - aMatrix coefficients! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 12:35:58'!
+⊕ aMatrix
+	"Answer the block sum of the receiver and the argument.
+	If the receiver is A and the argument is B, output a matrix of the form:
+	  [A 0]
+	  [0 B]"
+	| newCoefficients h |
+	self class = aMatrix class ifFalse: [^ super ⊕ aMatrix].
+	h _ self height + aMatrix height.
+	newCoefficients _ self scalars zeros: h * (self width + aMatrix width).
+	1 to: self width do: [:j|
+		newCoefficients replaceFrom: j - 1 * h + 1 to: j - 1 * h + self height with: coefficients startingAt: j - 1 * self height + 1].
+	1 to: aMatrix width do: [:j|
+		newCoefficients replaceFrom: j - 1 + self width * h + self height + 1 to: j + self width * h with: aMatrix coefficients startingAt: j - 1 * aMatrix height + 1].
+	^ self class from: domain ⊕ aMatrix domain to: codomain ⊕ aMatrix codomain coefficients: newCoefficients
+! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/27/2022 22:19:05'!
+∘ aMatrix
+	self class = aMatrix class ifFalse: [^ super ∘ aMatrix].
+	self checkCompatibleComposition: aMatrix.
+	(coefficients isEmpty or: [aMatrix coefficients isEmpty])
+		ifTrue: [^ self class from: aMatrix domain to: codomain coefficients: (self scalars zeros: aMatrix width * self height)].
+	^ self class
+		from: aMatrix domain
+		to: codomain
+		coefficients:
+			((coefficients species new: aMatrix width * self height)
+				fillWithColumnMajorMatrix: coefficients height: self height
+				timesMatrix: aMatrix coefficients height: aMatrix height)! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/25/2022 13:38:53'!
+⊓ aMatrix
+	"Answer the product morphism of the receiver and the argument.
+	This is the row-augmented matrix with the receiver stacked on top of the argument.
+	If the receiver is A and the argument is B, output a matrix of the form:
+	  [A]
+	  [B]"
+	| newCoefficients h |
+	self class = aMatrix class ifFalse: [^ super ⊓ aMatrix].
+	self checkDomainsMatch: aMatrix.
+	newCoefficients _ self scalars new: coefficients size + aMatrix coefficients size.
+	h _ self height + aMatrix height.
+	1 to: self width do: [:j|
+		newCoefficients
+			replaceFrom: j - 1 * h + 1 to: j - 1 * h + self height with: coefficients startingAt: j - 1 * self height + 1;
+			replaceFrom: j - 1 * h + self height + 1 to: j * h with: aMatrix coefficients startingAt: j - 1 * aMatrix height + 1].
+	^ self class from: domain to: codomain ⊕ aMatrix codomain coefficients: newCoefficients! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/18/2022 10:20:43'!
+⊔ aMatrix
+	"Answer the coproduct morphism of the receiver and the argument.
+	This is the column-augmented matrix with the receiver concatenated with the argument.
+	If the receiver is A and the argument is B, output a matrix of the form:
+	  [A B]"
+	self class = aMatrix class ifFalse: [^ super ⊔ aMatrix].
+	self checkCodomainsMatch: aMatrix.
+	^ self class from: domain ⊕ aMatrix domain to: codomain coefficients: coefficients, aMatrix coefficients! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 12:41:57'!
+apply: aFunction
+	"Answer a new tuple with coefficients obtainted by applying aFunction to the coefficients of the receiver.
+	If aFunction is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
+
+	aFunction isBlock ifTrue: [^ self collect: aFunction].
+	^ self class from: (domain over: aFunction codomain) to: (codomain over: aFunction codomain) coefficients: (coefficients apply: aFunction)! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 12:51:23'!
+negated
+	^ self class from: domain to: codomain coefficients: coefficients negated! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/18/2022 10:17:42'!
+trace
+	self checkIsSquare.
+	self isEmpty ifTrue: [^ self scalars zero].
+	^ coefficients sumFrom: 1 to: coefficients size by: self height + 1! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 5/9/2023 17:59:51'!
+transpose
+	^ self class from: codomain to: domain coefficients: ((coefficients species new: coefficients size) fillWithMatrixTranspose: coefficients width: self height)! !
+
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 5/5/2023 17:25:58'!
+value: aTuple
+"	(self domain includes: aTuple) ifFalse: [^ DomainError signal]."
+	(coefficients isEmpty or: [aTuple isEmpty]) ifTrue: [^ codomain zero].
+	^ codomain coefficients:
+		((coefficients species new: self height)
+			replaceFrom: 1 to: self height
+			withMatrix: coefficients height: self height width: self width transpose: false
+			timesTuple: aTuple coefficients startingAt: 1)! !
+
+!ColumnMajorMatrix methodsFor: 'testing' stamp: 'len 12/15/2022 12:50:45'!
+isZero
+	^ coefficients isZero! !
+
+!ColumnMajorMatrix methodsFor: 'testing' stamp: 'len 12/15/2022 12:51:00'!
+isZeroAt: aPoint
+	^ coefficients isZeroAt: aPoint y - 1 * self height + aPoint x! !
+
+!ColumnMajorMatrix methodsFor: 'testing' stamp: 'len 12/22/2022 19:04:05'!
+isZeroAtColumn: anInteger
+	| height start |
+	height _ self height.
+	start _ anInteger - 1 * height + 1.
+	^ (coefficients findFirstNonzeroFrom: start to: start + height - 1) isNil! !
+
+!ColumnMajorMatrix methodsFor: 'private' stamp: 'len 12/15/2022 12:43:08'!
+coefficients
+	^ coefficients! !
+
+!ColumnMajorMatrix methodsFor: 'private' stamp: 'len 5/8/2023 16:32:11'!
+coefficients: anArray
+	coefficients _ anArray! !
+
+!ColumnMajorMatrix methodsFor: 'private' stamp: 'len 12/15/2022 12:54:50'!
+validate
+	self assert: coefficients size = (domain rank * codomain rank).
+	^ super validate! !
+
+!ColumnMajorMatrix class methodsFor: 'as yet unclassified' stamp: 'len 12/16/2022 09:46:11'!
+from: aDomain to: aCodomain coefficients: anArray
+	^ self new domain: aDomain; codomain: aCodomain; coefficients: anArray! !
+
+!PermutationMatrix methodsFor: 'as yet unclassified' stamp: 'len 12/24/2022 16:57:44'!
+= anObject
+	^ (self class = anObject class and: [permutation = anObject permutation]) or: [super = anObject]! !
+
+!PermutationMatrix methodsFor: 'as yet unclassified' stamp: 'len 12/22/2022 19:49:24'!
+atRow: i column: j ifAbsent: exceptionBlock
+	^ (permutation at: i) = j ifTrue: [self scalars one] ifFalse: [self scalars zero]! !
+
+!PermutationMatrix methodsFor: 'as yet unclassified' stamp: 'len 12/24/2022 16:57:53'!
+permutation
+	^ permutation! !
+
+!PermutationMatrix methodsFor: 'as yet unclassified' stamp: 'len 12/22/2022 19:47:52'!
+permutation: anArray
+	permutation _ anArray! !
+
+!PermutationMatrix class methodsFor: 'instance creation' stamp: 'len 12/22/2022 19:48:24'!
+from: aDomain to: aCodomain permutation: anArray
+	^ self new domain: aDomain; codomain: aCodomain; permutation: anArray! !
 
 !TriangularMatrix methodsFor: 'as yet unclassified' stamp: 'len 12/22/2022 19:33:01'!
 determinant

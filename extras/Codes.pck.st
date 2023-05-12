@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 25 November 2022 at 10:26:00 am'!
+'From Cuis 6.0 [latest update: #5597] on 12 May 2023 at 10:29:42 pm'!
 'Description '!
-!provides: 'Codes' 1 8!
+!provides: 'Codes' 1 9!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Codes!
 
@@ -401,13 +401,13 @@ H8
 			(0,0,1,0, 1,1,0,1) % 2.
 			(0,0,0,1, 1,1,1,0) % 2})! !
 
-!LinearCode class methodsFor: 'examples' stamp: 'len 8/3/2020 06:53:28'!
+!LinearCode class methodsFor: 'examples' stamp: 'len 5/12/2023 21:10:29'!
 RM: parameters
 	"Answer the Reed-Muller code RM(r, m).
 	First we build the 2^m Sierpinski matrix by taking the m-fold Kronecher product of the 2x2 matrix
 		[1 0]
 		[1 1]
-	over Z/2Z. Then we construct the RM(r,m) code as the span of the rows with Hamming weight >= 2^(m-r)."
+	over ℤ/2ℤ. Then we construct the RM(r,m) code as the span of the rows with Hamming weight >= 2^(m-r)."
 	| r m F S d |
 	r _ parameters at: 1.
 	m _ parameters at: 2.

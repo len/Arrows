@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5597] on 12 May 2023 at 2:43:33 pm'!
+'From Cuis 6.0 [latest update: #5597] on 12 May 2023 at 10:29:59 pm'!
 'Description '!
 !provides: 'Tests-Algebra' 1 37!
 SystemOrganization addCategory: #'Tests-Algebra'!
@@ -4521,76 +4521,38 @@ newSquareMatrix
 	n _ (0 to: 5) atRandom: random.
 	^ (scalars^n) endomorphisms atRandom: random bits: (n*n*5+1 atRandom: random)! !
 
-!AbstractMatrixTest methodsFor: 'row/column operations' stamp: 'len 12/24/2022 16:31:39'!
-testAddColumnTimesScalar
-	| A B j1 j2 i x |
-	[A _ self newMatrix. A height > 0 and: [A width > 0]] whileFalse.
-	j1 _ A width atRandom: random.
-	j2 _ A width atRandom: random.
-	i _ A height atRandom: random.
-	B _ A copy asColumnMajor.
-	x _ scalars atRandom: random bits: 50.
-	B addColumn: j1 times: x to: j2 startingAt: i.
-	self assert: ((B columnAt: j2) copyFrom: i to: A height) = ((A columnAt: j1) * x + (A columnAt: j2) copyFrom: i to: A height).
-	self assert: ((B columnAt: j2) copyFrom: 1 to: i-1) = ((A columnAt: j2) copyFrom: 1 to: i-1)! !
-
-!AbstractMatrixTest methodsFor: 'row/column operations' stamp: 'len 12/24/2022 16:52:57'!
+!AbstractMatrixTest methodsFor: 'row/column operations' stamp: 'len 5/12/2023 20:47:17'!
 testAddRowTimesScalar
 	| A B i1 i2 j x |
 	[A _ self newMatrix. A height > 0 and: [A width > 0]] whileFalse.
 	i1 _ A height atRandom: random.
 	i2 _ A height atRandom: random.
 	j _ A width atRandom: random.
-	B _ A copy asRowMajor.
+	B _ A copy.
 	x _ scalars atRandom: random bits: 50.
 	B addRow: i1 times: x to: i2 startingAt: j.
 	self assert: ((B rowAt: i2) copyFrom: j to: A width) = ((A rowAt: i1) * x + (A rowAt: i2) copyFrom: j to: A width).
 	self assert: ((B rowAt: i2) copyFrom: 1 to: j-1) = ((A rowAt: i2) copyFrom: 1 to: j-1)! !
 
-!AbstractMatrixTest methodsFor: 'row/column operations' stamp: 'len 12/24/2022 16:38:28'!
-testMultiplyColumnByScalar
-	| A B i j x |
-	[A _ self newMatrix. A height > 0 and: [A width > 0]] whileFalse.
-	i _ A height atRandom: random.
-	j _ A width atRandom: random.
-	B _ A copy asColumnMajor.
-	x _ scalars atRandom: random bits: 50.
-	B multiplyColumn: j by: x startingAt: i.
-	self assert: ((B columnAt: j) copyFrom: i to: A height) = ((A columnAt: j) * x copyFrom: i to: A height).
-	self assert: ((B columnAt: j) copyFrom: 1 to: i-1) = ((A columnAt: j) copyFrom: 1 to: i-1)! !
-
-!AbstractMatrixTest methodsFor: 'row/column operations' stamp: 'len 12/24/2022 16:53:05'!
+!AbstractMatrixTest methodsFor: 'row/column operations' stamp: 'len 5/12/2023 20:47:23'!
 testMultiplyRowByScalar
 	| A B i j x |
 	[A _ self newMatrix. A height > 0 and: [A width > 0]] whileFalse.
 	i _ A height atRandom: random.
 	j _ A width atRandom: random.
-	B _ A copy asRowMajor.
+	B _ A copy.
 	x _ scalars atRandom: random bits: 50.
 	B multiplyRow: i by: x startingAt: j.
 	self assert: ((B rowAt: i) copyFrom: j to: A width) = ((A rowAt: i) * x copyFrom: j to: A width).
 	self assert: ((B rowAt: i) copyFrom: 1 to: j-1) = ((A rowAt: i) copyFrom: 1 to: j-1)! !
 
-!AbstractMatrixTest methodsFor: 'row/column operations' stamp: 'len 12/24/2022 16:34:58'!
-testSwapColumns
-	| A B j1 j2 |
-	[A _ self newMatrix. A height > 0 and: [A width > 0]] whileFalse.
-	j1 _ A width atRandom: random.
-	j2 _ A width atRandom: random.
-	B _ A copy asColumnMajor.
-	B swapColumn: j1 with: j2.
-	self assert: (B columnAt: j1) = (A columnAt: j2).
-	self assert: (B columnAt: j2) = (A columnAt: j1).
-	B swapColumn: j1 with: j2.
-	self assert: A = B! !
-
-!AbstractMatrixTest methodsFor: 'row/column operations' stamp: 'len 12/24/2022 16:53:14'!
+!AbstractMatrixTest methodsFor: 'row/column operations' stamp: 'len 5/12/2023 20:47:29'!
 testSwapRows
 	| A B i1 i2 |
 	[A _ self newMatrix. A height > 0 and: [A width > 0]] whileFalse.
 	i1 _ A height atRandom: random.
 	i2 _ A height atRandom: random.
-	B _ A copy asRowMajor.
+	B _ A copy.
 	B swapRow: i1 with: i2.
 	self assert: (B rowAt: i1) = (A rowAt: i2).
 	self assert: (B rowAt: i2) = (A rowAt: i1).

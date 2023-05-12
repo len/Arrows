@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5597] on 12 May 2023 at 2:44:11 pm'!
+'From Cuis 6.0 [latest update: #5597] on 12 May 2023 at 10:29:47 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -58,8 +58,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 63!
-!requires: 'Collections-TwoAndEightByteArrays' 1 2 nil!
+!provides: 'Algebra' 1 62!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'Transfinites' 1 2 nil!
@@ -633,8 +632,28 @@ QuotientRing subclass: #AffineRing
 AffineRing class
 	instanceVariableNames: ''!
 
+!classDefinition: #QuasiGaloisRing category: #'Algebra-Rings-Finite'!
+AffineRing subclass: #QuasiGaloisRing
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Rings-Finite'!
+!classDefinition: 'QuasiGaloisRing class' category: #'Algebra-Rings-Finite'!
+QuasiGaloisRing class
+	instanceVariableNames: ''!
+
+!classDefinition: #ExtensionRing category: #'Algebra-Algebras-Affine'!
+AffineRing subclass: #ExtensionRing
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algebras-Affine'!
+!classDefinition: 'ExtensionRing class' category: #'Algebra-Algebras-Affine'!
+ExtensionRing class
+	instanceVariableNames: ''!
+
 !classDefinition: #GaloisRing category: #'Algebra-Rings-Finite'!
-AffineRing subclass: #GaloisRing
+ExtensionRing subclass: #GaloisRing
 	instanceVariableNames: ''
 	classVariableNames: 'IrreduciblePolynomialsCache'
 	poolDictionaries: ''
@@ -646,25 +665,15 @@ GaloisRing class
 !classDefinition: #GaloisField category: #'Algebra-Rings-Finite'!
 GaloisRing subclass: #GaloisField
 	instanceVariableNames: ''
-	classVariableNames: ''
+	classVariableNames: 'ConwayPolynomials'
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
 !classDefinition: 'GaloisField class' category: #'Algebra-Rings-Finite'!
 GaloisField class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuasiGaloisRing category: #'Algebra-Rings-Finite'!
-AffineRing subclass: #QuasiGaloisRing
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'QuasiGaloisRing class' category: #'Algebra-Rings-Finite'!
-QuasiGaloisRing class
-	instanceVariableNames: ''!
-
 !classDefinition: #FunctionField category: #'Algebra-Fields-Global'!
-AffineRing subclass: #FunctionField
+ExtensionRing subclass: #FunctionField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -674,7 +683,7 @@ FunctionField class
 	instanceVariableNames: ''!
 
 !classDefinition: #NumberField category: #'Algebra-Fields-Global'!
-AffineRing subclass: #NumberField
+ExtensionRing subclass: #NumberField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1383,34 +1392,14 @@ Matrix subclass: #BlockSparseMatrix
 BlockSparseMatrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #ColumnMajorMatrix category: #'Algebra-Modules'!
-Matrix subclass: #ColumnMajorMatrix
+!classDefinition: #DenseMatrix category: #'Algebra-Modules'!
+Matrix subclass: #DenseMatrix
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'ColumnMajorMatrix class' category: #'Algebra-Modules'!
-ColumnMajorMatrix class
-	instanceVariableNames: ''!
-
-!classDefinition: #PermutationMatrix category: #'Algebra-Modules'!
-Matrix subclass: #PermutationMatrix
-	instanceVariableNames: 'permutation'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Modules'!
-!classDefinition: 'PermutationMatrix class' category: #'Algebra-Modules'!
-PermutationMatrix class
-	instanceVariableNames: ''!
-
-!classDefinition: #RowMajorMatrix category: #'Algebra-Modules'!
-Matrix subclass: #RowMajorMatrix
-	instanceVariableNames: 'coefficients'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Modules'!
-!classDefinition: 'RowMajorMatrix class' category: #'Algebra-Modules'!
-RowMajorMatrix class
+!classDefinition: 'DenseMatrix class' category: #'Algebra-Modules'!
+DenseMatrix class
 	instanceVariableNames: ''!
 
 !classDefinition: #SparseMatrix category: #'Algebra-Modules'!
@@ -2096,7 +2085,7 @@ FreePolynomial class
 !classDefinition: #ZechTable category: #'Algebra-Rings-Finite'!
 Object subclass: #ZechTable
 	instanceVariableNames: 'scalars base q q̄ minusOne successors'
-	classVariableNames: 'Cache'
+	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
 !classDefinition: 'ZechTable class' category: #'Algebra-Rings-Finite'!
@@ -2679,6 +2668,10 @@ When the coefficients ring is a field K and the relations ideal I is maximal, th
 
 See also PolynomialRing.!
 
+!QuasiGaloisRing commentStamp: '<historical>' prior: 0!
+The quasi-Galois ring A(p^r,n) is an extension of degree n of the Galois field GF(p^r) isomorphic to GF(p^r)[x]/<x^n>. See also GaloisRing.
+!
+
 !GaloisRing commentStamp: '<historical>' prior: 0!
 The Galois ring GR(p^n,m) is a Galois extension of degree m of the prime power ring ℤ/(p^n)ℤ of characteristic p^n. This is the unique (up to isomorphism) extension of degree m of the ring ℤ/(p^n)ℤ of integers modulo p^n (see PrimePowerRing). When n=1 they are fields (see GaloisField).
 
@@ -2694,10 +2687,6 @@ For reference see [GM73] and [BF15].!
 
 !GaloisField commentStamp: '<historical>' prior: 0!
 Finite nonprime fields, i.e. fields GF(p^r) with r>1. These are finite algebraic extensions of prime fields. See also PrimeField.!
-
-!QuasiGaloisRing commentStamp: '<historical>' prior: 0!
-The quasi-Galois ring A(p^r,n) is an extension of degree n of the Galois field GF(p^r) isomorphic to GF(p^r)[x]/<x^n>. See also GaloisRing.
-!
 
 !FunctionField commentStamp: '<historical>' prior: 0!
 Algebraic function fields, i.e. finite field extensions of a rational function field. Function fields can also be viewed as vector spaces over the coefficients field.
@@ -3003,10 +2992,7 @@ See also MatrixModule, FreeModule and Tuple.!
 !BlockSparseMatrix commentStamp: '<historical>' prior: 0!
 Sparse matrices stored in Block CSR (Block Compressed Sparse Row) format. They are fast at matrix-tuple multiplication and generally useful over ℤ/2ℤ with small blocks.!
 
-!ColumnMajorMatrix commentStamp: '<historical>' prior: 0!
-Matrices stored in column-major format. The coefficients are stored as the concatenation of the columns, starting with the first coefficient of the first column and ending with the last coefficient of the last column.!
-
-!RowMajorMatrix commentStamp: '<historical>' prior: 0!
+!DenseMatrix commentStamp: '<historical>' prior: 0!
 Matrices stored in row-major format. The coefficients are stored as the concatenation of the rows, starting with the first coefficient of the first row and ending with the last coefficient of the last row.!
 
 !SparseMatrix commentStamp: '<historical>' prior: 0!
@@ -3373,7 +3359,7 @@ Output: the minimal polynomial of the sequence.
 !NTT commentStamp: '<historical>' prior: 0!
 Number Theoretic Transforms, the analog of DFTs for the field of integers modulo a prime p. Special cases are the Fermat Number Transform (p = 2^k + 1) and the Mersenne Number Transform (p = 2^k - 1).
 
-The (pseudo) number theoretic transform may be meaningful in the ring Z/<m> even when the modulo m is not prime, provided a principal root of order n exists.!
+The (pseudo) number theoretic transform may be meaningful in the ring ℤ/mℤ even when the modulo m is not prime, provided a principal root of order n exists.!
 
 !ProductReplacementRandomGenerator commentStamp: '<historical>' prior: 0!
 Product Replacement Algorithm for generating random elements in a group from a set of generators. Essentially, it performs a random walk on a Cayley graph.!
@@ -3394,7 +3380,7 @@ Schreier trees allow for fast computation of stabilizers by Schreier's Lemma: wi
 See [Sim70], [HEO05, 4.4.2 The Schreier-Sims Algorithm].!
 
 !TonelliShanks commentStamp: '<historical>' prior: 0!
-This is the Tonelli-Shanks algorithm for computing square roots in a prime field Z/pZ (with odd p).
+This is the Tonelli-Shanks algorithm for computing square roots in a prime field ℤ/pℤ (with odd p).
 
 See [Coh96] Algorithm 1.5.1.!
 
@@ -3696,12 +3682,12 @@ replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anEl
 			with: (anArray projection: i) startingAt: srcStart
 			timesScalar: (anElement at: i)]! !
 
-!ProductArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:39:54'!
-replaceFrom: start to: stop withMatrix: anArray height: height width: width transpose: transpose timesTuple: anotherArray startingAt: start2
+!ProductArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 20:29:10'!
+replaceFrom: start to: stop withMatrix: anArray width: width timesTuple: anotherArray startingAt: start2
 	components withIndexDo: [:each :i|
 		each
 			replaceFrom: start to: stop
-			withMatrix: (anArray projection: i) height: height width: width transpose: transpose
+			withMatrix: (anArray projection: i) width: width
 			timesTuple: (anotherArray projection: i) startingAt: start2]! !
 
 !ProductArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:39:54'!
@@ -4012,7 +3998,7 @@ weight
 	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
 	^ words sum: [:each| each bitCount] ifEmpty: [0]! !
 
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 00:33:05'!
+!BitArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 22:22:55'!
 from: start to: stop by: increment dot: anArray startingAt: start2
 	| i j isOne w |
 	stop - start >= 0 ifFalse: [^ Zero].
@@ -4025,17 +4011,17 @@ from: start to: stop by: increment dot: anArray startingAt: start2
 		j _ j + 32.
 		32 timesRepeat:
 			[(w odd and: [(self bitAt: i) = 1]) ifTrue: [isOne _ isOne not].
-			i = stop ifTrue: [^ isOne ifTrue: [One] ifFalse: [Zero]].
-			w _ w bitShift: -1.
-			i _ i + increment]].
+			i _ i + increment.
+			i > stop ifTrue: [^ isOne ifTrue: [One] ifFalse: [Zero]].
+			w _ w bitShift: -1]].
 	^ isOne ifTrue: [One] ifFalse: [Zero]! !
 
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 00:38:31'!
+!BitArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 22:16:28'!
 from: start to: stop by: increment dot: anArray startingAt: start2 by: increment2
 	| i j isOne |
 	(stop - start + 1) > 0 ifFalse: [^ Zero].
 	increment2 = 1 ifTrue: [^ self from: start to: stop by: increment dot: anArray startingAt: start2].
-"	increment = 1 ifTrue: [^ anArray from: start2 to: stop - start + 1 * increment - 1 + start2 by: increment2 dot: self startingAt: start]."
+	increment = 1 ifTrue: [^ anArray from: start2 to: stop - start + 1 * increment2 - 1 + start2 by: increment2 dot: self startingAt: start].
 	i _ start.
 	j _ start2.
 	isOne _ false.
@@ -4061,7 +4047,7 @@ from: start to: stop dot: anArray startingAt: start2
 		[sum _ (((self wordAt: i) bitAnd: 1 << n - 1) bitAnd: (anArray wordAt: j)) bitXor: sum].
 	^ sum bitParity = 1 ifTrue: [One] ifFalse: [Zero]! !
 
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 19:53:35'!
+!BitArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 22:08:58'!
 replaceFrom: start to: stop with: replacement startingAt: repStart	
 	| n shift i j w r |
 	(n _ stop - start + 1) > 0 ifFalse: [^ self].
@@ -4079,7 +4065,7 @@ replaceFrom: start to: stop with: replacement startingAt: repStart
 		n _ n - (32 - shift).
 		j _ j + 32 - shift.
 		i _ i + 1].
-	[n > 32] whileTrue:
+	[n >= 32] whileTrue:
 		[w _ words at: i.
 		r _ replacement wordAt: j.
 		words at: i put: r.
@@ -4095,34 +4081,74 @@ replaceFrom: start to: stop with: replacement startingAt: repStart
 replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 startingAt: start2
 	self replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2! !
 
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/7/2023 17:44:23'!
+!BitArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 22:08:44'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2	
-	^ super replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2	
-
-"	| mask n slice |
-	(n _ stop - start + 1) < 0 ifTrue: [^ self].
-	startWords _ start - 1 // 32 + 1.
-	startBitPosition _ start - (startWords * 32).
-	stopWords _ stop - 1 // 32 + 1.
-	start1Words _ start1 - 1 // 32 + 1.
-	start1BitPosition _ start - (start1Words * 32).
-	start2Words _ start2 - 1 // 32 + 1.
-	start2BitPosition _ start - (start2Words * 32).
-	carry1 _ 0.
-	carry2 _ 0.
-	j _ start1 - 1 // 32 + 1.
-	k _ start2 - 1 // 32 + 1.
-	startWords to: stopWords do: [:i|
-		words at: i put: ((anArray1 wordAt: j) >> shift bitXor: carrier).
-		carrier _ (words at: j) << (32 - shift) bitAnd: 16rFFFFFFFF.
-		j _ j + 1].
-	n > 0 ifTrue: [newWords at: newWords size put: ((newWords at: newWords size) bitAnd: 16rFFFFFFFF >> (32 - (n \\ 32)))].
-	"! !
+	| n shift i j k w r |
+	(n _ stop - start + 1) > 0 ifFalse: [^ self].
+	shift _ start - 1 \\ 32.
+	i _ start - 1 // 32 + 1.
+	j _ start1.
+	k _ start2.
+	shift > 0 ifTrue:
+		[w _ words at: i.
+		r _ (anArray1 wordAt: j) bitXor: (anArray2 wordAt: k).
+		n < 32
+			ifTrue: [r _ r bitAnd: (1 << n - 1). w _ w bitAnd: (1 << n - 1 << shift) bitInvert]
+			ifFalse: [w _ w bitAnd: 1 << shift - 1].
+		words at: i put: (w bitXor: (r bitAnd: 1 << (32 - shift) - 1) << shift).
+		n _ n - (32 - shift).
+		j _ j + 32 - shift.
+		k _ k + 32 - shift.
+		i _ i + 1].
+	[n >= 32] whileTrue:
+		[w _ words at: i.
+		r _ (anArray1 wordAt: j) bitXor: (anArray2 wordAt: k).
+		words at: i put: r.
+		n _ n - 32.
+		j _ j + 32.
+		k _ k + 32.
+		i _ i + 1].
+	n > 0 ifTrue:
+		[w _ words at: i.
+		r _ (anArray1 wordAt: j) bitXor: (anArray2 wordAt: k).
+		words at: i put: ((w bitAnd: (1 << n - 1) bitInvert) bitXor: (r bitAnd: 1 << n - 1))]! !
 
 !BitArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:40:46'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 timesScalar: anElement
 	anElement isZero ifTrue: [^ self replaceFrom: start to: stop with: anArray1 startingAt: start1].
 	self replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2! !
+
+!BitArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 22:10:15'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2	
+	| n shift i j k w r |
+	(n _ stop - start + 1) > 0 ifFalse: [^ self].
+	shift _ start - 1 \\ 32.
+	i _ start - 1 // 32 + 1.
+	j _ start1.
+	k _ start2.
+	shift > 0 ifTrue:
+		[w _ words at: i.
+		r _ (anArray1 wordAt: j) bitAnd: (anArray2 wordAt: k).
+		n < 32
+			ifTrue: [r _ r bitAnd: (1 << n - 1). w _ w bitAnd: (1 << n - 1 << shift) bitInvert]
+			ifFalse: [w _ w bitAnd: 1 << shift - 1].
+		words at: i put: (w bitXor: (r bitAnd: 1 << (32 - shift) - 1) << shift).
+		n _ n - (32 - shift).
+		j _ j + 32 - shift.
+		k _ k + 32 - shift.
+		i _ i + 1].
+	[n >= 32] whileTrue:
+		[w _ words at: i.
+		r _ (anArray1 wordAt: j) bitAnd: (anArray2 wordAt: k).
+		words at: i put: r.
+		n _ n - 32.
+		j _ j + 32.
+		k _ k + 32.
+		i _ i + 1].
+	n > 0 ifTrue:
+		[w _ words at: i.
+		r _ (anArray1 wordAt: j) bitAnd: (anArray2 wordAt: k).
+		words at: i put: ((w bitAnd: (1 << n - 1) bitInvert) bitXor: (r bitAnd: 1 << n - 1))]! !
 
 !BitArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 00:00:34'!
 replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anElement
@@ -4623,11 +4649,11 @@ replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anEl
 		timesScalar: (anElement isInteger ifTrue: [anElement] ifFalse: [anElement representative])
 		modulo: scalars modulus! !
 
-!ModularArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:53'!
-replaceFrom: start to: stop withMatrix: anArray height: height width: width transpose: transpose timesTuple: anotherArray startingAt: start2
+!ModularArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 20:29:45'!
+replaceFrom: start to: stop withMatrix: anArray width: width timesTuple: anotherArray startingAt: start2
 	representatives
 		replaceFrom: start to: stop
-		withMatrix: anArray representatives height: height width: width transpose: transpose
+		withMatrix: anArray representatives width: width
 		timesTuple: anotherArray representatives startingAt: start2
 		modulo: scalars modulus! !
 
@@ -4641,10 +4667,6 @@ replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
 !ModularArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:53'!
 replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
 	representatives replaceFrom: start with: anArray1 representatives from: start1 to: stop1 convolutionLong: anArray2 representatives from: start2 to: stop2 modulo: scalars modulus! !
-
-!ModularArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:53'!
-replaceFrom: start withAutoconvolutionLong: anArray1 from: start1 to: stop1
-	representatives replaceFrom: start withAutoconvolutionLong: anArray1 representatives from: start1 to: stop1 modulo: scalars modulus! !
 
 !ModularArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 17:09:51'!
 sumFrom: start to: stop by: increment
@@ -4789,6 +4811,10 @@ from: start to: stop by: increment dot: anArray startingAt: start2 by: increment
 polynomialValue: anElement
 	^ table exp: (logarithms polynomialValue: (table log: anElement) zechTable: table)! !
 
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 21:40:16'!
+reduceBy: g leadingInverse: u addingQuotientTo: q
+	logarithms reduceBy: g logarithms leadingInverse: (table log: u) addingQuotientTo: q logarithms zechTable: table! !
+
 !ZechArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 14:04:38'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 startingAt: start2
 	logarithms replaceFrom: start to: stop with: anArray1 logarithms startingAt: start1 minus: anArray2 logarithms startingAt: start2 zechTable: table! !
@@ -4801,14 +4827,26 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 sta
 replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 timesScalar: anElement
 	logarithms replaceFrom: start to: stop with: anArray1 logarithms startingAt: start1 plus: anArray2 logarithms startingAt: start2 timesScalar: (table log: anElement) zechTable: table! !
 
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 21:27:53'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2
+	logarithms replaceFrom: start to: stop with: anArray1 logarithms startingAt: start1 times: anArray2 logarithms startingAt: start2 zechTable: table! !
+
 !ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 21:32:42'!
 replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anElement
 	logarithms replaceFrom: start to: stop with: anArray logarithms startingAt: srcStart timesScalar: (table log: anElement) zechTable: table
 ! !
 
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 21:29:58'!
+replaceFrom: start to: stop withMatrix: anArray width: width timesTuple: anotherArray startingAt: start2
+	logarithms replaceFrom: start to: stop withMatrix: anArray logarithms width: width timesTuple: anotherArray logarithms startingAt: start2 zechTable: table! !
+
 !ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 21:33:09'!
 replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
 	logarithms replaceFrom: start to: stop withNegated: anArray logarithms startingAt: srcStart zechTable: table! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 21:41:52'!
+replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
+	logarithms replaceFrom: start with: anArray1 logarithms from: start1 to: stop1 convolutionLong: anArray2 logarithms from: start2 to: stop2 zechTable: table! !
 
 !ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 15:42:35'!
 swapFrom: start to: stop with: anArray startingAt: start2
@@ -5249,9 +5287,9 @@ isSet
 isVectorSpace
 	^ false! !
 
-!Domain class methodsFor: 'examples' stamp: 'len 5/23/2020 09:13:12'!
+!Domain class methodsFor: 'examples' stamp: 'len 5/12/2023 21:05:54'!
 example1asSet
-	"The ring Z/5Z as a Smalltalk Set.
+	"The ring ℤ/5ℤ as a Smalltalk Set.
 	This is possible because the ring is finite."
 	^ (ℤ/5) asSet! !
 
@@ -5310,17 +5348,23 @@ example5GL
 	on the vector space of 3-tuples with rational coefficients."
 	^ (ℚ ^ 3) automorphisms! !
 
-!Domain class methodsFor: 'initialization' stamp: 'len 5/10/2023 21:59:52'!
+!Domain class methodsFor: 'initialization' stamp: 'len 5/12/2023 18:42:12'!
 initializeAll
 	"First initialize transfinites, set globals ∞, ℵ and ω:"
 	Ordinal initialize.
-	"Then initialize all Domains, set globals like ℤ, ℚ, etc:"
+	"Set some globals:"
+	Smalltalk
+		at: #ℕ put: Naturals new;
+		at: #ℤ put: IntegerRing new;
+		at: #ℚ put: RationalField new;
+		at: #ℝ put: RealField new;
+		at: #ℂ put: ComplexField new.
+	"Then initialize all Domains:"
 	Domain withAllSubclassesDo: [:each| (each class selectors includes: #initialize) ifTrue: [each initialize]].
-	"Then initialize all Morphisms, set globals for categories like Sets, Groups, etc:"
+	"And initialize all Morphisms, set globals for categories like Sets, Groups, etc:"
 	Morphism withAllSubclassesDo: [:each| (each class selectors includes: #initialize) ifTrue: [each initialize]].
-	"And finally initialize any other classes that need initialization:"
-	BitArray initialize.
-	ZechTable initialize.! !
+	"Finally initialize any other classes that need initialization:"
+	BitArray initialize! !
 
 !Structure methodsFor: 'accessing' stamp: 'len 4/22/2020 07:02:11'!
 ambient
@@ -6320,11 +6364,6 @@ isFinite
 !Naturals methodsFor: 'testing' stamp: 'len 2/11/2016 22:19'!
 isReal
 	^ true! !
-
-!Naturals class methodsFor: 'initialization' stamp: 'len 5/23/2020 08:50:31'!
-initialize
-	super initialize.
-	Smalltalk at: #ℕ put: self new! !
 
 !Monoid methodsFor: 'elements' stamp: 'len 6/19/2022 12:28:51'!
 identity
@@ -8702,9 +8741,9 @@ generators
 modulus
 	^ self space modulus! !
 
-!ModularUnitsGroup methodsFor: 'testing' stamp: 'len 5/11/2022 09:50:32'!
+!ModularUnitsGroup methodsFor: 'testing' stamp: 'len 5/12/2023 21:06:08'!
 isCyclic
-	"The group of units of Z/nZ is cyclic iff n = 1, 2, 4, or 2p^k for odd prime p."
+	"The group of units of ℤ/nℤ is cyclic iff n = 1, 2, 4, or 2p^k for odd prime p."
 	| factors n |
 	n _ self modulus.
 	(n = 1 or: [n = 2 or: [n = 4]]) ifTrue: [^ true].
@@ -9919,11 +9958,6 @@ isReal
 extensionClass
 	^ NumberField! !
 
-!RationalField class methodsFor: 'initialization' stamp: 'len 5/23/2020 08:51:27'!
-initialize
-	super initialize.
-	Smalltalk at: #ℚ put: self new! !
-
 !AdicField methodsFor: 'as yet unclassified' stamp: 'len 5/9/2023 14:52:07'!
 isApproximate
 	^ true! !
@@ -10262,11 +10296,6 @@ isReal
 isReduced
 	"Answer true if the receiver has no nonzero nilpotent elements, or equivalently if it has no nonzero elements with square zero, i.e. x^2 = 0 implies x = 0."
 	^ true! !
-
-!IntegerRing class methodsFor: 'initialization' stamp: 'len 5/23/2020 08:50:48'!
-initialize
-	super initialize.
-	Smalltalk at: #ℤ put: self new! !
 
 !LocalRing methodsFor: 'accessing' stamp: 'len 11/20/2022 11:26:56'!
 characteristic
@@ -11133,8 +11162,10 @@ dimension
 modulus
 	^ modulus! !
 
-!ModularIntegerRing methodsFor: 'accessing' stamp: 'len 5/30/2022 09:38:17'!
+!ModularIntegerRing methodsFor: 'accessing' stamp: 'len 5/12/2023 21:04:06'!
 primitiveRoot
+	"Answer a generator of the group of units.
+	For ℤ/pℤ this is a primitive (p-1)-th root of unity."
 	| order powers |
 	self propertyAt: #primitiveRoot ifPresent: [:anElement| ^ anElement].
 	modulus <= 2 ifTrue: [^ self one].
@@ -11143,7 +11174,7 @@ primitiveRoot
 	self units do: [:x|
 		(powers anySatisfy: [:n| (x^n) representative = 1])
 			ifFalse: [^ self propertyAt: #primitiveRoot put: x]].
-	^ self error: 'no primitive element'! !
+	^ self error: 'no primitive root'! !
 
 !ModularIntegerRing methodsFor: 'accessing' stamp: 'len 5/23/2020 09:13:12'!
 relations
@@ -11372,9 +11403,9 @@ p
 primeSubfield
 	^ self residueField! !
 
-!PrimePowerRing methodsFor: 'accessing' stamp: 'len 9/16/2022 08:10:31'!
+!PrimePowerRing methodsFor: 'accessing' stamp: 'len 5/12/2023 21:07:46'!
 residueField
-	"Answer the prime field Z/pZ isomorphic to the residue field of the receiver, equipped with the canonical projection."
+	"Answer the prime field ℤ/pℤ isomorphic to the residue field of the receiver, equipped with the canonical projection."
 	^ self propertyAt: #residueField ifAbsentPut:
 		[| answer |
 		(answer _ PrimeField new: self p)
@@ -11387,9 +11418,9 @@ unitsSize
 	This is Euler's totient function at the modulus of the receiver."
 	^ modulus / self p * (self p - 1)! !
 
-!PrimePowerRing methodsFor: 'enumerating' stamp: 'len 9/22/2018 18:56:26'!
+!PrimePowerRing methodsFor: 'enumerating' stamp: 'len 5/12/2023 21:07:36'!
 idealsDo: aBlock
-	"The ideals of Z/(p^n)Z are {0} and <p^i> for 0 <= i < n-1."
+	"The ideals of ℤ/(p^n)ℤ are {0} and <p^i> for 0 <= i < n-1."
 	| a |
 	aBlock value: self * 0.
 	a _ self one.
@@ -11423,9 +11454,9 @@ quadraticLiftingsDo: aBlock
 		R quadraticLiftingsDo: aBlock.
 		aBlock value: (R to: self map: [:x| self project: x lift])]! !
 
-!PrimePowerRing methodsFor: 'morphisms' stamp: 'len 9/16/2022 08:10:36'!
+!PrimePowerRing methodsFor: 'morphisms' stamp: 'len 5/12/2023 21:08:07'!
 to: aCodomain
-	"Cannonical projection from Z/(p^n)Z to Z/(p^m)Z, 1 <= m <= n."
+	"Cannonical projection from ℤ/(p^n)ℤ to ℤ/(p^m)ℤ, 1 <= m <= n."
 	((aCodomain isKindOf: PrimePowerRing) and: [aCodomain p = self p and: [aCodomain exponent < self exponent]])
 		ifTrue: [^ (self onto: aCodomain map: [:x| aCodomain project: x representative]) name: 'π'].
 	^ super to: aCodomain! !
@@ -11481,20 +11512,20 @@ p: aPrime to: anInteger
 	self modulus: aPrime^anInteger.
 	self propertyAt: #modulusFactors put: (Bag new add: aPrime withOccurrences: anInteger; yourself)! !
 
-!PrimePowerRing class methodsFor: 'examples' stamp: 'len 5/15/2019 06:45:14'!
+!PrimePowerRing class methodsFor: 'examples' stamp: 'len 5/12/2023 21:06:36'!
 example1
-	"The Galois ring Z/<5^3>:"
+	"The Galois ring ℤ/(5^3)ℤ:"
 	^ PrimePowerRing new: 5 to: 3! !
 
-!PrimePowerRing class methodsFor: 'examples' stamp: 'len 5/23/2020 09:13:12'!
+!PrimePowerRing class methodsFor: 'examples' stamp: 'len 5/12/2023 21:06:52'!
 example2
-	"Another way to create the Galois ring Z/<5^3>.
+	"Another way to create the Galois ring ℤ/(5^3)ℤ.
 	This is less efficient because internally it performs a factorization."
 	^ ℤ/(5^3)! !
 
-!PrimePowerRing class methodsFor: 'examples' stamp: 'len 10/5/2022 17:43:44'!
+!PrimePowerRing class methodsFor: 'examples' stamp: 'len 5/12/2023 21:07:22'!
 example3
-	"The canonical ring homomorphism from a prime ring Z/(p^n)Z to Z/pZ:"
+	"The canonical ring homomorphism from a prime power ring ℤ/(p^n)ℤ to ℤ/pℤ:"
 	^ ℤ/(5^3) → (ℤ/5)! !
 
 !PrimePowerRing class methodsFor: 'instance creation' stamp: 'len 5/21/2018 16:28:00'!
@@ -11566,9 +11597,9 @@ isField
 isFiniteField
 	^ true! !
 
-!PrimeField methodsFor: 'testing' stamp: 'len 7/29/2022 10:34:15'!
+!PrimeField methodsFor: 'testing' stamp: 'len 5/12/2023 21:08:17'!
 isPrimeField
-	"The Z/pZ is a prime field (it has no proper subfields)."
+	"The ℤ/pℤ is a prime field (it has no proper subfields)."
 	^ true! !
 
 !PrimeField methodsFor: 'private' stamp: 'len 6/8/2019 12:43:54'!
@@ -11927,6 +11958,35 @@ monomialsBelow: exponents do: aBlock
 	self monomialsBelow: exponents allButLast do: [:each|
 		0 to: exponents last - 1 do: [:i| aBlock value: each*(self monomials x: exponents size to: i)]]! !
 
+!QuasiGaloisRing methodsFor: 'printing' stamp: 'len 5/9/2019 09:53:57'!
+printOn: aStream
+	aStream nextPutAll: 'A('; print: self scalars p; nextPutAll: self scalars degree printString super; nextPut: $,; print: self degree; nextPut: $)! !
+
+!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:48:43'!
+isFinite
+	^ true! !
+
+!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:54:52'!
+isIntegralDomain
+	^ false! !
+
+!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:48:39'!
+isLocal
+	^ true! !
+
+!QuasiGaloisRing class methodsFor: 'instance creation' stamp: 'len 7/15/2021 19:18:19'!
+new: p to: r to: n
+	"Answer the quasi-Galois ring of characteristic p and order p^(r*n)."
+	| F f |
+	F _ GaloisField new: p to: r.
+	n = 1 ifTrue: [^ F].
+	f _ F polynomials x: 1 to: n.
+	^ self relations: f parent * f! !
+
+!ExtensionRing methodsFor: 'as yet unclassified' stamp: 'len 5/12/2023 21:51:44'!
+isSimpleExtension
+	^ true! !
+
 !GaloisRing methodsFor: 'accessing' stamp: 'len 5/9/2019 09:25:41'!
 exponent
 	^ self scalars exponent! !
@@ -11939,10 +11999,10 @@ maximalIdeal
 p
 	^ self scalars p! !
 
-!GaloisRing methodsFor: 'accessing' stamp: 'len 9/22/2018 18:54:23'!
+!GaloisRing methodsFor: 'accessing' stamp: 'len 5/12/2023 21:08:44'!
 primitiveRoot
 	"Answer a primitive root (or basic primitive element) of the receiver.
-	For GR(p^n,r), a basic primitive element is an element of multiplicative order p^r - 1, which is a root of a basic primitive polynomial of degree r over Z/(p^n)Z and dividing x^(p^r - 1) - 1 in Z/(p^n)Z[x]. Powers of this element form a Teichmuller set."
+	For GR(p^n,r), a basic primitive element is an element of multiplicative order p^r - 1, which is a root of a basic primitive polynomial of degree r over ℤ/(p^n)ℤ and dividing x^(p^r - 1) - 1 in ℤ/(p^n)ℤ[x]. Powers of this element form a Teichmuller set."
 	^ self notYetImplemented! !
 
 !GaloisRing methodsFor: 'accessing' stamp: 'len 10/5/2022 18:34:07'!
@@ -12061,10 +12121,6 @@ isIntegralDomain
 isLocal
 	^ true! !
 
-!GaloisRing methodsFor: 'testing' stamp: 'len 7/16/2021 11:18:33'!
-isSimpleExtension
-	^ true! !
-
 !GaloisRing methodsFor: 'private' stamp: 'len 5/9/2022 11:06:27'!
 elementClass
 	^ GaloisRingElement! !
@@ -12107,9 +12163,17 @@ new: p to: n to: m
 	f _ f lift apply: F projection.
 	^ self modulus: f! !
 
-!GaloisRing class methodsFor: 'private' stamp: 'len 5/15/2019 10:41:16'!
-irreduciblePolynomialOfDegree: m mod: p
-	^ (IrreduciblePolynomialsCache at: {p. m} ifAbsent: []) ifNil: [IrreduciblePolynomialsCache at: {p. m} put: ((PrimeField new: p) polynomials findIrreducibleOfDegree: m)]! !
+!GaloisRing class methodsFor: 'private' stamp: 'len 5/12/2023 16:39:56'!
+irreduciblePolynomialOfDegree: r mod: p
+	^ (IrreduciblePolynomialsCache at: {p. r} ifAbsent: []) ifNil: [IrreduciblePolynomialsCache at: {p. r} put: ((PrimeField new: p) polynomials findIrreducibleOfDegree: r)]! !
+
+!GaloisField methodsFor: 'accessing' stamp: 'len 5/12/2023 21:02:56'!
+primitiveRoot
+	"Answer a generator of the group of units.
+	For a Galois field GF(q), this is a primitive (q-1)-th root of unity."
+	self propertyAt: #primitiveRoot ifPresent: [:anElement| ^ anElement].
+	self x isPrimitiveRoot ifTrue: [^ self propertyAt: #primitiveRoot put: self x].
+	^ self propertyAt: #primitiveRoot put: (self units detect: [:one| one isPrimitiveRoot])! !
 
 !GaloisField methodsFor: 'accessing' stamp: 'len 5/9/2022 11:18:24'!
 residueField
@@ -12137,9 +12201,9 @@ syzygiesOf: aMatrix
 	For a matrix A, the output is X with AX = 0."
 	^ self syzygiesOverEuclideanDomainOf: aMatrix! !
 
-!GaloisField methodsFor: 'morphisms' stamp: 'len 7/13/2021 14:36:18'!
+!GaloisField methodsFor: 'morphisms' stamp: 'len 5/12/2023 21:08:55'!
 automorphisms
-	"Answer the Galous group of the receiver, i.e. the gruop of endomorphisms fixing the scalar field Z/pZ."
+	"Answer the Galous group of the receiver, i.e. the gruop of endomorphisms fixing the scalar field ℤ/pℤ."
 	^ Group new generators: {self frobenius}! !
 
 !GaloisField methodsFor: 'printing' stamp: 'len 5/6/2023 15:24:37'!
@@ -12184,40 +12248,22 @@ new: q
 	p _ factors anyOne.
 	^ self new: p to: n! !
 
-!GaloisField class methodsFor: 'instance creation' stamp: 'len 7/16/2021 10:25:18'!
-new: p to: n
-	"Answer the Galois field of order q = p^n."
-	n = 1 ifTrue: [^ PrimeField new: p].
-	^ self modulus: (self irreduciblePolynomialOfDegree: n mod: p)! !
+!GaloisField class methodsFor: 'instance creation' stamp: 'len 5/12/2023 18:44:39'!
+new: p to: r
+	"Answer the Galois field of order q = p^r."
+	r = 1 ifTrue: [^ PrimeField new: p].
+	^ self modulus: (self irreduciblePolynomialOfDegree: r mod: p)! !
 
-!QuasiGaloisRing methodsFor: 'printing' stamp: 'len 5/9/2019 09:53:57'!
-printOn: aStream
-	aStream nextPutAll: 'A('; print: self scalars p; nextPutAll: self scalars degree printString super; nextPut: $,; print: self degree; nextPut: $)! !
+!GaloisField class methodsFor: 'class initialization' stamp: 'len 5/12/2023 18:49:14'!
+initialize
+	super initialize.
+	"Conway polynomials for Galois fields of order <= 2^16:"
+	ConwayPolynomials _ Dictionary new.
+	#(((2 2) (1 1 1)) ((2 3) (1 1 0 1)) ((2 4) (1 1 0 0 1)) ((2 5) (1 0 1 0 0 1)) ((2 6) (1 1 0 1 1 0 1)) ((2 7) (1 1 0 0 0 0 0 1)) ((2 8) (1 0 1 1 1 0 0 0 1)) ((2 9) (1 0 0 0 1 0 0 0 0 1)) ((2 10) (1 1 1 1 0 1 1 0 0 0 1)) ((2 11) (1 0 1 0 0 0 0 0 0 0 0 1)) ((2 12) (1 1 0 1 0 1 1 1 0 0 0 0 1)) ((2 13) (1 1 0 1 1 0 0 0 0 0 0 0 0 1)) ((2 14) (1 0 0 1 0 1 0 1 0 0 0 0 0 0 1)) ((2 15) (1 0 1 0 1 1 0 0 0 0 0 0 0 0 0 1)) ((2 16) (1 0 1 1 0 1 0 0 0 0 0 0 0 0 0 0 1)) ((3 2) (2 2 1)) ((3 3) (1 2 0 1)) ((3 4) (2 0 0 2 1)) ((3 5) (1 2 0 0 0 1)) ((3 6) (2 2 1 0 2 0 1)) ((3 7) (1 0 2 0 0 0 0 1)) ((3 8) (2 2 2 0 1 2 0 0 1)) ((3 9) (1 1 2 2 0 0 0 0 0 1)) ((3 10) (2 1 0 0 2 2 2 0 0 0 1)) ((5 2) (2 4 1)) ((5 3) (3 3 0 1)) ((5 4) (2 4 4 0 1)) ((5 5) (3 4 0 0 0 1)) ((5 6) (2 0 1 4 1 0 1)) ((7 2) (3 6 1)) ((7 3) (4 0 6 1)) ((7 4) (3 4 5 0 1)) ((7 5) (4 1 0 0 0 1)) ((11 2) (2 7 1)) ((11 3) (9 2 0 1)) ((11 4) (2 10 8 0 1)) ((13 2) (2 12 1)) ((13 3) (11 2 0 1)) ((13 4) (2 12 3 0 1)) ((17 2) (3 16 1)) ((17 3) (14 1 0 1)) ((19 2) (2 18 1)) ((19 3) (17 4 0 1)) ((23 2) (5 21 1)) ((23 3) (18 2 0 1)) ((29 2) (2 24 1)) ((29 3) (27 2 0 1)) ((31 2) (3 29 1)) ((31 3) (28 1 0 1)) ((37 2) (2 33 1)) ((37 3) (35 6 0 1)) ((41 2) (6 38 1)) ((43 2) (3 42 1)) ((47 2) (5 45 1)) ((53 2) (2 49 1)) ((59 2) (2 58 1)) ((61 2) (2 60 1)) ((67 2) (2 63 1)) ((71 2) (7 69 1)) ((73 2) (5 70 1)) ((79 2) (3 78 1)) ((83 2) (2 82 1)) ((89 2) (3 82 1)) ((97 2) (5 96 1)) ((101 2) (2 97 1)) ((103 2) (5 102 1)) ((107 2) (2 103 1)) ((109 2) (6 108 1)) ((113 2) (3 101 1)) ((127 2) (3 126 1)) ((131 2) (2 127 1)) ((137 2) (3 131 1)) ((139 2) (2 138 1)) ((149 2) (2 145 1)) ((151 2) (6 149 1)) ((157 2) (5 152 1)) ((163 2) (2 159 1)) ((167 2) (5 166 1)) ((173 2) (2 169 1)) ((179 2) (2 172 1)) ((181 2) (2 177 1)) ((191 2) (19 190 1)) ((193 2) (5 192 1)) ((197 2) (2 192 1)) ((199 2) (3 193 1)) ((211 2) (2 207 1)) ((223 2) (3 221 1)) ((227 2) (2 220 1)) ((229 2) (6 228 1)) ((233 2) (3 232 1)) ((239 2) (7 237 1)) ((241 2) (7 238 1)) ((251 2) (6 242 1))) do: [:each| ConwayPolynomials at: each first put: each second]! !
 
-!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:48:43'!
-isFinite
-	^ true! !
-
-!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:54:52'!
-isIntegralDomain
-	^ false! !
-
-!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:48:39'!
-isLocal
-	^ true! !
-
-!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 7/16/2021 11:18:50'!
-isSimpleExtension
-	^ true! !
-
-!QuasiGaloisRing class methodsFor: 'instance creation' stamp: 'len 7/15/2021 19:18:19'!
-new: p to: r to: n
-	"Answer the quasi-Galois ring of characteristic p and order p^(r*n)."
-	| F f |
-	F _ GaloisField new: p to: r.
-	n = 1 ifTrue: [^ F].
-	f _ F polynomials x: 1 to: n.
-	^ self relations: f parent * f! !
+!GaloisField class methodsFor: 'private' stamp: 'len 5/12/2023 18:45:52'!
+irreduciblePolynomialOfDegree: r mod: p
+	^ (PrimeField new: p) polynomials !! (ConwayPolynomials at: {p. r} ifAbsent: [^ super irreduciblePolynomialOfDegree: r mod: p])! !
 
 !FunctionField methodsFor: 'accessing' stamp: 'len 1/5/2017 19:50:45'!
 genus
@@ -12239,10 +12285,6 @@ isGlobalField
 isPerfectField
 	"A field is perfect if either it has characteristic 0 or has characteristic p and every element in the field has a p-th root in the field."
 	^ self characteristic = 0! !
-
-!FunctionField methodsFor: 'testing' stamp: 'len 7/16/2021 11:18:25'!
-isSimpleExtension
-	^ true! !
 
 !FunctionField methodsFor: 'private' stamp: 'len 7/15/2021 19:12:04'!
 extensionClass
@@ -12366,10 +12408,6 @@ isReal
 !NumberField methodsFor: 'testing' stamp: 'len 5/8/2023 11:44:51'!
 isRelative
 	^ self isAbsolute not! !
-
-!NumberField methodsFor: 'testing' stamp: 'len 7/16/2021 11:18:41'!
-isSimpleExtension
-	^ true! !
 
 !NumberField methodsFor: 'private' stamp: 'len 10/17/2022 12:27:57'!
 elementClass
@@ -12721,11 +12759,6 @@ isInvolutive
 isLocalField
 	^ true! !
 
-!ComplexField class methodsFor: 'initialization' stamp: 'len 5/23/2020 08:51:01'!
-initialize
-	super initialize.
-	Smalltalk at: #ℂ put: self new! !
-
 !RealField methodsFor: 'accessing' stamp: 'len 8/6/2016 03:45'!
 characteristic
 	^ 0! !
@@ -12812,11 +12845,6 @@ isLocalField
 isReal
 	"Answer true if the receiver is a subring of the real field."
 	^ true! !
-
-!RealField class methodsFor: 'initialization' stamp: 'len 5/23/2020 08:51:12'!
-initialize
-	super initialize.
-	Smalltalk at: #ℝ put: self new! !
 
 !AdicRing methodsFor: 'accessing' stamp: 'len 6/6/2019 11:56:17'!
 base
@@ -12974,9 +13002,9 @@ p
 primeSubring
 	^ self! !
 
-!AdicIntegerRing methodsFor: 'accessing' stamp: 'len 9/16/2022 08:10:49'!
+!AdicIntegerRing methodsFor: 'accessing' stamp: 'len 5/12/2023 21:09:02'!
 residueField
-	"Answer the prime field Z/pZ isomorphic to the residue field of the receiver, equipped with the canonical projection."
+	"Answer the prime field ℤ/pℤ isomorphic to the residue field of the receiver, equipped with the canonical projection."
 	^ self propertyAt: #residueField ifAbsentPut:
 		[| answer |
 		(answer _ PrimeField new: self p)
@@ -15430,9 +15458,9 @@ primaryBasis
 	See >>primaryInvariants."
 	self notYetImplemented! !
 
-!Module methodsFor: 'accessing' stamp: 'len 8/5/2021 08:40:39'!
+!Module methodsFor: 'accessing' stamp: 'len 5/12/2023 21:09:43'!
 primaryInvariants
-	"Answer the primary abelian invariants of the receiver, consisting of prime powers q(i) such that the torsion subgroup of the receiver is isomorphic to the direct sum of all the Z/q(i)Z. Each infinite cyclic factor is represented by 0."
+	"Answer the primary abelian invariants of the receiver, consisting of prime powers q(i) such that the torsion subgroup of the receiver is isomorphic to the direct sum of all the ℤ/q(i)ℤ. Each infinite cyclic factor is represented by 0."
 	| answer |
 	self propertyAt: #primaryInvariants ifPresent: [:aBag| ^ aBag].
 	answer _ Bag new.
@@ -15803,7 +15831,7 @@ to: aModule validMatrix: aMatrix
 	aSubmodule isTrivial ifTrue: [^ self].
 	^ self ambient span: self generatorMatrix ⊔ aSubmodule generatorMatrix! !
 
-!Module methodsFor: 'operations' stamp: 'len 12/29/2022 10:13:23'!
+!Module methodsFor: 'operations' stamp: 'len 5/12/2023 20:11:47'!
 / aSubmodule
 	"Answer the quotient of the receiver by aSubmodule,
 	i.e. the module obtained by 'collapsing' the submodule to zero.
@@ -15839,16 +15867,15 @@ to: aModule validMatrix: aMatrix
 				[self assert: P height = R height.
 				Transcript show: 'has a unit at ', (i@j) printString; show: R.
 				"Make the entry at i@j be 1:"
-				R _ R asColumnMajor.
-				R multiplyColumn: j by: u inverse.
+				R _ R transpose.
+				R multiplyRow: j by: u inverse.
 				"Put zeros in the columns before and after j:"
-				1 to: j-1 do: [:k| R addColumn: j times: (R at: i@k) negated to: k].
-				j+1 to: R width do: [:k| R addColumn: j times: (R at: i@k) negated to: k].
+				1 to: j-1 do: [:k| R addRow: j times: (R at: k@i) negated to: k].
+				j+1 to: R height do: [:k| R addRow: j times: (R at: k@i) negated to: k].
 				"Put zeros in the rows before and after i:"
 				R _ R transpose.
-				1 to: i-1 do: [:k| R addColumn: i times: (R at: j@k) negated to: k].
-				i+1 to: R width do: [:k| R addColumn: i times: (R at: j@k) negated to: k].
-				R _ R transpose.
+				1 to: i-1 do: [:k| R addRow: i times: (R at: k@j) negated to: k].
+				i+1 to: R width do: [:k| R addRow: i times: (R at: k@j) negated to: k].
 				Transcript show: 'should have all zeros at column ', j printString, ' and row ', i printString, ' except a 1 at ', (i@j) printString; show: R.
 				R _ R copyWithoutRowAndColumn: i@j.
 				P _ P copyWithoutRow: i.
@@ -16176,9 +16203,9 @@ isDual
 	"Answer true if the receiver is the module of linear forms Hom(M,R) for an R-module M."
 	^ false! !
 
-!Module methodsFor: 'testing' stamp: 'len 10/20/2020 18:42:22'!
+!Module methodsFor: 'testing' stamp: 'len 5/12/2023 21:09:30'!
 isElementaryAbelian
-	"Answer true if the receiver is isomorphic to a direct sum of n copies of a cyclic group of prime order, i.e. isomorphic to (Z/pZ)^n for some prime p and natural number n."
+	"Answer true if the receiver is isomorphic to a direct sum of n copies of a cyclic group of prime order, i.e. isomorphic to (ℤ/pℤ)^n for some prime p and natural number n."
 	self notYetImplemented! !
 
 !Module methodsFor: 'testing' stamp: 'len 4/27/2020 01:48:43'!
@@ -16697,9 +16724,9 @@ example1
 	"Creating an ideal of Z:"
 	^ ℤ * {12. 18. 60}! !
 
-!Ideal class methodsFor: 'examples' stamp: 'len 5/23/2020 09:13:12'!
+!Ideal class methodsFor: 'examples' stamp: 'len 5/12/2023 21:09:49'!
 example2
-	"Creating an ideal in Z/3Z[x,y,z]:"
+	"Creating an ideal in ℤ/3ℤ[x,y,z]:"
 	| R x y z |
 	R _ ℤ/3 polynomialsIn: #(x y z).
 	x _ R x.
@@ -17367,14 +17394,14 @@ fromAll: anArray
 	i _ 1.
 	^ anArray collect: [:each| self coprojection: (i to: (i _ i + each rank)-1)]! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 12/15/2022 12:32:31'!
+!FreeModule methodsFor: 'morphisms' stamp: 'len 5/12/2023 20:45:39'!
 id
 	"Answer the identity morphism."
 	| coefficients one |
 	coefficients _ scalars zeros: rank squared.
 	one _ scalars one.
 	1 to: rank squared by: rank+1 do: [:i| coefficients at: i put: one].
-	^ RowMajorMatrix from: self to: self coefficients: coefficients! !
+	^ DenseMatrix from: self to: self coefficients: coefficients! !
 
 !FreeModule methodsFor: 'morphisms' stamp: 'len 5/8/2023 19:50:09'!
 projection: anIntegerOrList
@@ -17805,9 +17832,9 @@ scalar: anElement
 	1 to: (domain rank min: codomain rank) do: [:i| answer at: i@i put: anElement].
 	^ answer! !
 
-!MatrixModule methodsFor: 'elements' stamp: 'len 12/15/2022 12:32:31'!
+!MatrixModule methodsFor: 'elements' stamp: 'len 5/12/2023 20:45:39'!
 zero
-	^ RowMajorMatrix from: domain to: codomain coefficients: (domain scalars zeros: domain rank * codomain rank)! !
+	^ DenseMatrix from: domain to: codomain coefficients: (domain scalars zeros: domain rank * codomain rank)! !
 
 !MatrixModule methodsFor: 'printing' stamp: 'len 7/16/2020 09:35:55'!
 printOn: aStream
@@ -18599,11 +18626,11 @@ example1
 	This is the initial object in the category of schemes."	
 	^ ℤ spec! !
 
-!AffineScheme class methodsFor: 'examples' stamp: 'len 5/23/2020 08:55:57'!
+!AffineScheme class methodsFor: 'examples' stamp: 'len 5/12/2023 21:10:20'!
 example2
-	"Spec(Z/6Z), the prime spectrum of the residue class ring
+	"Spec(ℤ/6ℤ), the prime spectrum of the residue class ring
 	of integers modulo 6, as a set it is the set of prime
-	ideals of Z/6Z:"
+	ideals of ℤ/6ℤ:"
 	^ (ℤ/6) spec asSet! !
 
 !AffineScheme class methodsFor: 'instance creation' stamp: 'len 7/30/2022 12:07:51'!
@@ -20826,7 +20853,7 @@ example4CanonicalMorphism
 	I _ R * (x squared + 1).
 	^ R → (R / I)! !
 
-!Morphism class methodsFor: 'examples' stamp: 'len 10/16/2022 06:00:17'!
+!Morphism class methodsFor: 'examples' stamp: 'len 5/12/2023 21:10:42'!
 example5CanonicalMorphism
 	"The message f → B can be sent to a Morphism with a Domain as
 	argument, or to a Domain with a Morphism as argument.
@@ -20834,7 +20861,7 @@ example5CanonicalMorphism
 	For example, given an arbitrary ring homomorphism,
 	we can send it *canonically* to a quotient of its codomain."
 	| R φ x I |
-	R _ (ℤ/5) polynomials. "univariate polynomials over Z/5Z"
+	R _ (ℤ/5) polynomials. "univariate polynomials over ℤ/5ℤ"
 	φ _ R frobenius. "the Frobenius endomorphism"
 	x _ R x.
 	I _ R * (x squared + 1).
@@ -22222,11 +22249,6 @@ hash
 	Two matrices over a field are equivalent if and only if they have the same rank, and over a PID they are equivalent if and only if they have the same Smith normal form."
 	^ self elementaryDivisors = aMatrix elementaryDivisors! !
 
-!Matrix methodsFor: 'converting' stamp: 'len 5/12/2023 14:11:57'!
-asColumnMajor
-	self flag: #deprecated.
-	^ ColumnMajorMatrix from: self domain to: self codomain coefficients: self transpose asTuple coefficients! !
-
 !Matrix methodsFor: 'converting' stamp: 'len 4/1/2021 06:34:34'!
 asMatrix
 	^ self! !
@@ -22246,10 +22268,6 @@ asRationalMap
 	B _ self codomain coordinateRing.
 	polynomials _ (self over: A) * (A !!!! A generators).
 	^ A spec to: B spec representatives: polynomials! !
-
-!Matrix methodsFor: 'converting' stamp: 'len 5/5/2023 18:23:43'!
-asRowMajor
-	^ RowMajorMatrix from: self domain to: self codomain coefficients: self asTuple coefficients! !
 
 !Matrix methodsFor: 'converting' stamp: 'len 5/31/2022 18:10:34'!
 asScalar
@@ -23611,18 +23629,9 @@ columns: anArray
 from: aDomain rows: anArray
 	^ self from: aDomain to: aDomain scalars ^ anArray size rows: anArray! !
 
-!Matrix class methodsFor: 'instance creation' stamp: 'len 12/29/2022 20:12:40'!
+!Matrix class methodsFor: 'instance creation' stamp: 'len 5/12/2023 20:46:42'!
 from: aDomain to: aCodomain columns: anArray
-	^ (self from: aCodomain to: aDomain rows: anArray) transpose
-
-"	| coefficients i n |
-	coefficients _ aDomain scalars new: aDomain rank * aCodomain rank.
-	i _ 1.
-	n _ aCodomain rank.
-	anArray do: [:each| coefficients replaceFrom: i to: i + n - 1 with: each. i _ i + n].
-	^ ColumnMajorMatrix from: aDomain to: aCodomain coefficients: coefficients
-"
-! !
+	^ (self from: aCodomain to: aDomain rows: anArray) transpose! !
 
 !Matrix class methodsFor: 'instance creation' stamp: 'len 11/23/2022 21:33:31'!
 from: aDomain to: aCodomain fill: aBlock
@@ -23632,14 +23641,14 @@ from: aDomain to: aCodomain fill: aBlock
 from: aDomain to: aCodomain matrix: aMatrix
 	^ self shouldNotImplement! !
 
-!Matrix class methodsFor: 'instance creation' stamp: 'len 5/5/2023 18:29:34'!
+!Matrix class methodsFor: 'instance creation' stamp: 'len 5/12/2023 20:45:39'!
 from: aDomain to: aCodomain rows: anArray
 	| coefficients i n |
 	coefficients _ aDomain scalars new: aDomain rank * aCodomain rank.
 	i _ 1.
 	n _ aDomain rank.
 	anArray do: [:each| coefficients replaceFrom: i to: i + n - 1 with: each coefficients. i _ i + n].
-	^ RowMajorMatrix from: aDomain to: aCodomain coefficients: coefficients! !
+	^ DenseMatrix from: aDomain to: aCodomain coefficients: coefficients! !
 
 !Matrix class methodsFor: 'instance creation' stamp: 'len 10/26/2020 16:28:36'!
 rows: anArray
@@ -23649,425 +23658,64 @@ rows: anArray
 to: aCodomain columns: anArray
 	^ self from: aCodomain scalars ^ anArray size to: aCodomain columns: anArray! !
 
-!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 12:42:26'!
-atRow: i column: j
-	^ coefficients at: j - 1 * self height + i! !
-
-!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 12:42:46'!
-atRow: i column: j ifAbsent: exceptionBlock
-	((i between: 1 and: self height) and: [j between: 1 and: self width])
-		ifFalse: [^ exceptionBlock value].
-	^ coefficients at: j - 1 * self height + i "ifAbsent: exceptionBlock"! !
-
-!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 12:43:01'!
-atRow: i column: j put: anObject
-	((i between: 1 and: self height) and: [j between: 1 and: self width])
-		ifFalse: [^ self error: 'indices out of bounds'].
-	^ coefficients at: j - 1 * self height + i put: anObject! !
-
-!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 5/5/2023 16:49:18'!
-columnAt: j
-	^ codomain coefficients: (coefficients copyFrom: j - 1 * self height + 1 to: j * self height)! !
-
-!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 5/5/2023 16:49:46'!
-columnAt: j put: aTuple
-	coefficients replaceFrom: j - 1 * self height + 1 to: j * self height with: aTuple coefficients startingAt: 1! !
-
-!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 11:51:15'!
-lift
-	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R."
-	^ self class from: domain lift to: codomain lift coefficients: coefficients lift! !
-
-!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 12:52:04'!
-projection: anInteger
-	"If the coefficients ring is a product ring, answer matrix induced by the projection to the anInteger-th component."
-	^ self class from: (domain over: (domain scalars at: anInteger)) to: (codomain over: (domain scalars at: anInteger)) coefficients: (coefficients projection: anInteger)! !
-
-!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 12:52:12'!
-representative
-	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R."
-	^ self class from: domain lift to: codomain lift coefficients: coefficients representative! !
-
-!ColumnMajorMatrix methodsFor: 'accessing' stamp: 'len 12/15/2022 12:53:59'!
-zero
-	^ self class from: domain to: codomain coefficients: coefficients zero! !
-
-!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/19/2022 10:23:37'!
-addColumn: j₁ times: anElement to: j₂
-	self addColumn: j₁ times: anElement to: j₂ startingAt: 1! !
-
-!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/19/2022 10:30:38'!
-addColumn: j₁ times: anElement to: j₂ startingAt: startRow
-	| height start₁ start₂ |
-	height _ self height.
-	start₁ _ j₁ - 1 * height + startRow.
-	start₂ _ j₂ - 1 * height + startRow.
-	coefficients
-		replaceFrom: start₂ to: j₂ * height
-		with: coefficients startingAt: start₂
-		plus: coefficients startingAt: start₁
-		timesScalar: anElement! !
-
-!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/20/2022 11:09:25'!
-cancelColumn: j₁ and: j₂ with: mgcd
-	| s t u v A₁ A₂ |
-	s _ mgcd at: 2.
-	t _ mgcd at: 3.
-	u _ mgcd at: 4.
-	v _ mgcd at: 5.
-	A₁ _ (self columnAt: j₁) copy.
-	A₂ _ (self columnAt: j₂) copy.
-	self columnAt: j₁ put: A₁*s + (A₂*t).
-	self columnAt: j₂ put: A₁*u + (A₂*v)! !
-
-!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/20/2022 06:04:15'!
-copyColumn: j₁ times: anElement to: j₂
-	self copyColumn: j₁ times: anElement to: j₂ startingAt: 1! !
-
-!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/20/2022 06:03:43'!
-copyColumn: j₁ times: anElement to: j₂ startingAt: startRow
-	| height start₁ start₂ |
-	height _ self height.
-	start₁ _ j₁ - 1 * height + startRow.
-	start₂ _ j₂ - 1 * height + startRow.
-	coefficients
-		replaceFrom: start₂ to: j₂ * height
-		with: coefficients startingAt: start₁
-		timesScalar: anElement! !
-
-!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/20/2022 05:58:34'!
-copyColumn: j₁ to: j₂
-	self copyColumn: j₁ to: j₂ startingAt: 1! !
-
-!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/20/2022 05:58:14'!
-copyColumn: j₁ to: j₂ startingAt: startRow
-	| height start₁ start₂ |
-	height _ self height.
-	start₁ _ j₁ - 1 * height + startRow.
-	start₂ _ j₂ - 1 * height + startRow.
-	coefficients
-		replaceFrom: start₂ to: j₂ * height
-		with: coefficients startingAt: start₁! !
-
-!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/15/2022 11:53:16'!
-multiplyColumn: j by: anElement
-	self multiplyColumn: j by: anElement startingAt: 1! !
-
-!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/19/2022 10:20:08'!
-multiplyColumn: j by: anElement startingAt: startRow
-	| height start |
-	height _ self height.
-	start _ j - 1 * height + startRow.
-	coefficients
-		replaceFrom: start to: j * height
-		with: coefficients startingAt: start
-		timesScalar: anElement! !
-
-!ColumnMajorMatrix methodsFor: 'column operations' stamp: 'len 12/19/2022 10:19:09'!
-swapColumn: j₁ with: j₂
-	| height |
-	height _ self height.
-	coefficients
-		swapFrom: j₁ - 1 * height + 1 to: j₁ * height
-		with: coefficients startingAt: j₂ - 1 * height + 1! !
-
-!ColumnMajorMatrix methodsFor: 'comparing' stamp: 'len 12/15/2022 11:57:59'!
-= anObject
-	^ (self class = anObject class and: [coefficients = anObject coefficients]) or: [super = anObject]! !
-
-!ColumnMajorMatrix methodsFor: 'converting' stamp: 'len 12/18/2022 10:19:18'!
-asColumnMajor
-	^ self! !
-
-!ColumnMajorMatrix methodsFor: 'converting' stamp: 'len 12/17/2022 12:34:04'!
-asRowMajor
-	^ RowMajorMatrix from: self domain to: self codomain coefficients: self transpose coefficients! !
-
-!ColumnMajorMatrix methodsFor: 'converting' stamp: 'len 5/5/2023 17:16:22'!
-over: aRing
-	self scalars = aRing ifTrue: [^ self].
-	^ self class from: (domain over: aRing) to: (codomain over: aRing) coefficients: (aRing new: coefficients size fill: [:i| coefficients at: i])! !
-
-!ColumnMajorMatrix methodsFor: 'copying' stamp: 'len 12/15/2022 12:49:15'!
-copyFrom: start to: stop
-	"Answer the submatrix of the receiver from start to stop."
-	| h w subcoefficients |
-	(stop x > self height or: [stop y > self width]) ifTrue: [^ self error: 'index out of bounds'].
-	h _ stop x - start x + 1 max: 0.
-	w _ stop y - start y + 1 max: 0.
-	subcoefficients _ self scalars new: h*w.
-	h > 0 ifTrue: [start y to: stop y do: [:j| subcoefficients replaceFrom: j - start y * h + 1 to: j - start y * h + h with: coefficients startingAt: j - 1 * self height + start x]].
-	^ self class
-		from: (domain copyFrom: start y to: stop y)
-		to: (codomain copyFrom: start x to: stop x)
-		coefficients: subcoefficients! !
-
-!ColumnMajorMatrix methodsFor: 'copying' stamp: 'len 12/20/2022 09:45:45'!
-postCopy
-	super postCopy.
-	properties _ nil.
-	coefficients _ coefficients copy! !
-
-!ColumnMajorMatrix methodsFor: 'enumerating' stamp: 'len 12/15/2022 12:41:46'!
-allSatisfy: aBlock
-	^ coefficients allSatisfy: aBlock! !
-
-!ColumnMajorMatrix methodsFor: 'enumerating' stamp: 'len 12/15/2022 12:43:21'!
-collect: aBlock
-	^ self class from: domain to: codomain coefficients: (coefficients collect: aBlock)! !
-
-!ColumnMajorMatrix methodsFor: 'enumerating' stamp: 'len 12/15/2022 12:50:20'!
-diagonalDo: aBlock
-	| i step |
-	i _ 1.
-	step _ self height + 1.
-	[i <= coefficients size]
-		whileTrue:
-			[aBlock value: (coefficients at: i).
-			i _ i + step]! !
-
-!ColumnMajorMatrix methodsFor: 'enumerating' stamp: 'len 12/15/2022 12:50:40'!
-do: aBlock
-	coefficients do: aBlock! !
-
-!ColumnMajorMatrix methodsFor: 'enumerating' stamp: 'len 12/15/2022 13:01:21'!
-withIndicesDo: aBlock
-	| h i j |
-	h _ self height.
-	i _ 1.
-	j _ 1.
-	coefficients do: [:each|
-		aBlock value: each value: i value: j.
-		(i _ i + 1) > h ifTrue: [i _ 1. j _ j + 1]].! !
-
-!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 11:57:38'!
-* anObject
-	(self scalars includes: anObject) ifTrue: [^ self class from: domain to: codomain coefficients: coefficients * anObject].
-	anObject isInteger ifTrue: [^ self * (self scalars !! anObject)].
-	anObject isMatrix ifTrue: [^ self · anObject].
-	anObject isTuple ifTrue: [^ self value: anObject].
-	(anObject isKindOf: ModuleMap) ifTrue: [^ self · anObject].
-	^ DomainError signal! !
-
-!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 11:57:45'!
-+ aMatrix
-	self class = aMatrix class ifFalse: [^ super + aMatrix].
-	self checkDomainsMatch: aMatrix.
-	self checkCodomainsMatch: aMatrix.
-	^ self class from: domain to: codomain coefficients: coefficients + aMatrix coefficients! !
-
-!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 11:57:53'!
-- aMatrix
-	self class = aMatrix class ifFalse: [^ super - aMatrix].
-	self checkDomainsMatch: aMatrix.
-	self checkCodomainsMatch: aMatrix.
-	^ self class from: domain to: codomain coefficients: coefficients - aMatrix coefficients! !
-
-!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 12:35:58'!
-⊕ aMatrix
-	"Answer the block sum of the receiver and the argument.
-	If the receiver is A and the argument is B, output a matrix of the form:
-	  [A 0]
-	  [0 B]"
-	| newCoefficients h |
-	self class = aMatrix class ifFalse: [^ super ⊕ aMatrix].
-	h _ self height + aMatrix height.
-	newCoefficients _ self scalars zeros: h * (self width + aMatrix width).
-	1 to: self width do: [:j|
-		newCoefficients replaceFrom: j - 1 * h + 1 to: j - 1 * h + self height with: coefficients startingAt: j - 1 * self height + 1].
-	1 to: aMatrix width do: [:j|
-		newCoefficients replaceFrom: j - 1 + self width * h + self height + 1 to: j + self width * h with: aMatrix coefficients startingAt: j - 1 * aMatrix height + 1].
-	^ self class from: domain ⊕ aMatrix domain to: codomain ⊕ aMatrix codomain coefficients: newCoefficients
-! !
-
-!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/27/2022 22:19:05'!
-∘ aMatrix
-	self class = aMatrix class ifFalse: [^ super ∘ aMatrix].
-	self checkCompatibleComposition: aMatrix.
-	(coefficients isEmpty or: [aMatrix coefficients isEmpty])
-		ifTrue: [^ self class from: aMatrix domain to: codomain coefficients: (self scalars zeros: aMatrix width * self height)].
-	^ self class
-		from: aMatrix domain
-		to: codomain
-		coefficients:
-			((coefficients species new: aMatrix width * self height)
-				fillWithColumnMajorMatrix: coefficients height: self height
-				timesMatrix: aMatrix coefficients height: aMatrix height)! !
-
-!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/25/2022 13:38:53'!
-⊓ aMatrix
-	"Answer the product morphism of the receiver and the argument.
-	This is the row-augmented matrix with the receiver stacked on top of the argument.
-	If the receiver is A and the argument is B, output a matrix of the form:
-	  [A]
-	  [B]"
-	| newCoefficients h |
-	self class = aMatrix class ifFalse: [^ super ⊓ aMatrix].
-	self checkDomainsMatch: aMatrix.
-	newCoefficients _ self scalars new: coefficients size + aMatrix coefficients size.
-	h _ self height + aMatrix height.
-	1 to: self width do: [:j|
-		newCoefficients
-			replaceFrom: j - 1 * h + 1 to: j - 1 * h + self height with: coefficients startingAt: j - 1 * self height + 1;
-			replaceFrom: j - 1 * h + self height + 1 to: j * h with: aMatrix coefficients startingAt: j - 1 * aMatrix height + 1].
-	^ self class from: domain to: codomain ⊕ aMatrix codomain coefficients: newCoefficients! !
-
-!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/18/2022 10:20:43'!
-⊔ aMatrix
-	"Answer the coproduct morphism of the receiver and the argument.
-	This is the column-augmented matrix with the receiver concatenated with the argument.
-	If the receiver is A and the argument is B, output a matrix of the form:
-	  [A B]"
-	self class = aMatrix class ifFalse: [^ super ⊔ aMatrix].
-	self checkCodomainsMatch: aMatrix.
-	^ self class from: domain ⊕ aMatrix domain to: codomain coefficients: coefficients, aMatrix coefficients! !
-
-!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 12:41:57'!
-apply: aFunction
-	"Answer a new tuple with coefficients obtainted by applying aFunction to the coefficients of the receiver.
-	If aFunction is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
-
-	aFunction isBlock ifTrue: [^ self collect: aFunction].
-	^ self class from: (domain over: aFunction codomain) to: (codomain over: aFunction codomain) coefficients: (coefficients apply: aFunction)! !
-
-!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 12:51:23'!
-negated
-	^ self class from: domain to: codomain coefficients: coefficients negated! !
-
-!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/18/2022 10:17:42'!
-trace
-	self checkIsSquare.
-	self isEmpty ifTrue: [^ self scalars zero].
-	^ coefficients sumFrom: 1 to: coefficients size by: self height + 1! !
-
-!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 5/9/2023 17:59:51'!
-transpose
-	^ self class from: codomain to: domain coefficients: ((coefficients species new: coefficients size) fillWithMatrixTranspose: coefficients width: self height)! !
-
-!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 5/5/2023 17:25:58'!
-value: aTuple
-"	(self domain includes: aTuple) ifFalse: [^ DomainError signal]."
-	(coefficients isEmpty or: [aTuple isEmpty]) ifTrue: [^ codomain zero].
-	^ codomain coefficients:
-		((coefficients species new: self height)
-			replaceFrom: 1 to: self height
-			withMatrix: coefficients height: self height width: self width transpose: false
-			timesTuple: aTuple coefficients startingAt: 1)! !
-
-!ColumnMajorMatrix methodsFor: 'testing' stamp: 'len 12/15/2022 12:50:45'!
-isZero
-	^ coefficients isZero! !
-
-!ColumnMajorMatrix methodsFor: 'testing' stamp: 'len 12/15/2022 12:51:00'!
-isZeroAt: aPoint
-	^ coefficients isZeroAt: aPoint y - 1 * self height + aPoint x! !
-
-!ColumnMajorMatrix methodsFor: 'testing' stamp: 'len 12/22/2022 19:04:05'!
-isZeroAtColumn: anInteger
-	| height start |
-	height _ self height.
-	start _ anInteger - 1 * height + 1.
-	^ (coefficients findFirstNonzeroFrom: start to: start + height - 1) isNil! !
-
-!ColumnMajorMatrix methodsFor: 'private' stamp: 'len 12/15/2022 12:43:08'!
-coefficients
-	^ coefficients! !
-
-!ColumnMajorMatrix methodsFor: 'private' stamp: 'len 5/8/2023 16:32:11'!
-coefficients: anArray
-	coefficients _ anArray! !
-
-!ColumnMajorMatrix methodsFor: 'private' stamp: 'len 12/15/2022 12:54:50'!
-validate
-	self assert: coefficients size = (domain rank * codomain rank).
-	^ super validate! !
-
-!ColumnMajorMatrix class methodsFor: 'as yet unclassified' stamp: 'len 12/16/2022 09:46:11'!
-from: aDomain to: aCodomain coefficients: anArray
-	^ self new domain: aDomain; codomain: aCodomain; coefficients: anArray! !
-
-!PermutationMatrix methodsFor: 'as yet unclassified' stamp: 'len 12/24/2022 16:57:44'!
-= anObject
-	^ (self class = anObject class and: [permutation = anObject permutation]) or: [super = anObject]! !
-
-!PermutationMatrix methodsFor: 'as yet unclassified' stamp: 'len 12/22/2022 19:49:24'!
-atRow: i column: j ifAbsent: exceptionBlock
-	^ (permutation at: i) = j ifTrue: [self scalars one] ifFalse: [self scalars zero]! !
-
-!PermutationMatrix methodsFor: 'as yet unclassified' stamp: 'len 12/24/2022 16:57:53'!
-permutation
-	^ permutation! !
-
-!PermutationMatrix methodsFor: 'as yet unclassified' stamp: 'len 12/22/2022 19:47:52'!
-permutation: anArray
-	permutation _ anArray! !
-
-!PermutationMatrix class methodsFor: 'instance creation' stamp: 'len 12/22/2022 19:48:24'!
-from: aDomain to: aCodomain permutation: anArray
-	^ self new domain: aDomain; codomain: aCodomain; permutation: anArray! !
-
-!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 4/20/2022 18:37:50'!
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 4/20/2022 18:37:50'!
 atRow: i column: j
 	^ coefficients at: i - 1 * self width + j! !
 
-!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 22:37:43'!
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 22:37:43'!
 atRow: i column: j ifAbsent: exceptionBlock
 	((i between: 1 and: self height) and: [j between: 1 and: self width])
 		ifFalse: [^ exceptionBlock value].
 	^ coefficients at: i - 1 * self width + j "ifAbsent: exceptionBlock"! !
 
-!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 22:38:15'!
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 22:38:15'!
 atRow: i column: j put: anObject
 	((i between: 1 and: self height) and: [j between: 1 and: self width])
 		ifFalse: [^ self error: 'indices out of bounds'].
 	^ coefficients at: i - 1 * self width + j put: anObject! !
 
-!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 12/2/2022 14:25:46'!
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 12/2/2022 14:25:46'!
 lift
 	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R."
 	^ self class from: domain lift to: codomain lift coefficients: coefficients lift! !
 
-!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 12/2/2022 14:30:26'!
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 12/2/2022 14:30:26'!
 projection: anInteger
 	"If the coefficients ring is a product ring, answer matrix induced by the projection to the anInteger-th component."
 	^ self class from: (domain over: (domain scalars at: anInteger)) to: (codomain over: (domain scalars at: anInteger)) coefficients: (coefficients projection: anInteger)! !
 
-!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 12/2/2022 14:28:23'!
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 12/2/2022 14:28:23'!
 representative
 	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R."
 	^ self class from: domain lift to: codomain lift coefficients: coefficients representative! !
 
-!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 5/5/2023 16:50:11'!
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/5/2023 16:50:11'!
 rowAt: i
 	^ domain coefficients: (coefficients copyFrom: i - 1 * self width + 1 to: i * self width)! !
 
-!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 5/5/2023 16:50:23'!
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/5/2023 16:50:23'!
 rowAt: i put: aTuple
 	coefficients replaceFrom: i - 1 * self width + 1 to: i * self width with: aTuple coefficients startingAt: 1! !
 
-!RowMajorMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 12:06:01'!
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 12:06:01'!
 zero
 	^ self class from: domain to: codomain coefficients: coefficients zero! !
 
-!RowMajorMatrix methodsFor: 'comparing' stamp: 'len 12/11/2022 09:53:10'!
+!DenseMatrix methodsFor: 'comparing' stamp: 'len 12/11/2022 09:53:10'!
 = anObject
 	^ (self class = anObject class and: [coefficients = anObject coefficients]) or: [super = anObject]! !
 
-!RowMajorMatrix methodsFor: 'converting' stamp: 'len 12/18/2022 10:20:03'!
-asRowMajor
-	^ self! !
-
-!RowMajorMatrix methodsFor: 'converting' stamp: 'len 5/5/2023 18:19:38'!
+!DenseMatrix methodsFor: 'converting' stamp: 'len 5/5/2023 18:19:38'!
 asTuple
 	"Answer the receiver converted to Tuple by concatenating its rows (which is also the coordinates of the receiver in the canonical basis)."
 	^ self scalars ^ (self width * self height) coefficients: coefficients! !
 
-!RowMajorMatrix methodsFor: 'converting' stamp: 'len 5/5/2023 17:16:37'!
+!DenseMatrix methodsFor: 'converting' stamp: 'len 5/5/2023 17:16:37'!
 over: aRing
 	self scalars = aRing ifTrue: [^ self].
 	^ self class from: (domain over: aRing) to: (codomain over: aRing) coefficients: (aRing new: coefficients size fill: [:i| coefficients at: i])! !
 
-!RowMajorMatrix methodsFor: 'copying' stamp: 'len 5/16/2022 11:09:18'!
+!DenseMatrix methodsFor: 'copying' stamp: 'len 5/16/2022 11:09:18'!
 copyFrom: start to: stop
 	"Answer the submatrix of the receiver from start to stop."
 	| h w subcoefficients |
@@ -24081,21 +23729,21 @@ copyFrom: start to: stop
 		to: (codomain copyFrom: start x to: stop x)
 		coefficients: subcoefficients! !
 
-!RowMajorMatrix methodsFor: 'copying' stamp: 'len 12/20/2022 09:46:05'!
+!DenseMatrix methodsFor: 'copying' stamp: 'len 12/20/2022 09:46:05'!
 postCopy
 	super postCopy.
 	properties _ nil.
 	coefficients _ coefficients copy! !
 
-!RowMajorMatrix methodsFor: 'enumerating' stamp: 'len 4/21/2022 12:32:12'!
+!DenseMatrix methodsFor: 'enumerating' stamp: 'len 4/21/2022 12:32:12'!
 allSatisfy: aBlock
 	^ coefficients allSatisfy: aBlock! !
 
-!RowMajorMatrix methodsFor: 'enumerating' stamp: 'len 5/29/2020 04:11:36'!
+!DenseMatrix methodsFor: 'enumerating' stamp: 'len 5/29/2020 04:11:36'!
 collect: aBlock
 	^ self class from: domain to: codomain coefficients: (coefficients collect: aBlock)! !
 
-!RowMajorMatrix methodsFor: 'enumerating' stamp: 'len 12/15/2022 12:50:32'!
+!DenseMatrix methodsFor: 'enumerating' stamp: 'len 12/15/2022 12:50:32'!
 diagonalDo: aBlock
 	| i step |
 	i _ 1.
@@ -24105,11 +23753,11 @@ diagonalDo: aBlock
 			[aBlock value: (coefficients at: i).
 			i _ i + step]! !
 
-!RowMajorMatrix methodsFor: 'enumerating' stamp: 'len 5/28/2020 10:34:42'!
+!DenseMatrix methodsFor: 'enumerating' stamp: 'len 5/28/2020 10:34:42'!
 do: aBlock
 	coefficients do: aBlock! !
 
-!RowMajorMatrix methodsFor: 'enumerating' stamp: 'len 5/20/2022 11:37:50'!
+!DenseMatrix methodsFor: 'enumerating' stamp: 'len 5/20/2022 11:37:50'!
 pivotsDo: aBlock
 	"Enumerate the row-style pivot indices. These are the pairs i@j corresponding to the first nonzero entry of each row."
 	| w rowStart |
@@ -24119,7 +23767,7 @@ pivotsDo: aBlock
 		(coefficients findFirstNonzeroFrom: rowStart to: rowStart + w - 1) ifNotNil: [:j| aBlock value: i@(j - rowStart + 1)].
 		rowStart _ rowStart + w]! !
 
-!RowMajorMatrix methodsFor: 'enumerating' stamp: 'len 4/21/2022 12:35:08'!
+!DenseMatrix methodsFor: 'enumerating' stamp: 'len 4/21/2022 12:35:08'!
 withIndicesDo: aBlock
 	| width i j |
 	width _ self width.
@@ -24129,7 +23777,7 @@ withIndicesDo: aBlock
 		aBlock value: each value: i value: j.
 		(j _ j + 1) > width ifTrue: [j _ 1. i _ i + 1]].! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 6/6/2022 10:58:46'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 6/6/2022 10:58:46'!
 * anObject
 	(self scalars includes: anObject) ifTrue: [^ self class from: domain to: codomain coefficients: coefficients * anObject].
 	anObject isInteger ifTrue: [^ self * (self scalars !! anObject)].
@@ -24138,21 +23786,21 @@ withIndicesDo: aBlock
 	(anObject isKindOf: ModuleMap) ifTrue: [^ self · anObject].
 	^ DomainError signal! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:23:50'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:23:50'!
 + aMatrix
 	self class = aMatrix class ifFalse: [^ super + aMatrix].
 	self checkDomainsMatch: aMatrix.
 	self checkCodomainsMatch: aMatrix.
 	^ self class from: domain to: codomain coefficients: coefficients + aMatrix coefficients! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 5/9/2023 17:56:08'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 5/9/2023 17:56:08'!
 - aMatrix
 	self class = aMatrix class ifFalse: [^ super - aMatrix].
 	self checkDomainsMatch: aMatrix.
 	self checkCodomainsMatch: aMatrix.
 	^ self class from: domain to: codomain coefficients: coefficients - aMatrix coefficients! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 5/16/2022 11:32:28'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 5/16/2022 11:32:28'!
 ⊕ aMatrix
 	"Answer the block sum of the receiver and the argument.
 	If the receiver is A and the argument is B, output a matrix of the form:
@@ -24169,7 +23817,7 @@ withIndicesDo: aBlock
 	^ self class from: domain ⊕ aMatrix domain to: codomain ⊕ aMatrix codomain coefficients: newCoefficients
 ! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 12/27/2022 22:15:34'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 5/12/2023 20:18:24'!
 ∘ aMatrix
 	self class = aMatrix class ifFalse: [^ super ∘ aMatrix].
 	self checkCompatibleComposition: aMatrix.
@@ -24180,10 +23828,10 @@ withIndicesDo: aBlock
 		to: codomain
 		coefficients:
 			((coefficients species new: aMatrix width * self height)
-				fillWithRowMajorMatrix: coefficients width: self width
+				fillWithMatrix: coefficients width: self width
 				timesMatrix: aMatrix coefficients width: aMatrix width)! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:22:20'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:22:20'!
 ⊓ aMatrix
 	"Answer the product morphism of the receiver and the argument.
 	This is the row-augmented matrix with the receiver stacked on top of the argument.
@@ -24194,7 +23842,7 @@ withIndicesDo: aBlock
 	self checkDomainsMatch: aMatrix.
 	^ self class from: domain to: codomain ⊕ aMatrix codomain coefficients: coefficients, aMatrix coefficients! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 12/25/2022 13:32:29'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 12/25/2022 13:32:29'!
 ⊔ aMatrix
 	"Answer the coproduct morphism of the receiver and the argument.
 	This is the column-augmented matrix with the receiver concatenated with the argument.
@@ -24211,7 +23859,7 @@ withIndicesDo: aBlock
 			replaceFrom: i - 1 * w + self width + 1 to: i * w with: aMatrix coefficients startingAt: i - 1 * aMatrix width + 1].
 	^ self class from: domain ⊕ aMatrix domain to: codomain coefficients: newCoefficients! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 5/9/2023 17:58:28'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 5/9/2023 17:58:28'!
 apply: aFunction
 	"Answer a new tuple with coefficients obtainted by applying aFunction to the coefficients of the receiver.
 	If aFunction is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
@@ -24219,35 +23867,35 @@ apply: aFunction
 	aFunction isBlock ifTrue: [^ self class from: domain to: codomain coefficients: (coefficients apply: aFunction)].
 	^ self class from: (domain over: aFunction codomain) to: (codomain over: aFunction codomain) coefficients: (coefficients apply: aFunction)! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 4/21/2022 12:38:12'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 4/21/2022 12:38:12'!
 negated
 	^ self class from: domain to: codomain coefficients: coefficients negated! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 12/18/2022 10:16:51'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 12/18/2022 10:16:51'!
 trace
 	self checkIsSquare.
 	self isEmpty ifTrue: [^ self scalars zero].
 	^ coefficients sumFrom: 1 to: coefficients size by: self width + 1! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 5/9/2023 18:00:08'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 5/9/2023 18:00:08'!
 transpose
 	^ self class from: codomain to: domain coefficients: ((coefficients species new: coefficients size) fillWithMatrixTranspose: coefficients width: self width)! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 5/5/2023 17:25:46'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 5/12/2023 20:22:47'!
 value: aTuple
 "	(self domain includes: aTuple) ifFalse: [^ DomainError signal]."
 	(coefficients isEmpty or: [aTuple isEmpty]) ifTrue: [^ codomain zero].
 	^ codomain coefficients:
 		((coefficients species new: self height)
 			replaceFrom: 1 to: self height
-			withMatrix: coefficients height: self width width: self height transpose: true
+			withMatrix: coefficients width: self width
 			timesTuple: aTuple coefficients startingAt: 1)! !
 
-!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 12/19/2022 10:24:22'!
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/19/2022 10:24:22'!
 addRow: i₁ times: anElement to: i₂
 	self addRow: i₁ times: anElement to: i₂ startingAt: 1! !
 
-!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 12/19/2022 10:26:58'!
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/19/2022 10:26:58'!
 addRow: i₁ times: anElement to: i₂ startingAt: startColumn
 	| width start₁ start₂ |
 	width _ self width.
@@ -24259,7 +23907,7 @@ addRow: i₁ times: anElement to: i₂ startingAt: startColumn
 		plus: coefficients startingAt: start₁
 		timesScalar: anElement! !
 
-!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 12/29/2022 09:51:40'!
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/29/2022 09:51:40'!
 cancelRow: i₁ and: i₂ with: mgcd
 	| s t u v A₁ A₂ |
 	s _ mgcd at: 2.
@@ -24272,11 +23920,11 @@ cancelRow: i₁ and: i₂ with: mgcd
 	self rowAt: i₁ put: A₁*s + (A₂*t).
 	self rowAt: i₂ put: A₁*u + (A₂*v)! !
 
-!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 12/29/2022 09:52:16'!
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/29/2022 09:52:16'!
 copyRow: i₁ times: anElement to: i₂
 	self copyRow: i₁ times: anElement to: i₂ startingAt: 1! !
 
-!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 12/29/2022 09:53:17'!
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/29/2022 09:53:17'!
 copyRow: i₁ times: anElement to: i₂ startingAt: startColumn
 	| width start₁ start₂ |
 	width _ self width.
@@ -24287,11 +23935,11 @@ copyRow: i₁ times: anElement to: i₂ startingAt: startColumn
 		with: coefficients startingAt: start₁
 		timesScalar: anElement! !
 
-!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 12/29/2022 09:53:40'!
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/29/2022 09:53:40'!
 copyRow: i₁ to: i₂
 	self copyRow: i₁ to: i₂ startingAt: 1! !
 
-!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 12/29/2022 09:54:41'!
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/29/2022 09:54:41'!
 copyRow: i₁ to: i₂ startingAt: startColumn
 	| width start₁ start₂ |
 	width _ self width.
@@ -24301,11 +23949,11 @@ copyRow: i₁ to: i₂ startingAt: startColumn
 		replaceFrom: start₂ to: i₂ * width
 		with: coefficients startingAt: start₁! !
 
-!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 12/15/2022 11:53:33'!
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/15/2022 11:53:33'!
 multiplyRow: i by: anElement
 	self multiplyRow: i by: anElement startingAt: 1! !
 
-!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 12/19/2022 10:27:36'!
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/19/2022 10:27:36'!
 multiplyRow: i by: anElement startingAt: startColumn
 	| width start |
 	width _ self width.
@@ -24315,7 +23963,7 @@ multiplyRow: i by: anElement startingAt: startColumn
 		with: coefficients startingAt: start
 		timesScalar: anElement! !
 
-!RowMajorMatrix methodsFor: 'row operations' stamp: 'len 12/19/2022 10:28:49'!
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/19/2022 10:28:49'!
 swapRow: i₁ with: i₂
 	| width start₁ start₂ |
 	width _ self width.
@@ -24325,28 +23973,28 @@ swapRow: i₁ with: i₂
 		swapFrom: start₁ to: i₁ * width
 		with: coefficients startingAt: start₂! !
 
-!RowMajorMatrix methodsFor: 'testing' stamp: 'len 4/21/2022 12:45:41'!
+!DenseMatrix methodsFor: 'testing' stamp: 'len 4/21/2022 12:45:41'!
 isZero
 	^ coefficients isZero! !
 
-!RowMajorMatrix methodsFor: 'testing' stamp: 'len 4/21/2022 12:47:28'!
+!DenseMatrix methodsFor: 'testing' stamp: 'len 4/21/2022 12:47:28'!
 isZeroAt: aPoint
 	^ coefficients isZeroAt: aPoint x - 1 * self width + aPoint y! !
 
-!RowMajorMatrix methodsFor: 'private' stamp: 'len 5/28/2020 09:57:19'!
+!DenseMatrix methodsFor: 'private' stamp: 'len 5/28/2020 09:57:19'!
 coefficients
 	^ coefficients! !
 
-!RowMajorMatrix methodsFor: 'private' stamp: 'len 5/8/2023 16:32:22'!
+!DenseMatrix methodsFor: 'private' stamp: 'len 5/8/2023 16:32:22'!
 coefficients: anArray
 	coefficients _ anArray! !
 
-!RowMajorMatrix methodsFor: 'private' stamp: 'len 7/8/2022 11:08:41'!
+!DenseMatrix methodsFor: 'private' stamp: 'len 7/8/2022 11:08:41'!
 validate
 	self assert: coefficients size = (domain rank * codomain rank).
 	^ super validate! !
 
-!RowMajorMatrix class methodsFor: 'instance creation' stamp: 'len 4/20/2022 20:57:36'!
+!DenseMatrix class methodsFor: 'instance creation' stamp: 'len 4/20/2022 20:57:36'!
 from: aDomain to: aCodomain coefficients: anArray
 	^ self new domain: aDomain; codomain: aCodomain; coefficients: anArray! !
 
@@ -28466,6 +28114,12 @@ lift: anElement
 minimalPolynomial
 	^ self representation minimalPolynomial! !
 
+!RingElement methodsFor: 'operations' stamp: 'len 5/12/2023 21:16:04'!
+multiplicativeOrder
+	"Answer the order of the receiver as an element of the group of units."
+	self isUnit ifFalse: [^ 0].
+	^ self parent units orderOf: self! !
+
 !RingElement methodsFor: 'operations' stamp: 'len 5/29/2020 07:53:44'!
 negated
 	^ self * -1! !
@@ -29680,12 +29334,6 @@ asRationalMaxNumerator: N maxDenominator: D
 ^ anInteger
 	^ parent representative: (representative raisedTo: (anInteger isInteger ifTrue: [anInteger] ifFalse: [anInteger representative]) modulo: parent modulus)! !
 
-!ModularInteger methodsFor: 'operations' stamp: 'len 1/9/2022 20:57:31'!
-additiveOrder
-	| m |
-	m _ self modulus.
-	^ m // (representative gcd: m)! !
-
 !ModularInteger methodsFor: 'operations' stamp: 'len 1/9/2022 08:09:47'!
 annihilator
 	"Answer a generator of the ideal of all elements that multiplied by the receiver are zero."
@@ -29721,9 +29369,9 @@ gauge
 	"Answer the value of the Euclidean function at the receiver."
 	^ self isZero ifTrue: [0] ifFalse: [representative gcd: parent modulus]! !
 
-!ModularInteger methodsFor: 'operations' stamp: 'len 5/15/2019 04:42:45'!
+!ModularInteger methodsFor: 'operations' stamp: 'len 5/12/2023 21:10:50'!
 log: b
-	"Answer the discrete logarithm of the receiver in base b. This is, answer an integer k such that b^k equals the receiver. Note that this is the discrete logarithm problem in the group of units of Z/nZ, which is multiplicative, not in Z/nZ as additive group."
+	"Answer the discrete logarithm of the receiver in base b. This is, answer an integer k such that b^k equals the receiver. Note that this is the discrete logarithm problem in the group of units of Z/nZ, which is multiplicative, not in ℤ/nℤ as additive group."
 	| m g answer x |
 	representative = 0 ifTrue: [^ nil].
 	representative = 1 ifTrue: [^ 0].
@@ -29733,11 +29381,6 @@ log: b
 	x _ g.
 	[x = representative] whileFalse: [x = 0 ifTrue: [^ nil]. x _ x * g \\ m. answer _ answer + 1].
 	^ answer! !
-
-!ModularInteger methodsFor: 'operations' stamp: 'len 6/19/2019 14:57:16'!
-multiplicativeOrder
-	self isZero ifTrue: [^ 0].
-	^ parent units orderOf: self! !
 
 !ModularInteger methodsFor: 'operations' stamp: 'len 6/8/2019 12:06:49'!
 negated
@@ -29830,9 +29473,11 @@ isPrime
 	p _ self normalized representative.
 	^ p < parent modulus and: [parent modulusFactors includes: p]! !
 
-!ModularInteger methodsFor: 'testing' stamp: 'len 6/19/2019 15:10:07'!
+!ModularInteger methodsFor: 'testing' stamp: 'len 5/12/2023 21:00:57'!
 isPrimitiveRoot
-	^ self isUnit and: [self multiplicativeOrder = self parent units size "phi"]! !
+	"Answer true if the receiver is a generator of the group of units.
+	For ℤ/pℤ this is a primitive (p-1)-th root of unity."
+	^ self isUnit and: [self multiplicativeOrder = self parent units size]! !
 
 !ModularInteger methodsFor: 'testing' stamp: 'len 1/9/2022 21:05:05'!
 isQuadraticResidue
@@ -30242,6 +29887,12 @@ normalized
 	"Answer a unique choice of associate. See >>normalization."
 	self isZero ifTrue: [^ self].
 	^ parent one! !
+
+!GaloisFieldElement methodsFor: 'testing' stamp: 'len 5/12/2023 20:58:20'!
+isPrimitiveRoot
+	"Answer true if the receiver is a generator of the group of units.
+	For a Galois field GF(q), this is a primitive (q-1)-th root of unity."
+	^ self isUnit and: [self multiplicativeOrder = self parent units size]! !
 
 !GaloisFieldElement methodsFor: 'testing' stamp: 'len 5/9/2022 11:07:52'!
 isZeroDivisor
@@ -32403,11 +32054,11 @@ factorizationZassenhauss2
 			g | f ifTrue: [answer add: g]]].
 	^ answer! !
 
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 5/9/2020 14:06:47'!
+!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 5/12/2023 21:11:07'!
 henselLift: factors to: Zpk
-	"The receiver is a polynomial in Z[x].
-	The argument 'factors' is a factorization of the receiver's projection to (Z/pZ)[x].
-	Answer the Hensel lift of the factorization to (Z/(p^k)Z)[x]."
+	"The receiver is a polynomial in ℤ[x].
+	The argument 'factors' is a factorization of the receiver's projection to (ℤ/pℤ)[x].
+	Answer the Hensel lift of the factorization to (ℤ/(p^k)ℤ)[x]."
 	| r mid g h s t euclid gFactors hFactors |
 "	p _ factors anyOne scalars characteristic."
 	r _ factors size.
@@ -33941,24 +33592,29 @@ op: i times: j
 successor: i
 	^ successors at: i + 1! !
 
-!ZechTable methodsFor: 'private' stamp: 'len 5/11/2023 15:03:43'!
+!ZechTable methodsFor: 'private' stamp: 'len 5/12/2023 21:24:44'!
 scalars: aFiniteField
 	| g |
 	scalars _ aFiniteField.
 	q _ aFiniteField size.
 	q̄ _ q - 1.
+	q̄ <= 16rFFFF ifFalse: [^ self error: 'field too big'].
 	minusOne _ q = 2 ifTrue: [1] ifFalse: [q̄ // 2].
 	base _ aFiniteField primitiveRoot.
-	successors _ Array new: q. "this can be ByteArray or DoubleByteArray"
+	successors _ self logarithmsArrayClass new: q. "this can be ByteArray or DoubleByteArray"
 	successors at: 1 put: q̄.
 	g _ base.
 	2 to: successors size do: [:i|
 		successors at: i put: (self log: g + 1).
 		g _ g * base]! !
 
-!ZechTable methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 15:22:02'!
+!ZechTable methodsFor: 'as yet unclassified' stamp: 'len 5/12/2023 21:22:56'!
+logarithmsArrayClass
+	^ q̄ <= 16rFF ifTrue: [ByteArray] ifFalse: [DoubleByteArray]! !
+
+!ZechTable methodsFor: 'as yet unclassified' stamp: 'len 5/12/2023 21:23:18'!
 new: anInteger
-	^ ZechArray logarithms: ((q <= 16rFF ifTrue: [ByteArray] ifFalse: [DoubleByteArray]) new: anInteger) table: self! !
+	^ ZechArray logarithms: (self logarithmsArrayClass new: anInteger) table: self! !
 
 !ZechTable class methodsFor: 'instance creation' stamp: 'len 5/10/2023 21:35:44'!
 over: aFiniteField
@@ -35841,14 +35497,14 @@ validate
 root: aPoint generators: anArray action: aGroupAction
 	^ self new root: aPoint generators: anArray action: aGroupAction! !
 
-!TonelliShanks methodsFor: 'as yet unclassified' stamp: 'len 7/8/2019 04:16:30'!
+!TonelliShanks methodsFor: 'as yet unclassified' stamp: 'len 5/12/2023 21:12:36'!
 modulus: anInteger
 	| n |
 	anInteger == 2 ifTrue: [self error: 'modulus must be odd'].
 	p _ anInteger.
 	e _ (p - 1) lowBit - 1.
 	q _ p - 1 bitShift: e negated.
-	"find generator of the multiplicative group of units (Z/pZ)*"
+	"find generator of the multiplicative group of units (ℤ/pℤ)*"
 	[n _ (p - 1) atRandom.
 	(n kronecker: p) == -1] whileFalse.
 	z _ n raisedTo: q modulo: p.! !
@@ -35867,14 +35523,14 @@ squareRootOf: anInteger
 	t _ y. r - m - 1 timesRepeat: [t _ t squared \\ p]. "t _ y ^ (2 ^ (r - m - 1)) mod p"
 	y _ t squared \\ p. r _ m. x _ x * t \\ p. b _ b * y \\ p] repeat! !
 
-!Echelonization methodsFor: 'accessing' stamp: 'len 12/29/2022 10:25:52'!
+!Echelonization methodsFor: 'accessing' stamp: 'len 5/12/2023 20:47:41'!
 echelon
-	echelon isNil ifTrue: [echelon _ matrix asRowMajor copy. transformation _ nil. self run].
+	echelon isNil ifTrue: [echelon _ matrix copy. transformation _ nil. self run].
 	^ echelon! !
 
-!Echelonization methodsFor: 'accessing' stamp: 'len 12/29/2022 10:26:17'!
+!Echelonization methodsFor: 'accessing' stamp: 'len 5/12/2023 20:47:53'!
 echelonAndTransformation
-	transformation isNil ifTrue: [echelon _ matrix asRowMajor copy. transformation _ matrix codomain id asRowMajor copy. self run].
+	transformation isNil ifTrue: [echelon _ matrix copy. transformation _ matrix codomain id copy. self run].
 	^ {echelon. transformation}! !
 
 !Echelonization methodsFor: 'row operations' stamp: 'len 12/29/2022 10:24:10'!
@@ -36061,10 +35717,10 @@ sort
 	i _ i + 1.
 	j <= width] whileTrue! !
 
-!HowellEchelonization methodsFor: 'row operations' stamp: 'len 12/29/2022 10:41:24'!
+!HowellEchelonization methodsFor: 'row operations' stamp: 'len 5/12/2023 20:48:22'!
 addZeroRows: n
-	echelon _ echelon ⊓ (echelon domain ⇒ (echelon scalars ^ n)) zero asRowMajor.
-	transformation ifNotNil: [transformation _ transformation ⊓ (transformation domain ⇒ (echelon scalars ^ n)) zero asRowMajor]! !
+	echelon _ echelon ⊓ (echelon domain ⇒ (echelon scalars ^ n)) zero.
+	transformation ifNotNil: [transformation _ transformation ⊓ (transformation domain ⇒ (echelon scalars ^ n)) zero]! !
 
 !HowellEchelonization methodsFor: 'row operations' stamp: 'len 12/29/2022 16:32:55'!
 cancel: aPoint with: i
@@ -36781,10 +36437,6 @@ abs: p
 	powers _ 1.
 	[p | q] whileTrue: [powers _ powers * p. q _ q // p].
 	^ powers asRational reciprocal! !
-
-!Integer methodsFor: '*algebra' stamp: 'len 12/14/2016 14:35:53'!
-additiveOrder
-	^ self == 0 ifTrue: [1] ifFalse: [Infinity positive]! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 5/21/2022 19:43:37'!
 annihilator
@@ -37726,15 +37378,17 @@ determinant2x2
 determinant3x3
 	^ (self at: 1) * (self at: 5) * (self at: 9) + ((self at: 2) * (self at: 6) * (self at: 7)) + ((self at: 3) * (self at: 4) * (self at: 8)) - ((self at: 7) * (self at: 5) * (self at: 3)) - ((self  at: 8) * (self at: 6) * (self at: 1)) - ((self at: 9) * (self at: 4) * (self at: 2))! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/27/2022 22:18:45'!
-fillWithColumnMajorMatrix: anArray1 height: height1 timesMatrix: anArray2 height: height2
-	| i1 i2 |
-	i1 _ 1.
-	i2 _ 1.
-	[i1 <= self size] whileTrue:
-		[self replaceFrom: i1 to: i1 + height1 - 1 withMatrix: anArray1 height: height1 timesTuple: anArray2 startingAt: i2.
-		i1 _ i1 + height1.
-		i2 _ i2 + height2]! !
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/12/2023 20:18:12'!
+fillWithMatrix: anArray width: width1 timesMatrix: anotherArray width: width2
+	| j k |
+	j _ 1.
+	k _ 1.
+	1 to: self size do: [:i|
+		self at: i put: (anArray from: j to: j+width1-1 by: 1 dot: anotherArray startingAt: k by: width2).
+		k _ k + 1.
+		k > width2 ifTrue:
+			[k _ 1.
+			j _ j + width1]]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/15/2022 12:14:41'!
 fillWithMatrixTranspose: anArray width: width
@@ -37752,18 +37406,6 @@ fillWithMatrixTranspose: anArray width: width
 			i to: i + blockSize - 1 do: [:k|
 				j to: j + blockSize - 1 do: [:l|
 					self at: l-1*height + k put: (anArray at: k-1*width + l)]]]]"! !
-
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/27/2022 22:15:13'!
-fillWithRowMajorMatrix: anArray width: width1 timesMatrix: anotherArray width: width2
-	| j k |
-	j _ 1.
-	k _ 1.
-	1 to: self size do: [:i|
-		self at: i put: (anArray from: j to: j+width1-1 by: 1 dot: anotherArray startingAt: k by: width2).
-		k _ k + 1.
-		k > width2 ifTrue:
-			[k _ 1.
-			j _ j + width1]]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 5/20/2022 11:36:55'!
 findFirstNonzeroFrom: start to: stop
@@ -37798,7 +37440,7 @@ from: start to: stop by: increment dot: anArray startingAt: start2 by: increment
 		j _ j + increment2].
 	^ answer! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/11/2023 21:28:52'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/12/2023 20:42:26'!
 from: start to: stop by: increment dot: anArray startingAt: start2 by: increment2 modulo: modulus
 	| answer i j |
 	answer _ 0.
@@ -37808,7 +37450,23 @@ from: start to: stop by: increment dot: anArray startingAt: start2 by: increment
 		[answer _ (self at: i) * (anArray at: j) + answer \\ modulus.
 		i _ i + increment.
 		j _ j + increment2].
-	^ answer! !
+	^ answer
+
+"alternatively, we can check if we need to reduce in each step:
+	^ modulus highBit * 2 + (stop - start) highBit < 60
+		ifTrue:
+			[[i <= stop and: [j <= anArray size]] whileTrue:
+				[answer _ (self at: i) * (anArray at: j) + answer \\ modulus.
+				i _ i + increment.
+				j _ j + increment2].
+			answer]
+		ifFalse:
+			[[i <= stop and: [j <= anArray size]] whileTrue:
+				[answer _ (self at: i) * (anArray at: j) + answer.
+				i _ i + increment.
+				j _ j + increment2].
+			answer \\ modulus]
+"! !
 
 !ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/11/2023 21:30:02'!
 from: start to: stop by: increment dot: anArray startingAt: start2 by: increment2 zechTable: table
@@ -37953,6 +37611,20 @@ reduceBy: g leadingInverse: u addingQuotientTo: q modulo: modulus
 			q ifNotNil: [q at: i put: (q at: i) - c \\ modulus].
 			self replaceFrom: i to: i+m-1 with: self startingAt: i plus: g startingAt: 1 timesScalar: c modulo: modulus]! !
 
+!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/12/2023 21:39:14'!
+reduceBy: g leadingInverse: u addingQuotientTo: q zechTable: table
+	| n m minusU |
+	m _ g size "lastNonzeroIndex".
+	"inv _ (g at: m) inverse."
+	minusU _ table negate: u.
+	[(n _ self lastNonzeroIndex ifNil: [0]) >= m]
+		whileTrue:
+			[| i c |
+			i _ n-m+1.
+			c _ table op: (self at: n) times: minusU.
+			q ifNotNil: [q at: i put: (table op: (q at: i) minus: c)].
+			self replaceFrom: i to: i+m-1 with: self startingAt: i plus: g startingAt: 1 timesScalar: c zechTable: table]! !
+
 !ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 4/25/2022 07:55:30'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 startingAt: start2
 	| j1 j2 |
@@ -38072,6 +37744,16 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 st
 		j1 _ j1 + 1.
 		j2 _ j2 + 1]! !
 
+!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/12/2023 21:27:34'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2 zechTable: table
+	| j1 j2 |
+	j1 _ start1.
+	j2 _ start2.
+	start to: stop do: [:i|
+		self at: i put: (table op: (anArray1 at: j1) times: (anArray2 at: j2)).
+		j1 _ j1 + 1.
+		j2 _ j2 + 1]! !
+
 !ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 4/26/2022 11:06:51'!
 replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anElement
 	| j |
@@ -38100,52 +37782,32 @@ replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anIn
 		self at: i put: (table op: (anArray at: j) times: anInteger).
 		j _ j + 1]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/27/2022 12:57:05'!
-replaceFrom: start to: stop withMatrix: anArray height: height timesTuple: anotherArray startingAt: start2
-	| width j |
-	self flag: #deprecated.
-	height = 0 ifTrue: [^ self].
-	width _ anArray size // height.
+!ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 5/12/2023 20:22:14'!
+replaceFrom: start to: stop withMatrix: anArray width: width timesTuple: anotherArray startingAt: start2
+	| j |
 	width = 0 ifTrue: [^ self].
-	self replaceFrom: start to: stop with: anArray startingAt: 1 timesScalar: (anotherArray at: start2).
-	j _ height + 1.
-	start2 + 1 to: start2 + width - 1 do: [:i|
-		self replaceFrom: start to: stop with: self startingAt: start plus: anArray startingAt: j timesScalar: (anotherArray at: i).
-		j _ j + height]! !
+	j _ 1.
+	start to: stop do: [:i|
+		self at: i put: (anArray from: j to: j+width-1 by: 1 dot: anotherArray startingAt: start2 by: 1).
+		j _ j + width]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 5/11/2023 18:22:48'!
-replaceFrom: start to: stop withMatrix: anArray height: height width: width transpose: transpose timesTuple: anotherArray startingAt: start2
-	| j delta |
-	(height = 0 or: [width = 0]) ifTrue: [^ self].
-	transpose
-		ifFalse: "column-major"
-			[j _ 1.
-			delta _ width - 1 * height.
-			start to: stop do: [:i|
-				self at: i put: (anArray from: j to: delta + j by: height dot: anotherArray startingAt: start2 by: 1).
-				j _ j + 1]]
-		ifTrue: "row-major"
-			[j _ 1.
-			start to: stop do: [:i|
-				self at: i put: (anArray from: j to: j+height-1 by: 1 dot: anotherArray startingAt: start2 by: 1).
-				j _ j + height]]! !
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/12/2023 20:26:42'!
+replaceFrom: start to: stop withMatrix: anArray width: width timesTuple: anotherArray startingAt: start2 modulo: modulus
+	| j |
+	width = 0 ifTrue: [^ self].
+	j _ 1.
+	start to: stop do: [:i|
+		self at: i put: (anArray from: j to: j+width-1 by: 1 dot: anotherArray startingAt: start2 by: 1 modulo: modulus).
+		j _ j + width]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/11/2023 17:59:37'!
-replaceFrom: start to: stop withMatrix: anArray height: height width: width transpose: transpose timesTuple: anotherArray startingAt: start2 modulo: modulus
-	| j delta |
-	(height = 0 or: [width = 0]) ifTrue: [^ self].
-	transpose
-		ifFalse: "column-major:"
-			[j _ 1.
-			delta _ width - 1 * height.
-			start to: stop do: [:i|
-				self at: i put: (anArray from: j to: delta+j by: height dot: anotherArray startingAt: start2 by: 1 modulo: modulus).
-				j _ j + 1]]
-		ifTrue: "row-major:"
-			[j _ 1.
-			start to: stop do: [:i|
-				self at: i put: (anArray from: j to: j+height-1 by: 1 dot: anotherArray startingAt: start2 by: 1 modulo: modulus).
-				j _ j + height]]! !
+!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/12/2023 21:29:12'!
+replaceFrom: start to: stop withMatrix: anArray width: width timesTuple: anotherArray startingAt: start2 zechTable: table
+	| j |
+	width = 0 ifTrue: [^ self].
+	j _ 1.
+	start to: stop do: [:i|
+		self at: i put: (anArray from: j to: j+width-1 by: 1 dot: anotherArray startingAt: start2 by: 1 zechTable: table).
+		j _ j + width]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 4/25/2022 07:59:56'!
 replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
@@ -38265,6 +37927,18 @@ replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArra
 				plus: anArray1 startingAt: start1 timesScalar: x
 				modulo: modulus]]! !
 
+!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/12/2023 21:41:18'!
+replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2 zechTable: table
+	self from: start to: start + stop1 - start1 + stop2 - start2 put: 0.
+	start2 to: stop2 do: [:i| | x |
+		(x _ anArray2 at: i) = 0 ifFalse:
+			[| index |
+			index _ i-start2+start.
+			self replaceFrom: index to: index+stop1-start1
+				with: self startingAt: index
+				plus: anArray1 startingAt: start1 timesScalar: x
+				zechTable: table]]! !
+
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/9/2022 07:47:04'!
 replaceFrom: start withAutoconvolution: anArray1 from: start1 to: stop1
 	| s k tempArray tempSize depth m |
@@ -38312,11 +37986,6 @@ replaceFrom: start withAutoconvolutionKaratsuba: anArray1 from: start1 to: stop1
 replaceFrom: start withAutoconvolutionLong: anArray1 from: start1 to: stop1
 	self flag: #fixme. "TOOD"
 	self replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray1 from: start1 to: stop1! !
-
-!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 12/9/2022 07:55:16'!
-replaceFrom: start withAutoconvolutionLong: anArray1 from: start1 to: stop1 modulo: modulus
-	self flag: #fixme. "TOOD"
-	self replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray1 from: start1 to: stop1 modulo: modulus! !
 
 !ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 12/27/2022 18:12:20'!
 sumFrom: start to: stop by: increment
@@ -38753,13 +38422,9 @@ rounded
 zero
 	^ self class real: real zero imaginary: imaginary zero! !
 BitArray initialize!
-Naturals initialize!
-RationalField initialize!
-IntegerRing initialize!
 ModularIntegerRing initialize!
 GaloisRing initialize!
-ComplexField initialize!
-RealField initialize!
+GaloisField initialize!
 Function initialize!
 Functor initialize!
 MonoidMap initialize!
