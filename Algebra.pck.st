@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5597] on 9 May 2023 at 5:24:37 pm'!
+'From Cuis 6.0 [latest update: #5597] on 12 May 2023 at 2:44:11 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -58,7 +58,8 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 61!
+!provides: 'Algebra' 1 63!
+!requires: 'Collections-TwoAndEightByteArrays' 1 2 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'Transfinites' 1 2 nil!
@@ -140,6 +141,16 @@ ArrayedCollection subclass: #ModularArray
 	category: 'Algebra-Rings-Finite'!
 !classDefinition: 'ModularArray class' category: #'Algebra-Rings-Finite'!
 ModularArray class
+	instanceVariableNames: ''!
+
+!classDefinition: #ZechArray category: #'Algebra-Rings-Finite'!
+ArrayedCollection subclass: #ZechArray
+	instanceVariableNames: 'logarithms table'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Rings-Finite'!
+!classDefinition: 'ZechArray class' category: #'Algebra-Rings-Finite'!
+ZechArray class
 	instanceVariableNames: ''!
 
 !classDefinition: #Simplex category: #'Algebra-Simplicial Complexes'!
@@ -2082,6 +2093,16 @@ RingElement subclass: #FreePolynomial
 FreePolynomial class
 	instanceVariableNames: ''!
 
+!classDefinition: #ZechTable category: #'Algebra-Rings-Finite'!
+Object subclass: #ZechTable
+	instanceVariableNames: 'scalars base q q̄ minusOne successors'
+	classVariableNames: 'Cache'
+	poolDictionaries: ''
+	category: 'Algebra-Rings-Finite'!
+!classDefinition: 'ZechTable class' category: #'Algebra-Rings-Finite'!
+ZechTable class
+	instanceVariableNames: ''!
+
 !classDefinition: #ModuleElement category: #'Algebra-Modules'!
 Object subclass: #ModuleElement
 	instanceVariableNames: ''
@@ -2450,14 +2471,15 @@ Given a Float, and assuming the number is actually rational, its continued fract
 Arrays of elements of a product ring. See ProductRing.!
 
 !BitArray commentStamp: '<historical>' prior: 0!
-Arrays of integer residue classes modulo 2, i.e. binary arrays, bit strings, or arrays of bits. The coefficient field is ℤ/2ℤ.
-!
+Arrays of elements of the field ℤ/2ℤ, i.e. binary arrays, bit strings, or arrays of bits.
+
+They are stored as a WordArray (32-bit words).!
 
 !GaloisArray commentStamp: '<historical>' prior: 0!
 Arrays of elements of a Galois ring or field.!
 
 !ModularArray commentStamp: '<historical>' prior: 0!
-Arrays of elements of an integer residue class ring or field ℤ/mℤ. See ModularInteger, ModularIntegerRing, PrimeField.
+Arrays of elements of an integer residue class ring or field ℤ/nℤ. See ModularInteger and ModularIntegerRing.
 !
 
 !Simplex commentStamp: '<historical>' prior: 0!
@@ -2634,7 +2656,7 @@ Given a commutative ring R and an ideal I of R, the quotient ring R/I (read 'R m
 The quotient ring R/I is equipped with the projection map that sends elements of R to their residue classes in R/I. The projection map is a canonical homomorphism of rings.!
 
 !ModularIntegerRing commentStamp: '<historical>' prior: 0!
-Ring ℤ/mℤ of residue classes of integers modulo m. Elements are instances of ModularInteger.!
+Ring ℤ/nℤ of residue classes of integers modulo n. Elements are instances of ModularInteger.!
 
 !PrimePowerRing commentStamp: '<historical>' prior: 0!
 Residue class ring ℤ/(p^n)ℤ of integers modulo p^n for a prime p.
@@ -3182,7 +3204,7 @@ Rational functions are fractions of polynomials. They are elements of the field 
 Elements of a quotient ring (see QuotientRing). These are residue classes of elements of a commutative ring modulo an ideal.!
 
 !ModularInteger commentStamp: '<historical>' prior: 0!
-Residue classes of integers modulo an integer m, i.e. elements of the quotient ring ℤ/mℤ (see ModularIntegerRing).!
+Residue classes of integers modulo n, i.e. elements of the quotient ring ℤ/nℤ. See ModularIntegerRing.!
 
 !RegularFunction commentStamp: '<historical>' prior: 0!
 Elements of an affine algebra (a quotient of a polynomial ring). See AffineRing.!
@@ -3389,8 +3411,8 @@ This is the Hermite row reduction algorithm. Given a matrix with coefficients in
 
 The algorithm is essentially Algorithm 2.4.4 in [Coh96] but modified to do row reduction instead of column reduction and generalized to Euclidean domains.!
 
-!HowellEchelonization commentStamp: 'len 12/21/2022 13:29:13' prior: 0!
-This is the Howell row reduction algorithm. Given a matrix with coefficients in a PIR with an extended GCD algorithm to compute Bézout coefficients (for example ℤ/mℤ or other Euclidean ring, possibly with zero divisors), it reduces the matrix to its Howell normal form. See [How86], [Sto00], [SM98], [FH16].!
+!HowellEchelonization commentStamp: '<historical>' prior: 0!
+This is the Howell row reduction algorithm. Given a matrix with coefficients in a PIR with an extended GCD algorithm to compute Bézout coefficients (for example ℤ/nℤ or other Euclidean ring, possibly with zero divisors), it reduces the matrix to its Howell normal form. See [How86], [Sto00], [SM98], [FH16].!
 
 !MultivariateDivision commentStamp: 'len 11/29/2022 10:14:14' prior: 0!
 This is the multivariate polynomial division algorithm for polynomials over a commutative ring.
@@ -3625,12 +3647,12 @@ partiallyReduceBy: g addingQuotientTo: q
 	components withIndexDo: [:each :i|
 		each partiallyReduceBy: (g projection: i) addingQuotientTo: (q ifNotNil: [q projection: i])]! !
 
-!ProductArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:39:54'!
-reduceBy: g leadingInverse: inv addingQuotientTo: q
+!ProductArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 23:18:29'!
+reduceBy: g leadingInverse: u addingQuotientTo: q
 	components withIndexDo: [:each :i|
 		each
 			reduceBy: (g projection: i)
-			leadingInverse: (inv at: i)
+			leadingInverse: (u at: i)
 			addingQuotientTo: (q ifNotNil: [q projection: i])]! !
 
 !ProductArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:39:54'!
@@ -3657,14 +3679,6 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 sta
 			with: (anArray1 projection: i) startingAt: start1
 			plus: (anArray2 projection: i) startingAt: start2
 			timesScalar: (anElement at: i)]! !
-
-!ProductArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:39:54'!
-replaceFrom: start to: stop with: anArray startingAt: srcStart plusScalar: anElement
-	components withIndexDo: [:each :i|
-		each
-			replaceFrom: start to: stop
-			with: (anArray projection: i) startingAt: srcStart
-			plusScalar: (anElement at: i)]! !
 
 !ProductArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:39:54'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2
@@ -3750,6 +3764,11 @@ at: anInteger put: aBit
 	self bitAt: anInteger put: aBit representative.
 	^ aBit! !
 
+!BitArray methodsFor: 'accessing' stamp: 'len 5/9/2023 19:05:22'!
+atAllPut: anObject
+	anObject = Zero ifFalse: [^ super atAllPut: anObject].
+	words atAllPut: 0! !
+
 !BitArray methodsFor: 'accessing' stamp: 'len 5/7/2023 17:42:16'!
 bitAt: anInteger
 	anInteger <= size ifFalse: [^ self errorOutOfBounds].
@@ -3766,6 +3785,11 @@ firstNonzeroIndex
 	| wordIndex |
 	(wordIndex _ words firstNonzeroIndex) ifNil: [^ nil].
 	^ wordIndex - 1 * 32 + (words at: wordIndex) lowBit! !
+
+!BitArray methodsFor: 'accessing' stamp: 'len 5/9/2023 18:55:50'!
+from: startIndex to: endIndex put: anObject
+	self flag: #fixme. "optimize"
+	^ super from: startIndex to: endIndex put: anObject! !
 
 !BitArray methodsFor: 'accessing' stamp: 'len 5/7/2023 17:43:06'!
 lastNonzeroIndex
@@ -3789,6 +3813,17 @@ scalars
 !BitArray methodsFor: 'accessing' stamp: 'len 5/7/2023 17:44:33'!
 size
 	^ size! !
+
+!BitArray methodsFor: 'accessing' stamp: 'len 5/9/2023 23:42:12'!
+wordAt: anInteger
+	| wordIndex r answer |
+	wordIndex _ anInteger - 1 // 32 + 1.
+	wordIndex > words size ifTrue: [^ 0].
+	answer _ words at: wordIndex.
+	(r _ anInteger - 1 \\ 32) = 0 ifTrue: [^ answer].
+	answer _ answer >> r.
+	wordIndex = words size ifTrue: [^ answer].
+	^ answer bitXor: ((words at: wordIndex+1) << (32 - r) bitAnd: 16rFFFFFFFF)! !
 
 !BitArray methodsFor: 'comparing' stamp: 'len 5/7/2023 17:40:50'!
 = anObject
@@ -3818,17 +3853,68 @@ postCopy
 	super postCopy.
 	words _ words copy! !
 
-!BitArray methodsFor: 'enumerating' stamp: 'len 5/9/2023 13:59:06'!
+!BitArray methodsFor: 'enumerating' stamp: 'len 5/9/2023 22:17:57'!
+allSatisfy: aBlock
+	"Optimized. There are only two possible elements that could satisfy aBlock (1 or 0)."
+	self isEmpty ifTrue: [^ true].
+	^ ((aBlock value: One) and: [self isAllOnes]) or: [(aBlock value: Zero) and: [self isZero]]! !
+
+!BitArray methodsFor: 'enumerating' stamp: 'len 5/9/2023 21:06:39'!
 anySatisfy: aBlock
 	"Optimized. There are only two possible elements that could satisfy aBlock (1 or 0)."
 	self isEmpty ifTrue: [^ false].
-	(self isZero not and: [aBlock value: One]) ifTrue: [^ true].
-	^ (aBlock value: Zero) and: [self isAllOnes not]! !
+	^ ((aBlock value: One) and: [self isZero not]) or: [(aBlock value: Zero) and: [self isAllOnes not]]! !
 
-!BitArray methodsFor: 'enumerating' stamp: 'len 5/9/2023 13:54:37'!
+!BitArray methodsFor: 'enumerating' stamp: 'len 5/10/2023 10:25:44'!
+count: aBlock
+	| h answer |
+	h _ self weight.
+	answer _ 0.
+	(h < size and: [aBlock value: Zero]) ifTrue: [answer _ answer + size - h].
+	(h > 0 and: [aBlock value: One]) ifTrue: [answer _ answer + h].
+	^ answer! !
+
+!BitArray methodsFor: 'enumerating' stamp: 'len 5/10/2023 10:33:52'!
+detect: aBlock ifNone: exceptionBlock
+	self isEmpty ifTrue: [^ exceptionBlock value].
+	((aBlock value: One) and: [self isZero not]) ifTrue: [^ One].
+	((aBlock value: Zero) and: [self isAllOnes not]) ifTrue: [^ Zero].
+	^ exceptionBlock value! !
+
+!BitArray methodsFor: 'enumerating' stamp: 'len 5/10/2023 11:07:56'!
+indexOf: anElement ifAbsent: exceptionBlock
+	anElement = One ifTrue: [^ self firstNonzeroIndex ifNil: exceptionBlock].
+	anElement = Zero ifFalse: [^ exceptionBlock value].
+	self flag: #fixme. "TODO"
+	^ super indexOf: anElement ifAbsent: exceptionBlock! !
+
+!BitArray methodsFor: 'enumerating' stamp: 'len 5/10/2023 10:31:30'!
+product: aBlock
+	| h |
+	h _ self weight.
+	^ (aBlock value: One) ^ h * ((aBlock value: Zero) ^ (size - h))! !
+
+!BitArray methodsFor: 'enumerating' stamp: 'len 5/10/2023 11:00:42'!
+sum: aBlock ifEmpty: emptyBlock
+	| h |
+	self isEmpty ifTrue: [^ emptyBlock value].
+	h _ self weight.
+	h = 0 ifTrue: [^ (aBlock value: Zero) * size].
+	h = size ifTrue: [^ (aBlock value: One) * size].
+	^ (aBlock value: Zero) * (size - h) + ((aBlock value: One) * h)! !
+
+!BitArray methodsFor: 'enumerating' stamp: 'len 5/9/2023 21:00:42'!
 supportDo: aBlock
-	self flag: #fixme. "implement this more efficiently"
-	^ super supportDo: aBlock! !
+	| i j word |
+	i _ 1.
+	words do: [:each|
+		word _ each.
+		j _ 0.
+		[word = 0] whileFalse:
+			[word odd ifTrue: [aBlock value: i+j].
+			j _ j + 1.
+			word _ word bitShift: -1].
+		i _ i + 32]! !
 
 !BitArray methodsFor: 'operations' stamp: 'len 5/9/2023 14:27:32'!
 * anObject
@@ -3853,29 +3939,57 @@ supportDo: aBlock
 - anObject
 	^ self + anObject! !
 
-!BitArray methodsFor: 'operations' stamp: 'len 5/7/2023 17:41:34'!
-· aBitArray
+!BitArray methodsFor: 'operations' stamp: 'len 5/11/2023 18:38:06'!
+· anArray
 	| sum |
+	self class = anArray class ifFalse: [^ super · anArray].
 	sum _ 0.
-	1 to: (words size min: aBitArray words size) do: [:i|
-		sum _ ((words at: i) bitAnd: (aBitArray words at: i)) bitParity bitXor: sum].
+	1 to: (words size min: anArray words size) do: [:i|
+		sum _ ((words at: i) bitAnd: (anArray words at: i)) bitXor: sum].
 	^ sum bitParity = 0 ifTrue: [Zero] ifFalse: [One]! !
 
-!BitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:40:46'!
+!BitArray methodsFor: 'operations' stamp: 'len 5/9/2023 18:36:09'!
+autoconvolution
+	| newInteger newWords |
+	words size = 1 ifFalse: [^ super autoconvolution].
+	"When the array is small we can compute the convolution with SmallIntegers:"
+	newInteger _ (words at: 1) bitAutoconvolution.
+	newWords _ size <= 16
+		ifTrue: [WordArray with: newInteger]
+		ifFalse: [WordArray with: (newInteger bitAnd: 16rFFFFFFFF) with: (newInteger bitShift: -32)].
+	^ self class new: size * 2 - 1 words: newWords! !
+
+!BitArray methodsFor: 'operations' stamp: 'len 5/9/2023 18:35:48'!
+convolution: anArray
+	| newInteger newSize newWords |
+	(anArray class = self class and: [words size = 1 and: [anArray words size = 1]])
+		ifFalse: [^ super convolution: anArray].
+	"When the arrays are small we can compute the convolution with SmallIntegers:"
+	newInteger _ (words at: 1) bitConvolution: (anArray words at: 1).
+	newSize _ size + anArray size - 1.
+	newWords _ newSize <= 32
+		ifTrue: [WordArray with: newInteger]
+		ifFalse: [WordArray with: (newInteger bitAnd: 16rFFFFFFFF) with: (newInteger bitShift: -32)].
+	^ self class new: newSize words: newWords! !
+
+!BitArray methodsFor: 'operations' stamp: 'len 5/12/2023 00:10:36'!
 length
+	self flag: #deprecated.
 	^ self norm! !
 
 !BitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:40:46'!
 negated
 	^ self! !
 
-!BitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:40:46'!
+!BitArray methodsFor: 'operations' stamp: 'len 5/12/2023 00:13:18'!
 norm
+	self flag: #deprecated. "or maybe not, if Tuple>>norm delegated to coefficients it can speed up"
 	^ self sum! !
 
-!BitArray methodsFor: 'operations' stamp: 'len 5/7/2023 17:43:30'!
+!BitArray methodsFor: 'operations' stamp: 'len 5/10/2023 21:03:18'!
 parity
-	^ words inject: 0 into: [:result :each| result bitXor: each bitParity]! !
+	"Answer 1 if the receiver has an odd number of bits on, 0 if it has an even number of bits on."
+	^ (words inject: 0 into: [:result :each| result bitXor: each]) bitParity! !
 
 !BitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:40:46'!
 polynomialValue: anObject
@@ -3884,27 +3998,80 @@ polynomialValue: anObject
 	One = anObject ifTrue: [^ self sum].
 	^ super polynomialValue: anObject! !
 
-!BitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:40:46'!
+!BitArray methodsFor: 'operations' stamp: 'len 5/9/2023 18:37:52'!
+product
+	^ self isAllOnes ifTrue: [One] ifFalse: [Zero]! !
+
+!BitArray methodsFor: 'operations' stamp: 'len 5/12/2023 00:07:06'!
 sum
 	"Answer the sum of the bits, i.e. the parity."
-	^ self parity = 0 ifTrue: [Zero] ifFalse: [One]! !
+	^ self parity = 1 ifTrue: [One] ifFalse: [Zero]! !
 
-!BitArray methodsFor: 'operations' stamp: 'len 5/7/2023 17:44:41'!
+!BitArray methodsFor: 'operations' stamp: 'len 5/10/2023 11:13:13'!
 weight
 	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
-	^ words inject: 0 into: [:sum :each| sum + each bitCount]! !
+	^ words sum: [:each| each bitCount] ifEmpty: [0]! !
 
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/7/2023 17:44:03'!
+!BitArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 00:33:05'!
+from: start to: stop by: increment dot: anArray startingAt: start2
+	| i j isOne w |
+	stop - start >= 0 ifFalse: [^ Zero].
+	increment = 1 ifTrue: [^ self from: start to: stop dot: anArray startingAt: start2].
+	i _ start.
+	j _ start2.
+	isOne _ false.
+	[i <= stop] whileTrue:
+		[w _ anArray wordAt: j.
+		j _ j + 32.
+		32 timesRepeat:
+			[(w odd and: [(self bitAt: i) = 1]) ifTrue: [isOne _ isOne not].
+			i = stop ifTrue: [^ isOne ifTrue: [One] ifFalse: [Zero]].
+			w _ w bitShift: -1.
+			i _ i + increment]].
+	^ isOne ifTrue: [One] ifFalse: [Zero]! !
+
+!BitArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 00:38:31'!
+from: start to: stop by: increment dot: anArray startingAt: start2 by: increment2
+	| i j isOne |
+	(stop - start + 1) > 0 ifFalse: [^ Zero].
+	increment2 = 1 ifTrue: [^ self from: start to: stop by: increment dot: anArray startingAt: start2].
+"	increment = 1 ifTrue: [^ anArray from: start2 to: stop - start + 1 * increment - 1 + start2 by: increment2 dot: self startingAt: start]."
+	i _ start.
+	j _ start2.
+	isOne _ false.
+	[i <= stop] whileTrue:
+		[((self bitAt: i) = 1 and: [(anArray bitAt: j) = 1]) ifTrue: [isOne _ isOne not].
+		i _ i + increment.
+		j _ j + increment2].
+	^ isOne ifTrue: [One] ifFalse: [Zero]! !
+
+!BitArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 00:36:52'!
+from: start to: stop dot: anArray startingAt: start2
+	| n i j sum |
+	(n _ stop - start + 1) > 0 ifFalse: [^ Zero].
+	i _ start.
+	j _ start2.
+	sum _ 0.
+	[n >= 32] whileTrue:
+		[sum _ ((self wordAt: i) bitAnd: (anArray wordAt: j)) bitXor: sum.
+		i _ i + 32.
+		j _ j + 32.
+		n _ n - 32].
+	n > 0 ifTrue:
+		[sum _ (((self wordAt: i) bitAnd: 1 << n - 1) bitAnd: (anArray wordAt: j)) bitXor: sum].
+	^ sum bitParity = 1 ifTrue: [One] ifFalse: [Zero]! !
+
+!BitArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 19:53:35'!
 replaceFrom: start to: stop with: replacement startingAt: repStart	
 	| n shift i j w r |
-	(n _ stop - start + 1) <= 0 ifTrue: [^ self].
+	(n _ stop - start + 1) > 0 ifFalse: [^ self].
 "	start to: stop do: [:i| self bitAt: i put: (replacement bitAt: i-start+repStart)]"
 	shift _ start - 1 \\ 32.
 	i _ start - 1 // 32 + 1.
 	j _ repStart.
 	shift > 0 ifTrue:
 		[w _ words at: i.
-		r _ replacement wordAtBitIndex: j.
+		r _ replacement wordAt: j.
 		n < 32
 			ifTrue: [r _ r bitAnd: (1 << n - 1). w _ w bitAnd: (1 << n - 1 << shift) bitInvert]
 			ifFalse: [w _ w bitAnd: 1 << shift - 1].
@@ -3914,14 +4081,14 @@ replaceFrom: start to: stop with: replacement startingAt: repStart
 		i _ i + 1].
 	[n > 32] whileTrue:
 		[w _ words at: i.
-		r _ replacement wordAtBitIndex: j.
+		r _ replacement wordAt: j.
 		words at: i put: r.
 		n _ n - 32.
 		j _ j + 32.
 		i _ i + 1].
 	n > 0 ifTrue:
 		[w _ words at: i.
-		r _ replacement wordAtBitIndex: j.
+		r _ replacement wordAt: j.
 		words at: i put: ((w bitAnd: (1 << n - 1) bitInvert) bitXor: (r bitAnd: 1 << n - 1))]! !
 
 !BitArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:40:46'!
@@ -3957,19 +4124,22 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 sta
 	anElement isZero ifTrue: [^ self replaceFrom: start to: stop with: anArray1 startingAt: start1].
 	self replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2! !
 
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:40:46'!
+!BitArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 00:00:34'!
 replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anElement
 	anElement isZero ifTrue: [^ self zeroFrom: start to: stop].
+	(anArray == self and: [srcStart = start]) ifTrue: [^ self].
 	self replaceFrom: start to: stop with: anArray startingAt: srcStart! !
 
 !BitArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:40:46'!
 replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
 	self replaceFrom: start to: stop with: anArray startingAt: srcStart! !
 
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:40:46'!
+!BitArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 23:57:53'!
 replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
 	self zeroFrom: start to: start + stop1 - start1 + stop2 - start2.
-	start2 to: stop2 do: [:i| 
+	self flag: #fixme.
+	start2 to: stop2 do: [:i|
+		"TODO: iterate by words"
 		(anArray2 isZeroAt: i) ifFalse:
 			[| index |
 			index _ i-start2+start.
@@ -3977,25 +4147,9 @@ replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArra
 				with: self startingAt: index
 				plus: anArray1 startingAt: start1]]! !
 
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:40:46'!
-replaceFrom: start withAutoconvolutionLong: anArray1 from: start1 to: stop1
-	self flag: #fixme. "TOOD"
-	self replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray1 from: start1 to: stop1! !
-
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/7/2023 17:44:51'!
-wordAtBitIndex: bitIndex
-	| wordIndex shift answer |
-	wordIndex _ bitIndex - 1 // 32 + 1.
-	wordIndex > words size ifTrue: [^ 0].
-	answer _ words at: wordIndex.
-	(shift _ bitIndex - 1 \\ 32) = 0 ifTrue: [^ answer].
-	answer _ answer >> shift.
-	wordIndex = words size ifTrue: [^ answer].
-	^ answer bitXor: ((words at: wordIndex+1) << (32 - shift) bitAnd: 0xFFFFFFFF)! !
-
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/9/2023 14:10:06'!
+!BitArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 23:55:36'!
 zeroFrom: start to: stop
-	self flag: #fixme. "optimize"
+	self flag: #fixme. "TODO"
 	self from: start to: stop put: Zero! !
 
 !BitArray methodsFor: 'printing' stamp: 'len 5/4/2023 23:40:46'!
@@ -4008,10 +4162,11 @@ includes: anObject
 	anObject = Zero ifTrue: [^ self isAllOnes not].
 	^ false! !
 
-!BitArray methodsFor: 'testing' stamp: 'len 5/9/2023 13:58:24'!
+!BitArray methodsFor: 'testing' stamp: 'len 5/9/2023 22:41:22'!
 isAllOnes
-	self flag: #fixme. "optimize"
-	^ self allSatisfy: [:each| each = One]! !
+	| r |
+	1 to: size // 32 do: [:i| (words at: i) = 16rFFFFFFFF ifFalse: [^ false]].
+	^ (r _ size \\ 32) = 0 or: [words last = (16rFFFFFFFF bitShift: r - 32)]! !
 
 !BitArray methodsFor: 'testing' stamp: 'len 5/7/2023 17:42:51'!
 isZero
@@ -4136,9 +4291,9 @@ replaceFrom: start to: stop with: replacement startingAt: repStart
 	The answer is a new array of the same size as the receiver."
 	^ self class coefficients: coefficients >>> (anInteger * scalars degree) scalars: scalars! !
 
-!GaloisArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:44:29'!
-· aTuple
-	^ self from: 1 to: (self size min: aTuple size) by: 1 dot: aTuple startingAt: 1 by: 1! !
+!GaloisArray methodsFor: 'operations' stamp: 'len 5/11/2023 15:55:12'!
+· anArray
+	^ self from: 1 to: (self size min: anArray size) by: 1 dot: anArray startingAt: 1 by: 1! !
 
 !GaloisArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:44:29'!
 reversed
@@ -4218,19 +4373,6 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 sta
 		coefficients replaceFrom: i to: i+n-1 with: anArray1 coefficients startingAt: j1 plus: tmp startingAt: 1.
 		j1 _ j1 + n.
 		j2 _ j2 + n]! !
-
-!GaloisArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:29'!
-replaceFrom: start to: stop with: anArray startingAt: srcStart plusScalar: anElement
-	| n scalarCoefficients j |
-	n _ scalars degree.
-	scalarCoefficients _ anElement coefficients.
-	j _ srcStart-1*n+1.
-	start-1*n+1 to: stop-1*n+1 by: n do: [:i|
-		coefficients
-			replaceFrom: i to: i+n-1
-			with: anArray coefficients startingAt: j
-			plus: scalarCoefficients startingAt: 1.
-		j _ j + n]! !
 
 !GaloisArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:29'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2
@@ -4366,9 +4508,9 @@ replaceFrom: start to: stop with: replacement startingAt: repStart
 		ifFalse: [^ super replaceFrom: start to: stop with: replacement startingAt: repStart].
 	representatives replaceFrom: start to: stop with: replacement representatives startingAt: repStart! !
 
-!ModularArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:44:53'!
-· aTuple
-	^ scalars representative: (representatives from: 1 to: (self size min: aTuple size) by: 1 dot: aTuple representatives startingAt: 1 by: 1 modulo: scalars modulus)! !
+!ModularArray methodsFor: 'operations' stamp: 'len 5/11/2023 15:48:47'!
+· anArray
+	^ scalars representative: (representatives from: 1 to: (self size min: anArray size) by: 1 dot: anArray representatives startingAt: 1 by: 1 modulo: scalars modulus)! !
 
 !ModularArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:44:53'!
 polynomialValue: anElement
@@ -4390,10 +4532,10 @@ reversed
 sum
 	^ scalars project: representatives sum! !
 
-!ModularArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:44:53'!
+!ModularArray methodsFor: 'operations' stamp: 'len 5/11/2023 15:28:11'!
 weight
 	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
-	^ representatives count: [:each| each ~~ 0]! !
+	^ representatives weight! !
 
 !ModularArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:53'!
 fillWithMatrixTranspose: anArray width: width
@@ -4431,11 +4573,11 @@ partiallyReduceBy: g addingQuotientTo: q
 		addingQuotientTo: (q ifNotNil: [q representatives])
 		modulo: scalars modulus! !
 
-!ModularArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:53'!
-reduceBy: g leadingInverse: inv addingQuotientTo: q
+!ModularArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 23:18:40'!
+reduceBy: g leadingInverse: u addingQuotientTo: q
 	representatives
 		reduceBy: g representatives
-		leadingInverse: inv representative
+		leadingInverse: u representative
 		addingQuotientTo: (q ifNotNil: [q representatives])
 		modulo: scalars modulus! !
 
@@ -4465,14 +4607,6 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 sta
 		modulo: scalars modulus! !
 
 !ModularArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:53'!
-replaceFrom: start to: stop with: anArray startingAt: srcStart plusScalar: anElement
-	representatives
-		replaceFrom: start to: stop
-		with: anArray representatives startingAt: srcStart
-		plusScalar: (anElement isInteger ifTrue: [anElement] ifFalse: [anElement representative])
-		modulo: scalars modulus! !
-
-!ModularArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:53'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2
 	representatives
 		replaceFrom: start to: stop
@@ -4480,12 +4614,13 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 st
 		times: anArray2 representatives startingAt: start2
 		modulo: scalars modulus! !
 
-!ModularArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:53'!
-replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: aNumber
+!ModularArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 19:54:47'!
+replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anElement
+	anElement isZero ifTrue: [^ self zeroFrom: start to: stop].
 	representatives
 		replaceFrom: start to: stop
 		with: anArray representatives startingAt: srcStart
-		timesScalar: (aNumber isInteger ifTrue: [aNumber] ifFalse: [aNumber representative])
+		timesScalar: (anElement isInteger ifTrue: [anElement] ifFalse: [anElement representative])
 		modulo: scalars modulus! !
 
 !ModularArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:53'!
@@ -4511,9 +4646,9 @@ replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArra
 replaceFrom: start withAutoconvolutionLong: anArray1 from: start1 to: stop1
 	representatives replaceFrom: start withAutoconvolutionLong: anArray1 representatives from: start1 to: stop1 modulo: scalars modulus! !
 
-!ModularArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:53'!
+!ModularArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 17:09:51'!
 sumFrom: start to: stop by: increment
-	^ scalars representative: (representatives sumFrom: start to: stop by: increment modulo: scalars modulus)! !
+	^ scalars project: (representatives sumFrom: start to: stop by: increment)! !
 
 !ModularArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:53'!
 swapFrom: start to: stop with: anArray startingAt: start2
@@ -4557,6 +4692,148 @@ species
 !ModularArray class methodsFor: 'instance creation' stamp: 'len 5/4/2023 23:44:53'!
 representatives: anArray scalars: aModularIntegerRing
 	^ self basicNew representatives: anArray scalars: aModularIntegerRing! !
+
+!ZechArray methodsFor: 'accessing' stamp: 'len 5/11/2023 15:08:42'!
+at: anInteger
+	^ table exp: (logarithms at: anInteger)! !
+
+!ZechArray methodsFor: 'accessing' stamp: 'len 5/11/2023 15:08:42'!
+at: anInteger put: anElement
+	logarithms at: anInteger put: (table log: anElement).
+	^ anElement! !
+
+!ZechArray methodsFor: 'accessing' stamp: 'len 5/11/2023 15:24:19'!
+atAllPut: anElement
+	logarithms atAllPut: (table log: anElement)! !
+
+!ZechArray methodsFor: 'accessing' stamp: 'len 5/11/2023 15:08:53'!
+logarithms
+	^ logarithms! !
+
+!ZechArray methodsFor: 'accessing' stamp: 'len 5/10/2023 13:06:30'!
+scalars
+	^ table scalars! !
+
+!ZechArray methodsFor: 'accessing' stamp: 'len 5/11/2023 15:08:42'!
+size
+	^ logarithms size! !
+
+!ZechArray methodsFor: 'accessing' stamp: 'len 5/11/2023 15:08:42'!
+swap: oneIndex with: anotherIndex 
+	logarithms swap: oneIndex with: anotherIndex! !
+
+!ZechArray methodsFor: 'accessing' stamp: 'len 5/11/2023 15:13:53'!
+table
+	^ table! !
+
+!ZechArray methodsFor: 'comparing' stamp: 'len 5/11/2023 17:01:46'!
+= anObject
+	^ self class = anObject class and: [logarithms = anObject logarithms]! !
+
+!ZechArray methodsFor: 'comparing' stamp: 'len 5/11/2023 15:08:42'!
+hash
+	| answer |
+	answer _ 0.
+	logarithms do: [:each| each = 0 ifFalse: [answer _ answer hashMultiply + each hash]].
+	^ answer! !
+
+!ZechArray methodsFor: 'copying' stamp: 'len 5/11/2023 15:11:17'!
+postCopy
+	super postCopy.
+	logarithms _ logarithms copy! !
+
+!ZechArray methodsFor: 'copying' stamp: 'len 5/11/2023 15:10:53'!
+replaceFrom: start to: stop with: replacement startingAt: repStart
+	(replacement class = self class and: [table = replacement table])
+		ifFalse: [^ super replaceFrom: start to: stop with: replacement startingAt: repStart].
+	logarithms replaceFrom: start to: stop with: replacement logarithms startingAt: repStart! !
+
+!ZechArray methodsFor: 'operations' stamp: 'len 5/11/2023 15:32:39'!
+product
+	| answer |
+	answer _ 1.
+	logarithms do: [:each|
+		each = 0 ifTrue: [^ self scalars zero].
+		answer _ answer + each].
+	^ table exp: answer - 1 \\ table q̄ + 1! !
+
+!ZechArray methodsFor: 'operations' stamp: 'len 5/11/2023 15:25:30'!
+reversed
+	^ self class logarithms: logarithms reversed table: table! !
+
+!ZechArray methodsFor: 'operations' stamp: 'len 5/11/2023 15:47:44'!
+sum
+	^ table exp: (logarithms inject: 0 into: [:sum :each| table op: sum plus: each])! !
+
+!ZechArray methodsFor: 'operations' stamp: 'len 5/11/2023 15:29:57'!
+weight
+	^ logarithms weight! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 18:20:50'!
+fillWithMatrixTranspose: anArray width: width
+	logarithms fillWithMatrixTranspose: anArray logarithms width: width! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 21:27:10'!
+findFirstNonzeroFrom: start to: stop
+	^ logarithms findFirstNonzeroFrom: start to: stop! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 21:27:23'!
+findLastNonzeroFrom: start to: stop
+	^ logarithms findLastNonzeroFrom: start to: stop! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 21:34:00'!
+from: start to: stop by: increment dot: anArray startingAt: start2 by: increment2
+	^ table exp: (logarithms from: start to: stop by: increment dot: anArray logarithms startingAt: start2 by: increment2 zechTable: table)! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 23:39:43'!
+polynomialValue: anElement
+	^ table exp: (logarithms polynomialValue: (table log: anElement) zechTable: table)! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 14:04:38'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 startingAt: start2
+	logarithms replaceFrom: start to: stop with: anArray1 logarithms startingAt: start1 minus: anArray2 logarithms startingAt: start2 zechTable: table! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 21:31:57'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2
+	logarithms replaceFrom: start to: stop with: anArray1 logarithms startingAt: start1 plus: anArray2 logarithms startingAt: start2 zechTable: table! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 21:31:22'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 timesScalar: anElement
+	logarithms replaceFrom: start to: stop with: anArray1 logarithms startingAt: start1 plus: anArray2 logarithms startingAt: start2 timesScalar: (table log: anElement) zechTable: table! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 21:32:42'!
+replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anElement
+	logarithms replaceFrom: start to: stop with: anArray logarithms startingAt: srcStart timesScalar: (table log: anElement) zechTable: table
+! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 21:33:09'!
+replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
+	logarithms replaceFrom: start to: stop withNegated: anArray logarithms startingAt: srcStart zechTable: table! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 15:42:35'!
+swapFrom: start to: stop with: anArray startingAt: start2
+	logarithms swapFrom: start to: stop with: anArray logarithms startingAt: start2! !
+
+!ZechArray methodsFor: 'testing' stamp: 'len 5/11/2023 15:08:42'!
+isZero
+	^ logarithms isZero! !
+
+!ZechArray methodsFor: 'testing' stamp: 'len 5/11/2023 15:08:42'!
+isZeroAt: anInteger
+	^ logarithms isZeroAt: anInteger! !
+
+!ZechArray methodsFor: 'private' stamp: 'len 5/11/2023 15:09:20'!
+logarithms: anArray table: aZechTable
+	logarithms _ anArray.
+	table _ aZechTable! !
+
+!ZechArray methodsFor: 'private' stamp: 'len 5/11/2023 17:01:29'!
+species
+	^ table! !
+
+!ZechArray class methodsFor: 'instance creation' stamp: 'len 5/11/2023 15:13:24'!
+logarithms: anArray table: aZechTable
+	^ self basicNew logarithms: anArray table: aZechTable! !
 
 !Simplex methodsFor: 'printing' stamp: 'len 2/27/2017 08:21:52'!
 printOn: aStream
@@ -5033,7 +5310,7 @@ example5GL
 	on the vector space of 3-tuples with rational coefficients."
 	^ (ℚ ^ 3) automorphisms! !
 
-!Domain class methodsFor: 'initialization' stamp: 'len 5/5/2023 12:58:16'!
+!Domain class methodsFor: 'initialization' stamp: 'len 5/10/2023 21:59:52'!
 initializeAll
 	"First initialize transfinites, set globals ∞, ℵ and ω:"
 	Ordinal initialize.
@@ -5042,7 +5319,8 @@ initializeAll
 	"Then initialize all Morphisms, set globals for categories like Sets, Groups, etc:"
 	Morphism withAllSubclassesDo: [:each| (each class selectors includes: #initialize) ifTrue: [each initialize]].
 	"And finally initialize any other classes that need initialization:"
-	BitArray initialize! !
+	BitArray initialize.
+	ZechTable initialize.! !
 
 !Structure methodsFor: 'accessing' stamp: 'len 4/22/2020 07:02:11'!
 ambient
@@ -5479,10 +5757,20 @@ atRandom: aRandom bits: bitSize
 	self propertyAt: #elements ifPresent: [:aCollectionOrDomain| ^ aCollectionOrDomain atRandom: aRandom bits: bitSize].
 	^ self asSet atRandom: aRandom! !
 
+!Structure methodsFor: 'random' stamp: 'len 5/10/2023 10:46:15'!
+atRandom: aRandom satisfying: aBlock
+	| answer |
+	[answer _ self atRandom: aRandom. aBlock value: answer] whileFalse.
+	^ answer! !
+
 !Structure methodsFor: 'random' stamp: 'len 3/11/2021 16:39:29'!
 atRandomBits: bitSize
 	"Answer an element of the receiver of at most n bits (as measured by #bitSize). The total number of elements that could be returned shouldn't exceed 2^n."
 	^ self atRandom: self newRandom bits: bitSize! !
+
+!Structure methodsFor: 'random' stamp: 'len 5/10/2023 10:47:08'!
+atRandomSatisfying: aBlock
+	^ self atRandom: self newRandom satisfying: aBlock! !
 
 !Structure methodsFor: 'random' stamp: 'len 9/18/2022 06:10:20'!
 to: aCodomain atRandom: aRandom
@@ -6668,11 +6956,12 @@ normalClosureOf: aSubset
 				(N includes: hg) ifFalse: [Z add: hg. N _ self span: Z]]].
 	^ N! !
 
-!Group methodsFor: 'operations' stamp: 'len 5/22/2022 11:07:57'!
+!Group methodsFor: 'operations' stamp: 'len 5/10/2023 21:17:01'!
 orderOf: anElement
 	"Answer the order of the argument in the receiver, i.e. the minimum e such that g^e = 1.
 	[Coh96] Algorithm 1.4.3 (Order of an Element)."
 	| h factors id e g1 |
+	self flag: #fixme. "TODO: handle additive groups"
 	h _ self size.
 	factors _ self propertyAt: #orderFactorization ifAbsentPut: [h factorization].
 	e _ h.
@@ -6764,10 +7053,10 @@ upperCentralSeriesQuotientsDo: aBlock
 	Z1 _ self null.
 	self upperCentralSeriesDo: [:Z| aBlock value: Z / Z1. Z1 _ Z]! !
 
-!Group methodsFor: 'testing' stamp: 'len 7/15/2022 11:50:42'!
+!Group methodsFor: 'testing' stamp: 'len 5/10/2023 21:16:05'!
 isCommutative
 	| X |
-	self isAdditiveGroup ifTrue: [^ true]. "assume only abelian groups are implemented with abelian notation"
+	self isAdditiveGroup ifTrue: [^ true]. "assume only abelian groups are implemented with additive notation"
 	self propertyAt: #isCommutative ifPresent: [:aBoolean| ^ aBoolean].
 	X _ self generators ifNil: [self].
 	X do: [:x| X do: [:y| x · y = (y · x) ifFalse: [^ false]]].
@@ -10889,11 +11178,11 @@ asModule
 		addCoercionFrom: answer map: [:each| self !! (each representative at: 1)].
 	^ self propertyAt: #asModule put: answer! !
 
-!ModularIntegerRing methodsFor: 'elements' stamp: 'len 5/7/2023 17:45:20'!
+!ModularIntegerRing methodsFor: 'elements' stamp: 'len 5/12/2023 14:33:41'!
 new: anInteger
 	| representativesArrayClass |
 	modulus = 2 ifTrue: [^ BitArray new: anInteger].
-	representativesArrayClass _ modulus <= 256 ifTrue: [ByteArray] ifFalse: [modulus <= 16r100000000 ifTrue: [WordArray] ifFalse: [Array]].
+	representativesArrayClass _ modulus <= 256 ifTrue: [ByteArray] ifFalse: [modulus <= 16r10000 ifTrue: [DoubleByteArray] ifFalse: [modulus <= 16r100000000 ifTrue: [WordArray] ifFalse: [Array]]].
 	^ ModularArray representatives: (representativesArrayClass new: anInteger) scalars: self! !
 
 !ModularIntegerRing methodsFor: 'elements' stamp: 'len 5/20/2022 10:39:54'!
@@ -10920,9 +11209,9 @@ primeIdealsDo: aBlock
 project: anInteger
 	^ self representative: anInteger \\ modulus! !
 
-!ModularIntegerRing methodsFor: 'morphisms' stamp: 'len 9/16/2022 07:55:29'!
+!ModularIntegerRing methodsFor: 'morphisms' stamp: 'len 5/9/2023 23:07:20'!
 to: aCodomain
-	"Ring homomorphisms from Z/mZ are canonical: they are determined by the image of 1, and the image of 1 must be 1 in order to make it a ring homomorphism."
+	"Ring homomorphisms from ℤ/nℤ are canonical: they are determined by the image of 1, and the image of 1 must be 1 in order to make it a ring homomorphism."
 	(aCodomain characteristic > 0 and: [aCodomain characteristic | self characteristic])
 		ifTrue: [^ self to: aCodomain map: [:x| aCodomain one * x representative]].
 	^ super to: aCodomain! !
@@ -10997,9 +11286,9 @@ isFinite
 isIntegralDomain
 	^ self isField! !
 
-!ModularIntegerRing methodsFor: 'testing' stamp: 'len 6/4/2019 18:39:42'!
+!ModularIntegerRing methodsFor: 'testing' stamp: 'len 5/9/2023 23:06:37'!
 isLocal
-	"Z/mZ is local if and only if m is a prime power. See PrimePowerRing."
+	"ℤ/nℤ is local if and only if n is a prime power. See PrimePowerRing."
 	^ self modulusFactors asSet size = 1! !
 
 !ModularIntegerRing methodsFor: 'testing' stamp: 'len 9/27/2018 21:29:36'!
@@ -11021,9 +11310,9 @@ isReduced
 
 "	^ modulus = 0 or: [modulus isSquarefree]"! !
 
-!ModularIntegerRing methodsFor: 'testing' stamp: 'len 6/16/2022 18:37:54'!
+!ModularIntegerRing methodsFor: 'testing' stamp: 'len 5/9/2023 23:07:06'!
 isUFR
-	"Actually Z/mZ is UFR for any m by the definition of [Fle69], but by [Gal78] only if m is a power of a prime."
+	"Actually ℤ/nℤ is UFR for any n by the definition of [Fle69], but by [Gal78] only if n is a power of a prime."
 	^ true! !
 
 !ModularIntegerRing methodsFor: 'private' stamp: 'len 1/5/2017 08:14:58'!
@@ -11056,9 +11345,9 @@ initialize
 	super initialize.
 	Cache _ Array new: 256! !
 
-!ModularIntegerRing class methodsFor: 'instance creation' stamp: 'len 5/1/2022 10:40:48'!
+!ModularIntegerRing class methodsFor: 'instance creation' stamp: 'len 5/9/2023 23:03:06'!
 new: anInteger
-	"Answer a new ring ℤ/mℤ keeping a cache for rings with small m."
+	"Answer a new ring ℤ/nℤ keeping a cache for rings with small n."
 	anInteger > Cache size ifTrue: [^ self new modulus: anInteger].
 	^ (Cache at: anInteger) ifNil: [Cache at: anInteger put: (self new modulus: anInteger)]! !
 
@@ -13486,9 +13775,9 @@ to: aRing map: aBlock
 	answer addCoercionFrom: self, aRing mapWithArguments: [:f :g| (i1 value: f) * (i2 value: g)].
 	^ answer! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 4/14/2020 18:46:10'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 5/9/2023 17:31:06'!
 completion
-	"Answer the ring of power series, i.e. the completion of the receiver at 0."
+	"Answer the ring of power series, i.e. the completion of the receiver at the maximal ideal generated by the indeterminates."
 	^ PowerSeriesRing on: self! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 9/18/2022 06:28:44'!
@@ -21933,8 +22222,9 @@ hash
 	Two matrices over a field are equivalent if and only if they have the same rank, and over a PID they are equivalent if and only if they have the same Smith normal form."
 	^ self elementaryDivisors = aMatrix elementaryDivisors! !
 
-!Matrix methodsFor: 'converting' stamp: 'len 5/5/2023 18:23:27'!
+!Matrix methodsFor: 'converting' stamp: 'len 5/12/2023 14:11:57'!
 asColumnMajor
+	self flag: #deprecated.
 	^ ColumnMajorMatrix from: self domain to: self codomain coefficients: self transpose asTuple coefficients! !
 
 !Matrix methodsFor: 'converting' stamp: 'len 4/1/2021 06:34:34'!
@@ -23650,9 +23940,9 @@ trace
 	self isEmpty ifTrue: [^ self scalars zero].
 	^ coefficients sumFrom: 1 to: coefficients size by: self height + 1! !
 
-!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 12/28/2022 11:03:07'!
+!ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 5/9/2023 17:59:51'!
 transpose
-	^ self class from: codomain to: domain coefficients: self transposedCoefficients! !
+	^ self class from: codomain to: domain coefficients: ((coefficients species new: coefficients size) fillWithMatrixTranspose: coefficients width: self height)! !
 
 !ColumnMajorMatrix methodsFor: 'operations' stamp: 'len 5/5/2023 17:25:58'!
 value: aTuple
@@ -23686,11 +23976,6 @@ coefficients
 !ColumnMajorMatrix methodsFor: 'private' stamp: 'len 5/8/2023 16:32:11'!
 coefficients: anArray
 	coefficients _ anArray! !
-
-!ColumnMajorMatrix methodsFor: 'private' stamp: 'len 12/28/2022 11:01:52'!
-transposedCoefficients
-	^ (coefficients species new: coefficients size)
-		fillWithMatrixTranspose: coefficients width: self height! !
 
 !ColumnMajorMatrix methodsFor: 'private' stamp: 'len 12/15/2022 12:54:50'!
 validate
@@ -23860,15 +24145,12 @@ withIndicesDo: aBlock
 	self checkCodomainsMatch: aMatrix.
 	^ self class from: domain to: codomain coefficients: coefficients + aMatrix coefficients! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 12/28/2022 11:06:26'!
+!RowMajorMatrix methodsFor: 'operations' stamp: 'len 5/9/2023 17:56:08'!
 - aMatrix
-	aMatrix isMatrix ifFalse: [^ super - aMatrix].
+	self class = aMatrix class ifFalse: [^ super - aMatrix].
 	self checkDomainsMatch: aMatrix.
 	self checkCodomainsMatch: aMatrix.
-	aMatrix class = RowMajorMatrix ifTrue: [^ self class from: domain to: codomain coefficients: coefficients - aMatrix coefficients].
-	self flag: #fixme. "TODO"
-"	aMatrix class = ColumnMajorMatrix ifTrue: [^ self class from: domain to: codomain coefficients: aMatrix transposedCoefficients += coefficients]."
-	^ super - aMatrix! !
+	^ self class from: domain to: codomain coefficients: coefficients - aMatrix coefficients! !
 
 !RowMajorMatrix methodsFor: 'operations' stamp: 'len 5/16/2022 11:32:28'!
 ⊕ aMatrix
@@ -23929,12 +24211,12 @@ withIndicesDo: aBlock
 			replaceFrom: i - 1 * w + self width + 1 to: i * w with: aMatrix coefficients startingAt: i - 1 * aMatrix width + 1].
 	^ self class from: domain ⊕ aMatrix domain to: codomain coefficients: newCoefficients! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 4/28/2022 06:28:52'!
+!RowMajorMatrix methodsFor: 'operations' stamp: 'len 5/9/2023 17:58:28'!
 apply: aFunction
 	"Answer a new tuple with coefficients obtainted by applying aFunction to the coefficients of the receiver.
 	If aFunction is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
 
-	aFunction isBlock ifTrue: [^ self collect: aFunction].
+	aFunction isBlock ifTrue: [^ self class from: domain to: codomain coefficients: (coefficients apply: aFunction)].
 	^ self class from: (domain over: aFunction codomain) to: (codomain over: aFunction codomain) coefficients: (coefficients apply: aFunction)! !
 
 !RowMajorMatrix methodsFor: 'operations' stamp: 'len 4/21/2022 12:38:12'!
@@ -23947,9 +24229,9 @@ trace
 	self isEmpty ifTrue: [^ self scalars zero].
 	^ coefficients sumFrom: 1 to: coefficients size by: self width + 1! !
 
-!RowMajorMatrix methodsFor: 'operations' stamp: 'len 12/28/2022 11:03:17'!
+!RowMajorMatrix methodsFor: 'operations' stamp: 'len 5/9/2023 18:00:08'!
 transpose
-	^ self class from: codomain to: domain coefficients: self transposedCoefficients! !
+	^ self class from: codomain to: domain coefficients: ((coefficients species new: coefficients size) fillWithMatrixTranspose: coefficients width: self width)! !
 
 !RowMajorMatrix methodsFor: 'operations' stamp: 'len 5/5/2023 17:25:46'!
 value: aTuple
@@ -24058,10 +24340,6 @@ coefficients
 !RowMajorMatrix methodsFor: 'private' stamp: 'len 5/8/2023 16:32:22'!
 coefficients: anArray
 	coefficients _ anArray! !
-
-!RowMajorMatrix methodsFor: 'private' stamp: 'len 12/28/2022 11:02:51'!
-transposedCoefficients
-	^ (coefficients species new: coefficients size) fillWithMatrixTranspose: coefficients width: self width! !
 
 !RowMajorMatrix methodsFor: 'private' stamp: 'len 7/8/2022 11:08:41'!
 validate
@@ -29532,9 +29810,9 @@ valuation
 	"Answer the Euclidean valuation of the receiver."
 	^ self isZero ifTrue: [Infinity negative] ifFalse: [representative gcd: parent modulus]! !
 
-!ModularInteger methodsFor: 'testing' stamp: 'len 5/4/2020 09:29:01'!
+!ModularInteger methodsFor: 'testing' stamp: 'len 5/9/2023 23:07:52'!
 isIrreducible
-	"An element of Z/mZ is irreducible iff its canonical associate is a prime p in Z and its exponent in the prime factorization of m is > 1, or equivalently p^2 | m."
+	"An element of ℤ/nℤ is irreducible iff its canonical associate is a prime p in Z and its exponent in the prime factorization of n is > 1, or equivalently p^2 | n."
 	^ (parent modulusFactors occurrencesOf: self normalized representative) > 1! !
 
 !ModularInteger methodsFor: 'testing' stamp: 'len 4/25/2022 18:03:38'!
@@ -29545,9 +29823,9 @@ isMinusOne
 isOne
 	^ representative = 1! !
 
-!ModularInteger methodsFor: 'testing' stamp: 'len 5/4/2020 09:31:35'!
+!ModularInteger methodsFor: 'testing' stamp: 'len 5/9/2023 23:08:06'!
 isPrime
-	"An element of Z/mZ is prime iff its canonical associate is a prime p in Z and p < m."
+	"An element of ℤ/nℤ is prime iff its canonical associate is a prime p in Z and p < n."
 	| p |
 	p _ self normalized representative.
 	^ p < parent modulus and: [parent modulusFactors includes: p]! !
@@ -33592,6 +33870,100 @@ coefficients: aCollection parent: aFreeAlgebra
 coefficients: aSortedDictionary parent: aFreeAlgebra
 	^ self basicNew coefficients: aSortedDictionary parent: aFreeAlgebra! !
 
+!ZechTable methodsFor: 'accessing' stamp: 'len 5/10/2023 11:53:03'!
+base
+	^ base! !
+
+!ZechTable methodsFor: 'accessing' stamp: 'len 5/10/2023 23:44:54'!
+exp: anInteger
+	anInteger = 0 ifTrue: [^ scalars zero].
+	anInteger = q̄ ifTrue: [^ scalars one].
+	^ base ^ anInteger! !
+
+!ZechTable methodsFor: 'accessing' stamp: 'len 5/11/2023 21:36:29'!
+log: anElement
+	| a g i |
+	a _ scalars !! anElement.
+	a isZero ifTrue: [^ 0].
+	a isOne ifTrue: [^ q̄].
+	i _ 1.
+	g _ base.
+	[a = g] whileFalse: [i _ i + 1. g _ g * base. i >= q ifTrue: [^ self halt]].
+	^ i! !
+
+!ZechTable methodsFor: 'accessing' stamp: 'len 5/11/2023 15:32:59'!
+q̄
+	^ q̄! !
+
+!ZechTable methodsFor: 'accessing' stamp: 'len 5/10/2023 21:08:26'!
+scalars
+	^ scalars! !
+
+!ZechTable methodsFor: 'operations' stamp: 'len 5/11/2023 00:12:55'!
+invert: i
+	i = 0 ifTrue: [^ DivisibilityError new signalReceiver: scalars one selector: #/ argument: scalars zero].
+	i = q̄ ifTrue: [^ i].
+	^ q̄ - i! !
+
+!ZechTable methodsFor: 'operations' stamp: 'len 5/11/2023 15:01:13'!
+negate: i
+	| answer |
+	q even ifTrue: [^ i].
+	i = 0 ifTrue: [^ 0].
+	^ (answer _ i - minusOne) < 1 ifTrue: [answer + q̄] ifFalse: [answer]! !
+
+!ZechTable methodsFor: 'operations' stamp: 'len 5/12/2023 14:22:38'!
+op: i minus: j
+	| minusJ k answer |
+	j = 0 ifTrue: [^ i].
+	minusJ _ q even ifTrue: [j] ifFalse: [(minusJ _ j - minusOne) < 1 ifTrue: [minusJ + q̄] ifFalse: [minusJ]].
+	i = 0 ifTrue: [^ minusJ].
+	(k _ minusJ - i) > 0 ifFalse: [k _ k + q̄].
+	k = minusOne ifTrue: [^ 0].
+	^ (answer _ i + (successors at: k + 1)) > q̄ ifTrue: [answer - q̄] ifFalse: [answer]! !
+
+!ZechTable methodsFor: 'operations' stamp: 'len 5/11/2023 15:01:03'!
+op: i plus: j
+	| k answer |
+	i = 0 ifTrue: [^ j].
+	j = 0 ifTrue: [^ i].
+	(k _ j - i) > 0 ifFalse: [k _ k + q̄].
+	k = minusOne ifTrue: [^ 0].
+	^ (answer _ i + (successors at: k + 1)) > q̄ ifTrue: [answer - q̄] ifFalse: [answer]! !
+
+!ZechTable methodsFor: 'operations' stamp: 'len 5/11/2023 00:10:35'!
+op: i times: j
+	| answer |
+	(i = 0 or: [j = 0]) ifTrue: [^ 0].
+	^ (answer _ i + j) > q̄ ifTrue: [answer - q̄] ifFalse: [answer]! !
+
+!ZechTable methodsFor: 'operations' stamp: 'len 5/10/2023 21:32:54'!
+successor: i
+	^ successors at: i + 1! !
+
+!ZechTable methodsFor: 'private' stamp: 'len 5/11/2023 15:03:43'!
+scalars: aFiniteField
+	| g |
+	scalars _ aFiniteField.
+	q _ aFiniteField size.
+	q̄ _ q - 1.
+	minusOne _ q = 2 ifTrue: [1] ifFalse: [q̄ // 2].
+	base _ aFiniteField primitiveRoot.
+	successors _ Array new: q. "this can be ByteArray or DoubleByteArray"
+	successors at: 1 put: q̄.
+	g _ base.
+	2 to: successors size do: [:i|
+		successors at: i put: (self log: g + 1).
+		g _ g * base]! !
+
+!ZechTable methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 15:22:02'!
+new: anInteger
+	^ ZechArray logarithms: ((q <= 16rFF ifTrue: [ByteArray] ifFalse: [DoubleByteArray]) new: anInteger) table: self! !
+
+!ZechTable class methodsFor: 'instance creation' stamp: 'len 5/10/2023 21:35:44'!
+over: aFiniteField
+	^ self new scalars: aFiniteField! !
+
 !ModuleElement methodsFor: 'comparing' stamp: 'len 4/18/2022 16:03:59'!
 = anObject
 	^ self class = anObject class and: [self parent = anObject parent and: [(self - anObject) isZero]]! !
@@ -33798,10 +34170,6 @@ size
 	^ parent rank! !
 
 !Tuple methodsFor: 'accessing' stamp: 'len 5/5/2023 00:11:07'!
-support
-	^ (1 to: self size) reject: [:each| self isZeroAt: each]! !
-
-!Tuple methodsFor: 'accessing' stamp: 'len 5/5/2023 00:11:07'!
 x
 	^ self at: 1! !
 
@@ -33912,9 +34280,9 @@ with: anArray do: aBlock
 		[:index |
 		aBlock value: (self at: index) value: (anArray at: index)]! !
 
-!Tuple methodsFor: 'enumerating' stamp: 'len 5/5/2023 18:36:41'!
+!Tuple methodsFor: 'enumerating' stamp: 'len 5/9/2023 17:49:38'!
 withIndexCollect: aBlock
-	^ parent fill: [:i| aBlock value: (self at: i) value: i]! !
+	^ self class coefficients: (self scalars new: self size fill: [:i| aBlock value: (coefficients at: i) value: i]) parent: parent! !
 
 !Tuple methodsFor: 'enumerating' stamp: 'len 5/5/2023 18:33:18'!
 withIndexDo: aBlock
@@ -33958,9 +34326,9 @@ withSupportDo: aBlock
 	anObject isTuple ifTrue: [^ 	super / anObject].
 	^ self / (self scalars !! anObject)! !
 
-!Tuple methodsFor: 'operations' stamp: 'len 5/5/2023 00:11:07'!
+!Tuple methodsFor: 'operations' stamp: 'len 5/9/2023 17:46:37'!
 // anElement
-	(self scalars includes: anElement) ifTrue: [^ self collect: [:each| each // anElement]].
+	(self scalars includes: anElement) ifTrue: [^ self apply: [:each| each // anElement]].
 	^ super // anElement! !
 
 !Tuple methodsFor: 'operations' stamp: 'len 5/5/2023 00:11:07'!
@@ -33989,9 +34357,9 @@ withSupportDo: aBlock
 	(anInteger = 0 or: [self size = 0]) ifTrue: [^ self].
 	^ self class coefficients: coefficients >>> anInteger parent: parent! !
 
-!Tuple methodsFor: 'operations' stamp: 'len 5/5/2023 00:11:07'!
+!Tuple methodsFor: 'operations' stamp: 'len 5/9/2023 17:46:43'!
 \\ anElement
-	(self scalars includes: anElement) ifTrue: [^ self collect: [:each| each \\ anElement]].
+	(self scalars includes: anElement) ifTrue: [^ self apply: [:each| each \\ anElement]].
 	^ super \\ anElement! !
 
 !Tuple methodsFor: 'operations' stamp: 'len 5/5/2023 15:55:45'!
@@ -34012,10 +34380,10 @@ withSupportDo: aBlock
 				yourself)
 		parent: parent! !
 
-!Tuple methodsFor: 'operations' stamp: 'len 5/5/2023 16:00:01'!
+!Tuple methodsFor: 'operations' stamp: 'len 5/9/2023 17:39:10'!
 ⊗ anElement
 	"Answer the outer product of the receiver with the argument."
-	anElement isTuple ifTrue: [^ Matrix from: anElement parent to: parent fill: [:i :j| (self at: i)*(anElement at: j)]].
+	anElement isTuple ifTrue: [^ anElement parent to: parent fill: [:i :j| (self at: i)*(anElement at: j)]].
 	self flag: #fixme. "this looks wrong over noncommutative rings"
 	anElement isMatrix ifTrue: [^ self asMatrix ⊗ anElement transpose].
 	^ super ⊗ anElement! !
@@ -34119,16 +34487,18 @@ sum
 	self size = 0 ifTrue: [^ self scalars zero].
 	^ coefficients sum! !
 
-!Tuple methodsFor: 'operations' stamp: 'len 5/5/2023 00:11:07'!
+!Tuple methodsFor: 'operations' stamp: 'len 5/9/2023 21:11:18'!
+support
+	^ coefficients support! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 5/9/2023 17:44:26'!
 weight
 	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
-	^ (1 to: self size) count: [:each| (self isZeroAt: each) not]! !
+	^ coefficients weight! !
 
-!Tuple methodsFor: 'printing' stamp: 'len 5/5/2023 16:59:44'!
+!Tuple methodsFor: 'printing' stamp: 'len 5/10/2023 01:23:20'!
 printOn: aStream
-	aStream nextPut: $(.
-	coefficients do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $)! !
+	coefficients printOn: aStream! !
 
 !Tuple methodsFor: 'testing' stamp: 'len 5/5/2023 18:21:16'!
 allSatisfy: aBlock
@@ -36359,6 +36729,14 @@ valuation: p
 , aTuple
 	^ ℤ !!!! {self} , aTuple! !
 
+!Integer methodsFor: '*algebra' stamp: 'len 5/12/2023 00:43:10'!
+<< shiftCount
+	^ self bitShift: shiftCount! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 5/12/2023 00:43:18'!
+>> shiftCount
+	^ self bitShift: shiftCount negated! !
+
 !Integer methodsFor: '*algebra' stamp: 'len 5/31/2022 11:48:42'!
 \ anInteger
 	^ (self lift: anInteger) ifNil: [DivisibilityError new signalReceiver: self selector: #\ argument: anInteger]! !
@@ -36373,6 +36751,10 @@ valuation: p
 !Integer methodsFor: '*algebra' stamp: 'len 5/10/2020 10:58:50'!
 ~ anInteger
 	^ self normalized = anInteger normalized! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 5/12/2023 00:49:51'!
+⊕ anInteger
+	^ self bitXor: anInteger! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 5/23/2022 11:37:19'!
 ⊥ anInteger
@@ -36426,6 +36808,10 @@ asRational
 associates
 	^ self = 0 ifTrue: [#(0)] ifFalse: [{self negated. self}]! !
 
+!Integer methodsFor: '*algebra' stamp: 'len 5/9/2023 18:26:22'!
+bitAutoconvolution
+	^ self bitConvolution: self! !
+
 !Integer methodsFor: '*algebra' stamp: 'len 5/3/2022 05:57:17'!
 bitConvolution: anInteger
 	| a b c |
@@ -36448,28 +36834,24 @@ bitCount
 	n _ n // 2.
 	^ (self bitShift: n negated) bitCount + (self bitAnd: (1 bitShift: n) - 1) bitCount! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 7/2/2016 05:43'!
+!Integer methodsFor: '*algebra' stamp: 'len 5/12/2023 14:00:12'!
 bitParity
 	"Answer 1 if there are an odd number of bits set, 0 otherwise."
 	| n |
 	self = 0 ifTrue: [^ 0].
 	self = 1 ifTrue: [^ 1].
-	n _ self digitLength * 8. "this will always be >= 32, because SmallInteger implements bitParity"
-	n _ n // 2.
-	^ ((self bitShift: n negated) bitXor: (self bitAnd: (1 bitShift: n) - 1)) bitParity! !
-
-!Integer methodsFor: '*algebra' stamp: 'len 7/2/2016 05:43'!
-bitParity2
-	"Answer 1 if there are an odd number of bits set, 0 otherwise."
-	| i n |
-	self = 0 ifTrue: [^ 0].
-	self = 1 ifTrue: [^ 1].
-	i _ self digitLength * 8. "this will always be >= 32, because SmallInteger implements bitParity"
+	"Split the receiver in the lower and upper parts and xor them together.
+	Eventually this calls SmallInteger>>bitParity."
+	n _ self digitLength * 4.
+	^ ((self bitShift: n negated) bitXor: (self bitAnd: (1 bitShift: n) - 1)) bitParity
+	
+"alternative:
+	i _ self digitLength * 8.
 	n _ self.
 	[i _ i bitShift: -1.
 	i > 30] whileTrue:
 		[n _ n bitXor: (n bitShift: i negated)].
-	^ (n bitAnd: (1 bitShift: i) - 1) bitParity! !
+	^ (n bitAnd: (1 bitShift: i) - 1) bitParity"! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 7/1/2016 23:03'!
 bitSize
@@ -36955,6 +37337,14 @@ xxgcd: anInteger
 	(self = 0 and: [anInteger = 0]) ifTrue: [^ {0. 1. 0. 0. 1}].
 	^ (xgcd _ self xgcd: anInteger), {(anInteger // (g _ xgcd at: 1)) negated. self // g}! !
 
+!Integer methodsFor: '*algebra' stamp: 'len 5/12/2023 00:50:10'!
+∧ anInteger
+	^ self bitAnd: anInteger! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 5/12/2023 00:50:23'!
+∨ anInteger
+	^ self bitOr: anInteger! !
+
 !SmallInteger methodsFor: '*algebra' stamp: 'len 11/12/2016 08:38'!
 bitCount
 	"Answer the number of bits that are set, i.e. the number of 1s in the binary representation."
@@ -36972,7 +37362,7 @@ bitCount
 "
 ! !
 
-!SmallInteger methodsFor: '*algebra' stamp: 'len 7/2/2016 05:43'!
+!SmallInteger methodsFor: '*algebra' stamp: 'len 5/12/2023 13:53:28'!
 bitParity
 	"Answer 1 if there are an odd number of bits set, 0 otherwise."
 	| v parity |
@@ -36982,6 +37372,7 @@ bitParity
 	^ parity
 
 "	n _ self.
+	n _ n bitXor: (n bitShift: -32).
 	n _ n bitXor: (n bitShift: -16).
 	n _ n bitXor: (n bitShift: -8).
 	n _ n bitXor: (n bitShift: -4).
@@ -37201,54 +37592,54 @@ sum
 		ifTrue: [	self replaceFrom: 1 to: self size with: self startingAt: 1 times: anObject startingAt: 1]
 		ifFalse: [self replaceFrom: 1 to: self size with: self startingAt: 1 timesScalar: anObject]! !
 
-!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/5/2023 16:39:58'!
+!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/11/2023 17:42:47'!
 + anObject
 	| n m answer |
+	anObject species = self species ifFalse:
+		[anObject isCollection ifTrue: [^ super + anObject].
+		^ self collect: [:each| each + anObject]].
 	n _ self size.
-	anObject species = self species ifTrue:
-		[m _ anObject size.
-		answer _ self species new: (n max: m).
-		answer replaceFrom: 1 to: (n min: m) with: self startingAt: 1 plus: anObject startingAt: 1.
-		m > n
-			ifTrue: [answer replaceFrom: n+1 to: m with: anObject startingAt: n+1]
-			ifFalse: [m < n ifTrue: [answer replaceFrom: m+1 to: n with: self startingAt: m+1]].
-		^ answer].
-	anObject isCollection ifTrue: [^ super + anObject].
-	n = 0 ifTrue: [^ self].
-	^ (self species new: n) replaceFrom: 1 to: n with: self startingAt: 1 plusScalar: self first parent !! anObject! !
+	m _ anObject size.
+	answer _ self species new: (n max: m).
+	answer replaceFrom: 1 to: (n min: m) with: self startingAt: 1 plus: anObject startingAt: 1.
+	m > n
+		ifTrue: [answer replaceFrom: n+1 to: m with: anObject startingAt: n+1]
+		ifFalse: [m < n ifTrue: [answer replaceFrom: m+1 to: n with: self startingAt: m+1]].
+	^ answer! !
 
-!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/6/2023 16:09:05'!
+!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/11/2023 17:44:13'!
 += anObject
-	anObject species = self species
-		ifTrue: [	self replaceFrom: 1 to: self size with: self startingAt: 1 plus: anObject startingAt: 1]
-		ifFalse: [self replaceFrom: 1 to: self size with: self startingAt: 1 plusScalar: anObject]! !
+	anObject species = self species ifFalse:
+		[anObject isCollection ifTrue: [^ super += anObject].
+		^ self replace: [:each| each + anObject]].
+	self replaceFrom: 1 to: self size with: self startingAt: 1 plus: anObject startingAt: 1! !
 
 !ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/6/2023 16:09:15'!
 , anObject
 	anObject isCollection ifTrue: [^ super , anObject].
 	^ self copyWith: anObject! !
 
-!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/5/2023 16:41:27'!
+!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/11/2023 17:43:04'!
 - anObject
 	| n m answer |
+	anObject species = self species ifFalse:
+		[anObject isCollection ifTrue: [^ super - anObject].
+		^ self collect: [:each| each - anObject]].
 	n _ self size.
-	anObject species = self species ifTrue:
-		[m _ anObject size.
-		answer _ self species new: (n max: m).
-		answer replaceFrom: 1 to: (n min: m) with: self startingAt: 1 minus: anObject startingAt: 1.
-		m > n
-			ifTrue: [answer replaceFrom: n+1 to: m withNegated: anObject startingAt: n+1]
-			ifFalse: [m < n ifTrue: [answer replaceFrom: m+1 to: n with: self startingAt: m+1]].
-		^ answer].
-	anObject isCollection ifTrue: [^ super - anObject].
-	n = 0 ifTrue: [^ self].
-	^ (self species new: n) replaceFrom: 1 to: n with: self startingAt: 1 plusScalar: self first parent !! anObject negated! !
+	m _ anObject size.
+	answer _ self species new: (n max: m).
+	answer replaceFrom: 1 to: (n min: m) with: self startingAt: 1 minus: anObject startingAt: 1.
+	m > n
+		ifTrue: [answer replaceFrom: n+1 to: m withNegated: anObject startingAt: n+1]
+		ifFalse: [m < n ifTrue: [answer replaceFrom: m+1 to: n with: self startingAt: m+1]].
+	^ answer! !
 
-!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/6/2023 16:08:49'!
+!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/11/2023 17:43:53'!
 -= anObject
-	anObject species = self species
-		ifTrue: [self replaceFrom: 1 to: self size with: self startingAt: 1 minus: anObject startingAt: 1]
-		ifFalse: [self replaceFrom: 1 to: self size with: self startingAt: 1 plusScalar: anObject negated]! !
+	anObject species = self species ifFalse:
+		[anObject isCollection ifTrue: [^ super -= anObject].
+		^ self replace: [:each| each - anObject]].
+	self replaceFrom: 1 to: self size with: self startingAt: 1 minus: anObject startingAt: 1! !
 
 !ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/5/2023 16:42:56'!
 / anObject
@@ -37272,25 +37663,25 @@ sum
 	The answer is a new array of the same size as the receiver."
 	^ self >>> anInteger negated! !
 
-!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/5/2023 15:53:23'!
+!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/9/2023 18:50:04'!
 >> anInteger
 	"Answer the right shift of the receiver by anInteger places.
 	The answer is a new array of the same size as the receiver."
-	| answer zero n |
-	anInteger = 0 ifTrue: [^ self].
-	answer _ self species new: self size.
+	| answer zero n m |
+	(anInteger = 0 or: [(m _ self size) = 0]) ifTrue: [^ self].
+	answer _ self species new: m.
 	zero _ self first zero.
-	n _ self size min: anInteger max: self size negated.
+	n _ m min: anInteger max: m negated.
 	n > 0
 		ifTrue:
 			[answer from: 1 to: n put: zero.
-			answer replaceFrom: 1+n to: answer size with: self startingAt: 1]
+			answer replaceFrom: 1+n to: m with: self startingAt: 1]
 		ifFalse:
-			[answer from: answer size + n + 1 to: answer size put: zero.
-			answer replaceFrom: 1 to: answer size + n with: self startingAt: 1 - n].
+			[answer from: m+n+1 to: answer size put: zero.
+			answer replaceFrom: 1 to: m+n with: self startingAt: 1-n].
 	^ answer! !
 
-!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/5/2023 13:16:07'!
+!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/9/2023 18:50:18'!
 >>> anInteger
 	"Answer the circular right shift of the receiver by anInteger places.
 	The answer is a new array of the same size as the receiver."
@@ -37298,7 +37689,7 @@ sum
 	(anInteger = 0 or: [(m _ self size) = 0]) ifTrue: [^ self].
 	n _ anInteger \\ m.
 	^ (self species new: m)
-		replaceFrom: 1 to: n with: self startingAt: m - n + 1;
+		replaceFrom: 1 to: n with: self startingAt: m-n+1;
 		replaceFrom: 1+n to: m with: self startingAt: 1! !
 
 !ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/5/2023 16:43:36'!
@@ -37345,19 +37736,6 @@ fillWithColumnMajorMatrix: anArray1 height: height1 timesMatrix: anArray2 height
 		i1 _ i1 + height1.
 		i2 _ i2 + height2]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/24/2022 11:24:07'!
-fillWithMatrix: anArray width: width1 timesMatrixTranspose: anotherArray width: width2
-	| j k max |
-	j _ 1.
-	k _ 1.
-	max _ width1 * width2.
-	1 to: self size do: [:i|
-		self at: i put: (anArray from: j to: j+width1-1 by: 1 dot: anotherArray startingAt: k by: 1).
-		k _ k + width1.
-		k > max ifTrue:
-			[k _ 1.
-			j _ j + width1]]! !
-
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/15/2022 12:14:41'!
 fillWithMatrixTranspose: anArray width: width
 	| n height |
@@ -37387,13 +37765,13 @@ fillWithRowMajorMatrix: anArray width: width1 timesMatrix: anotherArray width: w
 			[k _ 1.
 			j _ j + width1]]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/20/2022 11:36:55'!
+!ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 5/20/2022 11:36:55'!
 findFirstNonzeroFrom: start to: stop
 	"Answer the index of the first nonzero entry between start and stop, or nil."
 	start to: stop do: [:i| (self isZeroAt: i) ifFalse: [^ i]].
 	^ nil! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/27/2022 11:24:59'!
+!ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 12/27/2022 11:24:59'!
 findLastNonzeroFrom: start to: stop
 	"Answer the index of the last nonzero entry between start and stop, or nil."
 	| i |
@@ -37408,26 +37786,38 @@ firstNonzeroIndex
 	"Answer the index of the first nonzero entry, or nil."
 	^ self findFirstNonzeroFrom: 1 to: self size! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/27/2022 10:50:28'!
+!ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 5/11/2023 20:57:07'!
 from: start to: stop by: increment dot: anArray startingAt: start2 by: increment2
 	| answer i j |
 	answer _ self first zero.
 	i _ start.
 	j _ start2.
-	[i <= stop] whileTrue:
+	[i <= stop and: [j <= anArray size]] whileTrue:
 		[answer _ (self at: i) * (anArray at: j) + answer.
 		i _ i + increment.
 		j _ j + increment2].
 	^ answer! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/27/2022 10:50:14'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/11/2023 21:28:52'!
 from: start to: stop by: increment dot: anArray startingAt: start2 by: increment2 modulo: modulus
 	| answer i j |
-	answer _ self first zero.
+	answer _ 0.
 	i _ start.
 	j _ start2.
-	[i <= stop] whileTrue:
+	[i <= stop and: [j <= anArray size]] whileTrue:
 		[answer _ (self at: i) * (anArray at: j) + answer \\ modulus.
+		i _ i + increment.
+		j _ j + increment2].
+	^ answer! !
+
+!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/11/2023 21:30:02'!
+from: start to: stop by: increment dot: anArray startingAt: start2 by: increment2 zechTable: table
+	| answer i j |
+	answer _ 0.
+	i _ start.
+	j _ start2.
+	[i <= stop and: [j <= anArray size]] whileTrue:
+		[answer _ table op: answer plus: (table op: (self at: i) times: (anArray at: j)).
 		i _ i + increment.
 		j _ j + increment2].
 	^ answer! !
@@ -37455,7 +37845,7 @@ lift
 negated
 	^ (self species new: self size) replaceFrom: 1 to: self size withNegated: self startingAt: 1! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/4/2023 23:32:29'!
+!ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 5/4/2023 23:32:29'!
 partiallyReduceBy: g addingQuotientTo: q
 	| n m lead |
 	m _ g lastNonzeroIndex ifNil: [^ self error: 'division by zero'].
@@ -37469,7 +37859,7 @@ partiallyReduceBy: g addingQuotientTo: q
 			q ifNotNil: [q at: i put: (q at: i) - c].
 			self replaceFrom: i to: i+m-1 with: self startingAt: i plus: g startingAt: 1 timesScalar: c]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/24/2022 12:42:33'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/24/2022 12:42:33'!
 partiallyReduceBy: g addingQuotientTo: q modulo: modulus
 	| n m lead |
 	m _ g lastNonzeroIndex ifNil: [^ self error: 'division by zero'].
@@ -37499,7 +37889,7 @@ polynomialPartialDivisionBy: anArray
 	r partiallyReduceBy: anArray addingQuotientTo: q.
 	^ {q. r}! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/27/2022 11:12:30'!
+!ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 12/27/2022 11:12:30'!
 polynomialValue: anElement
 	"Evaluate the receiver (as an univariate polynomial) at the given argument using Horner's method."
 	| answer i |
@@ -37510,7 +37900,7 @@ polynomialValue: anElement
 		i _ i - 1].
 	^ answer! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/27/2022 11:14:05'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 12/27/2022 11:14:05'!
 polynomialValue: anInteger modulo: modulus
 	"Evaluate the receiver (as an univariate polynomial) at the given argument using Horner's method."
 	| answer i |
@@ -37523,35 +37913,47 @@ polynomialValue: anInteger modulo: modulus
 		i _ i - 1].
 	^ answer! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/4/2023 23:33:58'!
-reduceBy: g leadingInverse: inv addingQuotientTo: q
-	| n m minusInv |
+!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/11/2023 21:38:14'!
+polynomialValue: anInteger zechTable: table
+	| answer i |
+	self isEmpty ifTrue: [^ 0].
+	anInteger = 0 ifTrue: [^ self at: 1].
+	answer _ 0.
+	i _ self size.
+	[i > 0] whileTrue:
+		[answer _ table op: (table op: anInteger times: answer) plus: (self at: i).
+		i _ i - 1].
+	^ answer! !
+
+!ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 5/11/2023 23:17:51'!
+reduceBy: g leadingInverse: u addingQuotientTo: q
+	| n m minusU |
 	m _ g size "lastNonzeroIndex".
 	"inv _ (g at: m) inverse."
-	minusInv _ inv negated.
+	minusU _ u negated.
 	[(n _ self lastNonzeroIndex ifNil: [0]) >= m]
 		whileTrue:
 			[| i c |
 			i _ n-m+1.
-			c _ (self at: n) * minusInv.
+			c _ (self at: n) * minusU.
 			q ifNotNil: [q at: i put: (q at: i) - c].
 			self replaceFrom: i to: i+m-1 with: self startingAt: i plus: g startingAt: 1 timesScalar: c]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/19/2022 05:48:21'!
-reduceBy: g leadingInverse: inv addingQuotientTo: q modulo: modulus
-	| n m minusInv |
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/11/2023 23:20:09'!
+reduceBy: g leadingInverse: u addingQuotientTo: q modulo: modulus
+	| n m minusU |
 	m _ g size "lastNonzeroIndex".
 	"inv _ (g at: m) inverse."
-	minusInv _ modulus - inv.
+	minusU _ modulus - u.
 	[(n _ self lastNonzeroIndex ifNil: [0]) >= m]
 		whileTrue:
 			[| i c |
 			i _ n-m+1.
-			c _ (self at: n) * minusInv \\ modulus.
+			c _ (self at: n) * minusU \\ modulus.
 			q ifNotNil: [q at: i put: (q at: i) - c \\ modulus].
 			self replaceFrom: i to: i+m-1 with: self startingAt: i plus: g startingAt: 1 timesScalar: c modulo: modulus]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 4/25/2022 07:55:30'!
+!ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 4/25/2022 07:55:30'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 startingAt: start2
 	| j1 j2 |
 	j1 _ start1.
@@ -37561,7 +37963,7 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 st
 		j1 _ j1 + 1.
 		j2 _ j2 + 1]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/27/2022 18:02:28'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 12/27/2022 18:02:28'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 startingAt: start2 modulo: modulus
 	| j1 j2 |
 	j1 _ start1.
@@ -37573,7 +37975,17 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 st
 		j1 _ j1 + 1.
 		j2 _ j2 + 1]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 4/25/2022 07:56:38'!
+!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/11/2023 23:26:15'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 startingAt: start2 zechTable: table
+	| j1 j2 |
+	j1 _ start1.
+	j2 _ start2.
+	start to: stop do: [:i| | x |
+		self at: i put: ((x _ anArray2 at: j2) = 0 ifTrue: [anArray1 at: j1] ifFalse: [table op: (anArray1 at: j1) minus: x]).
+		j1 _ j1 + 1.
+		j2 _ j2 + 1]! !
+
+!ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 4/25/2022 07:56:38'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2
 	| j1 j2 |
 	j1 _ start1.
@@ -37583,7 +37995,7 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 sta
 		j1 _ j1 + 1.
 		j2 _ j2 + 1]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/1/2022 12:20:44'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/1/2022 12:20:44'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 modulo: modulus
 	| j1 j2 |
 	j1 _ start1.
@@ -37595,7 +38007,7 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 sta
 		j1 _ j1 + 1.
 		j2 _ j2 + 1]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 4/26/2022 11:07:37'!
+!ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 4/26/2022 11:07:37'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 timesScalar: anElement
 	| j1 j2 |
 	j1 _ start1.
@@ -37606,7 +38018,7 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 sta
 		j2 _ j2 + 1].
 	^ self! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/27/2022 18:06:32'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 12/27/2022 18:06:32'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 timesScalar: anInteger modulo: modulus
 	| j1 j2 |
 	anInteger = 0 ifTrue: [^ self replaceFrom: start to: stop with: anArray1 startingAt: start1].
@@ -37618,26 +38030,29 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 sta
 		j1 _ j1 + 1.
 		j2 _ j2 + 1]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 4/26/2022 11:07:54'!
-replaceFrom: start to: stop with: anArray startingAt: srcStart plusScalar: anElement
-	| j |
-	j _ srcStart.
+!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/11/2023 18:13:10'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 timesScalar: anInteger zechTable: table
+	| j1 j2 |
+	anInteger = 0 ifTrue: [^ self replaceFrom: start to: stop with: anArray1 startingAt: start1].
+	anInteger = table q̄ ifTrue: [^ self replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 zechTable: table].
+	j1 _ start1.
+	j2 _ start2.
 	start to: stop do: [:i|
-		self at: i put: (anArray at: j) + anElement.
-		j _ j + 1]! !
+		self at: i put: (table op: (anArray1 at: j1) plus: (table op: (anArray2 at: j2) times: anInteger)).
+		j1 _ j1 + 1.
+		j2 _ j2 + 1]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/27/2022 18:20:38'!
-replaceFrom: start to: stop with: anArray startingAt: srcStart plusScalar: anInteger modulo: modulus
-	| j |
-	anInteger = 0 ifTrue: [^ self replaceFrom: start to: stop with: anArray startingAt: srcStart].
-	j _ srcStart.
-	start to: stop do: [:i| | x |
-		x _ (anArray at: j) + anInteger.
-		x >= modulus ifTrue: [x _ x - modulus].
-		self at: i put: x.
-		j _ j + 1]! !
+!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/11/2023 18:07:44'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 zechTable: table
+	| j1 j2 |
+	j1 _ start1.
+	j2 _ start2.
+	start to: stop do: [:i|
+		self at: i put: (table op: (anArray1 at: j1) plus: (anArray2 at: j2)).
+		j1 _ j1 + 1.
+		j2 _ j2 + 1]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 4/25/2022 07:58:39'!
+!ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 4/25/2022 07:58:39'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2
 	| j1 j2 |
 	j1 _ start1.
@@ -37647,7 +38062,7 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 st
 		j1 _ j1 + 1.
 		j2 _ j2 + 1]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 4/25/2022 07:59:02'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 4/25/2022 07:59:02'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2 modulo: modulus
 	| j1 j2 |
 	j1 _ start1.
@@ -37657,7 +38072,7 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 st
 		j1 _ j1 + 1.
 		j2 _ j2 + 1]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 4/26/2022 11:06:51'!
+!ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 4/26/2022 11:06:51'!
 replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anElement
 	| j |
 	j _ srcStart.
@@ -37665,7 +38080,7 @@ replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anEl
 		self at: i put: (anArray at: j) * anElement.
 		j _ j + 1]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/27/2022 18:08:26'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 12/27/2022 18:08:26'!
 replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anInteger modulo: modulus
 	| j |
 	anInteger = 0 ifTrue: [^ self from: start to: stop put: 0].
@@ -37673,6 +38088,16 @@ replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anIn
 	j _ srcStart.
 	start to: stop do: [:i|
 		self at: i put: (anArray at: j) * anInteger \\ modulus.
+		j _ j + 1]! !
+
+!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/11/2023 18:10:37'!
+replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anInteger zechTable: table
+	| j |
+	anInteger = 0 ifTrue: [^ self from: start to: stop put: 0].
+	anInteger = table q̄ ifTrue: [^ self replaceFrom: start to: stop with: anArray startingAt: srcStart].
+	j _ srcStart.
+	start to: stop do: [:i|
+		self at: i put: (table op: (anArray at: j) times: anInteger).
 		j _ j + 1]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/27/2022 12:57:05'!
@@ -37688,16 +38113,16 @@ replaceFrom: start to: stop withMatrix: anArray height: height timesTuple: anoth
 		self replaceFrom: start to: stop with: self startingAt: start plus: anArray startingAt: j timesScalar: (anotherArray at: i).
 		j _ j + height]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/27/2022 12:53:35'!
+!ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 5/11/2023 18:22:48'!
 replaceFrom: start to: stop withMatrix: anArray height: height width: width transpose: transpose timesTuple: anotherArray startingAt: start2
-	| j Δ |
+	| j delta |
 	(height = 0 or: [width = 0]) ifTrue: [^ self].
 	transpose
 		ifFalse: "column-major"
 			[j _ 1.
-			Δ _ width - 1 * height.
+			delta _ width - 1 * height.
 			start to: stop do: [:i|
-				self at: i put: (anArray from: j to: Δ + j by: height dot: anotherArray startingAt: start2 by: 1).
+				self at: i put: (anArray from: j to: delta + j by: height dot: anotherArray startingAt: start2 by: 1).
 				j _ j + 1]]
 		ifTrue: "row-major"
 			[j _ 1.
@@ -37705,16 +38130,16 @@ replaceFrom: start to: stop withMatrix: anArray height: height width: width tran
 				self at: i put: (anArray from: j to: j+height-1 by: 1 dot: anotherArray startingAt: start2 by: 1).
 				j _ j + height]]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/27/2022 12:54:59'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/11/2023 17:59:37'!
 replaceFrom: start to: stop withMatrix: anArray height: height width: width transpose: transpose timesTuple: anotherArray startingAt: start2 modulo: modulus
-	| j Δ |
+	| j delta |
 	(height = 0 or: [width = 0]) ifTrue: [^ self].
 	transpose
 		ifFalse: "column-major:"
 			[j _ 1.
-			Δ _ width - 1 * height.
+			delta _ width - 1 * height.
 			start to: stop do: [:i|
-				self at: i put: (anArray from: j to: Δ + j by: height dot: anotherArray startingAt: start2 by: 1 modulo: modulus).
+				self at: i put: (anArray from: j to: delta+j by: height dot: anotherArray startingAt: start2 by: 1 modulo: modulus).
 				j _ j + 1]]
 		ifTrue: "row-major:"
 			[j _ 1.
@@ -37722,7 +38147,7 @@ replaceFrom: start to: stop withMatrix: anArray height: height width: width tran
 				self at: i put: (anArray from: j to: j+height-1 by: 1 dot: anotherArray startingAt: start2 by: 1 modulo: modulus).
 				j _ j + height]]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 4/25/2022 07:59:56'!
+!ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 4/25/2022 07:59:56'!
 replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
 	| j |
 	j _ srcStart.
@@ -37730,7 +38155,7 @@ replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
 		self at: i put: (anArray at: j) negated.
 		j _ j + 1]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/1/2022 12:24:57'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/1/2022 12:24:57'!
 replaceFrom: start to: stop withNegated: anArray startingAt: srcStart modulo: modulus
 	| j |
 	j _ srcStart.
@@ -37738,6 +38163,14 @@ replaceFrom: start to: stop withNegated: anArray startingAt: srcStart modulo: mo
 		x _ anArray at: j.
 		x = 0 ifFalse: [x _ modulus - x].
 		self at: i put: x.
+		j _ j + 1]! !
+
+!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/11/2023 17:49:40'!
+replaceFrom: start to: stop withNegated: anArray startingAt: srcStart zechTable: table
+	| j |
+	j _ srcStart.
+	start to: stop do: [:i|
+		self at: i put: (table negate: (anArray at: j)).
 		j _ j + 1]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/6/2022 13:13:25'!
@@ -37809,7 +38242,7 @@ replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionKaratsuba: a
 	"finally add t3 * x^m to result:"
 	self replaceFrom: start + m to: start + m + m2 - 2 with: self startingAt: start + m plus: tempArray startingAt: tempStart! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/9/2022 07:44:10'!
+!ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 12/9/2022 07:44:10'!
 replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
 	self from: start to: start + stop1 - start1 + stop2 - start2 put: (anArray1 at: start1) zero.
 	start2 to: stop2 do: [:i| | x |
@@ -37820,7 +38253,7 @@ replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArra
 				with: self startingAt: index
 				plus: anArray1 startingAt: start1 timesScalar: x]]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/9/2022 07:39:17'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 12/9/2022 07:39:17'!
 replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2 modulo: modulus
 	self from: start to: start + stop1 - start1 + stop2 - start2 put: 0.
 	start2 to: stop2 do: [:i| | x |
@@ -37875,17 +38308,17 @@ replaceFrom: start withAutoconvolutionKaratsuba: anArray1 from: start1 to: stop1
 	"finally add t3 * x^m to result:"
 	self replaceFrom: start + m to: start + m + m2 - 2 with: self startingAt: start + m plus: tempArray startingAt: tempStart! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/9/2022 07:47:55'!
+!ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 12/9/2022 07:47:55'!
 replaceFrom: start withAutoconvolutionLong: anArray1 from: start1 to: stop1
 	self flag: #fixme. "TOOD"
 	self replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray1 from: start1 to: stop1! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/9/2022 07:55:16'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 12/9/2022 07:55:16'!
 replaceFrom: start withAutoconvolutionLong: anArray1 from: start1 to: stop1 modulo: modulus
 	self flag: #fixme. "TOOD"
 	self replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray1 from: start1 to: stop1 modulo: modulus! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/27/2022 18:12:20'!
+!ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 12/27/2022 18:12:20'!
 sumFrom: start to: stop by: increment
 	| answer i |
 	stop >= start ifFalse: [^ self error: 'empty sum'].
@@ -37896,15 +38329,15 @@ sumFrom: start to: stop by: increment
 		i _ i + increment].
 	^ answer! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/27/2022 11:22:53'!
-sumFrom: start to: stop by: increment modulo: modulus
-	^ (self sumFrom: start to: stop by: increment) \\ modulus! !
+!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/9/2023 21:11:38'!
+support
+	^ Iterator on: self performing: #supportDo:! !
 
 !ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/9/2023 13:50:37'!
 supportDo: aBlock
 	1 to: self size do: [:i| (self isZeroAt: i) ifFalse: [aBlock value: i]]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/2/2022 11:10:00'!
+!ArrayedCollection methodsFor: '*algebra-low level-basic' stamp: 'len 5/2/2022 11:10:00'!
 swapFrom: start to: stop with: anArray startingAt: start2
 	| n tmp |
 	(n _ stop - start + 1) > 0 ifFalse: [^ self].
@@ -37912,6 +38345,11 @@ swapFrom: start to: stop with: anArray startingAt: start2
 	tmp replaceFrom: 1 to: n with: anArray startingAt: start2.
 	anArray replaceFrom: start2 to: start2 + n - 1 with: self startingAt: start.
 	self replaceFrom: start to: stop with: tmp startingAt: 1! !
+
+!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/9/2023 17:43:10'!
+weight
+	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
+	^ (1 to: self size) count: [:each| (self isZeroAt: each) not]! !
 
 !ArrayedCollection methodsFor: '*algebra' stamp: 'len 12/9/2022 07:58:41'!
 zero
@@ -37927,18 +38365,23 @@ printOn: aStream
 			self do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 			aStream nextPut: $)]! !
 
-!ByteArray methodsFor: '*algebra-low level' stamp: 'len 12/27/2022 10:50:04'!
+!ByteArray methodsFor: '*algebra-low level' stamp: 'len 5/11/2023 20:56:37'!
 from: start to: stop by: increment dot: anArray startingAt: start2 by: increment2 modulo: modulus
 	| answer i j |
 	answer _ 0.
 	i _ start.
 	j _ start2.
-	[i <= stop] whileTrue:
+	[i <= stop and: [j <= anArray size]] whileTrue:
 		[answer _ (self at: i) * (anArray at: j) + answer.
 		i _ i + increment.
 		j _ j + increment2].
 	"Perform reduction at the end, since the intermediate results will never exceed a SmallInteger:"
 	^ answer \\ modulus! !
+
+!ByteArray methodsFor: '*algebra' stamp: 'len 5/11/2023 15:28:48'!
+weight
+	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
+	^ self count: [:each| each ~~ 0]! !
 
 !FloatArray methodsFor: '*algebra' stamp: 'len 5/13/2019 21:32:12'!
 · anObject
@@ -37959,6 +38402,11 @@ bitAt: bitIndex put: aBit
 	self at: index put: ((self at: index) bitAt: (bitIndex - 1 bitAnd: 31) + 1 put: aBit).
 	^ aBit! !
 
+!WordArray methodsFor: '*algebra' stamp: 'len 5/11/2023 15:29:25'!
+weight
+	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
+	^ self count: [:each| each ~~ 0]! !
+
 !DoubleByteArray methodsFor: '*algebra-lowlevel' stamp: 'len 5/4/2022 11:14:23'!
 bitAt: bitIndex
 	"Answer the bit (0 or 1) at a bit index. This way, the receiver can be used as an array of bits.
@@ -37973,6 +38421,24 @@ bitAt: bitIndex put: aBit
 	index _ bitIndex - 1 // 16 + 1.
 	self at: index put: ((self at: index) bitAt: (bitIndex - 1 bitAnd: 15) + 1 put: aBit).
 	^ aBit! !
+
+!DoubleByteArray methodsFor: '*algebra-lowlevel' stamp: 'len 5/12/2023 14:34:47'!
+from: start to: stop by: increment dot: anArray startingAt: start2 by: increment2 modulo: modulus
+	| answer i j |
+	answer _ 0.
+	i _ start.
+	j _ start2.
+	[i <= stop and: [j <= anArray size]] whileTrue:
+		[answer _ (self at: i) * (anArray at: j) + answer.
+		i _ i + increment.
+		j _ j + increment2].
+	"Perform reduction at the end, since the intermediate results will never exceed a SmallInteger:"
+	^ answer \\ modulus! !
+
+!DoubleByteArray methodsFor: '*algebra' stamp: 'len 5/12/2023 14:35:24'!
+weight
+	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
+	^ self count: [:each| each ~~ 0]! !
 
 !DoubleWordArray methodsFor: '*algebra-lowlevel' stamp: 'len 5/4/2022 11:19:12'!
 bitAt: bitIndex

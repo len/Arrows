@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5597] on 9 May 2023 at 5:24:49 pm'!
+'From Cuis 6.0 [latest update: #5597] on 12 May 2023 at 2:43:33 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 36!
+!provides: 'Tests-Algebra' 1 37!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -460,6 +460,16 @@ AbstractTestCase subclass: #AbstractArrayTest
 AbstractArrayTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #ArrayTest category: #'Tests-Algebra-Arrays'!
+AbstractArrayTest subclass: #ArrayTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Arrays'!
+!classDefinition: 'ArrayTest class' category: #'Tests-Algebra-Arrays'!
+ArrayTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #BitArrayTest category: #'Tests-Algebra-Arrays'!
 AbstractArrayTest subclass: #BitArrayTest
 	instanceVariableNames: ''
@@ -470,54 +480,54 @@ AbstractArrayTest subclass: #BitArrayTest
 BitArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ByteModularArrayTest category: #'Tests-Algebra-Arrays'!
-AbstractArrayTest subclass: #ByteModularArrayTest
+!classDefinition: #GaloisArrayTest category: #'Tests-Algebra-Arrays'!
+AbstractArrayTest subclass: #GaloisArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'ByteModularArrayTest class' category: #'Tests-Algebra-Arrays'!
-ByteModularArrayTest class
+!classDefinition: 'GaloisArrayTest class' category: #'Tests-Algebra-Arrays'!
+GaloisArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisFieldArrayTest category: #'Tests-Algebra-Arrays'!
-AbstractArrayTest subclass: #GaloisFieldArrayTest
+!classDefinition: #ModularArrayTest category: #'Tests-Algebra-Arrays'!
+AbstractArrayTest subclass: #ModularArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'GaloisFieldArrayTest class' category: #'Tests-Algebra-Arrays'!
-GaloisFieldArrayTest class
+!classDefinition: 'ModularArrayTest class' category: #'Tests-Algebra-Arrays'!
+ModularArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisRingArrayTest category: #'Tests-Algebra-Arrays'!
-AbstractArrayTest subclass: #GaloisRingArrayTest
+!classDefinition: #ModularByteArrayTest category: #'Tests-Algebra-Arrays'!
+AbstractArrayTest subclass: #ModularByteArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'GaloisRingArrayTest class' category: #'Tests-Algebra-Arrays'!
-GaloisRingArrayTest class
+!classDefinition: 'ModularByteArrayTest class' category: #'Tests-Algebra-Arrays'!
+ModularByteArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GeneralArrayTest category: #'Tests-Algebra-Arrays'!
-AbstractArrayTest subclass: #GeneralArrayTest
+!classDefinition: #ModularDoubleByteArrayTest category: #'Tests-Algebra-Arrays'!
+AbstractArrayTest subclass: #ModularDoubleByteArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'GeneralArrayTest class' category: #'Tests-Algebra-Arrays'!
-GeneralArrayTest class
+!classDefinition: 'ModularDoubleByteArrayTest class' category: #'Tests-Algebra-Arrays'!
+ModularDoubleByteArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #LargeModularArrayTest category: #'Tests-Algebra-Arrays'!
-AbstractArrayTest subclass: #LargeModularArrayTest
+!classDefinition: #ModularWordArrayTest category: #'Tests-Algebra-Arrays'!
+AbstractArrayTest subclass: #ModularWordArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'LargeModularArrayTest class' category: #'Tests-Algebra-Arrays'!
-LargeModularArrayTest class
+!classDefinition: 'ModularWordArrayTest class' category: #'Tests-Algebra-Arrays'!
+ModularWordArrayTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #ProductArrayTest category: #'Tests-Algebra-Arrays'!
@@ -530,14 +540,14 @@ AbstractArrayTest subclass: #ProductArrayTest
 ProductArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #WordModularArrayTest category: #'Tests-Algebra-Arrays'!
-AbstractArrayTest subclass: #WordModularArrayTest
-	instanceVariableNames: ''
+!classDefinition: #ZechArrayTest category: #'Tests-Algebra-Arrays'!
+AbstractArrayTest subclass: #ZechArrayTest
+	instanceVariableNames: 'table'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'WordModularArrayTest class' category: #'Tests-Algebra-Arrays'!
-WordModularArrayTest class
+!classDefinition: 'ZechArrayTest class' category: #'Tests-Algebra-Arrays'!
+ZechArrayTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #AbstractTupleTest category: #'Tests-Algebra-Tuples'!
@@ -738,6 +748,16 @@ AbstractMatrixOverIntegralDomainTest subclass: #AbstractMatrixOverFieldTest
 	category: 'Tests-Algebra-Matrices'!
 !classDefinition: 'AbstractMatrixOverFieldTest class' category: #'Tests-Algebra-Matrices'!
 AbstractMatrixOverFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #MatrixOverBinaryFieldTest category: #'Tests-Algebra-Matrices'!
+AbstractMatrixOverFieldTest subclass: #MatrixOverBinaryFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'MatrixOverBinaryFieldTest class' category: #'Tests-Algebra-Matrices'!
+MatrixOverBinaryFieldTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #MatrixOverCyclotomicsTest category: #'Tests-Algebra-Matrices'!
@@ -1458,6 +1478,16 @@ TestCase subclass: #TupleTest
 	category: 'Tests-Algebra'!
 !classDefinition: 'TupleTest class' category: #'Tests-Algebra'!
 TupleTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #ZechTableTest category: #'Tests-Algebra-Arrays'!
+TestCase subclass: #ZechTableTest
+	instanceVariableNames: 'table'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Arrays'!
+!classDefinition: 'ZechTableTest class' category: #'Tests-Algebra-Arrays'!
+ZechTableTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #MatrixOverRationalFunctionFieldOverFiniteFieldTest category: #'Tests-Algebra-Matrices'!
@@ -3476,19 +3506,23 @@ initialize
 	super initialize.
 	R _ ℤ/1024 atRandom polynomialsIn: 3 atRandom! !
 
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:09:00'!
+!AbstractArrayTest methodsFor: 'private' stamp: 'len 5/6/2023 17:09:00'!
 newArray
 	^ self newArray: (200 atRandom: random)! !
 
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:09:15'!
+!AbstractArrayTest methodsFor: 'private' stamp: 'len 5/11/2023 16:17:24'!
 newArray: n
-	^ scalars new: n fill: [:each| self newScalar]! !
+	^ self newArray: n fill: [:each| self newScalar]! !
 
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:06:46'!
+!AbstractArrayTest methodsFor: 'private' stamp: 'len 5/11/2023 16:14:04'!
+newArray: n fill: aBlock
+	^ scalars new: n fill: aBlock! !
+
+!AbstractArrayTest methodsFor: 'private' stamp: 'len 5/6/2023 17:06:46'!
 newScalar
 	^ scalars atRandom: random bits: (60 atRandom: random)! !
 
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:10:48'!
+!AbstractArrayTest methodsFor: 'misc' stamp: 'len 5/6/2023 17:10:48'!
 testAccessing
 	| a i x |
 	a _ self newArray.
@@ -3497,7 +3531,7 @@ testAccessing
 	a at: i put: x.
 	self assert: (a at: i) = x! !
 
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:13:06'!
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:13:06'!
 testAddition
 	| n a b c |
 	n _ 5 atRandom: random.
@@ -3511,86 +3545,15 @@ testAddition
 	self assert: a + a = (a*2).
 	self assert: a - b = (a + b negated)! !
 
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:33:07'!
-testArrayMinusArray
-	| a b c |
-	a _ self newArray.
-	b _ self newArray: a size.
-	c _ a - b.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) - (b at: i) = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:33:39'!
-testArrayMinusArrayInplace
-	| a b c |
-	a _ self newArray.
-	b _ self newArray: a size.
-	c _ a copy.
-	c -= b.
-	1 to: a size do: [:i| self assert: (a at: i) - (b at: i) = (c at: i)]	! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:20:45'!
-testArrayMinusScalar
-	| a c x |
-	a _ self newArray.
-	x _ self newScalar.
-	c _ a - x.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) - x = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:21:05'!
-testArrayMinusScalarInplace
-	| a c x |
-	a _ self newArray.
-	x _ self newScalar.
-	c _ a copy.
-	c -= x.
-	1 to: a size do: [:i| self assert: (a at: i) - x = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:24:38'!
-testArrayPlusArray
-	| a b c |
-	a _ self newArray.
-	b _ self newArray: a size.
-	c _ a + b.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) + (b at: i) = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:25:02'!
-testArrayPlusArrayInplace
-	| a b c |
-	a _ self newArray.
-	b _ self newArray: a size.
-	c _ a copy.
-	c += b.
-	1 to: a size do: [:i| self assert: (a at: i) + (b at: i) = (c at: i)]	! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:21:22'!
-testArrayPlusScalar
-	| a c x |
-	a _ self newArray.
-	x _ self newScalar.
-	c _ a + x.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) + x = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:21:37'!
-testArrayPlusScalarInplace
-	| a c x |
-	a _ self newArray.
-	x _ self newScalar.
-	c _ a copy.
-	c += x.
-	1 to: a size do: [:i| self assert: (a at: i) + x = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:51:48'!
-testArraysOfDifferentSize
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/11/2023 23:11:33'!
+testArithmeticWithArraysOfDifferentSize
 	| a b c d zeros |
 	a _ self newArray.
 	b _ self newArray: a size.
 	c _ self newArray.
 	d _ self newArray: c size.
-	zeros _ scalars zeros: (a size atRandom: random).
+	zeros _ self newArray: (a size atRandom: random).
+	zeros atAllPut: scalars zero.
 	self assert: a + (b,zeros) = (a,zeros + b).
 	self assert: (a,zeros) + b = (a + b , zeros).
 	self assert: a - (b,zeros) = (a,zeros - b).
@@ -3601,14 +3564,145 @@ testArraysOfDifferentSize
 	self assert: a · (b,c) = (a · b).
 	self assert: a,c · b = (a · b)! !
 
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:13:29'!
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:33:07'!
+testArrayMinusArray
+	| a b c |
+	a _ self newArray.
+	b _ self newArray: a size.
+	c _ a - b.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) - (b at: i) = (c at: i)]! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:33:39'!
+testArrayMinusArrayInplace
+	| a b c |
+	a _ self newArray.
+	b _ self newArray: a size.
+	c _ a copy.
+	c -= b.
+	1 to: a size do: [:i| self assert: (a at: i) - (b at: i) = (c at: i)]	! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:20:45'!
+testArrayMinusScalar
+	| a c x |
+	a _ self newArray.
+	x _ self newScalar.
+	c _ a - x.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) - x = (c at: i)]! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:21:05'!
+testArrayMinusScalarInplace
+	| a c x |
+	a _ self newArray.
+	x _ self newScalar.
+	c _ a copy.
+	c -= x.
+	1 to: a size do: [:i| self assert: (a at: i) - x = (c at: i)]! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:24:38'!
+testArrayPlusArray
+	| a b c |
+	a _ self newArray.
+	b _ self newArray: a size.
+	c _ a + b.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) + (b at: i) = (c at: i)]! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:25:02'!
+testArrayPlusArrayInplace
+	| a b c |
+	a _ self newArray.
+	b _ self newArray: a size.
+	c _ a copy.
+	c += b.
+	1 to: a size do: [:i| self assert: (a at: i) + (b at: i) = (c at: i)]	! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:21:22'!
+testArrayPlusScalar
+	| a c x |
+	a _ self newArray.
+	x _ self newScalar.
+	c _ a + x.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) + x = (c at: i)]! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:21:37'!
+testArrayPlusScalarInplace
+	| a c x |
+	a _ self newArray.
+	x _ self newScalar.
+	c _ a copy.
+	c += x.
+	1 to: a size do: [:i| self assert: (a at: i) + x = (c at: i)]! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/10/2023 10:52:47'!
+testArrayTimesArray
+	| a b c |
+	a _ self newArray.
+	b _ self newArray: a size.
+	c _ a * b.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) * (b at: i) = (c at: i)]! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/10/2023 10:53:36'!
+testArrayTimesArrayInplace
+	| a b c |
+	a _ self newArray.
+	b _ self newArray: a size.
+	c _ a copy.
+	c *= b.
+	1 to: a size do: [:i| self assert: (a at: i) * (b at: i) = (c at: i)]	! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/10/2023 10:53:07'!
+testArrayTimesScalar
+	| a c x |
+	a _ self newArray.
+	x _ self newScalar.
+	c _ a * x.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) * x = (c at: i)]! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/10/2023 10:53:23'!
+testArrayTimesScalarInplace
+	| a c x |
+	a _ self newArray.
+	x _ self newScalar.
+	c _ a copy.
+	c *= x.
+	1 to: a size do: [:i| self assert: (a at: i) * x = (c at: i)]! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:13:29'!
 testAutoconvolution
 	| a |
 	a _ self newArray.
 	self assert: a autoconvolution asArray = a asArray autoconvolution.
 	self assert: a autoconvolution = (a convolution: a)! !
 
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:13:55'!
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:14:38'!
+testConvolution
+	| a b |
+	a _ self newArray.
+	b _ self newArray.
+	self assert: (a convolution: b) asArray = (a asArray convolution: b asArray)! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:15:12'!
+testDotProduct
+	| a b |
+	a _ self newArray.
+	b _ self newArray.
+	self assert: a · b = (a asArray · b asArray)! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:20:01'!
+testSubstraction
+	| a b c |
+	a _ self newArray.
+	b _ self newArray: a size.
+	c _ a - b.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) - (b at: i) = (c at: i)]! !
+
+!AbstractArrayTest methodsFor: 'operations' stamp: 'len 5/6/2023 17:13:55'!
 testCircularShift
 	| a b n |
 	a _ self newArray.
@@ -3617,7 +3711,7 @@ testCircularShift
 	self assert: b size = a size.
 	1 to: b size do: [:i| self assert: (b at: i) = (a atWrap: i-n)]! !
 
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:14:25'!
+!AbstractArrayTest methodsFor: 'operations' stamp: 'len 5/6/2023 17:14:25'!
 testConcatenation
 	| a b c |
 	a _ self newArray.
@@ -3627,14 +3721,52 @@ testConcatenation
 	1 to: a size do: [:i| self assert: (c at: i) = (a at: i)].
 	1 to: b size do: [:i| self assert: (c at: a size + i) = (b at: i)]! !
 
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:14:38'!
-testConvolution
-	| a b |
+!AbstractArrayTest methodsFor: 'operations' stamp: 'len 5/9/2023 21:14:34'!
+testHammingWeight
+	| a |
 	a _ self newArray.
-	b _ self newArray.
-	self assert: (a convolution: b) asArray = (a asArray convolution: b asArray)! !
+	a size // 2 timesRepeat: [a at: (a size atRandom: random) put: scalars zero].
+	self assert: a support size = a weight! !
 
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:14:55'!
+!AbstractArrayTest methodsFor: 'operations' stamp: 'len 5/6/2023 17:25:33'!
+testReversed
+	| v i |
+	v _ self newArray.
+	i _ v size atRandom: random.
+	self assert: (v reversed at: i) = (v at: v size - i + 1).
+	self assert: v reversed reversed = v! !
+
+!AbstractArrayTest methodsFor: 'operations' stamp: 'len 5/6/2023 17:19:44'!
+testShift
+	| a b n |
+	a _ self newArray.
+	n _ (a size negated to: a size) atRandom: random.
+	b _ a >> n.
+	self assert: b size = a size.
+	1 to: b size do: [:i|
+		self assert: (b at: i) = ((i-n between: 1 and: a size) ifTrue: [a at: i-n] ifFalse: [scalars zero])]! !
+
+!AbstractArrayTest methodsFor: 'operations' stamp: 'len 5/9/2023 21:14:06'!
+testSupport
+	| a |
+	a _ self newArray.
+	a size // 2 timesRepeat: [a at: (a size atRandom: random) put: scalars zero].
+	self assert: a support asArray = ((1 to: a size) select: [:i| (a at: i) isZero not])! !
+
+!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/9/2023 22:07:16'!
+testAnySatisfyAndAllSatisfy
+	| a x y |
+	a _ self newArray.
+	x _ scalars atRandom: random.
+	[y _ scalars atRandom: random. y = x] whileTrue.
+	a atAllPut: x.
+	self assert: (a allSatisfy: [:each| each = x]).
+	self assert: (a anySatisfy: [:each| each = y]) not.
+	a at: (a size atRandom: random) put: y.
+	self assert: (a allSatisfy: [:each| each = x]) not.
+	self assert: (a anySatisfy: [:each| each = y])! !
+
+!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/6/2023 17:14:55'!
 testCopyFromTo
 	| a b start stop |
 	a _ self newArray.
@@ -3644,78 +3776,25 @@ testCopyFromTo
 	self assert: b size = (stop-start+1 max: 0).
 	start to: stop do: [:i| self assert: (a at: i) = (b at: i-start+1)]! !
 
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:15:12'!
-testDotProduct
-	| a b |
-	a _ self newArray.
-	b _ self newArray.
-	self assert: a · b = (a asArray · b asArray)! !
+!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/11/2023 16:16:08'!
+testDetect
+	| x a |
+	x _ scalars atRandom: random.
+	a _ self newArray: (100 atRandom: random) fill: [:i| scalars atRandom: random satisfying: [:y| (y = x) not]].
+	self assert: (a detect: [:one| one = x] ifNone: [#notFound]) == #notFound.
+	a at: (a size atRandom: random) put: x.
+	self assert: (a detect: [:one| one = x] ifNone: [#notFound]) = x! !
 
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:15:31'!
-testFirstNonzeroIndex
-	| a i |
-	a _ self newArray.
-	(2 atRandom: random) = 1 ifTrue: [a _ (self newArray: (100 atRandom: random)) zero, a].
-	i _ a findFirst: [:x| x isZero not].
-	i = 0 ifTrue: [i _ nil].
-	self assert: a firstNonzeroIndex = i! !
+!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/10/2023 10:48:01'!
+testIndexOf
+	| x a k |
+	x _ scalars atRandom: random.
+	a _ scalars new: (100 atRandom: random) fill: [:i| scalars atRandom: random satisfying: [:y| (y = x) not]].
+	self assert: (a indexOf: x) = 0.
+	a at: (k _ a size atRandom: random) put: x.
+	self assert: (a indexOf: x) = k! !
 
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:16:16'!
-testIsZeroAt
-	| a x index |
-	a _ self newArray.
-	x _ scalars zero.
-	index _ (1 to: a size) atRandom: random.
-	a at: index put: x.
-	self assert: (a isZeroAt: index).
-	1 to: a size do: [:i| self assert: (a isZeroAt: i) = (a at: i) isZero].! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:16:31'!
-testLastNonzeroIndex
-	| a i |
-	a _ self newArray.
-	(2 atRandom: random) = 1 ifTrue: [a _ a, (self newArray: (100 atRandom: random)) zero].
-	i _ a findLast: [:x| x isZero not].
-	i = 0 ifTrue: [i _ nil].
-	self assert: a lastNonzeroIndex = i! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:17:01'!
-testProduct
-	| a b c |
-	a _ self newArray.
-	b _ self newArray: a size.
-	c _ a * b.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) * (b at: i) = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:44:59'!
-testProductByScalar
-	| a c x |
-	a _ self newArray.
-	x _ self newScalar.
-	c _ a * x.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) * x = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:45:11'!
-testProductByScalarInplace
-	| a c x |
-	a _ self newArray.
-	x _ self newScalar.
-	c _ a copy.
-	c *= x.
-	1 to: a size do: [:i| self assert: (a at: i) * x = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:17:11'!
-testProductInplace
-	| a b c |
-	a _ self newArray.
-	b _ self newArray: a size.
-	c _ a copy.
-	c *= b.
-	1 to: a size do: [:i| self assert: (a at: i) * (b at: i) = (c at: i)]	! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:17:29'!
+!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/6/2023 17:17:29'!
 testReplaceFromToWithStartingAt
 	| a b start stop aCopy start2 stop2 |
 	a _ self newArray.
@@ -3731,43 +3810,73 @@ testReplaceFromToWithStartingAt
 	self assert: (a copyFrom: start to: stop) = (b copyFrom: start2 to: stop2).
 	self assert: (a copyFrom: stop + 1 to: a size) = (aCopy copyFrom: stop + 1 to: a size)! !
 
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:25:33'!
-testReversed
-	| v i |
-	v _ self newArray.
-	i _ v size atRandom: random.
-	self assert: (v reversed at: i) = (v at: v size - i + 1).
-	self assert: v reversed reversed = v! !
-
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:19:44'!
-testShift
-	| a b n |
+!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/10/2023 10:52:09'!
+testSumAndProduct
+	| a |
 	a _ self newArray.
-	n _ (a size negated to: a size) atRandom: random.
-	b _ a >> n.
-	self assert: b size = a size.
-	1 to: b size do: [:i|
-		self assert: (b at: i) = ((i-n between: 1 and: a size) ifTrue: [a at: i-n] ifFalse: [scalars zero])]! !
+	self assert: a sum = a asArray sum.
+	self assert: a product = a asArray product! !
 
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:20:01'!
-testSubstraction
-	| a b c |
+!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/10/2023 10:57:26'!
+testSumAndProductWithArgument
+	| a dict |
 	a _ self newArray.
-	b _ self newArray: a size.
-	c _ a - b.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) - (b at: i) = (c at: i)]! !
+	dict _ Dictionary new.
+	a do: [:each| dict at: each put: (10 atRandom: random)].
+	self assert: (a sum: [:each| dict at: each]) = (a asArray sum: [:each| dict at: each]).
+	self assert: (a product: [:each| dict at: each]) = (a asArray product: [:each| dict at: each])! !
 
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:20:15'!
-testSubstractionInplace
-	| a b c |
+!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/6/2023 17:15:31'!
+testFirstNonzeroIndex
+	| a i |
 	a _ self newArray.
-	b _ self newArray: a size.
-	c _ a copy.
-	c -= b.
-	1 to: a size do: [:i| self assert: (a at: i) - (b at: i) = (c at: i)]	! !
+	(2 atRandom: random) = 1 ifTrue: [a _ (self newArray: (100 atRandom: random)) zero, a].
+	i _ a findFirst: [:x| x isZero not].
+	i = 0 ifTrue: [i _ nil].
+	self assert: a firstNonzeroIndex = i! !
 
-!AbstractArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:20:33'!
+!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/6/2023 17:16:16'!
+testIsZeroAt
+	| a x index |
+	a _ self newArray.
+	x _ scalars zero.
+	index _ (1 to: a size) atRandom: random.
+	a at: index put: x.
+	self assert: (a isZeroAt: index).
+	1 to: a size do: [:i| self assert: (a isZeroAt: i) = (a at: i) isZero].! !
+
+!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/6/2023 17:16:31'!
+testLastNonzeroIndex
+	| a i |
+	a _ self newArray.
+	(2 atRandom: random) = 1 ifTrue: [a _ a, (self newArray: (100 atRandom: random)) zero].
+	i _ a findLast: [:x| x isZero not].
+	i = 0 ifTrue: [i _ nil].
+	self assert: a lastNonzeroIndex = i! !
+
+!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/11/2023 20:59:11'!
+testLowLevelDotProduct
+	| a b a2 b2 increment increment2 start start2 stop x |
+	a _ self newArray.
+	b _ self newArray.
+	start _ a size atRandom: random.
+	stop _ (start to: a size) atRandom: random.
+	increment _ 3 atRandom: random.
+	start2 _ b size atRandom: random.
+	increment2 _ 3 atRandom: random.
+	a2 _ (start to: stop by: increment) collect: [:i| a at: i].
+	b2 _ (start2 to: (stop - start + start2 min: b size) by: increment2) collect: [:i| b at: i].
+	x _ a from: start to: stop by: increment dot: b startingAt: start2 by: increment2.
+	self assert: a2 · b2 = x! !
+
+!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/11/2023 23:38:25'!
+testPolynomialEvaluation
+	| a x |
+	a _ self newArray.
+	x _ self newScalar.
+	self assert: (a polynomialValue: x) = ((1 to: a size) sum: [:i| x^(i-1) * (a at: i)])! !
+
+!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/6/2023 17:20:33'!
 testSwapFromToWithStartingAt
 	| a b start stop aCopy bCopy start2 stop2 |
 	a _ self newArray.
@@ -3786,6 +3895,11 @@ testSwapFromToWithStartingAt
 	self assert: a = aCopy.
 	self assert: b = bCopy! !
 
+!ArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:37:16'!
+initialize
+	super initialize.
+	scalars _ ℤ! !
+
 !BitArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:11:27'!
 initialize
 	super initialize.
@@ -3796,40 +3910,74 @@ testBitArraySumBug
 	self assert: (BitArray newFrom: 2r1011101) sum representative = 1.
 	self assert: (BitArray newFrom: 2r10000100100010) sum representative = 0! !
 
-!ByteModularArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:34:29'!
+!BitArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/9/2023 22:34:23'!
+testIsAllOnes
+	| a b |
+	0 to: 64 do: [:n|
+		a _ BitArray new: n.
+		1 to: n do: [:i| a bitAt: i put: 1].
+		self assert: a isAllOnes.
+		1 to: n do: [:i|
+			b _ a copy.
+			b bitAt: i put: 0.
+			self assert: b isAllOnes not]]! !
+
+!GaloisArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 16:12:37'!
+initialize
+	super initialize.
+	scalars _ 2 atRandom = 1
+		ifTrue: [GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom]
+		ifFalse: [GaloisField new: #(16rFF 16rFFFF 16rFFFFFFFF) atRandom atRandom nextPrime to: 10 atRandom]! !
+
+!ModularArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:35:19'!
+initialize
+	super initialize.
+	scalars _ ℤ / (16r100000001 to: 16r100000001 + 1000) atRandom! !
+
+!ModularByteArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:34:29'!
 initialize
 	super initialize.
 	scalars _ ℤ / (3 to: 256) atRandom! !
 
-!GaloisFieldArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:36:04'!
-initialize
-	super initialize.
-	scalars _ GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom! !
+!ModularByteArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/12/2023 14:38:04'!
+testRepresentativesUseByteArray
+	self assert: self newArray representatives class = ByteArray! !
 
-!GaloisRingArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:36:45'!
+!ModularDoubleByteArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 16:08:37'!
 initialize
 	super initialize.
-	scalars _ GaloisField new: #(16rFF 16rFFFF 16rFFFFFFFF) atRandom atRandom nextPrime to: 10 atRandom! !
+	scalars _ ℤ / (16rFF+2 to: 16rFFFF+1) atRandom! !
 
-!GeneralArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:37:16'!
-initialize
-	super initialize.
-	scalars _ ℤ! !
+!ModularDoubleByteArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/12/2023 14:38:18'!
+testRepresentativesUseDoubleByteArray
+	self assert: self newArray representatives class = DoubleByteArray! !
 
-!LargeModularArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:35:19'!
+!ModularWordArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 16:08:10'!
 initialize
 	super initialize.
-	scalars _ ℤ / (16r100000001 to: 16r100000001 + 1000) atRandom! !
+	scalars _ ℤ / (16rFFFF+2 to: 16rFFFFFFFF+1) atRandom! !
+
+!ModularWordArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/12/2023 14:38:31'!
+testRepresentativesUseWordArray
+	self assert: self newArray representatives class = WordArray! !
 
 !ProductArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:37:54'!
 initialize
 	super initialize.
 	scalars _ ℤ × (ℤ/(64 atRandom + 1))! !
 
-!WordModularArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:34:53'!
+!ZechArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 17:00:30'!
 initialize
 	super initialize.
-	scalars _ ℤ / (257 to: 16r100000000) atRandom! !
+	scalars _ ℤ/10 atRandom nextPrime.
+	table _ ZechTable over: scalars! !
+
+!ZechArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 17:00:35'!
+newArray: n fill: aBlock
+	| answer |
+	answer _ table new: n.
+	1 to: answer size do: [:i| answer at: i put: scalars !! (aBlock value: i)].
+	^ answer! !
 
 !AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:14:20'!
 newScalar
@@ -4016,7 +4164,7 @@ testHomogeneousTuples
 	d _ scalars^n x: 2.
 	self deny: c ~ d! !
 
-!AbstractTupleOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 5/8/2023 18:19:42'!
+!AbstractTupleOverModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 5/9/2023 22:21:20'!
 testModTupleOperations
 	| n a b modulus |
 	modulus _ scalars modulus.
@@ -4621,6 +4769,11 @@ testSimilarity
 	A _ (scalars^n) endomorphisms atRandom: random bits: 10*n*n.
 	P _ A domain automorphisms atRandom: random bits: 10*n*n.
 	self assert: P inverse * A * P ≃ A! !
+
+!MatrixOverBinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 20:43:52'!
+initialize
+	super initialize.
+	scalars _ ℤ/2! !
 
 !MatrixOverCyclotomicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/21/2021 17:35:18'!
 initialize
@@ -12571,6 +12724,57 @@ testTuple: a operation: aSymbol modulo: modulus
 !TupleTest methodsFor: 'private' stamp: 'len 11/6/2016 14:12'!
 testTuple: a with: b operation: aSymbol modulo: modulus
 	self assert: (a perform: aSymbol with: b) % modulus = (a % modulus perform: aSymbol with: b % modulus)! !
+
+!ZechTableTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2023 21:44:08'!
+setUp
+	table _ ZechTable over: (GaloisField new: 5 atRandom nextPrime to: 1 "3 atRandom")! !
+
+!ZechTableTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2023 21:47:00'!
+testAddition
+	table scalars do: [:x|
+		| i |
+		i _ table log: x.
+		table scalars do: [:y|
+			| j |
+			j _ table log: y.
+			self assert: (table exp: (table op: i plus: j)) = (x + y)]]! !
+
+!ZechTableTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2023 21:56:31'!
+testAdditiveInverse
+	table scalars do: [:x| self assert: (table exp: (table negate: (table log: x))) = x negated]! !
+
+!ZechTableTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2023 21:38:50'!
+testLogExp
+	table scalars do: [:x| self assert: (table exp: (table log: x)) = x]! !
+
+!ZechTableTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2023 21:47:25'!
+testMultiplication
+	table scalars do: [:x|
+		| i |
+		i _ table log: x.
+		table scalars do: [:y|
+			| j |
+			j _ table log: y.
+			self assert: (table exp: (table op: i times: j)) = (x * y)]]! !
+
+!ZechTableTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2023 21:56:44'!
+testMultiplicativeInverse
+	table scalars units do: [:x| self assert: (table exp: (table invert: (table log: x))) = x inverse].
+	self should: [table invert: (table log: table scalars zero)] raise: DivisibilityError! !
+
+!ZechTableTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 23:37:45'!
+testSubstraction
+	table scalars do: [:x|
+		| i |
+		i _ table log: x.
+		table scalars do: [:y|
+			| j |
+			j _ table log: y.
+			self assert: (table exp: (table op: i minus: j)) = (x - y)]]! !
+
+!ZechTableTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2023 21:48:51'!
+testSuccessor
+	table scalars do: [:x| self assert: (table exp: (table successor: (table log: x))) = (x + 1)]! !
 
 !MatrixOverRationalFunctionFieldOverFiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 9/3/2022 11:14:29'!
 initialize
