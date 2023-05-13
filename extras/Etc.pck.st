@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5597] on 12 May 2023 at 10:30:14 pm'!
+'From Cuis 6.0 [latest update: #5597] on 13 May 2023 at 8:33:22 pm'!
 'Description '!
-!provides: 'Etc' 1 26!
+!provides: 'Etc' 1 27!
 !requires: 'Algebra' 1 7 nil!
 SystemOrganization addCategory: #Etc!
 SystemOrganization addCategory: #'Etc-Matrices'!
@@ -349,6 +349,16 @@ Object subclass: #ExtendedSmithReduction
 ExtendedSmithReduction class
 	instanceVariableNames: ''!
 
+!classDefinition: #GrayCode category: #Etc!
+Object subclass: #GrayCode
+	instanceVariableNames: 'codewords increments length'
+	classVariableNames: 'Cache'
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'GrayCode class' category: #Etc!
+GrayCode class
+	instanceVariableNames: ''!
+
 !classDefinition: #ModularHermiteReduction category: #Etc!
 Object subclass: #ModularHermiteReduction
 	instanceVariableNames: 'matrix HNF'
@@ -632,6 +642,11 @@ Input: a_1..a_{2n} the first 2n coefficients of a linear recursive sequence over
 Output: the minimal polynomial of the sequence.
 
 The algorithm performs O(n^2/2) multiplications; more precisely, at most 2 floor(n^2/4) - n + 1 multiplications.!
+
+!GrayCode commentStamp: 'len 5/13/2023 19:21:02' prior: 0!
+A k-bit Gray Code is all 2^k binary strings of length k, ordered so that each differs by exactly one bit in one position from each of its neighbors. For example, one 3-bit Gray Code is {000, 001, 011, 010, 110, 111, 101, 100}.
+
+See [Gra53].!
 
 !RealBox commentStamp: '<historical>' prior: 0!
 Boxes in R^n built by the cartesian product of one-dimensional intervals (instances of RealInterval).
@@ -2916,6 +2931,36 @@ run
 	elementaryDivisors add: ((S at: 1@1) gcd: D).
 	^ {L. S. R}! !
 
+!GrayCode methodsFor: 'as yet unclassified' stamp: 'len 5/13/2023 14:55:37'!
+codewords
+	^ codewords! !
+
+!GrayCode methodsFor: 'as yet unclassified' stamp: 'len 5/13/2023 14:55:48'!
+increments
+	^ increments! !
+
+!GrayCode methodsFor: 'as yet unclassified' stamp: 'len 5/13/2023 19:27:23'!
+initializeLength: anInteger
+	| G |
+	length _ anInteger.
+	anInteger = 0 ifTrue: [codewords _ #(0). increments _ #(). ^ self].
+	G _ self class new: anInteger - 1.
+	codewords _ G codewords, (G codewords reversed collect: [:each| each bitXor: 1 << (length - 1)]).
+	increments _ (2 to: codewords size) collect: [:i| ((codewords at: i-1) bitXor: (codewords at: i)) highBit]! !
+
+!GrayCode methodsFor: 'as yet unclassified' stamp: 'len 5/13/2023 14:55:54'!
+length
+	^ length! !
+
+!GrayCode class methodsFor: 'as yet unclassified' stamp: 'len 5/13/2023 14:51:13'!
+initialize
+	super initialize.
+	Cache _ #()! !
+
+!GrayCode class methodsFor: 'as yet unclassified' stamp: 'len 5/13/2023 14:51:45'!
+new: anInteger
+	^ Cache at: anInteger+1 ifAbsent: [Cache _ Cache, (self basicNew initializeLength: anInteger)]! !
+
 !ModularHermiteReduction methodsFor: 'as yet unclassified' stamp: 'len 4/5/2018 15:36:20'!
 addColumn: a to: B
 	^ (B columnAugmented: a) HNF columnAt: B width + 1! !
@@ -4415,3 +4460,4 @@ includes: aCodeword
 !CyclicCode methodsFor: 'testing' stamp: 'len 6/29/2016 22:18'!
 isIrreducible
 	^ generator isIrreducible! !
+GrayCode initialize!

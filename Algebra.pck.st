@@ -1,8 +1,10 @@
-'From Cuis 6.0 [latest update: #5597] on 12 May 2023 at 10:29:47 pm'!
+'From Cuis 6.0 [latest update: #5597] on 13 May 2023 at 8:33:38 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
 [AL94] William W. Adams; Philippe Loustaunau; "An Introduction To Groebner Bases", GSM Vol 3, AMS (1994)
+[ABH08] Martin Albrecht, Gregory Bard, William Hard, "Efficient Multiplication of Dense Matrices over GF(2)" (2008)
+[Bar06] Gregory Bard, "Accelerating Cryptanalysis with th eMethod of Four Russians" (2006)
 [ADL06] Nadia Ben Atti, Gema M. Diaz-Toca, Henri Lombardi, "The Berlekamp-Massey Algorithm Revisited" (2006)
 [BW93] Thomas Becker; Volker Weispfenning; "Groebner Bases: A Computational Approach to Commutative Algebra" (1993)
 [BLH11] Mohamed Barakat; Markus Lange-Hegermann; "An Axiomatic Setup for Algorithmic Homological Algebra and an Alternative Approach to Localization" (2017)
@@ -24,6 +26,7 @@ References:
 [Gal78] Steven Galovich, "Unique Factorization Rings with Zero Divisors" (1978)
 [GM73] Ganske, G.; McDonald, B.R. "Finite local rings". Rocky Mountain J. Math. 3 (1973), no. 4, 521-540
 [GP08] Gert-Martin Greuel; Gerhard Pfister; "A Singular Introduction to Commutative Algebra" (2008)
+[Gra53] Frank Gray, "Pulse Code Communication" (1953)
 [Har77] Robin Hartshorne; "Algebraic Geometry", GTM 52, Springer, 1977
 [HEO05] Derek F. Holt; B. Eick; E. A. O''Brien; "Handbook of Computational Group Theory" (2005)
 [HH11] Jurgen Herzog, Takayuki Hibi, "Monomial Ideals" (2011)
@@ -47,6 +50,7 @@ References:
 [Sto00] Arne Storjohann, "Algorithms for Matrix Canonical Forms" (2000)
 [Teo16] Iuliana C. Teodorescu, "Algorithms for finite rings" (2016)
 [Vak17] Ravi Vakil, "The Rising Sea: Foundations of Algebraic Geometry" (2017)
+[War02] Henry S. Warren, "Hacker''s Delight". Addision-Wesley Longman Publishing Co., Inc., Boston, MA, USA, 2002
 [Zip93] Richard E. Zippel, "Effective Polynomial Computation" (1993)
 
 [] John Cremona; "Algorithms for Modular Elliptic Curves"
@@ -58,7 +62,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 62!
+!provides: 'Algebra' 1 63!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'Transfinites' 1 2 nil!
@@ -112,14 +116,14 @@ ArrayedCollection subclass: #ProductArray
 ProductArray class
 	instanceVariableNames: ''!
 
-!classDefinition: #BitArray category: #'Algebra-Rings-Finite'!
-ArrayedCollection subclass: #BitArray
+!classDefinition: #BinaryArray category: #'Algebra-Rings-Finite'!
+ArrayedCollection subclass: #BinaryArray
 	instanceVariableNames: 'words size'
-	classVariableNames: 'One Zero'
+	classVariableNames: 'GrayCodeIncrements GrayCodes One Zero'
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'BitArray class' category: #'Algebra-Rings-Finite'!
-BitArray class
+!classDefinition: 'BinaryArray class' category: #'Algebra-Rings-Finite'!
+BinaryArray class
 	instanceVariableNames: ''!
 
 !classDefinition: #GaloisArray category: #'Algebra-Rings-Finite'!
@@ -150,6 +154,16 @@ ArrayedCollection subclass: #ZechArray
 	category: 'Algebra-Rings-Finite'!
 !classDefinition: 'ZechArray class' category: #'Algebra-Rings-Finite'!
 ZechArray class
+	instanceVariableNames: ''!
+
+!classDefinition: #ExtensionArray category: #'Algebra-Algebras-Affine'!
+ArrayedCollection subclass: #ExtensionArray
+	instanceVariableNames: 'slices scalars'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algebras-Affine'!
+!classDefinition: 'ExtensionArray class' category: #'Algebra-Algebras-Affine'!
+ExtensionArray class
 	instanceVariableNames: ''!
 
 !classDefinition: #Simplex category: #'Algebra-Simplicial Complexes'!
@@ -1412,6 +1426,16 @@ Matrix subclass: #SparseMatrix
 SparseMatrix class
 	instanceVariableNames: ''!
 
+!classDefinition: #WindowMatrix category: #'Algebra-Modules'!
+Matrix subclass: #WindowMatrix
+	instanceVariableNames: 'coefficients rowOffsets'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Modules'!
+!classDefinition: 'WindowMatrix class' category: #'Algebra-Modules'!
+WindowMatrix class
+	instanceVariableNames: ''!
+
 !classDefinition: #BilinearMap category: #'Algebra-Modules-Multilinear'!
 Function subclass: #BilinearMap
 	instanceVariableNames: ''
@@ -2459,17 +2483,18 @@ Given a Float, and assuming the number is actually rational, its continued fract
 !ProductArray commentStamp: '<historical>' prior: 0!
 Arrays of elements of a product ring. See ProductRing.!
 
-!BitArray commentStamp: '<historical>' prior: 0!
-Arrays of elements of the field ℤ/2ℤ, i.e. binary arrays, bit strings, or arrays of bits.
-
-They are stored as a WordArray (32-bit words).!
+!BinaryArray commentStamp: '<historical>' prior: 0!
+Arrays of elements of the field ℤ/2ℤ. They are stored as bits in an array of 32-bit words.!
 
 !GaloisArray commentStamp: '<historical>' prior: 0!
 Arrays of elements of a Galois ring or field.!
 
 !ModularArray commentStamp: '<historical>' prior: 0!
-Arrays of elements of an integer residue class ring or field ℤ/nℤ. See ModularInteger and ModularIntegerRing.
+Arrays of elements of an integer residue class ring ℤ/nℤ. See ModularInteger and ModularIntegerRing.
 !
+
+!ZechArray commentStamp: '<historical>' prior: 0!
+Arrays of elements of small Galois fields GF(p,r). Each element is stored as its Zech logarithm using 8 or 16 bits per element. See ZechTable.!
 
 !Simplex commentStamp: '<historical>' prior: 0!
 (Abstract) n-simplices.
@@ -2845,7 +2870,7 @@ See AffineScheme for schemes corresponding to the spectrum Spec(R) of a commutat
 For schemes defined by polynomial equations in affine or projective space, see subclasses AffineVariety and ProjectiveVariety, which are closed subschemes of affine and projective space respectively.!
 
 !Grassmannian commentStamp: '<historical>' prior: 0!
-The Grassmannian Gr(r,V) is the set of r-dimensional subspaces of the vector space V.!
+The Grassmannian Gr(r,V) is the set of r-dimensional subspaces of a vector space V, or more generaly for the set of submodules of rank r of a free module V over a PID.!
 
 !AffineScheme commentStamp: '<historical>' prior: 0!
 The prime spectrum Spec(R) of a commutative ring R, equipped with a sheaf of local rings (which makes it a locally ringed space). As a topological set, its points are the prime ideals of the coordinate ring R.
@@ -3584,9 +3609,8 @@ scalars
 size
 	^ components first size! !
 
-!ProductArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:39:54'!
+!ProductArray methodsFor: 'accessing' stamp: 'len 5/12/2023 23:24:19'!
 swap: oneIndex with: anotherIndex 
-	"Move the element at oneIndex to anotherIndex, and vice-versa."
 	components do: [:each| each swap: oneIndex with: anotherIndex]! !
 
 !ProductArray methodsFor: 'comparing' stamp: 'len 5/4/2023 23:39:54'!
@@ -3601,6 +3625,11 @@ hash
 postCopy
 	super postCopy.
 	components _ components collect: [:each| each copy]! !
+
+!ProductArray methodsFor: 'copying' stamp: 'len 5/12/2023 23:40:24'!
+replaceFrom: start to: stop with: replacement startingAt: repStart	
+	components withIndexDo: [:each :i|
+		each replaceFrom: start to: stop with: (replacement projection: i) startingAt: repStart	]! !
 
 !ProductArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:39:54'!
 · aTuple
@@ -3674,8 +3703,15 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 st
 			with: (anArray1 projection: i) startingAt: start1
 			times: (anArray2 projection: i) startingAt: start2]! !
 
-!ProductArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:39:54'!
+!ProductArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 22:59:19'!
 replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anElement
+	anElement isInteger ifTrue:
+		[components withIndexDo: [:each :i|
+			each
+				replaceFrom: start to: stop
+				with: (anArray projection: i) startingAt: srcStart
+				timesScalar: anElement].
+		^ self].
 	components withIndexDo: [:each :i|
 		each
 			replaceFrom: start to: stop
@@ -3697,10 +3733,21 @@ replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
 			replaceFrom: start to: stop
 			withNegated: (anArray projection: i) startingAt: srcStart]! !
 
-!ProductArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:39:54'!
+!ProductArray methodsFor: 'operations-low level' stamp: 'len 5/13/2023 08:34:54'!
 replaceFrom: start with: anArray1 from: start1 to: stop1 convolution: anArray2 from: start2 to: stop2
 	components withIndexDo: [:each :i|
-		each replaceFrom: start with: (anArray1 projection: i) from: start1 to: stop1 convolution: (anArray2 projection: i) from: start2 to: stop2]! !
+		each
+			replaceFrom: start
+			with: (anArray1 projection: i) from: start1 to: stop1
+			convolution: (anArray2 projection: i) from: start2 to: stop2]! !
+
+!ProductArray methodsFor: 'operations-low level' stamp: 'len 5/13/2023 08:32:05'!
+replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
+	components withIndexDo: [:each :i|
+		each
+			replaceFrom: start
+			with: (anArray1 projection: i) from: start1 to: stop1
+			convolutionLong: (anArray2 projection: i) from: start2 to: stop2]! !
 
 !ProductArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:39:54'!
 replaceFrom: start withAutoconvolution: anArray1 from: start1 to: stop1
@@ -3737,54 +3784,54 @@ components: anArray scalars: aProductRing
 species
 	^ scalars! !
 
-!ProductArray class methodsFor: 'as yet unclassified' stamp: 'len 5/4/2023 23:39:54'!
+!ProductArray class methodsFor: 'instance creation' stamp: 'len 5/4/2023 23:39:54'!
 components: anArray scalars: aProductRing
 	^ self basicNew components: anArray scalars: aProductRing! !
 
-!BitArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:40:46'!
+!BinaryArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:40:46'!
 at: anInteger
 	^ (self bitAt: anInteger) = 1 ifTrue: [One] ifFalse: [Zero]! !
 
-!BitArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:40:46'!
+!BinaryArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:40:46'!
 at: anInteger put: aBit
 	self bitAt: anInteger put: aBit representative.
 	^ aBit! !
 
-!BitArray methodsFor: 'accessing' stamp: 'len 5/9/2023 19:05:22'!
+!BinaryArray methodsFor: 'accessing' stamp: 'len 5/9/2023 19:05:22'!
 atAllPut: anObject
 	anObject = Zero ifFalse: [^ super atAllPut: anObject].
 	words atAllPut: 0! !
 
-!BitArray methodsFor: 'accessing' stamp: 'len 5/7/2023 17:42:16'!
+!BinaryArray methodsFor: 'accessing' stamp: 'len 5/7/2023 17:42:16'!
 bitAt: anInteger
 	anInteger <= size ifFalse: [^ self errorOutOfBounds].
 	^ words bitAt: anInteger! !
 
-!BitArray methodsFor: 'accessing' stamp: 'len 5/7/2023 17:42:22'!
+!BinaryArray methodsFor: 'accessing' stamp: 'len 5/7/2023 17:42:22'!
 bitAt: anInteger put: aBit
 	anInteger <= size ifFalse: [^ self errorOutOfBounds].
 	^ words bitAt: anInteger put: aBit! !
 
-!BitArray methodsFor: 'accessing' stamp: 'len 5/9/2023 14:32:05'!
+!BinaryArray methodsFor: 'accessing' stamp: 'len 5/9/2023 14:32:05'!
 firstNonzeroIndex
 	"Answer the index of the first nonzero entry, or nil."
 	| wordIndex |
 	(wordIndex _ words firstNonzeroIndex) ifNil: [^ nil].
 	^ wordIndex - 1 * 32 + (words at: wordIndex) lowBit! !
 
-!BitArray methodsFor: 'accessing' stamp: 'len 5/9/2023 18:55:50'!
+!BinaryArray methodsFor: 'accessing' stamp: 'len 5/9/2023 18:55:50'!
 from: startIndex to: endIndex put: anObject
 	self flag: #fixme. "optimize"
 	^ super from: startIndex to: endIndex put: anObject! !
 
-!BitArray methodsFor: 'accessing' stamp: 'len 5/7/2023 17:43:06'!
+!BinaryArray methodsFor: 'accessing' stamp: 'len 5/7/2023 17:43:06'!
 lastNonzeroIndex
 	"Answer the index of the last nonzero entry, or nil."
 	| wordIndex |
 	(wordIndex _ words lastNonzeroIndex) ifNil: [^ nil].
 	^ wordIndex - 1 * 32 + (words at: wordIndex) highBit! !
 
-!BitArray methodsFor: 'accessing' stamp: 'len 5/8/2023 17:19:40'!
+!BinaryArray methodsFor: 'accessing' stamp: 'len 5/8/2023 17:19:40'!
 lift
 	"Answer a representative tuple of integers."
 	| answer |
@@ -3792,15 +3839,19 @@ lift
 	1 to: self size do: [:i| answer at: i put: (self bitAt: i)].
 	^ answer! !
 
-!BitArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:40:46'!
+!BinaryArray methodsFor: 'accessing' stamp: 'len 5/13/2023 19:43:01'!
+readBits: length at: bitIndex
+	^ (self wordAt: bitIndex) bitAnd: 1 << length - 1! !
+
+!BinaryArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:40:46'!
 scalars
 	^ One parent! !
 
-!BitArray methodsFor: 'accessing' stamp: 'len 5/7/2023 17:44:33'!
+!BinaryArray methodsFor: 'accessing' stamp: 'len 5/7/2023 17:44:33'!
 size
 	^ size! !
 
-!BitArray methodsFor: 'accessing' stamp: 'len 5/9/2023 23:42:12'!
+!BinaryArray methodsFor: 'accessing' stamp: 'len 5/9/2023 23:42:12'!
 wordAt: anInteger
 	| wordIndex r answer |
 	wordIndex _ anInteger - 1 // 32 + 1.
@@ -3811,22 +3862,22 @@ wordAt: anInteger
 	wordIndex = words size ifTrue: [^ answer].
 	^ answer bitXor: ((words at: wordIndex+1) << (32 - r) bitAnd: 16rFFFFFFFF)! !
 
-!BitArray methodsFor: 'comparing' stamp: 'len 5/7/2023 17:40:50'!
+!BinaryArray methodsFor: 'comparing' stamp: 'len 5/7/2023 17:40:50'!
 = anObject
 	^ self class = anObject class and: [size = anObject size and: [words = anObject words]]! !
 
-!BitArray methodsFor: 'comparing' stamp: 'len 5/7/2023 17:42:43'!
+!BinaryArray methodsFor: 'comparing' stamp: 'len 5/7/2023 17:42:43'!
 hash
 	^ words hash! !
 
-!BitArray methodsFor: 'converting' stamp: 'len 5/7/2023 17:41:52'!
+!BinaryArray methodsFor: 'converting' stamp: 'len 5/7/2023 17:41:52'!
 asInteger
 	| answer |
 	answer _ 0.
 	words reverseDo: [:each| answer _ answer << 32 bitXor: each].
 	^ answer! !
 
-!BitArray methodsFor: 'copying' stamp: 'len 5/7/2023 17:42:35'!
+!BinaryArray methodsFor: 'copying' stamp: 'len 5/7/2023 17:42:35'!
 copyWith: aBit
 	| answer |
 	answer _ self class new: self size + 1 words: (size \\ 32 = 0 ifTrue: [words copyWith: 0] ifFalse: [words copy]).
@@ -3834,220 +3885,12 @@ copyWith: aBit
 	aBit = Zero ifTrue: [^ answer].
 	^ self error: 'not one or zero'! !
 
-!BitArray methodsFor: 'copying' stamp: 'len 5/7/2023 17:43:42'!
+!BinaryArray methodsFor: 'copying' stamp: 'len 5/7/2023 17:43:42'!
 postCopy
 	super postCopy.
 	words _ words copy! !
 
-!BitArray methodsFor: 'enumerating' stamp: 'len 5/9/2023 22:17:57'!
-allSatisfy: aBlock
-	"Optimized. There are only two possible elements that could satisfy aBlock (1 or 0)."
-	self isEmpty ifTrue: [^ true].
-	^ ((aBlock value: One) and: [self isAllOnes]) or: [(aBlock value: Zero) and: [self isZero]]! !
-
-!BitArray methodsFor: 'enumerating' stamp: 'len 5/9/2023 21:06:39'!
-anySatisfy: aBlock
-	"Optimized. There are only two possible elements that could satisfy aBlock (1 or 0)."
-	self isEmpty ifTrue: [^ false].
-	^ ((aBlock value: One) and: [self isZero not]) or: [(aBlock value: Zero) and: [self isAllOnes not]]! !
-
-!BitArray methodsFor: 'enumerating' stamp: 'len 5/10/2023 10:25:44'!
-count: aBlock
-	| h answer |
-	h _ self weight.
-	answer _ 0.
-	(h < size and: [aBlock value: Zero]) ifTrue: [answer _ answer + size - h].
-	(h > 0 and: [aBlock value: One]) ifTrue: [answer _ answer + h].
-	^ answer! !
-
-!BitArray methodsFor: 'enumerating' stamp: 'len 5/10/2023 10:33:52'!
-detect: aBlock ifNone: exceptionBlock
-	self isEmpty ifTrue: [^ exceptionBlock value].
-	((aBlock value: One) and: [self isZero not]) ifTrue: [^ One].
-	((aBlock value: Zero) and: [self isAllOnes not]) ifTrue: [^ Zero].
-	^ exceptionBlock value! !
-
-!BitArray methodsFor: 'enumerating' stamp: 'len 5/10/2023 11:07:56'!
-indexOf: anElement ifAbsent: exceptionBlock
-	anElement = One ifTrue: [^ self firstNonzeroIndex ifNil: exceptionBlock].
-	anElement = Zero ifFalse: [^ exceptionBlock value].
-	self flag: #fixme. "TODO"
-	^ super indexOf: anElement ifAbsent: exceptionBlock! !
-
-!BitArray methodsFor: 'enumerating' stamp: 'len 5/10/2023 10:31:30'!
-product: aBlock
-	| h |
-	h _ self weight.
-	^ (aBlock value: One) ^ h * ((aBlock value: Zero) ^ (size - h))! !
-
-!BitArray methodsFor: 'enumerating' stamp: 'len 5/10/2023 11:00:42'!
-sum: aBlock ifEmpty: emptyBlock
-	| h |
-	self isEmpty ifTrue: [^ emptyBlock value].
-	h _ self weight.
-	h = 0 ifTrue: [^ (aBlock value: Zero) * size].
-	h = size ifTrue: [^ (aBlock value: One) * size].
-	^ (aBlock value: Zero) * (size - h) + ((aBlock value: One) * h)! !
-
-!BitArray methodsFor: 'enumerating' stamp: 'len 5/9/2023 21:00:42'!
-supportDo: aBlock
-	| i j word |
-	i _ 1.
-	words do: [:each|
-		word _ each.
-		j _ 0.
-		[word = 0] whileFalse:
-			[word odd ifTrue: [aBlock value: i+j].
-			j _ j + 1.
-			word _ word bitShift: -1].
-		i _ i + 32]! !
-
-!BitArray methodsFor: 'operations' stamp: 'len 5/9/2023 14:27:32'!
-* anObject
-	| otherWords newWords |
-	anObject isInteger ifTrue: [^ anObject even ifTrue: [self zero] ifFalse: [self]].
-	self class = anObject class ifFalse: [^ super * anObject].
-	otherWords _ anObject words.
-	newWords _ WordArray new: (words size min: otherWords size).
-	1 to: newWords size do: [:i| newWords at: i put: ((words at: i) bitAnd: (otherWords at: i))].
-	^ self class new: (size min: anObject size) words: newWords! !
-
-!BitArray methodsFor: 'operations' stamp: 'len 5/9/2023 14:24:53'!
-+ anObject
-	| otherWords newWords |
-	(anObject class = self class and: [size = anObject size]) ifFalse: [^ super + anObject].
-	otherWords _ anObject words.
-	newWords _ WordArray new: words size.
-	1 to: words size do: [:i| newWords at: i put: ((words at: i) bitXor: (otherWords at: i))].
-	^ self class new: size words: newWords! !
-
-!BitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:40:46'!
-- anObject
-	^ self + anObject! !
-
-!BitArray methodsFor: 'operations' stamp: 'len 5/11/2023 18:38:06'!
-· anArray
-	| sum |
-	self class = anArray class ifFalse: [^ super · anArray].
-	sum _ 0.
-	1 to: (words size min: anArray words size) do: [:i|
-		sum _ ((words at: i) bitAnd: (anArray words at: i)) bitXor: sum].
-	^ sum bitParity = 0 ifTrue: [Zero] ifFalse: [One]! !
-
-!BitArray methodsFor: 'operations' stamp: 'len 5/9/2023 18:36:09'!
-autoconvolution
-	| newInteger newWords |
-	words size = 1 ifFalse: [^ super autoconvolution].
-	"When the array is small we can compute the convolution with SmallIntegers:"
-	newInteger _ (words at: 1) bitAutoconvolution.
-	newWords _ size <= 16
-		ifTrue: [WordArray with: newInteger]
-		ifFalse: [WordArray with: (newInteger bitAnd: 16rFFFFFFFF) with: (newInteger bitShift: -32)].
-	^ self class new: size * 2 - 1 words: newWords! !
-
-!BitArray methodsFor: 'operations' stamp: 'len 5/9/2023 18:35:48'!
-convolution: anArray
-	| newInteger newSize newWords |
-	(anArray class = self class and: [words size = 1 and: [anArray words size = 1]])
-		ifFalse: [^ super convolution: anArray].
-	"When the arrays are small we can compute the convolution with SmallIntegers:"
-	newInteger _ (words at: 1) bitConvolution: (anArray words at: 1).
-	newSize _ size + anArray size - 1.
-	newWords _ newSize <= 32
-		ifTrue: [WordArray with: newInteger]
-		ifFalse: [WordArray with: (newInteger bitAnd: 16rFFFFFFFF) with: (newInteger bitShift: -32)].
-	^ self class new: newSize words: newWords! !
-
-!BitArray methodsFor: 'operations' stamp: 'len 5/12/2023 00:10:36'!
-length
-	self flag: #deprecated.
-	^ self norm! !
-
-!BitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:40:46'!
-negated
-	^ self! !
-
-!BitArray methodsFor: 'operations' stamp: 'len 5/12/2023 00:13:18'!
-norm
-	self flag: #deprecated. "or maybe not, if Tuple>>norm delegated to coefficients it can speed up"
-	^ self sum! !
-
-!BitArray methodsFor: 'operations' stamp: 'len 5/10/2023 21:03:18'!
-parity
-	"Answer 1 if the receiver has an odd number of bits on, 0 if it has an even number of bits on."
-	^ (words inject: 0 into: [:result :each| result bitXor: each]) bitParity! !
-
-!BitArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:40:46'!
-polynomialValue: anObject
-	self size = 0 ifTrue: [^ Zero].
-	Zero = anObject ifTrue: [^ self at: 1].
-	One = anObject ifTrue: [^ self sum].
-	^ super polynomialValue: anObject! !
-
-!BitArray methodsFor: 'operations' stamp: 'len 5/9/2023 18:37:52'!
-product
-	^ self isAllOnes ifTrue: [One] ifFalse: [Zero]! !
-
-!BitArray methodsFor: 'operations' stamp: 'len 5/12/2023 00:07:06'!
-sum
-	"Answer the sum of the bits, i.e. the parity."
-	^ self parity = 1 ifTrue: [One] ifFalse: [Zero]! !
-
-!BitArray methodsFor: 'operations' stamp: 'len 5/10/2023 11:13:13'!
-weight
-	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
-	^ words sum: [:each| each bitCount] ifEmpty: [0]! !
-
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 22:22:55'!
-from: start to: stop by: increment dot: anArray startingAt: start2
-	| i j isOne w |
-	stop - start >= 0 ifFalse: [^ Zero].
-	increment = 1 ifTrue: [^ self from: start to: stop dot: anArray startingAt: start2].
-	i _ start.
-	j _ start2.
-	isOne _ false.
-	[i <= stop] whileTrue:
-		[w _ anArray wordAt: j.
-		j _ j + 32.
-		32 timesRepeat:
-			[(w odd and: [(self bitAt: i) = 1]) ifTrue: [isOne _ isOne not].
-			i _ i + increment.
-			i > stop ifTrue: [^ isOne ifTrue: [One] ifFalse: [Zero]].
-			w _ w bitShift: -1]].
-	^ isOne ifTrue: [One] ifFalse: [Zero]! !
-
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 22:16:28'!
-from: start to: stop by: increment dot: anArray startingAt: start2 by: increment2
-	| i j isOne |
-	(stop - start + 1) > 0 ifFalse: [^ Zero].
-	increment2 = 1 ifTrue: [^ self from: start to: stop by: increment dot: anArray startingAt: start2].
-	increment = 1 ifTrue: [^ anArray from: start2 to: stop - start + 1 * increment2 - 1 + start2 by: increment2 dot: self startingAt: start].
-	i _ start.
-	j _ start2.
-	isOne _ false.
-	[i <= stop] whileTrue:
-		[((self bitAt: i) = 1 and: [(anArray bitAt: j) = 1]) ifTrue: [isOne _ isOne not].
-		i _ i + increment.
-		j _ j + increment2].
-	^ isOne ifTrue: [One] ifFalse: [Zero]! !
-
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 00:36:52'!
-from: start to: stop dot: anArray startingAt: start2
-	| n i j sum |
-	(n _ stop - start + 1) > 0 ifFalse: [^ Zero].
-	i _ start.
-	j _ start2.
-	sum _ 0.
-	[n >= 32] whileTrue:
-		[sum _ ((self wordAt: i) bitAnd: (anArray wordAt: j)) bitXor: sum.
-		i _ i + 32.
-		j _ j + 32.
-		n _ n - 32].
-	n > 0 ifTrue:
-		[sum _ (((self wordAt: i) bitAnd: 1 << n - 1) bitAnd: (anArray wordAt: j)) bitXor: sum].
-	^ sum bitParity = 1 ifTrue: [One] ifFalse: [Zero]! !
-
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 22:08:58'!
+!BinaryArray methodsFor: 'copying' stamp: 'len 5/12/2023 22:08:58'!
 replaceFrom: start to: stop with: replacement startingAt: repStart	
 	| n shift i j w r |
 	(n _ stop - start + 1) > 0 ifFalse: [^ self].
@@ -4077,11 +3920,242 @@ replaceFrom: start to: stop with: replacement startingAt: repStart
 		r _ replacement wordAt: j.
 		words at: i put: ((w bitAnd: (1 << n - 1) bitInvert) bitXor: (r bitAnd: 1 << n - 1))]! !
 
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:40:46'!
+!BinaryArray methodsFor: 'enumerating' stamp: 'len 5/9/2023 22:17:57'!
+allSatisfy: aBlock
+	"Optimized. There are only two possible elements that could satisfy aBlock (1 or 0)."
+	self isEmpty ifTrue: [^ true].
+	^ ((aBlock value: One) and: [self isAllOnes]) or: [(aBlock value: Zero) and: [self isZero]]! !
+
+!BinaryArray methodsFor: 'enumerating' stamp: 'len 5/9/2023 21:06:39'!
+anySatisfy: aBlock
+	"Optimized. There are only two possible elements that could satisfy aBlock (1 or 0)."
+	self isEmpty ifTrue: [^ false].
+	^ ((aBlock value: One) and: [self isZero not]) or: [(aBlock value: Zero) and: [self isAllOnes not]]! !
+
+!BinaryArray methodsFor: 'enumerating' stamp: 'len 5/10/2023 10:25:44'!
+count: aBlock
+	| h answer |
+	h _ self weight.
+	answer _ 0.
+	(h < size and: [aBlock value: Zero]) ifTrue: [answer _ answer + size - h].
+	(h > 0 and: [aBlock value: One]) ifTrue: [answer _ answer + h].
+	^ answer! !
+
+!BinaryArray methodsFor: 'enumerating' stamp: 'len 5/10/2023 10:33:52'!
+detect: aBlock ifNone: exceptionBlock
+	self isEmpty ifTrue: [^ exceptionBlock value].
+	((aBlock value: One) and: [self isZero not]) ifTrue: [^ One].
+	((aBlock value: Zero) and: [self isAllOnes not]) ifTrue: [^ Zero].
+	^ exceptionBlock value! !
+
+!BinaryArray methodsFor: 'enumerating' stamp: 'len 5/10/2023 11:07:56'!
+indexOf: anElement ifAbsent: exceptionBlock
+	anElement = One ifTrue: [^ self firstNonzeroIndex ifNil: exceptionBlock].
+	anElement = Zero ifFalse: [^ exceptionBlock value].
+	self flag: #fixme. "TODO"
+	^ super indexOf: anElement ifAbsent: exceptionBlock! !
+
+!BinaryArray methodsFor: 'enumerating' stamp: 'len 5/10/2023 10:31:30'!
+product: aBlock
+	| h |
+	h _ self weight.
+	^ (aBlock value: One) ^ h * ((aBlock value: Zero) ^ (size - h))! !
+
+!BinaryArray methodsFor: 'enumerating' stamp: 'len 5/10/2023 11:00:42'!
+sum: aBlock ifEmpty: emptyBlock
+	| h |
+	self isEmpty ifTrue: [^ emptyBlock value].
+	h _ self weight.
+	h = 0 ifTrue: [^ (aBlock value: Zero) * size].
+	h = size ifTrue: [^ (aBlock value: One) * size].
+	^ (aBlock value: Zero) * (size - h) + ((aBlock value: One) * h)! !
+
+!BinaryArray methodsFor: 'enumerating' stamp: 'len 5/9/2023 21:00:42'!
+supportDo: aBlock
+	| i j word |
+	i _ 1.
+	words do: [:each|
+		word _ each.
+		j _ 0.
+		[word = 0] whileFalse:
+			[word odd ifTrue: [aBlock value: i+j].
+			j _ j + 1.
+			word _ word bitShift: -1].
+		i _ i + 32]! !
+
+!BinaryArray methodsFor: 'operations' stamp: 'len 5/9/2023 14:27:32'!
+* anObject
+	| otherWords newWords |
+	anObject isInteger ifTrue: [^ anObject even ifTrue: [self zero] ifFalse: [self]].
+	self class = anObject class ifFalse: [^ super * anObject].
+	otherWords _ anObject words.
+	newWords _ WordArray new: (words size min: otherWords size).
+	1 to: newWords size do: [:i| newWords at: i put: ((words at: i) bitAnd: (otherWords at: i))].
+	^ self class new: (size min: anObject size) words: newWords! !
+
+!BinaryArray methodsFor: 'operations' stamp: 'len 5/9/2023 14:24:53'!
++ anObject
+	| otherWords newWords |
+	(anObject class = self class and: [size = anObject size]) ifFalse: [^ super + anObject].
+	otherWords _ anObject words.
+	newWords _ WordArray new: words size.
+	1 to: words size do: [:i| newWords at: i put: ((words at: i) bitXor: (otherWords at: i))].
+	^ self class new: size words: newWords! !
+
+!BinaryArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:40:46'!
+- anObject
+	^ self + anObject! !
+
+!BinaryArray methodsFor: 'operations' stamp: 'len 5/11/2023 18:38:06'!
+· anArray
+	| sum |
+	self class = anArray class ifFalse: [^ super · anArray].
+	sum _ 0.
+	1 to: (words size min: anArray words size) do: [:i|
+		sum _ ((words at: i) bitAnd: (anArray words at: i)) bitXor: sum].
+	^ sum bitParity = 0 ifTrue: [Zero] ifFalse: [One]! !
+
+!BinaryArray methodsFor: 'operations' stamp: 'len 5/9/2023 18:36:09'!
+autoconvolution
+	| newInteger newWords |
+	words size = 1 ifFalse: [^ super autoconvolution].
+	"When the array is small we can compute the convolution with SmallIntegers:"
+	newInteger _ (words at: 1) bitAutoconvolution.
+	newWords _ size <= 16
+		ifTrue: [WordArray with: newInteger]
+		ifFalse: [WordArray with: (newInteger bitAnd: 16rFFFFFFFF) with: (newInteger bitShift: -32)].
+	^ self class new: size * 2 - 1 words: newWords! !
+
+!BinaryArray methodsFor: 'operations' stamp: 'len 5/9/2023 18:35:48'!
+convolution: anArray
+	| newInteger newSize newWords |
+	(anArray class = self class and: [words size = 1 and: [anArray words size = 1]])
+		ifFalse: [^ super convolution: anArray].
+	"When the arrays are small we can compute the convolution with SmallIntegers:"
+	newInteger _ (words at: 1) bitConvolution: (anArray words at: 1).
+	newSize _ size + anArray size - 1.
+	newWords _ newSize <= 32
+		ifTrue: [WordArray with: newInteger]
+		ifFalse: [WordArray with: (newInteger bitAnd: 16rFFFFFFFF) with: (newInteger bitShift: -32)].
+	^ self class new: newSize words: newWords! !
+
+!BinaryArray methodsFor: 'operations' stamp: 'len 5/12/2023 00:10:36'!
+length
+	self flag: #deprecated.
+	^ self norm! !
+
+!BinaryArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:40:46'!
+negated
+	^ self! !
+
+!BinaryArray methodsFor: 'operations' stamp: 'len 5/12/2023 00:13:18'!
+norm
+	self flag: #deprecated. "or maybe not, if Tuple>>norm delegated to coefficients it can speed up"
+	^ self sum! !
+
+!BinaryArray methodsFor: 'operations' stamp: 'len 5/13/2023 07:50:03'!
+parity
+	"Answer 1 if the receiver has an odd number of bits on, 0 if it has an even number of bits on."
+	^ (words inject: 0 into: [:result :each| result bitXor: each]) bitParity32! !
+
+!BinaryArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:40:46'!
+polynomialValue: anObject
+	self size = 0 ifTrue: [^ Zero].
+	Zero = anObject ifTrue: [^ self at: 1].
+	One = anObject ifTrue: [^ self sum].
+	^ super polynomialValue: anObject! !
+
+!BinaryArray methodsFor: 'operations' stamp: 'len 5/9/2023 18:37:52'!
+product
+	^ self isAllOnes ifTrue: [One] ifFalse: [Zero]! !
+
+!BinaryArray methodsFor: 'operations' stamp: 'len 5/12/2023 00:07:06'!
+sum
+	"Answer the sum of the bits, i.e. the parity."
+	^ self parity = 1 ifTrue: [One] ifFalse: [Zero]! !
+
+!BinaryArray methodsFor: 'operations' stamp: 'len 5/13/2023 07:49:31'!
+weight
+	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
+	^ words sum: [:each| each bitCount32] ifEmpty: [0]! !
+
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/13/2023 20:28:21'!
+fillWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2
+	"Matrix multiplication in O(n^3 / log n) with the Method of Four Russians. See [ABH08], [Bar06]."
+	| k G I T m i |
+	self zeroFrom: 1 to: self size.
+	k _ (width1 highBit * 0.75) rounded min: GrayCodes size max: 1.
+	G _ GrayCodes at: k. I _ GrayCodeIncrements at: k.
+	T _ (1 to: G size) collect: [:each| self species new: width2].
+	m _ anArray1 size // width1.
+	i _ 0.
+	[i < width1] whileTrue:
+		[2 to: G size do: [:j| (T at: j) replaceFrom: 1 to: width2 with: (T at: j-1) startingAt: 1 plus: anArray2 startingAt: (I at: j-1) - 1 + i * width2 + 1].
+		0 to: m-1 do: [:j| | index j₀ |
+			index _ anArray1 readBits: k "max: width1 - i - 1?" at: j * width1 + i + 1.
+			j₀ _ j * width2 + 1.
+			self replaceFrom: j₀ to: j₀ + width2 - 1 with: self startingAt: j₀ plus: (T at: (G at: index+1)) startingAt: 1].
+		i _ i + k]! !
+
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 23:36:21'!
+fillWithMatrixTranspose: anArray width: width
+	self flag: #fixme. "TODO"
+	super fillWithMatrixTranspose: anArray width: width! !
+
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/13/2023 08:41:27'!
+from: start to: stop by: increment dot: anArray startingAt: start2
+	| i j isOne w |
+	increment = 1 ifTrue: [^ self from: start to: stop dot: anArray startingAt: start2].
+	stop >= start ifFalse: [^ Zero].
+	i _ start.
+	j _ start2.
+	isOne _ false.
+	[i <= stop] whileTrue:
+		[w _ anArray wordAt: j.
+		j _ j + 32.
+		32 timesRepeat:
+			[(w odd and: [(self bitAt: i) = 1]) ifTrue: [isOne _ isOne not].
+			i _ i + increment.
+			i <= stop ifFalse: [^ isOne ifTrue: [One] ifFalse: [Zero]].
+			w _ w bitShift: -1]].
+	^ isOne ifTrue: [One] ifFalse: [Zero]! !
+
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/13/2023 08:41:48'!
+from: start to: stop by: increment dot: anArray startingAt: start2 by: increment2
+	| i j isOne |
+	increment2 = 1 ifTrue: [^ self from: start to: stop by: increment dot: anArray startingAt: start2].
+	increment = 1 ifTrue: [^ anArray from: start2 to: stop - start + 1 * increment2 - 1 + start2 by: increment2 dot: self startingAt: start].
+	stop >= start ifFalse: [^ Zero].
+	i _ start.
+	j _ start2.
+	isOne _ false.
+	[i <= stop] whileTrue:
+		[((self bitAt: i) = 1 and: [(anArray bitAt: j) = 1]) ifTrue: [isOne _ isOne not].
+		i _ i + increment.
+		j _ j + increment2].
+	^ isOne ifTrue: [One] ifFalse: [Zero]! !
+
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/13/2023 07:49:56'!
+from: start to: stop dot: anArray startingAt: start2
+	| n i j sum |
+	(n _ stop - start + 1) > 0 ifFalse: [^ Zero].
+	i _ start.
+	j _ start2.
+	sum _ 0.
+	[n >= 32] whileTrue:
+		[sum _ ((self wordAt: i) bitAnd: (anArray wordAt: j)) bitXor: sum.
+		i _ i + 32.
+		j _ j + 32.
+		n _ n - 32].
+	n > 0 ifTrue:
+		[sum _ (((self wordAt: i) bitAnd: 1 << n - 1) bitAnd: (anArray wordAt: j)) bitXor: sum].
+	^ sum bitParity32 = 1 ifTrue: [One] ifFalse: [Zero]! !
+
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:40:46'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 startingAt: start2
 	self replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2! !
 
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 22:08:44'!
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 22:08:44'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2	
 	| n shift i j k w r |
 	(n _ stop - start + 1) > 0 ifFalse: [^ self].
@@ -4113,12 +4187,12 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 sta
 		r _ (anArray1 wordAt: j) bitXor: (anArray2 wordAt: k).
 		words at: i put: ((w bitAnd: (1 << n - 1) bitInvert) bitXor: (r bitAnd: 1 << n - 1))]! !
 
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:40:46'!
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:40:46'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 timesScalar: anElement
 	anElement isZero ifTrue: [^ self replaceFrom: start to: stop with: anArray1 startingAt: start1].
 	self replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2! !
 
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 22:10:15'!
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 22:10:15'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2	
 	| n shift i j k w r |
 	(n _ stop - start + 1) > 0 ifFalse: [^ self].
@@ -4150,67 +4224,75 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 st
 		r _ (anArray1 wordAt: j) bitAnd: (anArray2 wordAt: k).
 		words at: i put: ((w bitAnd: (1 << n - 1) bitInvert) bitXor: (r bitAnd: 1 << n - 1))]! !
 
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 00:00:34'!
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 00:00:34'!
 replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anElement
 	anElement isZero ifTrue: [^ self zeroFrom: start to: stop].
 	(anArray == self and: [srcStart = start]) ifTrue: [^ self].
 	self replaceFrom: start to: stop with: anArray startingAt: srcStart! !
 
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:40:46'!
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:40:46'!
 replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
 	self replaceFrom: start to: stop with: anArray startingAt: srcStart! !
 
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 23:57:53'!
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/13/2023 08:25:36'!
 replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
+	| i r |
 	self zeroFrom: start to: start + stop1 - start1 + stop2 - start2.
-	self flag: #fixme.
-	start2 to: stop2 do: [:i|
-		"TODO: iterate by words"
-		(anArray2 isZeroAt: i) ifFalse:
-			[| index |
-			index _ i-start2+start.
-			self replaceFrom: index to: index+stop1-start1
-				with: self startingAt: index
-				plus: anArray1 startingAt: start1]]! !
+	i _ start2.
+	[i <= stop2] whileTrue:
+		[(r _ anArray2 wordAt: i) = 0
+			ifTrue:
+				[i _ i + 32]
+			ifFalse:
+				[32 timesRepeat:
+					[r odd ifTrue:
+						[| index |
+						index _ i-start2+start.
+						self replaceFrom: index to: index+stop1-start1
+							with: self startingAt: index
+							plus: anArray1 startingAt: start1].
+					r _ r bitShift: -1.
+					i _ i + 1.
+					i <= stop2 ifFalse: [^ self]]]]! !
 
-!BitArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 23:55:36'!
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 23:55:36'!
 zeroFrom: start to: stop
 	self flag: #fixme. "TODO"
 	self from: start to: stop put: Zero! !
 
-!BitArray methodsFor: 'printing' stamp: 'len 5/4/2023 23:40:46'!
+!BinaryArray methodsFor: 'printing' stamp: 'len 5/4/2023 23:40:46'!
 printOn: aStream
 	1 to: self size do: [:i| aStream print: (self at: i)]! !
 
-!BitArray methodsFor: 'testing' stamp: 'len 5/9/2023 13:57:50'!
+!BinaryArray methodsFor: 'testing' stamp: 'len 5/9/2023 13:57:50'!
 includes: anObject
 	anObject = One ifTrue: [^ self isZero not].
 	anObject = Zero ifTrue: [^ self isAllOnes not].
 	^ false! !
 
-!BitArray methodsFor: 'testing' stamp: 'len 5/9/2023 22:41:22'!
+!BinaryArray methodsFor: 'testing' stamp: 'len 5/9/2023 22:41:22'!
 isAllOnes
 	| r |
 	1 to: size // 32 do: [:i| (words at: i) = 16rFFFFFFFF ifFalse: [^ false]].
 	^ (r _ size \\ 32) = 0 or: [words last = (16rFFFFFFFF bitShift: r - 32)]! !
 
-!BitArray methodsFor: 'testing' stamp: 'len 5/7/2023 17:42:51'!
+!BinaryArray methodsFor: 'testing' stamp: 'len 5/7/2023 17:42:51'!
 isZero
 	^ words isZero! !
 
-!BitArray methodsFor: 'testing' stamp: 'len 5/4/2023 23:40:46'!
+!BinaryArray methodsFor: 'testing' stamp: 'len 5/4/2023 23:40:46'!
 isZeroAt: anInteger
 	^ (self bitAt: anInteger) = 0! !
 
-!BitArray methodsFor: 'private' stamp: 'len 5/4/2023 23:58:57'!
+!BinaryArray methodsFor: 'private' stamp: 'len 5/4/2023 23:58:57'!
 species
 	^ self scalars! !
 
-!BitArray methodsFor: 'private' stamp: 'len 5/7/2023 17:45:00'!
+!BinaryArray methodsFor: 'private' stamp: 'len 5/7/2023 17:45:00'!
 words
 	^ words! !
 
-!BitArray methodsFor: 'private' stamp: 'len 5/7/2023 17:45:06'!
+!BinaryArray methodsFor: 'private' stamp: 'len 5/7/2023 17:45:06'!
 words: aWordArray size: anInteger
 	| n |
 	n _ aWordArray size.
@@ -4219,24 +4301,37 @@ words: aWordArray size: anInteger
 	words _ aWordArray.
 	size _ anInteger! !
 
-!BitArray class methodsFor: 'class initialization' stamp: 'len 5/4/2023 23:40:46'!
+!BinaryArray class methodsFor: 'class initialization' stamp: 'len 5/13/2023 19:38:41'!
 initialize
 	| Z2 |
 	super initialize.
+	self initializeGrayCodes.
 	ℤ isNil ifTrue: [^ self].
 	Z2 _ ℤ / 2.
 	One _ Z2 one.
 	Zero _ Z2 zero! !
 
-!BitArray class methodsFor: 'instance creation' stamp: 'len 5/7/2023 17:39:47'!
+!BinaryArray class methodsFor: 'class initialization' stamp: 'len 5/13/2023 19:41:29'!
+initializeGrayCodes
+	"A k-bit Gray code is all 2^k binary strings of length k, ordered so that each differs by exactly one bit in one position from each of its neighbors. For example, one 3-bit Gray code is {000, 001, 011, 010, 110, 111, 101, 100}.
+See [Gra53].
+	We use Gray codes in the Method of Four Russians for multiplication of matrices over ℤ/2ℤ."
+	| G |
+	G _ Array new: 10.
+	G at: 1 put: #(0 1).
+	2 to: G size do: [:n| G at: n put: (G at: n-1), ((G at: n-1) reversed collect: [:each| each bitXor: 1 << (n - 1)])].
+	GrayCodes _ G collect: [:C| (0 to: C size - 1) collect: [:each| C indexOf: each]].
+	GrayCodeIncrements _ G collect: [:C| (2 to: C size) collect: [:i| ((C at: i-1) bitXor: (C at: i)) highBit]]! !
+
+!BinaryArray class methodsFor: 'instance creation' stamp: 'len 5/7/2023 17:39:47'!
 new: anInteger
 	^ self new: anInteger words: (WordArray new: anInteger - 1 // 32 + 1)! !
 
-!BitArray class methodsFor: 'instance creation' stamp: 'len 5/7/2023 17:39:52'!
+!BinaryArray class methodsFor: 'instance creation' stamp: 'len 5/7/2023 17:39:52'!
 new: anInteger words: aWordArray
 	^ self basicNew words: aWordArray size: anInteger! !
 
-!BitArray class methodsFor: 'instance creation' stamp: 'len 5/7/2023 17:40:02'!
+!BinaryArray class methodsFor: 'instance creation' stamp: 'len 5/7/2023 17:40:02'!
 newFrom: anObject
 	| n r words |
 	anObject isInteger ifFalse: [^ super newFrom: anObject].
@@ -4873,6 +4968,128 @@ species
 logarithms: anArray table: aZechTable
 	^ self basicNew logarithms: anArray table: aZechTable! !
 
+!ExtensionArray methodsFor: 'accessing' stamp: 'len 5/12/2023 23:23:01'!
+at: anInteger
+	^ scalars !! (slices collect: [:each| each at: anInteger])! !
+
+!ExtensionArray methodsFor: 'accessing' stamp: 'len 5/12/2023 23:23:27'!
+at: anInteger put: anElement
+	slices withIndexDo: [:each :i| each at: anInteger put: (anElement at: i)].
+	^ anElement! !
+
+!ExtensionArray methodsFor: 'accessing' stamp: 'len 5/12/2023 23:23:42'!
+atAllPut: anElement
+	slices withIndexDo: [:each :i| each atAllPut: (anElement at: i)]! !
+
+!ExtensionArray methodsFor: 'accessing' stamp: 'len 5/12/2023 23:23:53'!
+scalars
+	^ scalars! !
+
+!ExtensionArray methodsFor: 'accessing' stamp: 'len 5/12/2023 23:24:04'!
+size
+	^ slices first size! !
+
+!ExtensionArray methodsFor: 'accessing' stamp: 'len 5/12/2023 23:30:53'!
+slice: anInteger
+	^ slices at: anInteger! !
+
+!ExtensionArray methodsFor: 'accessing' stamp: 'len 5/12/2023 23:25:06'!
+slices
+	^ slices! !
+
+!ExtensionArray methodsFor: 'accessing' stamp: 'len 5/12/2023 23:24:16'!
+swap: oneIndex with: anotherIndex 
+	slices do: [:each| each swap: oneIndex with: anotherIndex]! !
+
+!ExtensionArray methodsFor: 'comparing' stamp: 'len 5/12/2023 23:24:46'!
+= anObject
+	^ self class = anObject class and: [slices = anObject slices and: [scalars = anObject scalars]]! !
+
+!ExtensionArray methodsFor: 'comparing' stamp: 'len 5/12/2023 23:24:59'!
+hash
+	^ slices hash! !
+
+!ExtensionArray methodsFor: 'copying' stamp: 'len 5/12/2023 23:25:45'!
+postCopy
+	super postCopy.
+	slices _ slices collect: [:each| each copy]! !
+
+!ExtensionArray methodsFor: 'copying' stamp: 'len 5/12/2023 23:41:08'!
+replaceFrom: start to: stop with: replacement startingAt: repStart	
+	slices withIndexDo: [:each :i|
+		each replaceFrom: start to: stop with: (replacement slice: i) startingAt: repStart	]! !
+
+!ExtensionArray methodsFor: 'testing' stamp: 'len 5/12/2023 23:26:09'!
+isZero
+	^ slices allSatisfy: [:each| each isZero]! !
+
+!ExtensionArray methodsFor: 'testing' stamp: 'len 5/12/2023 23:26:22'!
+isZeroAt: anInteger
+	^ slices allSatisfy: [:each| (each isZeroAt: anInteger)]! !
+
+!ExtensionArray methodsFor: 'private' stamp: 'len 5/12/2023 23:27:11'!
+slices: anArray scalars: anExtensionRing
+	slices _ anArray.
+	scalars _ anExtensionRing! !
+
+!ExtensionArray methodsFor: 'private' stamp: 'len 5/12/2023 23:27:28'!
+species
+	^ scalars! !
+
+!ExtensionArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 23:34:36'!
+fillWithMatrixTranspose: anArray width: width
+	slices withIndexDo: [:each :i | each fillWithMatrixTranspose: (anArray slice: i) width: width]! !
+
+!ExtensionArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 23:34:07'!
+findFirstNonzeroFrom: start to: stop
+	| answer |
+	answer _ nil.
+	slices do: [:each| (each findFirstNonzeroFrom: start to: stop) ifNotNil: [:index| answer _ answer isNil ifTrue: [index] ifFalse: [answer min: index]]].
+	^ answer! !
+
+!ExtensionArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 23:34:17'!
+findLastNonzeroFrom: start to: stop
+	| answer |
+	answer _ nil.
+	slices do: [:each| (each findLastNonzeroFrom: start to: stop) ifNotNil: [:index| answer _ answer isNil ifTrue: [index] ifFalse: [answer max: index]]].
+	^ answer! !
+
+!ExtensionArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 23:29:52'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 startingAt: start2
+	slices withIndexDo: [:each :i|
+		each
+			replaceFrom: start to: stop
+			with: (anArray1 slice: i) startingAt: start1
+			minus: (anArray2 slice: i) startingAt: start2]! !
+
+!ExtensionArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 23:31:29'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2
+	slices withIndexDo: [:each :i|
+		each
+			replaceFrom: start to: stop
+			with: (anArray1 slice: i) startingAt: start1
+			plus: (anArray2 slice: i) startingAt: start2]! !
+
+!ExtensionArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 23:30:30'!
+replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
+	slices withIndexDo: [:each :i|
+		each
+			replaceFrom: start to: stop
+			withNegated: (anArray slice: i) startingAt: srcStart]! !
+
+!ExtensionArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 23:32:36'!
+sumFrom: start to: stop by: increment
+	^ scalars !! (slices withIndexCollect: [:each :i| each sumFrom: start to: stop by: increment])! !
+
+!ExtensionArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 23:33:09'!
+swapFrom: start to: stop with: anArray startingAt: start2
+	slices withIndexDo: [:each :i|
+		each swapFrom: start to: stop with: (anArray slice: i) startingAt: start2]! !
+
+!ExtensionArray class methodsFor: 'instance creation' stamp: 'len 5/12/2023 23:28:30'!
+slices: anArray scalars: anExtensionRing
+	^ self basicNew slices: anArray scalars: anExtensionRing! !
+
 !Simplex methodsFor: 'printing' stamp: 'len 2/27/2017 08:21:52'!
 printOn: aStream
 "	self isTrivial ifTrue: [aStream nextPut: Character emptySet. ^ self]."
@@ -5348,7 +5565,7 @@ example5GL
 	on the vector space of 3-tuples with rational coefficients."
 	^ (ℚ ^ 3) automorphisms! !
 
-!Domain class methodsFor: 'initialization' stamp: 'len 5/12/2023 18:42:12'!
+!Domain class methodsFor: 'initialization' stamp: 'len 5/13/2023 12:56:50'!
 initializeAll
 	"First initialize transfinites, set globals ∞, ℵ and ω:"
 	Ordinal initialize.
@@ -5364,7 +5581,7 @@ initializeAll
 	"And initialize all Morphisms, set globals for categories like Sets, Groups, etc:"
 	Morphism withAllSubclassesDo: [:each| (each class selectors includes: #initialize) ifTrue: [each initialize]].
 	"Finally initialize any other classes that need initialization:"
-	BitArray initialize! !
+	BinaryArray initialize! !
 
 !Structure methodsFor: 'accessing' stamp: 'len 4/22/2020 07:02:11'!
 ambient
@@ -11209,10 +11426,10 @@ asModule
 		addCoercionFrom: answer map: [:each| self !! (each representative at: 1)].
 	^ self propertyAt: #asModule put: answer! !
 
-!ModularIntegerRing methodsFor: 'elements' stamp: 'len 5/12/2023 14:33:41'!
+!ModularIntegerRing methodsFor: 'elements' stamp: 'len 5/13/2023 12:56:50'!
 new: anInteger
 	| representativesArrayClass |
-	modulus = 2 ifTrue: [^ BitArray new: anInteger].
+	modulus = 2 ifTrue: [^ BinaryArray new: anInteger].
 	representativesArrayClass _ modulus <= 256 ifTrue: [ByteArray] ifFalse: [modulus <= 16r10000 ifTrue: [DoubleByteArray] ifFalse: [modulus <= 16r100000000 ifTrue: [WordArray] ifFalse: [Array]]].
 	^ ModularArray representatives: (representativesArrayClass new: anInteger) scalars: self! !
 
@@ -11636,14 +11853,11 @@ squareRootOfRepresentative: anInteger
 	algorithm _ self propertyAt: #squareRootAlgorithm ifAbsentPut: [TonelliShanks new modulus: self modulus].
 	^ algorithm squareRootOf: anInteger! !
 
-!AffineRing methodsFor: 'accessing' stamp: 'len 5/4/2023 22:45:58'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 5/12/2023 22:39:20'!
 basis
 	"Answer a basis of the receiver as vector space."
 	| G leadingMonomials maxExponents answer |
 	self propertyAt: #basis ifPresent: [:anArray| ^ anArray].
-	"If the receiver is a simple algebraic field extension, answer the power basis of the receiver.
-	The coordinates of an element correspond to coefficients of the polynomial representing the element."
-	self isSimpleExtension ifTrue: [^ self propertyAt: #basis put: ((0 to: self degree - 1) collect: [:k| self x ^ k])].
 	self isTrivial ifTrue: [^ self propertyAt: #basis put: #()].
 	"For the general case use a Groebner basis."
 	G _ self relations gradedBasis.
@@ -11661,17 +11875,11 @@ basis
 characteristic
 	^ self cover characteristic! !
 
-!AffineRing methodsFor: 'accessing' stamp: 'len 7/16/2021 10:15:55'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 5/12/2023 22:41:40'!
 degree
 	"If the receiver is a field extension, answer the degree [E:F] of the relative extension E/F."
+	self flag: #deprecated.
 	^ self modulus degree! !
-
-!AffineRing methodsFor: 'accessing' stamp: 'len 7/16/2021 10:16:37'!
-degreeOver: aSubfield
-	"If the receiver is a simple extension, answer the degree [E:F] of the relative extension E/F."
-	self = aSubfield ifTrue: [^ 1].
-	self scalars = aSubfield ifTrue: [^ self degree].
-	^ self degree * (self scalars degreeOver: aSubfield)! !
 
 !AffineRing methodsFor: 'accessing' stamp: 'len 6/10/2022 11:49:29'!
 dimension
@@ -11732,35 +11940,6 @@ vectorSpaceDimension
 	self dimension = 0 ifFalse: [^ Infinity positive].
 	^ self hilbertSeries numerator coefficients sum! !
 
-!AffineRing methodsFor: 'computing-polynomials' stamp: 'len 7/16/2021 10:19:31'!
-factorizationOf: aPolynomial
-	self isGlobalField ifTrue: [^ self factorizationOverGlobalFieldOf: aPolynomial].
-	^ super factorizationOf: aPolynomial! !
-
-!AffineRing methodsFor: 'computing-polynomials-private' stamp: 'len 1/9/2022 08:31:33'!
-factorizationOverGlobalFieldOf: aPolynomial
-	"See [Coh96, Algorithm 3.6.4 (Polynomial Factorization over Number Fields)]."
-	| u v S x y g k N answer |
-	"1. Reduce to squarefree:"
-	u _ aPolynomial / (v _ aPolynomial gcd: aPolynomial derivative).
-	"2. Initialize search:"
-	S _ self scalars polynomialsIn: 2. x _ S x. y _ S y.
-	g _ S zero.
-	u coefficients withIndexDo: [:ui :i| g _ (ui representative value: y) * (x^(i-1)) + g].
-	"3. Search for squarefree norm polynomial:"
-	k _ 0.
-	[N _ ((self modulus value: y) asUnivariateIn: 2) resultant: ((g value: {x - (y*k). y}) asUnivariateIn: 2).
-	N isSquarefree] whileFalse: [k _ k + 1].
-	"4 and 5. Factor norm polynomial and find factors over the number field:"
-	answer _ Bag new.
-	N factorization withOccurrencesDo: [:f :e|
-		answer add: (u gcd: (f value: (u parent x + (k*self x)))) withOccurrences: e].
-	"Count multiplicities in the original polynomial (that was not necessarily squarefree):"
-	v order > 0 ifTrue: [answer add: v parent x withOccurrences: v order. v _ v >> v order].
-	[v isConstant] whileFalse: [v _ v / (answer add: (answer detect: [:one| one | v]))].
-	answer add: v * aPolynomial leadingCoefficient.
-	^ answer! !
-
 !AffineRing methodsFor: 'converting' stamp: 'len 11/5/2022 13:26:35'!
 asFiniteAlgebra
 	| M answer |
@@ -11809,31 +11988,10 @@ y
 z
 	^ self x: 3! !
 
-!AffineRing methodsFor: 'morphisms' stamp: 'len 7/16/2021 10:19:03'!
-automorphisms
-	"Answer the Galous group of the receiver (assuming the receiver is a Galois extension)."
-	self isSimpleExtension ifFalse: [self notYetImplemented].
-	self isFinite ifTrue: [^ Group new generators: {self frobenius}].
-	self flag: #fix. "This is actually isomorphic to the Galois group, not the actual Galois group, it should act on elements of the extension and it's not the full symmetric group."
-	^ SymmetricGroup on: (self embeddings collect: [:each| each value: self x])! !
-
 !AffineRing methodsFor: 'morphisms' stamp: 'len 6/10/2022 11:49:42'!
 embed: anElement
 	"Answer the embedding of an element of the coefficients ring into the receiver."
 	^ self project: (self cover embed: anElement)! !
-
-!AffineRing methodsFor: 'morphisms' stamp: 'len 7/16/2021 10:17:38'!
-embeddings
-	"Answer the n distinct embeddings of the receiver in the algebraic closure of the base field, where n is the degree of the receiver. In the case of number fields, the embeddings go to the complex algebraic numbers.
-	When the receiver is a Galois extension, the embeddings send each element to one of its conjugates, and their images are the same."
-	^ self propertyAt: #embeddings ifAbsentPut:
-		[self isSimpleExtension ifFalse: [^ self error: 'not a simple field extension'].
-		self embeddingsIn: self scalars algebraicClosure]! !
-
-!AffineRing methodsFor: 'morphisms' stamp: 'len 9/16/2022 07:55:45'!
-embeddingsIn: aField
-	^ (self modulus rootsIn: aField) asArray
-		collect: [:x| self to: aField map: [:alpha| alpha representative value: x]]! !
 
 !AffineRing methodsFor: 'morphisms' stamp: 'len 10/6/2022 11:37:16'!
 from: aDomain
@@ -11887,12 +12045,6 @@ fractions
 	dependentIndeterminates do: [:i| images at: i put: (E x: (k _ k + 1))].
 	E addMap: (localizationMap _ self cover to: E map: [:f| f value: images]).
 	^ self propertyAt: #fractions put: E / (self relations apply: localizationMap)! !
-
-!AffineRing methodsFor: 'operations' stamp: 'len 5/7/2023 23:42:04'!
-galoisClosure
-	"The Galois closure of a finite simple extension E(α) is the splitting field of the minimal polynomial of α over E."
-	self isSimpleExtension ifFalse: [^ self notYetImplemented].
-	^ self x minimalPolynomial splittingField! !
 
 !AffineRing methodsFor: 'operations' stamp: 'len 6/10/2022 11:49:57'!
 hilbertSeriesAt: t
@@ -11983,7 +12135,93 @@ new: p to: r to: n
 	f _ F polynomials x: 1 to: n.
 	^ self relations: f parent * f! !
 
-!ExtensionRing methodsFor: 'as yet unclassified' stamp: 'len 5/12/2023 21:51:44'!
+!ExtensionRing methodsFor: 'accessing' stamp: 'len 5/12/2023 22:40:20'!
+basis
+	"Answer a basis of the receiver as vector space."
+	"If the receiver is a simple algebraic field extension, answer the power basis of the receiver.
+	The coordinates of an element correspond to coefficients of the polynomial representing the element."
+	^ self propertyAt: #basis ifAbsentPut: [(0 to: self degree - 1) collect: [:k| self x ^ k]]! !
+
+!ExtensionRing methodsFor: 'accessing' stamp: 'len 5/12/2023 22:40:36'!
+degree
+	"If the receiver is a field extension, answer the degree [E:F] of the relative extension E/F."
+	^ self modulus degree! !
+
+!ExtensionRing methodsFor: 'accessing' stamp: 'len 5/12/2023 22:41:22'!
+degreeOver: aSubfield
+	"Answer the degree [E:F] of the relative extension E/F."
+	self = aSubfield ifTrue: [^ 1].
+	self scalars = aSubfield ifTrue: [^ self degree].
+	^ self degree * (self scalars degreeOver: aSubfield)! !
+
+!ExtensionRing methodsFor: 'accessing' stamp: 'len 5/12/2023 22:43:46'!
+galoisClosure
+	"The Galois closure of a finite simple extension E(α) is the splitting field of the minimal polynomial of α over E."
+	^ self x minimalPolynomial splittingField! !
+
+!ExtensionRing methodsFor: 'computing-polynomials' stamp: 'len 5/12/2023 22:45:51'!
+factorizationOf: aPolynomial
+	self isGlobalField ifTrue: [^ self factorizationOverGlobalFieldOf: aPolynomial].
+	^ super factorizationOf: aPolynomial! !
+
+!ExtensionRing methodsFor: 'computing-polynomials-private' stamp: 'len 5/12/2023 22:45:25'!
+factorizationOverGlobalFieldOf: aPolynomial
+	"See [Coh96, Algorithm 3.6.4 (Polynomial Factorization over Number Fields)]."
+	| u v S x y g k N answer |
+	"1. Reduce to squarefree:"
+	u _ aPolynomial / (v _ aPolynomial gcd: aPolynomial derivative).
+	"2. Initialize search:"
+	S _ self scalars polynomialsIn: 2. x _ S x. y _ S y.
+	g _ S zero.
+	u coefficients withIndexDo: [:ui :i| g _ (ui representative value: y) * (x^(i-1)) + g].
+	"3. Search for squarefree norm polynomial:"
+	k _ 0.
+	[N _ ((self modulus value: y) asUnivariateIn: 2) resultant: ((g value: {x - (y*k). y}) asUnivariateIn: 2).
+	N isSquarefree] whileFalse: [k _ k + 1].
+	"4 and 5. Factor norm polynomial and find factors over the number field:"
+	answer _ Bag new.
+	N factorization withOccurrencesDo: [:f :e|
+		answer add: (u gcd: (f value: (u parent x + (k*self x)))) withOccurrences: e].
+	"Count multiplicities in the original polynomial (that was not necessarily squarefree):"
+	v order > 0 ifTrue: [answer add: v parent x withOccurrences: v order. v _ v >> v order].
+	[v isConstant] whileFalse: [v _ v / (answer add: (answer detect: [:one| one | v]))].
+	answer add: v * aPolynomial leadingCoefficient.
+	^ answer! !
+
+!ExtensionRing methodsFor: 'converting' stamp: 'len 5/12/2023 22:37:56'!
+asModule
+	| answer |
+	self propertyAt: #asModule ifPresent: [:aModule| ^ aModule].
+	answer _ self scalars ^ self degree.
+	self
+		addCoercionTo: answer map: [:a| answer elementAt: a representative coefficients];
+		addCoercionFrom: answer map: [:v| (1 to: answer rank) sum: [:i| self x ^ (i-1) * (v at: i)]].
+	^ self propertyAt: #asModule put: answer
+
+"
+	ℚ extension: ℚ polynomials x^4 - 2 :: asVectorSpace
+"! !
+
+!ExtensionRing methodsFor: 'morphisms' stamp: 'len 5/12/2023 22:43:21'!
+automorphisms
+	"Answer the Galous group of the receiver (assuming the receiver is a Galois extension)."
+	self isFinite ifTrue: [^ Group new generators: {self frobenius}].
+	self flag: #fix. "This is actually isomorphic to the Galois group, not the actual Galois group, it should act on elements of the extension and it's not the full symmetric group."
+	^ SymmetricGroup on: (self embeddings collect: [:each| each value: self x])! !
+
+!ExtensionRing methodsFor: 'morphisms' stamp: 'len 5/12/2023 22:42:35'!
+embeddings
+	"Answer the n distinct embeddings of the receiver in the algebraic closure of the base field, where n is the degree of the receiver. In the case of number fields, the embeddings go to the complex algebraic numbers.
+	When the receiver is a Galois extension, the embeddings send each element to one of its conjugates, and their images are the same."
+	^ self propertyAt: #embeddings ifAbsentPut:
+		[self embeddingsIn: self scalars algebraicClosure]! !
+
+!ExtensionRing methodsFor: 'morphisms' stamp: 'len 5/12/2023 22:42:12'!
+embeddingsIn: aField
+	^ (self modulus rootsIn: aField) asArray
+		collect: [:x| self to: aField map: [:alpha| alpha representative value: x]]! !
+
+!ExtensionRing methodsFor: 'testing' stamp: 'len 5/12/2023 21:51:44'!
 isSimpleExtension
 	^ true! !
 
@@ -18366,11 +18604,6 @@ space
 dual
 	^ space dual grassmannian: space rank - rank! !
 
-!Grassmannian methodsFor: 'morphisms' stamp: 'len 6/28/2016 23:34'!
-pluckerEmbedding
-	"Answer the Plucker embedding, a natural embedding of the Grassmannian into a projective space."
-	^ self notYetImplemented "need to implement the wedge product"! !
-
 !Grassmannian methodsFor: 'printing' stamp: 'len 11/10/2016 08:45'!
 printOn: aStream
 	aStream nextPutAll: 'Gr('; print: rank; nextPut: $,; print: space; nextPut: $)! !
@@ -19524,10 +19757,10 @@ symmetricMatrix
 	T _ self upperTriangularMatrix.
 	^ T + T transpose / (self scalars !! 2)! !
 
-!Conic methodsFor: 'private' stamp: 'len 11/23/2022 21:26:18'!
+!Conic methodsFor: 'private' stamp: 'len 5/12/2023 22:57:23'!
 upperTriangularMatrix
 	| stream |
-	stream _ self coefficients readStream.
+	stream _ self coefficients asArray readStream.
 	^ (self scalars^3) endomorphisms fill: [:i :j| i > j ifTrue: [self scalars zero] ifFalse: [stream next]]! !
 
 !Conic class methodsFor: 'instance creation' stamp: 'len 9/4/2018 13:55:14'!
@@ -23735,6 +23968,20 @@ postCopy
 	properties _ nil.
 	coefficients _ coefficients copy! !
 
+!DenseMatrix methodsFor: 'copying' stamp: 'len 5/13/2023 00:31:05'!
+windowFrom: start to: stop
+	"Answer the submatrix of the receiver from start to stop."
+	| h w |
+	(stop x > self height or: [stop y > self width]) ifTrue: [^ self error: 'index out of bounds'].
+	h _ stop x - start x + 1 max: 0.
+	w _ stop y - start y + 1 max: 0.
+	(w > 0 and: [h > 0]) ifFalse: [^ self error: 'empty window'].
+	^ WindowMatrix
+		from: (domain copyFrom: start y to: stop y)
+		to: (codomain copyFrom: start x to: stop x)
+		coefficients: coefficients
+		rowOffsets: ((start x - 1 to: stop x - 1) collect: [:i| i * self width + start y - 1])! !
+
 !DenseMatrix methodsFor: 'enumerating' stamp: 'len 4/21/2022 12:32:12'!
 allSatisfy: aBlock
 	^ coefficients allSatisfy: aBlock! !
@@ -23785,6 +24032,20 @@ withIndicesDo: aBlock
 	anObject isTuple ifTrue: [^ self value: anObject].
 	(anObject isKindOf: ModuleMap) ifTrue: [^ self · anObject].
 	^ DomainError signal! !
+
+!DenseMatrix methodsFor: 'operations' stamp: 'len 5/13/2023 20:06:33'!
+** aMatrix
+	self class = aMatrix class ifFalse: [^ super ∘ aMatrix].
+	self checkCompatibleComposition: aMatrix.
+	(coefficients isEmpty or: [aMatrix coefficients isEmpty])
+		ifTrue: [^ self class from: aMatrix domain to: codomain coefficients: (self scalars zeros: aMatrix width * self height)].
+	^ self class
+		from: aMatrix domain
+		to: codomain
+		coefficients:
+			((coefficients species new: aMatrix width * self height)
+				fillWithMatrix: coefficients width: self width
+				timesMatrixFourRussians: aMatrix coefficients width: aMatrix width)! !
 
 !DenseMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:23:50'!
 + aMatrix
@@ -24003,13 +24264,14 @@ atRow: i column: j ifAbsent: exceptionBlock
 	(rowPointers at: i) to: (rowPointers at: i+1) - 1 do: [:k| (columnIndices at: k) = j ifTrue: [^ coefficients at: k]].
 	^ exceptionBlock value! !
 
-!SparseMatrix methodsFor: 'operations' stamp: 'len 12/15/2022 12:59:38'!
+!SparseMatrix methodsFor: 'operations' stamp: 'len 5/12/2023 23:54:43'!
 value: aTuple
 "	(self domain includes: aTuple) ifFalse: [^ DomainError signal]."
-	^ (coefficients species new: self height)
-		replaceFrom: 1 to: self height
-		withSparseMatrix: coefficients columnIndices: columnIndices rowPointers: rowPointers
-		timesTuple: aTuple! !
+	^ codomain coefficients:
+		((coefficients species new: self height)
+			replaceFrom: 1 to: self height
+			withSparseMatrix: coefficients columnIndices: columnIndices rowPointers: rowPointers
+			timesTuple: aTuple coefficients)! !
 
 !SparseMatrix methodsFor: 'private' stamp: 'len 5/3/2022 05:36:47'!
 coefficients: anArray columnIndices: anArray2 rowPointers: anArray3
@@ -24037,6 +24299,25 @@ example
 !SparseMatrix class methodsFor: 'instance creation' stamp: 'len 5/3/2022 05:35:06'!
 from: aDomain to: aCodomain coefficients: anArray columnIndices: anArray2 rowPointers: anArray3
 	^ self new domain: aDomain; codomain: aCodomain; coefficients: anArray columnIndices: anArray2 rowPointers: anArray3! !
+
+!WindowMatrix methodsFor: 'accessing' stamp: 'len 5/13/2023 00:31:49'!
+atRow: i column: j ifAbsent: exceptionBlock
+	(j between: 1 and: self width) ifFalse: [^ exceptionBlock value].
+	^ coefficients at: j + (rowOffsets at: i)! !
+
+!WindowMatrix methodsFor: 'private' stamp: 'len 5/13/2023 00:32:17'!
+atRow: i column: j put: anElement
+	(j between: 1 and: self width) ifFalse: [^ self  error: 'index out of bounds'].
+	^ coefficients at: j + (rowOffsets at: i) put: anElement! !
+
+!WindowMatrix methodsFor: 'private' stamp: 'len 5/13/2023 00:29:47'!
+coefficients: anArray rowOffsets: anArray2
+	coefficients _ anArray.
+	rowOffsets _ anArray2! !
+
+!WindowMatrix class methodsFor: 'instance creation' stamp: 'len 5/13/2023 00:30:09'!
+from: aDomain to: aCodomain coefficients: anArray rowOffsets: anArray2
+	^ self new domain: aDomain; codomain: aCodomain; coefficients: anArray rowOffsets: anArray2! !
 
 !BilinearMap methodsFor: 'as yet unclassified' stamp: 'len 11/5/2022 13:32:01'!
 ⊕ aBilinearMap
@@ -36476,34 +36757,26 @@ bitConvolution: anInteger
 		a _ a bitShift: -1].
 	^ c! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 7/2/2016 05:45'!
+!Integer methodsFor: '*algebra' stamp: 'len 5/13/2023 07:57:16'!
 bitCount
 	"Answer the number of bits that are set, i.e. the number of 1s in the binary representation."
 	| n |
-	self = 0 ifTrue: [^ 0].
-	self = 1 ifTrue: [^ 1].
-	n _ self digitLength * 8. "this will always be >= 32, because SmallInteger implements bitCount"
-	n _ n // 2.
-	^ (self bitShift: n negated) bitCount + (self bitAnd: (1 bitShift: n) - 1) bitCount! !
+	n _ self digitLength * 4. "this will always be >= 32, because SmallInteger implements bitCount"
+	^ (self bitShift: n negated) bitCount + (self bitAnd: (1 bitShift: n) - 1) bitCount
 
-!Integer methodsFor: '*algebra' stamp: 'len 5/12/2023 14:00:12'!
+"alternative:
+	answer _ 0.
+	1 to: self digitLength do: [:i| answer _ answer + (self digitAt: i) bitCount].
+	^ answer
+"! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 5/13/2023 08:02:17'!
 bitParity
 	"Answer 1 if there are an odd number of bits set, 0 otherwise."
-	| n |
-	self = 0 ifTrue: [^ 0].
-	self = 1 ifTrue: [^ 1].
-	"Split the receiver in the lower and upper parts and xor them together.
-	Eventually this calls SmallInteger>>bitParity."
-	n _ self digitLength * 4.
-	^ ((self bitShift: n negated) bitXor: (self bitAnd: (1 bitShift: n) - 1)) bitParity
-	
-"alternative:
-	i _ self digitLength * 8.
-	n _ self.
-	[i _ i bitShift: -1.
-	i > 30] whileTrue:
-		[n _ n bitXor: (n bitShift: i negated)].
-	^ (n bitAnd: (1 bitShift: i) - 1) bitParity"! !
+	| sum |
+	sum _ 0.
+	1 to: self digitLength do: [:i| sum _ sum bitXor: (self digitAt: i)].
+	^ sum bitParity8! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 7/1/2016 23:03'!
 bitSize
@@ -36997,40 +37270,66 @@ xxgcd: anInteger
 ∨ anInteger
 	^ self bitOr: anInteger! !
 
-!SmallInteger methodsFor: '*algebra' stamp: 'len 11/12/2016 08:38'!
+!SmallInteger methodsFor: '*algebra' stamp: 'len 5/13/2023 07:47:19'!
 bitCount
 	"Answer the number of bits that are set, i.e. the number of 1s in the binary representation."
-	| v count |
-	v _ self.
-	count _ 0.
-	[v = 0] whileFalse: [v _ v bitAnd: v - 1. count _ count + 1].
-	^ count
-	
-	"HACKMEM:
-	| count |
-	self flag: #fix.
-	count _ self - ((self >> 1) bitAnd: 8r33333333333) - ((self >> 1) bitAnd: 8r11111111111).
-	^ (count + (count >> 3) bitAnd: 8r30707070707) \\ 63
-"
-! !
+	^ (self bitShift: -32) bitCount32 + (self bitAnd: 16rFFFFFFFF) bitCount32! !
 
-!SmallInteger methodsFor: '*algebra' stamp: 'len 5/12/2023 13:53:28'!
+!SmallInteger methodsFor: '*algebra' stamp: 'len 5/13/2023 19:06:24'!
+bitCount32
+	"Answer the number of bits that are set, i.e. the number of 1s in the binary representation.
+	Assume the receiver ihas at most 32 bits.
+	Adapted from Hacker's Delight [War02]."
+	| x |
+	x _ self.
+	x _ x - ((x bitShift: -1) bitAnd: 16r55555555).
+	x _ (x bitAnd: 16r33333333) + ((x bitShift: -2) bitAnd: 16r33333333).
+	x _ x + (x bitShift: -4) bitAnd: 16r0F0F0F0F.
+	x _ x + (x bitShift: -8).
+	x _ x + (x bitShift: -16).
+	^ x bitAnd: 16r3F! !
+
+!SmallInteger methodsFor: '*algebra' stamp: 'len 5/13/2023 19:06:34'!
 bitParity
-	"Answer 1 if there are an odd number of bits set, 0 otherwise."
-	| v parity |
-	v _ self.
-	parity _ 0.
-	[v = 0] whileFalse: [parity _ parity bitXor: (v bitAnd: 1). v _ v bitShift: -1].
-	^ parity
+	"Answer 1 if there are an odd number of bits set, 0 otherwise.
+	Adapted from Hacker's Delight [War02]."
+	^ (self bitXor: (self bitShift: -32)) bitParity32! !
 
-"	n _ self.
-	n _ n bitXor: (n bitShift: -32).
+!SmallInteger methodsFor: '*algebra' stamp: 'len 5/13/2023 19:06:43'!
+bitParity16
+	"Answer 1 if there are an odd number of bits set, 0 otherwise.
+	Assume the receiver has at most 16 bits.
+	Adapted from Hacker's Delight [War02]."
+	| n |
+	n _ self.
+	n _ n bitXor: (n bitShift: -8).
+	n _ n bitXor: (n bitShift: -4).
+	n _ n bitAnd: 16rF.
+	^ (16r6996 bitShift: n negated) bitAnd: 1! !
+
+!SmallInteger methodsFor: '*algebra' stamp: 'len 5/13/2023 19:06:47'!
+bitParity32
+	"Answer 1 if there are an odd number of bits set, 0 otherwise.
+	Assume the receiver has at most 32 bits.
+	Adapted from Hacker's Delight [War02]."
+	| n |
+	n _ self.
 	n _ n bitXor: (n bitShift: -16).
 	n _ n bitXor: (n bitShift: -8).
 	n _ n bitXor: (n bitShift: -4).
 	n _ n bitAnd: 16rF.
-	^ (16r6996 bitShift: n negated) bitAnd: 1
-"! !
+	^ (16r6996 bitShift: n negated) bitAnd: 1! !
+
+!SmallInteger methodsFor: '*algebra' stamp: 'len 5/13/2023 19:06:52'!
+bitParity8
+	"Answer 1 if there are an odd number of bits set, 0 otherwise.
+	Assume the receiver has at most 8 bits.
+	Adapted from Hacker's Delight [War02]."
+	| n |
+	n _ self.
+	n _ n bitXor: (n bitShift: -4).
+	n _ n bitAnd: 16rF.
+	^ (16r6996 bitShift: n negated) bitAnd: 1! !
 
 !SmallInteger methodsFor: '*algebra' stamp: 'len 7/12/2019 05:24:51'!
 raisedToInteger: anInteger
@@ -37378,13 +37677,13 @@ determinant2x2
 determinant3x3
 	^ (self at: 1) * (self at: 5) * (self at: 9) + ((self at: 2) * (self at: 6) * (self at: 7)) + ((self at: 3) * (self at: 4) * (self at: 8)) - ((self at: 7) * (self at: 5) * (self at: 3)) - ((self  at: 8) * (self at: 6) * (self at: 1)) - ((self at: 9) * (self at: 4) * (self at: 2))! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/12/2023 20:18:12'!
-fillWithMatrix: anArray width: width1 timesMatrix: anotherArray width: width2
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/13/2023 09:46:52'!
+fillWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2
 	| j k |
 	j _ 1.
 	k _ 1.
 	1 to: self size do: [:i|
-		self at: i put: (anArray from: j to: j+width1-1 by: 1 dot: anotherArray startingAt: k by: width2).
+		self at: i put: (anArray1 from: j to: j+width1-1 by: 1 dot: anArray2 startingAt: k by: width2).
 		k _ k + 1.
 		k > width2 ifTrue:
 			[k _ 1.
@@ -38421,7 +38720,7 @@ rounded
 !Complex methodsFor: '*algebra' stamp: 'len 12/26/2015 19:56'!
 zero
 	^ self class real: real zero imaginary: imaginary zero! !
-BitArray initialize!
+BinaryArray initialize!
 ModularIntegerRing initialize!
 GaloisRing initialize!
 GaloisField initialize!

@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5597] on 12 May 2023 at 10:29:59 pm'!
+'From Cuis 6.0 [latest update: #5597] on 13 May 2023 at 8:33:46 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 37!
+!provides: 'Tests-Algebra' 1 38!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -470,14 +470,14 @@ AbstractArrayTest subclass: #ArrayTest
 ArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BitArrayTest category: #'Tests-Algebra-Arrays'!
-AbstractArrayTest subclass: #BitArrayTest
+!classDefinition: #BinaryArrayTest category: #'Tests-Algebra-Arrays'!
+AbstractArrayTest subclass: #BinaryArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'BitArrayTest class' category: #'Tests-Algebra-Arrays'!
-BitArrayTest class
+!classDefinition: 'BinaryArrayTest class' category: #'Tests-Algebra-Arrays'!
+BinaryArrayTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #GaloisArrayTest category: #'Tests-Algebra-Arrays'!
@@ -3900,27 +3900,27 @@ initialize
 	super initialize.
 	scalars _ ℤ! !
 
-!BitArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:11:27'!
+!BinaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:11:27'!
 initialize
 	super initialize.
 	scalars _ ℤ/2! !
 
-!BitArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/7/2023 17:47:48'!
-testBitArraySumBug
-	self assert: (BitArray newFrom: 2r1011101) sum representative = 1.
-	self assert: (BitArray newFrom: 2r10000100100010) sum representative = 0! !
-
-!BitArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/9/2023 22:34:23'!
+!BinaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/13/2023 12:56:50'!
 testIsAllOnes
 	| a b |
 	0 to: 64 do: [:n|
-		a _ BitArray new: n.
+		a _ BinaryArray new: n.
 		1 to: n do: [:i| a bitAt: i put: 1].
 		self assert: a isAllOnes.
 		1 to: n do: [:i|
 			b _ a copy.
 			b bitAt: i put: 0.
 			self assert: b isAllOnes not]]! !
+
+!BinaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/13/2023 12:57:13'!
+testSumBug
+	self assert: (BinaryArray newFrom: 2r1011101) sum representative = 1.
+	self assert: (BinaryArray newFrom: 2r10000100100010) sum representative = 0! !
 
 !GaloisArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 16:12:37'!
 initialize
