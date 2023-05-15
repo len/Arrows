@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5597] on 13 May 2023 at 8:33:46 pm'!
+'From Cuis 6.0 [latest update: #5597] on 15 May 2023 at 4:22:29 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 38!
+!provides: 'Tests-Algebra' 1 39!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -538,6 +538,16 @@ AbstractArrayTest subclass: #ProductArrayTest
 	category: 'Tests-Algebra-Arrays'!
 !classDefinition: 'ProductArrayTest class' category: #'Tests-Algebra-Arrays'!
 ProductArrayTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #TernaryArrayTest category: #'Tests-Algebra-Arrays'!
+AbstractArrayTest subclass: #TernaryArrayTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Arrays'!
+!classDefinition: 'TernaryArrayTest class' category: #'Tests-Algebra-Arrays'!
+TernaryArrayTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #ZechArrayTest category: #'Tests-Algebra-Arrays'!
@@ -2655,6 +2665,14 @@ testDivisionByUnits
 		self assert: x * u / u = x.
 		self assert: x / u = (x * u inverse)]! !
 
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/14/2023 13:47:41'!
+testExactDivision
+	20 timesRepeat:
+		[| a b |
+		a _ R atRandom: random bits: 30.
+		b _ a * (R atRandom: random bits: 30).
+		self assert: (a isZero or: [a * (b ÷ a) = b])]! !
+
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:23:37'!
 testLeftDivision
 	20 timesRepeat:
@@ -3239,15 +3257,17 @@ testEuclideanDivisionOf: a by: b
 	self assert: a = (q * b + r).
 	self assert: (r isZero or: [r gauge < b gauge])! !
 
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2022 11:04:18'!
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/14/2023 15:18:16'!
 testExactDivisionCompatibleWithEuclideanDivision
 	R isTrivial ifTrue: [^ self].
 	100 timesRepeat:
-		[| x y xy |
+		[| x y xy q |
 		x _ R atRandom: random bits: 30.
 		[y _ R atRandom: random bits: 30. y isZero] whileTrue.
 		xy _ x * y.
-		self assert: xy / y = (xy // y).
+		q _ xy // y.
+		self assert: xy / y = q.
+		self assert: xy ÷ y = q.
 		self assert: (xy \\ y) isZero]! !
 
 !AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/4/2022 18:12:54'!
@@ -3965,6 +3985,18 @@ testRepresentativesUseWordArray
 initialize
 	super initialize.
 	scalars _ ℤ × (ℤ/(64 atRandom + 1))! !
+
+!TernaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 13:01:13'!
+initialize
+	super initialize.
+	scalars _ ℤ/3! !
+
+!TernaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 13:00:54'!
+newArray: n fill: aBlock
+	| answer |
+	answer _ TernaryArray new: n.
+	1 to: answer size do: [:i| answer at: i put: scalars !! (aBlock value: i)].
+	^ answer! !
 
 !ZechArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 17:00:30'!
 initialize
