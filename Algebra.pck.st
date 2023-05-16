@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5597] on 16 May 2023 at 5:50:18 pm'!
+'From Cuis 6.0 [latest update: #5597] on 16 May 2023 at 10:21:06 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -63,7 +63,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 65!
+!provides: 'Algebra' 1 66!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'Transfinites' 1 2 nil!
@@ -646,6 +646,26 @@ PrimePowerRing subclass: #PrimeField
 	category: 'Algebra-Rings-Finite'!
 !classDefinition: 'PrimeField class' category: #'Algebra-Rings-Finite'!
 PrimeField class
+	instanceVariableNames: ''!
+
+!classDefinition: #BinaryField category: #'Algebra-Rings-Finite'!
+PrimeField subclass: #BinaryField
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Rings-Finite'!
+!classDefinition: 'BinaryField class' category: #'Algebra-Rings-Finite'!
+BinaryField class
+	instanceVariableNames: ''!
+
+!classDefinition: #TernaryField category: #'Algebra-Rings-Finite'!
+PrimeField subclass: #TernaryField
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Rings-Finite'!
+!classDefinition: 'TernaryField class' category: #'Algebra-Rings-Finite'!
+TernaryField class
 	instanceVariableNames: ''!
 
 !classDefinition: #AffineRing category: #'Algebra-Algebras-Affine'!
@@ -2640,12 +2660,12 @@ Categorically, this construction is a functor from the cateogory of rings to the
 !ModularUnitsGroup commentStamp: '<historical>' prior: 0!
 The group of units of ℤ/nℤ, i.e. the multiplicative group of units modulo n. This group is cyclic for n = 2, 4, p^k or 2p^k where p is an odd prime number. When the group is cyclic, a generator is called a 'primitive root modulo n'.!
 
-!Ring commentStamp: '<historical>' prior: 0!
+!Ring commentStamp: 'len 5/16/2023 22:04:47' prior: 0!
 Rings with identity (unital rings). They are associative and contain a multiplicative identity, but they are not necessarily commutative. The initial object is the ring of rational integers ℤ and the terminal object is the trivial ring with 1 = 0.
 
 Rings can be thought as continuous functions on some topological space. In the case of a commutative ring R this space is the prime spectrum Spec(R), the set of prime ideals with the Zariski topology. See AffineScheme.
 
-Rings can be constructed from existing rings, for example by taking quotients by two-sided ideals (see QuotientRing), by direct products (see ProductRing), and in the case of commutative rings by making transcendental extensions (see PolynomialRing), localization (see FractionRing and LocalRing), completion (for example PowerSeriesRing and AdicRing), etc.!
+Rings can be constructed from existing rings, for example by taking quotients by two-sided ideals (see QuotientRing), by direct products (see ProductRing), and in the case of commutative rings by making transcendental extensions (see PolynomialRing), localization (see FractionRing and LocalRing), completion (for example PowerSeriesRing and AdicIntegerRing), etc.!
 
 !FractionRing commentStamp: '<historical>' prior: 0!
 Total ring of fractions Frac(R) of a commutative ring R, also called the "total quotient ring" of R. The elements are formal fractions a/b with a and b in R and b regular (not a zero divisor), under the equivalence relation a/b ~ c/d if ad = cb. When the ring R is an integral domain, Frac(R) is a field and it is called the "field of fractions" of R. See Ring>>fractions.
@@ -2656,7 +2676,7 @@ The ring of fractions is a particular case of the more general construction of t
 The singletion global instance ℚ is the field of rational numbers.!
 
 !AdicNumberField commentStamp: '<historical>' prior: 0!
-Field of p-adic numbers ℚp. This is the fraction field of the ring of p-adic integers ℤp. Elements are AdicNumbers. See also AdicIntegerRing and AdicInteger.!
+Field of p-adic numbers ℚₚ. This is the fraction field of the ring of p-adic integers ℤₚ. Elements are AdicNumbers. See also AdicIntegerRing and AdicInteger.!
 
 !LaurentSeriesField commentStamp: 'len 6/7/2020 17:52:33' prior: 0!
 Ring R((x)) of formal Laurent series over a commutative ring R in an indetermiate x. See LaurentSeries.!
@@ -2700,12 +2720,19 @@ These are Euclidean rings, and the simplest examples of Galois rings, GR(p^n,1).
 
 These are also the simplest examples of 'chain rings', rings whose ideals form a chain under inclusion. A finite-chain ring is a principal ideal ring, and its maximal ideal is the nilradical (the set of nilpotent elements).
 
-There are canonical projections from ℤ/(p^n)ℤ to ℤ/(p^m)ℤ for any 1 <= m <= n. These projections form a projective system (or inverse system), and the projective limit is the ring of p-adic integers ℤp. There is a canonical projection from ℤp to ℤ/(p^n)ℤ, and in this sense ℤ/(p^n)ℤ can be thought of as a truncation or an approximation of precision n of ℤp (see AdicRing).!
+There are canonical projections from ℤ/(p^n)ℤ to ℤ/(p^m)ℤ for any 1 <= m <= n. These projections form a projective system (or inverse system), and the projective limit is the ring of p-adic integers ℤₚ. There is a canonical projection from ℤₚ to ℤ/(p^n)ℤ, and in this sense ℤ/(p^n)ℤ can be thought of as a truncation or an approximation of precision n of ℤₚ (see AdicIntegerRing).!
 
 !PrimeField commentStamp: '<historical>' prior: 0!
-Residue class fields ℤ/pℤ of integers modulo a prime p.
+Residue class field ℤ/pℤ of integers modulo a prime p, or 𝔽ₚ.
 
 These are the simplest examples of Galois fields, GF(p^1). Other Galois fields are constructed by finite algebraic extensions (see GaloisField).!
+
+!BinaryField commentStamp: '<historical>' prior: 0!
+Residue class field ℤ/2ℤ of integers modulo 2, or 𝔽₂.
+!
+
+!TernaryField commentStamp: '<historical>' prior: 0!
+Residue class field ℤ/3ℤ of integers modulo 3, or 𝔽₃.!
 
 !AffineRing commentStamp: '<historical>' prior: 0!
 Finitely generated commutative (associative) algebras, implemented as quotients of polynomial rings. They are the coordinate rings of affine varieties (closed subschemes of affine space, see AffineVariety). They are also sometimes called the 'rings of regular functions' (on affine varieties).
@@ -2727,7 +2754,7 @@ The subrings of GR(p^n,m) correspond to the positive divisors of m.
 
 More generally, any finite local ring can be constructed as a finitely generated GR(p^n,m)-algebra, i.e. a quotient of a polynomial ring (in a number of indeterminates) with coefficients in a Galois ring modulo a primary ideal of the polynomial ring (see AffineRing).
 
-Just as prime power rings (see PrimePowerRing) are approximations of the p-adic integer ring ℤp, general Galois rings are approximations of the ring of integers of unramified extensions of the p-adic field Qp generated by a (p^m)-th root of unity ζ: GR(p^n,m) = ℤp[ζ]/<p^n>.
+Just as prime power rings (see PrimePowerRing) are approximations of the p-adic integer ring ℤₚ, general Galois rings are approximations of the ring of integers of unramified extensions of the p-adic field ℚₚ generated by a (p^m)-th root of unity ζ: GR(p^n,m) = ℤp[ζ]/<p^n>.
 
 For reference see [GM73] and [BF15].!
 
@@ -2764,17 +2791,17 @@ The singletion global instance ℝ is the field of real numbers. This is an appr
 Formal/adic completion of a commutative ring R at a maximal ideal m. This is the inverse limit of the quotient rings R / m^n.!
 
 !AdicIntegerRing commentStamp: '<historical>' prior: 0!
-Ring of p-adic integers ℤp. Elements are AdicIntegers. See also AdicNumberField, AdicNumber and PrimePowerRing.
+Ring of p-adic integers ℤₚ. Elements are AdicIntegers. See also AdicNumberField, AdicNumber and PrimePowerRing.
 
-For each prime number p, the ring of p-adic integers ℤp is the formal completion of the ring ℤ at the prime ideal <p>. Geometrically this means that ℤp is the ring of functions on a formal neighbourhood of p inside Spec(ℤ). Algebaically it means that the elements in ℤp look like formal power series where the formal variable is the prime number p.!
+For each prime number p, the ring of p-adic integers ℤₚ is the formal completion of the ring ℤ at the prime ideal <p>. Geometrically this means that ℤₚ is the ring of functions on a formal neighbourhood of p inside Spec(ℤ). Algebaically it means that the elements in ℤₚ look like formal power series where the formal variable is the prime number p.!
 
 !PowerSeriesRing commentStamp: '<historical>' prior: 0!
-Ring R⟦x1,...,xn⟧ of formal power series over a commutative ring R. See PowerSeries.
+Ring R⟦x₁,...,xₙ⟧ of formal power series over a commutative ring R. See PowerSeries.
 
-This is the adic completion of the polynomial ring R[x1,...,xn] at the maximal ideal <x1,...,xn>.!
+This is the adic completion of the polynomial ring R[x₁,..,xₙ] at the maximal ideal <x₁,..,xₙ>.!
 
 !PolynomialRing commentStamp: '<historical>' prior: 0!
-Polynomial ring R[x1,...,xn] in one or many indeterminates over a commutative ring R. These are the finitely generated free commutative (associative) R-algebras.
+Polynomial ring R[x₁,..,xₙ] in one or many indeterminates over a commutative ring R. These are the finitely generated free commutative (associative) R-algebras.
 
 The number of indeterimnates is called the rank of the polynomial ring. The indeterminates are referred by index (positive integer numbers).
 
@@ -2842,14 +2869,14 @@ Finitely generated right ideals of a ring R, i.e. R-submodules of R.!
 !PolynomialIdeal commentStamp: '<historical>' prior: 0!
 Ideal in a polynomial ring. See PolynomialRing.!
 
-!MonomialIdeal commentStamp: 'len 6/9/2019 15:47:41' prior: 0!
+!MonomialIdeal commentStamp: '<historical>' prior: 0!
 Ideal generated by monomials in a polynomial ring over a field.
 
 With monomial ideals computations are much easier than with general polynomial ideals, and in many cases problems in general polynomial ideals can be reduced to problems in simpler monomial ideals (for example, by using Groebner bases).
 
 Monomial ideals have a rich theory with connections to convex geometry and combinatorics. There's a one-to-one correspondences between:
 - Simplicial complexes on {1,2,...,n};
-- Squarefree monomial ideals in K[x1,...,xn];
+- Squarefree monomial ideals in K[x₁,...,xₙ];
 - Unions of coordinate subspaces of K^n.
 
 See also SimplicialComplex.!
@@ -2914,9 +2941,9 @@ Affine algebraic hypersurfaces, i.e. schemes of codimension 1 over an affine spa
 Affine plane algebraic curves, i.e. schemes of dimension 1 over an affine plane.!
 
 !AffineSpace commentStamp: '<historical>' prior: 0!
-Affine spaces 𝔸^nR as schemes, i.e. Spec R[x1,...,xn] for some commutative ring R. They are seen as schemes over Spec R.
+Affine spaces 𝔸^nR as schemes, i.e. Spec R[x₁,...,xₙ] for some commutative ring R. They are seen as schemes over Spec R.
 
-Note that the dimension of an affine space as scheme is the Krull dimension of its coordinate ring, and this can be bigger than the number of indeterminates (see >>dimension and >>rank). For affine spaces over fields, the dimension and the rank are equal (because fields have Krull dimension 0).!
+Note that the dimension of an affine space as scheme is the Krull dimension of its coordinate ring, and this can be bigger than the number of indeterminates (see >>#dimension and >>#rank). For affine spaces over fields, the dimension and the rank are equal (because fields have Krull dimension 0).!
 
 !ProjectiveScheme commentStamp: '<historical>' prior: 0!
 The projective or homogeneous prime spectrum Proj(R) of a graded commutative ring R, equipped with a sheaf of local rings (making it a locally ringed space). As a topological set, its points are the relevant homogeneous prime ideals of the homogeneous coordinate ring R.
@@ -2950,7 +2977,7 @@ Projective plane curves of genus 0 and degree 1. They are defined by linear poly
 Rational curves, together with Conics, are the only curves of genus 0.!
 
 !ProjectiveSpace commentStamp: '<historical>' prior: 0!
-Projective spaces ℙ^nR as schemes, i.e. Proj R[x1,...,xn] for some commutative ring R. They are seen as schemes over Spec R.
+Projective spaces ℙ^nR as schemes, i.e. Proj R[x₁,...,xₙ] for some commutative ring R. They are seen as schemes over Spec R.
 !
 
 !ProjectiveLine commentStamp: '<historical>' prior: 0!
@@ -3263,7 +3290,7 @@ Formal power series with coefficients over a commutative ring. See PowerSeriesRi
 Elements of the field of fractions of a formal/adic completion. See AdicField.!
 
 !AdicNumber commentStamp: '<historical>' prior: 0!
-Elements of the p-adic field ℚp, the field of fractions of ℤp. See AdicNumberField.!
+Elements of the p-adic field ℚₚ, the field of fractions of ℤₚ. See AdicNumberField.!
 
 !LaurentSeries commentStamp: '<historical>' prior: 0!
 Formal Laurent series. See LaurentSeriesField.!
@@ -4038,6 +4065,12 @@ bits: length at: anInteger
 species
 	^ self scalars! !
 
+!BinaryArray methodsFor: 'private' stamp: 'len 5/16/2023 21:31:21'!
+validate
+	super validate.
+	size - 1 // 32 + 1 = words size ifFalse: [self error: 'too many words'].
+	(size \\ 32 = 0 or: [words last highBit <= (size \\ 32)]) ifFalse: [self error: 'tail is not zero']! !
+
 !BinaryArray methodsFor: 'private' stamp: 'len 5/14/2023 22:23:49'!
 wordAt: anInteger
 	| i r bits |
@@ -4053,12 +4086,11 @@ wordAt: anInteger
 words
 	^ words! !
 
-!BinaryArray methodsFor: 'private' stamp: 'len 5/7/2023 17:45:06'!
+!BinaryArray methodsFor: 'private' stamp: 'len 5/16/2023 21:57:57'!
 words: aWordArray size: anInteger
 	| n |
 	n _ aWordArray size.
 	anInteger - 1 // 32 + 1 = n ifFalse: [self error: 'too many words'].
-"	words size = 0 or: [words last highBit <= (size \\ 32 + 1)]"
 	words _ aWordArray.
 	size _ anInteger! !
 
@@ -5150,6 +5182,15 @@ isZero
 isZeroAt: anInteger
 	^ (words1 bitAt: anInteger) = 0! !
 
+!TernaryArray methodsFor: 'private' stamp: 'len 5/16/2023 21:30:06'!
+validate
+	super validate.
+	words1 size = words2 size ifFalse: [self error: 'slices sizes don''t match'].
+	size - 1 // 32 + 1 = words1 size ifFalse: [self error: 'too many words'].
+	size \\ 32 = 0 ifTrue: [^ self].
+	words1 last highBit <= (size \\ 32) ifFalse: [self error: 'tail is not zero'].
+	words2 last highBit <= (size \\ 32) ifFalse: [self error: 'tail is not zero']! !
+
 !TernaryArray methodsFor: 'private' stamp: 'len 5/15/2023 18:00:48'!
 weight
 	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
@@ -5159,12 +5200,12 @@ weight
 words1
 	^ words1! !
 
-!TernaryArray methodsFor: 'private' stamp: 'len 5/15/2023 12:53:34'!
+!TernaryArray methodsFor: 'private' stamp: 'len 5/16/2023 21:58:05'!
 words1: aWordArray1 words2: aWordArray2 size: anInteger
 	| n |
 	n _ aWordArray1 size.
 	self assert: aWordArray2 size = aWordArray1 size.
-	anInteger - 1 // 16 + 1 = n ifFalse: [self error: 'too many words'].
+	anInteger - 1 // 32 + 1 = n ifFalse: [self error: 'too many words'].
 	words1 _ aWordArray1.
 	words2 _ aWordArray2.
 	size _ anInteger! !
@@ -5183,10 +5224,10 @@ initialize
 	Zero _ Z3 zero.
 	MinusOne _ One negated! !
 
-!TernaryArray class methodsFor: 'instance creation' stamp: 'len 5/15/2023 12:52:35'!
+!TernaryArray class methodsFor: 'instance creation' stamp: 'len 5/16/2023 21:18:43'!
 new: anInteger
 	| n |
-	n _ anInteger - 1 // 16 + 1.
+	n _ anInteger - 1 // 32 + 1.
 	^ self new: anInteger words1: (WordArray new: n) words2: (WordArray new: n)! !
 
 !TernaryArray class methodsFor: 'instance creation' stamp: 'len 5/15/2023 12:53:18'!
@@ -6294,6 +6335,17 @@ atRandomBits: bitSize
 !Structure methodsFor: 'random' stamp: 'len 5/10/2023 10:47:08'!
 atRandomSatisfying: aBlock
 	^ self atRandom: self newRandom satisfying: aBlock! !
+
+!Structure methodsFor: 'random' stamp: 'len 5/16/2023 20:29:55'!
+new: anInteger atRandom: aRandom
+	^ self new: anInteger fill: [:i| self atRandom: aRandom]! !
+
+!Structure methodsFor: 'random' stamp: 'len 5/16/2023 20:36:19'!
+new: anInteger atRandom: aRandom bits: bitSize
+	| k |
+	anInteger = 0 ifTrue: [^ self new: 0].
+	k _ bitSize / anInteger.
+	^ self new: anInteger fill: [:i| self atRandom: aRandom bits: k]! !
 
 !Structure methodsFor: 'random' stamp: 'len 9/18/2022 06:10:20'!
 to: aCodomain atRandom: aRandom
@@ -9846,10 +9898,10 @@ isAffineAlgebra
 isAlgebraicallyClosed
 	^ false "undefined"! !
 
-!Ring methodsFor: 'testing' stamp: 'len 4/21/2021 12:42:25'!
+!Ring methodsFor: 'testing' stamp: 'len 5/16/2023 22:05:48'!
 isApproximate
 	"Answer true if the receiver is not exact, i.e. the elements of the receiver are represented as approximations with limited precision.
-	Examples of approximate rings include completions such as the real numbers (see RealField), power series (see PowerSeriesRing and LaurentSeriesRing) and p-adic numbers (see AdicRing and AdicField)."
+	Examples of approximate rings include completions such as the real numbers (see RealField), power series (see PowerSeriesRing and LaurentSeriesField) and p-adic numbers (see AdicIntegerRing and AdicNumberField)."
 	^ false! !
 
 !Ring methodsFor: 'testing' stamp: 'len 1/2/2022 10:14:15'!
@@ -11696,11 +11748,9 @@ asModule
 		addCoercionFrom: answer map: [:each| self !! (each representative at: 1)].
 	^ self propertyAt: #asModule put: answer! !
 
-!ModularIntegerRing methodsFor: 'elements' stamp: 'len 5/15/2023 17:08:40'!
+!ModularIntegerRing methodsFor: 'elements' stamp: 'len 5/16/2023 20:42:02'!
 new: anInteger
-	| representativesArrayClass |
-	representativesArrayClass _ modulus <= 256 ifTrue: [ByteArray] ifFalse: [modulus <= 16r10000 ifTrue: [DoubleByteArray] ifFalse: [modulus <= 16r100000000 ifTrue: [WordArray] ifFalse: [Array]]].
-	^ ModularArray representatives: (representativesArrayClass new: anInteger) scalars: self! !
+	^ ModularArray representatives: (self representativesArrayClass new: anInteger) scalars: self! !
 
 !ModularIntegerRing methodsFor: 'elements' stamp: 'len 5/20/2022 10:39:54'!
 zeros: anInteger
@@ -11772,6 +11822,17 @@ atRandom: aRandom
 !ModularIntegerRing methodsFor: 'random' stamp: 'len 4/19/2016 22:14'!
 atRandom: aRandom bits: bitSize
 	^ self atRandom: aRandom! !
+
+!ModularIntegerRing methodsFor: 'random' stamp: 'len 5/16/2023 20:44:46'!
+new: anInteger atRandom: aRandom
+	| representatives |
+	representatives _ self representativesArrayClass new: anInteger.
+	1 to: anInteger do: [:i| representatives at: i put: (aRandom nextInteger: modulus) - 1].
+	^ ModularArray representatives: representatives scalars: self! !
+
+!ModularIntegerRing methodsFor: 'random' stamp: 'len 5/16/2023 20:46:26'!
+new: anInteger atRandom: aRandom bits: bitSize
+	^ self new: anInteger atRandom: aRandom! !
 
 !ModularIntegerRing methodsFor: 'testing' stamp: 'len 5/13/2022 12:16:18'!
 hasCanonicalAssociates
@@ -11861,10 +11922,16 @@ relations: anIdeal
 	super relations: anIdeal.
 	self modulus: anIdeal generator! !
 
-!ModularIntegerRing class methodsFor: 'class initialization' stamp: 'len 5/1/2022 10:37:37'!
+!ModularIntegerRing methodsFor: 'private' stamp: 'len 5/16/2023 20:41:23'!
+representativesArrayClass
+	^ modulus <= 256 ifTrue: [ByteArray] ifFalse: [modulus <= 16r10000 ifTrue: [DoubleByteArray] ifFalse: [modulus <= 16r100000000 ifTrue: [WordArray] ifFalse: [Array]]]! !
+
+!ModularIntegerRing class methodsFor: 'class initialization' stamp: 'len 5/16/2023 21:52:47'!
 initialize
 	super initialize.
-	Cache _ Array new: 256! !
+	Cache _ Array new: 256.
+	Cache at: 2 put: (BinaryField new: 2).
+	Cache at: 3 put: (TernaryField new: 3)! !
 
 !ModularIntegerRing class methodsFor: 'instance creation' stamp: 'len 5/9/2023 23:03:06'!
 new: anInteger
@@ -12057,12 +12124,6 @@ syzygiesOf: aMatrix
 	For a matrix A, the output is X with AX = 0."
 	^ self syzygiesOverEuclideanDomainOf: aMatrix! !
 
-!PrimeField methodsFor: 'elements' stamp: 'len 5/15/2023 17:12:56'!
-new: anInteger
-	modulus = 2 ifTrue: [^ BinaryArray new: anInteger].
-	modulus = 3 ifTrue: [^ TernaryArray new: anInteger].
-	^ super new: anInteger! !
-
 !PrimeField methodsFor: 'enumerating' stamp: 'len 5/7/2023 16:35:24'!
 extensionsDo: aBlock
 	| r |
@@ -12114,16 +12175,9 @@ inverseOfRepresentative: anInteger
 	result _ anInteger xgcd: modulus.
 	^ (result at: 2) \\ modulus! !
 
-!PrimeField methodsFor: 'private' stamp: 'len 5/15/2023 17:12:41'!
-isValidArray: anArray
-	modulus = 2 ifTrue: [^ anArray class = BinaryArray].
-	modulus = 3 ifTrue: [^ anArray class = TernaryArray].
-	^ super isValidArray: anArray! !
-
-!PrimeField methodsFor: 'private' stamp: 'len 6/19/2019 14:24:13'!
+!PrimeField methodsFor: 'private' stamp: 'len 5/16/2023 21:51:22'!
 modulus: anInteger
 	self propertyAt: #modulusFactors put: (Bag with: anInteger).
-"	self propertyAt: #p put: anInteger."
 	super modulus: anInteger! !
 
 !PrimeField methodsFor: 'private' stamp: 'len 5/21/2018 04:28:02'!
@@ -12137,6 +12191,49 @@ squareRootOfRepresentative: anInteger
 	modulus = 2 ifTrue: [^ anInteger].
 	algorithm _ self propertyAt: #squareRootAlgorithm ifAbsentPut: [TonelliShanks new modulus: self modulus].
 	^ algorithm squareRootOf: anInteger! !
+
+!BinaryField methodsFor: 'elements' stamp: 'len 5/16/2023 21:37:14'!
+new: anInteger
+	^ BinaryArray new: anInteger! !
+
+!BinaryField methodsFor: 'random' stamp: 'len 5/16/2023 21:39:53'!
+new: anInteger atRandom: aRandom
+	| words |
+	words _ WordArray new: anInteger - 1 // 32 + 1.
+	1 to: words size do: [:i| words at: i put: (aRandom nextInteger: 16r100000000) - 1].
+	anInteger \\ 32 = 0 ifFalse: [words at: words size put: (aRandom nextBits: anInteger \\ 32)].
+	^ BinaryArray new: anInteger words: words! !
+
+!BinaryField methodsFor: 'private' stamp: 'len 5/16/2023 21:36:25'!
+isValidArray: anArray
+	^ anArray class = BinaryArray! !
+
+!BinaryField methodsFor: 'private' stamp: 'len 5/16/2023 21:51:45'!
+modulus: anInteger
+	self assert: anInteger = 2.
+	super modulus: anInteger! !
+
+!TernaryField methodsFor: 'elements' stamp: 'len 5/16/2023 21:37:30'!
+new: anInteger
+	^ TernaryArray new: anInteger! !
+
+!TernaryField methodsFor: 'random' stamp: 'len 5/16/2023 21:54:27'!
+new: anInteger atRandom: aRandom
+	| 𝔽₂ x₀ x₁ |
+	𝔽₂ _ ℤ/2.
+	x₀ _ 𝔽₂ new: anInteger atRandom: aRandom.
+	x₁ _ 𝔽₂ new: anInteger atRandom: aRandom.
+	x₁ _ x₁ ∧ x₀.
+	^ TernaryArray new: anInteger words1: x₀ words words2: x₁ words! !
+
+!TernaryField methodsFor: 'private' stamp: 'len 5/16/2023 21:36:38'!
+isValidArray: anArray
+	^ anArray class = TernaryArray! !
+
+!TernaryField methodsFor: 'private' stamp: 'len 5/16/2023 21:51:54'!
+modulus: anInteger
+	self assert: anInteger = 3.
+	super modulus: anInteger! !
 
 !AffineRing methodsFor: 'accessing' stamp: 'len 5/12/2023 22:39:20'!
 basis
@@ -12309,9 +12406,9 @@ to: aRing map: aBlock
 	answer addCoercionFrom: self, aRing mapWithArguments: [:f :g| (i1 value: f) * (i2 value: g)].
 	^ answer! !
 
-!AffineRing methodsFor: 'operations' stamp: 'len 9/16/2022 07:56:15'!
+!AffineRing methodsFor: 'operations' stamp: 'len 5/16/2023 22:15:26'!
 fractions
-	"Answer the total ring of fractions of the receiver, with the receiver an affine ring R = K[x1,...,xn]/I over a field K. The ring of fractions is constructed as an affine ring over the rational function field whose indeterminates correspond to maximally independent indeterminates of R."
+	"Answer the total ring of fractions of the receiver, with the receiver an affine ring R = K[x₁,...,xₙ]/I over a field K. The ring of fractions is constructed as an affine ring over the rational function field whose indeterminates correspond to maximally independent indeterminates of R."
 	| K independentIndeterminates dependentIndeterminates F E images k localizationMap |
 	self propertyAt: #fractions ifPresent: [:aRing| ^ aRing].
 	K _ self scalars.
@@ -13992,9 +14089,9 @@ syzygiesOf: aMatrix
 	self assert: G*S = aMatrix.
 	^ Matrix to: aMatrix domain columns: syzygies, ((aMatrix domain id - (T*S)) columns select: [:each| each isZero not])! !
 
-!PolynomialRing methodsFor: 'converting' stamp: 'len 4/27/2021 15:46:56'!
+!PolynomialRing methodsFor: 'converting' stamp: 'len 5/16/2023 22:15:54'!
 asMultivariate
-	"If the receiver is a univariate polynomial ring with coefficients in a polynomial ring R[x1..xn][y], answer a new multivariate polynomial ring R[x1,...,xn,y]."
+	"If the receiver is a univariate polynomial ring with coefficients in a polynomial ring R[x₁..xₙ][y], answer a new multivariate polynomial ring R[x₁,...,xₙ,y]."
 	| answer |
 	self isUnivariate ifFalse: [^ self].
 	(self scalars isKindOf: PolynomialRing) ifFalse: [^ self].
@@ -18042,18 +18139,13 @@ printOn: aStream
 	self isTrivial ifTrue: [^ super printOn: aStream].
 	aStream print: self scalars; nextPutAll: self rank printString super! !
 
-!FreeModule methodsFor: 'random' stamp: 'len 11/25/2022 06:56:58'!
+!FreeModule methodsFor: 'random' stamp: 'len 5/16/2023 20:36:35'!
 atRandom: aRandom
-	self isTrivial ifTrue: [^ self zero].
-	^ self fill: [:i| scalars atRandom: aRandom]! !
+	^ self coefficients: (scalars new: rank atRandom: aRandom)! !
 
-!FreeModule methodsFor: 'random' stamp: 'len 11/25/2022 06:56:30'!
+!FreeModule methodsFor: 'random' stamp: 'len 5/16/2023 20:36:00'!
 atRandom: aRandom bits: bitSize
-	| n k |
-	self isTrivial ifTrue: [^ self zero].
-	n _ rank isFinite ifTrue: [rank] ifFalse: [bitSize truncated atRandom: aRandom].
-	k _ bitSize / n.
-	^ self fill: [:i| scalars atRandom: aRandom bits: k]! !
+	^ self coefficients: (scalars new: rank atRandom: aRandom bits: bitSize)! !
 
 !FreeModule methodsFor: 'testing' stamp: 'len 5/5/2023 15:51:27'!
 includes: anObject
@@ -18392,19 +18484,13 @@ zero
 printOn: aStream
 	aStream print: self scalars; nextPutAll: (self height printString, '×', self width printString) super! !
 
-!MatrixModule methodsFor: 'random' stamp: 'len 11/23/2022 21:25:44'!
+!MatrixModule methodsFor: 'random' stamp: 'len 5/16/2023 20:38:50'!
 atRandom: aRandom
-	| R |
-	R _ self domain scalars.
-	^ self fill: [:i :j| R atRandom: aRandom]! !
+	^ DenseMatrix from: domain to: codomain coefficients: (domain scalars new: domain rank * codomain rank atRandom: aRandom)! !
 
-!MatrixModule methodsFor: 'random' stamp: 'len 11/23/2022 21:25:50'!
+!MatrixModule methodsFor: 'random' stamp: 'len 5/16/2023 20:39:09'!
 atRandom: aRandom bits: bitSize
-	| R k |
-	self isTrivial ifTrue: [^ self zero].
-	R _ self domain scalars.
-	k _ bitSize / self rank.
-	^ self fill: [:i :j| R atRandom: aRandom bits: k]! !
+	^ DenseMatrix from: domain to: codomain coefficients: (domain scalars new: domain rank * codomain rank atRandom: aRandom bits: bitSize)! !
 
 !MatrixModule methodsFor: 'testing' stamp: 'len 3/11/2021 13:11:24'!
 isTrivial
@@ -24151,6 +24237,39 @@ isZeroAt: aPoint
 isZeroAtColumn: anInteger
 	^ (self columnAt: anInteger) isZero! !
 
+!Matrix methodsFor: 'private' stamp: 'len 5/16/2023 19:06:56'!
+** aMatrix
+	"Strassen-Winograd matrix multiplication algorithm."
+	| A B m ℓ n mₕ ℓₕ nₕ A₁₁ A₁₂ A₂₁ A₂₂ B₁₁ B₁₂ B₂₁ B₂₂ S₁ S₂ S₃ S₄ T₁ T₂ T₃ T₄ P₁ P₂ P₃ P₄ P₅ P₆ P₇ U₁ U₂ U₃ U₄ U₅ U₆ U₇ |
+	A _ self.
+	B _ aMatrix.
+	m _ A height.
+	ℓ _ A width.
+	n _ B height.
+	mₕ _ m - 1 // 2 + 1.
+	ℓₕ _ ℓ - 1 // 2 + 1.
+	nₕ _ n - 1 // 2 + 1.
+	A₁₁ _ A copyFrom: 1 @ 1 to: mₕ @ ℓₕ.
+	A₁₂ _ A copyFrom: 1 @ (ℓₕ + 1) to: mₕ @ ℓ.
+	A₂₁ _ A copyFrom: mₕ + 1 @ 1 to: m @ ℓₕ.
+	A₂₂ _ A copyFrom: mₕ + 1 @ (ℓₕ + 1) to: m @ ℓ.
+	self assert: A₁₁ ⊔ A₁₂ ⊓ (A₂₁ ⊔ A₂₂) = A.
+	B₁₁ _ B copyFrom: 1 @ 1 to: ℓₕ @ nₕ.
+	B₁₂ _ B copyFrom: 1 @ (nₕ + 1) to: ℓₕ @ n.
+	B₂₁ _ B copyFrom: ℓₕ + 1 @ 1 to: ℓ @ nₕ.
+	B₂₂ _ B copyFrom: ℓₕ + 1 @ (nₕ + 1) to: ℓ @ n.
+	self assert: B₁₁ ⊔ B₁₂ ⊓ (B₂₁ ⊔ B₂₂) = B.
+	S₁ _ A₂₁ + A₂₂. S₂ _ S₁ - A₁₁. S₃ _ A₁₁ - A₂₁.
+	T₁ _ B₁₂ - B₁₁. T₂ _ B₂₂ - T₁. T₃ _ B₂₂ - B₁₂.
+	S₄ _ A₁₂ - S₂. T₄ _ T₂ - B₂₁.
+	P₁ _ A₁₁ * B₁₁. P₂ _ A₁₂ * B₂₁.
+	P₃ _ S₄ * B₂₂. P₄ _ A₂₂ * T₄.
+	P₅ _ S₁ * T₁. P₆ _ S₂ * T₂. P₇ _ S₃ * T₃.
+	U₁ _ P₁ + P₂. U₂ _ P₁ + P₆.
+	U₃ _ U₂ + P₇. U₄ _ U₂ + P₅.
+	U₅ _ U₄ + P₃. U₆ _ U₃ - P₄. U₇ _ U₃ + P₅.
+	^ U₁ ⊔ U₅ ⊓ (U₆ ⊔ U₇)! !
+
 !Matrix methodsFor: 'private' stamp: 'len 11/13/2022 10:34:18'!
 checkIsSquare
 	self isSquare ifFalse: [^ DomainError signal: 'not a square matrix']! !
@@ -24354,20 +24473,6 @@ withIndicesDo: aBlock
 	anObject isTuple ifTrue: [^ self value: anObject].
 	(anObject isKindOf: ModuleMap) ifTrue: [^ self · anObject].
 	^ DomainError signal! !
-
-!DenseMatrix methodsFor: 'operations' stamp: 'len 5/13/2023 20:06:33'!
-** aMatrix
-	self class = aMatrix class ifFalse: [^ super ∘ aMatrix].
-	self checkCompatibleComposition: aMatrix.
-	(coefficients isEmpty or: [aMatrix coefficients isEmpty])
-		ifTrue: [^ self class from: aMatrix domain to: codomain coefficients: (self scalars zeros: aMatrix width * self height)].
-	^ self class
-		from: aMatrix domain
-		to: codomain
-		coefficients:
-			((coefficients species new: aMatrix width * self height)
-				fillWithMatrix: coefficients width: self width
-				timesMatrixFourRussians: aMatrix coefficients width: aMatrix width)! !
 
 !DenseMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:23:50'!
 + aMatrix
@@ -31466,9 +31571,9 @@ asBilinearForm
 	self parent rank even ifFalse: [^ self error: 'not even rank'].
 	^ BilinearForm on: self scalars ^ (self parent rank / 2) mapWithArguments: [:x :y| self value: (x, y)]! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 1/2/2022 11:14:14'!
+!Polynomial methodsFor: 'converting' stamp: 'len 5/16/2023 22:18:09'!
 asMultivariate
-	"Convert a polynomial in R[x1,...,xn][y] to a polynomial in R[x1,...,xn,y]."
+	"Convert a polynomial in R[x₁,...,xₙ][y] to a polynomial in R[x₁,...,xₙ,y]."
 	(self scalars isKindOf: PolynomialRing) ifFalse: [^ self].
 	self parent isUnivariate ifFalse: [^ self].
 	^ self parent asMultivariate !! self! !
@@ -34750,9 +34855,10 @@ coefficients: anArray parent: aFreeModule
 parent
 	^ parent! !
 
-!Tuple methodsFor: 'private' stamp: 'len 5/14/2023 18:01:06'!
+!Tuple methodsFor: 'private' stamp: 'len 5/16/2023 21:31:44'!
 validate
 	super validate.
+	coefficients validate.
 	self assert: (self scalars isValidArray: coefficients)! !
 
 !Tuple class methodsFor: 'instance creation' stamp: 'len 5/5/2023 00:26:16'!
