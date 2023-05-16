@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5597] on 15 May 2023 at 4:22:29 pm'!
+'From Cuis 6.0 [latest update: #5597] on 16 May 2023 at 5:50:27 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 39!
+!provides: 'Tests-Algebra' 1 40!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -380,6 +380,16 @@ AbstractEuclideanRingTest subclass: #PolynomialRingOverRationalsTest
 PolynomialRingOverRationalsTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #PolynomialRingOverTernaryFieldTest category: #'Tests-Algebra-Rings'!
+AbstractEuclideanRingTest subclass: #PolynomialRingOverTernaryFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'PolynomialRingOverTernaryFieldTest class' category: #'Tests-Algebra-Rings'!
+PolynomialRingOverTernaryFieldTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #PrimePowerRingTest category: #'Tests-Algebra-Rings'!
 AbstractEuclideanRingTest subclass: #PrimePowerRingTest
 	instanceVariableNames: ''
@@ -480,14 +490,14 @@ AbstractArrayTest subclass: #BinaryArrayTest
 BinaryArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisArrayTest category: #'Tests-Algebra-Arrays'!
-AbstractArrayTest subclass: #GaloisArrayTest
+!classDefinition: #GaloisPackedArrayTest category: #'Tests-Algebra-Arrays'!
+AbstractArrayTest subclass: #GaloisPackedArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'GaloisArrayTest class' category: #'Tests-Algebra-Arrays'!
-GaloisArrayTest class
+!classDefinition: 'GaloisPackedArrayTest class' category: #'Tests-Algebra-Arrays'!
+GaloisPackedArrayTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModularArrayTest category: #'Tests-Algebra-Arrays'!
@@ -618,6 +628,16 @@ AbstractTupleOverModularIntegersTest subclass: #TupleOverLargeModularIntegersTes
 	category: 'Tests-Algebra-Tuples'!
 !classDefinition: 'TupleOverLargeModularIntegersTest class' category: #'Tests-Algebra-Tuples'!
 TupleOverLargeModularIntegersTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #TupleOverTernaryFieldTest category: #'Tests-Algebra-Tuples'!
+AbstractTupleOverModularIntegersTest subclass: #TupleOverTernaryFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'TupleOverTernaryFieldTest class' category: #'Tests-Algebra-Tuples'!
+TupleOverTernaryFieldTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #TupleOverWordModularIntegersTest category: #'Tests-Algebra-Tuples'!
@@ -818,6 +838,16 @@ AbstractMatrixOverFieldTest subclass: #MatrixOverSmallFiniteFieldTest
 	category: 'Tests-Algebra-Matrices'!
 !classDefinition: 'MatrixOverSmallFiniteFieldTest class' category: #'Tests-Algebra-Matrices'!
 MatrixOverSmallFiniteFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #MatrixOverTernaryFieldTest category: #'Tests-Algebra-Matrices'!
+AbstractMatrixOverFieldTest subclass: #MatrixOverTernaryFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'MatrixOverTernaryFieldTest class' category: #'Tests-Algebra-Matrices'!
+MatrixOverTernaryFieldTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #MatrixOverCyclotomicIntegersTest category: #'Tests-Algebra-Matrices'!
@@ -1128,6 +1158,16 @@ AbstractVectorSpaceTest subclass: #VectorSpaceOverRationalsTest
 	category: 'Tests-Algebra-Modules'!
 !classDefinition: 'VectorSpaceOverRationalsTest class' category: #'Tests-Algebra-Modules'!
 VectorSpaceOverRationalsTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #VectorSpaceOverTernaryFieldTest category: #'Tests-Algebra-Modules'!
+AbstractVectorSpaceTest subclass: #VectorSpaceOverTernaryFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Modules'!
+!classDefinition: 'VectorSpaceOverTernaryFieldTest class' category: #'Tests-Algebra-Modules'!
+VectorSpaceOverTernaryFieldTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModuleOverCyclotomicIntegersTest category: #'Tests-Algebra-Modules'!
@@ -3416,10 +3456,10 @@ testCongruenceSolvingExample2
 	self assert: solutions size = 23.
 	self assert: (solutions allSatisfy: [:x| a*x = b])! !
 
-!PolynomialRingOverBinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2022 08:49:16'!
+!PolynomialRingOverBinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 20:06:47'!
 initialize
 	super initialize.
-	R _ ℤ/2! !
+	R _ (ℤ/2) polynomials! !
 
 !PolynomialRingOverFiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 12:09:15'!
 initialize
@@ -3430,6 +3470,11 @@ initialize
 initialize
 	super initialize.
 	R _ ℚ polynomials! !
+
+!PolynomialRingOverTernaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 20:06:59'!
+initialize
+	super initialize.
+	R _ (ℤ/3) polynomials! !
 
 !PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:28:18'!
 initialize
@@ -3874,19 +3919,19 @@ testLastNonzeroIndex
 	i = 0 ifTrue: [i _ nil].
 	self assert: a lastNonzeroIndex = i! !
 
-!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/11/2023 20:59:11'!
+!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/16/2023 14:02:44'!
 testLowLevelDotProduct
-	| a b a2 b2 increment increment2 start start2 stop x |
+	| a b a2 b2 increment2 start start2 stop x |
 	a _ self newArray.
 	b _ self newArray.
 	start _ a size atRandom: random.
 	stop _ (start to: a size) atRandom: random.
-	increment _ 3 atRandom: random.
 	start2 _ b size atRandom: random.
 	increment2 _ 3 atRandom: random.
-	a2 _ (start to: stop by: increment) collect: [:i| a at: i].
-	b2 _ (start2 to: (stop - start + start2 min: b size) by: increment2) collect: [:i| b at: i].
-	x _ a from: start to: stop by: increment dot: b startingAt: start2 by: increment2.
+	stop _ stop min: (b size - start2 // increment2 + start).
+	a2 _ (start to: stop) collect: [:i| a at: i].
+	b2 _ (start2 to: stop - start  * increment2+ start2 by: increment2) collect: [:i| b at: i].
+	x _ a from: start to: stop dot: b startingAt: start2 by: increment2.
 	self assert: a2 · b2 = x! !
 
 !AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/11/2023 23:38:25'!
@@ -3942,7 +3987,7 @@ testSumBug
 	self assert: (BinaryArray newFrom: 2r1011101) sum representative = 1.
 	self assert: (BinaryArray newFrom: 2r10000100100010) sum representative = 0! !
 
-!GaloisArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 16:12:37'!
+!GaloisPackedArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 16:12:37'!
 initialize
 	super initialize.
 	scalars _ 2 atRandom = 1
@@ -3990,13 +4035,6 @@ initialize
 initialize
 	super initialize.
 	scalars _ ℤ/3! !
-
-!TernaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 13:00:54'!
-newArray: n fill: aBlock
-	| answer |
-	answer _ TernaryArray new: n.
-	1 to: answer size do: [:i| answer at: i put: scalars !! (aBlock value: i)].
-	^ answer! !
 
 !ZechArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 17:00:30'!
 initialize
@@ -4239,6 +4277,11 @@ initialize
 initialize
 	super initialize.
 	scalars _ ℤ / (16r100000001 to: 16r100000001 + 1000) atRandom! !
+
+!TupleOverTernaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 17:23:24'!
+initialize
+	super initialize.
+	scalars _ ℤ/3! !
 
 !TupleOverWordModularIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:09:26'!
 initialize
@@ -5077,6 +5120,11 @@ initialize
 	super initialize.
 	p _ 13 atRandom nextPrime.
 	scalars _ GaloisField new: p to: ((256 log: p) floor - 1)  atRandom + 1! !
+
+!MatrixOverTernaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 17:23:44'!
+initialize
+	super initialize.
+	scalars _ ℤ/3! !
 
 !MatrixOverCyclotomicIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 7/21/2021 17:35:09'!
 initialize
@@ -6655,6 +6703,11 @@ testSubspaceIntersectionExample
 	self assert: S ∩ T = T.
 	T2 _ V span: {(3,1,-1). (0,1,0)}.
 	self assert: S ∩ T2 = T! !
+
+!VectorSpaceOverTernaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 17:24:00'!
+initialize
+	super initialize.
+	scalars _ ℤ/3! !
 
 !ModuleOverCyclotomicIntegersTest methodsFor: 'as yet unclassified' stamp: 'len 7/26/2021 10:20:31'!
 initialize
