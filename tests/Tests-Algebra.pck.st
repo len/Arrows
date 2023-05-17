@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5597] on 16 May 2023 at 5:50:27 pm'!
+'From Cuis 6.0 [latest update: #5597] on 17 May 2023 at 9:53:24 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 40!
+!provides: 'Tests-Algebra' 1 41!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -230,6 +230,16 @@ AbstractEuclideanRingTest subclass: #AbstractFieldTest
 AbstractFieldTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #BinaryFieldTest category: #'Tests-Algebra-Rings'!
+AbstractFieldTest subclass: #BinaryFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'BinaryFieldTest class' category: #'Tests-Algebra-Rings'!
+BinaryFieldTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #CyclotomicFieldTest category: #'Tests-Algebra-Rings'!
 AbstractFieldTest subclass: #CyclotomicFieldTest
 	instanceVariableNames: ''
@@ -288,6 +298,16 @@ AbstractFieldTest subclass: #RationalFunctionFieldOverRationalsTest
 	category: 'Tests-Algebra-Rings'!
 !classDefinition: 'RationalFunctionFieldOverRationalsTest class' category: #'Tests-Algebra-Rings'!
 RationalFunctionFieldOverRationalsTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #TernaryFieldTest category: #'Tests-Algebra-Rings'!
+AbstractFieldTest subclass: #TernaryFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'TernaryFieldTest class' category: #'Tests-Algebra-Rings'!
+TernaryFieldTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #EisensteinRingTest category: #'Tests-Algebra-Rings'!
@@ -3368,6 +3388,11 @@ testZeroIdealIsPrimeAndMinimalPrime
 	self assert: P isPrime.
 	self assert: P isMinimalPrime! !
 
+!BinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/17/2023 10:56:39'!
+initialize
+	super initialize.
+	R _ ℤ/2! !
+
 !CyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:26:42'!
 initialize
 	super initialize.
@@ -3397,6 +3422,11 @@ initialize
 initialize
 	super initialize.
 	R _ (ℚ polynomialsIn: 3 atRandom) fractions! !
+
+!TernaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/17/2023 10:57:02'!
+initialize
+	super initialize.
+	R _ ℤ/3! !
 
 !EisensteinRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:01:19'!
 initialize
@@ -3981,6 +4011,20 @@ testIsAllOnes
 			b _ a copy.
 			b bitAt: i put: 0.
 			self assert: b isAllOnes not]]! !
+
+!BinaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/17/2023 16:21:49'!
+testReadAndWriteBits
+	| bits i length x y |
+	x _ self newArray: ((10 to: 100) atRandom: random).
+	y _ x copy.
+	length _ (32 min: x size) atRandom: random.
+	i _ (x size - length + 1) atRandom: random.
+	bits _ random nextBits: length.
+	self assert: bits highBit <= length.
+	x bits: length at: i put: bits.
+	self assert: (x bits: length at: i) = bits.
+	x bits: length at: i put: (y bits: length at: i).
+	self assert: x = y! !
 
 !BinaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/13/2023 12:57:13'!
 testSumBug

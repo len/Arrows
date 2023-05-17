@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5597] on 16 May 2023 at 10:21:06 pm'!
+'From Cuis 6.0 [latest update: #5597] on 17 May 2023 at 9:53:30 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -63,7 +63,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 66!
+!provides: 'Algebra' 1 67!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'Transfinites' 1 2 nil!
@@ -3809,22 +3809,31 @@ autoconvolution
 		ifFalse: [WordArray with: (newInteger bitAnd: 16rFFFFFFFF) with: (newInteger bitShift: -32)].
 	^ self class new: size * 2 - 1 words: newWords! !
 
-!BinaryArray methodsFor: 'operations' stamp: 'len 5/9/2023 18:35:48'!
+!BinaryArray methodsFor: 'operations' stamp: 'len 5/17/2023 21:16:46'!
 convolution: anArray
-	| newInteger newSize newWords |
+	self flag: #fixme.
 	(anArray class = self class and: [words size = 1 and: [anArray words size = 1]])
 		ifFalse: [^ super convolution: anArray].
 	"When the arrays are small we can compute the convolution with SmallIntegers:"
-	newInteger _ (words at: 1) bitConvolution: (anArray words at: 1).
+	^ super convolution: anArray
+"	newInteger _ (words at: 1) bitConvolution: (anArray words at: 1).
 	newSize _ size + anArray size - 1.
 	newWords _ newSize <= 32
 		ifTrue: [WordArray with: newInteger]
 		ifFalse: [WordArray with: (newInteger bitAnd: 16rFFFFFFFF) with: (newInteger bitShift: -32)].
-	^ self class new: newSize words: newWords! !
+	^ self class new: newSize words: newWords"! !
 
 !BinaryArray methodsFor: 'operations' stamp: 'len 5/4/2023 23:40:46'!
 negated
 	^ self! !
+
+!BinaryArray methodsFor: 'operations' stamp: 'len 5/17/2023 19:12:41'!
+not
+	"Answer an array whose bits are the logical negation of the receiver's bits."
+	| newWords |
+	newWords _ words collect: [:each| each bitInvert bitAnd: 16rFFFFFFFF].
+	newWords at: words size put: (newWords last bitAnd: (1 << (size - 1 \\ 32 + 1) - 1)).
+	^ self class new: size words: newWords! !
 
 !BinaryArray methodsFor: 'operations' stamp: 'len 5/13/2023 07:50:03'!
 parity
@@ -3891,23 +3900,22 @@ fillWithMatrixTranspose: anArray width: width
 	self flag: #fixme. "TODO"
 	super fillWithMatrixTranspose: anArray width: width! !
 
-!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/13/2023 07:49:56'!
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 17:34:37'!
 from: start to: stop dot: anArray startingAt: start2
-	| n i j sum |
+	| n i j sum r |
 	(n _ stop - start + 1) > 0 ifFalse: [^ Zero].
 	i _ start.
 	j _ start2.
 	sum _ 0.
-	[n >= 32] whileTrue:
-		[sum _ ((self wordAt: i) bitAnd: (anArray wordAt: j)) bitXor: sum.
-		i _ i + 32.
-		j _ j + 32.
-		n _ n - 32].
-	n > 0 ifTrue:
-		[sum _ (((self wordAt: i) bitAnd: 1 << n - 1) bitAnd: (anArray wordAt: j)) bitXor: sum].
+	[n > 0] whileTrue:
+		[r _ n min: 32.
+		sum _ ((self bits: r at: i) bitAnd: (anArray bits: r at: j)) bitXor: sum.
+		i _ i + r.
+		j _ j + r.
+		n _ n - r].
 	^ sum bitParity32 = 1 ifTrue: [One] ifFalse: [Zero]! !
 
-!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/15/2023 21:15:11'!
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 17:32:21'!
 from: start to: stop dot: anArray startingAt: start2 by: increment2
 	| i j isOne w |
 	increment2 = 1 ifTrue: [^ self from: start to: stop dot: anArray startingAt: start2].
@@ -3916,7 +3924,7 @@ from: start to: stop dot: anArray startingAt: start2 by: increment2
 	j _ start2.
 	isOne _ false.
 	[i <= stop] whileTrue:
-		[w _ self wordAt: i.
+		[w _ self bits: 32 at: i.
 		32 timesRepeat:
 			[(w odd and: [(anArray bitAt: j) = 1]) ifTrue: [isOne _ isOne not].
 			i _ i + 1.
@@ -3925,12 +3933,7 @@ from: start to: stop dot: anArray startingAt: start2 by: increment2
 			w _ w bitShift: -1]].
 	^ isOne ifTrue: [One] ifFalse: [Zero]! !
 
-!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/14/2023 22:58:45'!
-karatsubaSplit: anInteger startingAt: start
-	self flag: #fixme. "should align starting at start"
-	^ anInteger + 1 // 2 bitAnd: -32! !
-
-!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/14/2023 11:37:06'!
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 21:32:16'!
 karatsubaThreshold
 	^ 256! !
 
@@ -3964,13 +3967,13 @@ replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anEl
 replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
 	self replaceFrom: start to: stop with: anArray startingAt: srcStart! !
 
-!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/14/2023 22:05:12'!
-replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 19:59:31'!
+replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong2: anArray2 from: start2 to: stop2
 	| i r |
 	self zeroFrom: start to: start + stop1 - start1 + stop2 - start2.
 	i _ start2.
 	[i <= stop2] whileTrue:
-		[(r _ anArray2 wordAt: i) = 0
+		[(r _ anArray2 bits: 32 at: i) = 0
 			ifTrue:
 				[i _ i + 32]
 			ifFalse:
@@ -3984,6 +3987,26 @@ replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArra
 					r _ r bitShift: -1.
 					i _ i + 1.
 					i <= stop2 ifFalse: [^ self]]]]! !
+
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 21:48:08'!
+replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
+	| i j x y n m windowSize |
+	self zeroFrom: start to: start + stop1 - start1 + stop2 - start2.
+	windowSize _ 16.
+	i _ start2.
+	[i <= stop2] whileTrue:
+		[n _ windowSize min: stop2 - i + 1.
+		"(n _ (x _ anArray2 bits: n at: i) highBit) = 0"
+		(x _ anArray2 bits: n at: i) = 0
+			ifFalse:
+				[j _ start1.
+				[j <= stop1] whileTrue:
+					["m _ windowSize * 2 - n min: stop1 - j + 1."
+					m _ windowSize min: stop1 - j + 1.
+					y _ anArray1 bits: m at: j.
+					y = 0 ifFalse: [self bits: n+m-1 at: i-start2+j-start1+start xor: (x bitConvolution16: y)].
+					j _ j + m]].
+		i _ i + windowSize]! !
 
 !BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/13/2023 21:31:16'!
 zeroFrom: start to: stop
@@ -4048,18 +4071,23 @@ bitAt: anInteger put: aBit
 	anInteger > size ifTrue: [^ self errorOutOfBounds].
 	^ words bitAt: anInteger put: aBit! !
 
-!BinaryArray methodsFor: 'private' stamp: 'len 5/14/2023 23:17:35'!
-bits: length at: anInteger
-	"Answer desired number of bits from the receiver starting at the given index.
+!BinaryArray methodsFor: 'private' stamp: 'len 5/17/2023 14:17:30'!
+bits: length at: index
+	"Read the desired number of bits from the receiver starting at the given index.
 	Assume length <= 32."
-	| i r bits |
-	anInteger > size ifTrue: [^ 0].
-	i _ (anInteger - 1 bitShift: -5) + 1.
-	bits _ words at: i.
-	(r _ (i*32) - anInteger - 31) = 0 ifFalse: [bits _ bits bitShift: r].
-	r _ 32 + r.
-	(length > r and: [i < words size]) ifTrue: [bits _ bits bitXor: (words at: i+1) << r].
-	^ bits bitAnd: 1 << length - 1! !
+	^ words bits: length at: index! !
+
+!BinaryArray methodsFor: 'private' stamp: 'len 5/17/2023 14:17:40'!
+bits: length at: index put: bits
+	"Write the desired number of bits from the receiver starting at the given index.
+	Assume length <= 32."
+	^ words bits: length at: index put: bits! !
+
+!BinaryArray methodsFor: 'private' stamp: 'len 5/17/2023 20:43:06'!
+bits: length at: index xor: bits
+	"Write the desired number of bits from the receiver starting at the given index.
+	Assume length <= 32."
+	^ words bits: length at: index xor: bits! !
 
 !BinaryArray methodsFor: 'private' stamp: 'len 5/4/2023 23:58:57'!
 species
@@ -4070,17 +4098,6 @@ validate
 	super validate.
 	size - 1 // 32 + 1 = words size ifFalse: [self error: 'too many words'].
 	(size \\ 32 = 0 or: [words last highBit <= (size \\ 32)]) ifFalse: [self error: 'tail is not zero']! !
-
-!BinaryArray methodsFor: 'private' stamp: 'len 5/14/2023 22:23:49'!
-wordAt: anInteger
-	| i r bits |
-	anInteger > size ifTrue: [^ 0].
-	i _ (anInteger - 1 bitShift: -5) + 1.
-	bits _ words at: i.
-	(r _ anInteger - (i*32) + 31) = 0 ifTrue: [^ bits].
-	bits _ bits >> r.
-	i >= words size ifTrue: [^ bits].
-	^ bits bitXor: ((words at: i+1) bitAnd: 1 << r - 1) << (32 - r)! !
 
 !BinaryArray methodsFor: 'private' stamp: 'len 5/7/2023 17:45:00'!
 words
@@ -5014,29 +5031,21 @@ polynomialValue: anObject
 supportDo: aBlock
 	words1 bitSupportDo: aBlock! !
 
-!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/16/2023 17:39:48'!
+!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 19:02:37'!
 from: start to: stop dot: anArray startingAt: start2
-	| n i j sum x₀ x₁ z y₀ y₁ |
-	self flag: #fixme. "optimize"
+	| n i j sum r x₀ x₁ z y₀ y₁ |
 	(n _ stop - start + 1) > 0 ifFalse: [^ Zero].
 	i _ start.
 	j _ start2.
 	sum _ 0.
-	[n >= 32] whileTrue:
-		[x₀ _ words1 wordAtBit: i. x₁ _ words2 wordAtBit: i.
-		y₀ _ anArray words1 wordAtBit: j. y₁ _ anArray words2 wordAtBit: j.
-		z _ x₀ ∧ y₀. "each nonzero"
-		sum _ sum + (x₁ ∧ y₁ ∨ (x₁ bitInvert ∧ y₁ bitInvert) ∧ z) bitCount. "ones"
-		sum _ sum - (x₁ ⊕ y₁ ∧ z) bitCount. "minus ones"
-		i _ i + 32.
-		j _ j + 32.
-		n _ n - 32].
-	n > 0 ifTrue:
-		[x₀ _ (words1 wordAtBit: i) bitAnd: 1 << n - 1. x₁ _ words2 wordAtBit: i.
-		y₀ _ anArray words1 wordAtBit: j. y₁ _ anArray words2 wordAtBit: j.
-		z _ x₀ ∧ y₀. "each nonzero"
-		sum _ sum + (x₁ ∧ y₁ ∨ (x₁ bitInvert ∧ y₁ bitInvert) ∧ z) bitCount. "ones"
-		sum _ sum - (x₁ ⊕ y₁ ∧ z) bitCount "minus ones"].
+	[n > 0] whileTrue:
+		[r _ n min: 32.
+		x₀ _ words1 bits: r at: i. x₁ _ words2 bits: r at: i.
+		y₀ _ anArray words1 bits: r at: j. y₁ _ anArray words2 bits: r at: j.
+		z _ x₀ bitAnd: y₀. "each nonzero"
+		sum _ sum + (((x₁ bitAnd: y₁) bitOr: (x₁ bitInvert bitAnd: y₁ bitInvert)) bitAnd: z) bitCount. "ones"
+		sum _ sum - ((x₁ bitXor: y₁) bitAnd: z) bitCount. "minus ones"
+		i _ i + r. j _ j + r. n _ n - r].
 	^ self scalars !! sum! !
 
 !TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/15/2023 21:45:48'!
@@ -5049,98 +5058,68 @@ replaceFrom: start to: stop with: replacement startingAt: repStart
 	words1 replaceBitsFrom: start to: stop with: replacement words1 startingAt: repStart.
 	words2 replaceBitsFrom: start to: stop with: replacement words2 startingAt: repStart! !
 
-!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/16/2023 17:39:53'!
+!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 17:09:41'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 startingAt: start2	
-	| n r i j k a₀ a₁ b₀ b₁ x₀ x₁ y₀ y₁ t |
-	self flag: #fixme. "optimize"
+	| n i₀ i r j k x₀ x₁ y₀ y₁ t |
 	(n _ stop - start + 1) > 0 ifFalse: [^ self].
-	r _ start - 1 \\ 32.
-	i _ start - 1 // 32 + 1.
+	i₀ _ start - 1.
+	i _ (i₀ bitShift: -5) + 1.
+	r _ i*32 - i₀ min: n. "r ∈ [1..32]"
 	j _ start1.
 	k _ start2.
-	r > 0 ifTrue:
-		[a₀ _ words1 at: i. a₁ _ words2 at: i.
-		x₀ _ anArray1 words1 wordAtBit: j. x₁ _ anArray1 words2 wordAtBit: j.
-		y₀ _ anArray2 words1 wordAtBit: k. y₁ _ anArray2 words2 wordAtBit: k.
+	r = 32 ifFalse:
+		[x₀ _ anArray1 words1 bits: r at: j. x₁ _ anArray1 words2 bits: r at: j.
+		y₀ _ anArray2 words1 bits: r at: k. y₁ _ anArray2 words2 bits: r at: k.
 		t _ x₀ bitXor: y₀.
-		b₀ _ t bitOr: (x₁ bitXor: y₁).
-		b₁ _ (t bitXor: y₁) bitAnd: (x₁ bitXor: y₀).
-		n < 32
-			ifTrue:
-				[b₀ _ b₀ bitAnd: (1 << n - 1). a₀ _ a₀ bitAnd: (1 << n - 1 << r) bitInvert.
-				b₁ _ b₁ bitAnd: (1 << n - 1). a₁ _ a₁ bitAnd: (1 << n - 1 << r) bitInvert]
-			ifFalse:
-				[a₀ _ a₀ bitAnd: 1 << r - 1.
-				a₁ _ a₁ bitAnd: 1 << r - 1].
-		words1 at: i put: (a₀ bitXor: (b₀ bitAnd: 1 << (32 - r) - 1) << r).
-		words2 at: i put: (a₁ bitXor: (b₁ bitAnd: 1 << (32 - r) - 1) << r).
-		n _ n - (32 - r). j _ j + 32 - r. k _ k + 32 - r. i _ i + 1].
+		words1 bits: r at: start put: (t bitOr: (x₁ bitXor: y₁)).
+		words2 bits: r at: start put: ((t bitXor: y₁) bitAnd: (x₁ bitXor: y₀)).
+		n _ n - r. j _ j + r. k _ k + r. i _ i + 1].
 	[n >= 32] whileTrue:
-		[x₀ _ anArray1 words1 wordAtBit: j. x₁ _ anArray1 words2 wordAtBit: j.
-		y₀ _ anArray2 words1 wordAtBit: k. y₁ _ anArray2 words2 wordAtBit: k.
+		[x₀ _ anArray1 words1 bits: 32 at: j. x₁ _ anArray1 words2 bits: 32 at: j.
+		y₀ _ anArray2 words1 bits: 32 at: k. y₁ _ anArray2 words2 bits: 32 at: k.
 		t _ x₀ bitXor: y₀.
-		b₀ _ t bitOr: (x₁ bitXor: y₁).
-		b₁ _ (t bitXor: y₁) bitAnd: (x₁ bitXor: y₀).
-		words1 at: i put: b₀.
-		words2 at: i put: b₁.
+		words1 at: i put: (t bitOr: (x₁ bitXor: y₁)).
+		words2 at: i put: ((t bitXor: y₁) bitAnd: (x₁ bitXor: y₀)).
 		n _ n - 32. j _ j + 32. k _ k + 32. i _ i + 1].
 	n > 0 ifTrue:
-		[a₀ _ words1 at: i. a₁ _ words2 at: i.
-		x₀ _ anArray1 words1 wordAtBit: j. x₁ _ anArray1 words2 wordAtBit: j.
-		y₀ _ anArray2 words1 wordAtBit: k. y₁ _ anArray2 words2 wordAtBit: k.
+		[x₀ _ anArray1 words1 bits: n at: j. x₁ _ anArray1 words2 bits: n at: j.
+		y₀ _ anArray2 words1 bits: n at: k. y₁ _ anArray2 words2 bits: n at: k.
 		t _ x₀ bitXor: y₀.
-		b₀ _ t bitOr: (x₁ bitXor: y₁).
-		b₁ _ (t bitXor: y₁) bitAnd: (x₁ bitXor: y₀).
-		words1 at: i put: ((a₀ bitAnd: (1 << n - 1) bitInvert) bitXor: (b₀ bitAnd: 1 << n - 1)).
-		words2 at: i put: ((a₁ bitAnd: (1 << n - 1) bitInvert) bitXor: (b₁ bitAnd: 1 << n - 1))]! !
+		words1 bits: n at: i-1*32 + 1 put: (t bitOr: (x₁ bitXor: y₁)).
+		words2 bits: n at: i-1*32 + 1 put: ((t bitXor: y₁) bitAnd: (x₁ bitXor: y₀))]! !
 
-!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/16/2023 17:39:58'!
+!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 17:14:54'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2	
-	| n r i j k a₀ a₁ b₀ b₁ x₀ x₁ y₀ y₁ s t |
-	self flag: #fixme. "optimize"
+	| n i₀ i r j k x₀ x₁ y₀ y₁ s t |
 	(n _ stop - start + 1) > 0 ifFalse: [^ self].
-	r _ start - 1 \\ 32.
-	i _ start - 1 // 32 + 1.
+	i₀ _ start - 1.
+	i _ (i₀ bitShift: -5) + 1.
+	r _ i*32 - i₀ min: n. "r ∈ [1..32]"
 	j _ start1.
 	k _ start2.
-	r > 0 ifTrue:
-		[a₀ _ words1 at: i. a₁ _ words2 at: i.
-		x₀ _ anArray1 words1 wordAtBit: j. x₁ _ anArray1 words2 wordAtBit: j.
-		y₀ _ anArray2 words1 wordAtBit: k. y₁ _ anArray2 words2 wordAtBit: k.
+	r = 32 ifFalse:
+		[x₀ _ anArray1 words1 bits: r at: j. x₁ _ anArray1 words2 bits: r at: j.
+		y₀ _ anArray2 words1 bits: r at: k. y₁ _ anArray2 words2 bits: r at: k.
 		s _ x₀ bitXor: y₁.
 		t _ x₁ bitXor: y₀.
-		b₀ _ (s bitXor: x₁) bitOr: (t bitXor: y₁).
-		b₁ _ s bitAnd: t.
-		n < 32
-			ifTrue:
-				[b₀ _ b₀ bitAnd: (1 << n - 1). a₀ _ a₀ bitAnd: (1 << n - 1 << r) bitInvert.
-				b₁ _ b₁ bitAnd: (1 << n - 1). a₁ _ a₁ bitAnd: (1 << n - 1 << r) bitInvert]
-			ifFalse:
-				[a₀ _ a₀ bitAnd: 1 << r - 1.
-				a₁ _ a₁ bitAnd: 1 << r - 1].
-		words1 at: i put: (a₀ bitXor: (b₀ bitAnd: 1 << (32 - r) - 1) << r).
-		words2 at: i put: (a₁ bitXor: (b₁ bitAnd: 1 << (32 - r) - 1) << r).
-		n _ n - (32 - r). j _ j + 32 - r. k _ k + 32 - r. i _ i + 1].
+		words1 bits: r at: start put: ((s bitXor: x₁) bitOr: (t bitXor: y₁)).
+		words2 bits: r at: start put: (s bitAnd: t).
+		n _ n - r. j _ j + r. k _ k + r. i _ i + 1].
 	[n >= 32] whileTrue:
-		[x₀ _ anArray1 words1 wordAtBit: j. x₁ _ anArray1 words2 wordAtBit: j.
-		y₀ _ anArray2 words1 wordAtBit: k. y₁ _ anArray2 words2 wordAtBit: k.
+		[x₀ _ anArray1 words1 bits: 32 at: j. x₁ _ anArray1 words2 bits: 32 at: j.
+		y₀ _ anArray2 words1 bits: 32 at: k. y₁ _ anArray2 words2 bits: 32 at: k.
 		s _ x₀ bitXor: y₁.
 		t _ x₁ bitXor: y₀.
-		b₀ _ (s bitXor: x₁) bitOr: (t bitXor: y₁).
-		b₁ _ s bitAnd: t.
-		words1 at: i put: b₀.
-		words2 at: i put: b₁.
+		words1 at: i put: ((s bitXor: x₁) bitOr: (t bitXor: y₁)).
+		words2 at: i put: (s bitAnd: t).
 		n _ n - 32. j _ j + 32. k _ k + 32. i _ i + 1].
 	n > 0 ifTrue:
-		[a₀ _ words1 at: i. a₁ _ words2 at: i.
-		x₀ _ anArray1 words1 wordAtBit: j. x₁ _ anArray1 words2 wordAtBit: j.
-		y₀ _ anArray2 words1 wordAtBit: k. y₁ _ anArray2 words2 wordAtBit: k.
+		[x₀ _ anArray1 words1 bits: n at: j. x₁ _ anArray1 words2 bits: n at: j.
+		y₀ _ anArray2 words1 bits: n at: k. y₁ _ anArray2 words2 bits: n at: k.
 		s _ x₀ bitXor: y₁.
 		t _ x₁ bitXor: y₀.
-		b₀ _ (s bitXor: x₁) bitOr: (t bitXor: y₁).
-		b₁ _ s bitAnd: t.
-		words1 at: i put: ((a₀ bitAnd: (1 << n - 1) bitInvert) bitXor: (b₀ bitAnd: 1 << n - 1)).
-		words2 at: i put: ((a₁ bitAnd: (1 << n - 1) bitInvert) bitXor: (b₁ bitAnd: 1 << n - 1))]! !
+		words1 bits: n at: i-1*32 + 1 put: ((s bitXor: x₁) bitOr: (t bitXor: y₁)).
+		words2 bits: n at: i-1*32 + 1 put: (s bitAnd: t)]! !
 
 !TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/15/2023 13:36:10'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 timesScalar: anElement
@@ -5867,7 +5846,7 @@ example5GL
 	on the vector space of 3-tuples with rational coefficients."
 	^ (ℚ ^ 3) automorphisms! !
 
-!Domain class methodsFor: 'initialization' stamp: 'len 5/15/2023 17:12:20'!
+!Domain class methodsFor: 'initialization' stamp: 'len 5/17/2023 14:33:54'!
 initializeAll
 	"First initialize transfinites, set globals ∞, ℵ and ω:"
 	Ordinal initialize.
@@ -5884,7 +5863,10 @@ initializeAll
 	Morphism withAllSubclassesDo: [:each| (each class selectors includes: #initialize) ifTrue: [each initialize]].
 	"Finally initialize any other classes that need initialization:"
 	BinaryArray initialize.
-	TernaryArray initialize! !
+	TernaryArray initialize.
+	Smalltalk
+		at: #𝔽₂ put: ℤ/2;
+		at: #𝔽₃ put: ℤ/3! !
 
 !Structure methodsFor: 'accessing' stamp: 'len 4/22/2020 07:02:11'!
 ambient
@@ -37741,6 +37723,28 @@ xxgcd: anInteger
 	Asume that the argument divides the receiver."
 	^ (self digitDiv: anInteger neg: false) first! !
 
+!SmallInteger methodsFor: '*algebra' stamp: 'len 5/17/2023 10:43:31'!
+bitConvolution16: anInteger
+	| a b c |
+	a _ self.
+	b _ anInteger.
+	c _ 0.
+	0 to: 15 do: [:i|
+		(a bitAnd: 1) = 1 ifTrue: [c _ c bitXor: (b bitShift: i)].
+		a _ a bitShift: -1].
+	^ c! !
+
+!SmallInteger methodsFor: '*algebra' stamp: 'len 5/17/2023 10:40:15'!
+bitConvolution32: anInteger
+	| a b c |
+	a _ self.
+	b _ anInteger.
+	c _ 0.
+	0 to: 31 do: [:i|
+		(a bitAnd: 1) = 1 ifTrue: [c _ c bitXor: (b bitShift: i)].
+		a _ a bitShift: -1].
+	^ c! !
+
 !SmallInteger methodsFor: '*algebra' stamp: 'len 5/13/2023 07:47:19'!
 bitCount
 	"Answer the number of bits that are set, i.e. the number of 1s in the binary representation."
@@ -38615,11 +38619,12 @@ replaceFrom: start to: stop withSparseMatrix: anArray columnIndices: columnIndic
 			sum _ (anArray at: j) * (anotherArray at: (columnIndices at: j)) + sum].
 		self at: i put: sum]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/9/2022 07:45:52'!
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/17/2023 21:11:47'!
 replaceFrom: start with: anArray1 from: start1 to: stop1 convolution: anArray2 from: start2 to: stop2
 	| s1 s2 k tempArray tempSize depth m |
 	s1 _ stop1 - start1 + 1.
 	s2 _ stop2 - start2 + 1.
+	self flag: #fixme. "assumes commutativity"
 	s1 < s2 ifTrue: [^ self replaceFrom: start with: anArray2 from: start2 to: stop2 convolution: anArray1 from: start1 to: stop1].
 	k _ self karatsubaThreshold.
 	s1 < k ifTrue: [^ self replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2].
@@ -38854,17 +38859,68 @@ bitSupportDo: aBlock
 			word _ word bitShift: -1].
 		i _ i + 32]! !
 
-!WordArray methodsFor: '*algebra-low level' stamp: 'len 5/15/2023 12:29:02'!
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 5/17/2023 12:15:45'!
+bits: length at: index
+	"Read the desired number of bits from the receiver starting at the given bit index.
+	Assume length <= 32."
+	| max i₀ i r bits |
+	i₀ _ index - 1.
+	i _ (i₀ bitShift: -5) + 1.
+	i <= (max _ self size) ifFalse: [^ 0].
+	bits _ self at: i.
+	r _ i*32 - i₀. "r ∈ [1..32]"
+	r = 32 ifTrue: [length = 32 ifTrue: [^ bits]] ifFalse: [bits _ bits bitShift: r - 32].
+	(length > r and: [i < max]) ifFalse: [^ bits bitAnd: (1 bitShift: length) - 1].
+	bits _ bits bitXor: (((self at: i+1) bitAnd: (1 bitShift: 32 - r) - 1) bitShift: r).
+	^ bits bitAnd: (1 bitShift: length) - 1! !
+
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 5/17/2023 17:28:47'!
+bits: length at: index put: bits
+	"Write the desired number of bits to the receiver starting at the given bit index.
+	Assume length <= 32."
+	| i₀ i r mask |
+	self flag: #fixme. "if length = 32 and the index is aligned to 32 no need to use mask or read previous value"
+"	self assert: bits highBit <= length.
+	self assert: (length between: 1 and: 32)."
+	i₀ _ index - 1.
+	i _ (i₀ bitShift: -5) + 1.
+	r _ i*32 - i₀. "r ∈ [1..32]"
+	mask _ (1 bitShift: (r min: length)) - 1 bitShift: 32 - r.
+	self at: i put: (((self at: i) bitAnd: mask bitInvert) bitXor: ((bits bitShift: 32 - r) bitAnd: mask)).
+	r < length ifFalse: [^ bits].
+	mask _ (1 bitShift: length - r) - 1.
+	i _ i + 1.
+	self at: i put: (((self at: i) bitAnd: mask bitInvert) bitXor: ((bits bitShift: r negated) bitAnd: mask)).
+	^ bits! !
+
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 5/17/2023 17:25:57'!
+bits: length at: index xor: bits
+	"XOR the desired number of bits with the receiver starting at the given bit index.
+	Assume length <= 32."
+	| i₀ i r mask |
+"	self assert: bits highBit <= length.
+	self assert: (length between: 1 and: 32)."
+	i₀ _ index - 1.
+	i _ (i₀ bitShift: -5) + 1.
+	r _ i*32 - i₀. "r ∈ [1..32]"
+	mask _ (1 bitShift: (r min: length)) - 1 bitShift: 32 - r.
+	self at: i put: ((self at: i) bitXor: ((bits bitShift: 32 - r) bitAnd: mask)).
+	r < length ifFalse: [^ bits].
+	mask _ (1 bitShift: length - r) - 1.
+	i _ i + 1.
+	self at: i put: ((self at: i) bitXor: ((bits bitShift: r negated) bitAnd: mask)).
+	^ bits! !
+
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 5/17/2023 16:41:34'!
 clearBitsFrom: start to: stop
-	| n r i |
+	| n i₀ i r |
 	(n _ stop - start + 1) > 0 ifFalse: [^ self].
-	r _ start - 1 \\ 32.
-	i _ start - 1 // 32 + 1.
-	r > 0 ifTrue:
-		[n < 32
-			ifTrue: [self at: i put: ((self at: i) bitAnd: (1 << n - 1 << r) bitInvert)]
-			ifFalse: [self at: i put: ((self at: i) bitAnd: 1 << r - 1)].
-		n _ n - (32 - r). i _ i + 1].
+	i₀ _ start - 1.
+	i _ (i₀ bitShift: -5) + 1.
+	r _ i*32 - i₀ min: n. "r ∈ [1..32]"
+	r = 32 ifFalse:
+		[self bits: r at: start put: 0.
+		n _ n - r. i _ i + 1].
 "	(j bitAnd: 31) = 1
 		ifTrue:
 			[q _ n // 32.
@@ -38875,23 +38931,19 @@ clearBitsFrom: start to: stop
 				[self at: i put: 0..
 				n _ n - 32. i _ i + 1]"]".
 	n > 0 ifTrue:
-		[self at: i put: ((self at: i) bitAnd: (1 << n - 1) bitInvert)]! !
+		[self bits: n at: i-1*32 + 1 put: 0]! !
 
-!WordArray methodsFor: '*algebra-low level' stamp: 'len 5/15/2023 12:14:58'!
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 5/17/2023 16:39:30'!
 replaceBitsFrom: start to: stop with: replacement startingAt: repStart	
-	| n r i j a b |
+	| n i₀ i r j |
 	(n _ stop - start + 1) > 0 ifFalse: [^ self].
-	r _ start - 1 \\ 32.
-	i _ start - 1 // 32 + 1.
+	i₀ _ start - 1.
+	i _ (i₀ bitShift: -5) + 1.
+	r _ i*32 - i₀ min: n. "r ∈ [1..32]"
 	j _ repStart.
-	r > 0 ifTrue:
-		[a _ self at: i.
-		b _ replacement wordAtBit: j.
-		n < 32
-			ifTrue: [b _ b bitAnd: (1 << n - 1). a _ a bitAnd: (1 << n - 1 << r) bitInvert]
-			ifFalse: [a _ a bitAnd: 1 << r - 1].
-		self at: i put: (a bitXor: (b bitAnd: 1 << (32 - r) - 1) << r).
-		n _ n - (32 - r). j _ j + 32 - r. i _ i + 1].
+	r = 32 ifFalse:
+		[self bits: r at: start put: (replacement bits: r at: j).
+		n _ n - r. j _ j + r. i _ i + 1].
 "	(j bitAnd: 31) = 1
 		ifTrue:
 			[q _ n // 32.
@@ -38899,29 +38951,23 @@ replaceBitsFrom: start to: stop with: replacement startingAt: repStart
 			i _ i + q. q _ q * 32. n _ n - q. j _ j + q]
 		ifFalse:
 			["[n >= 32] whileTrue:
-				[self at: i put: (replacement wordAtBit: j).
+				[self at: i put: (replacement bits: 32 at: j).
 				n _ n - 32. j _ j + 32. i _ i + 1]"]".
 	n > 0 ifTrue:
-		[a _ self at: i.
-		b _ replacement wordAtBit: j.
-		self at: i put: ((a bitAnd: (1 << n - 1) bitInvert) bitXor: (b bitAnd: 1 << n - 1))]! !
+		[self bits: n at: i-1*32 + 1 put: (replacement bits: n at: j)]! !
 
-!WordArray methodsFor: '*algebra-low level' stamp: 'len 5/15/2023 12:20:41'!
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 5/17/2023 16:38:05'!
 replaceBitsFrom: start to: stop with: anArray1 startingAt: start1 and: anArray2 startingAt: start2	
-	| n r i j k a b |
+	| n i₀ i r j k |
 	(n _ stop - start + 1) > 0 ifFalse: [^ self].
-	r _ start - 1 \\ 32.
-	i _ start - 1 // 32 + 1.
+	i₀ _ start - 1.
+	i _ (i₀ bitShift: -5) + 1.
+	r _ i*32 - i₀ min: n. "r ∈ [1..32]"
 	j _ start1.
 	k _ start2.
-	r > 0 ifTrue:
-		[a _ self at: i.
-		b _ (anArray1 wordAtBit: j) bitAnd: (anArray2 wordAtBit: k).
-		n < 32
-			ifTrue: [b _ b bitAnd: (1 << n - 1). a _ a bitAnd: (1 << n - 1 << r) bitInvert]
-			ifFalse: [a _ a bitAnd: 1 << r - 1].
-		self at: i put: (a bitXor: (b bitAnd: 1 << (32 - r) - 1) << r).
-		n _ n - (32 - r). j _ j + 32 - r. k _ k + 32 - r. i _ i + 1].
+	r = 32 ifFalse:
+		[self bits: r at: start put: ((anArray1 bits: r at: j) bitAnd: (anArray2 bits: r at: k)).
+		n _ n - r. j _ j + r. k _ k + r. i _ i + 1].
 	((j bitAnd: 31) = 1 and: [(k bitAnd: 31) = 1])
 		ifTrue:
 			[j _ j - 1 // 32 + 1. k _ k - 1 // 32 + 1.
@@ -38931,29 +38977,23 @@ replaceBitsFrom: start to: stop with: anArray1 startingAt: start1 and: anArray2 
 			j _ j - 1 * 32 + 1. k _ k - 1 * 32 + 1]
 		ifFalse:
 			[[n >= 32] whileTrue:
-				[self at: i put: ((anArray1 wordAtBit: j) bitAnd: (anArray2 wordAtBit: k)).
+				[self at: i put: ((anArray1 bits: 32 at: j) bitAnd: (anArray2 bits: 32 at: k)).
 				n _ n - 32. j _ j + 32. k _ k + 32. i _ i + 1]].
 	n > 0 ifTrue:
-		[a _ self at: i.
-		b _ (anArray1 wordAtBit: j) bitAnd: (anArray2 wordAtBit: k).
-		self at: i put: ((a bitAnd: (1 << n - 1) bitInvert) bitXor: (b bitAnd: 1 << n - 1))]! !
+		[self bits: n at: i-1*32 + 1 put: ((anArray1 bits: n at: j) bitAnd: (anArray2 bits: n at: k))]! !
 
-!WordArray methodsFor: '*algebra-low level' stamp: 'len 5/15/2023 12:19:09'!
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 5/17/2023 16:36:13'!
 replaceBitsFrom: start to: stop with: anArray1 startingAt: start1 xor: anArray2 startingAt: start2	
-	| n r i j k a b |
+	| n i₀ r i j k |
 	(n _ stop - start + 1) > 0 ifFalse: [^ self].
-	r _ start - 1 \\ 32.
-	i _ start - 1 // 32 + 1.
+	i₀ _ start - 1.
+	i _ (i₀ bitShift: -5) + 1.
+	r _ i*32 - i₀ min: n. "r ∈ [1..32]"
 	j _ start1.
 	k _ start2.
-	r > 0 ifTrue:
-		[a _ self at: i.
-		b _ (anArray1 wordAtBit: j) bitXor: (anArray2 wordAtBit: k).
-		n < 32
-			ifTrue: [b _ b bitAnd: (1 << n - 1). a _ a bitAnd: (1 << n - 1 << r) bitInvert]
-			ifFalse: [a _ a bitAnd: 1 << r - 1].
-		self at: i put: (a bitXor: (b bitAnd: 1 << (32 - r) - 1) << r).
-		n _ n - (32 - r). j _ j + 32 - r. k _ k + 32 - r. i _ i + 1].
+	r = 32 ifFalse:
+		[self bits: r at: start put: ((anArray1 bits: r at: j) bitXor: (anArray2 bits: r at: k)).
+		n _ n - r. j _ j + r. k _ k + r. i _ i + 1].
 	((j bitAnd: 31) = 1 and: [(k bitAnd: 31) = 1])
 		ifTrue:
 			[j _ j - 1 // 32 + 1. k _ k - 1 // 32 + 1.
@@ -38963,28 +39003,15 @@ replaceBitsFrom: start to: stop with: anArray1 startingAt: start1 xor: anArray2 
 			j _ j - 1 * 32 + 1. k _ k - 1 * 32 + 1]
 		ifFalse:
 			[[n >= 32] whileTrue:
-				[self at: i put: ((anArray1 wordAtBit: j) bitXor: (anArray2 wordAtBit: k)).
+				[self at: i put: ((anArray1 bits: 32 at: j) bitXor: (anArray2 bits: 32 at: k)).
 				n _ n - 32. j _ j + 32. k _ k + 32. i _ i + 1]].
 	n > 0 ifTrue:
-		[a _ self at: i.
-		b _ (anArray1 wordAtBit: j) bitXor: (anArray2 wordAtBit: k).
-		self at: i put: ((a bitAnd: (1 << n - 1) bitInvert) bitXor: (b bitAnd: 1 << n - 1))]! !
+		[self bits: n at: i-1*32 + 1 put: ((anArray1 bits: n at: j) bitXor: (anArray2 bits: n at: k))]! !
 
 !WordArray methodsFor: '*algebra' stamp: 'len 5/11/2023 15:29:25'!
 weight
 	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
 	^ self count: [:each| each ~~ 0]! !
-
-!WordArray methodsFor: '*algebra-low level' stamp: 'len 5/15/2023 12:16:15'!
-wordAtBit: anInteger
-	| i r bits |
-	i _ (anInteger - 1 bitShift: -5) + 1.
-	i > self size ifTrue: [^ 0].
-	bits _ self at: i.
-	(r _ anInteger - (i*32) + 31) = 0 ifTrue: [^ bits].
-	bits _ bits >> r.
-	i >= self size ifTrue: [^ bits].
-	^ bits bitXor: ((self at: i+1) bitAnd: 1 << r - 1) << (32 - r)! !
 
 !DoubleByteArray methodsFor: '*algebra-lowlevel' stamp: 'len 5/12/2023 14:34:47'!
 from: start to: stop by: increment dot: anArray startingAt: start2 by: increment2 modulo: modulus
