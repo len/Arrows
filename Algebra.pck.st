@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5597] on 17 May 2023 at 9:53:30 pm'!
+'From Cuis 6.0 [latest update: #5597] on 18 May 2023 at 4:08:53 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and sheaves of modules.
 
 References:
@@ -63,7 +63,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 67!
+!provides: 'Algebra' 1 69!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'Transfinites' 1 2 nil!
@@ -160,7 +160,7 @@ ProductArray class
 
 !classDefinition: #TernaryArray category: #'Algebra-Algorithms-Arrays'!
 ArrayedCollection subclass: #TernaryArray
-	instanceVariableNames: 'words1 words2 size'
+	instanceVariableNames: 'words₀ words₁ size'
 	classVariableNames: 'MinusOne One Zero'
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Arrays'!
@@ -1458,14 +1458,14 @@ Matrix subclass: #SparseMatrix
 SparseMatrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #WindowMatrix category: #'Algebra-Modules'!
-Matrix subclass: #WindowMatrix
+!classDefinition: #Submatrix category: #'Algebra-Modules'!
+Matrix subclass: #Submatrix
 	instanceVariableNames: 'coefficients rowOffsets rowSize'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'WindowMatrix class' category: #'Algebra-Modules'!
-WindowMatrix class
+!classDefinition: 'Submatrix class' category: #'Algebra-Modules'!
+Submatrix class
 	instanceVariableNames: ''!
 
 !classDefinition: #BilinearMap category: #'Algebra-Modules-Multilinear'!
@@ -3900,20 +3900,9 @@ fillWithMatrixTranspose: anArray width: width
 	self flag: #fixme. "TODO"
 	super fillWithMatrixTranspose: anArray width: width! !
 
-!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 17:34:37'!
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/18/2023 16:00:07'!
 from: start to: stop dot: anArray startingAt: start2
-	| n i j sum r |
-	(n _ stop - start + 1) > 0 ifFalse: [^ Zero].
-	i _ start.
-	j _ start2.
-	sum _ 0.
-	[n > 0] whileTrue:
-		[r _ n min: 32.
-		sum _ ((self bits: r at: i) bitAnd: (anArray bits: r at: j)) bitXor: sum.
-		i _ i + r.
-		j _ j + r.
-		n _ n - r].
-	^ sum bitParity32 = 1 ifTrue: [One] ifFalse: [Zero]! !
+	^ (self from: start to: stop rawDot: anArray startingAt: start2) = 1 ifTrue: [One] ifFalse: [Zero]! !
 
 !BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 17:32:21'!
 from: start to: stop dot: anArray startingAt: start2 by: increment2
@@ -3932,6 +3921,37 @@ from: start to: stop dot: anArray startingAt: start2 by: increment2
 			i <= stop ifFalse: [^ isOne ifTrue: [One] ifFalse: [Zero]].
 			w _ w bitShift: -1]].
 	^ isOne ifTrue: [One] ifFalse: [Zero]! !
+
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/18/2023 15:54:51'!
+from: start to: stop rawDot: anArray
+	| n i j sum r |
+	(n _ stop - start + 1) > 0 ifFalse: [^ 0].
+	i _ start.
+	j _ 1.
+	sum _ 0.
+	[n > 0] whileTrue:
+		[r _ n min: 32.
+		sum _ ((self bits: r at: i) bitAnd: (anArray words at: j)) bitXor: sum.
+		i _ i + r.
+		j _ j + 1.
+		n _ n - r].
+	^ sum bitParity32! !
+
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/18/2023 15:56:24'!
+from: start to: stop rawDot: anArray startingAt: start2
+	| n i j sum r |
+	start2 = 1 ifTrue: [^ self from: start to: stop rawDot: anArray]. "30% faster"
+	(n _ stop - start + 1) > 0 ifFalse: [^ 0].
+	i _ start.
+	j _ start2.
+	sum _ 0.
+	[n > 0] whileTrue:
+		[r _ n min: 32.
+		sum _ ((self bits: r at: i) bitAnd: (anArray bits: r at: j)) bitXor: sum.
+		i _ i + r.
+		j _ j + r.
+		n _ n - r].
+	^ sum bitParity32! !
 
 !BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 21:32:16'!
 karatsubaThreshold
@@ -3963,13 +3983,29 @@ replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anEl
 	anElement isZero ifTrue: [^ self zeroFrom: start to: stop].
 	self replaceFrom: start to: stop with: anArray startingAt: srcStart! !
 
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/18/2023 16:08:37'!
+replaceFrom: start to: stop withMatrix: anArray1 width: width timesTuple: anArray2
+	| k ℓ bits |
+	self flag: #fixme. "this implementation is not much faster than super"
+"	super replaceFrom: start to: stop withMatrix: anArray1 width: width timesTuple: anArray2"
+	width = 0 ifTrue: [^ self].
+	k _ 1.
+	start to: stop by: 32 do: [:i|
+		ℓ _ stop-i+1 min: 32.
+		bits _ 0.
+		0 to: ℓ-1 do: [:j|
+			bits _ bits bitXor: ((anArray1 from: k to: k+width-1 rawDot: anArray2 startingAt: 1) bitShift: j).
+			k _ k + width].
+		self bits: ℓ at: i put: bits]! !
+
 !BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:40:46'!
 replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
 	self replaceFrom: start to: stop with: anArray startingAt: srcStart! !
 
-!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 19:59:31'!
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 21:56:39'!
 replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong2: anArray2 from: start2 to: stop2
 	| i r |
+	self flag: #deprecated.
 	self zeroFrom: start to: start + stop1 - start1 + stop2 - start2.
 	i _ start2.
 	[i <= stop2] whileTrue:
@@ -3988,8 +4024,8 @@ replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong2: anArr
 					i _ i + 1.
 					i <= stop2 ifFalse: [^ self]]]]! !
 
-!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 21:48:08'!
-replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/18/2023 00:42:07'!
+replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong3: anArray2 from: start2 to: stop2
 	| i j x y n m windowSize |
 	self zeroFrom: start to: start + stop1 - start1 + stop2 - start2.
 	windowSize _ 16.
@@ -4007,6 +4043,33 @@ replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArra
 					y = 0 ifFalse: [self bits: n+m-1 at: i-start2+j-start1+start xor: (x bitConvolution16: y)].
 					j _ j + m]].
 		i _ i + windowSize]! !
+
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/18/2023 11:46:34'!
+replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
+	| i j x y z n m windowSize ℓ k k₀ |
+	self zeroFrom: start to: start + stop1 - start1 + stop2 - start2.
+	windowSize _ 30. "so that the convolution doesn't exceed the size of a SmallInteger (60 bits)"
+	i _ start2.
+	[i <= stop2] whileTrue:
+		[n _ windowSize min: stop2 - i + 1.
+		"(n _ (x _ anArray2 bits: n at: i) highBit) = 0"
+		(x _ anArray2 bits: n at: i) = 0
+			ifFalse:
+				[k₀ _ i - start2 - start1 + start.
+				j _ start1.
+				[j <= stop1] whileTrue:
+					["m _ windowSize * 2 - n min: stop1 - j + 1."
+					m _ windowSize min: stop1 - j + 1.
+					(y _ anArray1 bits: m at: j) = 0 ifFalse:
+						[z _ x bitConvolution30: y. "this matches the window size"
+						k _ k₀ + j.
+						(ℓ _ n+m-1) <= 32
+							ifTrue: [	self bits: ℓ at: k xor: z]
+							ifFalse:
+								[self bits: 32 at: k xor: (z bitAnd: 16rFFFFFFFF).
+								self bits: ℓ - 32 at: k + 32 xor: (z bitShift: -32)]].
+					j _ j + m]].
+		i _ i + n]! !
 
 !BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/13/2023 21:31:16'!
 zeroFrom: start to: stop
@@ -4318,7 +4381,7 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 st
 		j1 _ j1 + n.
 		j2 _ j2 + n]! !
 
-!GaloisPackedArray methodsFor: 'operations-low level' stamp: 'len 5/15/2023 02:05:05'!
+!GaloisPackedArray methodsFor: 'operations-low level' stamp: 'len 5/18/2023 01:31:59'!
 replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anElement
 	| n scalarCoefficients modulusCoefficients inv tmp j |
 	anElement isInteger ifTrue: [^ super replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anElement].
@@ -4939,39 +5002,39 @@ species
 components: anArray scalars: aProductRing
 	^ self basicNew components: anArray scalars: aProductRing! !
 
-!TernaryArray methodsFor: 'accessing' stamp: 'len 5/16/2023 17:31:18'!
+!TernaryArray methodsFor: 'accessing' stamp: 'len 5/17/2023 23:31:09'!
 at: anInteger
 	anInteger > size ifTrue: [^ self errorOutOfBounds].
-	(words1 bitAt: anInteger) = 0 ifTrue: [^ Zero].
-	^ (words2 bitAt: anInteger) = 0 ifTrue: [One] ifFalse: [MinusOne]! !
+	(words₀ bitAt: anInteger) = 0 ifTrue: [^ Zero].
+	^ (words₁ bitAt: anInteger) = 0 ifTrue: [One] ifFalse: [MinusOne]! !
 
-!TernaryArray methodsFor: 'accessing' stamp: 'len 5/16/2023 17:36:53'!
+!TernaryArray methodsFor: 'accessing' stamp: 'len 5/17/2023 23:31:09'!
 at: anInteger put: anElement
-	anElement isZero ifTrue: [words1 bitAt: anInteger put: 0. words2 bitAt: anInteger put: 0. ^ anElement].
-	anElement isOne ifTrue: [words1 bitAt: anInteger put: 1. words2 bitAt: anInteger put: 0. ^ anElement].
+	anElement isZero ifTrue: [words₀ bitAt: anInteger put: 0. words₁ bitAt: anInteger put: 0. ^ anElement].
+	anElement isOne ifTrue: [words₀ bitAt: anInteger put: 1. words₁ bitAt: anInteger put: 0. ^ anElement].
 	anElement = MinusOne ifFalse: [^ self errorImproperStore].
-	words1 bitAt: anInteger put: 1. words2 bitAt: anInteger put: 1.
+	words₀ bitAt: anInteger put: 1. words₁ bitAt: anInteger put: 1.
 	^ anElement! !
 
-!TernaryArray methodsFor: 'accessing' stamp: 'len 5/15/2023 16:43:59'!
+!TernaryArray methodsFor: 'accessing' stamp: 'len 5/17/2023 23:31:09'!
 atAllPut: anObject
 	anObject = Zero ifFalse: [^ super atAllPut: anObject].
-	words1 atAllPut: 0.
-	words2 atAllPut: 0! !
+	words₀ atAllPut: 0.
+	words₁ atAllPut: 0! !
 
-!TernaryArray methodsFor: 'accessing' stamp: 'len 5/15/2023 16:33:40'!
+!TernaryArray methodsFor: 'accessing' stamp: 'len 5/17/2023 23:28:37'!
 firstNonzeroIndex
 	"Answer the index of the first nonzero entry, or nil."
 	| wordIndex |
-	(wordIndex _ words1 firstNonzeroIndex) ifNil: [^ nil].
-	^ wordIndex - 1 * 32 + (words1 at: wordIndex) lowBit! !
+	(wordIndex _ words₀ firstNonzeroIndex) ifNil: [^ nil].
+	^ wordIndex - 1 * 32 + (words₀ at: wordIndex) lowBit! !
 
-!TernaryArray methodsFor: 'accessing' stamp: 'len 5/15/2023 16:35:33'!
+!TernaryArray methodsFor: 'accessing' stamp: 'len 5/17/2023 23:28:37'!
 lastNonzeroIndex
 	"Answer the index of the last nonzero entry, or nil."
 	| wordIndex |
-	(wordIndex _ words1 lastNonzeroIndex) ifNil: [^ nil].
-	^ wordIndex - 1 * 32 + (words1 at: wordIndex) highBit! !
+	(wordIndex _ words₀ lastNonzeroIndex) ifNil: [^ nil].
+	^ wordIndex - 1 * 32 + (words₀ at: wordIndex) highBit! !
 
 !TernaryArray methodsFor: 'accessing' stamp: 'len 5/15/2023 17:37:21'!
 lift
@@ -4989,19 +5052,19 @@ scalars
 size
 	^ size! !
 
-!TernaryArray methodsFor: 'comparing' stamp: 'len 5/15/2023 16:45:01'!
+!TernaryArray methodsFor: 'comparing' stamp: 'len 5/17/2023 23:31:35'!
 = anObject
-	^ self class = anObject class and: [size = anObject size and: [words1 = anObject words1 and: [words2 = anObject words2]]]! !
+	^ self class = anObject class and: [size = anObject size and: [words₀ = anObject words₀ and: [words₁ = anObject words₁]]]! !
 
-!TernaryArray methodsFor: 'comparing' stamp: 'len 5/15/2023 16:46:10'!
+!TernaryArray methodsFor: 'comparing' stamp: 'len 5/17/2023 23:31:09'!
 hash
-	^ words1 hash hashMultiply + words2 hash! !
+	^ words₀ hash hashMultiply + words₁ hash! !
 
-!TernaryArray methodsFor: 'copying' stamp: 'len 5/15/2023 13:07:57'!
+!TernaryArray methodsFor: 'copying' stamp: 'len 5/17/2023 23:31:09'!
 postCopy
 	super postCopy.
-	words1 _ words1 copy.
-	words2 _ words2 copy! !
+	words₀ _ words₀ copy.
+	words₁ _ words₁ copy! !
 
 !TernaryArray methodsFor: 'operations' stamp: 'len 5/15/2023 16:04:15'!
 * anObject
@@ -5027,11 +5090,11 @@ polynomialValue: anObject
 	"MinusOne = anObject ifTrue: [^ self alternateSum]."
 	^ super polynomialValue: anObject! !
 
-!TernaryArray methodsFor: 'operations' stamp: 'len 5/16/2023 13:06:06'!
+!TernaryArray methodsFor: 'operations' stamp: 'len 5/17/2023 23:28:37'!
 supportDo: aBlock
-	words1 bitSupportDo: aBlock! !
+	words₀ bitSupportDo: aBlock! !
 
-!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 19:02:37'!
+!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 23:31:42'!
 from: start to: stop dot: anArray startingAt: start2
 	| n i j sum r x₀ x₁ z y₀ y₁ |
 	(n _ stop - start + 1) > 0 ifFalse: [^ Zero].
@@ -5040,10 +5103,10 @@ from: start to: stop dot: anArray startingAt: start2
 	sum _ 0.
 	[n > 0] whileTrue:
 		[r _ n min: 32.
-		x₀ _ words1 bits: r at: i. x₁ _ words2 bits: r at: i.
-		y₀ _ anArray words1 bits: r at: j. y₁ _ anArray words2 bits: r at: j.
+		x₀ _ words₀ bits: r at: i. x₁ _ words₁ bits: r at: i.
+		y₀ _ anArray words₀ bits: r at: j. y₁ _ anArray words₁ bits: r at: j.
 		z _ x₀ bitAnd: y₀. "each nonzero"
-		sum _ sum + (((x₁ bitAnd: y₁) bitOr: (x₁ bitInvert bitAnd: y₁ bitInvert)) bitAnd: z) bitCount. "ones"
+		sum _ sum + (((x₁ bitAnd: y₁) bitOr: (x₁ bitOr: y₁) bitInvert) bitAnd: z) bitCount. "ones"
 		sum _ sum - ((x₁ bitXor: y₁) bitAnd: z) bitCount. "minus ones"
 		i _ i + r. j _ j + r. n _ n - r].
 	^ self scalars !! sum! !
@@ -5053,12 +5116,12 @@ from: start to: stop dot: anArray startingAt: start2 by: increment2
 	increment2 = 1 ifTrue: [^ self from: start to: stop dot: anArray startingAt: start2].
 	^ super from: start to: stop dot: anArray startingAt: start2 by: increment2! !
 
-!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/15/2023 13:23:18'!
+!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 23:31:47'!
 replaceFrom: start to: stop with: replacement startingAt: repStart
-	words1 replaceBitsFrom: start to: stop with: replacement words1 startingAt: repStart.
-	words2 replaceBitsFrom: start to: stop with: replacement words2 startingAt: repStart! !
+	words₀ replaceBitsFrom: start to: stop with: replacement words₀ startingAt: repStart.
+	words₁ replaceBitsFrom: start to: stop with: replacement words₁ startingAt: repStart! !
 
-!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 17:09:41'!
+!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 23:32:04'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 startingAt: start2	
 	| n i₀ i r j k x₀ x₁ y₀ y₁ t |
 	(n _ stop - start + 1) > 0 ifFalse: [^ self].
@@ -5068,27 +5131,27 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 st
 	j _ start1.
 	k _ start2.
 	r = 32 ifFalse:
-		[x₀ _ anArray1 words1 bits: r at: j. x₁ _ anArray1 words2 bits: r at: j.
-		y₀ _ anArray2 words1 bits: r at: k. y₁ _ anArray2 words2 bits: r at: k.
+		[x₀ _ anArray1 words₀ bits: r at: j. x₁ _ anArray1 words₁ bits: r at: j.
+		y₀ _ anArray2 words₀ bits: r at: k. y₁ _ anArray2 words₁ bits: r at: k.
 		t _ x₀ bitXor: y₀.
-		words1 bits: r at: start put: (t bitOr: (x₁ bitXor: y₁)).
-		words2 bits: r at: start put: ((t bitXor: y₁) bitAnd: (x₁ bitXor: y₀)).
+		words₀ bits: r at: start put: (t bitOr: (x₁ bitXor: y₁)).
+		words₁ bits: r at: start put: ((t bitXor: y₁) bitAnd: (x₁ bitXor: y₀)).
 		n _ n - r. j _ j + r. k _ k + r. i _ i + 1].
 	[n >= 32] whileTrue:
-		[x₀ _ anArray1 words1 bits: 32 at: j. x₁ _ anArray1 words2 bits: 32 at: j.
-		y₀ _ anArray2 words1 bits: 32 at: k. y₁ _ anArray2 words2 bits: 32 at: k.
+		[x₀ _ anArray1 words₀ bits: 32 at: j. x₁ _ anArray1 words₁ bits: 32 at: j.
+		y₀ _ anArray2 words₀ bits: 32 at: k. y₁ _ anArray2 words₁ bits: 32 at: k.
 		t _ x₀ bitXor: y₀.
-		words1 at: i put: (t bitOr: (x₁ bitXor: y₁)).
-		words2 at: i put: ((t bitXor: y₁) bitAnd: (x₁ bitXor: y₀)).
+		words₀ at: i put: (t bitOr: (x₁ bitXor: y₁)).
+		words₁ at: i put: ((t bitXor: y₁) bitAnd: (x₁ bitXor: y₀)).
 		n _ n - 32. j _ j + 32. k _ k + 32. i _ i + 1].
 	n > 0 ifTrue:
-		[x₀ _ anArray1 words1 bits: n at: j. x₁ _ anArray1 words2 bits: n at: j.
-		y₀ _ anArray2 words1 bits: n at: k. y₁ _ anArray2 words2 bits: n at: k.
+		[x₀ _ anArray1 words₀ bits: n at: j. x₁ _ anArray1 words₁ bits: n at: j.
+		y₀ _ anArray2 words₀ bits: n at: k. y₁ _ anArray2 words₁ bits: n at: k.
 		t _ x₀ bitXor: y₀.
-		words1 bits: n at: i-1*32 + 1 put: (t bitOr: (x₁ bitXor: y₁)).
-		words2 bits: n at: i-1*32 + 1 put: ((t bitXor: y₁) bitAnd: (x₁ bitXor: y₀))]! !
+		words₀ bits: n at: i-1*32 + 1 put: (t bitOr: (x₁ bitXor: y₁)).
+		words₁ bits: n at: i-1*32 + 1 put: ((t bitXor: y₁) bitAnd: (x₁ bitXor: y₀))]! !
 
-!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 17:14:54'!
+!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 23:32:25'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2	
 	| n i₀ i r j k x₀ x₁ y₀ y₁ s t |
 	(n _ stop - start + 1) > 0 ifFalse: [^ self].
@@ -5098,28 +5161,28 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 sta
 	j _ start1.
 	k _ start2.
 	r = 32 ifFalse:
-		[x₀ _ anArray1 words1 bits: r at: j. x₁ _ anArray1 words2 bits: r at: j.
-		y₀ _ anArray2 words1 bits: r at: k. y₁ _ anArray2 words2 bits: r at: k.
+		[x₀ _ anArray1 words₀ bits: r at: j. x₁ _ anArray1 words₁ bits: r at: j.
+		y₀ _ anArray2 words₀ bits: r at: k. y₁ _ anArray2 words₁ bits: r at: k.
 		s _ x₀ bitXor: y₁.
 		t _ x₁ bitXor: y₀.
-		words1 bits: r at: start put: ((s bitXor: x₁) bitOr: (t bitXor: y₁)).
-		words2 bits: r at: start put: (s bitAnd: t).
+		words₀ bits: r at: start put: ((s bitXor: x₁) bitOr: (t bitXor: y₁)).
+		words₁ bits: r at: start put: (s bitAnd: t).
 		n _ n - r. j _ j + r. k _ k + r. i _ i + 1].
 	[n >= 32] whileTrue:
-		[x₀ _ anArray1 words1 bits: 32 at: j. x₁ _ anArray1 words2 bits: 32 at: j.
-		y₀ _ anArray2 words1 bits: 32 at: k. y₁ _ anArray2 words2 bits: 32 at: k.
+		[x₀ _ anArray1 words₀ bits: 32 at: j. x₁ _ anArray1 words₁ bits: 32 at: j.
+		y₀ _ anArray2 words₀ bits: 32 at: k. y₁ _ anArray2 words₁ bits: 32 at: k.
 		s _ x₀ bitXor: y₁.
 		t _ x₁ bitXor: y₀.
-		words1 at: i put: ((s bitXor: x₁) bitOr: (t bitXor: y₁)).
-		words2 at: i put: (s bitAnd: t).
+		words₀ at: i put: ((s bitXor: x₁) bitOr: (t bitXor: y₁)).
+		words₁ at: i put: (s bitAnd: t).
 		n _ n - 32. j _ j + 32. k _ k + 32. i _ i + 1].
 	n > 0 ifTrue:
-		[x₀ _ anArray1 words1 bits: n at: j. x₁ _ anArray1 words2 bits: n at: j.
-		y₀ _ anArray2 words1 bits: n at: k. y₁ _ anArray2 words2 bits: n at: k.
+		[x₀ _ anArray1 words₀ bits: n at: j. x₁ _ anArray1 words₁ bits: n at: j.
+		y₀ _ anArray2 words₀ bits: n at: k. y₁ _ anArray2 words₁ bits: n at: k.
 		s _ x₀ bitXor: y₁.
 		t _ x₁ bitXor: y₀.
-		words1 bits: n at: i-1*32 + 1 put: ((s bitXor: x₁) bitOr: (t bitXor: y₁)).
-		words2 bits: n at: i-1*32 + 1 put: (s bitAnd: t)]! !
+		words₀ bits: n at: i-1*32 + 1 put: ((s bitXor: x₁) bitOr: (t bitXor: y₁)).
+		words₁ bits: n at: i-1*32 + 1 put: (s bitAnd: t)]! !
 
 !TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/15/2023 13:36:10'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 timesScalar: anElement
@@ -5127,11 +5190,11 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 sta
 	anElement isMinusOne ifTrue: [^ self replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 startingAt: start2].
 	self replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2! !
 
-!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/15/2023 16:56:17'!
+!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 23:32:34'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2
-	words1 replaceBitsFrom: start to: stop with: anArray1 words1 startingAt: start1 and: anArray2 words1 startingAt: start2.
-	words2 replaceBitsFrom: start to: stop with: anArray1 words2 startingAt: start1 xor: anArray2 words2 startingAt: start2.
-	words2 replaceBitsFrom: start to: stop with: words2 startingAt: start and: words1 startingAt: start! !
+	words₀ replaceBitsFrom: start to: stop with: anArray1 words₀ startingAt: start1 and: anArray2 words₀ startingAt: start2.
+	words₁ replaceBitsFrom: start to: stop with: anArray1 words₁ startingAt: start1 xor: anArray2 words₁ startingAt: start2.
+	words₁ replaceBitsFrom: start to: stop with: words₁ startingAt: start and: words₀ startingAt: start! !
 
 !TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/15/2023 13:38:31'!
 replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anElement
@@ -5139,59 +5202,59 @@ replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anEl
 	anElement isMinusOne ifTrue: [^ self replaceFrom: start to: stop withNegated: anArray startingAt: srcStart].
 	self replaceFrom: start to: stop with: anArray startingAt: srcStart! !
 
-!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/15/2023 13:27:50'!
+!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 23:32:39'!
 replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
-	words1 replaceBitsFrom: start to: stop with: anArray words1 startingAt: srcStart.
-	words2 replaceBitsFrom: start to: stop with: anArray words1 startingAt: srcStart xor: anArray words2 startingAt: srcStart! !
+	words₀ replaceBitsFrom: start to: stop with: anArray words₀ startingAt: srcStart.
+	words₁ replaceBitsFrom: start to: stop with: anArray words₀ startingAt: srcStart xor: anArray words₁ startingAt: srcStart! !
 
-!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/15/2023 13:23:35'!
+!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 23:31:09'!
 zeroFrom: start to: stop
-	words1 clearBitsFrom: start to: stop.
-	words2 clearBitsFrom: start to: stop! !
+	words₀ clearBitsFrom: start to: stop.
+	words₁ clearBitsFrom: start to: stop! !
 
 !TernaryArray methodsFor: 'printing' stamp: 'len 5/16/2023 13:54:13'!
 printOn: aStream
 	self do: [:each| aStream print: each]! !
 
-!TernaryArray methodsFor: 'testing' stamp: 'len 5/15/2023 16:37:44'!
+!TernaryArray methodsFor: 'testing' stamp: 'len 5/17/2023 23:28:37'!
 isZero
-	^ words1 isZero! !
+	^ words₀ isZero! !
 
-!TernaryArray methodsFor: 'testing' stamp: 'len 5/15/2023 16:37:23'!
+!TernaryArray methodsFor: 'testing' stamp: 'len 5/17/2023 23:28:37'!
 isZeroAt: anInteger
-	^ (words1 bitAt: anInteger) = 0! !
+	^ (words₀ bitAt: anInteger) = 0! !
 
-!TernaryArray methodsFor: 'private' stamp: 'len 5/16/2023 21:30:06'!
+!TernaryArray methodsFor: 'private' stamp: 'len 5/17/2023 23:31:09'!
 validate
 	super validate.
-	words1 size = words2 size ifFalse: [self error: 'slices sizes don''t match'].
-	size - 1 // 32 + 1 = words1 size ifFalse: [self error: 'too many words'].
+	words₀ size = words₁ size ifFalse: [self error: 'slices sizes don''t match'].
+	size - 1 // 32 + 1 = words₀ size ifFalse: [self error: 'too many words'].
 	size \\ 32 = 0 ifTrue: [^ self].
-	words1 last highBit <= (size \\ 32) ifFalse: [self error: 'tail is not zero'].
-	words2 last highBit <= (size \\ 32) ifFalse: [self error: 'tail is not zero']! !
+	words₀ last highBit <= (size \\ 32) ifFalse: [self error: 'tail is not zero'].
+	words₁ last highBit <= (size \\ 32) ifFalse: [self error: 'tail is not zero']! !
 
-!TernaryArray methodsFor: 'private' stamp: 'len 5/15/2023 18:00:48'!
+!TernaryArray methodsFor: 'private' stamp: 'len 5/17/2023 23:28:37'!
 weight
 	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
-	^ words1 bitCount! !
+	^ words₀ bitCount! !
 
-!TernaryArray methodsFor: 'private' stamp: 'len 5/15/2023 13:08:42'!
-words1
-	^ words1! !
+!TernaryArray methodsFor: 'private' stamp: 'len 5/17/2023 23:28:59'!
+words₀
+	^ words₀! !
 
-!TernaryArray methodsFor: 'private' stamp: 'len 5/16/2023 21:58:05'!
-words1: aWordArray1 words2: aWordArray2 size: anInteger
+!TernaryArray methodsFor: 'private' stamp: 'len 5/17/2023 23:33:41'!
+words₀: aWordArray words₁: anotherWordArray size: anInteger
 	| n |
-	n _ aWordArray1 size.
-	self assert: aWordArray2 size = aWordArray1 size.
+	n _ aWordArray size.
+	self assert: anotherWordArray size = aWordArray size.
 	anInteger - 1 // 32 + 1 = n ifFalse: [self error: 'too many words'].
-	words1 _ aWordArray1.
-	words2 _ aWordArray2.
+	words₀ _ aWordArray.
+	words₁ _ anotherWordArray.
 	size _ anInteger! !
 
-!TernaryArray methodsFor: 'private' stamp: 'len 5/15/2023 13:08:45'!
-words2
-	^ words2! !
+!TernaryArray methodsFor: 'private' stamp: 'len 5/17/2023 23:31:21'!
+words₁
+	^ words₁! !
 
 !TernaryArray class methodsFor: 'class initialization' stamp: 'len 5/15/2023 12:51:36'!
 initialize
@@ -5203,15 +5266,15 @@ initialize
 	Zero _ Z3 zero.
 	MinusOne _ One negated! !
 
-!TernaryArray class methodsFor: 'instance creation' stamp: 'len 5/16/2023 21:18:43'!
+!TernaryArray class methodsFor: 'instance creation' stamp: 'len 5/17/2023 23:34:43'!
 new: anInteger
 	| n |
 	n _ anInteger - 1 // 32 + 1.
-	^ self new: anInteger words1: (WordArray new: n) words2: (WordArray new: n)! !
+	^ self new: anInteger words₀: (WordArray new: n) words₁: (WordArray new: n)! !
 
-!TernaryArray class methodsFor: 'instance creation' stamp: 'len 5/15/2023 12:53:18'!
-new: anInteger words1: aWordArray1 words2: aWordArray2
-	^ self basicNew words1: aWordArray1 words2: aWordArray2 size: anInteger! !
+!TernaryArray class methodsFor: 'instance creation' stamp: 'len 5/17/2023 23:36:14'!
+new: anInteger words₀: aWordArray words₁: anotherWordArray
+	^ self basicNew words₀: aWordArray words₁: anotherWordArray size: anInteger! !
 
 !ZechArray methodsFor: 'accessing' stamp: 'len 5/11/2023 15:08:42'!
 at: anInteger
@@ -12199,14 +12262,14 @@ modulus: anInteger
 new: anInteger
 	^ TernaryArray new: anInteger! !
 
-!TernaryField methodsFor: 'random' stamp: 'len 5/16/2023 21:54:27'!
+!TernaryField methodsFor: 'random' stamp: 'len 5/17/2023 23:35:06'!
 new: anInteger atRandom: aRandom
 	| 𝔽₂ x₀ x₁ |
 	𝔽₂ _ ℤ/2.
 	x₀ _ 𝔽₂ new: anInteger atRandom: aRandom.
 	x₁ _ 𝔽₂ new: anInteger atRandom: aRandom.
 	x₁ _ x₁ ∧ x₀.
-	^ TernaryArray new: anInteger words1: x₀ words words2: x₁ words! !
+	^ TernaryArray new: anInteger words₀: x₀ words words₁: x₁ words! !
 
 !TernaryField methodsFor: 'private' stamp: 'len 5/16/2023 21:36:38'!
 isValidArray: anArray
@@ -12884,16 +12947,159 @@ new: p to: r
 	r = 1 ifTrue: [^ PrimeField new: p].
 	^ self modulus: (self irreduciblePolynomialOfDegree: r mod: p)! !
 
-!GaloisField class methodsFor: 'class initialization' stamp: 'len 5/12/2023 18:49:14'!
+!GaloisField class methodsFor: 'class initialization' stamp: 'len 5/18/2023 15:04:55'!
 initialize
 	super initialize.
-	"Conway polynomials for Galois fields of order <= 2^16:"
+	"Conway polynomials for all Galois fields of even order <= 2^64 and odd order < 2^16."
 	ConwayPolynomials _ Dictionary new.
-	#(((2 2) (1 1 1)) ((2 3) (1 1 0 1)) ((2 4) (1 1 0 0 1)) ((2 5) (1 0 1 0 0 1)) ((2 6) (1 1 0 1 1 0 1)) ((2 7) (1 1 0 0 0 0 0 1)) ((2 8) (1 0 1 1 1 0 0 0 1)) ((2 9) (1 0 0 0 1 0 0 0 0 1)) ((2 10) (1 1 1 1 0 1 1 0 0 0 1)) ((2 11) (1 0 1 0 0 0 0 0 0 0 0 1)) ((2 12) (1 1 0 1 0 1 1 1 0 0 0 0 1)) ((2 13) (1 1 0 1 1 0 0 0 0 0 0 0 0 1)) ((2 14) (1 0 0 1 0 1 0 1 0 0 0 0 0 0 1)) ((2 15) (1 0 1 0 1 1 0 0 0 0 0 0 0 0 0 1)) ((2 16) (1 0 1 1 0 1 0 0 0 0 0 0 0 0 0 0 1)) ((3 2) (2 2 1)) ((3 3) (1 2 0 1)) ((3 4) (2 0 0 2 1)) ((3 5) (1 2 0 0 0 1)) ((3 6) (2 2 1 0 2 0 1)) ((3 7) (1 0 2 0 0 0 0 1)) ((3 8) (2 2 2 0 1 2 0 0 1)) ((3 9) (1 1 2 2 0 0 0 0 0 1)) ((3 10) (2 1 0 0 2 2 2 0 0 0 1)) ((5 2) (2 4 1)) ((5 3) (3 3 0 1)) ((5 4) (2 4 4 0 1)) ((5 5) (3 4 0 0 0 1)) ((5 6) (2 0 1 4 1 0 1)) ((7 2) (3 6 1)) ((7 3) (4 0 6 1)) ((7 4) (3 4 5 0 1)) ((7 5) (4 1 0 0 0 1)) ((11 2) (2 7 1)) ((11 3) (9 2 0 1)) ((11 4) (2 10 8 0 1)) ((13 2) (2 12 1)) ((13 3) (11 2 0 1)) ((13 4) (2 12 3 0 1)) ((17 2) (3 16 1)) ((17 3) (14 1 0 1)) ((19 2) (2 18 1)) ((19 3) (17 4 0 1)) ((23 2) (5 21 1)) ((23 3) (18 2 0 1)) ((29 2) (2 24 1)) ((29 3) (27 2 0 1)) ((31 2) (3 29 1)) ((31 3) (28 1 0 1)) ((37 2) (2 33 1)) ((37 3) (35 6 0 1)) ((41 2) (6 38 1)) ((43 2) (3 42 1)) ((47 2) (5 45 1)) ((53 2) (2 49 1)) ((59 2) (2 58 1)) ((61 2) (2 60 1)) ((67 2) (2 63 1)) ((71 2) (7 69 1)) ((73 2) (5 70 1)) ((79 2) (3 78 1)) ((83 2) (2 82 1)) ((89 2) (3 82 1)) ((97 2) (5 96 1)) ((101 2) (2 97 1)) ((103 2) (5 102 1)) ((107 2) (2 103 1)) ((109 2) (6 108 1)) ((113 2) (3 101 1)) ((127 2) (3 126 1)) ((131 2) (2 127 1)) ((137 2) (3 131 1)) ((139 2) (2 138 1)) ((149 2) (2 145 1)) ((151 2) (6 149 1)) ((157 2) (5 152 1)) ((163 2) (2 159 1)) ((167 2) (5 166 1)) ((173 2) (2 169 1)) ((179 2) (2 172 1)) ((181 2) (2 177 1)) ((191 2) (19 190 1)) ((193 2) (5 192 1)) ((197 2) (2 192 1)) ((199 2) (3 193 1)) ((211 2) (2 207 1)) ((223 2) (3 221 1)) ((227 2) (2 220 1)) ((229 2) (6 228 1)) ((233 2) (3 232 1)) ((239 2) (7 237 1)) ((241 2) (7 238 1)) ((251 2) (6 242 1))) do: [:each| ConwayPolynomials at: each first put: each second]! !
+	#(
+(#[2 2] #[1 1 1])
+(#[2 3] #[1 1 0 1])
+(#[2 4] #[1 1 0 0 1])
+(#[2 5] #[1 0 1 0 0 1])
+(#[2 6] #[1 1 0 1 1 0 1])
+(#[2 7] #[1 1 0 0 0 0 0 1])
+(#[2 8] #[1 0 1 1 1 0 0 0 1])
+(#[2 9] #[1 0 0 0 1 0 0 0 0 1])
+(#[2 10] #[1 1 1 1 0 1 1 0 0 0 1])
+(#[2 11] #[1 0 1 0 0 0 0 0 0 0 0 1])
+(#[2 12] #[1 1 0 1 0 1 1 1 0 0 0 0 1])
+(#[2 13] #[1 1 0 1 1 0 0 0 0 0 0 0 0 1])
+(#[2 14] #[1 0 0 1 0 1 0 1 0 0 0 0 0 0 1])
+(#[2 15] #[1 0 1 0 1 1 0 0 0 0 0 0 0 0 0 1])
+(#[2 16] #[1 0 1 1 0 1 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 17] #[1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 18] #[1 1 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 1])
+(#[2 19] #[1 1 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 20] #[1 1 0 0 1 1 1 1 0 1 1 0 0 0 0 0 0 0 0 0 1])
+(#[2 21] #[1 0 1 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 22] #[1 0 0 0 0 1 1 0 1 1 1 1 1 0 0 0 0 0 0 0 0 0 1])
+(#[2 23] #[1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 24] #[1 0 0 1 0 1 0 1 0 1 1 0 0 1 1 1 1 0 0 0 0 0 0 0 1])
+(#[2 25] #[1 0 1 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 26] #[1 1 0 0 1 0 1 1 1 0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 27] #[1 0 1 1 0 1 0 1 0 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 28] #[1 0 1 0 0 1 1 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 29] #[1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 30] #[1 1 1 1 0 1 0 1 0 0 0 1 0 1 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 31] #[1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 32] #[1 0 0 1 1 0 0 1 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 33] #[1 0 0 1 0 0 1 0 1 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 34] #[1 1 1 0 1 1 1 1 1 0 0 1 1 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 35] #[1 0 1 0 0 1 0 1 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 36] #[1 1 0 0 0 1 1 0 1 0 0 0 0 1 1 0 0 1 0 1 1 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 37] #[1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 38] #[1 1 1 0 0 1 0 0 1 1 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 39] #[1 0 1 0 0 1 1 1 0 1 1 1 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 40] #[1 1 0 1 0 1 0 0 1 0 0 0 1 1 0 1 1 0 1 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 41] #[1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 42] #[1 1 1 0 0 1 1 0 0 1 0 1 1 0 0 0 0 0 1 0 1 0 0 0 1 1 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 43] #[1 0 0 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 44] #[1 1 0 1 1 0 0 0 0 0 0 0 0 0 0 0 1 1 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 45] #[1 0 0 0 0 0 1 0 0 0 0 1 1 0 1 1 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 46] #[1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 0 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 47] #[1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 48] #[1 0 0 1 0 0 0 1 1 0 1 1 1 0 0 0 0 1 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 49] #[1 1 1 1 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 50] #[1 0 1 0 1 0 1 0 1 1 1 0 1 1 1 0 1 1 0 1 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 51] #[1 0 0 0 0 0 1 0 0 1 0 0 1 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 52] #[1 1 0 0 1 0 0 1 0 0 1 0 0 0 1 1 0 1 0 0 0 1 0 1 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 53] #[1 1 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 54] #[1 1 1 0 1 0 0 1 0 0 0 0 0 1 0 1 1 1 1 0 0 1 0 0 0 1 0 1 0 1 1 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 55] #[1 0 0 0 1 0 0 1 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 56] #[1 0 1 1 1 0 0 0 1 1 0 1 0 1 1 0 0 0 0 1 0 0 1 0 0 0 1 0 0 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 57] #[1 1 1 1 1 1 1 0 1 0 1 1 0 1 0 0 1 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 58] #[1 1 0 1 0 1 1 1 1 0 1 1 1 0 0 0 1 0 1 0 0 0 1 0 1 1 1 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 59] #[1 1 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 60] #[1 0 1 1 1 1 0 0 1 0 0 0 1 0 0 0 0 1 0 1 0 0 1 0 0 1 1 0 0 0 1 0 1 1 1 0 1 0 0 1 0 1 1 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 61] #[1 1 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 62] #[1 1 0 0 0 0 1 0 0 0 0 0 1 1 1 0 1 1 1 1 1 1 0 0 1 1 1 1 1 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 63] #[1 1 1 1 1 0 0 0 1 1 0 1 0 0 0 1 1 1 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 64] #[1 1 1 0 1 1 0 1 0 0 1 1 1 1 0 0 0 0 1 0 1 1 1 1 1 1 1 0 0 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[3 2] #[2 2 1])
+(#[3 3] #[1 2 0 1])
+(#[3 4] #[2 0 0 2 1])
+(#[3 5] #[1 2 0 0 0 1])
+(#[3 6] #[2 2 1 0 2 0 1])
+(#[3 7] #[1 0 2 0 0 0 0 1])
+(#[3 8] #[2 2 2 0 1 2 0 0 1])
+(#[3 9] #[1 1 2 2 0 0 0 0 0 1])
+(#[3 10] #[2 1 0 0 2 2 2 0 0 0 1])
+(#[5 2] #[2 4 1])
+(#[5 3] #[3 3 0 1])
+(#[5 4] #[2 4 4 0 1])
+(#[5 5] #[3 4 0 0 0 1])
+(#[5 6] #[2 0 1 4 1 0 1])
+(#[7 2] #[3 6 1])
+(#[7 3] #[4 0 6 1])
+(#[7 4] #[3 4 5 0 1])
+(#[7 5] #[4 1 0 0 0 1])
+(#[11 2] #[2 7 1])
+(#[11 3] #[9 2 0 1])
+(#[11 4] #[2 10 8 0 1])
+(#[13 2] #[2 12 1])
+(#[13 3] #[11 2 0 1])
+(#[13 4] #[2 12 3 0 1])
+(#[17 2] #[3 16 1])
+(#[17 3] #[14 1 0 1])
+(#[19 2] #[2 18 1])
+(#[19 3] #[17 4 0 1])
+(#[23 2] #[5 21 1])
+(#[23 3] #[18 2 0 1])
+(#[29 2] #[2 24 1])
+(#[29 3] #[27 2 0 1])
+(#[31 2] #[3 29 1])
+(#[31 3] #[28 1 0 1])
+(#[37 2] #[2 33 1])
+(#[37 3] #[35 6 0 1])
+(#[41 2] #[6 38 1])
+(#[43 2] #[3 42 1])
+(#[47 2] #[5 45 1])
+(#[53 2] #[2 49 1])
+(#[59 2] #[2 58 1])
+(#[61 2] #[2 60 1])
+(#[67 2] #[2 63 1])
+(#[71 2] #[7 69 1])
+(#[73 2] #[5 70 1])
+(#[79 2] #[3 78 1])
+(#[83 2] #[2 82 1])
+(#[89 2] #[3 82 1])
+(#[97 2] #[5 96 1])
+(#[101 2] #[2 97 1])
+(#[103 2] #[5 102 1])
+(#[107 2] #[2 103 1])
+(#[109 2] #[6 108 1])
+(#[113 2] #[3 101 1])
+(#[127 2] #[3 126 1])
+(#[131 2] #[2 127 1])
+(#[137 2] #[3 131 1])
+(#[139 2] #[2 138 1])
+(#[149 2] #[2 145 1])
+(#[151 2] #[6 149 1])
+(#[157 2] #[5 152 1])
+(#[163 2] #[2 159 1])
+(#[167 2] #[5 166 1])
+(#[173 2] #[2 169 1])
+(#[179 2] #[2 172 1])
+(#[181 2] #[2 177 1])
+(#[191 2] #[19 190 1])
+(#[193 2] #[5 192 1])
+(#[197 2] #[2 192 1])
+(#[199 2] #[3 193 1])
+(#[211 2] #[2 207 1])
+(#[223 2] #[3 221 1])
+(#[227 2] #[2 220 1])
+(#[229 2] #[6 228 1])
+(#[233 2] #[3 232 1])
+(#[239 2] #[7 237 1])
+(#[241 2] #[7 238 1])
+(#[251 2] #[6 242 1])
+	) do: [:each| ConwayPolynomials at: each first put: each second]! !
 
-!GaloisField class methodsFor: 'private' stamp: 'len 5/12/2023 18:45:52'!
+!GaloisField class methodsFor: 'private' stamp: 'len 5/18/2023 14:53:27'!
 irreduciblePolynomialOfDegree: r mod: p
-	^ (PrimeField new: p) polynomials !! (ConwayPolynomials at: {p. r} ifAbsent: [^ super irreduciblePolynomialOfDegree: r mod: p])! !
+	(p <= 255 and: [r <= 255]) ifFalse: [^ super irreduciblePolynomialOfDegree: r mod: p].
+	^ (PrimeField new: p) polynomials !! (ConwayPolynomials at: {p. r} asByteArray ifAbsent: [^ super irreduciblePolynomialOfDegree: r mod: p])! !
 
 !FunctionField methodsFor: 'accessing' stamp: 'len 1/5/2017 19:50:45'!
 genus
@@ -24391,14 +24597,14 @@ postCopy
 	properties _ nil.
 	coefficients _ coefficients copy! !
 
-!DenseMatrix methodsFor: 'copying' stamp: 'len 5/16/2023 12:53:05'!
+!DenseMatrix methodsFor: 'copying' stamp: 'len 5/18/2023 14:58:20'!
 windowFrom: start to: stop
 	"Answer the submatrix of the receiver from start to stop."
 	| h w |
 	h _ stop x - start x + 1 max: 0.
 	w _ stop y - start y + 1 max: 0.
 	(w > 0 and: [h > 0]) ifFalse: [^ self error: 'empty window'].
-	^ WindowMatrix
+	^ Submatrix
 		from: domain scalars ^ w
 		to: codomain scalars ^ h
 		coefficients: coefficients
@@ -24710,24 +24916,24 @@ example
 from: aDomain to: aCodomain coefficients: anArray columnIndices: anArray2 rowPointers: anArray3
 	^ self new domain: aDomain; codomain: aCodomain; coefficients: anArray columnIndices: anArray2 rowPointers: anArray3! !
 
-!WindowMatrix methodsFor: 'accessing' stamp: 'len 5/16/2023 12:58:52'!
+!Submatrix methodsFor: 'accessing' stamp: 'len 5/16/2023 12:58:52'!
 atRow: i column: j ifAbsent: exceptionBlock
 	(j between: 1 and: self width) ifFalse: [^ exceptionBlock value].
 	(j > rowSize or: [i > rowOffsets size]) ifTrue: [^ self scalars zero].
 	^ coefficients at: j + (rowOffsets at: i)! !
 
-!WindowMatrix methodsFor: 'accessing' stamp: 'len 5/16/2023 12:56:41'!
+!Submatrix methodsFor: 'accessing' stamp: 'len 5/16/2023 12:56:41'!
 atRow: i column: j put: anElement
 	(j between: 1 and: rowSize) ifFalse: [^ self  error: 'index out of bounds'].
 	^ coefficients at: j + (rowOffsets at: i) put: anElement! !
 
-!WindowMatrix methodsFor: 'private' stamp: 'len 5/16/2023 12:53:33'!
+!Submatrix methodsFor: 'private' stamp: 'len 5/16/2023 12:53:33'!
 coefficients: anArray rowOffsets: anArray2 rowSize: anInteger
 	coefficients _ anArray.
 	rowOffsets _ anArray2.
 	rowSize _ anInteger! !
 
-!WindowMatrix class methodsFor: 'instance creation' stamp: 'len 5/16/2023 12:53:50'!
+!Submatrix class methodsFor: 'instance creation' stamp: 'len 5/16/2023 12:53:50'!
 from: aDomain to: aCodomain coefficients: anArray rowOffsets: anArray2 rowSize: anInteger
 	^ self new domain: aDomain; codomain: aCodomain; coefficients: anArray rowOffsets: anArray2 rowSize: anInteger! !
 
@@ -37225,6 +37431,19 @@ bitParity
 	1 to: self digitLength do: [:i| sum _ sum bitXor: (self digitAt: i)].
 	^ sum bitParity8! !
 
+!Integer methodsFor: '*algebra' stamp: 'len 5/17/2023 23:02:57'!
+bitReduce: anInteger
+	"If the receiver and the argument represent polynomials over Z/2Z,
+	the answer represents the remainder of the polynomial division of the receiver by the argument."
+	| answer m n |
+	n _ self highBit.
+	m _ anInteger highBit.
+	answer _ self.
+	[n >= m] whileTrue:
+		[(answer bitAt: n) = 1 ifTrue: [answer _ answer bitXor: (anInteger bitShift: n - m)].
+		n _ n - 1].
+	^ answer! !
+
 !Integer methodsFor: '*algebra' stamp: 'len 7/1/2016 23:03'!
 bitSize
 	self negative ifTrue: [^ self negated highBit + 1].
@@ -37730,6 +37949,17 @@ bitConvolution16: anInteger
 	b _ anInteger.
 	c _ 0.
 	0 to: 15 do: [:i|
+		(a bitAnd: 1) = 1 ifTrue: [c _ c bitXor: (b bitShift: i)].
+		a _ a bitShift: -1].
+	^ c! !
+
+!SmallInteger methodsFor: '*algebra' stamp: 'len 5/18/2023 01:02:30'!
+bitConvolution30: anInteger
+	| a b c |
+	a _ self.
+	b _ anInteger.
+	c _ 0.
+	0 to: 29 do: [:i|
 		(a bitAnd: 1) = 1 ifTrue: [c _ c bitXor: (b bitShift: i)].
 		a _ a bitShift: -1].
 	^ c! !

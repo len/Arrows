@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5597] on 17 May 2023 at 9:53:24 pm'!
+'From Cuis 6.0 [latest update: #5597] on 18 May 2023 at 4:07:52 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 41!
+!provides: 'Tests-Algebra' 1 42!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -4409,6 +4409,13 @@ testMatrixMultiplication
 	self assert: A*B*x = (A*(B*x)).
 	x _ A codomain atRandom: random bits: 10.
 	self assert: x*A*B = (x*(A*B))! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/18/2023 12:13:08'!
+testMatrixTimesSingleColumnMatchMatrixTimesTuple
+	| A v |
+	A _ self newMatrix.
+	v _ A domain atRandom: random.
+	self assert: (A * v asMatrix) = (A * v) asMatrix transpose! !
 
 !AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 7/25/2021 12:14:36'!
 testScalarAction
