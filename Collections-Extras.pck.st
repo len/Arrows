@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5438] on 9 December 2022 at 8:36:10 am'!
+'From Cuis 6.0 [latest update: #5597] on 18 May 2023 at 2:56:04 pm'!
 'Description This package includes some extra methods for Collection and subclasses and some new collection classes.'!
-!provides: 'Collections-Extras' 1 8!
+!provides: 'Collections-Extras' 1 9!
 SystemOrganization addCategory: #'Collections-Extras'!
 
 
@@ -382,6 +382,14 @@ new
 !SortedDictionary class methodsFor: 'instance creation' stamp: 'len 4/26/2022 22:36:12'!
 new: anInteger
 	^ self associations: (OrderedCollection new: anInteger)! !
+
+!Collection methodsFor: '*collections-extras' stamp: 'len 5/18/2023 14:33:46'!
+^ anInteger
+	"Answer the receiver concatenated with itself anInteger times."
+	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ self copyEmpty].
+	anInteger < 0 ifTrue: [^ self error: 'negative exponent'].
+	^ anInteger even ifTrue: [self , self ^ (anInteger // 2)] ifFalse: [self , self ^ (anInteger // 2) , self]! !
 
 !Collection methodsFor: '*collections-extras' stamp: 'len 2/18/2003 21:40'!
 anyIfNone: aBlock
