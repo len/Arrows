@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 20 May 2023 at 8:01:26 pm'!
+'From Cuis 6.0 [latest update: #5801] on 20 May 2023 at 11:01:49 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -64,7 +64,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 72!
+!provides: 'Algebra' 1 73!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -11290,11 +11290,18 @@ zero
 hash
 	^ components hash! !
 
-!ProductRing methodsFor: 'computing-matrices' stamp: 'len 5/19/2023 06:59:20'!
+!ProductRing methodsFor: 'computing-matrices' stamp: 'len 5/20/2023 22:54:29'!
+basisAndTransformationOf: aMatrix
+	| results |
+	results := self ⇉ self components collect: [:p| (aMatrix apply: p) basisAndTransformation].
+	^ {self matrix: aMatrix height @ (results max: [:each| each first width]) fill: [:i :j| self compose: (results withIndexCollect: [:each :k| each first at: i@j ifAbsent: [(self components at: k) zero]])].
+	self matrix: aMatrix width @ (results max: [:each| each second width]) fill: [:i :j| self compose: (results withIndexCollect: [:each :k| each second at: i@j ifAbsent: [(self components at: k) zero]])]}! !
+
+!ProductRing methodsFor: 'computing-matrices' stamp: 'len 5/20/2023 21:13:57'!
 basisOf: aMatrix
 	| results |
 	results := self ⇉ self components collect: [:p| (aMatrix apply: p) basis].
-	^ self matrix: aMatrix width @ (results max: [:each| each width]) fill: [:i :j| self compose: (results withIndexCollect: [:each :k| each at: i@j ifAbsent: [(self components at: k) zero]])]! !
+	^ self matrix: aMatrix height @ (results max: [:each| each width]) fill: [:i :j| self compose: (results withIndexCollect: [:each :k| each at: i@j ifAbsent: [(self components at: k) zero]])]! !
 
 !ProductRing methodsFor: 'computing-matrices' stamp: 'len 11/23/2022 21:38:20'!
 matrix: B quotientBy: A
@@ -11395,11 +11402,9 @@ unitAtRandom: aRandom bits: bitSize
 hasCanonicalAssociates
 	^ self components allSatisfy: [:each| each hasCanonicalAssociates]! !
 
-!ProductRing methodsFor: 'testing' stamp: 'len 5/19/2023 07:15:15'!
+!ProductRing methodsFor: 'testing' stamp: 'len 5/20/2023 21:05:30'!
 hasCanonicalBases
-	self flag: #fixme.
-	^ false
-"	^ components allSatisfy: [:each| each hasCanonicalBases]"! !
+	^ components allSatisfy: [:each| each hasCanonicalBases]! !
 
 !ProductRing methodsFor: 'testing' stamp: 'len 6/18/2022 12:44:28'!
 hasGCD

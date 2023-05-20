@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 20 May 2023 at 8:01:21 pm'!
+'From Cuis 6.0 [latest update: #5801] on 20 May 2023 at 11:01:55 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 43!
+!provides: 'Tests-Algebra' 1 44!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -2601,7 +2601,7 @@ testExtendedBuchbergerWithCyclic3
 	T _ basisAndTransformation second.
 	self assert: A * T = G! !
 
-!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 12/21/2022 11:54:16'!
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:15:37'!
 testGroebnerBasis: G ideal: I
 	"Test G is a Groebner basis of the ideal I."
 	| g division |
@@ -2609,12 +2609,12 @@ testGroebnerBasis: G ideal: I
 	I isTrivial ifTrue: [^ self assert: G isEmpty].
 	I generators do: [:each| self assert: (each reductionBy: G) isZero].
 	G do: [:each| self assert: (I includes: each)]. "but this will use Groebner bases.."
-	[g _ I atRandomBits: 200. g isZero] whileTrue.
+	[g := I atRandom: random bits: 200. g isZero] whileTrue.
 	self assert: (g reductionBy: G) isZero.
 	"The leading term of any polynomial in I is divisible by the leading term of some polynomial in G:"
 	self assert: (G anySatisfy: [:any| any leadingMonomial | g leadingMonomial]).
 	"The multivariate division of any polynomial in I by G gives the remainder 0:"
-	division _ g divisionBy: G.
+	division := g divisionBy: G.
 	self assert: division remainder isZero.
 	division validate.
 "	self assert: G reduced isReduced.
@@ -2662,15 +2662,15 @@ testGroebnerKatsura3
 	G _ I basis.
 	self testGroebnerBasis: G ideal: I! !
 
-!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:01:57'!
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:15:58'!
 testIdealMembership
 	| R f1 f2 f3 I g |
-	R _ scalars polynomialsIn: (3 atRandom: random).
-	[(f1 _ R atRandomBits: 10) isZero] whileTrue.
-	[(f2 _ R atRandomBits: 10) isZero] whileTrue.
-	[(f3 _ R atRandomBits: 10) isZero] whileTrue.
-	I _ R * {f1. f2. f3}.
-	g _ I atRandomBits: 100.
+	R := scalars polynomialsIn: (3 atRandom: random).
+	[(f1 := R atRandom: random bits: 10) isZero] whileTrue.
+	[(f2 := R atRandom: random bits: 10) isZero] whileTrue.
+	[(f3 := R atRandom: random bits: 10) isZero] whileTrue.
+	I := R * {f1. f2. f3}.
+	g := I atRandom: random bits: 100.
 	self assert: (I includes: g)! !
 
 !AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:05:01'!
@@ -2906,10 +2906,10 @@ testNormAndTrace
 	self assert: (x * a + y) trace = (x trace * a + y trace).
 	self assert: (x * y) norm = (x norm * y norm)! !
 
-!AbstractMaximalOrderTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2021 12:15:56'!
+!AbstractMaximalOrderTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:05'!
 testCoercionToAndFromFractions
 	| x |
-	x _ R atRandomBits: 100.
+	x := R atRandom: random bits: 100.
 	self assert: R !! (R fractions !! x) = x! !
 
 !AbstractMaximalOrderTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:34:34'!
@@ -3010,19 +3010,19 @@ testCliffordAlgebraMultiplication
 	self assert: (x*0) isZero.
 	self assert: (0*x) isZero! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:02:22'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:20'!
 testCliffordAlgebraProductsProperties
 	| x y z one |
-	x _ R atRandomBits: 10.
-	y _ R atRandomBits: 10.
-	z _ R atRandomBits: 10.
+	x := R atRandom: random bits: 10.
+	y := R atRandom: random bits: 10.
+	z := R atRandom: random bits: 10.
 	"Associativity of wedge product:"
 	self assert: x ∧ (y ∧ z) = (x ∧  y ∧ z).
 	"Associativity of left and right interior products:"
 	self assert: x ·| (y |· z) = (x ·| y |· z).
 	self assert: x ·| (y ·| z) = (x ∧ y ·| z).
 	self assert: x · (y ·| z) = (x ∧ y · z).
-	one _ R one.
+	one := R one.
 	self assert: one ∧ x = x.
 	self assert: x ∧ one = x.
 	self assert: one ·| x = x.
@@ -3050,21 +3050,21 @@ testCliffordAlgebraProperties
 	self assert: R one isOne.
 	self assert: R id isIdentity! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:25:58'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:27'!
 testCliffordAlgebraReversion
 	| x y v |
-	x _ R atRandom: random bits: 10.
-	y _ R atRandom: random bits: 10.
-	v _ R !! (R space atRandomBits: 10).
+	x := R atRandom: random bits: 10.
+	y := R atRandom: random bits: 10.
+	v := R !! (R space atRandom: random bits: 10).
 	self assert: (x*y) transpose = (y transpose * x transpose).
 	self assert: v transpose = v! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:26:41'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:35'!
 testCliffordAlgebraScalarEmbedding
 	| F a x |
-	F _ R scalars.
-	a _ F atRandomBits: 10.
-	x _ R !! a.
+	F := R scalars.
+	a := F atRandom: random bits: 10.
+	x := R !! a.
 	self assert: x isScalar.
 	self assert: ((R grade: 0) includes: x).
 	self assert: R one * a = x.
@@ -3077,12 +3077,12 @@ testCliffordAlgebraScalarEmbedding2
 	self assert: ι isInjective.
 	self assert: ι image = (R grade: 0) asVectorSpace! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:27:23'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:41'!
 testCliffordAlgebraSpaceEmbedding
 	| V v x |
-	V _ R space.
-	v _ V atRandomBits: 10.
-	x _ R !! v.
+	V := R space.
+	v := V atRandom: random bits: 10.
+	x := R !! v.
 	self assert: x isVector.
 	self assert: ((R grade: 1) includes: x).
 	self assert: x asVector = v! !
@@ -3094,11 +3094,11 @@ testCliffordAlgebraSpaceEmbedding2
 	self assert: ι isInjective.
 	self assert: ι image = (R grade: 1) asVectorSpace! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:28:05'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:48'!
 testCliffordAlgebraUniversalProperty
 	| Q v |
-	Q _ R quadraticForm.
-	v _ R space atRandomBits: 10.
+	Q := R quadraticForm.
+	v := R space atRandom: random bits: 10.
 	self assert: (R !! v) squared = (R one * (Q value: v))! !
 
 !MatrixAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:36:45'!
@@ -3150,11 +3150,11 @@ testQuaternionAlgebraCoercionToAndFromModule
 	self assert: A asModule !! x = (ℚ^4 !! #(1 -2 3 0)).
 	self assert: A !! (A asModule !! #(1 -2 3 0)) = x! !
 
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:32:27'!
+!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:55'!
 testQuaternionAlgebraInverse
 	| A a |
-	A _ QuaternionAlgebra over: ℚ invariants: #(-5 -2).
-	[a _ A atRandomBits: 20.
+	A := QuaternionAlgebra over: ℚ invariants: #(-5 -2).
+	[a := A atRandom: random bits: 20.
 	a isUnit] whileFalse.
 	self assert: a * a inverse = A one.
 	self assert: a inverse * a = A one! !
@@ -4278,13 +4278,13 @@ testHomogeneousTuples
 	d _ scalars^n x: 2.
 	self deny: c ~ d! !
 
-!AbstractModularIntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/9/2023 22:21:20'!
+!AbstractModularIntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:17:21'!
 testModTupleOperations
 	| n a b modulus |
-	modulus _ scalars modulus.
-	n _ 5 atRandom.
-	a _ ℤ^n atRandomBits: 30.
-	b _ ℤ^n atRandomBits: 30.
+	modulus := scalars modulus.
+	n := 5 atRandom: random.
+	a := ℤ^n atRandom: random bits: 30.
+	b := ℤ^n atRandom: random bits: 30.
 	#(+ - · *) do: [:op|
 		self testTuple: a with: b operation: op modulo: modulus].
 	#(negated reversed copy sum product) do: [:op|
@@ -4454,12 +4454,12 @@ testMultiplication: A with: B
 	x := A codomain atRandom: random bits: 10.
 	self assert: x*A*B = (x*(A*B))! !
 
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 7/25/2021 12:14:36'!
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 21:17:29'!
 testScalarAction
 	| A b B |
-	A _ self newMatrix.
-	b _ scalars atRandomBits: 20.
-	B _ A*b.
+	A := self newMatrix.
+	b := scalars atRandom: random bits: 20.
+	B := A*b.
 	A withIndicesDo: [:each :i :j| self assert: each*b = (B at: i@j)]! !
 
 !AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 15:10:56'!
@@ -4881,17 +4881,17 @@ testCharacteristicPolynomial
 	B _ A parent atRandom: random bits: 100.
 	self assert: (A*B) characteristicPolynomial = (B*A) characteristicPolynomial! !
 
-!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:15:58'!
+!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:17:39'!
 testDeterminant
 	| n V I A B c |
-	n _ (0 to: 4) atRandom: random.
-	V _ scalars^n.
-	I _ V id.
+	n := (0 to: 4) atRandom: random.
+	V := scalars^n.
+	I := V id.
 	self assert: I determinant = scalars one.
-	A _ V endomorphisms fill: [:i :j| scalars atRandom: random bits: 10].
-	B _ V endomorphisms fill: [:i :j| scalars atRandom: random bits: 10].
+	A := V endomorphisms fill: [:i :j| scalars atRandom: random bits: 10].
+	B := V endomorphisms fill: [:i :j| scalars atRandom: random bits: 10].
 	self assert: (A * B) determinant = (A determinant * B determinant).
-	c _ scalars atRandomBits: 10.
+	c := scalars atRandom: random bits: 10.
 	self assert: (A * c) determinant = (c^n * A determinant).
 	self assert: A transpose determinant = A determinant! !
 
