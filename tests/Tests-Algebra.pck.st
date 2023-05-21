@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 20 May 2023 at 11:01:55 pm'!
+'From Cuis 6.0 [latest update: #5801] on 21 May 2023 at 9:39:05 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 44!
+!provides: 'Tests-Algebra' 1 45!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -3948,21 +3948,6 @@ testLastNonzeroIndex
 	i _ a findLast: [:x| x isZero not].
 	i = 0 ifTrue: [i _ nil].
 	self assert: a lastNonzeroIndex = i! !
-
-!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/16/2023 14:02:44'!
-testLowLevelDotProduct
-	| a b a2 b2 increment2 start start2 stop x |
-	a _ self newArray.
-	b _ self newArray.
-	start _ a size atRandom: random.
-	stop _ (start to: a size) atRandom: random.
-	start2 _ b size atRandom: random.
-	increment2 _ 3 atRandom: random.
-	stop _ stop min: (b size - start2 // increment2 + start).
-	a2 _ (start to: stop) collect: [:i| a at: i].
-	b2 _ (start2 to: stop - start  * increment2+ start2 by: increment2) collect: [:i| b at: i].
-	x _ a from: start to: stop dot: b startingAt: start2 by: increment2.
-	self assert: a2 · b2 = x! !
 
 !AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/11/2023 23:38:25'!
 testPolynomialEvaluation
