@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 22 May 2023 at 6:26:34 pm'!
+'From Cuis 6.0 [latest update: #5801] on 22 May 2023 at 10:42:48 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 46!
+!provides: 'Tests-Algebra' 1 47!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -520,6 +520,16 @@ AbstractCommutativeRingTest subclass: #ModularIntegerMultivariatePolynomialRingT
 ModularIntegerMultivariatePolynomialRingTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #ModularIntegerPolynomialRingTest category: 'Tests-Algebra-Rings'!
+AbstractCommutativeRingTest subclass: #ModularIntegerPolynomialRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'ModularIntegerPolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+ModularIntegerPolynomialRingTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #AbstractArrayTest category: 'Tests-Algebra-Arrays'!
 AbstractTestCase subclass: #AbstractArrayTest
 	instanceVariableNames: 'scalars'
@@ -668,6 +678,16 @@ AbstractModularIntegerTupleTest subclass: #BinaryFieldTupleTest
 	category: 'Tests-Algebra-Tuples'!
 !classDefinition: 'BinaryFieldTupleTest class' category: 'Tests-Algebra-Tuples'!
 BinaryFieldTupleTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #ModularInteger16TupleTest category: 'Tests-Algebra-Tuples'!
+AbstractModularIntegerTupleTest subclass: #ModularInteger16TupleTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'ModularInteger16TupleTest class' category: 'Tests-Algebra-Tuples'!
+ModularInteger16TupleTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModularInteger32TupleTest category: 'Tests-Algebra-Tuples'!
@@ -3584,10 +3604,10 @@ initialize
 	super initialize.
 	R _ ℤ @ (ℤ * 64 atRandom nextPrime)! !
 
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2022 12:38:35'!
+!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 21:26:23'!
 initialize
 	super initialize.
-	R _ ℤ/(64 atRandom + 1)! !
+	R := ℤ/(2 to: {2^8. 2^16.  2^32. 2^40} atRandom) atRandom! !
 
 !ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 12:04:12'!
 testCongruenceSolvingExample1
@@ -3715,10 +3735,15 @@ initialize
 	super initialize.
 	R _ (	GaloisRing new: 5 atRandom nextPrime to: 3 atRandom to: 2 atRandom) polynomialsIn: 3 atRandom! !
 
-!ModularIntegerMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:05:10'!
+!ModularIntegerMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 21:23:26'!
 initialize
 	super initialize.
-	R _ ℤ/1024 atRandom polynomialsIn: 3 atRandom! !
+	R := ℤ/(2 to: 256) atRandom polynomialsIn: 3 atRandom! !
+
+!ModularIntegerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 21:28:13'!
+initialize
+	super initialize.
+	R := (ℤ/(2 to: {2^8. 2^16.  2^32. 2^40} atRandom) atRandom) polynomials! !
 
 !AbstractArrayTest methodsFor: 'private' stamp: 'len 5/6/2023 17:09:00'!
 newArray
@@ -4416,10 +4441,15 @@ testBitTupleBug
 	self assert: ((1,1,0) % 2 :: sum = Z2 zero).
 	self assert: ((1,1,1) % 2 :: sum = Z2 one)! !
 
-!ModularInteger32TupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:09:26'!
+!ModularInteger16TupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 21:22:39'!
 initialize
 	super initialize.
-	scalars _ ℤ / (257 to: 16r100000000) atRandom! !
+	scalars := ℤ / (2^8 + 1 to: 2^16) atRandom! !
+
+!ModularInteger32TupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 21:21:39'!
+initialize
+	super initialize.
+	scalars := ℤ / (2^16 + 1 to: 2^32) atRandom! !
 
 !ModularInteger8TupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:34:34'!
 initialize
