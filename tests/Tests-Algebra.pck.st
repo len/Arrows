@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 21 May 2023 at 9:39:05 am'!
+'From Cuis 6.0 [latest update: #5801] on 22 May 2023 at 6:26:34 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 45!
+!provides: 'Tests-Algebra' 1 46!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -230,6 +230,16 @@ AbstractEuclideanRingTest subclass: #AbstractFieldTest
 AbstractFieldTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #BinaryExtensionFieldTest category: 'Tests-Algebra-Rings'!
+AbstractFieldTest subclass: #BinaryExtensionFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'BinaryExtensionFieldTest class' category: 'Tests-Algebra-Rings'!
+BinaryExtensionFieldTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #BinaryFieldTest category: 'Tests-Algebra-Rings'!
 AbstractFieldTest subclass: #BinaryFieldTest
 	instanceVariableNames: ''
@@ -300,6 +310,16 @@ AbstractFieldTest subclass: #RationalRationalFunctionFieldTest
 RationalRationalFunctionFieldTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #TernaryExtensionFieldTest category: 'Tests-Algebra-Rings'!
+AbstractFieldTest subclass: #TernaryExtensionFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'TernaryExtensionFieldTest class' category: 'Tests-Algebra-Rings'!
+TernaryExtensionFieldTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #TernaryFieldTest category: 'Tests-Algebra-Rings'!
 AbstractFieldTest subclass: #TernaryFieldTest
 	instanceVariableNames: ''
@@ -308,6 +328,16 @@ AbstractFieldTest subclass: #TernaryFieldTest
 	category: 'Tests-Algebra-Rings'!
 !classDefinition: 'TernaryFieldTest class' category: 'Tests-Algebra-Rings'!
 TernaryFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #BinaryExtensionFieldPolynomialRingTest category: 'Tests-Algebra-Rings'!
+AbstractEuclideanRingTest subclass: #BinaryExtensionFieldPolynomialRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'BinaryExtensionFieldPolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+BinaryExtensionFieldPolynomialRingTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #BinaryFieldPolynomialRingTest category: 'Tests-Algebra-Rings'!
@@ -408,6 +438,16 @@ AbstractEuclideanRingTest subclass: #RationalPolynomialRingTest
 	category: 'Tests-Algebra-Rings'!
 !classDefinition: 'RationalPolynomialRingTest class' category: 'Tests-Algebra-Rings'!
 RationalPolynomialRingTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #TernaryExtensionFieldPolynomialRingTest category: 'Tests-Algebra-Rings'!
+AbstractEuclideanRingTest subclass: #TernaryExtensionFieldPolynomialRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'TernaryExtensionFieldPolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+TernaryExtensionFieldPolynomialRingTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #TernaryFieldPolynomialRingTest category: 'Tests-Algebra-Rings'!
@@ -670,6 +710,16 @@ AbstractModularIntegerTupleTest subclass: #TernaryFieldTupleTest
 TernaryFieldTupleTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #BinaryExtensionFieldTupleTest category: 'Tests-Algebra-Tuples'!
+AbstractCommutativeRingTupleTest subclass: #BinaryExtensionFieldTupleTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'BinaryExtensionFieldTupleTest class' category: 'Tests-Algebra-Tuples'!
+BinaryExtensionFieldTupleTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #FiniteFieldTupleTest category: 'Tests-Algebra-Tuples'!
 AbstractCommutativeRingTupleTest subclass: #FiniteFieldTupleTest
 	instanceVariableNames: ''
@@ -740,6 +790,16 @@ AbstractCommutativeRingTupleTest subclass: #SmallFiniteFieldTupleTest
 SmallFiniteFieldTupleTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #TernaryExtensionFieldTupleTest category: 'Tests-Algebra-Tuples'!
+AbstractCommutativeRingTupleTest subclass: #TernaryExtensionFieldTupleTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'TernaryExtensionFieldTupleTest class' category: 'Tests-Algebra-Tuples'!
+TernaryExtensionFieldTupleTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #MatrixAlgebraTupleTest category: 'Tests-Algebra-Tuples'!
 AbstractTupleTest subclass: #MatrixAlgebraTupleTest
 	instanceVariableNames: ''
@@ -800,6 +860,16 @@ AbstractIntegralDomainMatrixTest subclass: #AbstractFieldMatrixTest
 AbstractFieldMatrixTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #BinaryExtensionFieldMatrixTest category: 'Tests-Algebra-Matrices'!
+AbstractFieldMatrixTest subclass: #BinaryExtensionFieldMatrixTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'BinaryExtensionFieldMatrixTest class' category: 'Tests-Algebra-Matrices'!
+BinaryExtensionFieldMatrixTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #BinaryFieldMatrixTest category: 'Tests-Algebra-Matrices'!
 AbstractFieldMatrixTest subclass: #BinaryFieldMatrixTest
 	instanceVariableNames: ''
@@ -858,6 +928,16 @@ AbstractFieldMatrixTest subclass: #SmallFiniteFieldMatrixTest
 	category: 'Tests-Algebra-Matrices'!
 !classDefinition: 'SmallFiniteFieldMatrixTest class' category: 'Tests-Algebra-Matrices'!
 SmallFiniteFieldMatrixTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #TernaryExtensionFieldMatrixTest category: 'Tests-Algebra-Matrices'!
+AbstractFieldMatrixTest subclass: #TernaryExtensionFieldMatrixTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'TernaryExtensionFieldMatrixTest class' category: 'Tests-Algebra-Matrices'!
+TernaryExtensionFieldMatrixTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #TernaryFieldMatrixTest category: 'Tests-Algebra-Matrices'!
@@ -948,16 +1028,6 @@ AbstractIntegralDomainMatrixTest subclass: #QuadraticRingMatrixTest
 	category: 'Tests-Algebra-Matrices'!
 !classDefinition: 'QuadraticRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
 QuadraticRingMatrixTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #RationalLocalPolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractIntegralDomainMatrixTest subclass: #RationalLocalPolynomialRingMatrixTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'RationalLocalPolynomialRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
-RationalLocalPolynomialRingMatrixTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #RationalMultivariatePolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
@@ -1550,6 +1620,16 @@ TestCase subclass: #TupleTest
 TupleTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #WordArrayTest category: 'Tests-Algebra-Arrays'!
+TestCase subclass: #WordArrayTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Arrays'!
+!classDefinition: 'WordArrayTest class' category: 'Tests-Algebra-Arrays'!
+WordArrayTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #ZechTableTest category: 'Tests-Algebra-Arrays'!
 TestCase subclass: #ZechTableTest
 	instanceVariableNames: 'table'
@@ -1568,6 +1648,16 @@ Object subclass: #FiniteFieldRationalFunctionFieldMatrixTest
 	category: 'Tests-Algebra-Matrices'!
 !classDefinition: 'FiniteFieldRationalFunctionFieldMatrixTest class' category: 'Tests-Algebra-Matrices'!
 FiniteFieldRationalFunctionFieldMatrixTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #RationalLocalPolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
+Object subclass: #RationalLocalPolynomialRingMatrixTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'RationalLocalPolynomialRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+RationalLocalPolynomialRingMatrixTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #RationalRationalFunctionFieldMatrixTest category: 'Tests-Algebra-Matrices'!
@@ -2841,6 +2931,11 @@ testUnitsAreDivisorsOfEveryElement
 		u _ R units atRandom: random.
 		self assert: u | x]! !
 
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 23:37:57'!
+testZeroPower
+	self assert: R zero ^ 2 = R zero.
+	self assert: R zero ^ 0 = R one! !
+
 !AbstractAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:42:41'!
 testAlgebra
 	self testAlgebraAxioms: R! !
@@ -3388,6 +3483,15 @@ testZeroIdealIsPrimeAndMinimalPrime
 	self assert: P isPrime.
 	self assert: P isMinimalPrime! !
 
+!BinaryExtensionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:28:26'!
+initialize
+	super initialize.
+	R := GaloisField new: 2 to: 8 atRandom! !
+
+!BinaryExtensionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 18:08:56'!
+testZeroPowerBug
+	self assert: ((GaloisField new: 2 to: 2) zero^3) isZero! !
+
 !BinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/17/2023 10:56:39'!
 initialize
 	super initialize.
@@ -3423,10 +3527,20 @@ initialize
 	super initialize.
 	R _ (ℚ polynomialsIn: 3 atRandom) fractions! !
 
+!TernaryExtensionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:28:44'!
+initialize
+	super initialize.
+	R := GaloisField new: 3 to: 8 atRandom! !
+
 !TernaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/17/2023 10:57:02'!
 initialize
 	super initialize.
 	R _ ℤ/3! !
+
+!BinaryExtensionFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:29:47'!
+initialize
+	super initialize.
+	R := (	GaloisField new: 2 to: 8 atRandom) polynomials! !
 
 !BinaryFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 20:06:47'!
 initialize
@@ -3559,6 +3673,11 @@ testNormalizationCompatibleWithModularIntegerRing
 initialize
 	super initialize.
 	R _ ℚ polynomials! !
+
+!TernaryExtensionFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:30:03'!
+initialize
+	super initialize.
+	R := (	GaloisField new: 3 to: 8 atRandom) polynomials! !
 
 !TernaryFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 20:06:59'!
 initialize
@@ -4317,6 +4436,11 @@ initialize
 	super initialize.
 	scalars _ ℤ/3! !
 
+!BinaryExtensionFieldTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:20:54'!
+initialize
+	super initialize.
+	scalars := GaloisField new: 2 to: 8 atRandom + 1! !
+
 !FiniteFieldTupleTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2022 14:55:35'!
 initialize
 	super initialize.
@@ -4359,6 +4483,11 @@ initialize
 	super initialize.
 	p _ 13 atRandom nextPrime.
 	scalars _ GaloisField new: p to: ((256 log: p) floor - 1)  atRandom + 1! !
+
+!TernaryExtensionFieldTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:21:20'!
+initialize
+	super initialize.
+	scalars := GaloisField new: 3 to: 8 atRandom + 1! !
 
 !MatrixAlgebraTupleTest methodsFor: 'as yet unclassified' stamp: 'len 7/24/2021 14:08:40'!
 initialize
@@ -4415,12 +4544,12 @@ testInplaceSubstraction
 	C replaceWith: A minus: B.
 	self assert: A - B = C! !
 
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/18/2023 12:13:08'!
-testMatrixTimesSingleColumnMatchMatrixTimesTuple
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/22/2023 09:47:17'!
+testMatrixTupleMultiplication
 	| A v |
-	A _ self newMatrix.
-	v _ A domain atRandom: random.
-	self assert: (A * v asMatrix) = (A * v) asMatrix transpose! !
+	A := self newMatrix.
+	v := A domain atRandom: random.
+	self assert: (A * v) asMatrix transpose = (A * v asMatrix)! !
 
 !AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 15:22:09'!
 testMultiplication
@@ -4554,6 +4683,14 @@ testSubmatrixSubmatrixMultiplication
 	S := self newSubmatrixOf: A.
 	T := self newSubmatrix: S width @ (A height atRandom: random) of: A transpose.
 	self testMultiplication: S with: T! !
+
+!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/22/2023 09:48:27'!
+testSubmatrixTupleMultiplication
+	| A S v |
+	A := self newNonemptyMatrix.
+	S := self newSubmatrixOf: A.
+	v := S domain atRandom: random.
+	self assert: (S * v) asMatrix transpose = (S * v asMatrix)! !
 
 !AbstractMatrixTest methodsFor: 'other' stamp: 'len 5/20/2023 11:51:00'!
 testCopyFromTo
@@ -4809,11 +4946,11 @@ newMatrix: shape
 	samples _ {scalars zero. scalars one. scalars one negated}.
 	^ hom fill: [:i :j| (2 atRandom: random) > 1 ifTrue: [scalars zero] ifFalse: [samples atRandom: random]]! !
 
-!AbstractMatrixTest methodsFor: 'private' stamp: 'len 5/20/2023 14:59:04'!
+!AbstractMatrixTest methodsFor: 'private' stamp: 'len 5/22/2023 11:25:22'!
 newNonemptyMatrix
 	| n m |
-	n := (1 to: 5) atRandom: random.
-	m := (1 to: 5) atRandom: random.
+	n := (1 to: 7) atRandom: random.
+	m := (1 to: 7) atRandom: random.
 	^ scalars^n ⇒ (scalars^m) atRandom: random bits: (m*n*5+1 atRandom: random)! !
 
 !AbstractMatrixTest methodsFor: 'private' stamp: 'len 8/4/2021 14:42:41'!
@@ -4994,6 +5131,11 @@ testSimilarity
 	A _ (scalars^n) endomorphisms atRandom: random bits: 10*n*n.
 	P _ A domain automorphisms atRandom: random bits: 10*n*n.
 	self assert: P inverse * A * P ≃ A! !
+
+!BinaryExtensionFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:22:31'!
+initialize
+	super initialize.
+	scalars := GaloisField new: 2 to: 8 atRandom + 1! !
 
 !BinaryFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 20:43:52'!
 initialize
@@ -5308,6 +5450,11 @@ initialize
 	super initialize.
 	p _ 13 atRandom nextPrime.
 	scalars _ GaloisField new: p to: ((256 log: p) floor - 1)  atRandom + 1! !
+
+!TernaryExtensionFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:22:07'!
+initialize
+	super initialize.
+	scalars := GaloisField new: 3 to: 8 atRandom + 1! !
 
 !TernaryFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 17:23:44'!
 initialize
@@ -5766,31 +5913,6 @@ initialize
 	[(n _ (2 to: 100) atRandom squarefreePart) > 1] whileFalse.
 	2 atRandom = 1 ifTrue: [n _ n negated].
 	scalars _ (QuadraticField sqrt: n) integers! !
-
-!RationalLocalPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2022 12:31:01'!
-initialize
-	super initialize.
-	scalars _
-		{[| R x y |
-		R _ ℚ polynomialsIn: #(x y).
-		x _ R x: 1. y _ R x: 2.
-		R @ (R * {x. y})].
-"		R @ (R * {x^2 - (y^2) - 1})]."
-
-"		[| R x y z |
-		R _ ℚ polynomialsIn: #(x y z).
-		x _ R x: 1. y _ R x: 2. z _ R x: 3.
-		R @ (R * {x*z - (y^2). x^3 - (y*z). x^2*y - (z^2)})].
-
-		[| R x y z |
-		R _ ℚ polynomialsIn: #(x y z).
-		x _ R x: 1. y _ R x: 2. z _ R x: 3.
-		R @ (R * {y^4 - (z^3). y^2 - (x*z). x*(y^2) - (z^2). x^2 - z})]"} atRandom value! !
-
-!RationalLocalPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/7/2023 01:35:16'!
-performTest
-	self error: 'not yet tested'.
-	^ super performTest! !
 
 !RationalMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/15/2021 07:37:23'!
 initialize
@@ -12960,6 +13082,22 @@ testTuple: a operation: aSymbol modulo: modulus
 testTuple: a with: b operation: aSymbol modulo: modulus
 	self assert: (a perform: aSymbol with: b) % modulus = (a % modulus perform: aSymbol with: b % modulus)! !
 
+!WordArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 17:07:20'!
+testBitParityParallel
+	| array parities |
+	array := WordArray new: 32.
+	1 to: 32 do: [:i| array at: i put: (0 to: 16rFFFFFFFF) atRandom].
+	parities := 0.
+	array reverseDo: [:each| parities := parities << 1 bitAnd: each bitParity].
+	self assert: parities = array bitParityParallel! !
+
+!WordArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 17:10:47'!
+testBitTranspose32x32
+	| array1 array2 |
+	array1 := (WordArray new: 32) at: 1 put: 3392231422; at: 2 put: 2917542836; at: 3 put: 2016986704; at: 4 put: 4023284951; at: 5 put: 3319131826; at: 6 put: 2609918512; at: 7 put: 2934033904; at: 8 put: 558419939; at: 9 put: 2466942702; at: 10 put: 3907522; at: 11 put: 2461608457; at: 12 put: 682014126; at: 13 put: 285397452; at: 14 put: 3023449861; at: 15 put: 3701423065; at: 16 put: 395901000; at: 17 put: 857111479; at: 18 put: 1789712607; at: 19 put: 1923901516; at: 20 put: 2388693829; at: 21 put: 828380017; at: 22 put: 1053284415; at: 23 put: 3860620701; at: 24 put: 2372246648; at: 25 put: 4191609509; at: 26 put: 3996225886; at: 27 put: 504614510; at: 28 put: 4191451967; at: 29 put: 2400004646; at: 30 put: 2158500940; at: 31 put: 287393905; at: 32 put: 269399837; yourself.
+	array2 := (WordArray new: 32) at: 1 put: 3380307080; at: 2 put: 505613209; at: 3 put: 3211737355; at: 4 put: 2934365441; at: 5 put: 3404939391; at: 6 put: 1571883507; at: 7 put: 1721684941; at: 8 put: 21191643; at: 9 put: 2321119939; at: 10 put: 2635687863; at: 11 put: 2764057565; at: 12 put: 2091378642; at: 13 put: 2864437801; at: 14 put: 2571496506; at: 15 put: 1298632925; at: 16 put: 2276105172; at: 17 put: 1453344337; at: 18 put: 2233563914; at: 19 put: 2582079514; at: 20 put: 2957428620; at: 21 put: 255977013; at: 22 put: 1654533703; at: 23 put: 163053786; at: 24 put: 690408570; at: 25 put: 1502712250; at: 26 put: 376407401; at: 27 put: 384360538; at: 28 put: 531253359; at: 29 put: 3442865444; at: 30 put: 192358606; at: 31 put: 189153309; at: 32 put: 1002988923; yourself.
+	self assert: array1 copy bitTranspose32x32 = array2! !
+
 !ZechTableTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2023 21:44:08'!
 setUp
 	table _ ZechTable over: (GaloisField new: 5 atRandom nextPrime to: 1 "3 atRandom")! !
@@ -13015,6 +13153,31 @@ testSuccessor
 initialize
 	super initialize.
 	scalars _ ((	GaloisField new: 5 atRandom nextPrime to: 3 atRandom) polynomialsIn: 3 atRandom) fractions! !
+
+!RationalLocalPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2022 12:31:01'!
+initialize
+	super initialize.
+	scalars _
+		{[| R x y |
+		R _ ℚ polynomialsIn: #(x y).
+		x _ R x: 1. y _ R x: 2.
+		R @ (R * {x. y})].
+"		R @ (R * {x^2 - (y^2) - 1})]."
+
+"		[| R x y z |
+		R _ ℚ polynomialsIn: #(x y z).
+		x _ R x: 1. y _ R x: 2. z _ R x: 3.
+		R @ (R * {x*z - (y^2). x^3 - (y*z). x^2*y - (z^2)})].
+
+		[| R x y z |
+		R _ ℚ polynomialsIn: #(x y z).
+		x _ R x: 1. y _ R x: 2. z _ R x: 3.
+		R @ (R * {y^4 - (z^3). y^2 - (x*z). x*(y^2) - (z^2). x^2 - z})]"} atRandom value! !
+
+!RationalLocalPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/7/2023 01:35:16'!
+performTest
+	self error: 'not yet tested'.
+	^ super performTest! !
 
 !RationalRationalFunctionFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 9/3/2022 11:14:37'!
 initialize
