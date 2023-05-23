@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 22 May 2023 at 10:42:48 pm'!
+'From Cuis 6.0 [latest update: #5801] on 23 May 2023 at 4:11:24 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 47!
+!provides: 'Tests-Algebra' 1 48!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -13782,3 +13782,14 @@ testPermutationCompositionWords
 testSum: a with: b into: c modulo: m
 	1 to: a size do: [:i| c at: i put: (a at: i) + (b at: i) \\ m].
 	^ c! !
+
+!TestCase methodsFor: '*tests-algebra' stamp: 'len 5/20/2023 16:44:19'!
+debug
+	self setUpResources.
+	[self runCase] ensure: [self tearDownResources]
+			! !
+
+!TestCase methodsFor: '*tests-algebra' stamp: 'len 5/20/2023 16:44:00'!
+debugAsFailureIfCanNot: handler
+	self ifCanNotDebugDo: [^ handler value].
+	self runCaseAsFailure! !

@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 22 May 2023 at 10:42:37 pm'!
+'From Cuis 6.0 [latest update: #5801] on 23 May 2023 at 4:12:30 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -46,6 +46,7 @@ References:
 [SY09] Michael Sagraloff, Chee K. Yap, "An Efficient and Exact Subdivision Algorithm for Isolating Complex Roots of a Polynomial and its Complexity Analysis" (2009)
 [Sam71] Pierre Samuel, "About Euclidean Rings", J. Algebra, 19:282-301, 1971
 [San11] Metod Saniga; "Projective Lines over Finite Rings", 2011
+[SOoS01] Richard Schroeppel; Hilarie Orman; Sean O''Malley; Oliver Spatscheck; "Fast Key Exchange with Elliptic Curve Systems" (2001)
 [Sho09] Victor Shoup; "A Computational Introduction to Number Theory and Algebra" (2009)
 [Sim70] Charles C. Sims, "Computational methods in the study of permutation groups" (1970)
 [Sti06] Michael Stillman; "Computing with sheaves and sheaf cohomology in algebraic geometry" (2006)
@@ -65,7 +66,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 76!
+!provides: 'Algebra' 1 77!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -2321,16 +2322,6 @@ Object subclass: #GrayCode
 GrayCode class
 	instanceVariableNames: ''!
 
-!classDefinition: #Karatsuba category: 'Algebra-Algorithms'!
-Object subclass: #Karatsuba
-	instanceVariableNames: 'threshold buffer'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Algorithms'!
-!classDefinition: 'Karatsuba class' category: 'Algebra-Algorithms'!
-Karatsuba class
-	instanceVariableNames: ''!
-
 !classDefinition: #LagrangeGaussReduction category: 'Algebra-Algorithms'!
 Object subclass: #LagrangeGaussReduction
 	instanceVariableNames: 'vectorSpace v1 v2 shortVector'
@@ -2359,6 +2350,16 @@ Object subclass: #NTT
 	category: 'Algebra-Algorithms'!
 !classDefinition: 'NTT class' category: 'Algebra-Algorithms'!
 NTT class
+	instanceVariableNames: ''!
+
+!classDefinition: #NTT2 category: 'Algebra-Algorithms'!
+Object subclass: #NTT2
+	instanceVariableNames: 'modulus ω φ powers inversePowers inverseN'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algorithms'!
+!classDefinition: 'NTT2 class' category: 'Algebra-Algorithms'!
+NTT2 class
 	instanceVariableNames: ''!
 
 !classDefinition: #ProductReplacementRandomGenerator category: 'Algebra-Algorithms'!
@@ -3451,7 +3452,7 @@ Output: the minimal polynomial of the sequence.
 !
 
 !NTT commentStamp: '<historical>' prior: 0!
-Number Theoretic Transforms, the analog of DFTs for the field of integers modulo a prime p. Special cases are the Fermat Number Transform (p = 2^k + 1) and the Mersenne Number Transform (p = 2^k - 1).
+Number Theoretic Transforms, the analog of DFTs for 𝔽ₚ. Special cases are the Fermat Number Transform (p = 2^k + 1) and the Mersenne Number Transform (p = 2^k - 1).
 
 The (pseudo) number theoretic transform may be meaningful in the ring ℤ/mℤ even when the modulo m is not prime, provided a principal root of order n exists.!
 
@@ -3995,26 +3996,6 @@ replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anEl
 replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
 	self replaceFrom: start to: stop with: anArray startingAt: srcStart! !
 
-!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/21/2023 09:27:49'!
-replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong3: anArray2 from: start2 to: stop2
-	| i j x y n m windowSize |
-	words clearBitsFrom: start to: start + stop1 - start1 + stop2 - start2.
-	windowSize := 16.
-	i := start2.
-	[i <= stop2] whileTrue:
-		[n := windowSize min: stop2 - i + 1.
-		"(n _ (x _ anArray2 bits: n at: i) highBit) = 0"
-		(x := anArray2 bits: n at: i) = 0
-			ifFalse:
-				[j := start1.
-				[j <= stop1] whileTrue:
-					["m _ windowSize * 2 - n min: stop1 - j + 1."
-					m := windowSize min: stop1 - j + 1.
-					y := anArray1 bits: m at: j.
-					y = 0 ifFalse: [self bits: n+m-1 at: i-start2+j-start1+start xor: (x bitConvolution16: y)].
-					j := j + m]].
-		i := i + windowSize]! !
-
 !BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/22/2023 18:56:46'!
 replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
 	| i j x y z n m windowSize ℓ k k₀ |
@@ -4041,22 +4022,30 @@ replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArra
 				j := j + m]].
 		i := i + n]! !
 
-!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/22/2023 22:30:56'!
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/23/2023 11:07:59'!
 replaceFrom: start withAutoconvolution: anArray1 from: start1 to: stop1
-	"Autoconvolution in 𝔽₂ is a linear operation. It is just interleaving each bit with a zero, for example 1011 becomes 0100101."
-	| i j ℓ in out |
+	"Autoconvolution in 𝔽₂ is a linear operation. It is just interleaving each bit with a zero, for example 1011 becomes 0100101.
+	We implement it with a table lookup as [SOoS01]."
+	| i j ℓ in out k |
 	i := start.
 	j := start1.
 	[j <= stop1] whileTrue:
-		[ℓ := 30 min: stop1 - j + 1.
+		[ℓ := 30 min: stop1 - j + 1. "we use a window size of 30 bits so that the convolution fits in a SmallInteger"
 		in := anArray1 bits: ℓ at: j.
+		out := 0.
+		k := 0.
 		[in = 0] whileFalse:
-			[out := ByteSquares at: (in bitAnd: 16rFF) + 1.
-			out := out bitShift: 16.
-			in := in bitShift: -8].
+			[out := out bitXor: ((ByteSquares at: (in bitAnd: 16rFF) + 1) bitShift: k).
+			in := in bitShift: -8.
+			k := k + 16].
 		j := j + ℓ.
 		ℓ := ℓ * 2.
-		self bits: ℓ at: i put: out.
+		ℓ > 32
+			ifTrue:
+				[self bits: 32 at: i put: (out bitAnd: 16rFFFFFFFF).
+				self bits: ℓ - 32 at: i +32 put: (out bitShift: -32)]
+			ifFalse:
+				[self bits: ℓ at: i put: out].
 		i := i + ℓ]! !
 
 !BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/18/2023 18:10:42'!
@@ -4241,9 +4230,9 @@ reversed
 		newCoefficients replaceFrom: i to: i+n-1 with: coefficients startingAt: m-n-i+2].
 	^ self class coefficients: newCoefficients scalars: scalars! !
 
-!GaloisPackedArray methodsFor: 'operations-low level' stamp: 'len 5/21/2023 00:40:51'!
+!GaloisPackedArray methodsFor: 'operations-low level' stamp: 'len 5/23/2023 10:41:21'!
 · anArray
-	| n modulusCoefficients inv tmp1 tmp2 j |
+	| n modulusCoefficients tmp1 tmp2 j |
 	n := scalars degree.
 	tmp1 := scalars scalars new: n*2 - 1.
 	tmp2 := scalars scalars zeros: n*2 - 1.
@@ -4253,9 +4242,7 @@ reversed
 		tmp2 replaceFrom: 1 to: tmp2 size with: tmp2 startingAt: 1 plus: tmp1 startingAt: 1.
 		j := j + n].
 	modulusCoefficients := scalars modulus coefficients.
-	inv := modulusCoefficients last "inverse".
-	self assert: inv isOne. "the modulus should be monic"
-	^ scalars coefficients: (tmp2 reduceBy: modulusCoefficients leadingInverse: inv)! !
+	^ scalars coefficients: (tmp2 reduceBy: modulusCoefficients)! !
 
 !GaloisPackedArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:29'!
 findFirstNonzeroFrom: start to: stop
@@ -4297,59 +4284,53 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 sta
 		with: anArray1 coefficients startingAt: start1-1*n+1
 		plus: anArray2 coefficients startingAt: start2-1*n+1! !
 
-!GaloisPackedArray methodsFor: 'operations-low level' stamp: 'len 5/15/2023 02:06:38'!
+!GaloisPackedArray methodsFor: 'operations-low level' stamp: 'len 5/23/2023 10:41:51'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 timesScalar: anElement
-	| n scalarCoefficients modulusCoefficients inv tmp j1 j2 |
-	n _ scalars degree.
-	modulusCoefficients _ scalars modulus coefficients.
-	inv _ modulusCoefficients last "inverse".
-	self assert: inv isOne. "the modulus should be monic"
-	scalarCoefficients _ anElement coefficients.
-	tmp _ scalars scalars new: n*2-1.
-	j1 _ start1-1*n+1.
-	j2 _ start2-1*n+1.
+	| n scalarCoefficients modulusCoefficients tmp j1 j2 |
+	n := scalars degree.
+	modulusCoefficients := scalars modulus coefficients.
+	scalarCoefficients := anElement coefficients.
+	tmp := scalars scalars new: n*2-1.
+	j1 := start1-1*n+1.
+	j2 := start2-1*n+1.
 	start-1*n+1 to: stop-1*n+1 by: n do: [:i|
 		self flag: #fixme.
 		"convolution + reduction could be combined in a single method for efficiency:"
 		tmp replaceFrom: 1 with: anArray2 coefficients from: j2 to: j2+n-1 convolution: scalarCoefficients from: 1 to: n.
-		tmp reduceBy: modulusCoefficients leadingInverse: inv.
+		tmp reduceBy: modulusCoefficients.
 		coefficients replaceFrom: i to: i+n-1 with: anArray1 coefficients startingAt: j1 plus: tmp startingAt: 1.
-		j1 _ j1 + n.
-		j2 _ j2 + n]! !
+		j1 := j1 + n.
+		j2 := j2 + n]! !
 
-!GaloisPackedArray methodsFor: 'operations-low level' stamp: 'len 5/15/2023 02:06:10'!
+!GaloisPackedArray methodsFor: 'operations-low level' stamp: 'len 5/23/2023 10:42:17'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2
-	| n modulusCoefficients inv tmp j1 j2 |
-	n _ scalars degree.
-	modulusCoefficients _ scalars modulus coefficients.
-	inv _ modulusCoefficients last "inverse".
-	self assert: inv isOne. "the modulus should be monic"
-	tmp _ scalars scalars new: n*2-1.
-	j1 _ start1-1*n+1.
-	j2 _ start2-1*n+1.
+	| n modulusCoefficients tmp j1 j2 |
+	n := scalars degree.
+	modulusCoefficients := scalars modulus coefficients.
+	tmp := scalars scalars new: n*2-1.
+	j1 := start1-1*n+1.
+	j2 := start2-1*n+1.
 	start-1*n+1 to: stop-1*n+1 by: n do: [:i|
 		tmp replaceFrom: 1 with: anArray1 coefficients from: j1 to: j1+n-1 convolution: anArray2 coefficients from: j2 to: j2+n-1.
-		tmp reduceBy: modulusCoefficients leadingInverse: inv.
+		tmp reduceBy: modulusCoefficients.
 		coefficients replaceFrom: i to: i+n-1 with: tmp startingAt: 1.
-		j1 _ j1 + n.
-		j2 _ j2 + n]! !
+		j1 := j1 + n.
+		j2 := j2 + n]! !
 
-!GaloisPackedArray methodsFor: 'operations-low level' stamp: 'len 5/18/2023 01:31:59'!
+!GaloisPackedArray methodsFor: 'operations-low level' stamp: 'len 5/23/2023 10:42:48'!
 replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anElement
-	| n scalarCoefficients modulusCoefficients inv tmp j |
+	| n scalarCoefficients modulusCoefficients tmp j |
 	anElement isInteger ifTrue: [^ super replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anElement].
-	n _ scalars degree.
-	modulusCoefficients _ scalars modulus coefficients.
-	inv _ modulusCoefficients last "inverse".
-	self assert: inv isOne. "the modulus should be monic"
-	scalarCoefficients _ anElement coefficients.
-	tmp _ scalars scalars new: n*2-1.
-	j _ srcStart-1*n+1.
+	n := scalars degree.
+	modulusCoefficients := scalars modulus coefficients.
+	scalarCoefficients := anElement coefficients.
+	tmp := scalars scalars new: n*2-1.
+	j := srcStart-1*n+1.
 	start-1*n+1 to: stop-1*n+1 by: n do: [:i|
 		tmp replaceFrom: 1 with: anArray coefficients from: j to: j+n-1 convolution: scalarCoefficients from: 1 to: n.
-		tmp reduceBy: modulusCoefficients leadingInverse: inv.
+		tmp reduceBy: modulusCoefficients.
 		coefficients replaceFrom: i to: i+n-1 with: tmp startingAt: 1.
-		j _ j + n]! !
+		j := j + n]! !
 
 !GaloisPackedArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:29'!
 replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
@@ -4362,6 +4343,12 @@ swapFrom: start to: stop with: anArray startingAt: start2
 	| n |
 	n _ scalars degree.
 	coefficients swapFrom: start-1*n+1 to: stop*n with: anArray coefficients startingAt: start2-1*n+1! !
+
+!GaloisPackedArray methodsFor: 'printing' stamp: 'len 5/23/2023 06:59:41'!
+printOn: aStream
+	aStream nextPut: $(.
+	self do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $)! !
 
 !GaloisPackedArray methodsFor: 'testing' stamp: 'len 5/4/2023 23:44:29'!
 isZero
@@ -4646,11 +4633,11 @@ partiallyReduceBy: g quotient: q
 		quotient: (q ifNotNil: [q representatives])
 		modulo: scalars modulus! !
 
-!ModularArray methodsFor: 'operations-low level' stamp: 'len 5/22/2023 21:11:33'!
-reduceBy: g leadingInverse: u quotient: q
+!ModularArray methodsFor: 'operations-low level' stamp: 'len 5/23/2023 10:50:13'!
+reduceBy: g quotient: q
 	representatives
 		reduceBy: g representatives
-		leadingInverse: u representative
+		leadingInverse: g last inverse representative
 		quotient: (q ifNotNil: [q representatives])
 		modulo: scalars modulus! !
 
@@ -4853,12 +4840,11 @@ partiallyReduceBy: g quotient: q
 	components withIndexDo: [:each :i|
 		each partiallyReduceBy: (g projection: i) quotient: (q ifNotNil: [q projection: i])]! !
 
-!ProductArray methodsFor: 'operations-low level' stamp: 'len 5/22/2023 21:10:00'!
-reduceBy: g leadingInverse: u quotient: q
+!ProductArray methodsFor: 'operations-low level' stamp: 'len 5/23/2023 10:45:00'!
+reduceBy: g quotient: q
 	components withIndexDo: [:each :i|
 		each
 			reduceBy: (g projection: i)
-			leadingInverse: (u at: i)
 			quotient: (q ifNotNil: [q projection: i])]! !
 
 !ProductArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 23:40:24'!
@@ -5491,9 +5477,9 @@ findLastNonzeroFrom: start to: stop
 polynomialValue: anElement
 	^ table exp: (logarithms polynomialValue: (table log: anElement) zechTable: table)! !
 
-!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/22/2023 21:12:23'!
-reduceBy: g leadingInverse: u quotient: q
-	logarithms reduceBy: g logarithms leadingInverse: (table log: u) quotient: (q ifNotNil: [q logarithms]) zechTable: table! !
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/23/2023 10:45:31'!
+reduceBy: g quotient: q
+	logarithms reduceBy: g logarithms quotient: (q ifNotNil: [q logarithms]) zechTable: table! !
 
 !ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 15:10:53'!
 replaceFrom: start to: stop with: replacement startingAt: repStart
@@ -12382,9 +12368,9 @@ modulus: anInteger
 	self propertyAt: #modulusFactors put: (Bag with: anInteger).
 	super modulus: anInteger! !
 
-!PrimeField methodsFor: 'private' stamp: 'len 5/21/2018 04:28:02'!
+!PrimeField methodsFor: 'private' stamp: 'len 5/23/2023 06:06:09'!
 p: aPrime to: anInteger
-	anInteger = 1 ifFalse: [^ self error: 'exponent must be 1'].
+	self assert: anInteger = 1.
 	super p: aPrime to: anInteger! !
 
 !PrimeField methodsFor: 'private' stamp: 'len 7/8/2019 02:32:52'!
@@ -33486,7 +33472,7 @@ squarefreeFactorizationYun
 >> anInteger
 	^ self << anInteger negated! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 5/22/2023 21:07:43'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 5/23/2023 10:43:01'!
 \\ anElement
 	"Answer the remainder of the division of the receiver by the argument."
 	(self scalars includes: anElement)
@@ -33494,8 +33480,8 @@ squarefreeFactorizationYun
 	anElement isCollection ifTrue: [^ (self divisionBy: anElement) remainder].
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #\\].
 	anElement leadingCoefficient isUnit
-		ifFalse: [^ self class coefficients: (coefficients copy partiallyReduceBy: anElement coefficients quotient: nil) parent: parent].
-	^ self class coefficients: (coefficients copy reduceBy: anElement coefficients leadingInverse: anElement leadingCoefficient inverse) parent: parent! !
+		ifFalse: [^ self class coefficients: (coefficients copy partiallyReduceBy: anElement coefficients) parent: parent].
+	^ self class coefficients: (coefficients copy reduceBy: anElement coefficients) parent: parent! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 8/12/2022 12:51:52'!
 colift: aPolynomial
@@ -36367,24 +36353,6 @@ initialize
 	super initialize.
 	Cache := Array new: self cacheSize! !
 
-!Karatsuba methodsFor: 'as yet unclassified' stamp: 'len 5/19/2023 07:53:57'!
-replace: anArray from: start with: anArray1 from: start1 to: stop1 convolution: anArray2 from: start2 to: stop2
-	| s1 s2 tempArray tempSize depth m |
-	s1 := stop1 - start1 + 1.
-	s2 := stop2 - start2 + 1.
-	self flag: #fixme. "assumes commutativity"
-	s1 < s2 ifTrue: [^ self replace: anArray from: start with: anArray2 from: start2 to: stop2 convolution: anArray1 from: start1 to: stop1].
-	s1 < threshold ifTrue: [^ anArray replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2].
-	tempSize := 0.
-	depth := 0.
-	[m := s1 + 1 // 2.
-	tempSize := m * 2 - 1 + tempSize.
-	s1 := m.
-	depth := depth + 1.
-	s1 >= threshold] whileTrue.
-	tempArray := anArray species new: tempSize.
-	self replace: anArray from: start with: anArray1 from: start1 to: stop1 convolutionKaratsuba: anArray2 from: start2 to: stop2 temporary: tempArray startingAt: 1! !
-
 !LagrangeGaussReduction methodsFor: 'as yet unclassified' stamp: 'len 12/12/2015 21:55'!
 computeShortVector
 	| innerProduct a b A B t T n r |
@@ -36473,6 +36441,86 @@ value: input
 !NTT class methodsFor: 'instance creation' stamp: 'len 5/20/2023 12:12:21'!
 modulus: anInteger
 	^ self new modulus: anInteger! !
+
+!NTT2 methodsFor: 'as yet unclassified' stamp: 'len 5/23/2023 15:37:04'!
+inverseTransform: anArray
+	"Inverse-NTT based on the Gentleman-Sade butterfly.
+	Produces the NTT of the bit-reversed input in standard ordering."
+	| n k m j₁ j₂ S U V h |
+	n := anArray size.
+	k := 1.
+	m := n.
+	[m > 1] whileTrue:
+		[j₁ := 0.
+		h := m // 2.
+		0 to: h - 1 do: [:i|
+			j₂ := j₁ + k - 1.
+			S := inversePowers at: h + i + 1.
+			j₁ to: j₂ do: [:j|
+				U := anArray at: j + 1.
+				V := anArray at: j + k + 1.
+				anArray at: j + 1 put: U + V \\ modulus.
+				anArray at: j + k + 1 put: U - V * S \\ modulus].
+			j₁ := j₁ + (2 * k)].
+		k := k*2.
+		m := m // 2].
+	1 to: n do: [:j| anArray at: j put: (anArray at: j) * inverseN \\ modulus].
+	^ anArray! !
+
+!NTT2 methodsFor: 'as yet unclassified' stamp: 'len 5/23/2023 15:40:38'!
+inverseTransformNaive: anArray
+	"Naive algorithm, O(n²)."
+	^ (1 to: anArray size) collect: [:i| ((1 to: anArray size) sum: [:j| (ω inverse representative raisedTo: i*j modulo: modulus) * (anArray at: j) \\ modulus]) \\ modulus]! !
+
+!NTT2 methodsFor: 'as yet unclassified' stamp: 'len 5/23/2023 15:39:22'!
+modulus: q size: n
+	| R x |
+	modulus := q.
+	self assert: q \\ (2*n) = 1.
+	R := ℤ/q.
+	x := R primitiveRoot.
+	ω := x^(q-1 / n).
+	self assert: (ω^n) isOne.
+	φ := x^(q-1 / (2*n)).
+	self assert: φ^2 = ω.
+	inverseN := (R !! n) inverse representative.
+	powers := 1 to: n :: collect: [:i| (φ ^ i) representative bitReverse: modulus highBit].
+	inversePowers := 1 to: n :: collect: [:i| (φ ^ i negated) representative bitReverse: modulus highBit]! !
+
+!NTT2 methodsFor: 'as yet unclassified' stamp: 'len 5/23/2023 15:33:37'!
+transform: anArray
+	"NTT based on the Cooley-Tukey butterfly.
+	Produces the NTT of the input in bit-reversed ordering."
+	| n k m j₁ j₂ S U V |
+	n := anArray size.
+	k := n.
+	m := 1.
+	[m < n] whileTrue:
+		[k := k // 2.
+		0 to: m-1 do: [:i|
+			j₁ := 2 * i * k.
+			j₂ := j₁ + k - 1.
+			S := inversePowers at: m + i + 1.
+			j₁ to: j₂ do: [:j|
+				U := anArray at: j + 1.
+				V := (anArray at: j + k + 1) * S.
+				anArray at: j + 1 put: U + V \\ modulus.
+				anArray at: j + k + 1 put: U - V \\ modulus]].
+		m := m * 2].
+	^ anArray! !
+
+!NTT2 methodsFor: 'as yet unclassified' stamp: 'len 5/23/2023 15:31:41'!
+transformNaive: anArray
+	"Naive algorithm, O(n²)."
+	^ (1 to: anArray size) collect: [:i| ((1 to: anArray size) sum: [:j| (ω representative raisedTo: i*j modulo: modulus) * (anArray at: j) \\ modulus]) \\ modulus]! !
+
+!NTT2 class methodsFor: 'as yet unclassified' stamp: 'len 5/23/2023 15:29:52'!
+example1
+	^ self new modulus: 12289 size: 512! !
+
+!NTT2 class methodsFor: 'as yet unclassified' stamp: 'len 5/23/2023 15:42:40'!
+example2
+	^ self new modulus: 12289 size: 1024! !
 
 !ProductReplacementRandomGenerator methodsFor: 'accessing' stamp: 'len 5/25/2019 04:34:49'!
 generators: aCollection
@@ -37648,11 +37696,9 @@ one
 real
 	^ self! !
 
-!Number methodsFor: '*algebra' stamp: 'len 7/4/2022 13:00:23'!
+!Number methodsFor: '*algebra' stamp: 'len 5/23/2023 06:28:49'!
 root: anInteger
-	anInteger = 2 ifTrue: [^ self sqrt].
-	anInteger = 1 ifTrue: [^ self].
-	^ self notYetImplemented! !
+	^ self nthRoot: anInteger! !
 
 !Number methodsFor: '*algebra' stamp: 'len 11/19/2015 20:58'!
 zero
@@ -38001,10 +38047,12 @@ isNilpotent
 isPerfectSquare
 	^ self sqrtFloor squared = self! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 5/16/2023 17:05:57'!
+!Integer methodsFor: '*algebra' stamp: 'len 5/23/2023 06:33:56'!
 isPrimePower
 	"Answer true if the receiver is of the form p^k for a prime p and a k > 0."
-	^ self > 1 and: [self isPowerOfTwo or: [self factorization asSet size = 1]]! !
+	self > 0 ifFalse: [^ false].
+	self isPowerOfTwo ifTrue: [^ true].
+	^ self factorization asSet size = 1! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 11/19/2015 17:21'!
 isRational
@@ -38220,6 +38268,17 @@ pollard: L
 		A _ A raisedTo: i modulo: N.
 		(F _ A - 1 gcd: N) = 1
 			ifFalse: [^ F]].
+	^ nil! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 5/23/2023 06:50:33'!
+primePowerFactorizationOrNil
+	| m |
+	self highBit + 1 to: 2 by: -1 do: [:k|
+		(m := self root: k) isInteger
+			ifTrue: [
+				self assert: m^k = self.
+				m isPrime ifFalse: [^ nil].
+				^ Bag new add: m withOccurrences: k; yourself]].
 	^ nil! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 8/5/2021 08:39:54'!
@@ -39068,6 +39127,10 @@ lastNonzeroIndex
 negated
 	^ (self species new: self size) replaceFrom: 1 to: self size withNegated: self startingAt: 1! !
 
+!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/23/2023 10:34:56'!
+partiallyReduceBy: g
+	self partiallyReduceBy: g quotient: nil! !
+
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/22/2023 21:06:48'!
 partiallyReduceBy: g quotient: q
 	| n m lead |
@@ -39096,12 +39159,11 @@ partiallyReduceBy: g quotient: q modulo: modulus
 			q ifNotNil: [q at: i put: (q at: i) - c \\ modulus].
 			self replaceFrom: i to: i+m-1 with: self startingAt: i plus: g startingAt: 1 timesScalar: c modulo: modulus]! !
 
-!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/22/2023 21:09:24'!
+!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/23/2023 10:44:44'!
 polynomialDivisionBy: anArray
 	| q r |
 	q := self zero.
-	r := self copy.
-	r reduceBy: anArray leadingInverse: anArray last inverse quotient: q.
+	r := self copy reduceBy: anArray quotient: q.
 	^ {q. r}! !
 
 !ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/22/2023 21:07:11'!
@@ -39148,23 +39210,9 @@ polynomialValue: anInteger zechTable: table
 		i _ i - 1].
 	^ answer! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/22/2023 21:09:30'!
-reduceBy: g leadingInverse: u
-	self reduceBy: g leadingInverse: u quotient: nil! !
-
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/22/2023 21:09:11'!
-reduceBy: g leadingInverse: u quotient: q
-	| n m minusU |
-	m := g size "lastNonzeroIndex".
-	"inv _ (g at: m) inverse."
-	minusU := u negated.
-	[(n := self lastNonzeroIndex ifNil: [0]) >= m]
-		whileTrue:
-			[| i c |
-			i := n-m+1.
-			c := (self at: n) * minusU.
-			q ifNotNil: [q at: i put: (q at: i) - c].
-			self replaceFrom: i to: i+m-1 with: self startingAt: i plus: g startingAt: 1 timesScalar: c]! !
+!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/23/2023 10:40:54'!
+reduceBy: g
+	self reduceBy: g quotient: nil! !
 
 !ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/22/2023 21:11:19'!
 reduceBy: g leadingInverse: u quotient: q modulo: modulus
@@ -39180,12 +39228,24 @@ reduceBy: g leadingInverse: u quotient: q modulo: modulus
 			q ifNotNil: [q at: i put: (q at: i) - c \\ modulus].
 			self replaceFrom: i to: i+m-1 with: self startingAt: i plus: g startingAt: 1 timesScalar: c modulo: modulus]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/22/2023 21:11:52'!
-reduceBy: g leadingInverse: u quotient: q zechTable: table
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/23/2023 10:53:37'!
+reduceBy: g quotient: q
 	| n m minusU |
 	m := g size "lastNonzeroIndex".
-	"inv _ (g at: m) inverse."
-	minusU := table negate: u.
+	minusU := (g at: m) inverse negated.
+	[(n := self lastNonzeroIndex ifNil: [0]) >= m]
+		whileTrue:
+			[| i c |
+			i := n-m+1.
+			c := (self at: n) * minusU.
+			q ifNotNil: [q at: i put: (q at: i) - c].
+			self replaceFrom: i to: i+m-1 with: self startingAt: i plus: g startingAt: 1 timesScalar: c]! !
+
+!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/23/2023 10:51:05'!
+reduceBy: g quotient: q zechTable: table
+	| n m minusU |
+	m := g size "lastNonzeroIndex".
+	minusU := table negate: (table invert: (g at: m)).
 	[(n := self lastNonzeroIndex ifNil: [0]) >= m]
 		whileTrue:
 			[| i c |
