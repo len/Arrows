@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 23 May 2023 at 4:12:30 pm'!
+'From Cuis 6.0 [latest update: #5801] on 25 May 2023 at 6:18:00 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -66,7 +66,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 77!
+!provides: 'Algebra' 1 78!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -2312,6 +2312,16 @@ Object subclass: #ExtendedEuclid
 ExtendedEuclid class
 	instanceVariableNames: ''!
 
+!classDefinition: #FFT category: 'Algebra-Algorithms'!
+Object subclass: #FFT
+	instanceVariableNames: 'modulus powers inversePowers inverseN'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algorithms'!
+!classDefinition: 'FFT class' category: 'Algebra-Algorithms'!
+FFT class
+	instanceVariableNames: ''!
+
 !classDefinition: #GrayCode category: 'Algebra-Algorithms'!
 Object subclass: #GrayCode
 	instanceVariableNames: 'indices increments'
@@ -2350,16 +2360,6 @@ Object subclass: #NTT
 	category: 'Algebra-Algorithms'!
 !classDefinition: 'NTT class' category: 'Algebra-Algorithms'!
 NTT class
-	instanceVariableNames: ''!
-
-!classDefinition: #NTT2 category: 'Algebra-Algorithms'!
-Object subclass: #NTT2
-	instanceVariableNames: 'modulus ω φ powers inversePowers inverseN'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Algorithms'!
-!classDefinition: 'NTT2 class' category: 'Algebra-Algorithms'!
-NTT2 class
 	instanceVariableNames: ''!
 
 !classDefinition: #ProductReplacementRandomGenerator category: 'Algebra-Algorithms'!
@@ -3432,6 +3432,9 @@ where d = gcd(a,b).
 
 For integers, the algorithm takes time O(ln^3 N) where |a|,|b| <= N. For polynomials of degree n, it is O(n^3).!
 
+!FFT commentStamp: '<historical>' prior: 0!
+Fast Number Theoretic Transforms, the analog of FFTs over 𝔽ₚ with p = m*2^k + 1.!
+
 !GrayCode commentStamp: 'len 5/21/2023 14:55:37' prior: 0!
 A k-bit Gray code is all 2^k binary strings of length k, ordered so that each differs by exactly one bit in one position from each of its neighbors. For example, one 3-bit Gray code is {000, 001, 011, 010, 110, 111, 101, 100}. See [Gra53].
 
@@ -3452,7 +3455,7 @@ Output: the minimal polynomial of the sequence.
 !
 
 !NTT commentStamp: '<historical>' prior: 0!
-Number Theoretic Transforms, the analog of DFTs for 𝔽ₚ. Special cases are the Fermat Number Transform (p = 2^k + 1) and the Mersenne Number Transform (p = 2^k - 1).
+Number Theoretic Transforms, the analog of DFTs for 𝔽ₚ. Special cases are the Fermat Number Transform (p = 2^(2^k) + 1) and the Mersenne Number Transform (p = 2^k - 1).
 
 The (pseudo) number theoretic transform may be meaningful in the ring ℤ/mℤ even when the modulo m is not prime, provided a principal root of order n exists.!
 
@@ -4696,9 +4699,13 @@ replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
 		withNegated: anArray representatives startingAt: srcStart
 		modulo: scalars modulus! !
 
-!ModularArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:53'!
-replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
-	representatives replaceFrom: start with: anArray1 representatives from: start1 to: stop1 convolutionLong: anArray2 representatives from: start2 to: stop2 modulo: scalars modulus! !
+!ModularArray methodsFor: 'operations-low level' stamp: 'len 5/25/2023 18:08:08'!
+replaceFrom: start with: anArray1 from: start1 to: stop1 convolution: anArray2 from: start2 to: stop2
+	representatives replaceFrom: start with: anArray1 representatives from: start1 to: stop1 convolutionKronecker: anArray2 representatives from: start2 to: stop2 modulo: scalars modulus! !
+
+!ModularArray methodsFor: 'operations-low level' stamp: 'len 5/25/2023 18:13:03'!
+replaceFrom: start withAutoconvolution: anArray1 from: start1 to: stop1
+	representatives replaceFrom: start withAutoconvolutionKronecker: anArray1 representatives from: start1 to: stop1 modulo: scalars modulus! !
 
 !ModularArray methodsFor: 'operations-low level' stamp: 'len 5/18/2023 17:33:26'!
 replaceWithMatrixTranspose: anArray width: width
@@ -36311,6 +36318,128 @@ validateMinimal
 on: anArray
 	^ self new elements: anArray! !
 
+!FFT methodsFor: 'accessing' stamp: 'len 5/24/2023 13:36:42'!
+modulus
+	^ modulus! !
+
+!FFT methodsFor: 'accessing' stamp: 'len 5/24/2023 13:36:48'!
+size
+	^ powers size! !
+
+!FFT methodsFor: 'operations' stamp: 'len 5/25/2023 13:39:34'!
+inverseTransform: anArray
+	"Inverse-NTT based on the Gentleman-Sade butterfly.
+	It takes an input in bit-reversed ordering and produces an output in standard ordering.
+	See: Patrick Longa, Michael Naehrig, 'Speeding up the Number Theoretic Transform for Faster Ideal Lattice-Based Cryptography'."
+	| n k m j₁ j₂ S U V h |
+	self flag: #fixme. "TODO: implement K-RED and K-RED-2x (algorithm 4)"
+	n := anArray size.
+	k := 1.
+	m := n.
+	[m > 1] whileTrue:
+		[j₁ := 0.
+		h := m // 2.
+		0 to: h - 1 do: [:i|
+			j₂ := j₁ + k - 1.
+			S := inversePowers at: h + i + 1.
+			j₁ to: j₂ do: [:j|
+				U := anArray at: j + 1.
+				V := anArray at: j + k + 1.
+				anArray at: j + 1 put: U + V \\ modulus.
+				anArray at: j + k + 1 put: U - V * S \\ modulus].
+			j₁ := j₁ + (2 * k)].
+		k := k*2.
+		m := m // 2].
+	1 to: n do: [:j| anArray at: j put: (anArray at: j) * inverseN \\ modulus].
+	^ anArray! !
+
+!FFT methodsFor: 'operations' stamp: 'len 5/25/2023 13:39:25'!
+transform: anArray
+	"NTT based on the Cooley-Tukey butterfly.
+	It takes an input in standard ordering and produces an output in bit-reversed ordering.
+	See: Patrick Longa, Michael Naehrig, 'Speeding up the Number Theoretic Transform for Faster Ideal Lattice-Based Cryptography'."
+	| n k m j₁ j₂ S U V |
+	self flag: #fixme. "TODO: implement K-RED and K-RED-2x (algorithm 3)"
+	n := anArray size.
+	k := n.
+	m := 1.
+	[m < n] whileTrue:
+		[k := k // 2.
+		0 to: m-1 do: [:i|
+			j₁ := 2 * i * k.
+			j₂ := j₁ + k - 1.
+			S := powers at: m + i + 1.
+			j₁ to: j₂ do: [:j|
+				U := anArray at: j + 1.
+				V := (anArray at: j + k + 1) * S.
+				anArray at: j + 1 put: U + V \\ modulus.
+				anArray at: j + k + 1 put: U - V \\ modulus]].
+		m := m * 2].
+	^ anArray! !
+
+!FFT methodsFor: 'printing' stamp: 'len 5/24/2023 13:48:35'!
+printOn: aStream
+	| factorization |
+	aStream nextPutAll: self class name.
+	factorization := (modulus - 1) factorization.
+	factorization asSet sorted reversed
+		do: [:pᵢ| | eᵢ |
+			aStream nextPutAll: pᵢ printString sub.
+			(eᵢ := factorization occurrencesOf: pᵢ) > 1
+				ifTrue: [aStream nextPutAll: eᵢ printStringSuperscript sub]]
+		separatedBy: [aStream nextPutAll: '·' sub].
+	aStream nextPutAll: ' + 1' sub.
+	aStream nextPutAll: '(2'; nextPutAll: (self size highBit - 1) printString super; nextPut: $)! !
+
+!FFT methodsFor: 'private' stamp: 'len 5/25/2023 13:36:14'!
+modulus: mod size: n
+	| R x φ ω |
+	modulus := mod.
+	self assert: mod \\ (2*n) = 1.
+	R := ℤ/mod.
+	x := R primitiveRoot.
+	ω := x^(mod-1 / n).
+	self assert: (ω^n) isOne.
+	φ := x^(mod-1 / (2*n)).
+	self assert: φ^2 = ω.
+	inverseN := (R !! n) inverse representative.
+	powers := WordArray new: n.
+	inversePowers := WordArray new: n.
+	1 to: n do: [:i|
+		| iᵣ |
+		iᵣ := (i - 1 bitReverse: n highBit - 1) + 1.
+		powers at: iᵣ put: (φ ^ i) representative.
+		inversePowers at: iᵣ put: (φ inverse ^ i) representative]! !
+
+!FFT class methodsFor: 'examples' stamp: 'len 5/24/2023 00:57:41'!
+example1
+	^ self new: 512 mod: 12289! !
+
+!FFT class methodsFor: 'examples' stamp: 'len 5/24/2023 00:57:56'!
+example2
+	^ self new: 1024 mod: 12289! !
+
+!FFT class methodsFor: 'examples' stamp: 'len 5/24/2023 01:02:23'!
+example3
+	^ self new: 8 mod: 3*(2^8) + 1! !
+
+!FFT class methodsFor: 'instance creation' stamp: 'len 5/24/2023 14:18:35'!
+new: anInteger
+	^ self new: anInteger bits: 0! !
+
+!FFT class methodsFor: 'instance creation' stamp: 'len 5/24/2023 14:15:14'!
+new: anInteger bits: anotherInteger
+	| p t |
+	self assert: anInteger isPowerOfTwo.
+	t := anInteger*2.
+	p := 1 << (anotherInteger - 1) + 1.
+	[(p := p + anInteger) isProbablyPrime and: [p \\ t = 1]] whileFalse.
+	^ self new: anInteger mod: p! !
+
+!FFT class methodsFor: 'instance creation' stamp: 'len 5/24/2023 01:02:43'!
+new: anInteger mod: aPrime
+	^ self new modulus: aPrime size: anInteger! !
+
 !GrayCode methodsFor: 'accessing' stamp: 'len 5/21/2023 14:58:23'!
 at: anInteger
 	| answer |
@@ -36441,86 +36570,6 @@ value: input
 !NTT class methodsFor: 'instance creation' stamp: 'len 5/20/2023 12:12:21'!
 modulus: anInteger
 	^ self new modulus: anInteger! !
-
-!NTT2 methodsFor: 'as yet unclassified' stamp: 'len 5/23/2023 15:37:04'!
-inverseTransform: anArray
-	"Inverse-NTT based on the Gentleman-Sade butterfly.
-	Produces the NTT of the bit-reversed input in standard ordering."
-	| n k m j₁ j₂ S U V h |
-	n := anArray size.
-	k := 1.
-	m := n.
-	[m > 1] whileTrue:
-		[j₁ := 0.
-		h := m // 2.
-		0 to: h - 1 do: [:i|
-			j₂ := j₁ + k - 1.
-			S := inversePowers at: h + i + 1.
-			j₁ to: j₂ do: [:j|
-				U := anArray at: j + 1.
-				V := anArray at: j + k + 1.
-				anArray at: j + 1 put: U + V \\ modulus.
-				anArray at: j + k + 1 put: U - V * S \\ modulus].
-			j₁ := j₁ + (2 * k)].
-		k := k*2.
-		m := m // 2].
-	1 to: n do: [:j| anArray at: j put: (anArray at: j) * inverseN \\ modulus].
-	^ anArray! !
-
-!NTT2 methodsFor: 'as yet unclassified' stamp: 'len 5/23/2023 15:40:38'!
-inverseTransformNaive: anArray
-	"Naive algorithm, O(n²)."
-	^ (1 to: anArray size) collect: [:i| ((1 to: anArray size) sum: [:j| (ω inverse representative raisedTo: i*j modulo: modulus) * (anArray at: j) \\ modulus]) \\ modulus]! !
-
-!NTT2 methodsFor: 'as yet unclassified' stamp: 'len 5/23/2023 15:39:22'!
-modulus: q size: n
-	| R x |
-	modulus := q.
-	self assert: q \\ (2*n) = 1.
-	R := ℤ/q.
-	x := R primitiveRoot.
-	ω := x^(q-1 / n).
-	self assert: (ω^n) isOne.
-	φ := x^(q-1 / (2*n)).
-	self assert: φ^2 = ω.
-	inverseN := (R !! n) inverse representative.
-	powers := 1 to: n :: collect: [:i| (φ ^ i) representative bitReverse: modulus highBit].
-	inversePowers := 1 to: n :: collect: [:i| (φ ^ i negated) representative bitReverse: modulus highBit]! !
-
-!NTT2 methodsFor: 'as yet unclassified' stamp: 'len 5/23/2023 15:33:37'!
-transform: anArray
-	"NTT based on the Cooley-Tukey butterfly.
-	Produces the NTT of the input in bit-reversed ordering."
-	| n k m j₁ j₂ S U V |
-	n := anArray size.
-	k := n.
-	m := 1.
-	[m < n] whileTrue:
-		[k := k // 2.
-		0 to: m-1 do: [:i|
-			j₁ := 2 * i * k.
-			j₂ := j₁ + k - 1.
-			S := inversePowers at: m + i + 1.
-			j₁ to: j₂ do: [:j|
-				U := anArray at: j + 1.
-				V := (anArray at: j + k + 1) * S.
-				anArray at: j + 1 put: U + V \\ modulus.
-				anArray at: j + k + 1 put: U - V \\ modulus]].
-		m := m * 2].
-	^ anArray! !
-
-!NTT2 methodsFor: 'as yet unclassified' stamp: 'len 5/23/2023 15:31:41'!
-transformNaive: anArray
-	"Naive algorithm, O(n²)."
-	^ (1 to: anArray size) collect: [:i| ((1 to: anArray size) sum: [:j| (ω representative raisedTo: i*j modulo: modulus) * (anArray at: j) \\ modulus]) \\ modulus]! !
-
-!NTT2 class methodsFor: 'as yet unclassified' stamp: 'len 5/23/2023 15:29:52'!
-example1
-	^ self new modulus: 12289 size: 512! !
-
-!NTT2 class methodsFor: 'as yet unclassified' stamp: 'len 5/23/2023 15:42:40'!
-example2
-	^ self new modulus: 12289 size: 1024! !
 
 !ProductReplacementRandomGenerator methodsFor: 'accessing' stamp: 'len 5/25/2019 04:34:49'!
 generators: aCollection
@@ -37561,11 +37610,6 @@ adaptToCollection: rcvr andSend: selector
 
 	^ rcvr collect: [:element | element perform: selector with: self]! !
 
-!Object methodsFor: '*algebra' stamp: 'len 5/21/2023 17:42:15'!
-id
-	self flag: #fixme. "given a matrix A, A id = A, so if i wanted to write 'A domain id' but wrote 'A id' that's a subtle bug"
-	^ self → self! !
-
 !Object methodsFor: '*algebra' stamp: 'len 5/8/2020 15:46:45'!
 isDomain
 	^ false! !
@@ -37930,6 +37974,19 @@ bitSupportDo: aBlock
 		[v odd ifTrue: [aBlock value: i].
 		v := v bitShift: -1.
 		i := i + 1]! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 5/25/2023 18:01:07'!
+bits: length at: index
+	"Read the desired number of bits from the receiver starting at the given bit index."
+	^ (self bitShift: 1 - index) bitAnd: (1 bitShift: length) - 1! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 5/25/2023 00:15:53'!
+byteAt: anInteger
+	^ self digitAt: anInteger! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 5/25/2023 00:16:24'!
+byteAt: anInteger put: aByte
+	^ self digitAt: anInteger put: aByte! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 12/12/2016 09:35:09'!
 choose: anInteger
@@ -38443,6 +38500,43 @@ xxgcd: anInteger
 	"Answer the exact division of the receiver by the argument.
 	Asume that the argument divides the receiver."
 	^ (self digitDiv: anInteger neg: false) first! !
+
+!LargePositiveInteger methodsFor: '*algebra' stamp: 'len 5/25/2023 15:45:22'!
+bits: length at: index
+	"Read the desired number of bits from the receiver starting at the given bit index."
+	| i bits start₀ start stop |
+	start₀ := index - 1.
+	start := (start₀ bitShift: -3) + 1.
+	start <= self size ifFalse: [^ 0].
+	stop := (start₀ + length bitShift: -3) + 1 min: self size.
+	start <= stop ifFalse: [^ 0].
+	bits := 0.
+	i := start.
+	[i <= stop] whileTrue: [bits := bits bitXor: ((self at: i) bitShift: 8 * (i - start)). i := i + 1].
+	^ (bits bitShift: (start₀ bitAnd: 7) negated) bitAnd: (1 bitShift: length) - 1! !
+
+!LargePositiveInteger methodsFor: '*algebra' stamp: 'len 5/25/2023 15:41:11'!
+bits: length at: index xor: bits
+	"XOR the desired number of bits over the receiver starting at the given bit index."
+	| i start₀ start stop |
+	start₀ := index - 1.
+	start := (start₀ bitShift: -3) + 1.
+	stop := (start₀ + length bitShift: -3) + 1.
+	i := start.
+	[i <= stop] whileTrue: [self at: i put: ((self at: i) bitXor: ((bits bitShift: start₀ \\ 8 - (8 * (i - start))) bitAnd: 16rFF)). i := i + 1].
+	^ bits! !
+
+!LargePositiveInteger methodsFor: '*algebra' stamp: 'len 5/25/2023 00:18:40'!
+copyFrom: start to: stop 
+	"Answer a copy of a subset of the receiver, starting from element at 
+	index start until element at index stop."
+
+	| newSize |
+	newSize := stop - start + 1 max: 0.
+	newSize = 0 ifTrue: [^ 0].
+	^ (self species new: newSize)
+		replaceFrom: 1 to: newSize with: self startingAt: start;
+		normalize! !
 
 !SmallInteger methodsFor: '*algebra' stamp: 'len 5/17/2023 10:43:31'!
 bitConvolution16: anInteger
@@ -39497,6 +39591,23 @@ replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionKaratsuba: a
 	"finally add t3 * x^m to result:"
 	self replaceFrom: start + m to: start + m + m2 - 2 with: self startingAt: start + m plus: tempArray startingAt: tempStart! !
 
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/25/2023 18:17:48'!
+replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionKronecker: anArray2 from: start2 to: stop2 modulo: modulus
+	| n₁ n₂ ℓ₀ ℓ z₁ z₂ z j |
+	n₁ := stop1 - start1 + 1.
+	n₂ := stop2 - start2 + 1.
+	ℓ₀ := (modulus - 1) highBit.
+	ℓ := ℓ₀ * 2 + (n₁ max: n₂) highBit.
+	z₁ := LargePositiveInteger new: n₁ * ℓ + 7 // 8.
+	j := 1.
+	start1 to: stop1 do: [:i| z₁ bits: ℓ₀ at: j xor: (anArray1 at: i). j := j + ℓ].
+	z₂ := LargePositiveInteger new: n₂ * ℓ + 7 // 8.
+	j := 1.
+	start2 to: stop2 do: [:i| z₂ bits: ℓ₀ at: j xor: (anArray2 at: i). j := j + ℓ].
+	z := z₁*z₂.
+	j := 1.
+	start to: start + n₁ + n₂ - 2 do: [:i| self at: i put: (z bits: ℓ at: j) \\ modulus. j := j + ℓ]! !
+
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/22/2023 19:05:22'!
 replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
 	self from: start to: start + stop1 - start1 + stop2 - start2 put: (anArray1 at: start1) zero.
@@ -39508,13 +39619,13 @@ replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArra
 				with: self startingAt: k
 				plus: anArray1 startingAt: start1 timesScalar: x]]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 12/9/2022 07:39:17'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/25/2023 17:18:46'!
 replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2 modulo: modulus
 	self from: start to: start + stop1 - start1 + stop2 - start2 put: 0.
 	start2 to: stop2 do: [:i| | x |
-		(x _ anArray2 at: i) = 0 ifFalse:
+		(x := anArray2 at: i) = 0 ifFalse:
 			[| index |
-			index _ i-start2+start.
+			index := i-start2+start.
 			self replaceFrom: index to: index+stop1-start1
 				with: self startingAt: index
 				plus: anArray1 startingAt: start1 timesScalar: x
@@ -39574,6 +39685,19 @@ replaceFrom: start withAutoconvolutionKaratsuba: anArray1 from: start1 to: stop1
 	self at: start + m2 - 1 put: (anArray1 at: start1) zero.
 	"finally add t3 * x^m to result:"
 	self replaceFrom: start + m to: start + m + m2 - 2 with: self startingAt: start + m plus: tempArray startingAt: tempStart! !
+
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/25/2023 18:12:42'!
+replaceFrom: start withAutoconvolutionKronecker: anArray1 from: start1 to: stop1 modulo: modulus
+	| n ℓ₀ ℓ z₁ z j |
+	n := stop1 - start1 + 1.
+	ℓ₀ := (modulus - 1) highBit.
+	ℓ := ℓ₀ * 2 + n highBit.
+	z₁ := LargePositiveInteger new: n * ℓ + 7 // 8.
+	j := 1.
+	start1 to: stop1 do: [:i| z₁ bits: ℓ₀ at: j xor: (anArray1 at: i). j := j + ℓ].
+	z := z₁ squared.
+	j := 1.
+	start to: start + (n * 2) - 2 do: [:i| self at: i put: (z bits: ℓ at: j) \\ modulus. j := j + ℓ]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/9/2022 07:47:55'!
 replaceFrom: start withAutoconvolutionLong: anArray1 from: start1 to: stop1
@@ -39730,21 +39854,21 @@ bits: length at: index put: bits
 	self at: i put: (((self at: i) bitAnd: mask bitInvert) bitXor: ((bits bitShift: r negated) bitAnd: mask)).
 	^ bits! !
 
-!WordArray methodsFor: '*algebra-low level' stamp: 'len 5/17/2023 17:25:57'!
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 5/25/2023 13:43:29'!
 bits: length at: index xor: bits
-	"XOR the desired number of bits with the receiver starting at the given bit index.
+	"XOR the desired number of bits over the receiver starting at the given bit index.
 	Assume length <= 32."
 	| i₀ i r mask |
 "	self assert: bits highBit <= length.
 	self assert: (length between: 1 and: 32)."
-	i₀ _ index - 1.
-	i _ (i₀ bitShift: -5) + 1.
-	r _ i*32 - i₀. "r ∈ [1..32]"
-	mask _ (1 bitShift: (r min: length)) - 1 bitShift: 32 - r.
+	i₀ := index - 1.
+	i := (i₀ bitShift: -5) + 1.
+	r := i*32 - i₀. "r ∈ [1..32]"
+	mask := (1 bitShift: (r min: length)) - 1 bitShift: 32 - r.
 	self at: i put: ((self at: i) bitXor: ((bits bitShift: 32 - r) bitAnd: mask)).
 	r < length ifFalse: [^ bits].
-	mask _ (1 bitShift: length - r) - 1.
-	i _ i + 1.
+	mask := (1 bitShift: length - r) - 1.
+	i := i + 1.
 	self at: i put: ((self at: i) bitXor: ((bits bitShift: r negated) bitAnd: mask)).
 	^ bits! !
 

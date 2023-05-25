@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 23 May 2023 at 4:11:24 pm'!
+'From Cuis 6.0 [latest update: #5801] on 25 May 2023 at 6:18:40 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 48!
+!provides: 'Tests-Algebra' 1 49!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -20,18 +20,178 @@ TestCase subclass: #AbelianGroupTest
 AbelianGroupTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractTestCase category: 'Tests-Algebra'!
-TestCase subclass: #AbstractTestCase
+!classDefinition: #AlgebraicGeometryTest category: 'Tests-Algebra'!
+TestCase subclass: #AlgebraicGeometryTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'AlgebraicGeometryTest class' category: 'Tests-Algebra'!
+AlgebraicGeometryTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #AlgebraicGraphTest category: 'Tests-Algebra'!
+TestCase subclass: #AlgebraicGraphTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'AlgebraicGraphTest class' category: 'Tests-Algebra'!
+AlgebraicGraphTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #BilinearFormTest category: 'Tests-Algebra'!
+TestCase subclass: #BilinearFormTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'BilinearFormTest class' category: 'Tests-Algebra'!
+BilinearFormTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #ChainComplexTest category: 'Tests-Algebra'!
+TestCase subclass: #ChainComplexTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'ChainComplexTest class' category: 'Tests-Algebra'!
+ChainComplexTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #CommutativeAlgebraTest category: 'Tests-Algebra'!
+TestCase subclass: #CommutativeAlgebraTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'CommutativeAlgebraTest class' category: 'Tests-Algebra'!
+CommutativeAlgebraTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #GroupTest category: 'Tests-Algebra'!
+TestCase subclass: #GroupTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'GroupTest class' category: 'Tests-Algebra'!
+GroupTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #LinearGroupsTest category: 'Tests-Algebra'!
+TestCase subclass: #LinearGroupsTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'LinearGroupsTest class' category: 'Tests-Algebra'!
+LinearGroupsTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #MathematicsTest category: 'Tests-Algebra'!
+TestCase subclass: #MathematicsTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'MathematicsTest class' category: 'Tests-Algebra'!
+MathematicsTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #ModuleTest category: 'Tests-Algebra'!
+TestCase subclass: #ModuleTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'ModuleTest class' category: 'Tests-Algebra'!
+ModuleTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #MonomialTest category: 'Tests-Algebra'!
+TestCase subclass: #MonomialTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'MonomialTest class' category: 'Tests-Algebra'!
+MonomialTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #MultivariateModuleTest category: 'Tests-Algebra'!
+TestCase subclass: #MultivariateModuleTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'MultivariateModuleTest class' category: 'Tests-Algebra'!
+MultivariateModuleTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #NumberFieldTest category: 'Tests-Algebra'!
+TestCase subclass: #NumberFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'NumberFieldTest class' category: 'Tests-Algebra'!
+NumberFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #PAdicsTest category: 'Tests-Algebra'!
+TestCase subclass: #PAdicsTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'PAdicsTest class' category: 'Tests-Algebra'!
+PAdicsTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #PolynomialTest category: 'Tests-Algebra'!
+TestCase subclass: #PolynomialTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'PolynomialTest class' category: 'Tests-Algebra'!
+PolynomialTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #PowerSeriesTest category: 'Tests-Algebra'!
+TestCase subclass: #PowerSeriesTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'PowerSeriesTest class' category: 'Tests-Algebra'!
+PowerSeriesTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #QuadraticFormTest category: 'Tests-Algebra'!
+TestCase subclass: #QuadraticFormTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'QuadraticFormTest class' category: 'Tests-Algebra'!
+QuadraticFormTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #RandomizedTestCase category: 'Tests-Algebra'!
+TestCase subclass: #RandomizedTestCase
 	instanceVariableNames: 'seed random'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra'!
-!classDefinition: 'AbstractTestCase class' category: 'Tests-Algebra'!
-AbstractTestCase class
+!classDefinition: 'RandomizedTestCase class' category: 'Tests-Algebra'!
+RandomizedTestCase class
 	instanceVariableNames: ''!
 
 !classDefinition: #AbstractGroebnerBasisTest category: 'Tests-Algebra'!
-AbstractTestCase subclass: #AbstractGroebnerBasisTest
+RandomizedTestCase subclass: #AbstractGroebnerBasisTest
 	instanceVariableNames: 'scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -91,7 +251,7 @@ RationalGroebnerBasisTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #AbstractRingTest category: 'Tests-Algebra-Rings'!
-AbstractTestCase subclass: #AbstractRingTest
+RandomizedTestCase subclass: #AbstractRingTest
 	instanceVariableNames: 'R'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -531,7 +691,7 @@ ModularIntegerPolynomialRingTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #AbstractArrayTest category: 'Tests-Algebra-Arrays'!
-AbstractTestCase subclass: #AbstractArrayTest
+RandomizedTestCase subclass: #AbstractArrayTest
 	instanceVariableNames: 'scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -641,7 +801,7 @@ ZechArrayTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #AbstractTupleTest category: 'Tests-Algebra-Tuples'!
-AbstractTestCase subclass: #AbstractTupleTest
+RandomizedTestCase subclass: #AbstractTupleTest
 	instanceVariableNames: 'scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -670,14 +830,14 @@ AbstractCommutativeRingTupleTest subclass: #AbstractModularIntegerTupleTest
 AbstractModularIntegerTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryFieldTupleTest category: 'Tests-Algebra-Tuples'!
-AbstractModularIntegerTupleTest subclass: #BinaryFieldTupleTest
+!classDefinition: #BinaryTupleTest category: 'Tests-Algebra-Tuples'!
+AbstractModularIntegerTupleTest subclass: #BinaryTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'BinaryFieldTupleTest class' category: 'Tests-Algebra-Tuples'!
-BinaryFieldTupleTest class
+!classDefinition: 'BinaryTupleTest class' category: 'Tests-Algebra-Tuples'!
+BinaryTupleTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModularInteger16TupleTest category: 'Tests-Algebra-Tuples'!
@@ -720,14 +880,14 @@ AbstractModularIntegerTupleTest subclass: #ModularIntegerTupleTest
 ModularIntegerTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #TernaryFieldTupleTest category: 'Tests-Algebra-Tuples'!
-AbstractModularIntegerTupleTest subclass: #TernaryFieldTupleTest
+!classDefinition: #TernaryTupleTest category: 'Tests-Algebra-Tuples'!
+AbstractModularIntegerTupleTest subclass: #TernaryTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'TernaryFieldTupleTest class' category: 'Tests-Algebra-Tuples'!
-TernaryFieldTupleTest class
+!classDefinition: 'TernaryTupleTest class' category: 'Tests-Algebra-Tuples'!
+TernaryTupleTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #BinaryExtensionFieldTupleTest category: 'Tests-Algebra-Tuples'!
@@ -841,7 +1001,7 @@ QuaternionAlgebraTupleTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #AbstractMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractTestCase subclass: #AbstractMatrixTest
+RandomizedTestCase subclass: #AbstractMatrixTest
 	instanceVariableNames: 'scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -890,14 +1050,14 @@ AbstractFieldMatrixTest subclass: #BinaryExtensionFieldMatrixTest
 BinaryExtensionFieldMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryFieldMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractFieldMatrixTest subclass: #BinaryFieldMatrixTest
+!classDefinition: #BinaryMatrixTest category: 'Tests-Algebra-Matrices'!
+AbstractFieldMatrixTest subclass: #BinaryMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'BinaryFieldMatrixTest class' category: 'Tests-Algebra-Matrices'!
-BinaryFieldMatrixTest class
+!classDefinition: 'BinaryMatrixTest class' category: 'Tests-Algebra-Matrices'!
+BinaryMatrixTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #CyclotomicFieldMatrixTest category: 'Tests-Algebra-Matrices'!
@@ -960,14 +1120,14 @@ AbstractFieldMatrixTest subclass: #TernaryExtensionFieldMatrixTest
 TernaryExtensionFieldMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #TernaryFieldMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractFieldMatrixTest subclass: #TernaryFieldMatrixTest
+!classDefinition: #TernaryMatrixTest category: 'Tests-Algebra-Matrices'!
+AbstractFieldMatrixTest subclass: #TernaryMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'TernaryFieldMatrixTest class' category: 'Tests-Algebra-Matrices'!
-TernaryFieldMatrixTest class
+!classDefinition: 'TernaryMatrixTest class' category: 'Tests-Algebra-Matrices'!
+TernaryMatrixTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #CyclotomicIntegerMatrixTest category: 'Tests-Algebra-Matrices'!
@@ -1191,7 +1351,7 @@ QuaternionAlgebraMatrixTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #AbstractModuleTest category: 'Tests-Algebra-Modules'!
-AbstractTestCase subclass: #AbstractModuleTest
+RandomizedTestCase subclass: #AbstractModuleTest
 	instanceVariableNames: 'scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1220,14 +1380,14 @@ AbstractCommutativeRingModuleTest subclass: #AbstractVectorSpaceTest
 AbstractVectorSpaceTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryFieldVectorSpaceTest category: 'Tests-Algebra-Modules'!
-AbstractVectorSpaceTest subclass: #BinaryFieldVectorSpaceTest
+!classDefinition: #BinaryVectorSpaceTest category: 'Tests-Algebra-Modules'!
+AbstractVectorSpaceTest subclass: #BinaryVectorSpaceTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'BinaryFieldVectorSpaceTest class' category: 'Tests-Algebra-Modules'!
-BinaryFieldVectorSpaceTest class
+!classDefinition: 'BinaryVectorSpaceTest class' category: 'Tests-Algebra-Modules'!
+BinaryVectorSpaceTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #CyclotomicFieldVectorSpaceTest category: 'Tests-Algebra-Modules'!
@@ -1270,14 +1430,14 @@ AbstractVectorSpaceTest subclass: #RationalVectorSpaceTest
 RationalVectorSpaceTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #TernaryFieldVectorSpaceTest category: 'Tests-Algebra-Modules'!
-AbstractVectorSpaceTest subclass: #TernaryFieldVectorSpaceTest
+!classDefinition: #TernaryVectorSpaceTest category: 'Tests-Algebra-Modules'!
+AbstractVectorSpaceTest subclass: #TernaryVectorSpaceTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'TernaryFieldVectorSpaceTest class' category: 'Tests-Algebra-Modules'!
-TernaryFieldVectorSpaceTest class
+!classDefinition: 'TernaryVectorSpaceTest class' category: 'Tests-Algebra-Modules'!
+TernaryVectorSpaceTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #CyclotomicIntegerModuleTest category: 'Tests-Algebra-Modules'!
@@ -1438,166 +1598,6 @@ AbstractModuleTest subclass: #QuaternionAlgebraModuleTest
 	category: 'Tests-Algebra-Modules'!
 !classDefinition: 'QuaternionAlgebraModuleTest class' category: 'Tests-Algebra-Modules'!
 QuaternionAlgebraModuleTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #AlgebraicGeometryTest category: 'Tests-Algebra'!
-TestCase subclass: #AlgebraicGeometryTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'AlgebraicGeometryTest class' category: 'Tests-Algebra'!
-AlgebraicGeometryTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #AlgebraicGraphTest category: 'Tests-Algebra'!
-TestCase subclass: #AlgebraicGraphTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'AlgebraicGraphTest class' category: 'Tests-Algebra'!
-AlgebraicGraphTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #BilinearFormTest category: 'Tests-Algebra'!
-TestCase subclass: #BilinearFormTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'BilinearFormTest class' category: 'Tests-Algebra'!
-BilinearFormTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #ChainComplexTest category: 'Tests-Algebra'!
-TestCase subclass: #ChainComplexTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'ChainComplexTest class' category: 'Tests-Algebra'!
-ChainComplexTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #CommutativeAlgebraTest category: 'Tests-Algebra'!
-TestCase subclass: #CommutativeAlgebraTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'CommutativeAlgebraTest class' category: 'Tests-Algebra'!
-CommutativeAlgebraTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #GroupTest category: 'Tests-Algebra'!
-TestCase subclass: #GroupTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'GroupTest class' category: 'Tests-Algebra'!
-GroupTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #LinearGroupsTest category: 'Tests-Algebra'!
-TestCase subclass: #LinearGroupsTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'LinearGroupsTest class' category: 'Tests-Algebra'!
-LinearGroupsTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #MathematicsTest category: 'Tests-Algebra'!
-TestCase subclass: #MathematicsTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'MathematicsTest class' category: 'Tests-Algebra'!
-MathematicsTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #ModuleTest category: 'Tests-Algebra'!
-TestCase subclass: #ModuleTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'ModuleTest class' category: 'Tests-Algebra'!
-ModuleTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #MonomialTest category: 'Tests-Algebra'!
-TestCase subclass: #MonomialTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'MonomialTest class' category: 'Tests-Algebra'!
-MonomialTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #MultivariateModuleTest category: 'Tests-Algebra'!
-TestCase subclass: #MultivariateModuleTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'MultivariateModuleTest class' category: 'Tests-Algebra'!
-MultivariateModuleTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #NumberFieldTest category: 'Tests-Algebra'!
-TestCase subclass: #NumberFieldTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'NumberFieldTest class' category: 'Tests-Algebra'!
-NumberFieldTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #PAdicsTest category: 'Tests-Algebra'!
-TestCase subclass: #PAdicsTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'PAdicsTest class' category: 'Tests-Algebra'!
-PAdicsTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #PolynomialTest category: 'Tests-Algebra'!
-TestCase subclass: #PolynomialTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'PolynomialTest class' category: 'Tests-Algebra'!
-PolynomialTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #PowerSeriesTest category: 'Tests-Algebra'!
-TestCase subclass: #PowerSeriesTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'PowerSeriesTest class' category: 'Tests-Algebra'!
-PowerSeriesTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #QuadraticFormTest category: 'Tests-Algebra'!
-TestCase subclass: #QuadraticFormTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'QuadraticFormTest class' category: 'Tests-Algebra'!
-QuadraticFormTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #RingTest category: 'Tests-Algebra'!
@@ -2679,4688 +2679,6 @@ testTorsionAbelianGroup
 	self assert: G isFree not.
 	self assert: G isMixed not.
 	self assert: G torsionFree isTrivial! !
-
-!AbstractTestCase methodsFor: 'initialization' stamp: 'len 5/20/2023 16:45:01'!
-initialize
-	super initialize.
-	seed := 16rFFFFFFFF atRandom! !
-
-!AbstractTestCase methodsFor: 'setUp/tearDown' stamp: 'len 8/5/2022 09:49:31'!
-setUp
-	super setUp.
-	random _ Random seed: seed! !
-
-!AbstractTestCase methodsFor: 'setUp/tearDown' stamp: 'len 4/20/2021 06:56:32'!
-tearDown
-	super tearDown.
-	random _ nil! !
-
-!AbstractTestCase class methodsFor: 'testing' stamp: 'len 4/20/2021 06:53:33'!
-isAbstract
-	^ self name beginsWith: 'Abstract'! !
-
-!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2022 14:43:41'!
-testExtendedBuchbergerWithCyclic3
-	| R I A basisAndTransformation G T |
-	R _ scalars polynomialsIn: 3.
-	I _ R cyclicIdeal.
-	I _ I orderedBy: #grevlex.
-	A _ I generatorMatrix.
-	basisAndTransformation _ A basisAndTransformation.
-	G _ basisAndTransformation first.
-	T _ basisAndTransformation second.
-	self assert: A * T = G! !
-
-!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:15:37'!
-testGroebnerBasis: G ideal: I
-	"Test G is a Groebner basis of the ideal I."
-	| g division |
-"	self assert: G verify."
-	I isTrivial ifTrue: [^ self assert: G isEmpty].
-	I generators do: [:each| self assert: (each reductionBy: G) isZero].
-	G do: [:each| self assert: (I includes: each)]. "but this will use Groebner bases.."
-	[g := I atRandom: random bits: 200. g isZero] whileTrue.
-	self assert: (g reductionBy: G) isZero.
-	"The leading term of any polynomial in I is divisible by the leading term of some polynomial in G:"
-	self assert: (G anySatisfy: [:any| any leadingMonomial | g leadingMonomial]).
-	"The multivariate division of any polynomial in I by G gives the remainder 0:"
-	division := g divisionBy: G.
-	self assert: division remainder isZero.
-	division validate.
-"	self assert: G reduced isReduced.
-	self assert: G minimal isMinimal"! !
-
-!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:06:13'!
-testGroebnerCyclic3
-	| I G |
-	I _ (scalars polynomialsIn: 3) cyclicIdeal.
-	G _ I basis.
-	self testGroebnerBasis: G ideal: I! !
-
-!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:07:18'!
-testGroebnerCyclic3Lexicographic
-	| I G |
-	I _ (scalars polynomialsIn: 3 ordering: #lex) cyclicIdeal.
-	G _ I basis.
-	self testGroebnerBasis: G ideal: I! !
-
-!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:07:35'!
-testGroebnerCyclic3TotalLexicographic
-	| I G |
-	I _ (scalars polynomialsIn: 3 ordering: #glex) cyclicIdeal.
-	G _ I basis.
-	self testGroebnerBasis: G ideal: I! !
-
-!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:07:46'!
-testGroebnerCyclic3TotalReverseLexicographic
-	| I G |
-	I _ (scalars polynomialsIn: 3 ordering: #grevlex) cyclicIdeal.
-	G _ I basis.
-	self testGroebnerBasis: G ideal: I! !
-
-!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/29/2022 19:37:28'!
-testGroebnerKatsura2
-	| I G |
-	I _ (scalars polynomialsIn: 2) katsuraIdeal.
-	G _ I basis.
-	self testGroebnerBasis: G ideal: I! !
-
-!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/29/2022 19:37:35'!
-testGroebnerKatsura3
-	| I G |
-	I _ (scalars polynomialsIn: 3) katsuraIdeal.
-	G _ I basis.
-	self testGroebnerBasis: G ideal: I! !
-
-!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:15:58'!
-testIdealMembership
-	| R f1 f2 f3 I g |
-	R := scalars polynomialsIn: (3 atRandom: random).
-	[(f1 := R atRandom: random bits: 10) isZero] whileTrue.
-	[(f2 := R atRandom: random bits: 10) isZero] whileTrue.
-	[(f3 := R atRandom: random bits: 10) isZero] whileTrue.
-	I := R * {f1. f2. f3}.
-	g := I atRandom: random bits: 100.
-	self assert: (I includes: g)! !
-
-!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:05:01'!
-testZeroIdeal
-	| R I f |
-	R _ scalars polynomialsIn: (3 atRandom: random).
-	I _ R * #(). "the zero ideal {0}"
-	self assert: I isTrivial.
-	self assert: (I includes: R zero).
-	[f _ R atRandom: random bits: 10. f isZero] whileTrue.
-	self deny: (I includes: f)! !
-
-!FiniteFieldGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:58:16'!
-initialize
-	super initialize.
-	scalars _ GaloisField new: 5 atRandom nextPrime to: 3 atRandom! !
-
-!GaloisRingGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:12:06'!
-initialize
-	super initialize.
-	scalars _ GaloisRing new: 5 atRandom nextPrime to: 3 atRandom to: 2 atRandom! !
-
-!IntegerGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:58:29'!
-initialize
-	super initialize.
-	scalars _ ℤ! !
-
-!ModularIntegerGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:11:24'!
-initialize
-	super initialize.
-	scalars _ ℤ/1024 atRandom! !
-
-!RationalGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:59:15'!
-initialize
-	super initialize.
-	scalars _ ℤ! !
-
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:25:17'!
-testDivisibility
-	20 timesRepeat:
-		[| a b |
-		a _ R atRandom: random bits: 30.
-		b _ R atRandom: random bits: 30.
-		self assert: (a isZero or: [a | (a*b)])]! !
-
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:25:31'!
-testDivisionByUnits
-	10 timesRepeat:
-		[| x u |
-		x _ R atRandom: random bits: 30.
-		u _ R units atRandom: random.
-		self assert: x * u / u = x.
-		self assert: x / u = (x * u inverse)]! !
-
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/14/2023 13:47:41'!
-testExactDivision
-	20 timesRepeat:
-		[| a b |
-		a _ R atRandom: random bits: 30.
-		b _ a * (R atRandom: random bits: 30).
-		self assert: (a isZero or: [a * (b ÷ a) = b])]! !
-
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:23:37'!
-testLeftDivision
-	20 timesRepeat:
-		[| a b |
-		a _ R atRandom: random bits: 30.
-		b _ a * (R atRandom: random bits: 30).
-		self assert: (a isZero or: [a * (a \ b) = b])]! !
-
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 12:36:42'!
-testLiftColiftOfZero
-	self assert: (R zero colift: R zero) = R zero.
-	self assert: (R zero lift: R zero) = R zero! !
-
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:23:08'!
-testRightDivision
-	20 timesRepeat:
-		[| a b |
-		a _ R atRandom: random bits: 30.
-		b _ (R atRandom: random bits: 30) * a.
-		self assert: (a isZero or: [(b / a) * a = b])]! !
-
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 11:25:34'!
-testRing
-	self testRingAxioms: R.
-	R hasCanonicalAssociates ifTrue: [self testRingCanonicalAssociates: R].
-	R isInvolutive ifTrue: [self testRingInvolution: R]! !
-
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2022 09:23:36'!
-testRingAxioms: aRing
-	| one zero a b c |
-	one _ aRing one.
-	zero _ aRing zero.
-	20 timesRepeat:
-		[a _ aRing atRandom: random bits: 20.
-		b _ aRing atRandom: random bits: 20.
-		c _ aRing atRandom: random bits: 20.
-		self assert: a * one = a.
-		self assert: one * a = a.
-		self assert: zero * a = zero.
-		self assert: a * zero = zero.
-		self assert: zero + a = a.
-		self assert: a + zero = a.
-		"additive inverse"
-		self assert: a - a = zero.
-		self assert: a + b - b = a. "not really necessary to test this, but there was a bug before"
-		"commutativity of addition:"
-		self assert: a + b = (b + a).
-		"associativity of addition:"
-		self assert: a + b + c = (a + (b + c)).
-		"associativity of multiplication:"
-		self assert: a * b * c = (a * (b * c)).
-		"distributivity:"
-		self assert: (a + b) * c = (a * c + (b * c)).
-		"commutativity of multiplication:"
-		aRing isCommutative ifTrue: [self assert: a * b = (b * a)]]! !
-
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2022 12:14:02'!
-testRingCanonicalAssociates: aRing
-	100 timesRepeat:
-		[| x u |
-		x _ aRing atRandom: random bits: 30.
-		u _ (aRing atRandom: random bits: 30) normalization.
-		self assert: x normalization isUnit.
-		self assert: u normalization = u inverse.
-		self assert: u * u inverse = aRing one.
-		self assert: u normalized = aRing one.
-		self assert: x * x normalization = x normalized.
-		self assert: x normalized = (x * u) normalized]! !
-
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/14/2022 08:38:35'!
-testRingHomomorphism: φ
-	| A B x y |
-	A _ φ domain.
-	B _ φ codomain.
-	x _ A atRandom: random bits: 10.
-	y _ A atRandom: random bits: 10.
-	self assert: (φ value: A zero) = B zero.
-	self assert: (φ value: A one) = B one.
-	self assert: (φ value: x + y) = ((φ value: x) + (φ value: y)).
-	self assert: (φ value: x * y) = ((φ value: x) * (φ value: y))! !
-
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/8/2023 18:45:16'!
-testRingInvolution: aRing
-	| a b |
-	self assert: aRing one conjugate = aRing one.
-	100 timesRepeat:
-		[a _ aRing atRandom: random bits: 20.
-		b _ aRing atRandom: random bits: 20.
-		self assert: (a + b) conjugate = (a conjugate + b conjugate).
-		self assert: (a * b) conjugate = (b conjugate * a conjugate).
-		self assert: a conjugate conjugate = a]! !
-
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:01:09'!
-testRingUnits
-	10 timesRepeat:
-		[| u |
-		u _ R units atRandom: random.
-		self assert: u isUnit.
-		self assert: u * u inverse = R one]! !
-
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:01:28'!
-testUnitsAreDivisorsOfEveryElement
-	10 timesRepeat:
-		[| x u |
-		x _ R atRandom: random bits: 30.
-		u _ R units atRandom: random.
-		self assert: u | x]! !
-
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 23:37:57'!
-testZeroPower
-	self assert: R zero ^ 2 = R zero.
-	self assert: R zero ^ 0 = R one! !
-
-!AbstractAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:42:41'!
-testAlgebra
-	self testAlgebraAxioms: R! !
-
-!AbstractAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/15/2021 19:41:50'!
-testAlgebraAxioms: anAlgebra
-	| one zero x y z a |
-	one _ anAlgebra one.
-	zero _ anAlgebra zero.
-	100 timesRepeat:
-		[x _ anAlgebra atRandom: random bits: 20.
-		y _ anAlgebra atRandom: random bits: 20.
-		z _ anAlgebra atRandom: random bits: 20.
-		a _ anAlgebra scalars atRandom: random bits: 20.
-		self assert: x * one = x.
-		self assert: one * x = x.
-		self assert: zero * x = zero.
-		self assert: x * zero = zero.
-		self assert: zero + x = x.
-		self assert: x + zero = x.
-		"commutativity of addition:"
-		self assert: x + y = (y + x).
-		"associativity of addition:"
-		self assert: x + y + z = (x + (y + z)).
-		"associativity of multiplication:"
-		self assert: x * y * z = (x * (y * z)).
-		"distributivity:"
-		self assert: (x + y) * z = (x * z + (y * z)).
-		self assert: z * (x + y) = (z * x + (z * y)).
-		"biliniarity of multiplication:"
-		self assert: x * y * a = (x * (y * a)).
-		self assert: x * y * a = (x * a * y).
-		"commutativity of multiplication:"
-		anAlgebra isCommutative ifTrue: [self assert: x * y = (y * x)]]! !
-
-!AbstractAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:34:28'!
-testScalarEmbedding
-	| a |
-	self testRingHomomorphism: R scalars → R.
-	a _ R scalars atRandom: random bits: 20.
-	self assert: (R scalars → R value: a) = (R one * a).
-	self assert: R !! a = (R one * a)! !
-
-!AbstractFiniteAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/21/2021 13:59:18'!
-testCharacteristicPolynomialAndMinimalPolynomial
-	| x f µ |
-	x _ R atRandom: random bits: 20.
-	f _ x characteristicPolynomial.
-	self assert: f isMonic.
-	self assert: (f value: x) isZero.
-	R scalars isIntegralDomain ifTrue:
-		[µ _ x minimalPolynomial.
-		self assert: µ isMonic.
-		self assert: (µ value: x) isZero.
-		self assert: µ | f]! !
-
-!AbstractFiniteAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/21/2021 14:02:15'!
-testNormAndTrace
-	| x y a |
-	x _ R atRandom: random bits: 100.
-	y _ R atRandom: random bits: 100.
-	a _ R scalars atRandom: random bits: 10.
-	self assert: (x * a + y) trace = (x trace * a + y trace).
-	self assert: (x * y) norm = (x norm * y norm)! !
-
-!AbstractMaximalOrderTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:05'!
-testCoercionToAndFromFractions
-	| x |
-	x := R atRandom: random bits: 100.
-	self assert: R !! (R fractions !! x) = x! !
-
-!AbstractMaximalOrderTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:34:34'!
-testHomomorphismToFractions
-	self testRingHomomorphism: R → R fractions! !
-
-!CyclotomicRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2021 12:13:25'!
-initialize
-	super initialize.
-	R _ (CyclotomicField new: 3 atRandom + 2) integers! !
-
-!QuadraticRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/9/2022 08:34:42'!
-initialize
-	| n |
-	super initialize.
-	[(n _ (2 to: 100) atRandom squarefreePart) > 1] whileFalse.
-	2 atRandom = 1 ifTrue: [n _ n negated].
-	R _ (QuadraticField sqrt: n) integers! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/25/2021 12:21:35'!
-initialize
-	super initialize.
-	R _ CliffordAlgebra on: (QuadraticForm from: ℚ^3 coefficients: #(1 0 0 1 0 1))! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:19:57'!
-testCliffordAlgebraDualGrade
-	| x k |
-	k _ (0 to: R degree) atRandom: random.
-	x _ (R grade: k) atRandom: random bits: 10.
-	self assert: ((R grade: R degree - k) includes: x dual)! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:01:34'!
-testCliffordAlgebraDualProperties
-	| x y |
-	x _ R atRandom: random bits: 10.
-	y _ R atRandom: random bits: 10.
-	self assert: x ·| y dual = (x ∧ y) dual.
-	self assert: x ∧ y dual = (x ·| y) dual! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:20:22'!
-testCliffordAlgebraEvenSubalgebra
-	| E x |
-	E _ R evenSubalgebra.
-	x _ E atRandom: random bits: 10.
-	self assert: x = x reflection! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:21:03'!
-testCliffordAlgebraGradeInvolution
-	| x y v |
-	x _ R atRandom: random bits: 10.
-	y _ R atRandom: random bits: 10.
-	v _ R !! (R space atRandom: random bits: 10).
-	self assert: (x*y) reflection = (x reflection * y reflection).
-	self assert: v reflection = v negated! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:21:54'!
-testCliffordAlgebraGradeProjection
-	| x k j |
-	k _ (0 to: R degree) atRandom: random.
-	[j _ (0 to: R degree) atRandom: random. j = k] whileTrue.
-	x _ R atRandom: random bits: 20.
-	self assert: ((R grade: k) includes: (x grade: k)).
-	self assert: (((R grade: j) includes: (x grade: k)) not or: [(x grade: k) isZero]).
-	x _ (R grade: k) atRandom: random bits: 10.
-	self assert: (x grade: k) = x.
-	self assert: (x grade: j) isZero! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:23:20'!
-testCliffordAlgebraHomogeneousElements
-	| x |
-	x _ (R grade: 0) atRandom: random bits: 10.
-	self assert: x isScalar.
-	x _ (R grade: 1) atRandom: random bits: 10.
-	self assert: x isVector.
-	x _ (R grade: 2) atRandom: random bits: 10.
-	self assert: x isBivector! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:23:43'!
-testCliffordAlgebraInverse
-	| a |
-	[a _ R atRandom: random bits: 10.
-	a isUnit] whileFalse.
-	self assert: a * a inverse = R one.
-	self assert: a inverse * a = R one! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:24:20'!
-testCliffordAlgebraMultiplication
-	| Q V C x y z |
-	V _ ℚ^3.
-	Q _ QuadraticForm from: V coefficients: (1 to: 6).
-	C _ CliffordAlgebra on: Q.
-	x _ C !! (V x: 1).
-	y _ C !! (V x: 2).
-	z _ C !! (V x: 3).
-	self assert: y*x = ((x*y) negated + 2).
-	self assert: z*x = ((x*z) negated + 3).
-	self assert: z*z = (C !! 6).
-	self assert: (x*0) isZero.
-	self assert: (0*x) isZero! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:20'!
-testCliffordAlgebraProductsProperties
-	| x y z one |
-	x := R atRandom: random bits: 10.
-	y := R atRandom: random bits: 10.
-	z := R atRandom: random bits: 10.
-	"Associativity of wedge product:"
-	self assert: x ∧ (y ∧ z) = (x ∧  y ∧ z).
-	"Associativity of left and right interior products:"
-	self assert: x ·| (y |· z) = (x ·| y |· z).
-	self assert: x ·| (y ·| z) = (x ∧ y ·| z).
-	self assert: x · (y ·| z) = (x ∧ y · z).
-	one := R one.
-	self assert: one ∧ x = x.
-	self assert: x ∧ one = x.
-	self assert: one ·| x = x.
-	self assert: x |· one = x! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:03:00'!
-testCliffordAlgebraProductsPropertiesWithVectors
-	| x y v |
-	x _ R atRandom: random bits: 10.
-	y _ R atRandom: random bits: 10.
-	v _ R !! (R space atRandom: random bits: 10).
-	self assert: v * x = (v ·| x + (v ∧ x)).
-	self assert: v ·| x = (v*x - (x reflection * v) / 2).
-	self assert: v ·| x = (x reflection negated |· v).
-	self assert: v ∧ x = (v*x + (x reflection * v) / 2).
-	self assert: v ∧ x = (x reflection ∧ v).
-	self assert: v ·| (x*y) = ((v ·| x)*y + (x reflection * (v ·| y)))! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2022 11:47:12'!
-testCliffordAlgebraProperties
-	self assert: R isCommutative not.
-	self assert: R rank = (2^R space rank).
-	self assert: R scalars = ℚ.
-	self assert: R zero isZero.
-	self assert: R one isOne.
-	self assert: R id isIdentity! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:27'!
-testCliffordAlgebraReversion
-	| x y v |
-	x := R atRandom: random bits: 10.
-	y := R atRandom: random bits: 10.
-	v := R !! (R space atRandom: random bits: 10).
-	self assert: (x*y) transpose = (y transpose * x transpose).
-	self assert: v transpose = v! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:35'!
-testCliffordAlgebraScalarEmbedding
-	| F a x |
-	F := R scalars.
-	a := F atRandom: random bits: 10.
-	x := R !! a.
-	self assert: x isScalar.
-	self assert: ((R grade: 0) includes: x).
-	self assert: R one * a = x.
-	self assert: x asScalar = a! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 20:13:19'!
-testCliffordAlgebraScalarEmbedding2
-	| ι |
-	ι _ R scalars asIdeal ⇒ R asVectorSpace !! (R scalars → R).
-	self assert: ι isInjective.
-	self assert: ι image = (R grade: 0) asVectorSpace! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:41'!
-testCliffordAlgebraSpaceEmbedding
-	| V v x |
-	V := R space.
-	v := V atRandom: random bits: 10.
-	x := R !! v.
-	self assert: x isVector.
-	self assert: ((R grade: 1) includes: x).
-	self assert: x asVector = v! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 20:15:41'!
-testCliffordAlgebraSpaceEmbedding2
-	| ι |
-	ι _ R space ⇒ R asVectorSpace !! (R space carrier → R carrier).
-	self assert: ι isInjective.
-	self assert: ι image = (R grade: 1) asVectorSpace! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:48'!
-testCliffordAlgebraUniversalProperty
-	| Q v |
-	Q := R quadraticForm.
-	v := R space atRandom: random bits: 10.
-	self assert: (R !! v) squared = (R one * (Q value: v))! !
-
-!MatrixAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:36:45'!
-initialize
-	| F |
-	super initialize.
-	F _ 2 atRandom = 1 ifTrue: [ℚ] ifFalse: [ℤ/64 atRandom nextPrime].
-	R _ (F^(0 to: 3) atRandom) endomorphisms! !
-
-!MatrixAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:37:45'!
-testMatrixAlgebraRank
-	self assert: R rank = R space rank squared! !
-
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/25/2021 12:20:24'!
-initialize
-	super initialize.
-	R _ QuaternionAlgebra over: ℚ invariants: #(1 1)! !
-
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/7/2022 07:27:25'!
-testQuaternionAlgebraAnnihilatorIdeal
-	| H a b I |
-	H _  QuaternionAlgebra over: ℚ invariants: #(1 1).
-	a _ 1 + H i.
-	self assert: a isZeroDivisor.
-	I _ a annihilatorIdeal.
-	self assert: (I includes: 1 - H i).
-	self assert: (I includes: H j - H k).
-	self assert: (I generators allSatisfy: [:each| (a * each) isZero]).
-	b _ H j.
-	self assert: b isZeroDivisor not.
-	I _ b annihilatorIdeal.
-	self assert: I isTrivial! !
-
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:31:31'!
-testQuaternionAlgebraAsJordanAlgebra
-	| A J |
-	A _ QuaternionAlgebra over: ℚ invariants: #(-5 -2).
-	J _ A asJordanAlgebra.
-	self assert: J isCommutative.
-	self assert: J isAssociative not.
-	self assert: J isJordan! !
-
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:31:55'!
-testQuaternionAlgebraCoercionToAndFromModule
-	| A x |
-	A _ QuaternionAlgebra over: ℚ invariants: #(-17 -271).
-	x _ A !! #(1 -2 3 0).
-	self assert: A asModule = (ℚ^4).
-	self assert: A asModule !! x = (ℚ^4 !! #(1 -2 3 0)).
-	self assert: A !! (A asModule !! #(1 -2 3 0)) = x! !
-
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:55'!
-testQuaternionAlgebraInverse
-	| A a |
-	A := QuaternionAlgebra over: ℚ invariants: #(-5 -2).
-	[a := A atRandom: random bits: 20.
-	a isUnit] whileFalse.
-	self assert: a * a inverse = A one.
-	self assert: a inverse * a = A one! !
-
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:32:41'!
-testQuaternionAlgebraIsCentral
-	| A |
-	A _ QuaternionAlgebra over: ℚ invariants: #(-5 -2).
-	self assert: A isCentral.
-	self assert: A center = (A span: {A one})! !
-
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:32:53'!
-testQuaternionAlgebraNormAndTraceExample
-	"Example from Magma handbook, H92E9."
-	| A x |
-	A _ QuaternionAlgebra over: ℚ invariants: #(-17 -271).
-	x _ A !! #(1 -2 3 0).
-	self assert: x trace = 2.
-	self assert: x norm = 2508. 
-	self assert: x representation trace = 4.
-	self assert: (x^2 - (x * x trace) + x norm) isZero! !
-
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:33:07'!
-testQuaternionAlgebraTraceExample
-	"Example from Sage."
-	| A |
-	A _ QuaternionAlgebra over: ℚ invariants: #(-5 -2).
-	self assert: A i trace isZero.
-	self assert: A j trace isZero.
-	self assert: (A !! {1/3. 1/5. 1/7. 1}) trace = (2/3)! !
-
-!AffineAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 18:50:38'!
-initialize
-	| P |
-	super initialize.
-	P _ ℚ polynomialsIn: 3 atRandom.
-	[R _ P / ((1 to: 4 atRandom - 1) collect: [:i| P atRandomBits: 20]).
-	R isTrivial] whileTrue! !
-
-!AbstractCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/4/2022 18:12:21'!
-testIsCommutative
-	self assert: R isCommutative! !
-
-!AbstractCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/14/2022 10:35:06'!
-testPolynomials
-	| P |
-	P _ R polynomialsIn: (3 atRandom: random).
-	self testRingAxioms: P.
-	self testRingHomomorphism: R → P! !
-
-!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:34:56'!
-testFractions
-	| F |
-	F _ R fractions.
-	self testRingAxioms: F.
-	self testRingHomomorphism: R → F! !
-
-!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:00'!
-testGCD
-	R size < 60 ifTrue:
-		[R do: [:a| R do: [:b| self testGCD: a with: b]]. ^ self].
-	100 timesRepeat:
-		[ | a b |
-		[(a _ R atRandom: random bits: 30) isZero] whileTrue.
-		[(b _ R atRandom: random bits: 30) isZero] whileTrue.
-		self testGCD: a with: b]! !
-
-!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:11:27'!
-testGCD2
-	100 timesRepeat:
-		[ | a b c gcd |
-		[(a _ R atRandom: random bits: 30) isZero] whileTrue.
-		[(b _ R atRandom: random bits: 30) isZero] whileTrue.
-		[(c _ R atRandom: random bits: 30) isZero] whileTrue.
-		gcd _ a*c gcd: b*c.
-		self assert: c | gcd]! !
-
-!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:07'!
-testGCD: a with: b
-	| gcd |
-	gcd _ a gcd: b.
-	self assert: gcd | a.
-	self assert: gcd | b.
-	self assert: gcd = gcd normalized! !
-
-!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:13'!
-testGCDZero
-	| a gcd |
-	a _ R atRandom: random bits: 100.
-	gcd _ a gcd: R zero.
-	self assert: gcd = (R zero gcd: a).
-	self assert: gcd = a normalized.
-	self assert: (R zero gcd: R zero) = R zero! !
-
-!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:07:21'!
-testHasGCD
-	self assert: R hasGCD! !
-
-!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:35'!
-testLCM
-	R size < 60 ifTrue:
-		[R do: [:a| R do: [:b| self testLCM: a with: b]]. ^ self].
-	100 timesRepeat:
-		[| a b |
-		[(a _ R atRandom: random bits: 30) isZero] whileTrue.
-		[(b _ R atRandom: random bits: 30) isZero] whileTrue.
-		self testLCM: a with: b]! !
-
-!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:43'!
-testLCM: a with: b
-	| lcm |
-	lcm _ a lcm: b.
-	self assert: a | lcm.
-	self assert: b | lcm.
-	self assert: lcm = lcm normalized! !
-
-!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:50'!
-testLCMZero
-	| a lcm |
-	a _ R atRandom: random bits: 100.
-	lcm _ a lcm: R zero.
-	self assert: lcm = (R zero lcm: a).
-	self assert: lcm = R zero.
-	self assert: (R zero lcm: R zero) = R zero! !
-
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 21:22:35'!
-testAnnihilator
-	100 timesRepeat:
-		[| x a |
-		x _ R atRandom: random bits: 30.
-		a _ x annihilator.
-		self assert: (x * a) isZero.
-		self assert: x isZeroDivisor not = a isZero]! !
-
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/18/2022 09:02:25'!
-testAnnihilatorOfZero
-	self assert: R zero annihilator isOne! !
-
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/12/2022 18:44:59'!
-testEuclideanDivision
-	"Test division on a pair of elements:"
-	R isTrivial ifTrue: [^ self].
-	R size < 300 ifTrue:
-		[R do: [:a| R do: [:b| self testEuclideanDivisionOf: a by: b]]. ^ self].
-	100 timesRepeat:
-		[| a b |
-		a _ R atRandom: random bits: 30.
-		[b _ R atRandom: random bits: 30. b isZero] whileTrue.
-		self testEuclideanDivisionOf: a by: b]! !
-
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2022 10:44:43'!
-testEuclideanDivisionOf: a by: b
-	| q r |
-	b isZero ifTrue:
-		[self should: [a // b] raise: Error.
-		self should: [a \\ b] raise: Error.
-		^ self].
-	q _ a // b.
-	r _ a \\ b.
-	self assert: a = (q * b + r).
-	self assert: (r isZero or: [r gauge < b gauge])! !
-
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/14/2023 15:18:16'!
-testExactDivisionCompatibleWithEuclideanDivision
-	R isTrivial ifTrue: [^ self].
-	100 timesRepeat:
-		[| x y xy q |
-		x _ R atRandom: random bits: 30.
-		[y _ R atRandom: random bits: 30. y isZero] whileTrue.
-		xy _ x * y.
-		q _ xy // y.
-		self assert: xy / y = q.
-		self assert: xy ÷ y = q.
-		self assert: (xy \\ y) isZero]! !
-
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/4/2022 18:12:54'!
-testIsEuclidean
-	self assert: R isEuclidean.
-	self assert: R isPIR! !
-
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2022 06:13:00'!
-testNormalization
-	| a u |
-	100 timesRepeat:
-		[a _ R atRandom: random.
-		a _ a normalized.
-		self assert: a normalized = a.
-		u _ R units atRandom: random.
-		self assert: (a*u) normalized = a]! !
-
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:32:16'!
-testXXGCD
-	R size < 60 ifTrue:
-		[R do: [:a| R do: [:b| self testXXGCD: a with: b]]. ^ self].
-	100 timesRepeat:
-		[| a b |
-		a _ R atRandom: random bits: 30.
-		b _ R atRandom: random bits: 30.
-		self testXXGCD: a with: b]! !
-
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/20/2021 06:48:37'!
-testXXGCD: a with: b
-	| result g s t u v |
-	result _ a xxgcd: b.
-	g _ result at: 1.
-	s _ result at: 2.
-	t _ result at: 3.
-	u _ result at: 4.
-	v _ result at: 5.
-	self assert: g = (a gcd: b).
-	self assert: s*a + (t*b) = g.
-	self assert: (u*a + (v*b)) isZero.
-	self assert: (s*v - (t*u)) isUnit! !
-
-!AbstractFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2022 12:23:12'!
-testIsDivisionRing
-	self assert: R isDivisionRing! !
-
-!AbstractFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2022 11:51:45'!
-testIsField
-	self assert: R isField! !
-
-!AbstractFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2022 11:51:32'!
-testIsIntegralDomain
-	self assert: R isIntegralDomain! !
-
-!AbstractFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2022 11:52:48'!
-testZeroIdealIsPrimeAndMinimalPrime
-	| P |
-	P _ R * 0.
-	self assert: P isPrime.
-	self assert: P isMinimalPrime! !
-
-!BinaryExtensionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:28:26'!
-initialize
-	super initialize.
-	R := GaloisField new: 2 to: 8 atRandom! !
-
-!BinaryExtensionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 18:08:56'!
-testZeroPowerBug
-	self assert: ((GaloisField new: 2 to: 2) zero^3) isZero! !
-
-!BinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/17/2023 10:56:39'!
-initialize
-	super initialize.
-	R _ ℤ/2! !
-
-!CyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:26:42'!
-initialize
-	super initialize.
-	R _ CyclotomicField new: 3 atRandom + 2! !
-
-!FiniteFieldRationalFunctionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2022 09:41:39'!
-initialize
-	super initialize.
-	R _ ((	GaloisField new: 5 atRandom nextPrime to: 3 atRandom) polynomialsIn: 3 atRandom) fractions! !
-
-!GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:21:39'!
-initialize
-	super initialize.
-	R _ GaloisField new: 5 atRandom nextPrime to: 3 atRandom! !
-
-!GaussianFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:27:13'!
-initialize
-	super initialize.
-	R _ GaussianField new! !
-
-!RationalFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2022 11:55:11'!
-initialize
-	super initialize.
-	R _ ℚ! !
-
-!RationalRationalFunctionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2022 09:41:16'!
-initialize
-	super initialize.
-	R _ (ℚ polynomialsIn: 3 atRandom) fractions! !
-
-!TernaryExtensionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:28:44'!
-initialize
-	super initialize.
-	R := GaloisField new: 3 to: 8 atRandom! !
-
-!TernaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/17/2023 10:57:02'!
-initialize
-	super initialize.
-	R _ ℤ/3! !
-
-!BinaryExtensionFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:29:47'!
-initialize
-	super initialize.
-	R := (	GaloisField new: 2 to: 8 atRandom) polynomials! !
-
-!BinaryFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 20:06:47'!
-initialize
-	super initialize.
-	R _ (ℤ/2) polynomials! !
-
-!EisensteinRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:01:19'!
-initialize
-	super initialize.
-	R _ (CyclotomicField new: 3) integers! !
-
-!EisensteinRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2022 06:24:15'!
-testIsPrimary
-	| a |
-	200 timesRepeat:
-		[a _ R atRandom: random.
-		a isPrimary ifTrue: [self assert: a norm \\ 3 = 1]]! !
-
-!FiniteFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 12:09:15'!
-initialize
-	super initialize.
-	R _ (	GaloisField new: 5 atRandom nextPrime to: 3 atRandom) polynomials! !
-
-!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/21/2021 08:18:32'!
-initialize
-	super initialize.
-	R _ GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom! !
-
-!GaussianRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/4/2022 15:21:01'!
-initialize
-	super initialize.
-	R _ GaussianField new integers! !
-
-!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:32:40'!
-initialize
-	super initialize.
-	R _ ℤ! !
-
-!LocalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/23/2022 13:17:15'!
-initialize
-	super initialize.
-	R _ ℤ @ (ℤ * 64 atRandom nextPrime)! !
-
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 21:26:23'!
-initialize
-	super initialize.
-	R := ℤ/(2 to: {2^8. 2^16.  2^32. 2^40} atRandom) atRandom! !
-
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 12:04:12'!
-testCongruenceSolvingExample1
-	| A a b solutions |
-	A _ ℤ/20.
-	a _ A !! 11.
-	b _ A !! 15.
-	solutions _ a solve: b.
-	self assert: solutions first = (A !! 5).
-	self assert: solutions size = 1! !
-
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 12:03:44'!
-testCongruenceSolvingExample2
-	| A a b solutions |
-	A _ ℤ/12167.
-	a _ A !! 230.
-	b _ A !! 1081.
-	solutions _ a solve: b.
-	self assert: (solutions includes: (A !! 2491)).
-	self assert: solutions size = 23.
-	self assert: (solutions allSatisfy: [:x| a*x = b])! !
-
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:28:18'!
-initialize
-	| k p |
-	super initialize.
-	p _ 10 atRandom nextPrime.
-	k _ 10 atRandom.
-	R _ PrimePowerRing new: p to: k! !
-
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2022 19:03:53'!
-testEuclideanDivisionCompatibleWithModularIntegerRing
-	| S r1 r2 s1 s2 |
-	S _ ModularIntegerRing new: R modulus.
-	100 timesRepeat:
-		[r1 _ R atRandom: random.
-		[r2 _ R atRandom: random. r2 isZero] whileTrue.
-		s1 _ S !! r1 representative.
-		s2 _ S !! r2 representative.
-		self assert: (r1 // r2) representative = (s1 // s2) representative]! !
-
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2022 10:44:51'!
-testEuclideanFunctionCompatibleWithModularIntegerRing
-	| S r s |
-	S _ ModularIntegerRing new: R modulus.
-	100 timesRepeat:
-		[r _ R atRandom: random.
-		s _ S !! r representative.
-		self assert: r gauge = s gauge]! !
-
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2022 12:53:48'!
-testGCDCompatibleWithModularIntegerRing
-	| S r1 r2 s1 s2 |
-	S _ ModularIntegerRing new: R modulus.
-	100 timesRepeat:
-		[r1 _ R atRandom: random.
-		r2 _ R atRandom: random.
-		s1 _ S !! r1 representative.
-		s2 _ S !! r2 representative.
-		self assert: (r1 gcd: r2) representative = (s1 gcd: s2) representative]! !
-
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2022 12:54:08'!
-testLCMCompatibleWithModularIntegerRing
-	| S r1 r2 s1 s2 |
-	S _ ModularIntegerRing new: R modulus.
-	100 timesRepeat:
-		[r1 _ R atRandom: random.
-		r2 _ R atRandom: random.
-		s1 _ S !! r1 representative.
-		s2 _ S !! r2 representative.
-		self assert: (r1 lcm: r2) representative = (s1 lcm: s2) representative]! !
-
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2022 20:17:37'!
-testNormalizationCompatibleWithModularIntegerRing
-	| S r s |
-	S _ ModularIntegerRing new: R modulus.
-	100 timesRepeat:
-		[r _ R atRandom: random.
-		s _ S !! r representative.
-		self assert: r normalization representative = s normalization representative]! !
-
-!RationalPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 12:08:03'!
-initialize
-	super initialize.
-	R _ ℚ polynomials! !
-
-!TernaryExtensionFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:30:03'!
-initialize
-	super initialize.
-	R := (	GaloisField new: 3 to: 8 atRandom) polynomials! !
-
-!TernaryFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 20:06:59'!
-initialize
-	super initialize.
-	R _ (ℤ/3) polynomials! !
-
-!FiniteFieldMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 15:32:40'!
-initialize
-	super initialize.
-	R _ (	GaloisField new: 5 atRandom nextPrime to: 3 atRandom) polynomialsIn: 3 atRandom! !
-
-!ProductRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/18/2022 12:53:32'!
-initialize
-	super initialize.
-	R _ ℤ × ℤ × (ℤ/4)! !
-
-!RationalMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 15:33:31'!
-initialize
-	super initialize.
-	R _ ℚ polynomialsIn: 3 atRandom! !
-
-!AbstractIntegralDomainTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2022 12:18:58'!
-testIsIntegralDomain
-	self assert: R isIntegralDomain! !
-
-!AbstractIntegralDomainTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2021 17:43:37'!
-testZeroIdeal
-	| P |
-	P _ R * 0.
-	self assert: P isPrime.
-	self assert: P isMinimalPrime! !
-
-!GaloisRingMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:04:18'!
-initialize
-	super initialize.
-	R _ (	GaloisRing new: 5 atRandom nextPrime to: 3 atRandom to: 2 atRandom) polynomialsIn: 3 atRandom! !
-
-!ModularIntegerMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 21:23:26'!
-initialize
-	super initialize.
-	R := ℤ/(2 to: 256) atRandom polynomialsIn: 3 atRandom! !
-
-!ModularIntegerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 21:28:13'!
-initialize
-	super initialize.
-	R := (ℤ/(2 to: {2^8. 2^16.  2^32. 2^40} atRandom) atRandom) polynomials! !
-
-!AbstractArrayTest methodsFor: 'private' stamp: 'len 5/6/2023 17:09:00'!
-newArray
-	^ self newArray: (200 atRandom: random)! !
-
-!AbstractArrayTest methodsFor: 'private' stamp: 'len 5/11/2023 16:17:24'!
-newArray: n
-	^ self newArray: n fill: [:each| self newScalar]! !
-
-!AbstractArrayTest methodsFor: 'private' stamp: 'len 5/11/2023 16:14:04'!
-newArray: n fill: aBlock
-	^ scalars new: n fill: aBlock! !
-
-!AbstractArrayTest methodsFor: 'private' stamp: 'len 5/6/2023 17:06:46'!
-newScalar
-	^ scalars atRandom: random bits: (60 atRandom: random)! !
-
-!AbstractArrayTest methodsFor: 'misc' stamp: 'len 5/6/2023 17:10:48'!
-testAccessing
-	| a i x |
-	a _ self newArray.
-	x _ self newScalar.
-	i _ (1 to: a size) atRandom: random.
-	a at: i put: x.
-	self assert: (a at: i) = x! !
-
-!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:13:06'!
-testAddition
-	| n a b c |
-	n _ 5 atRandom: random.
-	a _ self newArray: n.
-	b _ self newArray: n.
-	c _ a + b.
-	self assert: c size = n.
-	1 to: n do: [:i| self assert: (a at: i) + (b at: i) = (c at: i)].
-	self assert: (a + a negated) isZero.
-	self assert: a + b = (b + a).
-	self assert: a + a = (a*2).
-	self assert: a - b = (a + b negated)! !
-
-!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/11/2023 23:11:33'!
-testArithmeticWithArraysOfDifferentSize
-	| a b c d zeros |
-	a _ self newArray.
-	b _ self newArray: a size.
-	c _ self newArray.
-	d _ self newArray: c size.
-	zeros _ self newArray: (a size atRandom: random).
-	zeros atAllPut: scalars zero.
-	self assert: a + (b,zeros) = (a,zeros + b).
-	self assert: (a,zeros) + b = (a + b , zeros).
-	self assert: a - (b,zeros) = (a,zeros - b).
-	self assert: (a,zeros) - b = (a - b , zeros).
-	self assert: a * (b,c) = (a * b).
-	self assert: (a,c) * b = (a * b).
-	self assert: (a,c) * (b,d) = (a * b , (c * d)).
-	self assert: a · (b,c) = (a · b).
-	self assert: a,c · b = (a · b)! !
-
-!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:33:07'!
-testArrayMinusArray
-	| a b c |
-	a _ self newArray.
-	b _ self newArray: a size.
-	c _ a - b.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) - (b at: i) = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:33:39'!
-testArrayMinusArrayInplace
-	| a b c |
-	a _ self newArray.
-	b _ self newArray: a size.
-	c _ a copy.
-	c -= b.
-	1 to: a size do: [:i| self assert: (a at: i) - (b at: i) = (c at: i)]	! !
-
-!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:20:45'!
-testArrayMinusScalar
-	| a c x |
-	a _ self newArray.
-	x _ self newScalar.
-	c _ a - x.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) - x = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:21:05'!
-testArrayMinusScalarInplace
-	| a c x |
-	a _ self newArray.
-	x _ self newScalar.
-	c _ a copy.
-	c -= x.
-	1 to: a size do: [:i| self assert: (a at: i) - x = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:24:38'!
-testArrayPlusArray
-	| a b c |
-	a _ self newArray.
-	b _ self newArray: a size.
-	c _ a + b.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) + (b at: i) = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:25:02'!
-testArrayPlusArrayInplace
-	| a b c |
-	a _ self newArray.
-	b _ self newArray: a size.
-	c _ a copy.
-	c += b.
-	1 to: a size do: [:i| self assert: (a at: i) + (b at: i) = (c at: i)]	! !
-
-!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:21:22'!
-testArrayPlusScalar
-	| a c x |
-	a _ self newArray.
-	x _ self newScalar.
-	c _ a + x.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) + x = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:21:37'!
-testArrayPlusScalarInplace
-	| a c x |
-	a _ self newArray.
-	x _ self newScalar.
-	c _ a copy.
-	c += x.
-	1 to: a size do: [:i| self assert: (a at: i) + x = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/10/2023 10:52:47'!
-testArrayTimesArray
-	| a b c |
-	a _ self newArray.
-	b _ self newArray: a size.
-	c _ a * b.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) * (b at: i) = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/10/2023 10:53:36'!
-testArrayTimesArrayInplace
-	| a b c |
-	a _ self newArray.
-	b _ self newArray: a size.
-	c _ a copy.
-	c *= b.
-	1 to: a size do: [:i| self assert: (a at: i) * (b at: i) = (c at: i)]	! !
-
-!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/10/2023 10:53:07'!
-testArrayTimesScalar
-	| a c x |
-	a _ self newArray.
-	x _ self newScalar.
-	c _ a * x.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) * x = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/10/2023 10:53:23'!
-testArrayTimesScalarInplace
-	| a c x |
-	a _ self newArray.
-	x _ self newScalar.
-	c _ a copy.
-	c *= x.
-	1 to: a size do: [:i| self assert: (a at: i) * x = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:13:29'!
-testAutoconvolution
-	| a |
-	a _ self newArray.
-	self assert: a autoconvolution asArray = a asArray autoconvolution.
-	self assert: a autoconvolution = (a convolution: a)! !
-
-!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:14:38'!
-testConvolution
-	| a b |
-	a _ self newArray.
-	b _ self newArray.
-	self assert: (a convolution: b) asArray = (a asArray convolution: b asArray)! !
-
-!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:15:12'!
-testDotProduct
-	| a b |
-	a _ self newArray.
-	b _ self newArray.
-	self assert: a · b = (a asArray · b asArray)! !
-
-!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:20:01'!
-testSubstraction
-	| a b c |
-	a _ self newArray.
-	b _ self newArray: a size.
-	c _ a - b.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) - (b at: i) = (c at: i)]! !
-
-!AbstractArrayTest methodsFor: 'operations' stamp: 'len 5/6/2023 17:13:55'!
-testCircularShift
-	| a b n |
-	a _ self newArray.
-	n _ (a size negated to: a size) atRandom: random.
-	b _ a >>> n.
-	self assert: b size = a size.
-	1 to: b size do: [:i| self assert: (b at: i) = (a atWrap: i-n)]! !
-
-!AbstractArrayTest methodsFor: 'operations' stamp: 'len 5/6/2023 17:14:25'!
-testConcatenation
-	| a b c |
-	a _ self newArray.
-	b _ self newArray.
-	c _ a, b.
-	self assert: a size + b size = c size.
-	1 to: a size do: [:i| self assert: (c at: i) = (a at: i)].
-	1 to: b size do: [:i| self assert: (c at: a size + i) = (b at: i)]! !
-
-!AbstractArrayTest methodsFor: 'operations' stamp: 'len 5/9/2023 21:14:34'!
-testHammingWeight
-	| a |
-	a _ self newArray.
-	a size // 2 timesRepeat: [a at: (a size atRandom: random) put: scalars zero].
-	self assert: a support size = a weight! !
-
-!AbstractArrayTest methodsFor: 'operations' stamp: 'len 5/6/2023 17:25:33'!
-testReversed
-	| v i |
-	v _ self newArray.
-	i _ v size atRandom: random.
-	self assert: (v reversed at: i) = (v at: v size - i + 1).
-	self assert: v reversed reversed = v! !
-
-!AbstractArrayTest methodsFor: 'operations' stamp: 'len 5/6/2023 17:19:44'!
-testShift
-	| a b n |
-	a _ self newArray.
-	n _ (a size negated to: a size) atRandom: random.
-	b _ a >> n.
-	self assert: b size = a size.
-	1 to: b size do: [:i|
-		self assert: (b at: i) = ((i-n between: 1 and: a size) ifTrue: [a at: i-n] ifFalse: [scalars zero])]! !
-
-!AbstractArrayTest methodsFor: 'operations' stamp: 'len 5/9/2023 21:14:06'!
-testSupport
-	| a |
-	a _ self newArray.
-	a size // 2 timesRepeat: [a at: (a size atRandom: random) put: scalars zero].
-	self assert: a support asArray = ((1 to: a size) select: [:i| (a at: i) isZero not])! !
-
-!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/9/2023 22:07:16'!
-testAnySatisfyAndAllSatisfy
-	| a x y |
-	a _ self newArray.
-	x _ scalars atRandom: random.
-	[y _ scalars atRandom: random. y = x] whileTrue.
-	a atAllPut: x.
-	self assert: (a allSatisfy: [:each| each = x]).
-	self assert: (a anySatisfy: [:each| each = y]) not.
-	a at: (a size atRandom: random) put: y.
-	self assert: (a allSatisfy: [:each| each = x]) not.
-	self assert: (a anySatisfy: [:each| each = y])! !
-
-!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/6/2023 17:14:55'!
-testCopyFromTo
-	| a b start stop |
-	a _ self newArray.
-	start _ (1 to: a size) atRandom: random.
-	stop _ (1 to: a size) atRandom: random.
-	b _ a copyFrom: start to: stop.
-	self assert: b size = (stop-start+1 max: 0).
-	start to: stop do: [:i| self assert: (a at: i) = (b at: i-start+1)]! !
-
-!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/11/2023 16:16:08'!
-testDetect
-	| x a |
-	x _ scalars atRandom: random.
-	a _ self newArray: (100 atRandom: random) fill: [:i| scalars atRandom: random satisfying: [:y| (y = x) not]].
-	self assert: (a detect: [:one| one = x] ifNone: [#notFound]) == #notFound.
-	a at: (a size atRandom: random) put: x.
-	self assert: (a detect: [:one| one = x] ifNone: [#notFound]) = x! !
-
-!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/10/2023 10:48:01'!
-testIndexOf
-	| x a k |
-	x _ scalars atRandom: random.
-	a _ scalars new: (100 atRandom: random) fill: [:i| scalars atRandom: random satisfying: [:y| (y = x) not]].
-	self assert: (a indexOf: x) = 0.
-	a at: (k _ a size atRandom: random) put: x.
-	self assert: (a indexOf: x) = k! !
-
-!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/6/2023 17:17:29'!
-testReplaceFromToWithStartingAt
-	| a b start stop aCopy start2 stop2 |
-	a _ self newArray.
-	b _ self newArray.
-	start _ (1 to: a size) atRandom: random.
-	start2 _ (1 to: b size) atRandom: random.
-	stop _ (1 to: a size) atRandom: random.
-	stop _ stop min: b size - start2 +1.
-	stop2 _ start2 + stop - start.
-	aCopy _ a copy.
-	a replaceFrom: start to: stop with: b startingAt: start2.
-	self assert: (a copyFrom: 1 to: start - 1) = (aCopy copyFrom: 1 to: start - 1).
-	self assert: (a copyFrom: start to: stop) = (b copyFrom: start2 to: stop2).
-	self assert: (a copyFrom: stop + 1 to: a size) = (aCopy copyFrom: stop + 1 to: a size)! !
-
-!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/10/2023 10:52:09'!
-testSumAndProduct
-	| a |
-	a _ self newArray.
-	self assert: a sum = a asArray sum.
-	self assert: a product = a asArray product! !
-
-!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/10/2023 10:57:26'!
-testSumAndProductWithArgument
-	| a dict |
-	a _ self newArray.
-	dict _ Dictionary new.
-	a do: [:each| dict at: each put: (10 atRandom: random)].
-	self assert: (a sum: [:each| dict at: each]) = (a asArray sum: [:each| dict at: each]).
-	self assert: (a product: [:each| dict at: each]) = (a asArray product: [:each| dict at: each])! !
-
-!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/6/2023 17:15:31'!
-testFirstNonzeroIndex
-	| a i |
-	a _ self newArray.
-	(2 atRandom: random) = 1 ifTrue: [a _ (self newArray: (100 atRandom: random)) zero, a].
-	i _ a findFirst: [:x| x isZero not].
-	i = 0 ifTrue: [i _ nil].
-	self assert: a firstNonzeroIndex = i! !
-
-!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/6/2023 17:16:16'!
-testIsZeroAt
-	| a x index |
-	a _ self newArray.
-	x _ scalars zero.
-	index _ (1 to: a size) atRandom: random.
-	a at: index put: x.
-	self assert: (a isZeroAt: index).
-	1 to: a size do: [:i| self assert: (a isZeroAt: i) = (a at: i) isZero].! !
-
-!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/6/2023 17:16:31'!
-testLastNonzeroIndex
-	| a i |
-	a _ self newArray.
-	(2 atRandom: random) = 1 ifTrue: [a _ a, (self newArray: (100 atRandom: random)) zero].
-	i _ a findLast: [:x| x isZero not].
-	i = 0 ifTrue: [i _ nil].
-	self assert: a lastNonzeroIndex = i! !
-
-!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/11/2023 23:38:25'!
-testPolynomialEvaluation
-	| a x |
-	a _ self newArray.
-	x _ self newScalar.
-	self assert: (a polynomialValue: x) = ((1 to: a size) sum: [:i| x^(i-1) * (a at: i)])! !
-
-!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/6/2023 17:20:33'!
-testSwapFromToWithStartingAt
-	| a b start stop aCopy bCopy start2 stop2 |
-	a _ self newArray.
-	b _ self newArray.
-	start _ (1 to: a size) atRandom: random.
-	start2 _ (1 to: b size) atRandom: random.
-	stop _ (1 to: a size) atRandom: random.
-	stop _ stop min: b size - start2 +1.
-	stop2 _ start2 + stop - start.
-	aCopy _ a copy.
-	bCopy _ b copy.
-	a swapFrom: start to: stop with: b startingAt: start2.
-	self assert: (a copyFrom: start to: stop) = (bCopy copyFrom: start2 to: stop2).
-	self assert: (b copyFrom: start2 to: stop2) = (aCopy copyFrom: start to: stop).
-	a swapFrom: start to: stop with: b startingAt: start2.
-	self assert: a = aCopy.
-	self assert: b = bCopy! !
-
-!ArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:37:16'!
-initialize
-	super initialize.
-	scalars _ ℤ! !
-
-!BinaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:11:27'!
-initialize
-	super initialize.
-	scalars _ ℤ/2! !
-
-!BinaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/13/2023 12:56:50'!
-testIsAllOnes
-	| a b |
-	0 to: 64 do: [:n|
-		a _ BinaryArray new: n.
-		1 to: n do: [:i| a bitAt: i put: 1].
-		self assert: a isAllOnes.
-		1 to: n do: [:i|
-			b _ a copy.
-			b bitAt: i put: 0.
-			self assert: b isAllOnes not]]! !
-
-!BinaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/17/2023 16:21:49'!
-testReadAndWriteBits
-	| bits i length x y |
-	x _ self newArray: ((10 to: 100) atRandom: random).
-	y _ x copy.
-	length _ (32 min: x size) atRandom: random.
-	i _ (x size - length + 1) atRandom: random.
-	bits _ random nextBits: length.
-	self assert: bits highBit <= length.
-	x bits: length at: i put: bits.
-	self assert: (x bits: length at: i) = bits.
-	x bits: length at: i put: (y bits: length at: i).
-	self assert: x = y! !
-
-!BinaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/13/2023 12:57:13'!
-testSumBug
-	self assert: (BinaryArray newFrom: 2r1011101) sum representative = 1.
-	self assert: (BinaryArray newFrom: 2r10000100100010) sum representative = 0! !
-
-!GaloisPackedArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 16:12:37'!
-initialize
-	super initialize.
-	scalars _ 2 atRandom = 1
-		ifTrue: [GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom]
-		ifFalse: [GaloisField new: #(16rFF 16rFFFF 16rFFFFFFFF) atRandom atRandom nextPrime to: 10 atRandom]! !
-
-!ModularArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:35:19'!
-initialize
-	super initialize.
-	scalars _ ℤ / (16r100000001 to: 16r100000001 + 1000) atRandom! !
-
-!ModularByteArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:34:29'!
-initialize
-	super initialize.
-	scalars _ ℤ / (3 to: 256) atRandom! !
-
-!ModularByteArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/12/2023 14:38:04'!
-testRepresentativesUseByteArray
-	self assert: self newArray representatives class = ByteArray! !
-
-!ModularDoubleByteArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 16:08:37'!
-initialize
-	super initialize.
-	scalars _ ℤ / (16rFF+2 to: 16rFFFF+1) atRandom! !
-
-!ModularDoubleByteArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/12/2023 14:38:18'!
-testRepresentativesUseDoubleByteArray
-	self assert: self newArray representatives class = DoubleByteArray! !
-
-!ModularWordArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 16:08:10'!
-initialize
-	super initialize.
-	scalars _ ℤ / (16rFFFF+2 to: 16rFFFFFFFF+1) atRandom! !
-
-!ModularWordArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/12/2023 14:38:31'!
-testRepresentativesUseWordArray
-	self assert: self newArray representatives class = WordArray! !
-
-!ProductArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:37:54'!
-initialize
-	super initialize.
-	scalars _ ℤ × (ℤ/(64 atRandom + 1))! !
-
-!TernaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 13:01:13'!
-initialize
-	super initialize.
-	scalars _ ℤ/3! !
-
-!ZechArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 17:00:30'!
-initialize
-	super initialize.
-	scalars _ ℤ/10 atRandom nextPrime.
-	table _ ZechTable over: scalars! !
-
-!ZechArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 17:00:35'!
-newArray: n fill: aBlock
-	| answer |
-	answer _ table new: n.
-	1 to: answer size do: [:i| answer at: i put: scalars !! (aBlock value: i)].
-	^ answer! !
-
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:14:20'!
-newScalar
-	^ scalars atRandom: random bits: (60 atRandom: random)! !
-
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:13:57'!
-newTuple
-	^ self newTuple: (200 atRandom: random)! !
-
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:18:32'!
-newTuple: n
-	^ scalars ^ n atRandom: random! !
-
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:10:58'!
-testAccessing
-	| a i x |
-	a _ self newTuple.
-	x _ self newScalar.
-	i _ (1 to: a size) atRandom: random.
-	a at: i put: x.
-	self assert: (a at: i) = x! !
-
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:41:36'!
-testAddition
-	| a b c |
-	a _ self newTuple.
-	b _ self newTuple: a size.
-	c _ a + b.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) + (b at: i) = (c at: i)].
-	self assert: (a + a negated) isZero.
-	self assert: a + b = (b + a).
-	self assert: a + a = (a*2).
-	self assert: a - b = (a + b negated)! !
-
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:57:46'!
-testCircularShift
-	| a b n |
-	a _ self newTuple.
-	n _ (a size negated to: a size) atRandom: random.
-	b _ a >>> n.
-	self assert: b size = a size.
-	1 to: b size do: [:i| self assert: (b at: i) = (a coefficients atWrap: i-n)]! !
-
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:22:05'!
-testConcatenation
-	| a b c |
-	a _ self newTuple.
-	b _ self newTuple.
-	c _ a, b.
-	self assert: a size + b size = c size.
-	1 to: a size do: [:i| self assert: (c at: i) = (a at: i)].
-	1 to: b size do: [:i| self assert: (c at: a size + i) = (b at: i)]! !
-
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:22:42'!
-testCopyFromTo
-	| a b start stop |
-	a _ self newTuple.
-	start _ (1 to: a size) atRandom: random.
-	stop _ (1 to: a size) atRandom: random.
-	b _ a copyFrom: start to: stop.
-	self assert: b size = (stop-start+1 max: 0).
-	start to: stop do: [:i| self assert: (a at: i) = (b at: i-start+1)]! !
-
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:15:45'!
-testDotProduct
-	| a b |
-	a _ self newTuple.
-	b _ self newTuple.
-	self assert: a · b = (a asArray · b asArray)! !
-
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:57:16'!
-testFirstNonzeroIndex
-	| a i |
-	a _ self newTuple.
-	(2 atRandom: random) = 1 ifTrue: [a _ (self newTuple: (100 atRandom: random)) zero, a].
-	i _ a coefficients findFirst: [:x| x isZero not].
-	i = 0 ifTrue: [i _ nil].
-	self assert: a firstNonzeroIndex = i! !
-
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:23:14'!
-testIsZeroAt
-	| a x index |
-	a _ self newTuple.
-	x _ scalars zero.
-	index _ (1 to: a size) atRandom: random.
-	a at: index put: x.
-	self assert: (a isZeroAt: index).
-	1 to: a size do: [:i| self assert: (a isZeroAt: i) = (a at: i) isZero].! !
-
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:57:32'!
-testLastNonzeroIndex
-	| a i |
-	a _ self newTuple.
-	(2 atRandom: random) = 1 ifTrue: [a _ a, (self newTuple: (100 atRandom: random)) zero].
-	i _ a coefficients findLast: [:x| x isZero not].
-	i = 0 ifTrue: [i _ nil].
-	self assert: a lastNonzeroIndex = i! !
-
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:20:30'!
-testProduct
-	| a b c |
-	a _ self newTuple.
-	b _ self newTuple: a size.
-	c _ a * b.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) * (b at: i) = (c at: i)]! !
-
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:27:13'!
-testProductByScalar
-	| a c x |
-	a _ self newTuple.
-	x _ self newScalar.
-	c _ a * x.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) * x = (c at: i)]! !
-
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:27:46'!
-testReversed
-	| v i |
-	v _ self newTuple.
-	i _ v size atRandom: random.
-	self assert: (v reversed at: i) = (v at: v size - i + 1).
-	self assert: v reversed reversed = v! !
-
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:24:00'!
-testShift
-	| a b n |
-	a _ self newTuple.
-	n _ (a size negated to: a size) atRandom: random.
-	b _ a >> n.
-	self assert: b size = a size.
-	1 to: b size do: [:i|
-		self assert: (b at: i) = ((i-n between: 1 and: a size) ifTrue: [a at: i-n] ifFalse: [scalars zero])]! !
-
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:16:36'!
-testSubstraction
-	| a b c |
-	a _ self newTuple.
-	b _ self newTuple: a size.
-	c _ a - b.
-	self assert: c size = a size.
-	1 to: a size do: [:i| self assert: (a at: i) - (b at: i) = (c at: i)]! !
-
-!AbstractCommutativeRingTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/2/2021 12:30:57'!
-testCrossProduct
-	| V a b c r |
-	V _ scalars^3.
-	a _ V atRandom: random bits: 20.
-	b _ V atRandom: random bits: 20.
-	c _ V atRandom: random bits: 20.
-	r _ V scalars atRandom: random bits: 10.
-	self assert: (a × a) isZero.
-	self assert: a × b = (b × a) negated.
-	self assert: a × (b + c) = (a × b + (a × c)).
-	self assert: (a*r) × b = (a × (b*r)).
-	self assert: (a*r) × b = (a × b * r).
-	self assert: (a × (b × c) + (b × (c × a)) + (c × (a × b))) isZero! !
-
-!AbstractCommutativeRingTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/2/2021 12:31:07'!
-testCrossProductAndDotProduct
-	| V a b c d |
-	V _ scalars^3.
-	a _ V atRandom: random bits: 20.
-	b _ V atRandom: random bits: 20.
-	c _ V atRandom: random bits: 20.
-	d _ V atRandom: random bits: 20.
-	self assert: a · (b × c) = (b · (c × a)).
-	self assert: a · (b × c) = (c · (a × b)).
-	"Lagrange identity:"
-	self assert: (a × b) norm = (a norm * b norm - (a · b) squared).
-	"Binet-Chauchy identity:"
-	self assert: a × b · (c × d) = (a · c *(b · d) - (a · d * (b · c)))! !
-
-!AbstractCommutativeRingTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:02:18'!
-testHomogeneousTuples
-	| n a b c d |
-	n _ 5 atRandom: random.
-	[a _ scalars^n atRandom: random bits: 20. a isZero] whileTrue.
-	b _ a * (scalars units atRandom: random bits: 10).
-	self assert: a ~ b.
-	n >= 2 ifFalse: [n _ (2 to: 5) atRandom: random].
-	c _ scalars^n x: 1.
-	d _ scalars^n x: 2.
-	self deny: c ~ d! !
-
-!AbstractModularIntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:17:21'!
-testModTupleOperations
-	| n a b modulus |
-	modulus := scalars modulus.
-	n := 5 atRandom: random.
-	a := ℤ^n atRandom: random bits: 30.
-	b := ℤ^n atRandom: random bits: 30.
-	#(+ - · *) do: [:op|
-		self testTuple: a with: b operation: op modulo: modulus].
-	#(negated reversed copy sum product) do: [:op|
-		self testTuple: a operation: op modulo: modulus].! !
-
-!AbstractModularIntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:28:45'!
-testTuple: a operation: aSymbol modulo: modulus
-	self assert: (a perform: aSymbol) % modulus = (a % modulus perform: aSymbol)! !
-
-!AbstractModularIntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:28:53'!
-testTuple: a with: b operation: aSymbol modulo: modulus
-	self assert: (a perform: aSymbol with: b) % modulus = (a % modulus perform: aSymbol with: b % modulus)! !
-
-!BinaryFieldTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:26:20'!
-initialize
-	super initialize.
-	scalars _ ℤ/2! !
-
-!BinaryFieldTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:29:12'!
-testBitTupleBug
-	| Z2 |
-	Z2 _ PrimeField new: 2.
-	self assert: ((1,0,0) % 2 :: sum = Z2 one).
-	self assert: ((0,1,0) % 2 :: sum = Z2 one).
-	self assert: ((1,1,0) % 2 :: sum = Z2 zero).
-	self assert: ((1,1,1) % 2 :: sum = Z2 one)! !
-
-!ModularInteger16TupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 21:22:39'!
-initialize
-	super initialize.
-	scalars := ℤ / (2^8 + 1 to: 2^16) atRandom! !
-
-!ModularInteger32TupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 21:21:39'!
-initialize
-	super initialize.
-	scalars := ℤ / (2^16 + 1 to: 2^32) atRandom! !
-
-!ModularInteger8TupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:34:34'!
-initialize
-	super initialize.
-	scalars _ ℤ / (3 to: 256) atRandom! !
-
-!ModularIntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:10:05'!
-initialize
-	super initialize.
-	scalars _ ℤ / (16r100000001 to: 16r100000001 + 1000) atRandom! !
-
-!TernaryFieldTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 17:23:24'!
-initialize
-	super initialize.
-	scalars _ ℤ/3! !
-
-!BinaryExtensionFieldTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:20:54'!
-initialize
-	super initialize.
-	scalars := GaloisField new: 2 to: 8 atRandom + 1! !
-
-!FiniteFieldTupleTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2022 14:55:35'!
-initialize
-	super initialize.
-	scalars _ GaloisField new: #(16rFF 16rFFFF 16rFFFFFFFF) atRandom atRandom nextPrime to: 10 atRandom! !
-
-!GaloisRingTupleTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 10:50:30'!
-initialize
-	super initialize.
-	scalars _ GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom! !
-
-!IntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:23:35'!
-initialize
-	super initialize.
-	scalars _ ℤ! !
-
-!IntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/16/2022 19:45:51'!
-testDomainError
-	| v |
-	v _ ℤ^3 !! #(1 2 3).
-	self should: [v / 2] raise: Error! !
-
-!ProductRingTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:11:10'!
-initialize
-	super initialize.
-	scalars _ ℤ × (ℤ/(64 atRandom + 1))! !
-
-!RationalPolynomialRingTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:31:32'!
-initialize
-	super initialize.
-	scalars _ ℚ polynomials! !
-
-!RationalTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:59:05'!
-initialize
-	super initialize.
-	scalars _ ℚ! !
-
-!SmallFiniteFieldTupleTest methodsFor: 'initialization' stamp: 'len 12/29/2022 10:10:29'!
-initialize
-	| p |
-	super initialize.
-	p _ 13 atRandom nextPrime.
-	scalars _ GaloisField new: p to: ((256 log: p) floor - 1)  atRandom + 1! !
-
-!TernaryExtensionFieldTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:21:20'!
-initialize
-	super initialize.
-	scalars := GaloisField new: 3 to: 8 atRandom + 1! !
-
-!MatrixAlgebraTupleTest methodsFor: 'as yet unclassified' stamp: 'len 7/24/2021 14:08:40'!
-initialize
-	super initialize.
-	scalars _ (ℚ^(0 to: 3) atRandom) endomorphisms! !
-
-!QuaternionAlgebraTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2021 11:00:55'!
-initialize
-	super initialize.
-	scalars _ QuaternionAlgebra over: ℚ invariants: #(1 1)! !
-
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 15:21:11'!
-testAddition
-	| A B |
-	A := self newMatrix.
-	B := self newMatrix: A height @ A width.
-	self testAddition: A with: B! !
-
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 15:20:59'!
-testAddition: A with: B
-	| x |
-	self assert: (A + A negated) isZero.
-	self assert: A + A zero = A.
-	self assert: A + B = (B + A).
-	x := A domain atRandom: random bits: 10.
-	self assert: (A+B)*x = (A*x + (B*x)).
-	x := A codomain atRandom: random bits: 10.
-	self assert: x*(A+B) = (x*A + (x*B))! !
-
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 16:38:20'!
-testInplaceAddition
-	| A B C |
-	A := self newMatrix.
-	B := self newMatrix: A height @ A width.
-	C := self newMatrix: A height @ A width.
-	C replaceWith: A plus: B.
-	self assert: A + B = C! !
-
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 18:54:46'!
-testInplaceMultiplication
-	| A B C |
-	A := self newMatrix.
-	B := self newMatrix: A width @ (5 atRandom: random).
-	C := self newMatrix: A height @ B width.
-	C replaceWith: A times: B.
-	self assert: A * B = C! !
-
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 16:39:06'!
-testInplaceSubstraction
-	| A B C |
-	A := self newMatrix.
-	B := self newMatrix: A height @ A width.
-	C := self newMatrix: A height @ A width.
-	C replaceWith: A minus: B.
-	self assert: A - B = C! !
-
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/22/2023 09:47:17'!
-testMatrixTupleMultiplication
-	| A v |
-	A := self newMatrix.
-	v := A domain atRandom: random.
-	self assert: (A * v) asMatrix transpose = (A * v asMatrix)! !
-
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 15:22:09'!
-testMultiplication
-	| A B |
-	A := self newMatrix.
-	B := self newMatrix: A width @ (5 atRandom: random).
-	self testMultiplication: A with: B! !
-
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 15:21:48'!
-testMultiplication: A with: B
-	| x |
-	self assert: A * A domain id = A.
-	self assert: A codomain id * A = A.
-	x := B domain atRandom: random bits: 10.
-	self assert: A*B*x = (A*(B*x)).
-	x := A codomain atRandom: random bits: 10.
-	self assert: x*A*B = (x*(A*B))! !
-
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 21:17:29'!
-testScalarAction
-	| A b B |
-	A := self newMatrix.
-	b := scalars atRandom: random bits: 20.
-	B := A*b.
-	A withIndicesDo: [:each :i :j| self assert: each*b = (B at: i@j)]! !
-
-!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 15:10:56'!
-newSubmatrix: extent of: aMatrix
-	| i₀ j₀ |
-	i₀ := aMatrix height - extent x + 1 atRandom: random.
-	j₀ := aMatrix width - extent y + 1 atRandom: random.
-	^ aMatrix from: i₀ @ j₀ to: i₀ @ j₀ + extent - (1@1)! !
-
-!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 15:10:02'!
-newSubmatrixOf: aMatrix
-	^ self newSubmatrix: (aMatrix height atRandom: random) @ (aMatrix width atRandom: random) of: aMatrix! !
-
-!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 15:21:17'!
-testMatrixSubmatrixAddition
-	| A B S |
-	A := self newNonemptyMatrix.
-	S := self newSubmatrixOf: A.
-	B := self newMatrix: S height @ S width.
-	self testAddition: S with: B! !
-
-!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 16:53:53'!
-testMatrixSubmatrixInplaceAdditionIntoMatrix
-	| A B S C |
-	A := self newNonemptyMatrix.
-	S := self newSubmatrixOf: A.
-	B := self newMatrix: S height @ S width.
-	C := self newMatrix: S height @ S width.
-	C replaceWith: S plus: B.
-	self assert: S + B = C.
-	C := self newMatrix: S height @ S width.
-	C replaceWith: B plus: S.
-	self assert: S + B = C! !
-
-!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 16:54:02'!
-testMatrixSubmatrixInplaceSubstractionIntoMatrix
-	| A B S C |
-	A := self newNonemptyMatrix.
-	S := self newSubmatrixOf: A.
-	B := self newMatrix: S height @ S width.
-	C := self newMatrix: S height @ S width.
-	C replaceWith: S minus: B.
-	self assert: S - B = C.
-	C := self newMatrix: S height @ S width.
-	C replaceWith: B minus: S.
-	self assert: B - S = C! !
-
-!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 15:22:01'!
-testMatrixSubmatrixMultiplication
-	| A B S |
-	A := self newNonemptyMatrix.
-	S := self newSubmatrixOf: A.
-	B := self newMatrix: S width @ (5 atRandom: random).
-	self testMultiplication: S with: B.
-	B := self newMatrix: (5 atRandom: random) @ S height.
-	self testMultiplication: B with: S! !
-
-!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 15:13:09'!
-testSubmatrix
-	| A i₀ i₁ j₀ j₁ start stop B S |
-	A := self newNonemptyMatrix.
-	i₀ := A height atRandom: random.
-	i₁ := (i₀ to: A height) atRandom: random.
-	j₀ := A width atRandom: random.
-	j₁ := (j₀ to: A width) atRandom: random.
-	start := i₀ @ j₀.
-	stop := i₁ @ j₁.
-	B := A copyFrom: start to: stop.
-	S := A from: start to: stop.
-	self assert: B = S.
-	self assert: S = B! !
-
-!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 15:21:23'!
-testSubmatrixSubmatrixAddition
-	| A S T |
-	A := self newNonemptyMatrix.
-	S := self newSubmatrixOf: A.
-	T := self newSubmatrix: S height @ S width of: A.
-	self testAddition: S with: T! !
-
-!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 16:56:48'!
-testSubmatrixSubmatrixInplaceAdditionIntoMatrix
-	| A S T C |
-	A := self newNonemptyMatrix.
-	S := self newSubmatrixOf: A.
-	T := self newSubmatrix: S height @ S width of: A.
-	C := self newMatrix: S height @ S width.
-	C replaceWith: S plus: T.
-	self assert: S + T = C.
-! !
-
-!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 16:57:10'!
-testSubmatrixSubmatrixInplaceSubstractionIntoMatrix
-	| A S T C |
-	A := self newNonemptyMatrix.
-	S := self newSubmatrixOf: A.
-	T := self newSubmatrix: S height @ S width of: A.
-	C := self newMatrix: S height @ S width.
-	C replaceWith: S minus: T.
-	self assert: S - T = C.
-! !
-
-!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 15:22:15'!
-testSubmatrixSubmatrixMultiplication
-	| A S T |
-	A := self newNonemptyMatrix.
-	S := self newSubmatrixOf: A.
-	T := self newSubmatrix: S width @ (A height atRandom: random) of: A transpose.
-	self testMultiplication: S with: T! !
-
-!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/22/2023 09:48:27'!
-testSubmatrixTupleMultiplication
-	| A S v |
-	A := self newNonemptyMatrix.
-	S := self newSubmatrixOf: A.
-	v := S domain atRandom: random.
-	self assert: (S * v) asMatrix transpose = (S * v asMatrix)! !
-
-!AbstractMatrixTest methodsFor: 'other' stamp: 'len 5/20/2023 11:51:00'!
-testCopyFromTo
-	| A i₀ i₁ j₀ j₁ start stop B |
-	A := self newMatrix.
-	i₀ := A height > 0 ifTrue: [A height atRandom: random] ifFalse: [0].
-	i₁ := A height > 0 ifTrue: [A height atRandom: random] ifFalse: [-1].
-	j₀ := A width > 0 ifTrue: [A width atRandom: random] ifFalse: [0].
-	j₁ := A width > 0 ifTrue: [A width atRandom: random] ifFalse: [-1].
-	start := i₀ @ j₀.
-	stop := i₁ @ j₁.
-	B := A copyFrom: start to: stop.
-	start x to: stop x do: [:i|
-		start y to: stop y do: [:j|
-			self assert: (A at: i@j) = (B at: i - start x + 1 @ (j - start y + 1))]	]! !
-
-!AbstractMatrixTest methodsFor: 'other' stamp: 'len 5/16/2022 11:41:01'!
-testDirectSumMatrix
-	| A B C |
-	A _ self newMatrix.
-	B _ self newMatrix.
-	C _ A ⊕ B.
-	self assert: A width + B width = C width.
-	self assert: A height + B height = C height.
-	self assert: (C copyFrom: 1 @ 1 to: A height @ A width) = A.
-	self assert: (C copyFrom: A height + 1 @ (A width + 1) to: C height @ C width) = B.
-	self assert: (C copyFrom: A height + 1 @ 1 to: C height @ A width) isZero.
-	self assert: (C copyFrom: 1 @ (A width + 1) to: A height @ C width) isZero! !
-
-!AbstractMatrixTest methodsFor: 'other' stamp: 'len 10/5/2022 17:08:41'!
-testLeftRightIdentity
-	| A |
-	A _ scalars^(5 atRandom: random) ⇒ (scalars^(7 atRandom: random)) atRandom: random bits: 100.
-	self assert: A codomain id * A = A.
-	self assert: A * A domain id = A! !
-
-!AbstractMatrixTest methodsFor: 'other' stamp: 'len 5/19/2022 12:56:56'!
-testMatrixConcatenation
-	| A B C |
-	A _ self newMatrix.
-	B _ self newMatrix: A height @ ((0 to: 10) atRandom: random).
-	C _ A ⊔ B.
-	self assert: (C copyFromColumn: 1 to: A width) = A.
-	self assert: (C copyFromColumn: A width + 1 to: C width) = B! !
-
-!AbstractMatrixTest methodsFor: 'other' stamp: 'len 5/19/2022 12:56:39'!
-testMatrixStacking
-	| A B C |
-	A _ self newMatrix.
-	B _ self newMatrix: ((0 to: 10) atRandom: random) @ A width.
-	C _ A ⊓ B.
-	self assert: (C copyFromRow: 1 to: A height) = A.
-	self assert: (C copyFromRow: A height + 1 to: C height) = B! !
-
-!AbstractMatrixTest methodsFor: 'other' stamp: 'len 3/26/2021 13:23:21'!
-testTranspose
-	| A |
-	A _ self newMatrix.
-	self assert: A columns = A transpose rows.
-	self assert: A rows = A transpose columns.
-	self assert: A transpose transpose = A! !
-
-!AbstractMatrixTest methodsFor: 'row/column operations' stamp: 'len 5/12/2023 20:47:17'!
-testAddRowTimesScalar
-	| A B i1 i2 j x |
-	[A _ self newMatrix. A height > 0 and: [A width > 0]] whileFalse.
-	i1 _ A height atRandom: random.
-	i2 _ A height atRandom: random.
-	j _ A width atRandom: random.
-	B _ A copy.
-	x _ scalars atRandom: random bits: 50.
-	B addRow: i1 times: x to: i2 startingAt: j.
-	self assert: ((B rowAt: i2) copyFrom: j to: A width) = ((A rowAt: i1) * x + (A rowAt: i2) copyFrom: j to: A width).
-	self assert: ((B rowAt: i2) copyFrom: 1 to: j-1) = ((A rowAt: i2) copyFrom: 1 to: j-1)! !
-
-!AbstractMatrixTest methodsFor: 'row/column operations' stamp: 'len 5/12/2023 20:47:23'!
-testMultiplyRowByScalar
-	| A B i j x |
-	[A _ self newMatrix. A height > 0 and: [A width > 0]] whileFalse.
-	i _ A height atRandom: random.
-	j _ A width atRandom: random.
-	B _ A copy.
-	x _ scalars atRandom: random bits: 50.
-	B multiplyRow: i by: x startingAt: j.
-	self assert: ((B rowAt: i) copyFrom: j to: A width) = ((A rowAt: i) * x copyFrom: j to: A width).
-	self assert: ((B rowAt: i) copyFrom: 1 to: j-1) = ((A rowAt: i) copyFrom: 1 to: j-1)! !
-
-!AbstractMatrixTest methodsFor: 'row/column operations' stamp: 'len 5/12/2023 20:47:29'!
-testSwapRows
-	| A B i1 i2 |
-	[A _ self newMatrix. A height > 0 and: [A width > 0]] whileFalse.
-	i1 _ A height atRandom: random.
-	i2 _ A height atRandom: random.
-	B _ A copy.
-	B swapRow: i1 with: i2.
-	self assert: (B rowAt: i1) = (A rowAt: i2).
-	self assert: (B rowAt: i2) = (A rowAt: i1).
-	B swapRow: i1 with: i2.
-	self assert: A = B! !
-
-!AbstractMatrixTest methodsFor: 'solving' stamp: 'len 10/5/2022 17:08:01'!
-testBackslashMatrix
-	| n m n2 A B X |
-	50 timesRepeat:
-		[n _ 4 atRandom: random.
-		m _ 4 atRandom: random.
-		A _ scalars^n ⇒ (scalars^m) atRandom: random bits: m*n*5.
-		n2 _ 4 atRandom: random.
-		B _ A*(scalars^n2 ⇒ (scalars^n) atRandom: random bits: n*n2*5).
-		X _ A \ B.
-		self assert: A*X = B]! !
-
-!AbstractMatrixTest methodsFor: 'solving' stamp: 'len 10/5/2022 17:08:14'!
-testBackslashOneRowMatrix
-	| n A v b x |
-	50 timesRepeat:
-		[n _ 5 atRandom: random.
-		A _ scalars^n ⇒ (scalars^1) atRandom: random bits: n*5.
-		v _ scalars^n atRandom: random bits: n*5.
-		b _ A*v.
-		x _ A \ b.
-		self assert: A*x = b]! !
-
-!AbstractMatrixTest methodsFor: 'solving' stamp: 'len 10/5/2022 17:08:20'!
-testBackslashTuple
-	| n m A v b x |
-	50 timesRepeat:
-		[n _ 4 atRandom: random.
-		m _ 4 atRandom: random.
-		A _ scalars^n ⇒ (scalars^m) atRandom: random bits: m*n*5.
-		v _ scalars^n atRandom: random bits: n*5.
-		b _ A*v.
-		x _ A \ b.
-		self assert: A*x = b]! !
-
-!AbstractMatrixTest methodsFor: 'solving' stamp: 'len 10/5/2022 17:08:29'!
-testBackslashZeroMatrix
-	| n m n2 A B X |
-	n _ 5 atRandom: random.
-	m _ 5 atRandom: random.
-	A _ (scalars^n ⇒ (scalars^m)) zero.
-	n2 _ 5 atRandom: random.
-	B _ A*(scalars^n2 ⇒ (scalars^n) atRandom: random bits: n*n2*5).
-	X _ A \ B.
-	self assert: A*X = B! !
-
-!AbstractMatrixTest methodsFor: 'solving' stamp: 'len 10/5/2022 17:08:46'!
-testMatrixDivision
-	| A B n result N X combinations |
-	n _ 5 atRandom: random.
-	A _ scalars^5 ⇒ (scalars^n) atRandom: random bits: 100.
-	combinations _ (1 to: n) collect: [:each| (2 atRandom: random) = 1].
-	B _ Matrix columns:
-		(combinations collect: [:isCombination|
-			isCombination
-				ifTrue: [A * (A domain atRandom: random bits: 20)]
-				ifFalse: [A codomain atRandom: random bits: 20]]).
-	result _ B divisionBy: A.
-	X _ result first.
-	N _ result second.
-	self assert: A*X + N = B.
-	combinations withIndexDo: [:isCombination :i| isCombination ifTrue: [self assert: (N columnAt: i) isZero]]! !
-
-!AbstractMatrixTest methodsFor: 'solving' stamp: 'len 10/5/2022 17:08:56'!
-testSlashMatrix
-	| n m n2 A B X |
-	50 timesRepeat:
-		[n _ 4 atRandom: random.
-		m _ 4 atRandom: random.
-		A _ scalars^n ⇒ (scalars^m) atRandom: random bits: m*n*5.
-		n2 _ 4 atRandom: random.
-		B _ (scalars^m ⇒ (scalars^n2) atRandom: random bits: n*n2*5)*A.
-		X _ B / A.
-		self assert: X*A = B]! !
-
-!AbstractMatrixTest methodsFor: 'solving' stamp: 'len 10/5/2022 17:09:04'!
-testSlashTuple
-	| n m A v b x |
-	50 timesRepeat:
-		[n _ 4 atRandom: random.
-		m _ 4 atRandom: random.
-		A _ scalars^n ⇒ (scalars^m) atRandom: random bits: m*n*5.
-		v _ scalars^m atRandom: random bits: n*5.
-		b _ v*A.
-		x _ b / A.
-		self assert: x*A = b]! !
-
-!AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 3/26/2021 13:16:39'!
-testCokernelAndCoequalizer
-	| A |
-	A _ self newMatrix.
-	self assert: A cokernel = (A coequalizer: A zero)! !
-
-!AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 7/25/2021 10:14:36'!
-testCosyzygies
-	| A X |
-	A _ self newMatrix.
-	X _ A cosyzygies.
-	self assert: (X · A) isZero! !
-
-!AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 10/5/2022 17:08:34'!
-testCosyzygiesZeroMatrix
-	| n m A X |
-	n _ 5 atRandom: random.
-	m _ 5 atRandom: random.
-	A _ (scalars^n ⇒ (scalars^m)) zero.
-	X _ A cosyzygies.
-	self assert: (X · A) isZero! !
-
-!AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 3/29/2021 11:08:38'!
-testImage
-	| A |
-	A _ self newMatrix.
-	self assert: A image = (scalars^A height span: A columns)! !
-
-!AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 3/26/2021 13:18:21'!
-testKernelAndEqualizer
-	| A |
-	A _ self newMatrix.
-	self assert: A kernel = (A equalizer: A zero)! !
-
-!AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 7/25/2021 09:35:46'!
-testSyzygies
-	| A X |
-	A _ self newMatrix.
-	X _ A syzygies.
-	self assert: (A · X) isZero.
-"	self assert: K isMonomorphism."
-	self assert: A kernel = X image! !
-
-!AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 10/5/2022 17:09:09'!
-testSyzygiesZeroMatrix
-	| n m A X |
-	n _ 5 atRandom: random.
-	m _ 5 atRandom: random.
-	A _ (scalars^n ⇒ (scalars^m)) zero.
-	X _ A syzygies.
-	self assert: (A · X) isZero.
-	self assert: A kernel = X image! !
-
-!AbstractMatrixTest methodsFor: 'private' stamp: 'len 10/5/2022 17:07:27'!
-newMatrix
-	| n m |
-	n _ (0 to: 5) atRandom: random.
-	m _ (0 to: 5) atRandom: random.
-	^ scalars^n ⇒ (scalars^m) atRandom: random bits: (m*n*5+1 atRandom: random)! !
-
-!AbstractMatrixTest methodsFor: 'private' stamp: 'len 11/23/2022 21:23:57'!
-newMatrix: shape
-	| samples hom |
-	hom _ scalars^shape y ⇒ (scalars^shape x).
-	(2 atRandom: random) = 1 ifTrue: [^ hom atRandom: random bits: 100].
-	samples _ {scalars zero. scalars one. scalars one negated}.
-	^ hom fill: [:i :j| (2 atRandom: random) > 1 ifTrue: [scalars zero] ifFalse: [samples atRandom: random]]! !
-
-!AbstractMatrixTest methodsFor: 'private' stamp: 'len 5/22/2023 11:25:22'!
-newNonemptyMatrix
-	| n m |
-	n := (1 to: 7) atRandom: random.
-	m := (1 to: 7) atRandom: random.
-	^ scalars^n ⇒ (scalars^m) atRandom: random bits: (m*n*5+1 atRandom: random)! !
-
-!AbstractMatrixTest methodsFor: 'private' stamp: 'len 8/4/2021 14:42:41'!
-newSquareMatrix
-	| n |
-	n _ (0 to: 5) atRandom: random.
-	^ (scalars^n) endomorphisms atRandom: random bits: (n*n*5+1 atRandom: random)! !
-
-!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:14:51'!
-testAdjugateCramerRule
-	| A I |
-	A _ scalars^3 :: endomorphisms atRandom: random bits: 10.
-	I _ A identity.
-	self assert: A * A adjugate = (I * A determinant)! !
-
-!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/21/2022 12:01:10'!
-testCanonicalBases
-	| basisAndTransformation A G T U |
-	scalars hasCanonicalBases ifFalse: [^ self].
-	A _ self newMatrix: (6 atRandom: random) @ (6 atRandom: random).
-	basisAndTransformation _ A copy basisAndTransformation.
-	G _ basisAndTransformation first.
-	T _ basisAndTransformation second.
-"	self assert: G isStandardBasis."
-	self assert: A * T = G.
-	U _ A domain automorphisms atRandom: random.
-	self assert: (A * U) basis = G! !
-
-!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 13:03:14'!
-testCayleyHamiltonTheorem
-	| A |
-	A _ (scalars^(6 atRandom: random)) endomorphisms atRandom: random bits: 100.
-	self assert: (A characteristicPolynomial value: A) isZero! !
-
-!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 12:58:42'!
-testCharacteristicMatrixAndPolynomial
-	| A |
-	A _ self newSquareMatrix.
-	self assert: A characteristicPolynomial = A characteristicMatrix determinant! !
-
-!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 13:04:31'!
-testCharacteristicPolynomial
-	| A p B |
-	A _ self newSquareMatrix.
-	p _ A characteristicPolynomial.
-	self assert: (p value: A) isZero.
-	self assert: p degree = A width.
-	self assert: p isMonic.
-	self assert: A transpose characteristicPolynomial = p.
-	B _ A parent atRandom: random bits: 100.
-	self assert: (A*B) characteristicPolynomial = (B*A) characteristicPolynomial! !
-
-!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:17:39'!
-testDeterminant
-	| n V I A B c |
-	n := (0 to: 4) atRandom: random.
-	V := scalars^n.
-	I := V id.
-	self assert: I determinant = scalars one.
-	A := V endomorphisms fill: [:i :j| scalars atRandom: random bits: 10].
-	B := V endomorphisms fill: [:i :j| scalars atRandom: random bits: 10].
-	self assert: (A * B) determinant = (A determinant * B determinant).
-	c := scalars atRandom: random bits: 10.
-	self assert: (A * c) determinant = (c^n * A determinant).
-	self assert: A transpose determinant = A determinant! !
-
-!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/22/2022 18:41:25'!
-testEchelonization
-	| A E T U |
-	scalars isEuclidean ifFalse: [^ self].
-	A _ self newMatrix: (6 atRandom: random) @ (6 atRandom: random).
-	T _ A echelonTransformation.
-	E _ A echelon.
-	self assert: E isEchelon.
-"	self assert: E isReducedEchelon."
-	self assert: T * A = E.
-	U _ A codomain automorphisms atRandom: random.
-	self assert: (U * A) echelon = E.
-	T _ A coechelonTransformation.
-	E _ A coechelon.
-	self assert: E transpose isEchelon.
-"	self assert: E transpose isReducedEchelon."
-	self assert: A * T = E.
-	U _ A domain automorphisms atRandom: random.
-	self assert: (A * U) coechelon = E! !
-
-!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:09:14'!
-testAbstractRankNullity
-	| n m A |
-	n _ 5 atRandom: random.
-	m _ 5 atRandom: random.
-	A _ scalars^n ⇒ (scalars^m) atRandom: random bits: (100 atRandom: random).
-	self assert: A kernel = A transpose image complement.
-	self assert: A image = A transpose kernel complement! !
-
-!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2022 10:12:30'!
-testColumnEquivalence
-	| n m A P |
-	n _ 5 atRandom: random.
-	m _ 5 atRandom: random.
-	A _ scalars^n ⇒ (scalars^m) atRandom: random bits: 10*n*m.
-	P _ A domain automorphisms atRandom: random bits: 10*n*n.
-	self assert: A * P ~ A! !
-
-!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2021 16:52:25'!
-testColumnExtended
-	| A B |
-	A _ self newMatrix.
-	B _ A columnExtended.
-	self assert: B height = A height.
-	self assert: B isSquare.
-	self assert: A image <= B image! !
-
-!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2022 10:16:21'!
-testCongruence
-	| n A P |
-	n _ 5 atRandom: random.
-	A _ (scalars^n) endomorphisms atRandom: random bits: 10*n*n.
-	P _ A domain automorphisms atRandom: random bits: 10*n*n.
-	self assert: P transpose * A * P ≅ A! !
-
-!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2022 10:11:23'!
-testEquivalence
-	| n m A Q P |
-	n _ 5 atRandom: random.
-	m _ 5 atRandom: random.
-	A _ scalars^n ⇒ (scalars^m) atRandom: random bits: 10*n*m.
-	P _ A domain automorphisms atRandom: random bits: 10*n*n.
-	Q _ A codomain automorphisms atRandom: random bits: 10*m*m.
-	self assert: Q * A * P ≡ A! !
-
-!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/27/2021 12:08:32'!
-testFundamentalSubspacesDimensions
-	| m n A r |
-	m _ 6 atRandom: random.
-	n _ 6 atRandom: random.
-	A _ self newMatrix: m@n.
-	r _ A rank.
-	self assert: A image rank = r.
-	self assert: A kernel rank = (n - r).
-	self assert: A nullity = (n - r). "definition"
-	self assert: A coimage rank = r.
-	self assert: A cokernel rank = (m - r)! !
-
-!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2021 12:45:46'!
-testKernelImageTheorem
-	| n A |
-	n _ 6 atRandom: random.
-	A _ self newMatrix: n@n.
-	self assert: A kernel rank + A image rank = n! !
-
-!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 12:49:12'!
-testMinimalPolynomial
-	| A f |
-	A _ self newSquareMatrix.
-	f _ A minimalPolynomial.
-	self assert: f | A characteristicPolynomial.
-	self assert: (f value: A) isZero! !
-
-!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2021 12:46:05'!
-testRankNullityTheorem
-	| n A |
-	n _ 6 atRandom: random.
-	A _ self newMatrix: n@n.
-	self assert: A rank + A nullity = n! !
-
-!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2021 16:52:32'!
-testRowExtended
-	| A B |
-	A _ self newMatrix.
-	B _ A rowExtended.
-	self assert: B = A transpose columnExtended transpose! !
-
-!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2022 09:57:52'!
-testSimilarity
-	| n A P |
-	n _ 5 atRandom: random.
-	A _ (scalars^n) endomorphisms atRandom: random bits: 10*n*n.
-	P _ A domain automorphisms atRandom: random bits: 10*n*n.
-	self assert: P inverse * A * P ≃ A! !
-
-!BinaryExtensionFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:22:31'!
-initialize
-	super initialize.
-	scalars := GaloisField new: 2 to: 8 atRandom + 1! !
-
-!BinaryFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 20:43:52'!
-initialize
-	super initialize.
-	scalars _ ℤ/2! !
-
-!CyclotomicFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/21/2021 17:35:18'!
-initialize
-	super initialize.
-	scalars _ CyclotomicField new: 3 atRandom + 2! !
-
-!FiniteFieldMatrixTest methodsFor: 'initialization' stamp: 'len 12/28/2022 14:59:59'!
-initialize
-	super initialize.
-	scalars _ GaloisField new: #(16rFF 16rFFFF 16rFFFFFFFF) atRandom atRandom nextPrime to: 10 atRandom! !
-
-!FiniteFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 11:36:26'!
-testCharacteristicPolynomialBug
-	"Using the Berkowitz algorithm this test fails."
-	| A |
-	A _ (ℤ/2^3) endomorphisms !! #(1 1 1 1 0 0 1 1 1).
-	self assert: (A characteristicPolynomial value: A) isZero! !
-
-!FiniteFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:09:19'!
-testEchelonExample
-	"From Magma Handbook example H26E10."
-	| K w A |
-	K _ GaloisField new: 8.
-	w _ K x.
-	A _ K^3 ⇒ (K^4) !! {1. w. w^5. 0. w^3. w^4. w. 1. w^6. w^3. 1. w^4}.
-	self assert: A echelon = (A parent !! {1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0})! !
-
-!QuadraticFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/9/2022 08:34:10'!
-initialize
-	| n |
-	super initialize.
-	[(n _ (2 to: 100) atRandom squarefreePart) > 1] whileFalse.
-	2 atRandom = 1 ifTrue: [n _ n negated].
-	scalars _ QuadraticField sqrt: n! !
-
-!RationalMatrixTest methodsFor: 'initialization' stamp: 'len 3/26/2021 12:54:30'!
-initialize
-	super initialize.
-	scalars _ ℚ! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:06:20'!
-testAdjugateExampleProperties
-	| A B I c |
-	A _ ℚ !!!!!! { (-3,2,-5). (-1,0,-2). (3,-4,1) }.
-	B _ ℚ !!!!!! { (-1,2,3). (1,-2,1). (2,2,-1) }.
-	c _ 7.
-	I _ (ℚ^3) id.
-	self assert: I adjugate = I.
-	self assert: (A * B) adjugate = (B adjugate * A adjugate).
-	self assert: (A*c) adjugate = (A adjugate * (c^2)).
-	self assert: (A^5) adjugate = (A adjugate ^ 5).
-	self assert: A transpose adjugate = A adjugate transpose! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:23:15'!
-testBackslashExample
-	"Example from Sage documentation. Non-singular and square."
-	| A B X |
-	A _ (ℚ^3) endomorphisms !! #(1 2 4 5 3 1 1 2 -1).
-	B _ ℚ^2 ⇒ (ℚ^3) !! #(1 5 1 2 1 5).
-	X _ A \ B.
-	self assert: X = (ℚ^2 ⇒ (ℚ^3) !! {-1/7. -11/7. 4/7. 23/7. 0. 0}).
-	self assert: A * X = B! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:09:32'!
-testBackslashExampleNoSolution
-	"Example from Sage documentation."
-	| A v |
-	A _ ℚ^3 ⇒ (ℚ^2) !! #(1 2 3 2 4 6).
-	v _ ℚ^2 !! #(1 1).
-	self assert: (A \ v) isNil! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:09:40'!
-testBackslashExampleNonSquare
-	"Example from Sage documentation."
-	| A B X |
-	A _ ℚ^4 ⇒ (ℚ^2) !! #(0 -1 1 0 -2 2 1 0).
-	B _ (ℚ^2) endomorphisms !! #(1 0 1 -1).
-	X _ A \ B.
-	self assert: X = (ℚ^2 ⇒ (ℚ^4) !! {-3/2. 1/2. -1. 0. 0. 0. 0. 0}).
-	self assert: A * X = B! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:09:45'!
-testBackslashExampleNonSquare2
-	| A B X |
-	A _ ℚ^4 ⇒ (ℚ^2) !! #(0 0 -1 1 0 -2 2 1).
-	B _ (ℚ^2) endomorphisms !! #(1 0 1 -1).
-	X _ A \ B.
-	self assert: A * X = B! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:09:56'!
-testBackslashExampleSingular
-	"Example from Sage documentation."
-	| A B X |
-	A _ ℚ^3 ⇒ (ℚ^2) !! #(1 2 3 2 4 6).
-	B _ ℚ^2 ⇒ (ℚ^2) !! #(6 -6 12 -12).
-	X _ A \ B.
-	self assert: X = (ℚ^2 ⇒ (ℚ^3) !! #(6 -6 0 0 0 0)).
-	self assert: A * X = B! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 10:28:32'!
-testBackslashRationalTuple
-	"Example from Sage documentation."
-	| A v x |
-	A _ (ℚ^3) endomorphisms !! #(1 2 3 -1 2 5 2 3 1).
-	v _ ℚ^3 !! #(1 2 3).
-	x _ A \ v.
-	self assert: x = (-13/12, (23/12), (-7/12)).
-	self assert: A * x = v! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:06:29'!
-testBackslashRationalTuple2
-	"Example from GAP manual."
-	| A b x |
-	A _ ℚ !!!!!! #((1 2 7) (4 5 6) (7 8 9) (10 11 19) (5 7 12)).
-	b _ ℚ !!!! #(95 115 182).
-	x _ ℚ !!!! {47/4. -17/2. 67/4. 0. 0}.
-	self assert: A transpose \ b = x! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:10:01'!
-testBackslashRationalTupleNonSquare
-	"Example from Sage documentation."
-	| A v x |
-	A _ ℚ^3 ⇒ (ℚ^2) !! #(1 2 3 2 4 6).
-	v _ (-1/2, -1).
-	x _ (-1/2, 0, 0).
-	self assert: A \ v = x! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:06:39'!
-testCauchyDeterminantProductFormulaExample
-	| A B |
-	A _ ℚ !!!!!! {(1,1,1). (3,5,7). (9,25,49)}.
-	B _ ℚ !!!!!! {(1,0,4). (1,1,1). (2,-2,-3)}.
-	self assert: A determinant * B determinant = (A * B) determinant! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:06:50'!
-testCokernelMatrixRational
-	"From Sage."
-	| A B |
-	A _ ℚ !!!!!! {(1,2,4,-7,4). (1,1,0,2,-1). (1,0,3,-3,1). (0,-1,-1,3,-2). (0,0,-1,2,-1)}.
-	B _ ℚ !!!!!! {(1,0,-1,2,-1). (0,1,-1,1,-4)}.
-	self assert: A cosyzygies echelon = B "we have to perform an additional echelonization"! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:06:55'!
-testDeterminantExample
-	| m |
-	m _ ℚ !!!!!! { (2,1). (-1,0) }.
-	self assert: m determinant = 1! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:00'!
-testDeterminantExample2
-	| vandermonde |
-	vandermonde _ ℚ !!!!!! {(1,1,1). (3,5,7). (9,25,49)}.
-	self assert: vandermonde determinant = 16! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 11:45:21'!
-testInverseBug
-	| X |
-	X _ (ℚ^2) endomorphisms !! #(1 2 0 0).
-	self should: [X inverse] raise: Error! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:07'!
-testInverseExample
-	| A I |
-	A _ ℚ !!!!!! { (2,1,1). (-1,0,1). (0,2,1) }.
-	I _ (ℚ^3) id.
-	self assert: A inverse * A = I.
-	self assert: A * A inverse = I! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:16:50'!
-testInverseExample2
-	| Qx x f A |
-	Qx _ ℚ polynomials.
-	x _ Qx x.
-	f _ x^8 + (x^6) - (3*(x^4)) - (3*(x^3)) + (8*(x^2)) + (2*x) - 5.
-	A _ f companion.
-	self assert: (A * A inverse) isIdentity! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:12'!
-testJordanNormalFormExample
-	| A jordan B |
-"	<timeout: 2>"
-	A _ ℚ !!!!!! { (5,4,2,1). (0,1,-1,-1). (-1,-1,3,0). (1,1,-1,2) }.
-	jordan _ A jordan.
-	self assert: jordan size = 3.
-	B _ (ℚ^1) id.
-	self assert: (jordan includes: B).
-	B _ (ℚ^1) id * 2.
-	self assert: (jordan includes: B).
-	B _ (ℚ^2) id * 4 :: at: 1@2 put: 1; yourself.
-	self assert: (jordan includes: B)! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:17'!
-testKernelExample
-	| A K |
-	A _ ℚ !!!!!! {(1, 0, -3, 0, 2, -8). (0, 1, 5, 0, -1, 4). (0, 0, 0, 1, 7, -9). (0, 0, 0, 0, 0, 0)}.
-	K _ ℚ^6 span: {(3,-5,1,0,0,0). (-2,1,0,-7,1,0). (8,-4,0,9,0,1)}.
-	self assert: A kernel = K! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:22'!
-testKernelExample2
-	"Example from GAP manual."
-	| A K |
-	A _ ℚ !!!!!! #((1 2 7) (4 5 6) (7 8 9) (10 11 19) (5 7 12)).
-	A _ A transpose.
-	K _ ℚ^5 span: {{-7/4. 9/2. -15/4. 1. 0}. {-3/4. -3/2. 1/4. 0. 1}}.
-	self assert: A kernel = K! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:10:06'!
-testLeftInverseRational
-	| A |
-	[A _ ℚ^3 ⇒ (ℚ^5) atRandom: random bits: 1000. A rank = 3] whileFalse.
-	self assert: (A retraction * A) isIdentity! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:22:53'!
-testRCFAndInvariantFactorsExample
-	"Example from Magma documentation."
-	| K A R x |
-	K _ ℤ/5.
-	A _ (K^5) endomorphisms !! #(0 2 4 2 0 2 2 2 3 3 3 4 4 1 3 0 0 0 0 1 0 0 0 1 0).
-	R _ A parent !! #(1 0 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0 1 0).
-	self assert: A RCF = R.
-	x _ K polynomials x.
-	self assert: A invariantFactors = {x - 1. x^2 - 1. x^2 - 1}
-	"TODO: test transformation T such that T*A*T inverse = R"! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:30'!
-testRCFExample
-	| A |
-	A _ ℚ !!!!!! #((-2 0 0) (-1 -4 -1) (2 4 0)).
-	self assert: A RCF = (ℚ !!!!!! #((-2 0 0) (0 0 -4) (0 1 -4)))! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:37'!
-testRCFExample2
-	"Example from wikipedia:"
-	| A C |
-	A _ ℚ !!!!!! #(
-		(-1 3 -1 0 -2 0 0 -2)
-		(-1 -1 1 1 -2 -1 0 -1)
-		(-2 -6 4 3 -8 -4 -2 1)
-		(-1 8 -3 -1 5 2 3 -3)
-		(0 0 0 0 0 0 0 1)
-		(0 0 0 0 -1 0 0 0)
-		(1 0 0 0 2 0 0 0)
-		(0 0 0 0 4 0 1 0)).
-	C _ ℚ !!!!!! #(
-		(0 1 0 0 0 0 0 0)
-		(1 1 0 0 0 0 0 0)
-		(0 0 0 0 0 0 0 -1)
-		(0 0 1 0 0 0 0 -4)
-		(0 0 0 1 0 0 0 -4)
-		(0 0 0 0 1 0 0 2)
-		(0 0 0 0 0 1 0 4)
-		(0 0 0 0 0 0 1 0)).
-	self assert: A RCF = C! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:44'!
-testRankExample
-	| vandermonde |
-	vandermonde _ ℚ !!!!!! {(1,1,1). (3,5,7). (9,25,49)}.
-	self assert: vandermonde rank = 3.
-	vandermonde _ ℤ !!!!!! {(1,1,1). (3,5,7). (9,25,49)}.
-	self assert: vandermonde rank = 3! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:48'!
-testRankExample2
-	| m |
-	m _ ℚ !!!!!! {(1,1,1). (2,2,0). (3,3,1)}.
-	self assert: m rank = 2! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:10:11'!
-testRightInverseRational
-	| A |
-	[A _ ℚ^5 ⇒ (ℚ^3) atRandom: random bits: 1000. A rank = 3] whileFalse.
-	self assert: (A * A section) isIdentity! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:58'!
-testSimilarityExample
-	"Examples from wikipedia article on SNF"
-	| A B C |
-	A _ ℚ !!!!!! {(1,2). (0,1)}.
-	B _ ℚ !!!!!! {(3,-4). (1,-1)}.
-	C _ ℚ !!!!!! {(1,0). (1,2)}.
-	self assert: A ≃ B.
-	self deny: A ≃ C! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:10:16'!
-testSlashWithMatrixExample
-	| A B X  |
-	A _ (ℚ^3) endomorphisms !! #(1 1 3 2 0 4 -1 6 -1).
-	B _ ℚ^3 ⇒ (ℚ^1) !! #(2 19 8).
-	X _ B / A.
-	self assert: X = (B parent !! #(1 2 3)).
-	self assert: X * A = B! !
-
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:25:07'!
-testSlashWithTupleExample
-	| A b x  |
-	A _ (ℚ^3) endomorphisms !! #(1 1 3 2 0 4 -1 6 -1).
-	b _ ℚ^3 !! #(2 19 8).
-	x _ b / A.
-	self assert: x = (ℚ^3 !! #(1 2 3)).
-	self assert: x * A = b! !
-
-!SmallFiniteFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/29/2022 10:10:20'!
-initialize
-	| p |
-	super initialize.
-	p _ 13 atRandom nextPrime.
-	scalars _ GaloisField new: p to: ((256 log: p) floor - 1)  atRandom + 1! !
-
-!TernaryExtensionFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:22:07'!
-initialize
-	super initialize.
-	scalars := GaloisField new: 3 to: 8 atRandom + 1! !
-
-!TernaryFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 17:23:44'!
-initialize
-	super initialize.
-	scalars _ ℤ/3! !
-
-!CyclotomicIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/21/2021 17:35:09'!
-initialize
-	super initialize.
-	scalars _ (CyclotomicField new: 3 atRandom + 2) integers! !
-
-!EisensteinIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:22:58'!
-initialize
-	super initialize.
-	scalars _ (CyclotomicField new: 3) integers! !
-
-!GaussianIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/7/2022 13:52:55'!
-initialize
-	super initialize.
-	scalars _ GaussianField new integers! !
-
-!IntegerMatrixTest methodsFor: 'initialization' stamp: 'len 3/26/2021 12:50:25'!
-initialize
-	super initialize.
-	scalars _ ℤ! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:03:53'!
-testAdjugateExample
-	| A I |
-	A _ Matrix rows: { (2,1,1). (-1,0,1). (0,2,1) }.
-	I _ A identity.
-	self assert: A * A adjugate = (I * A determinant)! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:04:04'!
-testAdjugateExample2
-	| A B |
-	A _ Matrix rows: { (-3,2,-5). (-1,0,-2). (3,-4,1) }.
-	B _ Matrix rows: { (-8,18,-4). (-5,12,-1). (4,-6,2) }.
-	self assert: A adjugate = B! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:10:21'!
-testBackslashIntegerTuple
-	"Example from Sage documentation."
-	| A v x |
-	A _ ℤ^3 ⇒ (ℤ^2) !! #(1 2 3 2 4 6).
-	v _ (-1, -2).
-	x _ A \ v.
-"	self assert: x = (-1, 0, 0)."
-	self assert: A * x = v! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:03'!
-testBackslashIntegerTuple2
-	"Example from GAP manual."
-	| A b |
-	A _ ℤ !!!!!! #((1 2 7) (4 5 6) (7 8 9) (10 11 19) (5 7 12)).
-	A _ A transpose.
-	b _ ℤ !!!! #(95 115 182).
-"	x _ ℤ tuple: #(2285 -5854 4888 -1299 0)." "<- GAP comes up with this solution, but this is not very small"
-	self assert: A * (A \ b) = b! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:08'!
-testBackslashIntegerTuple3
-	| A b |
-	A _ ℤ !!!!!! #((-8 1 -7 -9 -2 -1) (5 -2 3 -3 1 1) (7 0 6 4 -5 -8) (-7 -10 5 9 -4 4) (3 -4 1 -2 3 -8) (-7 3 2 6 7 -1) (4 8 5 1 -8 -9) (9 5 0 -10 -8 8) (-6 2 -6 -9 -5 6)).
-	A _ A transpose.
-	b _ ℤ !!!! #(3 -1 -1 -7 9 8).
-	"x _ ℤ !!!! #(38 25 -6 1 -34 -12 3 -3 -44)." "shortest solution"
-	self assert: A * (A \ b) = b! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 10:29:40'!
-testBackslashIntegerTupleBug
-	| A b x |
-	A _ (ℤ^3) endomorphisms !! #(1 0 0 0 1 0 0 0 10).
-	b _ (0, 0, 10).
-	x _ A \ b.
-	self assert: A * x = b! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 10:30:02'!
-testBackslashPascal3
-	"Example from Matlab documentation. Non-singular and square."
-	| A u x |
-	A _ (ℤ^3) endomorphisms !! #(1 1 1 1 2 3 1 3 6). "pascal(3)"
-	u _ (3, 1, 4).
-	x _ A \ u.
-	self assert: x = (10, -12, 5).
-	self assert: A * x = u! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 10:30:06'!
-testBackslashPascal3Magic3
-	"Example from Matlab documentation. Non-singular and square."
-	| A B X |
-	A _ (ℤ^3) endomorphisms !! #(1 1 1 1 2 3 1 3 6). "pascal(3)"
-	B _ (ℤ^3) endomorphisms !! #(8 1 6 3 5 7 4 9 2). "magic(3)"
-	X _ A \ B.
-	self assert: X = ((ℤ^3) endomorphisms !! #(19 -3 -1 -17 4 13 6 0 -6)).
-	self assert: A * X = B! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:14'!
-testCauchyDeterminantProductFormulaExample
-	| A B |
-	A _ ℤ !!!!!! {(1,1,1). (3,5,7). (9,25,49)}.
-	B _ ℤ !!!!!! {(1,0,4). (1,1,1). (2,-2,-3)}.
-	self assert: A determinant * B determinant = (A * B) determinant! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:24'!
-testCharacteristicPolynomialExample1x1
-	| A x |
-	A _ ℤ !!!!!! #((42)).
-	x _ ℤ polynomials x.
-	self assert: A characteristicPolynomial = (x - 42)! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:28'!
-testCharacteristicPolynomialExample2x2
-	| A x |
-	A _ ℤ !!!!!! #((1 2) (3 4)).
-	x _ ℤ polynomials x.
-	self assert: A characteristicPolynomial = (x^2 - (x*5) - 2)! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:32'!
-testCharacteristicPolynomialExample3x3
-	| A x |
-	A _ ℤ !!!!!! #((1 2 3) (4 5 6) (7 8 9)).
-	x _ ℤ polynomials x.
-	self assert: A characteristicPolynomial = (x^3 - (x^2*15) - (x*18))! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:36'!
-testCharacteristicPolynomialExample4x4
-	| A x |
-	A _ ℤ !!!!!! #((1 2 3 4) (5 6 7 8) (9 10 11 12) (13 14 15 16)).
-	x _ ℤ polynomials x.
-	self assert: A characteristicPolynomial = (x^4 - (x^3*34) - (x^2*80))! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:43'!
-testCokernelMatrixInteger
-	"From Sage."
-	| A B |
-	A _ ℤ !!!!!! {(1,2,4,-7,4). (1,1,0,2,-1). (1,0,3,-3,1). (0,-1,-1,3,-2). (0,0,-1,2,-1)}.
-	B _ ℤ !!!!!! {(1,0,-1,2,-1). (0,1,-1,1,-4)}.
-	self assert: A cosyzygies echelon = B! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:47'!
-testDeterminantExample
-	| m |
-	m _ ℤ !!!!!! { (2,1). (-1,0) }.
-	self assert: m determinant = 1! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:51'!
-testDeterminantExample2
-	| vandermonde |
-	vandermonde _ ℤ !!!!!! {(1,1,1). (3,5,7). (9,25,49)}.
-	self assert: vandermonde determinant = 16! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/29/2022 19:39:19'!
-testDomainError
-	| A B |
-	A _ (ℤ^4) id.
-	self should: [A / 2] raise: DivisibilityError.
-	B _ (ℚ^4) id.
-	self should: [A + B] raise: Error.
-	self should: [A * B] raise: Error! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:57'!
-testHermiteNormalFormBug
-	"Bug."
-	| A H |
-	A _ ℤ !!!!!! #((1 2 3 0) (1 2 3 1)).
-	H _ ℤ !!!!!! #((1 2 3 0) (0 0 0 1)).
-	self assert: A HNF = H! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:09:03'!
-testHermiteNormalFormExample
-	"Example from wikipedia."
-	| A H |
-	A _ ℤ !!!!!! { (3,3,1,4). (0,1,0,0). (0,0,19,16). (0,0,0,3) }.
-	H _ ℤ !!!!!! { (3,0,1,1). (0,1,0,0). (0,0,19,1). (0,0,0,3) }.
-	self assert: A HNF = H! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:09:08'!
-testHermiteNormalFormExample2
-	| A H |
-	A _ ℤ !!!!!! { (9,-36,30). (-36,192,-180). (30,-180,180) }.
-	H _ ℤ !!!!!! { (3,0,30). (0,12,0). (0,0,60) }.
-	self assert: A HNF = H! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:09:15'!
-testHermiteNormalFormExample3
-	"Example from wikipedia"
-	| A H |
-	A _ ℤ !!!!!! { (2,3,6,2). (5,6,1,6). (8,3,1,1) }.
-	H _ ℤ !!!!!! { (1,0,50,-11). (0,3,28,-2). (0,0,61,-13) }.
-	self assert: A HNF = H! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:09:20'!
-testHermiteNormalFormExample4
-	"Example from Sage"
-	| A B |
-	A _ ℤ !!!!!! {(1,2,3,4). (5,6,7,8). (9,10,11,12)}.
-	B _ ℤ !!!!!! {(1,2,3,4). (0,4,8,12). (0,0,0,0)}.
-	self assert: A HNF = B.
-	self assert: A echelon = B "the echelon form of integers matrices is the hermite normal form"! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:09:25'!
-testHermiteNormalFormExample5
-	"From Magma Handbook example H26E10."
-	| A H |
-	A _ ℤ !!!!!! #((2 -4 12 7 0) (3 -3 5 -1 4) (2 -1 -4 -5 -12) (0 3 6 -2 0)).
-	H _ ℤ !!!!!! #((1 1 1 6 -164) (0 3 0 16 -348) (0 0 2 13 -200) (0 0 0 19 -316)).
-	self assert: A HNF = H! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:09:35'!
-testHermiteNormalFormExample6
-	"From MuPAD documentation."
-	| A H |
-	A _ ℤ !!!!!! #(
-		(25 -300 1050 -1400 630)
-		(-300 4800 -18900 26880 -12600)
-		(1050 -18900 79380 -117600 56700)
-		(-1400 26880 -117600 179200 -88200)
-		(630 -12600 56700 -88200 44100)).
-	H _ ℤ !!!!!! #(
-		(5 0 210 560 630)
-		(0 60 0 0 0)
-		(0 0 420 0 0)
-		(0 0 0 840 0)
-		(0 0 0 0 2520)).
-	"The original from MuPAD documentation is:
-	H _ ℤ !!!!!! #(
-		(5 0 -210 -280 630)
-		(0 60 0 0 0)
-		(0 0 420 0 0)
-		(0 0 0 840 0)
-		(0 0 0 0 2520)).
-	but this is wrong, this is a bug in MuPAD"
-	self assert: A HNF = H! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:09:41'!
-testHermiteNormalFormExample7
-	"Example from GAP manual."
-	| A H |
-	A _ ℤ !!!!!! #((1 15 28) (4 5 6) (7 8 9)).
-	H _ ℤ !!!!!! #((1 0 1) (0 1 1) (0 0 3)).
-	self assert: A HNF = H! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:09:47'!
-testHermiteNormalFormExample8
-	"Example from Pernet-Stein 'Fast computation of Hermite normal forms of random integer matrices'."
-	| A H |
-	A _ ℤ !!!!!! #((-5 8 -3 -9 5 5) (-2 8 -2 -2 8 5) (7 -5 -8 4 3 -4) (1 -1 6 0 8 -3)).
-	H _ ℤ !!!!!! #((1 0 3 237 -299 90) (0 1 1 103 -130 40) (0 0 4 352 -450 135) (0 0 0 486 -627 188)).
-	self assert: A HNF = H! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:09:52'!
-testHermiteNormalFormExample9
-	"Example from Pernet-Stein 'Fast computation of Hermite normal forms of random integer matrices'."
-	| A H |
-	A _ ℤ !!!!!! #((-1 2 5 65 2) (4 -1 -3 1 -2) (-1 -2 1 -1 1)).
-	H _ ℤ !!!!!! #((1 0 17 259 7) (0 1 31 453 13) (0 0 40 582 17)).
-	self assert: A HNF = H! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:09:59'!
-testIsHermiteNormalForm
-	"Example from wikipedia."
-	| A H |
-	A _ ℤ !!!!!! { (3,3,1,4). (0,1,0,0). (0,0,19,16). (0,0,0,3) }.
-	H _ ℤ !!!!!! { (3,0,1,1). (0,1,0,0). (0,0,19,1). (0,0,0,3) }.
-	self assert: A isHermiteNormalForm not.
-	self assert: H isHermiteNormalForm! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:08'!
-testIsHermiteNormalForm2
-	| M |
-	M _ ℤ !!!!!! {(2,0,1,11). (0,1,5,12). (0,0,6,12). (0,0,0,33)}.
-	self assert: M isHermiteNormalForm.
-	self assert: M transpose isHermiteNormalForm not.
-	M _ ℤ !!!!!! {(2,0,1,11). (0,1,5,12). (0,0,6,12). (0,0,0,33). (0,0,0,0)}.
-	self assert: M isHermiteNormalForm.
-	M _ ℤ !!!!!! {(2,0,1,11). (0,1,5,12). (0,0,6,12). (0,0,0,33). (0,0,0,1)}.
-	self assert: M isHermiteNormalForm not! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:14'!
-testKernelExample
-	"Example from GAP manual."
-	| A K |
-	A _ ℤ !!!!!! #((1 2 7) (4 5 6) (7 8 9) (10 11 19) (5 7 12)).
-	A _ A transpose. "because in GAP matrices act on rows"
-	K _ ℤ !!!!!! #((1 18 -9 2 -6) (0 24 -13 3 -7)).
-	K _ K transpose.
-	self assert: A kernelMap asMatrix = K! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:21'!
-testKroneckerProductExample
-	| A B C |
-	A _ ℤ !!!!!! #((1 2) (3 4)).
-	B _ ℤ !!!!!! #((0 5) (6 7)).
-	C _ ℤ !!!!!! #((0 5 0 10) (6 7 12 14) (0 15 0 20) (18 21 24 28)).
-	self assert: A ⊗ B = C! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:25'!
-testMinorExample
-	| A |
-	A _ ℤ !!!!!! #((1 2 3) (4 5 6) (7 8 9)).
-	self assert: (A minor: 2@3) = -6! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:10:25'!
-testMinorsExample
-	| A |
-	A _ ℤ^3 ⇒ (ℤ^2) !! (1 to: 6).
-	self assert: (A minors: 2) asArray = #(-3 -6 -3)! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:21:22'!
-testPermanentExample
-	"Example from https://en.wikipedia.org/wiki/Permanent_(mathematics)"
-	| A |
-	A _ (ℤ^4) endomorphisms !! #(1 1 1 1 2 1 0 0 3 0 1 0 4 0 0 1).
-	self assert: A permanent = 10! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:30'!
-testPivots
-	| A |
-	A _ ℤ !!!!!! {(0,-1,-1). (0,-20,1). (0,1,2)}.
-	self assert: A echelon pivots asArray = {1@2. 2@3}! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:21:33'!
-testPositiveDefiniteExample
-	| M |
-	M _ (ℤ^3) endomorphisms !! #(3 -1 1 -1 3 1 1 1 3).
-	self assert: M isPositiveDefinite! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:34'!
-testRankExample
-	| m |
-	m _ ℤ !!!!!! {(1,1,1). (2,2,2). (5,5,5)}.
-	self assert: m rank = 1! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:38'!
-testSmithNormalFormExample1
-	| A |
-	A _ ℤ !!!!!! { (2,4,4). (-6,6,12). (10,-4,-16) }.
-	self assert: A SNF = ((ℤ^3) endomorphisms diagonal: #(2  6 12))! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:42'!
-testSmithNormalFormExample2
-	| A |
-	"Reduced Laplacian matrix of K_4:"
-	A _ ℤ !!!!!! { (3,-1,-1). (-1,3,-1). (-1,-1,3) }.
-	self assert: A SNF = ((ℤ^3) endomorphisms diagonal: #(1  4  4))! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:46'!
-testSmithNormalFormExample3
-	"Example from Willian Stein, 'Algebraic Number Theory, A Computational Approach'."
-	| A |
-	A _ ℤ !!!!!! { (1,4,9). (16,25,36). (49,64,81) }.
-	self assert: A SNF = ((ℤ^3) endomorphisms diagonal: #(1 3 72))! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:50'!
-testSmithNormalFormExample4
-	"Smith form of a 3x3 matrix of rank 2.
-	Example from Willian Stein, 'Algebraic Number Theory, A Computational Approach'."
-	| A |
-	A _ ℤ !!!!!! #((2 3 4) (5 6 7) (8 9 10)).
-	self assert: A SNF = ((ℤ^3) endomorphisms diagonal: #(1 3 0)) "this fails with SNF because Cohen defines SNF only for nonsingular matrices, so use SNF2"! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:56'!
-testSmithNormalFormExample5
-	"Example from youtube video: 'Derek Holt: Algorithms for finitely presented groups' @ 25:49."
-	| A |
-	A _ ℤ !!!!!! #((1 2 0 -2) (0 2 2 0) (-1 -4 4 2)).
-	self assert: A SNF = (ℤ !!!!!! #((1 0 0 0) (0 2 0 0) (0 0 6 0)))! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:01'!
-testSmithNormalFormExample6
-	"From Magma Handbook example H26E10."
-	| A |
-	A _ ℤ !!!!!! #((2 -4 12 7 0) (3 -3 5 -1 4) (2 -1 -4 -5 -12) (0 3 6 -2 0)).
-	self assert: A elementaryDivisors = #(1 1 1 2)! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:08'!
-testSmithNormalFormExample7
-	"From GAP manual."
-	| A |
-	A _ ℤ !!!!!! #((1 15 28) (4 5 6) (7 8 9)).
-	self assert: A SNF = ((ℤ^3) endomorphisms diagonal: #(1 1 3))! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:12'!
-testSmithNormalFormExample8
-	| A |
-	A _ ℤ !!!!!! #((2 1 -3) (3 -2 -1) (1 -3 2)).
-	self assert: A SNF = ((ℤ^3) endomorphisms diagonal: #(1 7 0))! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:18'!
-testSmithNormalFormExample9
-	| A |
-	A _ ℤ !!!!!! #((1 2 3 4 5 6 7) (1 0 1 0 1 0 1) (2 4 5 6 1 1 1) (1 4 2 5 2 0 0) (0 0 1 1 2 2 3)).
-	self assert: A SNF = (ℤ !!!!!! #((1 0 0 0 0 0 0) (0 1 0 0 0 0 0) (0 0 1 0 0 0 0) (0 0 0 1 0 0 0) (0 0 0 0 2 0 0)))! !
-
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:24'!
-testSmithNormalFormExampleDiagonal
-	| A |
-	A _ ℤ !!!!!! #((2 0 0) (0 1 0) (0 0 0)).
-	self assert: A SNF = ((ℤ^3) endomorphisms diagonal: #(1 2 0)).
-	A _ ℤ !!!!!! #((5 0 0) (0 2 0) (0 0 0)).
-	self assert: A SNF = ((ℤ^3) endomorphisms diagonal: #(1 10 0))! !
-
-!LocalIntegerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/23/2022 13:16:34'!
-initialize
-	super initialize.
-	scalars _ ℤ @ (ℤ * 64 atRandom nextPrime)! !
-
-!PrimeFieldMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/30/2021 12:23:00'!
-initialize
-	super initialize.
-	scalars _ ℤ/5 polynomialsIn: #(x y z)! !
-
-!PrimeFieldPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:06:29'!
-initialize
-	super initialize.
-	scalars _ ℤ/5! !
-
-!PrimeFieldPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:16:20'!
-testRankOverPolynomialsOverZ5
-	"Example form Magma handbook (H88E7)."
-	| K P x a |
-	K _ ℤ/5.
-	P _ K polynomials.
-	x _ P x.
-	a _ (P^5) endomorphisms fill: [:i :j| x^i + (x^j)].
-	self assert: a rank = 2! !
-
-!PrimeFieldPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:16:36'!
-testSmithNormalFormOverPolynomialsOverPrimeField1
-	"Example form Magma handbook (H88E7)."
-	| K P x a |
-	K _ ℤ/5.
-	P _ K polynomials.
-	x _ P x.
-	a _ (P^5) endomorphisms fill: [:i :j| x^i + (x^j)].
-	self assert: a elementaryDivisors = {x. x^3 + (x^2*3) + x}! !
-
-!PrimeFieldPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:05:31'!
-testSmithNormalFormOverPolynomialsOverPrimeField2
-	"Example form Magma handbook (H88E7)."
-	| K P x a ax |
-	K _ ℤ/5.
-	P _ K polynomials.
-	x _ P x.
-	a _ (ℤ^5) endomorphisms !! #(0 2 4 2 0 2 2 2 3 3 3 4 4 1 3 0 0 0 0 1 0 0 0 1 0).
-	a _ a over: P.
-	ax _ a identity * x - a.
-	self assert: ax SNF = ((P^5) endomorphisms diagonal: {P one. P one. x - 1. x^2 - 1. x^2 - 1}).
-	self assert: ax elementaryDivisors = {P one. P one. x - 1. x^2 - 1. x^2 - 1}! !
-
-!QuadraticRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/9/2022 08:34:13'!
-initialize
-	| n |
-	super initialize.
-	[(n _ (2 to: 100) atRandom squarefreePart) > 1] whileFalse.
-	2 atRandom = 1 ifTrue: [n _ n negated].
-	scalars _ (QuadraticField sqrt: n) integers! !
-
-!RationalMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/15/2021 07:37:23'!
-initialize
-	super initialize.
-	scalars _ ℚ polynomialsIn: #(x y z)! !
-
-!RationalPolynomialRingMatrixTest methodsFor: 'initialization' stamp: 'len 3/26/2021 12:58:50'!
-initialize
-	super initialize.
-	scalars _ ℚ polynomials! !
-
-!RationalPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:15:39'!
-testHermiteNormalFormExample
-	"From MuPAD documentation."
-	| R x A H |
-	R _ ℚ polynomials.
-	x _ R x.
-	A _ (R^2) endomorphisms !! {x^2 + 3. (x*2 - 1)^2. (x + 2)^2. x^2*3 + 5}.
-	H _ (R^2) endomorphisms !! {R one. (x^3*4 + (x^2*47) - (x*76) + 20) / 49. R zero. x^4 + (x^3*12) - (x^2*13) - (x*12) - 11}.
-	self assert: A HNF = H! !
-
-!RationalPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:31'!
-testSmithNormalFormOverExample1
-	"Example from Sage documentation."
-	| R x A |
-	R _ ℚ polynomials.
-	x _ R x.
-	A _ (R^2) id * x - (R !!!!!! #((3 -4) (1 -1))).
-	self assert: A SNF = ((R^2) endomorphisms diagonal: {R one. x^2 - (x*2) + 1})! !
-
-!GaloisRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 10:51:06'!
-initialize
-	super initialize.
-	scalars _ GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom! !
-
-!GaloisRingMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:01:06'!
-initialize
-	super initialize.
-	scalars _ (GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom) polynomialsIn: 3 atRandom! !
-
-!ModularIntegerMatrixTest methodsFor: 'initialization' stamp: 'len 4/26/2021 11:49:04'!
-initialize
-	super initialize.
-	scalars _ ℤ/(2 to: 64) atRandom! !
-
-!ModularIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:42'!
-testHowellNormalForm1
-	"Examples from 'Fast Algorithms for Linear Algebra Modulo N', Arne Storjohann, Thom Mulders."
-	| R A B C D H |
-	R _ ℤ/12.
-	A _ R !!!!!! #((4 1 0) (0 0 5) (0 0 0)).
-	B _ R !!!!!! #((8 5 5) (0 9 8) (0 0 10)).
-	C _ R !!!!!! #((4 1 10) (0 0 5) (0 0 0)).
-	D _ R !!!!!! #((4 1 0) (0 0 1) (0 0 0)).
-	H _ R !!!!!! #((4 1 0) (0 3 0) (0 0 1)).
-	self assert: A echelon = H.
-	self assert: B echelon = H.
-	self assert: C echelon = H.
-	self assert: D echelon = H! !
-
-!ModularIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 21:47:55'!
-testHowellNormalForm2
-	| m R t u |
-	100 timesRepeat:
-		[[m _ (256 atRandom: random) + 1. m isPrime] whileTrue.
-		R _ ℤ/m.
-		t _ R^(5 atRandom: random) atRandom: random.
-		u _ R units atRandom: random.
-		self assert: t asRowMatrix echelon = (t*u) asRowMatrix echelon]! !
-
-!ModularIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:49'!
-testHowellNormalForm3
-	"Example from 'Spans in the module (Z/mZ)^s', John A. Howell (1986)."
-	| R A H |
-	R _ ℤ/6.
-	A _ R !!!!!! #((2 1)).
-	H _ R !!!!!! #((2 1) (0 3)).
-	self assert: A echelon = H! !
-
-!ModularIntegerMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:01:24'!
-initialize
-	super initialize.
-	scalars _ ℤ/1024 atRandom polynomialsIn: 3 atRandom! !
-
-!PrimeFieldAffineAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 18:52:06'!
-initialize
-	| P |
-	super initialize.
-	P _ ℤ/64 atRandom nextPrime polynomialsIn: 3 atRandom.
-	[scalars _ P / ((1 to: 4 atRandom - 1) collect: [:i| P atRandomBits: 20]).
-	scalars isTrivial] whileTrue! !
-
-!PrimePowerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2021 12:57:12'!
-initialize
-	super initialize.
-	scalars _ PrimePowerRing new: 10 atRandom nextPrime to: 3 atRandom! !
-
-!PrimePowerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:54'!
-testSyzygiesBug
-	| R A X |
-	R _ ℤ/(7^3).
-	A _ R !!!!!! #((15 48 278 40)).
-	X _ A syzygies.
-	self assert: (A*X) isZero! !
-
-!ProductRingMatrixTest methodsFor: 'initialization' stamp: 'len 10/13/2022 05:00:06'!
-initialize
-	super initialize.
-	scalars _ ℤ × (ℤ/(64 atRandom + 1))! !
-
-!RationalAffineAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 18:52:28'!
-initialize
-	| P |
-	super initialize.
-	P _ ℚ polynomialsIn: 3 atRandom.
-	[scalars _ P / ((1 to: 4 atRandom - 1) collect: [:i| P atRandomBits: 20]).
-	scalars isTrivial] whileTrue! !
-
-!CliffordAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/22/2021 11:17:19'!
-initialize
-	super initialize.
-	scalars _ CliffordAlgebra on: (QuadraticForm from: ℚ^3 coefficients: #(1 0 0 1 0 1))! !
-
-!GroupAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/22/2021 18:30:01'!
-initialize
-	super initialize.
-	scalars _ (SymmetricGroup new: (0 to: 3) atRandom) groupAlgebraOver: ℤ/2! !
-
-!MatrixAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/21/2021 18:12:12'!
-initialize
-	super initialize.
-	scalars _ (ℚ^(0 to: 3) atRandom) endomorphisms! !
-
-!QuaternionAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:37:20'!
-initialize
-	super initialize.
-	scalars _ QuaternionAlgebra over: ℚ invariants: #(1 1)! !
-
-!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 10/5/2022 17:11:54'!
-testFirstIsomorphismTheorem
-	| M N f |
-	M _ self newFreeModule.
-	N _ self newFreeModule.
-	f _ M ⇒ N atRandom: random bits: 100.
-	self assert: f codomain >= f image.
-	self assert: f domain >= f kernel.
-	self assert: f domain / f kernel ~ f image! !
-
-!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 8/12/2022 13:17:01'!
-testSecondIsomorphismTheorem
-	| M k S T |
-	M _ self newFreeModule.
-	k _ M rank > 0 ifTrue: [M rank atRandom: random] ifFalse: [0].
-	S _ M span: ((1 to: k) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
-	k _ M rank > 0 ifTrue: [M rank atRandom: random] ifFalse: [0].
-	T _ M span: ((1 to: k) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
-	self assert: S+T <= M.
-	self assert: S ∩ T <= M.
-	self assert: (S+T)/T ~ (S/(S ∩ T))! !
-
-!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 6/19/2022 21:22:59'!
-testThirdIsomorphismTheorem
-	| M S T k |
-	M _ self newFreeModule.
-	k _ M rank > 0 ifTrue: [M rank atRandom: random] ifFalse: [0].
-	S _ M span: ((1 to: k) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
-	T _ S span: ((1 to: (k > 0 ifTrue: [k atRandom: random] ifFalse: [0])) collect: [:i| S atRandom: random bits: (10 atRandom: random)]).
-	self assert: S/T <= (M/T).
-	self assert: (M/T)/(S/T) ~ (M/S)! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:36:58'!
-testCoequalizer
-	| A B f g Q |
-	A _ self newFreeModule.
-	B _ self newFreeModule.
-	f _ (A ⇒ B) atRandom: random bits: (50 atRandom: random).
-	g _ (A ⇒ B) atRandom: random bits: (50 atRandom: random).
-	Q _ f coequalizer: g.
-	self assert: (f → Q) notNil.
-	self assert: f → Q = (g → Q)! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/29/2021 04:22:14'!
-testCoimage
-	| A J |
-	A _ self newModuleMap.
-	J _ A coimageMap.
-	self assert: A coimage = J image.
-	self assert: J isEpimorphism! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 6/21/2022 07:22:08'!
-testCokernel
-	| A Q |
-	A _ self newModuleMap.
-	Q _ A cokernelMap.
-	self assert: (Q · A) isZero.
-	self assert: Q isEpimorphism.
-	self assert: A cokernel = Q image! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:10:55'!
-testCokernelAndCoequalizer
-	| A B f |
-	A _ self newFreeModule.
-	B _ self newFreeModule.
-	f _ (A ⇒ B) atRandom: random bits: (100 atRandom: random).
-	self assert: f cokernel = (f coequalizer: f zero)! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:37:10'!
-testColift
-	| M X A i Y f g |
-	M _ self newSmallModule.
-	X _ self newSmallModule.
-	A _ (X ⇒ M atRandom: random bits: 20) kernel.
-	i _ A → X.
-	self assert: i isInjective.
-	Y _ self newSmallModule.
-	f _ A ⇒ Y atRandom: random bits: 20.
-	g _ f / i.
-	self assert: (X ⇒ Y includes: g).
-	self assert: i → g = f
-
-"	| M N phi cokernel L eta eta0 |
-	M _ ℚ^3.
-	N _ ℚ^4.
-	phi _ (M => N) atRandomBits: 20.
-	cokernel _ phi cokernel.
-	L _ ℚ^5.
-	eta _ N to: L map: [:x| L atRandomBits: 20]. ???
-	self assert: (phi -> eta) isZero.
-	eta0 _ eta / (M ->> cokernel).
-	self assert: (cokernel => L includes: eta0).
-	self assert: M ->> cokernel -> eta0 = eta"! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:37:19'!
-testColiftFree
-	| M X A i Y f g |
-	M _ self newFreeModule.
-	X _ self newFreeModule.
-	A _ (X ⇒ M atRandom: random bits: 20) kernel.
-	i _ A → X.
-	self assert: i isInjective.
-	Y _ self newFreeModule.
-	f _ A ⇒ Y atRandom: random bits: 20.
-	g _ f / i.
-	self assert: (X ⇒ Y includes: g).
-	self assert: i → g = f
-
-"	| M N phi cokernel L eta eta0 |
-	M _ ℚ^3.
-	N _ ℚ^4.
-	phi _ (M => N) atRandomBits: 20.
-	cokernel _ phi cokernel.
-	L _ ℚ^5.
-	eta _ N to: L map: [:x| L atRandomBits: 20]. ???
-	self assert: (phi -> eta) isZero.
-	eta0 _ eta / (M ->> cokernel).
-	self assert: (cokernel => L includes: eta0).
-	self assert: M ->> cokernel -> eta0 = eta"! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:11:25'!
-testComposition
-	| X Y Z f g x |
-	X _ self newModule.
-	Y _ self newModule.
-	Z _ self newModule.
-	f _ X ⇒ Y atRandom: random bits: 1000.
-	g _ Y ⇒ Z atRandom: random bits: 1000.
-	x _ X atRandom: random bits: 1000.
-	self assert: (X ⇒ Z includes: g · f).
-	self assert: (g · f value: x) = (g value: (f value: x)).
-	X >= Z ifFalse: [self should: [f · g] raise: Error]! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:11:32'!
-testCompositionError
-	| X Y Z f g |
-	X _ self newModule.
-	Y _ self newModule.
-	[Z _ self newModule. X >= Z] whileTrue.
-	f _ X ⇒ Y atRandom: random bits: 1000.
-	g _ Y ⇒ Z atRandom: random bits: 1000.
-	self should: [f · g] raise: DomainError! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:37:35'!
-testEqualizer
-	| A B f g Q |
-	A _ self newFreeModule.
-	B _ self newFreeModule.
-	f _ A ⇒ B atRandom: random bits: (100 atRandom: random).
-	g _ A ⇒ B atRandom: random bits: (100 atRandom: random).
-	Q _ f equalizer: g.
-	self assert: (Q → f) notNil.
-	self assert: Q → f = (Q → g)! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 5/10/2022 10:48:02'!
-testIdenittyImage
-	| M id |
-	M _ self newModule.
-	id _ M id.
-	self assert: id image = M.
-	self assert: id isSurjective! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 07:57:09'!
-testImage
-	| f image v w |
-	f _ self newModuleMap.
-	image _ f image.
-	v _ f domain atRandom: random bits: 100.
-	w _ f value: v.
-	self assert: (image includes: w)! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/29/2021 04:24:51'!
-testImageAndCoimage
-	| A |
-	A _ self newModuleMap.
-	self assert: A cokernelMap kernelMap = A imageMap.
-	self assert: A kernelMap cokernelMap = A coimageMap! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 4/4/2021 10:22:02'!
-testKernel
-	| A K |
-	A _ self newModuleMap.
-	K _ A kernelMap.
-	self assert: (A · K) isZero.
-	self assert: K isMonomorphism.
-	self assert: A kernel = K image! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 4/4/2021 10:23:04'!
-testKernel2
-	| f kernel v |
-	f _ self newModuleMap.
-	kernel _ f kernel.
-	v _ kernel atRandom: random bits: 100.
-	self assert: (f value: v) isZero! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:12:01'!
-testKernelAndEqualizer
-	| A B f |
-	A _ self newFreeModule.
-	B _ self newFreeModule.
-	f _ A ⇒ B atRandom: random bits: (100 atRandom: random).
-	self assert: f kernel = (f equalizer: f zero)! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:37:45'!
-testLift
-	| M X B Y p f g |
-	M _ self newSmallModule.
-	X _ self newSmallModule.
-	B _ (M ⇒ X atRandom: random bits: 20) cokernel.
-	p _ X → B.
-	self assert: p isSurjective.
-	Y _ self newSmallModule.
-	f _ Y ⇒ B atRandom: random bits: 20.
-	g _ p \ f.
-	self assert: (Y ⇒ X includes: g).
-	self assert: g → p = f
-
-"	| M N phi kernel L tau tau0 |
-	M _ ℚ^3.
-	N _ ℚ^4.
-	phi _ (M => N) atRandomBits: 20.
-	kernel _ phi kernel.
-	L _ ℚ^5.
-	tau _ L to: M map: [:x| kernel atRandomBits: 20].
-	self assert: (tau -> phi) isZero.
-	tau0 _ kernel >-> M \ tau.
-	self assert: (L => kernel includes: tau0).
-	self assert: tau0 -> (kernel >-> M) = tau"! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:37:54'!
-testLiftFree
-	| M X B Y p f g |
-	M _ self newFreeModule.
-	X _ self newFreeModule.
-	B _ (M ⇒ X atRandom: random bits: 20) cokernel.
-	p _ X → B.
-	self assert: p isSurjective.
-	Y _ self newFreeModule.
-	f _ Y ⇒ B atRandom: random bits: 20.
-	g _ p \ f.
-	self assert: (Y ⇒ X includes: g).
-	self assert: g → p = f
-
-"	| M N phi kernel L tau tau0 |
-	M _ ℚ^3.
-	N _ ℚ^4.
-	phi _ (M => N) atRandomBits: 20.
-	kernel _ phi kernel.
-	L _ ℚ^5.
-	tau _ L to: M map: [:x| kernel atRandomBits: 20].
-	self assert: (tau -> phi) isZero.
-	tau0 _ kernel >-> M \ tau.
-	self assert: (L => kernel includes: tau0).
-	self assert: tau0 -> (kernel >-> M) = tau"! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:12:29'!
-testMapToBiggerDimensionIsNotSurjective
-	| V W f |
-	 V _ scalars^(4 atRandom: random).
-	W _ scalars^((V rank atRandom: random) - 1).
-	f _ W ⇒ V atRandom: random bits: 100.
-	self assert: f isSurjective not! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:12:33'!
-testMapToSmallerDimensionIsNotInjective
-	| V W f |
-	 V _ scalars^(4 atRandom: random).
-	W _ scalars^((V rank atRandom: random) - 1).
-	f _ V ⇒ W atRandom: random bits: 100.
-	self assert: f isInjective not! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/23/2021 13:55:24'!
-testModuleMap
-	| f |
-	f _ self newModuleMap.
-	self testModuleMap: f! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 07:57:30'!
-testModuleMap: f
-	| a1 a2 b1 b2 x |
-	a1 _ f domain atRandom: random bits: 20.
-	a2 _ f domain atRandom: random bits: 20.
-	b1 _ f value: a1.
-	b2 _ f value: a2.
-	self assert: (f value: f domain zero) isZero.
-	x _ f domain scalars atRandom: random bits: 20.
-	self assert: (f value: a1 * x + a2) = (b1 * x + b2)! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/19/2022 11:17:19'!
-testPreimage
-	| f w v |
-	f _ self newModuleMap.
-	w _ f image atRandom: random bits: 100.
-	v _ f preimageRepresentative: w.
-	self assert: (f value: v) = w! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:10:07'!
-testProjection: f
-	| v |
-	self testModuleMap: f.
-	v _ f domain atRandom: random bits: 20.
-	self assert: (f value: v) = (f value: (f value: v)). "idempotent at v"
-	self assert: f isIdempotent.
-	self assert: (f image apply: f) = f image.
-	self assert: (f codomain apply: f) = f image! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:38:08'!
-testPullback
-	| X Y Z f g P projections |
-	Z _ self newSmallModule.
-	X _ self newSmallModule.
-	Y _ self newSmallModule.
-	f _ X ⇒ Z atRandom: random bits: 20.
-	g _ Y ⇒ Z atRandom: random bits: 20.
-	P _ f ∧ g.
-	projections _ P ⇉ (X, Y).
-	self assert: projections first → f = (projections second → g)! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:38:22'!
-testPullbackFree
-	| X Y Z f g P projections |
-	Z _ self newFreeModule.
-	X _ self newFreeModule.
-	Y _ self newFreeModule.
-	f _ X ⇒ Z atRandom: random bits: 20.
-	g _ Y ⇒ Z atRandom: random bits: 20.
-	P _ f ∧ g.
-	projections _ P ⇉ (X, Y).
-	self assert: projections first → f = (projections second → g)! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:38:30'!
-testPushout
-	| X Y Z f g P coprojections |
-	Z _ self newSmallModule.
-	X _ self newSmallModule.
-	Y _ self newSmallModule.
-	f _ Z ⇒ X atRandom: random bits: 20.
-	g _ Z ⇒ Y atRandom: random bits: 20.
-	P _ f ∨ g.
-	coprojections _ P ⇇ (X, Y).
-	self assert: f → coprojections first = (g → coprojections second)! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:38:38'!
-testPushoutFree
-	| X Y Z f g P coprojections |
-	Z _ self newFreeModule.
-	X _ self newFreeModule.
-	Y _ self newFreeModule.
-	f _ Z ⇒ X atRandom: random bits: 20.
-	g _ Z ⇒ Y atRandom: random bits: 20.
-	P _ f ∨ g.
-	coprojections _ P ⇇ (X, Y).
-	self assert: f → coprojections first = (g → coprojections second)! !
-
-!AbstractModuleTest methodsFor: 'other' stamp: 'len 10/5/2022 17:36:42'!
-testCanonicalMorphisms
-	| V v W w |
-	V _ self newModule.
-	v _ V atRandom: random bits: 100.
-	W _ V span: {v}.
-	w _ W atRandom: random bits: 100.
-	self assert: (V null → W) isZero. "canonical morphism from initial object"
-	self assert: (V → W null) isZero. "canonical morphism to terminal object"
-	self assert: ((W → W null) value: w) isZero.
-	self assert: (W → V value: w) = w. "canonical morphism to overobject"! !
-
-!AbstractModuleTest methodsFor: 'other' stamp: 'len 10/5/2022 16:53:44'!
-testDirectSum
-	| M N S |
-	M _ self newModule.
-	N _ self newModule.
-	S _ M ⊕ N.
-	S ⇇ (M, N) do: [:each| self testModuleMap: each].
-	S ⇉ (M, N) do: [:each| self testModuleMap: each]! !
-
-!AbstractModuleTest methodsFor: 'other' stamp: 'len 10/5/2022 16:54:24'!
-testDirectSumFree
-	| M N S |
-	M _ self newFreeModule.
-	N _ self newFreeModule.
-	S _ M ⊕ N.
-	self testFreeModule: S.
-	S ⇇ (M, N) do: [:each| self testModuleMap: each].
-	S ⇉ (M, N) do: [:each| self testModuleMap: each]! !
-
-!AbstractModuleTest methodsFor: 'other' stamp: 'len 4/26/2021 11:38:09'!
-testFreeModule: M
-	| c t v x y |
-	x _ M atRandom: random bits: 10 * M rank.
-	self assert: x = (M elementAt: M \ x).
-	y _ M atRandom: random bits: 10 * M rank.
-	c _ M scalars atRandom: random bits: 20.
-	v _ x * c + y.
-	t _ (M \ x) * c + (M \ y).
-	self assert: v = (M elementAt: t)! !
-
-!AbstractModuleTest methodsFor: 'other' stamp: 'len 3/24/2021 08:32:58'!
-testSubmoduleInclusion
-	| V S P v w |
-	[[V _ self newModule.
-	v _ V atRandom: random bits: 10. v isZero] whileTrue.
-	S _ V span: {v}.
-	w _ V atRandom: random bits: 10. S includes: w] whileTrue.
-	P _ V span: {w*(V scalars atRandom: random bits: 10)-v. w}.
-	self assert: S < P.
-	self assert: P > S.
-	self assert: S ~= P.
-	self assert: P ~= S.
-	self assert: (S > P) not.
-	self assert: (P < S) not! !
-
-!AbstractModuleTest methodsFor: 'other' stamp: 'len 3/24/2021 09:17:06'!
-testSubmoduleSum
-	| V v w S T P |
-	[[V _ self newModule.
-	v _ V atRandom: random bits: 10. v isZero not] whileFalse.
-	w _ V atRandom: random bits: 10. w isZero not and: [v ~= w]] whileFalse.
-	S _ V span: {v}.
-	T _ V span: {w}.
-	P _ V span: {v. w}.
-	self assert: S + T = P.
-	self assert: T + S = P.
-	T _ V span: {v - w. v + w}.
-	self assert: S + T = P! !
-
-!AbstractModuleTest methodsFor: 'other' stamp: 'len 3/24/2021 09:15:57'!
-testTuples
-	self testFreeModule: (scalars ^ ((0 to: 5) atRandom: random))! !
-
-!AbstractModuleTest methodsFor: 'quotients' stamp: 'len 10/5/2022 17:38:47'!
-testQuotientMaps
-	| M N Q π v s |
-	M _ self newModule.
-	N _ M span: ((1 to: (3 atRandom: random) - 1) collect: [:i| M atRandom: random bits: 20]).
-	Q _ M / N.
-	π _ M → Q.
-	v _ M atRandom: random bits: 100.
-	self assert: (Q includes: (π value: v)).
-	s _ N atRandom: random bits: 100.
-	self assert: (π value: s) isZero.
-	self assert: (π value: v) = (π value: v+s)! !
-
-!AbstractModuleTest methodsFor: 'private' stamp: 'len 10/5/2022 17:10:30'!
-newFreeModule
-	| M |
-	M _ (3 atRandom: random) = 1 ifTrue: [scalars asIdeal] ifFalse: [scalars ^ ((0 to: 3) atRandom: random)].
-	scalars isCommutative ifFalse: [^ M].
-	(5 atRandom: random) = 1 ifTrue: [^ M ⇒ self newSmallFreeModule].
-	(5 atRandom: random) = 1 ifTrue: [^ M dual].
-	^ M! !
-
-!AbstractModuleTest methodsFor: 'private' stamp: 'len 11/23/2022 21:24:08'!
-newMatrix: shape
-	| hom samples |
-	hom _ scalars^shape y ⇒ (scalars^shape x).
-	(2 atRandom: random) = 1 ifTrue: [^ hom atRandom: random bits: 100].
-	samples _ {scalars zero. scalars one. scalars one negated}.
-	^ hom fill: [:i :j| (2 atRandom: random) > 1 ifTrue: [scalars zero] ifFalse: [samples atRandom: random]]! !
-
-!AbstractModuleTest methodsFor: 'private' stamp: 'len 8/22/2021 12:27:37'!
-newModule
-	| M N |
-	M _ self newFreeModule.
-	(3 atRandom: random) = 1 ifTrue: [^ M].
-	N _ M span: ((1 to: ((0 to: M rank) atRandom: random)) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
-	(3 atRandom: random) = 1 ifTrue: [^ N].
-	^ M / N! !
-
-!AbstractModuleTest methodsFor: 'private' stamp: 'len 10/5/2022 17:10:41'!
-newModuleMap
-	| V W |
-	V _ self newFreeModule.
-	W _ self newFreeModule.
-	^ V ⇒ W !! (self newMatrix: W rank @ V rank)! !
-
-!AbstractModuleTest methodsFor: 'private' stamp: 'len 12/25/2021 10:54:29'!
-newSmallFreeModule
-	| M |
-	M _ (3 atRandom: random) = 1 ifTrue: [scalars asIdeal] ifFalse: [scalars ^ ((0 to: 3) atRandom: random)].
-	scalars isCommutative ifFalse: [^ M].
-	(3 atRandom: random) = 1 ifTrue: [^ M dual].
-	^ M! !
-
-!AbstractModuleTest methodsFor: 'private' stamp: 'len 1/6/2022 14:38:20'!
-newSmallModule
-	| M N |
-	M _ self newSmallFreeModule.
-	(3 atRandom: random) = 1 ifTrue: [^ M].
-	N _ M span: ((1 to: ((0 to: M rank) atRandom: random)) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
-	(2 atRandom: random) = 1 ifTrue: [^ N].
-	^ M / N! !
-
-!AbstractModuleTest methodsFor: 'bugs' stamp: 'len 12/19/2022 11:51:05'!
-testQuotientBySelfBug
-	| V M |
-	V _ scalars ^ 3.
-	M _ V span: {V atRandom: random. V atRandom: random}.
-	self assert: (M / M) isTrivial! !
-
-!AbstractCommutativeRingModuleTest methodsFor: 'adjoint' stamp: 'len 10/14/2022 08:38:59'!
-testAdjoint
-	| V W f fAdjoint φ |
-	V _ self newFreeModule.
-	W _ self newFreeModule.
-	f _ V ⇒ W atRandom: random bits: 50.
-	fAdjoint _ f adjoint.
-	self assert: fAdjoint domain = f codomain dual.
-	self assert: fAdjoint codomain = f domain dual.
-	φ _ W dual atRandom: random bits: 20.
-	self assert: (fAdjoint value: φ) = (φ · f)! !
-
-!AbstractCommutativeRingModuleTest methodsFor: 'adjoint' stamp: 'len 10/5/2022 17:14:14'!
-testAdjointAndHomFunctor
-	"Given a R-linear map f, applying the Hom(-, R) produces the adjoint (the dual map).
-	Example from 'A Singular Introduction To Commutative Algebra, pp. 115, procedure kontraHom."
-	| f |
-	f _ self newFreeModule ⇒ self newFreeModule :: atRandom: random bits: 100.
-	self assert: (f ⇒ scalars asIdeal) = f adjoint! !
-
-!AbstractCommutativeRingModuleTest methodsFor: 'adjoint' stamp: 'len 10/5/2022 17:14:26'!
-testAdjointProperties
-	| V W U f g a |
-	V _ self newFreeModule.
-	W _ self newFreeModule.
-	f _ V ⇒ W atRandom: random bits: 100.
-	g _ V ⇒ W atRandom: random bits: 100.
-	a _ scalars atRandom: random bits: 10.
-	self assert: (f + g) adjoint = (f adjoint + g adjoint).
-	self assert: (f * a) adjoint = (f adjoint * a).
-	U _ self newFreeModule.
-	f _ U ⇒ V atRandom: random bits: 100.
-	self assert: (g · f) adjoint = (f adjoint · g adjoint)! !
-
-!AbstractCommutativeRingModuleTest methodsFor: 'tensor product' stamp: 'len 12/27/2021 08:09:13'!
-testTensorProductAssociativity
-	| V1 V2 V3 |
-	V1 _ self newSmallModule.
-	V2 _ self newSmallModule.
-	V3 _ self newSmallModule.
-	self assert: (V1 ⊗ V2) ⊗ V3 ~ (V1 ⊗ (V2 ⊗ V3))! !
-
-!AbstractCommutativeRingModuleTest methodsFor: 'tensor product' stamp: 'len 12/27/2021 08:09:19'!
-testTensorProductCommutativity
-	| V W |
-	V _ self newSmallModule.
-	W _ self newSmallModule.
-	self assert: V ⊗ W ~ (W ⊗ V)! !
-
-!AbstractCommutativeRingModuleTest methodsFor: 'tensor product' stamp: 'len 12/27/2021 08:09:23'!
-testTensorProductDimension
-	| V1 V2 |
-	V1 _ self newSmallFreeModule.
-	V2 _ self newSmallFreeModule.
-	self assert: (V1 ⊗ V2) rank = (V1 rank * V2 rank)! !
-
-!AbstractCommutativeRingModuleTest methodsFor: 'tensor product' stamp: 'len 12/27/2021 08:09:28'!
-testTensorProductDistributivity
-	| A B C |
-	A _ self newSmallFreeModule.
-	B _ self newSmallFreeModule.
-	C _ self newSmallFreeModule.
-	self assert: A ⊕ B ⊗ C ~ (A ⊗ C ⊕ (B ⊗ C))! !
-
-!AbstractCommutativeRingModuleTest methodsFor: 'tensor product' stamp: 'len 10/5/2022 17:14:33'!
-testTensorProductDualHomIsomorphism
-	| V W A B |
-	V _ self newFreeModule.
-	W _ self newFreeModule.
-	A _ V dual ⊗ W.
-	B _ V ⇒ W.
-	self assert: A ~ B.
-"	phi _ A to: B evaluating: [:t| B map: [:v| t second * (t first value: v)]].
-	self testLinearMap: phi.
-	self assert: phi isIsomorphism"! !
-
-!AbstractCommutativeRingModuleTest methodsFor: 'tensor product' stamp: 'len 9/18/2022 07:15:04'!
-testTensorProductDualIsomorphism
-	| V W A B |
-	V _ self newFreeModule.
-	W _ self newFreeModule.
-	A _ V dual ⊗ W dual.
-	B _ (V ⊗ W) dual.
-	self assert: A ~ B.
-"	phi _ A to: B evaluating: [:s| B map: [:t| (s first value: t first) * (s second value: t second)]].
-	self testLinearMap: phi.
-	self assert: phi isIsomorphism"! !
-
-!AbstractCommutativeRingModuleTest methodsFor: 'tensor product' stamp: 'len 12/27/2021 08:09:43'!
-testTensorProductRelations
-	| V W T v v1 v2 w w1 w2 c |
-	V _ self newFreeModule.
-	W _ self newFreeModule.
-	T _ V ⊗ W.
-	v _ V atRandom: random bits: 40.
-	v1 _ V atRandom: random bits: 40.
-	v2 _ V atRandom: random bits: 40.
-	w _ W atRandom: random bits: 40.
-	w1 _ W atRandom: random bits: 40.
-	w2 _ W atRandom: random bits: 40.
-	c _ V scalars atRandom: random bits: 40.
-	self assert: T !! {v1. w} + (T !! {v2. w}) = (T !! {v1 + v2. w}).
-	self assert: T !! {v. w1} + (T !! {v. w2}) = (T !! {v. w1 + w2}).
-	self assert: (T !! {v. w})*c = (T !! {v*c. w}).
-	self assert: (T !! {v. w})*c = (T !! {v. w*c})! !
-
-!AbstractCommutativeRingModuleTest methodsFor: 'bugs' stamp: 'len 1/3/2022 11:24:40'!
-testMapDirectSumAndTensorProductBug
-	| V W f g |
-	V _ self newFreeModule.
-	W _ self newFreeModule.
-	f _ V endomorphisms atRandom: random bits: 100.
-	g _ W endomorphisms atRandom: random bits: 100.
-	"doing it twice should give the same thing:"
-	self assert: (f⊗g) domain = (f⊗g) domain.
-	self assert: (f⊕g) domain = (f⊕g) domain! !
-
-!AbstractVectorSpaceTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:02:36'!
-testInverse
-	| V f |
-	V _ self newVectorSpace.
-	[(f _ V endomorphisms atRandom: random bits: 1000) isIsomorphism] whileFalse.
-	self assert: (f · f inverse) isIdentity.
-	self assert: (f inverse · f) isIdentity! !
-
-!AbstractVectorSpaceTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:14:44'!
-testRetraction
-	| V W f r |
-	[V _ self newVectorSpace.
-	W _ self newVectorSpace.
-	f _ V ⇒ W atRandom: random bits: 100. f isInjective] whileFalse.
-	r _ f retraction.
-	self assert: r isSurjective.
-	self assert: r · f = V id! !
-
-!AbstractVectorSpaceTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:14:49'!
-testSection
-	| V W f s |
-	[V _ self newVectorSpace.
-	W _ self newVectorSpace.
-	f _ V ⇒ W atRandom: random bits: 50. f isSurjective] whileFalse.
-	s _ f section.
-	self assert: s isInjective.
-	self assert: f · s = W id! !
-
-!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 3/24/2021 08:23:12'!
-testAnnihilator
-	| V v S S0 |
-	[(V _ self newVectorSpace) isTrivial] whileTrue.
-	[(v _ V atRandom: random bits: 100) isZero] whileTrue.
-	S _ V span: {v}.
-	S0 _ S annihilatorSpace.
-	self assert: S0 rank = S corank.
-	S0 generators do: [:f| self assert: (f value: v) isZero]! !
-
-!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 8/12/2022 13:13:38'!
-testAnnihilatorProperties
-	| V n m S T |
-	V _ self newVectorSpace.
-	n _ (0 to: V rank) atRandom: random.
-	S _ (V grassmannian: n) atRandom: random bits: (100 atRandom: random).
-	m _ (0 to: n) atRandom: random.
-	T _ (S grassmannian: m) atRandom: random bits: (100 atRandom: random).
-	self assert: T <= S.
-	self assert: T annihilatorSpace >= S annihilatorSpace. "reverses inclusions"
-	self assert: (S + T) annihilatorSpace = (S annihilatorSpace ∩ T annihilatorSpace).
-	self assert: S rank + S annihilatorSpace rank = V rank.
-	self assert: V annihilatorSpace isTrivial.
-"	self assert: S annihilator annihilator = S dual dual"! !
-
-!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 8/12/2022 13:13:49'!
-testGrassmannRelation
-	| V S T |
-	V _ self newVectorSpace.
-	S _ (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (20 atRandom: random).
-	T _ (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (20 atRandom: random).
-	self assert: S rank + T rank = ((S + T) rank + (S ∩ T) rank)! !
-
-!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 3/26/2021 14:23:01'!
-testGrassmannian
-	| V r G S |
-	V _ self newVectorSpace.
-	r _ (0 to: V rank) atRandom: random.
-	G _ V grassmannian: r.
-	S _ G atRandom: random bits: (20 atRandom: random).
-	self assert: S rank = r.
-	self assert: (G includes: S).
-	self assert: (G dual includes: S annihilatorSpace)! !
-
-!AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 3/24/2021 09:06:07'!
-testOrthogonalProjection
-	| V S p v |
-	V _ self newVectorSpace.
-	S _ (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (30 atRandom: random).
-	p _ S orthogonalProjection.
-	self testProjection: p.
-	v _ V atRandom: random bits: (50 atRandom: random).
-	self assert: (p value: v) = (p value: (p value: v)). "idempotent at v"
-	self assert: p isIdempotent.
-	self assert: p kernel = S complement.
-	self assert: p image = S.
-	self assert: (S apply: p) = S! !
-
-!AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 12/10/2021 19:55:03'!
-testQuotientSpace
-	| V S Q |
-	[(V _ self newVectorSpace) isTrivial] whileTrue.
-	S _ V grassmannian: (V rank atRandom: random) :: atRandom: random bits: V rank * 10.
-	Q _ V/S.
-	self assert: Q rank = (V rank - S rank).
-"	self assert: (Q includes: S + (V atRandomBits: V rank * 10))."
-	self assert: (V / V null) rank = V rank.
-	self assert: (V / V) rank = 0! !
-
-!AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 10/5/2022 17:38:51'!
-testQuotientSpaceMaps
-	| V S Q π v s |
-	V _ self newVectorSpace.
-	S _ V grassmannian: ((0 to: V rank) atRandom: random) :: atRandom: random bits: 50.
-	Q _ V/S.
-	π _ V → Q.
-	v _ V atRandom: random bits: 100.
-	self assert: (Q includes: (π value: v)).
-	s _ S atRandom: random bits: 100.
-	self assert: (π value: s) isZero.
-	self assert: (π value: v) = (π value: v+s)! !
-
-!AbstractVectorSpaceTest methodsFor: 'tensor product' stamp: 'len 10/14/2022 08:39:18'!
-testTensorHomAdjunction
-	| V W U A B φ |
-	V _ self newVectorSpace.
-	W _ self newVectorSpace.
-	U _ self newVectorSpace.
-	A _ V⊗W ⇒ U.
-	B _ V ⇒ (W ⇒ U).
-	self assert: A ~ B.
-	φ _ A to: B map: [:f| B map: [:v| W to: U map: [:w| f value: A domain !! {v. w}]]].
-	self testModuleMap: φ.
-	self assert: φ isIsomorphism! !
-
-!AbstractVectorSpaceTest methodsFor: 'tensor product' stamp: 'len 12/15/2021 14:29:26'!
-testTensorProductOfLinearForms
-	| V W f g t v w |
-	V _ self newFreeModule.
-	W _ self newFreeModule.
-	f _ V dual atRandom: random bits: 10.
-	g _ W dual atRandom: random bits: 10.
-	t _ f ⊗ g.
-	self assert: t domain = (V ⊗ W).
-	self assert: t codomain = (f codomain ⊗ g codomain).
-	v _ V atRandom: random bits: 10.
-	w _ W atRandom: random bits: 10.
-	self assert: (t value: t domain !! {v. w}) = (t codomain !! {f value: v. g value: w})! !
-
-!AbstractVectorSpaceTest methodsFor: 'private' stamp: 'len 3/24/2021 08:02:48'!
-newVectorSpace
-	^ self newFreeModule! !
-
-!AbstractVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:14:39'!
-testAdjointAndAnnihilator
-	| V W f a |
-	V _ scalars ^ (3 atRandom: random).
-	W _ scalars ^ (5 atRandom: random).
-	f _ V ⇒ W atRandom: random bits: 100.
-	a _ f adjoint.
-	self assert: a kernel = f image annihilatorSpace.
-	self assert: a image = f kernel annihilatorSpace.
-	self assert: f isSurjective = a isInjective.
-	self assert: f isInjective = a isSurjective! !
-
-!AbstractVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 4/6/2021 14:55:41'!
-testSubspaceOfSubspace
-	| V S s T t |
-	[V _ self newVectorSpace. V rank > 2] whileFalse.
-	S _ (V grassmannian: 2) atRandom: random bits: (100 atRandom: random).
-	T _ (S grassmannian: 1) atRandom: random bits: (100 atRandom: random).
-	self assert: S < V.
-	self assert: T < S.
-	self assert: T < V.
-	[s _ S atRandom: random bits: (100 atRandom: random). T includes: s] whileTrue.
-	[t _ T atRandom: random bits: (100 atRandom: random). t isZero] whileTrue.
-	self assert: (S includes: s).
-	self assert: (S includes: t).
-	self assert: (T includes: t)! !
-
-!AbstractVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:34:32'!
-testSubspaceSumRandom
-	| V S T U |
-	V _ self newVectorSpace.
-	S _ (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (100 atRandom: random).
-	T _ (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (100 atRandom: random).
-	U _ S + T.
-	self assert: S <= U.
-	self assert: T <= U! !
-
-!BinaryFieldVectorSpaceTest methodsFor: 'initialization' stamp: 'len 3/24/2021 08:37:49'!
-initialize
-	super initialize.
-	scalars _ ℤ/2! !
-
-!BinaryFieldVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 07:42:58'!
-testKernelZ2
-	| V f kernel |
-	V _ (PrimeField new: 2) ^ 3.
-	f _ V dual map: [:v| v sum].
-	kernel _ f kernel.
-	self assert: (kernel apply: f) isTrivial.
-	self assert: kernel rank = 2.
-	self assert: (kernel includes: V !! (0,1,1))! !
-
-!BinaryFieldVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 07:43:04'!
-testLinearFormZ2
-	| V f |
-	V _ (PrimeField new: 2) ^ 4.
-	f _ V dual map: [:v| v sum].
-	self assert: f domain = V.
-	self assert: f kernel rank = 3.
-	self assert: f image rank = 1.
-	self assert: (f kernel includes: V !! (1,1,1,1))! !
-
-!BinaryFieldVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:40:45'!
-testModuleMapZ2
-	| V f kernel v |
-	V _ (PrimeField new: 2) ^ ((5 atRandom: random) + 1).
-	[f _ V endomorphisms atRandom: random.
-	(kernel _ f kernel) isTrivial or: [kernel = V]] whileTrue. "find one with non-trivial kernel"
-	[v _ V atRandom: random. kernel includes: v] whileTrue.
-	self assert: (f value: v) isZero not.
-	v _ kernel atRandom: random.
-	self assert: (f value: v) isZero! !
-
-!BinaryFieldVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:18:13'!
-testPerpZ2
-	| V S perp |
-	V _ (ℤ / 2) ^ 3.
-	S _ V span: {(1,1,1) % 2}.
-	perp _ S complement.
-	self assert: perp rank = 2.
-	self assert: (S basis first · perp basis first) isZero.
-	self assert: (S basis first · perp basis second) isZero! !
-
-!CyclotomicFieldVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2021 12:47:15'!
-initialize
-	super initialize.
-	scalars _ CyclotomicField new: 3 atRandom + 2! !
-
-!FiniteFieldVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2021 07:51:41'!
-initialize
-	super initialize.
-	scalars _ GaloisField new: 10 atRandom nextPrime to: 3 atRandom! !
-
-!QuadraticFieldVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 3/23/2021 13:51:16'!
-initialize
-	super initialize.
-	scalars _ QuadraticField sqrt: -5! !
-
-!RationalVectorSpaceTest methodsFor: 'initialization' stamp: 'len 3/23/2021 13:49:39'!
-initialize
-	super initialize.
-	scalars _ ℚ! !
-
-!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 07:43:10'!
-testLinearForm1
-	| V f |
-	V _ ℚ ^ 3.
-	f _ V dual map: [:v| v x + v y - v z].
-	self assert: (f value: (1,1,1)) = 1.
-	self assert: (f value: (2,2,1)) = 3.
-	self assert: (f value: (3,1, -1)) = 5! !
-
-!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 07:43:15'!
-testLinearForm2
-	| V f |
-	V _ ℚ ^ 3.
-	f _ V dual map: [:v| v x + v y - v z].
-	self assert: f domain = V.
-	self assert: f kernel rank = 2.
-	self assert: f image rank = 1! !
-
-!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:41:14'!
-testLinearFormAsPolynomial
-	| V f x |
-	V _ ℚ ^ (5 atRandom: random).
-	f _ V dual atRandom: random bits: 100.
-	x _ V atRandom: random bits: 100.
-	self assert: (f value: x) = (f asPolynomial value: x).
-	self assert: f parent !! f asPolynomial = f! !
-
-!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:23:57'!
-testMapsInducedByHom
-	"Example from 'A Singular Introduction to Commutative Algebra', Example 2.1.7 (Maps Induced by Hom)."
-	| X Y Z f g h yz zx |
-	X _ ℚ^3.
-	Y _ ℚ^3.
-	Z _ ℚ^2.
-	f _ X to: Y matrix: (ℚ^3) endomorphisms !! (1 to: 9).
-	g _ f ⇒ Z. "Hom(-,Z)"
-	self assert: g domain = (Y ⇒ Z). "it is contravariant"
-	self assert: g codomain = (X ⇒ Z).
-	self assert: g asMatrix = ((ℚ^2) id ⊗ f asMatrix transpose).
-	yz _ Y ⇒ Z atRandom: random bits: 100.
-	self assert: (g value: yz) = (yz · f).
-	h _ Z ⇒ f. "Hom(Z,-)"
-	self assert: h domain = (Z ⇒ X). "it is covariant"
-	self assert: h codomain = (Z ⇒ Y).
-	self assert: h asMatrix = (f asMatrix ⊗ (ℚ^2) id).
-	zx _ Z ⇒ X atRandom: random bits: 100.
-	self assert: (h value: zx) = (f · zx)! !
-
-!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:25:50'!
-testPerpExample
-	| V S p perp |
-	V _ ℚ ^ 3.
-	S _ V span: {(1, 1, 1). (2, 0, -2)}.
-	perp _ S complement.
-	self assert: perp rank = 1.
-	self assert: (perp basis first · S basis first) isZero.
-	self assert: (perp basis first · S basis second) isZero.
-	p _ S orthogonalProjection.
-	self assert: p kernel = perp! !
-
-!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:04:35'!
-testPerpProperties
-	| V S T |
-	V _ ℚ ^ 3.
-	S _ V span: {(1, 1, 1). (2, 0, -2)}.
-	T _ V span: {(1, -1, -3)}. "subspace of S"
-	self assert: S + S complement = V.
-	self assert: T + T complement = V.
-	self assert: (S ∩ S complement) isTrivial.
-	self assert: S <= S complement complement.
-	self assert: S complement < T complement "because S > T"! !
-
-!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:38:55'!
-testQuotientSpaceExample
-	| V M x |
-	V _ ℚ^3.
-	M _ V / {V !! (1,2,3)}.
-	x _ V → M value: (1,2,3).
-	self assert: x isZero.
-"	self assert: (M lifting value: x) = (0,0,0)"! !
-
-!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:04:41'!
-testSubspaceIntersectionAndSumExample
-	"Example from wikipedia Zassenhaus algorithm"
-	| V U W |
-	V _ ℚ ^ 4.
-	U _ V span: {(1,-1,0,1). (0,0,1,-1)}.
-	W _ V span: {(5,0,-3,3). (0,5,-3,-2)}.
-	self assert: U + W = (V span: {(1,0,0,0). (0,1,0,-1). (0,0,1,-1)}).
-	self assert: U ∩ W = (V span: {(1,-1,0,1)})! !
-
-!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:04:58'!
-testSubspaceIntersectionExample
-	| V S T T2 |
-	V _ ℚ ^ 3.
-	S _ V span: {(1, 1, 1). (2, 0, -2)}.
-	self assert: S ∩ V = S.
-	self assert: S ∩ S = S.
-	T _ V span: {(3,1,-1)}.
-	self assert: S ∩ T = T.
-	T2 _ V span: {(3,1,-1). (0,1,0)}.
-	self assert: S ∩ T2 = T! !
-
-!TernaryFieldVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 17:24:00'!
-initialize
-	super initialize.
-	scalars _ ℤ/3! !
-
-!CyclotomicIntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/26/2021 10:20:31'!
-initialize
-	super initialize.
-	scalars _ (CyclotomicField new: 3 atRandom + 2) integers! !
-
-!EisensteinIntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:23:50'!
-initialize
-	super initialize.
-	scalars _ (CyclotomicField new: 3) integers! !
-
-!GaloisRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 10:56:30'!
-initialize
-	super initialize.
-	scalars _ GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom! !
-
-!GaloisRingMultivariatePolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:32:37'!
-initialize
-	super initialize.
-	scalars _ (GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom) polynomialsIn: 2! !
-
-!GaussianIntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 1/7/2022 13:52:03'!
-initialize
-	super initialize.
-	scalars _ GaussianField new integers! !
-
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/23/2021 13:49:57'!
-initialize
-	super initialize.
-	scalars _ ℤ! !
-
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2021 08:28:50'!
-testFreeModuleDiscriminant
-	"From Sage documentation of FreeModule."
-	| M |
-	M _ ℤ^3.
-	self assert: M discriminant = 1.
-	self assert: (M span: {(1,2,3)}) discriminant = 14.
-	self assert: (M span: {(1,2,3). (1,1,1)}) discriminant = 6! !
-
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:22:19'!
-testHomBug
-	| V |
-	V _ ℤ^1 / {5}.
-	self assert: V dual isTrivial.
-	self assert: V dual invariants isEmpty! !
-
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:15:38'!
-testHomBug2
-	| V W |
-	V _ ℤ^1 / {2}.
-	W _ ℤ^(5 atRandom: random).
-	self assert: (V ⇒ W) isTrivial! !
-
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:24:03'!
-testHomExample
-	| A B H |
-	A _ (ℤ/4) asAbelianGroup.
-	B _ (ℤ/2) asAbelianGroup.
-	H _ A ⇒ B.
-	self assert: H generators size = 1.
-	self assert: H generator = (A to: B map: [:x| B elementAt: {x representative \\ 2}]).
-	self assert: H size = 2.
-	H _ B ⇒ A.
-	self assert: H generators size = 1.
-	self assert: H generator = (B to: A map: [:x| A elementAt: {x representative * 2}]).
-	self assert: H size = 2! !
-
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:10:57'!
-testInvariantsAndIsomorphismExample
-	| M |
-	M _ ℤ^3 / {(0,-2,1). (-2,0,1)}.
-	self assert: M invariants = #(0 2).
-	self assert: M ~ (ℤ^1 / {2} ⊕ (ℤ^1))! !
-
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:11:08'!
-testInvariantsAndIsomorphismExample2
-	| M |
-	M _ ℤ^3 / {(2,1,0)}.
-	self assert: M invariants = #(0 0).
-	self assert: M ~ (ℤ^2)! !
-
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:11:19'!
-testInvariantsAndIsomorphismExample3
-	| M |
-	M _ ℤ^1 / {2} ⊕ (ℤ^1) / {(1,2)}.
-	self assert: M invariants = #(4).
-	self assert: M ~ (ℤ^1/{4})! !
-
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:42:48'!
-testModuleMapBug
-	| M f |
-	M _ ℤ^1 / {2}.
-	f _ M dual atRandom: random bits: 100.
-	self testModuleMap: f! !
-
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 9/18/2022 06:08:16'!
-testModuleMapBug2
-	| M N |
-	M _ ℤ^1/{3}.
-	N _ ℤ^1.
-	"these are not valid module homomorphisms:"
-	self should: [M to: N images: #(1)] raise: DomainError withMessageText: 'invalid morphism'.
-	self should: [M to: N images: #(2)] raise: DomainError withMessageText: 'invalid morphism'! !
-
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:24:01'!
-testQuotientModuleAnnihilator
-	"Example from Sage (removed denominators)"
-	| v1 v2 v3 V W |
-	v1 _ (1,0,0). v2 _ (3,4,2). v3 _ (0,0,2).
-	V _ ℤ^3 span: {v1. v2. v3}.
-	W _ V ambient span: {v1 + (v2*2). v1*9 + (v2*2). v3*4}.
-	self assert: (V/W) annihilator = (ℤ*16)
-	
-"original with denominators:
-	| v1 v2 v3 V W |
-	v1 _ (1/2,0,0). v2 _ (3/2,2,1). v3 _ (0,0,1).
-	V _ QQ^3 span: {v1. v2. v3} over: ℤ.
-	W _ QQ^3 span: {v1 + (v2*2). v1*9 + (v2*2). v3*4} over: ℤ.
-	self assert: (V/W) annihilator = (ℤ*16)
-"! !
-
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/18/2021 12:46:45'!
-testQuotientModuleBug
-	| M a |
-	M _ ℤ^2/{(0,2)}.
-	a _ M !! (3,0).
-	self assert: a representative = (3,0).
-	self assert: (a*2) representative = (6,0)! !
-
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:24:11'!
-testQuotientModuleInvariants
-	"Example from Sage (removed denominators)"
-	| v1 v2 v3 V W |
-	v1 _ (1,2,2). v2 _ (3,4,2). v3 _ (0,0,2).
-	V _ ℤ^3 span: {v1. v2. v3}.
-	W _ V ambient span: {v1*2 + (v2*4). v1*9 + (v2*12). v3*4}.
-	self assert: (V/W) invariants = #(4 12)
-
-"original with denominators:
-	| v1 v2 v3 V W |
-	v1 _ (1/2,1,1). v2 _ (3/2,2,1). v3 _ (0,0,1).
-	V _ QQ^3 span: {v1. v2. v3} over: ℤ.
-	W _ QQ^3 span: {v1*2 + (v2*4). v1*9 + (v2*12). v3*4} over: ℤ.
-	self assert: (V/W) invariants = #(4 12)
-"! !
-
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:24:19'!
-testQuotientModuleInvariants2
-	"Example from Sage"
-	| V W |
-	V _ ℤ^3.
-	W _ V span: {(1,2,0). (0,1,0). (0,2,0)}.
-	self assert: (V/W) invariants = #(0) "from example in sage fgp_module.py"! !
-
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:24:30'!
-testQuotientModuleIsFinite
-	"Example from Sage (removed denominators)"
-	| v1 v2 v3 V W |
-	v1 _ (1,0,0). v2 _ (3,4,2). v3 _ (0,0,2).
-	V _ ℤ^3 span: {v1. v2. v3}.
-	W _ V ambient span: {v1 + (v2*2). v1*9 + (v2*2). v3*4}.
-	self assert: (V/W) isFinite.
-	W _ V null.
-	self assert: (V/W) isFinite not
-
-"original with denominators:
-	| v1 v2 v3 V W |
-	v1 _ (1/2,0,0). v2 _ (3/2,2,1). v3 _ (0,0,1).
-	V _ QQ^3 span: {v1. v2. v3} over: ℤ.
-	W _ QQ^3 span: {v1 + (v2*2). v1*9 + (v2*2). v3*4} over: ℤ.
-	self assert: (V/W) isFinite.
-	W _ V null.
-	self assert: (V/W) isFinite not
-"! !
-
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:24:39'!
-testQuotientModuleSpanBug
-	"The span is the original module, but it answers a submodule."
-	| M |
-	M _ ℤ^2 / {(1,2)}.
-	self assert: M = (M span: M generators)! !
-
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:05:23'!
-testSubmoduleIntersectionExample
-	| M S T T2 |
-	M _ ℤ ^ 3.
-	S _ M span: {(1, 1, 1). (2, 0, -2)}.
-	self assert: S ∩ M = S.
-	self assert: M ∩ S = S.
-	self assert: S ∩ S = S.
-	T _ M span: {(3,1,-1)}.
-	self assert: S ∩ T = T.
-	T2 _ M span: {(3,1,-1). (0,1,0)}.
-	self assert: S ∩ T2 = T! !
-
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:17:27'!
-testSubquotientContainsBug
-	| V v S |
-	V _ ℤ / 5 :: asAbelianGroup.
-	v _ V elementAt: #(4).
-	S _ V span: {v}.
-	self assert: (S contains: v * 3)! !
-
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2022 11:22:25'!
-testSyzygies1
-	| V |
-	V _ ℤ^2 / {(2,0)}.
-	self assert: (V elementAt: (V relations atRandom: random bits: 100)) isZero! !
-
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:15:49'!
-testSyzygies2
-	| V W X |
-	V _ ℤ^2 / {(2,0)}.
-	W _ ℤ^3 / {(2,2,2)}.
-	X _ V ⇒ W.
-	self assert: (X elementAt: (X relations atRandom: random bits: 100)) isZero! !
-
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:13:27'!
-testTensorProductExample
-	self assert: ℤ^1 ⊗ (ℤ^1/{2}) ~ (ℤ^1/{2})! !
-
-!LocalIntegerRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/23/2022 13:16:57'!
-initialize
-	super initialize.
-	scalars _ ℤ @ (ℤ * 64 atRandom nextPrime)! !
-
-!ModularIntegerModuleTest methodsFor: 'initialization' stamp: 'len 4/2/2021 11:13:47'!
-initialize
-	super initialize.
-	scalars _ ℤ/(2 to: 64) atRandom! !
-
-!ModularIntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:22:53'!
-testExampleModulesOverZ12
-	| M A B |
-	M _ ℤ/12^3.
-	A _ M span: {(4,1,0). (0,0,5)}.
-	B _ M span: {(8,5,5). (0,9,8). (0,0,10)}.
-	self assert: A = B! !
-
-!ProductRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2022 05:02:42'!
-initialize
-	super initialize.
-	scalars _ ℤ × (ℤ/(64 atRandom + 1))! !
-
-!QuadraticRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 1/9/2022 08:34:16'!
-initialize
-	| n |
-	super initialize.
-	[(n _ (2 to: 100) atRandom squarefreePart) > 1] whileFalse.
-	2 atRandom = 1 ifTrue: [n _ n negated].
-	scalars _ (QuadraticField sqrt: n) integers! !
-
-!RationalMultivariatePolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/30/2021 14:16:08'!
-initialize
-	super initialize.
-	scalars _ ℚ polynomialsIn: 2! !
-
-!RationalPolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/23/2021 13:50:37'!
-initialize
-	super initialize.
-	scalars _ ℚ polynomials! !
-
-!AbstractModuleTODOTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:39:02'!
-testPullbackSquaresSharingMorphism
-	| A B C D f g h P r s Q t u |
-	C _ self newSmallFreeModule.
-	A _ self newSmallFreeModule.
-	B _ self newSmallFreeModule.
-	D _ self newSmallFreeModule.
-	f _ A ⇒ C atRandom: random bits: 20.
-	g _ B ⇒ C atRandom: random bits: 20.
-	h _ D ⇒ B atRandom: random bits: 20.
-	P _ f ∧ g.
-	r _ P ⇉ (A, B) at: 1.
-	s _ P ⇉ (A, B) at: 2.
-	Q _ s ∧ h.
-	t _ Q ⇉ (P, D) at: 1.
-	u _ Q ⇉ (P, D) at: 2.
-	self assert: (r · t) → f = (u → (g · h))! !
-
-!AbstractModuleTODOTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:39:13'!
-testPushoutSquaresSharingMorphism
-	| A B C D f g h P i j Q k l |
-	C _ self newSmallFreeModule.
-	A _ self newSmallFreeModule.
-	B _ self newSmallFreeModule.
-	D _ self newSmallFreeModule.
-	f _ C ⇒ A atRandom: random bits: 20.
-	g _ C ⇒ B atRandom: random bits: 20.
-	h _ B ⇒ D atRandom: random bits: 20.
-	P _ f ∨ g.
-	i _ P ⇇ (A, B) at: 1.
-	j _ P ⇇ (A, B) at: 2.
-	Q _ j ∨ h.
-	k _ Q ⇇ (P, D) at: 1.
-	l _ Q ⇇ (P, D) at: 2.
-	self assert: f → (k · i) = (h · g → l)! !
-
-!CliffordAlgebraModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/26/2021 10:19:57'!
-initialize
-	super initialize.
-	scalars _ CliffordAlgebra on: (QuadraticForm from: ℚ^3 coefficients: #(1 0 0 1 0 1))! !
-
-!MatrixAlgebraModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/22/2021 12:38:15'!
-initialize
-	super initialize.
-	scalars _ (ℤ/256 atRandom nextPrime^2 atRandom) endomorphisms! !
-
-!QuaternionAlgebraModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/25/2021 12:09:23'!
-initialize
-	super initialize.
-	scalars _ QuaternionAlgebra over: ℚ invariants: #(1 1)! !
 
 !AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 5/23/2020 09:33:01'!
 testAffinePlaneCurveMultiplicity
@@ -11757,6 +7075,4696 @@ testGramian
 		[x _ Q domain atRandomBits: 100 atRandom.
 		self assert: (Q value: x) = (x · (M * x))]! !
 
+!RandomizedTestCase methodsFor: 'copying' stamp: 'len 5/25/2023 07:45:00'!
+copy
+	^ super copy setSeed: seed! !
+
+!RandomizedTestCase methodsFor: 'setUp/tearDown' stamp: 'len 8/5/2022 09:49:31'!
+setUp
+	super setUp.
+	random _ Random seed: seed! !
+
+!RandomizedTestCase methodsFor: 'setUp/tearDown' stamp: 'len 4/20/2021 06:56:32'!
+tearDown
+	super tearDown.
+	random _ nil! !
+
+!RandomizedTestCase methodsFor: 'private' stamp: 'len 5/20/2023 16:45:01'!
+initialize
+	super initialize.
+	seed := 16rFFFFFFFF atRandom! !
+
+!RandomizedTestCase methodsFor: 'private' stamp: 'len 5/25/2023 07:44:41'!
+setSeed: anInteger
+	seed := anInteger! !
+
+!RandomizedTestCase class methodsFor: 'testing' stamp: 'len 5/25/2023 07:43:42'!
+isAbstract
+	^ thisContext methodClass == self class or: [self name beginsWith: 'Abstract']! !
+
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2022 14:43:41'!
+testExtendedBuchbergerWithCyclic3
+	| R I A basisAndTransformation G T |
+	R _ scalars polynomialsIn: 3.
+	I _ R cyclicIdeal.
+	I _ I orderedBy: #grevlex.
+	A _ I generatorMatrix.
+	basisAndTransformation _ A basisAndTransformation.
+	G _ basisAndTransformation first.
+	T _ basisAndTransformation second.
+	self assert: A * T = G! !
+
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:15:37'!
+testGroebnerBasis: G ideal: I
+	"Test G is a Groebner basis of the ideal I."
+	| g division |
+"	self assert: G verify."
+	I isTrivial ifTrue: [^ self assert: G isEmpty].
+	I generators do: [:each| self assert: (each reductionBy: G) isZero].
+	G do: [:each| self assert: (I includes: each)]. "but this will use Groebner bases.."
+	[g := I atRandom: random bits: 200. g isZero] whileTrue.
+	self assert: (g reductionBy: G) isZero.
+	"The leading term of any polynomial in I is divisible by the leading term of some polynomial in G:"
+	self assert: (G anySatisfy: [:any| any leadingMonomial | g leadingMonomial]).
+	"The multivariate division of any polynomial in I by G gives the remainder 0:"
+	division := g divisionBy: G.
+	self assert: division remainder isZero.
+	division validate.
+"	self assert: G reduced isReduced.
+	self assert: G minimal isMinimal"! !
+
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:06:13'!
+testGroebnerCyclic3
+	| I G |
+	I _ (scalars polynomialsIn: 3) cyclicIdeal.
+	G _ I basis.
+	self testGroebnerBasis: G ideal: I! !
+
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:07:18'!
+testGroebnerCyclic3Lexicographic
+	| I G |
+	I _ (scalars polynomialsIn: 3 ordering: #lex) cyclicIdeal.
+	G _ I basis.
+	self testGroebnerBasis: G ideal: I! !
+
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:07:35'!
+testGroebnerCyclic3TotalLexicographic
+	| I G |
+	I _ (scalars polynomialsIn: 3 ordering: #glex) cyclicIdeal.
+	G _ I basis.
+	self testGroebnerBasis: G ideal: I! !
+
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:07:46'!
+testGroebnerCyclic3TotalReverseLexicographic
+	| I G |
+	I _ (scalars polynomialsIn: 3 ordering: #grevlex) cyclicIdeal.
+	G _ I basis.
+	self testGroebnerBasis: G ideal: I! !
+
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/29/2022 19:37:28'!
+testGroebnerKatsura2
+	| I G |
+	I _ (scalars polynomialsIn: 2) katsuraIdeal.
+	G _ I basis.
+	self testGroebnerBasis: G ideal: I! !
+
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/29/2022 19:37:35'!
+testGroebnerKatsura3
+	| I G |
+	I _ (scalars polynomialsIn: 3) katsuraIdeal.
+	G _ I basis.
+	self testGroebnerBasis: G ideal: I! !
+
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:15:58'!
+testIdealMembership
+	| R f1 f2 f3 I g |
+	R := scalars polynomialsIn: (3 atRandom: random).
+	[(f1 := R atRandom: random bits: 10) isZero] whileTrue.
+	[(f2 := R atRandom: random bits: 10) isZero] whileTrue.
+	[(f3 := R atRandom: random bits: 10) isZero] whileTrue.
+	I := R * {f1. f2. f3}.
+	g := I atRandom: random bits: 100.
+	self assert: (I includes: g)! !
+
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:05:01'!
+testZeroIdeal
+	| R I f |
+	R _ scalars polynomialsIn: (3 atRandom: random).
+	I _ R * #(). "the zero ideal {0}"
+	self assert: I isTrivial.
+	self assert: (I includes: R zero).
+	[f _ R atRandom: random bits: 10. f isZero] whileTrue.
+	self deny: (I includes: f)! !
+
+!FiniteFieldGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:58:16'!
+initialize
+	super initialize.
+	scalars _ GaloisField new: 5 atRandom nextPrime to: 3 atRandom! !
+
+!GaloisRingGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:12:06'!
+initialize
+	super initialize.
+	scalars _ GaloisRing new: 5 atRandom nextPrime to: 3 atRandom to: 2 atRandom! !
+
+!IntegerGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:58:29'!
+initialize
+	super initialize.
+	scalars _ ℤ! !
+
+!ModularIntegerGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:11:24'!
+initialize
+	super initialize.
+	scalars _ ℤ/1024 atRandom! !
+
+!RationalGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:59:15'!
+initialize
+	super initialize.
+	scalars _ ℤ! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:25:17'!
+testDivisibility
+	20 timesRepeat:
+		[| a b |
+		a _ R atRandom: random bits: 30.
+		b _ R atRandom: random bits: 30.
+		self assert: (a isZero or: [a | (a*b)])]! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:25:31'!
+testDivisionByUnits
+	10 timesRepeat:
+		[| x u |
+		x _ R atRandom: random bits: 30.
+		u _ R units atRandom: random.
+		self assert: x * u / u = x.
+		self assert: x / u = (x * u inverse)]! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/14/2023 13:47:41'!
+testExactDivision
+	20 timesRepeat:
+		[| a b |
+		a _ R atRandom: random bits: 30.
+		b _ a * (R atRandom: random bits: 30).
+		self assert: (a isZero or: [a * (b ÷ a) = b])]! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:23:37'!
+testLeftDivision
+	20 timesRepeat:
+		[| a b |
+		a _ R atRandom: random bits: 30.
+		b _ a * (R atRandom: random bits: 30).
+		self assert: (a isZero or: [a * (a \ b) = b])]! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 12:36:42'!
+testLiftColiftOfZero
+	self assert: (R zero colift: R zero) = R zero.
+	self assert: (R zero lift: R zero) = R zero! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:23:08'!
+testRightDivision
+	20 timesRepeat:
+		[| a b |
+		a _ R atRandom: random bits: 30.
+		b _ (R atRandom: random bits: 30) * a.
+		self assert: (a isZero or: [(b / a) * a = b])]! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 11:25:34'!
+testRing
+	self testRingAxioms: R.
+	R hasCanonicalAssociates ifTrue: [self testRingCanonicalAssociates: R].
+	R isInvolutive ifTrue: [self testRingInvolution: R]! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2022 09:23:36'!
+testRingAxioms: aRing
+	| one zero a b c |
+	one _ aRing one.
+	zero _ aRing zero.
+	20 timesRepeat:
+		[a _ aRing atRandom: random bits: 20.
+		b _ aRing atRandom: random bits: 20.
+		c _ aRing atRandom: random bits: 20.
+		self assert: a * one = a.
+		self assert: one * a = a.
+		self assert: zero * a = zero.
+		self assert: a * zero = zero.
+		self assert: zero + a = a.
+		self assert: a + zero = a.
+		"additive inverse"
+		self assert: a - a = zero.
+		self assert: a + b - b = a. "not really necessary to test this, but there was a bug before"
+		"commutativity of addition:"
+		self assert: a + b = (b + a).
+		"associativity of addition:"
+		self assert: a + b + c = (a + (b + c)).
+		"associativity of multiplication:"
+		self assert: a * b * c = (a * (b * c)).
+		"distributivity:"
+		self assert: (a + b) * c = (a * c + (b * c)).
+		"commutativity of multiplication:"
+		aRing isCommutative ifTrue: [self assert: a * b = (b * a)]]! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2022 12:14:02'!
+testRingCanonicalAssociates: aRing
+	100 timesRepeat:
+		[| x u |
+		x _ aRing atRandom: random bits: 30.
+		u _ (aRing atRandom: random bits: 30) normalization.
+		self assert: x normalization isUnit.
+		self assert: u normalization = u inverse.
+		self assert: u * u inverse = aRing one.
+		self assert: u normalized = aRing one.
+		self assert: x * x normalization = x normalized.
+		self assert: x normalized = (x * u) normalized]! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/14/2022 08:38:35'!
+testRingHomomorphism: φ
+	| A B x y |
+	A _ φ domain.
+	B _ φ codomain.
+	x _ A atRandom: random bits: 10.
+	y _ A atRandom: random bits: 10.
+	self assert: (φ value: A zero) = B zero.
+	self assert: (φ value: A one) = B one.
+	self assert: (φ value: x + y) = ((φ value: x) + (φ value: y)).
+	self assert: (φ value: x * y) = ((φ value: x) * (φ value: y))! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/8/2023 18:45:16'!
+testRingInvolution: aRing
+	| a b |
+	self assert: aRing one conjugate = aRing one.
+	100 timesRepeat:
+		[a _ aRing atRandom: random bits: 20.
+		b _ aRing atRandom: random bits: 20.
+		self assert: (a + b) conjugate = (a conjugate + b conjugate).
+		self assert: (a * b) conjugate = (b conjugate * a conjugate).
+		self assert: a conjugate conjugate = a]! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:01:09'!
+testRingUnits
+	10 timesRepeat:
+		[| u |
+		u _ R units atRandom: random.
+		self assert: u isUnit.
+		self assert: u * u inverse = R one]! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:01:28'!
+testUnitsAreDivisorsOfEveryElement
+	10 timesRepeat:
+		[| x u |
+		x _ R atRandom: random bits: 30.
+		u _ R units atRandom: random.
+		self assert: u | x]! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 23:37:57'!
+testZeroPower
+	self assert: R zero ^ 2 = R zero.
+	self assert: R zero ^ 0 = R one! !
+
+!AbstractAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:42:41'!
+testAlgebra
+	self testAlgebraAxioms: R! !
+
+!AbstractAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/15/2021 19:41:50'!
+testAlgebraAxioms: anAlgebra
+	| one zero x y z a |
+	one _ anAlgebra one.
+	zero _ anAlgebra zero.
+	100 timesRepeat:
+		[x _ anAlgebra atRandom: random bits: 20.
+		y _ anAlgebra atRandom: random bits: 20.
+		z _ anAlgebra atRandom: random bits: 20.
+		a _ anAlgebra scalars atRandom: random bits: 20.
+		self assert: x * one = x.
+		self assert: one * x = x.
+		self assert: zero * x = zero.
+		self assert: x * zero = zero.
+		self assert: zero + x = x.
+		self assert: x + zero = x.
+		"commutativity of addition:"
+		self assert: x + y = (y + x).
+		"associativity of addition:"
+		self assert: x + y + z = (x + (y + z)).
+		"associativity of multiplication:"
+		self assert: x * y * z = (x * (y * z)).
+		"distributivity:"
+		self assert: (x + y) * z = (x * z + (y * z)).
+		self assert: z * (x + y) = (z * x + (z * y)).
+		"biliniarity of multiplication:"
+		self assert: x * y * a = (x * (y * a)).
+		self assert: x * y * a = (x * a * y).
+		"commutativity of multiplication:"
+		anAlgebra isCommutative ifTrue: [self assert: x * y = (y * x)]]! !
+
+!AbstractAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:34:28'!
+testScalarEmbedding
+	| a |
+	self testRingHomomorphism: R scalars → R.
+	a _ R scalars atRandom: random bits: 20.
+	self assert: (R scalars → R value: a) = (R one * a).
+	self assert: R !! a = (R one * a)! !
+
+!AbstractFiniteAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/21/2021 13:59:18'!
+testCharacteristicPolynomialAndMinimalPolynomial
+	| x f µ |
+	x _ R atRandom: random bits: 20.
+	f _ x characteristicPolynomial.
+	self assert: f isMonic.
+	self assert: (f value: x) isZero.
+	R scalars isIntegralDomain ifTrue:
+		[µ _ x minimalPolynomial.
+		self assert: µ isMonic.
+		self assert: (µ value: x) isZero.
+		self assert: µ | f]! !
+
+!AbstractFiniteAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/21/2021 14:02:15'!
+testNormAndTrace
+	| x y a |
+	x _ R atRandom: random bits: 100.
+	y _ R atRandom: random bits: 100.
+	a _ R scalars atRandom: random bits: 10.
+	self assert: (x * a + y) trace = (x trace * a + y trace).
+	self assert: (x * y) norm = (x norm * y norm)! !
+
+!AbstractMaximalOrderTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:05'!
+testCoercionToAndFromFractions
+	| x |
+	x := R atRandom: random bits: 100.
+	self assert: R !! (R fractions !! x) = x! !
+
+!AbstractMaximalOrderTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:34:34'!
+testHomomorphismToFractions
+	self testRingHomomorphism: R → R fractions! !
+
+!CyclotomicRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2021 12:13:25'!
+initialize
+	super initialize.
+	R _ (CyclotomicField new: 3 atRandom + 2) integers! !
+
+!QuadraticRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/9/2022 08:34:42'!
+initialize
+	| n |
+	super initialize.
+	[(n _ (2 to: 100) atRandom squarefreePart) > 1] whileFalse.
+	2 atRandom = 1 ifTrue: [n _ n negated].
+	R _ (QuadraticField sqrt: n) integers! !
+
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/25/2021 12:21:35'!
+initialize
+	super initialize.
+	R _ CliffordAlgebra on: (QuadraticForm from: ℚ^3 coefficients: #(1 0 0 1 0 1))! !
+
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:19:57'!
+testCliffordAlgebraDualGrade
+	| x k |
+	k _ (0 to: R degree) atRandom: random.
+	x _ (R grade: k) atRandom: random bits: 10.
+	self assert: ((R grade: R degree - k) includes: x dual)! !
+
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:01:34'!
+testCliffordAlgebraDualProperties
+	| x y |
+	x _ R atRandom: random bits: 10.
+	y _ R atRandom: random bits: 10.
+	self assert: x ·| y dual = (x ∧ y) dual.
+	self assert: x ∧ y dual = (x ·| y) dual! !
+
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:20:22'!
+testCliffordAlgebraEvenSubalgebra
+	| E x |
+	E _ R evenSubalgebra.
+	x _ E atRandom: random bits: 10.
+	self assert: x = x reflection! !
+
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:21:03'!
+testCliffordAlgebraGradeInvolution
+	| x y v |
+	x _ R atRandom: random bits: 10.
+	y _ R atRandom: random bits: 10.
+	v _ R !! (R space atRandom: random bits: 10).
+	self assert: (x*y) reflection = (x reflection * y reflection).
+	self assert: v reflection = v negated! !
+
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:21:54'!
+testCliffordAlgebraGradeProjection
+	| x k j |
+	k _ (0 to: R degree) atRandom: random.
+	[j _ (0 to: R degree) atRandom: random. j = k] whileTrue.
+	x _ R atRandom: random bits: 20.
+	self assert: ((R grade: k) includes: (x grade: k)).
+	self assert: (((R grade: j) includes: (x grade: k)) not or: [(x grade: k) isZero]).
+	x _ (R grade: k) atRandom: random bits: 10.
+	self assert: (x grade: k) = x.
+	self assert: (x grade: j) isZero! !
+
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:23:20'!
+testCliffordAlgebraHomogeneousElements
+	| x |
+	x _ (R grade: 0) atRandom: random bits: 10.
+	self assert: x isScalar.
+	x _ (R grade: 1) atRandom: random bits: 10.
+	self assert: x isVector.
+	x _ (R grade: 2) atRandom: random bits: 10.
+	self assert: x isBivector! !
+
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:23:43'!
+testCliffordAlgebraInverse
+	| a |
+	[a _ R atRandom: random bits: 10.
+	a isUnit] whileFalse.
+	self assert: a * a inverse = R one.
+	self assert: a inverse * a = R one! !
+
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:24:20'!
+testCliffordAlgebraMultiplication
+	| Q V C x y z |
+	V _ ℚ^3.
+	Q _ QuadraticForm from: V coefficients: (1 to: 6).
+	C _ CliffordAlgebra on: Q.
+	x _ C !! (V x: 1).
+	y _ C !! (V x: 2).
+	z _ C !! (V x: 3).
+	self assert: y*x = ((x*y) negated + 2).
+	self assert: z*x = ((x*z) negated + 3).
+	self assert: z*z = (C !! 6).
+	self assert: (x*0) isZero.
+	self assert: (0*x) isZero! !
+
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:20'!
+testCliffordAlgebraProductsProperties
+	| x y z one |
+	x := R atRandom: random bits: 10.
+	y := R atRandom: random bits: 10.
+	z := R atRandom: random bits: 10.
+	"Associativity of wedge product:"
+	self assert: x ∧ (y ∧ z) = (x ∧  y ∧ z).
+	"Associativity of left and right interior products:"
+	self assert: x ·| (y |· z) = (x ·| y |· z).
+	self assert: x ·| (y ·| z) = (x ∧ y ·| z).
+	self assert: x · (y ·| z) = (x ∧ y · z).
+	one := R one.
+	self assert: one ∧ x = x.
+	self assert: x ∧ one = x.
+	self assert: one ·| x = x.
+	self assert: x |· one = x! !
+
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:03:00'!
+testCliffordAlgebraProductsPropertiesWithVectors
+	| x y v |
+	x _ R atRandom: random bits: 10.
+	y _ R atRandom: random bits: 10.
+	v _ R !! (R space atRandom: random bits: 10).
+	self assert: v * x = (v ·| x + (v ∧ x)).
+	self assert: v ·| x = (v*x - (x reflection * v) / 2).
+	self assert: v ·| x = (x reflection negated |· v).
+	self assert: v ∧ x = (v*x + (x reflection * v) / 2).
+	self assert: v ∧ x = (x reflection ∧ v).
+	self assert: v ·| (x*y) = ((v ·| x)*y + (x reflection * (v ·| y)))! !
+
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2022 11:47:12'!
+testCliffordAlgebraProperties
+	self assert: R isCommutative not.
+	self assert: R rank = (2^R space rank).
+	self assert: R scalars = ℚ.
+	self assert: R zero isZero.
+	self assert: R one isOne.
+	self assert: R id isIdentity! !
+
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:27'!
+testCliffordAlgebraReversion
+	| x y v |
+	x := R atRandom: random bits: 10.
+	y := R atRandom: random bits: 10.
+	v := R !! (R space atRandom: random bits: 10).
+	self assert: (x*y) transpose = (y transpose * x transpose).
+	self assert: v transpose = v! !
+
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:35'!
+testCliffordAlgebraScalarEmbedding
+	| F a x |
+	F := R scalars.
+	a := F atRandom: random bits: 10.
+	x := R !! a.
+	self assert: x isScalar.
+	self assert: ((R grade: 0) includes: x).
+	self assert: R one * a = x.
+	self assert: x asScalar = a! !
+
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 20:13:19'!
+testCliffordAlgebraScalarEmbedding2
+	| ι |
+	ι _ R scalars asIdeal ⇒ R asVectorSpace !! (R scalars → R).
+	self assert: ι isInjective.
+	self assert: ι image = (R grade: 0) asVectorSpace! !
+
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:41'!
+testCliffordAlgebraSpaceEmbedding
+	| V v x |
+	V := R space.
+	v := V atRandom: random bits: 10.
+	x := R !! v.
+	self assert: x isVector.
+	self assert: ((R grade: 1) includes: x).
+	self assert: x asVector = v! !
+
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 20:15:41'!
+testCliffordAlgebraSpaceEmbedding2
+	| ι |
+	ι _ R space ⇒ R asVectorSpace !! (R space carrier → R carrier).
+	self assert: ι isInjective.
+	self assert: ι image = (R grade: 1) asVectorSpace! !
+
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:48'!
+testCliffordAlgebraUniversalProperty
+	| Q v |
+	Q := R quadraticForm.
+	v := R space atRandom: random bits: 10.
+	self assert: (R !! v) squared = (R one * (Q value: v))! !
+
+!MatrixAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:36:45'!
+initialize
+	| F |
+	super initialize.
+	F _ 2 atRandom = 1 ifTrue: [ℚ] ifFalse: [ℤ/64 atRandom nextPrime].
+	R _ (F^(0 to: 3) atRandom) endomorphisms! !
+
+!MatrixAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:37:45'!
+testMatrixAlgebraRank
+	self assert: R rank = R space rank squared! !
+
+!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/25/2021 12:20:24'!
+initialize
+	super initialize.
+	R _ QuaternionAlgebra over: ℚ invariants: #(1 1)! !
+
+!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/7/2022 07:27:25'!
+testQuaternionAlgebraAnnihilatorIdeal
+	| H a b I |
+	H _  QuaternionAlgebra over: ℚ invariants: #(1 1).
+	a _ 1 + H i.
+	self assert: a isZeroDivisor.
+	I _ a annihilatorIdeal.
+	self assert: (I includes: 1 - H i).
+	self assert: (I includes: H j - H k).
+	self assert: (I generators allSatisfy: [:each| (a * each) isZero]).
+	b _ H j.
+	self assert: b isZeroDivisor not.
+	I _ b annihilatorIdeal.
+	self assert: I isTrivial! !
+
+!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:31:31'!
+testQuaternionAlgebraAsJordanAlgebra
+	| A J |
+	A _ QuaternionAlgebra over: ℚ invariants: #(-5 -2).
+	J _ A asJordanAlgebra.
+	self assert: J isCommutative.
+	self assert: J isAssociative not.
+	self assert: J isJordan! !
+
+!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:31:55'!
+testQuaternionAlgebraCoercionToAndFromModule
+	| A x |
+	A _ QuaternionAlgebra over: ℚ invariants: #(-17 -271).
+	x _ A !! #(1 -2 3 0).
+	self assert: A asModule = (ℚ^4).
+	self assert: A asModule !! x = (ℚ^4 !! #(1 -2 3 0)).
+	self assert: A !! (A asModule !! #(1 -2 3 0)) = x! !
+
+!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:55'!
+testQuaternionAlgebraInverse
+	| A a |
+	A := QuaternionAlgebra over: ℚ invariants: #(-5 -2).
+	[a := A atRandom: random bits: 20.
+	a isUnit] whileFalse.
+	self assert: a * a inverse = A one.
+	self assert: a inverse * a = A one! !
+
+!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:32:41'!
+testQuaternionAlgebraIsCentral
+	| A |
+	A _ QuaternionAlgebra over: ℚ invariants: #(-5 -2).
+	self assert: A isCentral.
+	self assert: A center = (A span: {A one})! !
+
+!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:32:53'!
+testQuaternionAlgebraNormAndTraceExample
+	"Example from Magma handbook, H92E9."
+	| A x |
+	A _ QuaternionAlgebra over: ℚ invariants: #(-17 -271).
+	x _ A !! #(1 -2 3 0).
+	self assert: x trace = 2.
+	self assert: x norm = 2508. 
+	self assert: x representation trace = 4.
+	self assert: (x^2 - (x * x trace) + x norm) isZero! !
+
+!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:33:07'!
+testQuaternionAlgebraTraceExample
+	"Example from Sage."
+	| A |
+	A _ QuaternionAlgebra over: ℚ invariants: #(-5 -2).
+	self assert: A i trace isZero.
+	self assert: A j trace isZero.
+	self assert: (A !! {1/3. 1/5. 1/7. 1}) trace = (2/3)! !
+
+!AffineAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 18:50:38'!
+initialize
+	| P |
+	super initialize.
+	P _ ℚ polynomialsIn: 3 atRandom.
+	[R _ P / ((1 to: 4 atRandom - 1) collect: [:i| P atRandomBits: 20]).
+	R isTrivial] whileTrue! !
+
+!AbstractCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/4/2022 18:12:21'!
+testIsCommutative
+	self assert: R isCommutative! !
+
+!AbstractCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/14/2022 10:35:06'!
+testPolynomials
+	| P |
+	P _ R polynomialsIn: (3 atRandom: random).
+	self testRingAxioms: P.
+	self testRingHomomorphism: R → P! !
+
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:34:56'!
+testFractions
+	| F |
+	F _ R fractions.
+	self testRingAxioms: F.
+	self testRingHomomorphism: R → F! !
+
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:00'!
+testGCD
+	R size < 60 ifTrue:
+		[R do: [:a| R do: [:b| self testGCD: a with: b]]. ^ self].
+	100 timesRepeat:
+		[ | a b |
+		[(a _ R atRandom: random bits: 30) isZero] whileTrue.
+		[(b _ R atRandom: random bits: 30) isZero] whileTrue.
+		self testGCD: a with: b]! !
+
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:11:27'!
+testGCD2
+	100 timesRepeat:
+		[ | a b c gcd |
+		[(a _ R atRandom: random bits: 30) isZero] whileTrue.
+		[(b _ R atRandom: random bits: 30) isZero] whileTrue.
+		[(c _ R atRandom: random bits: 30) isZero] whileTrue.
+		gcd _ a*c gcd: b*c.
+		self assert: c | gcd]! !
+
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:07'!
+testGCD: a with: b
+	| gcd |
+	gcd _ a gcd: b.
+	self assert: gcd | a.
+	self assert: gcd | b.
+	self assert: gcd = gcd normalized! !
+
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:13'!
+testGCDZero
+	| a gcd |
+	a _ R atRandom: random bits: 100.
+	gcd _ a gcd: R zero.
+	self assert: gcd = (R zero gcd: a).
+	self assert: gcd = a normalized.
+	self assert: (R zero gcd: R zero) = R zero! !
+
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:07:21'!
+testHasGCD
+	self assert: R hasGCD! !
+
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:35'!
+testLCM
+	R size < 60 ifTrue:
+		[R do: [:a| R do: [:b| self testLCM: a with: b]]. ^ self].
+	100 timesRepeat:
+		[| a b |
+		[(a _ R atRandom: random bits: 30) isZero] whileTrue.
+		[(b _ R atRandom: random bits: 30) isZero] whileTrue.
+		self testLCM: a with: b]! !
+
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:43'!
+testLCM: a with: b
+	| lcm |
+	lcm _ a lcm: b.
+	self assert: a | lcm.
+	self assert: b | lcm.
+	self assert: lcm = lcm normalized! !
+
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:50'!
+testLCMZero
+	| a lcm |
+	a _ R atRandom: random bits: 100.
+	lcm _ a lcm: R zero.
+	self assert: lcm = (R zero lcm: a).
+	self assert: lcm = R zero.
+	self assert: (R zero lcm: R zero) = R zero! !
+
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 21:22:35'!
+testAnnihilator
+	100 timesRepeat:
+		[| x a |
+		x _ R atRandom: random bits: 30.
+		a _ x annihilator.
+		self assert: (x * a) isZero.
+		self assert: x isZeroDivisor not = a isZero]! !
+
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/18/2022 09:02:25'!
+testAnnihilatorOfZero
+	self assert: R zero annihilator isOne! !
+
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/12/2022 18:44:59'!
+testEuclideanDivision
+	"Test division on a pair of elements:"
+	R isTrivial ifTrue: [^ self].
+	R size < 300 ifTrue:
+		[R do: [:a| R do: [:b| self testEuclideanDivisionOf: a by: b]]. ^ self].
+	100 timesRepeat:
+		[| a b |
+		a _ R atRandom: random bits: 30.
+		[b _ R atRandom: random bits: 30. b isZero] whileTrue.
+		self testEuclideanDivisionOf: a by: b]! !
+
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2022 10:44:43'!
+testEuclideanDivisionOf: a by: b
+	| q r |
+	b isZero ifTrue:
+		[self should: [a // b] raise: Error.
+		self should: [a \\ b] raise: Error.
+		^ self].
+	q _ a // b.
+	r _ a \\ b.
+	self assert: a = (q * b + r).
+	self assert: (r isZero or: [r gauge < b gauge])! !
+
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/14/2023 15:18:16'!
+testExactDivisionCompatibleWithEuclideanDivision
+	R isTrivial ifTrue: [^ self].
+	100 timesRepeat:
+		[| x y xy q |
+		x _ R atRandom: random bits: 30.
+		[y _ R atRandom: random bits: 30. y isZero] whileTrue.
+		xy _ x * y.
+		q _ xy // y.
+		self assert: xy / y = q.
+		self assert: xy ÷ y = q.
+		self assert: (xy \\ y) isZero]! !
+
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/4/2022 18:12:54'!
+testIsEuclidean
+	self assert: R isEuclidean.
+	self assert: R isPIR! !
+
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2022 06:13:00'!
+testNormalization
+	| a u |
+	100 timesRepeat:
+		[a _ R atRandom: random.
+		a _ a normalized.
+		self assert: a normalized = a.
+		u _ R units atRandom: random.
+		self assert: (a*u) normalized = a]! !
+
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:32:16'!
+testXXGCD
+	R size < 60 ifTrue:
+		[R do: [:a| R do: [:b| self testXXGCD: a with: b]]. ^ self].
+	100 timesRepeat:
+		[| a b |
+		a _ R atRandom: random bits: 30.
+		b _ R atRandom: random bits: 30.
+		self testXXGCD: a with: b]! !
+
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/20/2021 06:48:37'!
+testXXGCD: a with: b
+	| result g s t u v |
+	result _ a xxgcd: b.
+	g _ result at: 1.
+	s _ result at: 2.
+	t _ result at: 3.
+	u _ result at: 4.
+	v _ result at: 5.
+	self assert: g = (a gcd: b).
+	self assert: s*a + (t*b) = g.
+	self assert: (u*a + (v*b)) isZero.
+	self assert: (s*v - (t*u)) isUnit! !
+
+!AbstractFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2022 12:23:12'!
+testIsDivisionRing
+	self assert: R isDivisionRing! !
+
+!AbstractFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2022 11:51:45'!
+testIsField
+	self assert: R isField! !
+
+!AbstractFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2022 11:51:32'!
+testIsIntegralDomain
+	self assert: R isIntegralDomain! !
+
+!AbstractFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2022 11:52:48'!
+testZeroIdealIsPrimeAndMinimalPrime
+	| P |
+	P _ R * 0.
+	self assert: P isPrime.
+	self assert: P isMinimalPrime! !
+
+!BinaryExtensionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:28:26'!
+initialize
+	super initialize.
+	R := GaloisField new: 2 to: 8 atRandom! !
+
+!BinaryExtensionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 18:08:56'!
+testZeroPowerBug
+	self assert: ((GaloisField new: 2 to: 2) zero^3) isZero! !
+
+!BinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/17/2023 10:56:39'!
+initialize
+	super initialize.
+	R _ ℤ/2! !
+
+!CyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:26:42'!
+initialize
+	super initialize.
+	R _ CyclotomicField new: 3 atRandom + 2! !
+
+!FiniteFieldRationalFunctionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2022 09:41:39'!
+initialize
+	super initialize.
+	R _ ((	GaloisField new: 5 atRandom nextPrime to: 3 atRandom) polynomialsIn: 3 atRandom) fractions! !
+
+!GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:21:39'!
+initialize
+	super initialize.
+	R _ GaloisField new: 5 atRandom nextPrime to: 3 atRandom! !
+
+!GaussianFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:27:13'!
+initialize
+	super initialize.
+	R _ GaussianField new! !
+
+!RationalFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2022 11:55:11'!
+initialize
+	super initialize.
+	R _ ℚ! !
+
+!RationalRationalFunctionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2022 09:41:16'!
+initialize
+	super initialize.
+	R _ (ℚ polynomialsIn: 3 atRandom) fractions! !
+
+!TernaryExtensionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:28:44'!
+initialize
+	super initialize.
+	R := GaloisField new: 3 to: 8 atRandom! !
+
+!TernaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/17/2023 10:57:02'!
+initialize
+	super initialize.
+	R _ ℤ/3! !
+
+!BinaryExtensionFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:29:47'!
+initialize
+	super initialize.
+	R := (	GaloisField new: 2 to: 8 atRandom) polynomials! !
+
+!BinaryFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 20:06:47'!
+initialize
+	super initialize.
+	R _ (ℤ/2) polynomials! !
+
+!EisensteinRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:01:19'!
+initialize
+	super initialize.
+	R _ (CyclotomicField new: 3) integers! !
+
+!EisensteinRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2022 06:24:15'!
+testIsPrimary
+	| a |
+	200 timesRepeat:
+		[a _ R atRandom: random.
+		a isPrimary ifTrue: [self assert: a norm \\ 3 = 1]]! !
+
+!FiniteFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 12:09:15'!
+initialize
+	super initialize.
+	R _ (	GaloisField new: 5 atRandom nextPrime to: 3 atRandom) polynomials! !
+
+!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/21/2021 08:18:32'!
+initialize
+	super initialize.
+	R _ GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom! !
+
+!GaussianRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/4/2022 15:21:01'!
+initialize
+	super initialize.
+	R _ GaussianField new integers! !
+
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:32:40'!
+initialize
+	super initialize.
+	R _ ℤ! !
+
+!LocalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/23/2022 13:17:15'!
+initialize
+	super initialize.
+	R _ ℤ @ (ℤ * 64 atRandom nextPrime)! !
+
+!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 21:26:23'!
+initialize
+	super initialize.
+	R := ℤ/(2 to: {2^8. 2^16.  2^32. 2^40} atRandom) atRandom! !
+
+!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 12:04:12'!
+testCongruenceSolvingExample1
+	| A a b solutions |
+	A _ ℤ/20.
+	a _ A !! 11.
+	b _ A !! 15.
+	solutions _ a solve: b.
+	self assert: solutions first = (A !! 5).
+	self assert: solutions size = 1! !
+
+!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 12:03:44'!
+testCongruenceSolvingExample2
+	| A a b solutions |
+	A _ ℤ/12167.
+	a _ A !! 230.
+	b _ A !! 1081.
+	solutions _ a solve: b.
+	self assert: (solutions includes: (A !! 2491)).
+	self assert: solutions size = 23.
+	self assert: (solutions allSatisfy: [:x| a*x = b])! !
+
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:28:18'!
+initialize
+	| k p |
+	super initialize.
+	p _ 10 atRandom nextPrime.
+	k _ 10 atRandom.
+	R _ PrimePowerRing new: p to: k! !
+
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2022 19:03:53'!
+testEuclideanDivisionCompatibleWithModularIntegerRing
+	| S r1 r2 s1 s2 |
+	S _ ModularIntegerRing new: R modulus.
+	100 timesRepeat:
+		[r1 _ R atRandom: random.
+		[r2 _ R atRandom: random. r2 isZero] whileTrue.
+		s1 _ S !! r1 representative.
+		s2 _ S !! r2 representative.
+		self assert: (r1 // r2) representative = (s1 // s2) representative]! !
+
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2022 10:44:51'!
+testEuclideanFunctionCompatibleWithModularIntegerRing
+	| S r s |
+	S _ ModularIntegerRing new: R modulus.
+	100 timesRepeat:
+		[r _ R atRandom: random.
+		s _ S !! r representative.
+		self assert: r gauge = s gauge]! !
+
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2022 12:53:48'!
+testGCDCompatibleWithModularIntegerRing
+	| S r1 r2 s1 s2 |
+	S _ ModularIntegerRing new: R modulus.
+	100 timesRepeat:
+		[r1 _ R atRandom: random.
+		r2 _ R atRandom: random.
+		s1 _ S !! r1 representative.
+		s2 _ S !! r2 representative.
+		self assert: (r1 gcd: r2) representative = (s1 gcd: s2) representative]! !
+
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2022 12:54:08'!
+testLCMCompatibleWithModularIntegerRing
+	| S r1 r2 s1 s2 |
+	S _ ModularIntegerRing new: R modulus.
+	100 timesRepeat:
+		[r1 _ R atRandom: random.
+		r2 _ R atRandom: random.
+		s1 _ S !! r1 representative.
+		s2 _ S !! r2 representative.
+		self assert: (r1 lcm: r2) representative = (s1 lcm: s2) representative]! !
+
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2022 20:17:37'!
+testNormalizationCompatibleWithModularIntegerRing
+	| S r s |
+	S _ ModularIntegerRing new: R modulus.
+	100 timesRepeat:
+		[r _ R atRandom: random.
+		s _ S !! r representative.
+		self assert: r normalization representative = s normalization representative]! !
+
+!RationalPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 12:08:03'!
+initialize
+	super initialize.
+	R _ ℚ polynomials! !
+
+!TernaryExtensionFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:30:03'!
+initialize
+	super initialize.
+	R := (	GaloisField new: 3 to: 8 atRandom) polynomials! !
+
+!TernaryFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 20:06:59'!
+initialize
+	super initialize.
+	R _ (ℤ/3) polynomials! !
+
+!FiniteFieldMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 15:32:40'!
+initialize
+	super initialize.
+	R _ (	GaloisField new: 5 atRandom nextPrime to: 3 atRandom) polynomialsIn: 3 atRandom! !
+
+!ProductRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/18/2022 12:53:32'!
+initialize
+	super initialize.
+	R _ ℤ × ℤ × (ℤ/4)! !
+
+!RationalMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 15:33:31'!
+initialize
+	super initialize.
+	R _ ℚ polynomialsIn: 3 atRandom! !
+
+!AbstractIntegralDomainTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2022 12:18:58'!
+testIsIntegralDomain
+	self assert: R isIntegralDomain! !
+
+!AbstractIntegralDomainTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2021 17:43:37'!
+testZeroIdeal
+	| P |
+	P _ R * 0.
+	self assert: P isPrime.
+	self assert: P isMinimalPrime! !
+
+!GaloisRingMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:04:18'!
+initialize
+	super initialize.
+	R _ (	GaloisRing new: 5 atRandom nextPrime to: 3 atRandom to: 2 atRandom) polynomialsIn: 3 atRandom! !
+
+!ModularIntegerMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 21:23:26'!
+initialize
+	super initialize.
+	R := ℤ/(2 to: 256) atRandom polynomialsIn: 3 atRandom! !
+
+!ModularIntegerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 21:28:13'!
+initialize
+	super initialize.
+	R := (ℤ/(2 to: {2^8. 2^16.  2^32. 2^40} atRandom) atRandom) polynomials! !
+
+!AbstractArrayTest methodsFor: 'private' stamp: 'len 5/6/2023 17:09:00'!
+newArray
+	^ self newArray: (200 atRandom: random)! !
+
+!AbstractArrayTest methodsFor: 'private' stamp: 'len 5/11/2023 16:17:24'!
+newArray: n
+	^ self newArray: n fill: [:each| self newScalar]! !
+
+!AbstractArrayTest methodsFor: 'private' stamp: 'len 5/11/2023 16:14:04'!
+newArray: n fill: aBlock
+	^ scalars new: n fill: aBlock! !
+
+!AbstractArrayTest methodsFor: 'private' stamp: 'len 5/6/2023 17:06:46'!
+newScalar
+	^ scalars atRandom: random bits: (60 atRandom: random)! !
+
+!AbstractArrayTest methodsFor: 'misc' stamp: 'len 5/6/2023 17:10:48'!
+testAccessing
+	| a i x |
+	a _ self newArray.
+	x _ self newScalar.
+	i _ (1 to: a size) atRandom: random.
+	a at: i put: x.
+	self assert: (a at: i) = x! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:13:06'!
+testAddition
+	| n a b c |
+	n _ 5 atRandom: random.
+	a _ self newArray: n.
+	b _ self newArray: n.
+	c _ a + b.
+	self assert: c size = n.
+	1 to: n do: [:i| self assert: (a at: i) + (b at: i) = (c at: i)].
+	self assert: (a + a negated) isZero.
+	self assert: a + b = (b + a).
+	self assert: a + a = (a*2).
+	self assert: a - b = (a + b negated)! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/11/2023 23:11:33'!
+testArithmeticWithArraysOfDifferentSize
+	| a b c d zeros |
+	a _ self newArray.
+	b _ self newArray: a size.
+	c _ self newArray.
+	d _ self newArray: c size.
+	zeros _ self newArray: (a size atRandom: random).
+	zeros atAllPut: scalars zero.
+	self assert: a + (b,zeros) = (a,zeros + b).
+	self assert: (a,zeros) + b = (a + b , zeros).
+	self assert: a - (b,zeros) = (a,zeros - b).
+	self assert: (a,zeros) - b = (a - b , zeros).
+	self assert: a * (b,c) = (a * b).
+	self assert: (a,c) * b = (a * b).
+	self assert: (a,c) * (b,d) = (a * b , (c * d)).
+	self assert: a · (b,c) = (a · b).
+	self assert: a,c · b = (a · b)! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:33:07'!
+testArrayMinusArray
+	| a b c |
+	a _ self newArray.
+	b _ self newArray: a size.
+	c _ a - b.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) - (b at: i) = (c at: i)]! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:33:39'!
+testArrayMinusArrayInplace
+	| a b c |
+	a _ self newArray.
+	b _ self newArray: a size.
+	c _ a copy.
+	c -= b.
+	1 to: a size do: [:i| self assert: (a at: i) - (b at: i) = (c at: i)]	! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:20:45'!
+testArrayMinusScalar
+	| a c x |
+	a _ self newArray.
+	x _ self newScalar.
+	c _ a - x.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) - x = (c at: i)]! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:21:05'!
+testArrayMinusScalarInplace
+	| a c x |
+	a _ self newArray.
+	x _ self newScalar.
+	c _ a copy.
+	c -= x.
+	1 to: a size do: [:i| self assert: (a at: i) - x = (c at: i)]! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:24:38'!
+testArrayPlusArray
+	| a b c |
+	a _ self newArray.
+	b _ self newArray: a size.
+	c _ a + b.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) + (b at: i) = (c at: i)]! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:25:02'!
+testArrayPlusArrayInplace
+	| a b c |
+	a _ self newArray.
+	b _ self newArray: a size.
+	c _ a copy.
+	c += b.
+	1 to: a size do: [:i| self assert: (a at: i) + (b at: i) = (c at: i)]	! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:21:22'!
+testArrayPlusScalar
+	| a c x |
+	a _ self newArray.
+	x _ self newScalar.
+	c _ a + x.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) + x = (c at: i)]! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:21:37'!
+testArrayPlusScalarInplace
+	| a c x |
+	a _ self newArray.
+	x _ self newScalar.
+	c _ a copy.
+	c += x.
+	1 to: a size do: [:i| self assert: (a at: i) + x = (c at: i)]! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/10/2023 10:52:47'!
+testArrayTimesArray
+	| a b c |
+	a _ self newArray.
+	b _ self newArray: a size.
+	c _ a * b.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) * (b at: i) = (c at: i)]! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/10/2023 10:53:36'!
+testArrayTimesArrayInplace
+	| a b c |
+	a _ self newArray.
+	b _ self newArray: a size.
+	c _ a copy.
+	c *= b.
+	1 to: a size do: [:i| self assert: (a at: i) * (b at: i) = (c at: i)]	! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/10/2023 10:53:07'!
+testArrayTimesScalar
+	| a c x |
+	a _ self newArray.
+	x _ self newScalar.
+	c _ a * x.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) * x = (c at: i)]! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/10/2023 10:53:23'!
+testArrayTimesScalarInplace
+	| a c x |
+	a _ self newArray.
+	x _ self newScalar.
+	c _ a copy.
+	c *= x.
+	1 to: a size do: [:i| self assert: (a at: i) * x = (c at: i)]! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:13:29'!
+testAutoconvolution
+	| a |
+	a _ self newArray.
+	self assert: a autoconvolution asArray = a asArray autoconvolution.
+	self assert: a autoconvolution = (a convolution: a)! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:14:38'!
+testConvolution
+	| a b |
+	a _ self newArray.
+	b _ self newArray.
+	self assert: (a convolution: b) asArray = (a asArray convolution: b asArray)! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:15:12'!
+testDotProduct
+	| a b |
+	a _ self newArray.
+	b _ self newArray.
+	self assert: a · b = (a asArray · b asArray)! !
+
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:20:01'!
+testSubstraction
+	| a b c |
+	a _ self newArray.
+	b _ self newArray: a size.
+	c _ a - b.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) - (b at: i) = (c at: i)]! !
+
+!AbstractArrayTest methodsFor: 'operations' stamp: 'len 5/6/2023 17:13:55'!
+testCircularShift
+	| a b n |
+	a _ self newArray.
+	n _ (a size negated to: a size) atRandom: random.
+	b _ a >>> n.
+	self assert: b size = a size.
+	1 to: b size do: [:i| self assert: (b at: i) = (a atWrap: i-n)]! !
+
+!AbstractArrayTest methodsFor: 'operations' stamp: 'len 5/6/2023 17:14:25'!
+testConcatenation
+	| a b c |
+	a _ self newArray.
+	b _ self newArray.
+	c _ a, b.
+	self assert: a size + b size = c size.
+	1 to: a size do: [:i| self assert: (c at: i) = (a at: i)].
+	1 to: b size do: [:i| self assert: (c at: a size + i) = (b at: i)]! !
+
+!AbstractArrayTest methodsFor: 'operations' stamp: 'len 5/9/2023 21:14:34'!
+testHammingWeight
+	| a |
+	a _ self newArray.
+	a size // 2 timesRepeat: [a at: (a size atRandom: random) put: scalars zero].
+	self assert: a support size = a weight! !
+
+!AbstractArrayTest methodsFor: 'operations' stamp: 'len 5/6/2023 17:25:33'!
+testReversed
+	| v i |
+	v _ self newArray.
+	i _ v size atRandom: random.
+	self assert: (v reversed at: i) = (v at: v size - i + 1).
+	self assert: v reversed reversed = v! !
+
+!AbstractArrayTest methodsFor: 'operations' stamp: 'len 5/6/2023 17:19:44'!
+testShift
+	| a b n |
+	a _ self newArray.
+	n _ (a size negated to: a size) atRandom: random.
+	b _ a >> n.
+	self assert: b size = a size.
+	1 to: b size do: [:i|
+		self assert: (b at: i) = ((i-n between: 1 and: a size) ifTrue: [a at: i-n] ifFalse: [scalars zero])]! !
+
+!AbstractArrayTest methodsFor: 'operations' stamp: 'len 5/9/2023 21:14:06'!
+testSupport
+	| a |
+	a _ self newArray.
+	a size // 2 timesRepeat: [a at: (a size atRandom: random) put: scalars zero].
+	self assert: a support asArray = ((1 to: a size) select: [:i| (a at: i) isZero not])! !
+
+!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/9/2023 22:07:16'!
+testAnySatisfyAndAllSatisfy
+	| a x y |
+	a _ self newArray.
+	x _ scalars atRandom: random.
+	[y _ scalars atRandom: random. y = x] whileTrue.
+	a atAllPut: x.
+	self assert: (a allSatisfy: [:each| each = x]).
+	self assert: (a anySatisfy: [:each| each = y]) not.
+	a at: (a size atRandom: random) put: y.
+	self assert: (a allSatisfy: [:each| each = x]) not.
+	self assert: (a anySatisfy: [:each| each = y])! !
+
+!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/6/2023 17:14:55'!
+testCopyFromTo
+	| a b start stop |
+	a _ self newArray.
+	start _ (1 to: a size) atRandom: random.
+	stop _ (1 to: a size) atRandom: random.
+	b _ a copyFrom: start to: stop.
+	self assert: b size = (stop-start+1 max: 0).
+	start to: stop do: [:i| self assert: (a at: i) = (b at: i-start+1)]! !
+
+!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/11/2023 16:16:08'!
+testDetect
+	| x a |
+	x _ scalars atRandom: random.
+	a _ self newArray: (100 atRandom: random) fill: [:i| scalars atRandom: random satisfying: [:y| (y = x) not]].
+	self assert: (a detect: [:one| one = x] ifNone: [#notFound]) == #notFound.
+	a at: (a size atRandom: random) put: x.
+	self assert: (a detect: [:one| one = x] ifNone: [#notFound]) = x! !
+
+!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/10/2023 10:48:01'!
+testIndexOf
+	| x a k |
+	x _ scalars atRandom: random.
+	a _ scalars new: (100 atRandom: random) fill: [:i| scalars atRandom: random satisfying: [:y| (y = x) not]].
+	self assert: (a indexOf: x) = 0.
+	a at: (k _ a size atRandom: random) put: x.
+	self assert: (a indexOf: x) = k! !
+
+!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/6/2023 17:17:29'!
+testReplaceFromToWithStartingAt
+	| a b start stop aCopy start2 stop2 |
+	a _ self newArray.
+	b _ self newArray.
+	start _ (1 to: a size) atRandom: random.
+	start2 _ (1 to: b size) atRandom: random.
+	stop _ (1 to: a size) atRandom: random.
+	stop _ stop min: b size - start2 +1.
+	stop2 _ start2 + stop - start.
+	aCopy _ a copy.
+	a replaceFrom: start to: stop with: b startingAt: start2.
+	self assert: (a copyFrom: 1 to: start - 1) = (aCopy copyFrom: 1 to: start - 1).
+	self assert: (a copyFrom: start to: stop) = (b copyFrom: start2 to: stop2).
+	self assert: (a copyFrom: stop + 1 to: a size) = (aCopy copyFrom: stop + 1 to: a size)! !
+
+!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/10/2023 10:52:09'!
+testSumAndProduct
+	| a |
+	a _ self newArray.
+	self assert: a sum = a asArray sum.
+	self assert: a product = a asArray product! !
+
+!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/10/2023 10:57:26'!
+testSumAndProductWithArgument
+	| a dict |
+	a _ self newArray.
+	dict _ Dictionary new.
+	a do: [:each| dict at: each put: (10 atRandom: random)].
+	self assert: (a sum: [:each| dict at: each]) = (a asArray sum: [:each| dict at: each]).
+	self assert: (a product: [:each| dict at: each]) = (a asArray product: [:each| dict at: each])! !
+
+!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/6/2023 17:15:31'!
+testFirstNonzeroIndex
+	| a i |
+	a _ self newArray.
+	(2 atRandom: random) = 1 ifTrue: [a _ (self newArray: (100 atRandom: random)) zero, a].
+	i _ a findFirst: [:x| x isZero not].
+	i = 0 ifTrue: [i _ nil].
+	self assert: a firstNonzeroIndex = i! !
+
+!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/6/2023 17:16:16'!
+testIsZeroAt
+	| a x index |
+	a _ self newArray.
+	x _ scalars zero.
+	index _ (1 to: a size) atRandom: random.
+	a at: index put: x.
+	self assert: (a isZeroAt: index).
+	1 to: a size do: [:i| self assert: (a isZeroAt: i) = (a at: i) isZero].! !
+
+!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/6/2023 17:16:31'!
+testLastNonzeroIndex
+	| a i |
+	a _ self newArray.
+	(2 atRandom: random) = 1 ifTrue: [a _ a, (self newArray: (100 atRandom: random)) zero].
+	i _ a findLast: [:x| x isZero not].
+	i = 0 ifTrue: [i _ nil].
+	self assert: a lastNonzeroIndex = i! !
+
+!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/11/2023 23:38:25'!
+testPolynomialEvaluation
+	| a x |
+	a _ self newArray.
+	x _ self newScalar.
+	self assert: (a polynomialValue: x) = ((1 to: a size) sum: [:i| x^(i-1) * (a at: i)])! !
+
+!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/6/2023 17:20:33'!
+testSwapFromToWithStartingAt
+	| a b start stop aCopy bCopy start2 stop2 |
+	a _ self newArray.
+	b _ self newArray.
+	start _ (1 to: a size) atRandom: random.
+	start2 _ (1 to: b size) atRandom: random.
+	stop _ (1 to: a size) atRandom: random.
+	stop _ stop min: b size - start2 +1.
+	stop2 _ start2 + stop - start.
+	aCopy _ a copy.
+	bCopy _ b copy.
+	a swapFrom: start to: stop with: b startingAt: start2.
+	self assert: (a copyFrom: start to: stop) = (bCopy copyFrom: start2 to: stop2).
+	self assert: (b copyFrom: start2 to: stop2) = (aCopy copyFrom: start to: stop).
+	a swapFrom: start to: stop with: b startingAt: start2.
+	self assert: a = aCopy.
+	self assert: b = bCopy! !
+
+!ArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:37:16'!
+initialize
+	super initialize.
+	scalars _ ℤ! !
+
+!BinaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:11:27'!
+initialize
+	super initialize.
+	scalars _ ℤ/2! !
+
+!BinaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/13/2023 12:56:50'!
+testIsAllOnes
+	| a b |
+	0 to: 64 do: [:n|
+		a _ BinaryArray new: n.
+		1 to: n do: [:i| a bitAt: i put: 1].
+		self assert: a isAllOnes.
+		1 to: n do: [:i|
+			b _ a copy.
+			b bitAt: i put: 0.
+			self assert: b isAllOnes not]]! !
+
+!BinaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/17/2023 16:21:49'!
+testReadAndWriteBits
+	| bits i length x y |
+	x _ self newArray: ((10 to: 100) atRandom: random).
+	y _ x copy.
+	length _ (32 min: x size) atRandom: random.
+	i _ (x size - length + 1) atRandom: random.
+	bits _ random nextBits: length.
+	self assert: bits highBit <= length.
+	x bits: length at: i put: bits.
+	self assert: (x bits: length at: i) = bits.
+	x bits: length at: i put: (y bits: length at: i).
+	self assert: x = y! !
+
+!BinaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/13/2023 12:57:13'!
+testSumBug
+	self assert: (BinaryArray newFrom: 2r1011101) sum representative = 1.
+	self assert: (BinaryArray newFrom: 2r10000100100010) sum representative = 0! !
+
+!GaloisPackedArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 16:12:37'!
+initialize
+	super initialize.
+	scalars _ 2 atRandom = 1
+		ifTrue: [GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom]
+		ifFalse: [GaloisField new: #(16rFF 16rFFFF 16rFFFFFFFF) atRandom atRandom nextPrime to: 10 atRandom]! !
+
+!ModularArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:35:19'!
+initialize
+	super initialize.
+	scalars _ ℤ / (16r100000001 to: 16r100000001 + 1000) atRandom! !
+
+!ModularByteArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:34:29'!
+initialize
+	super initialize.
+	scalars _ ℤ / (3 to: 256) atRandom! !
+
+!ModularByteArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/12/2023 14:38:04'!
+testRepresentativesUseByteArray
+	self assert: self newArray representatives class = ByteArray! !
+
+!ModularDoubleByteArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 16:08:37'!
+initialize
+	super initialize.
+	scalars _ ℤ / (16rFF+2 to: 16rFFFF+1) atRandom! !
+
+!ModularDoubleByteArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/12/2023 14:38:18'!
+testRepresentativesUseDoubleByteArray
+	self assert: self newArray representatives class = DoubleByteArray! !
+
+!ModularWordArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 16:08:10'!
+initialize
+	super initialize.
+	scalars _ ℤ / (16rFFFF+2 to: 16rFFFFFFFF+1) atRandom! !
+
+!ModularWordArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/12/2023 14:38:31'!
+testRepresentativesUseWordArray
+	self assert: self newArray representatives class = WordArray! !
+
+!ProductArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:37:54'!
+initialize
+	super initialize.
+	scalars _ ℤ × (ℤ/(64 atRandom + 1))! !
+
+!TernaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 13:01:13'!
+initialize
+	super initialize.
+	scalars _ ℤ/3! !
+
+!ZechArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 17:00:30'!
+initialize
+	super initialize.
+	scalars _ ℤ/10 atRandom nextPrime.
+	table _ ZechTable over: scalars! !
+
+!ZechArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 17:00:35'!
+newArray: n fill: aBlock
+	| answer |
+	answer _ table new: n.
+	1 to: answer size do: [:i| answer at: i put: scalars !! (aBlock value: i)].
+	^ answer! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:14:20'!
+newScalar
+	^ scalars atRandom: random bits: (60 atRandom: random)! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:13:57'!
+newTuple
+	^ self newTuple: (200 atRandom: random)! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:18:32'!
+newTuple: n
+	^ scalars ^ n atRandom: random! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:10:58'!
+testAccessing
+	| a i x |
+	a _ self newTuple.
+	x _ self newScalar.
+	i _ (1 to: a size) atRandom: random.
+	a at: i put: x.
+	self assert: (a at: i) = x! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:41:36'!
+testAddition
+	| a b c |
+	a _ self newTuple.
+	b _ self newTuple: a size.
+	c _ a + b.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) + (b at: i) = (c at: i)].
+	self assert: (a + a negated) isZero.
+	self assert: a + b = (b + a).
+	self assert: a + a = (a*2).
+	self assert: a - b = (a + b negated)! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:57:46'!
+testCircularShift
+	| a b n |
+	a _ self newTuple.
+	n _ (a size negated to: a size) atRandom: random.
+	b _ a >>> n.
+	self assert: b size = a size.
+	1 to: b size do: [:i| self assert: (b at: i) = (a coefficients atWrap: i-n)]! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:22:05'!
+testConcatenation
+	| a b c |
+	a _ self newTuple.
+	b _ self newTuple.
+	c _ a, b.
+	self assert: a size + b size = c size.
+	1 to: a size do: [:i| self assert: (c at: i) = (a at: i)].
+	1 to: b size do: [:i| self assert: (c at: a size + i) = (b at: i)]! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:22:42'!
+testCopyFromTo
+	| a b start stop |
+	a _ self newTuple.
+	start _ (1 to: a size) atRandom: random.
+	stop _ (1 to: a size) atRandom: random.
+	b _ a copyFrom: start to: stop.
+	self assert: b size = (stop-start+1 max: 0).
+	start to: stop do: [:i| self assert: (a at: i) = (b at: i-start+1)]! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:15:45'!
+testDotProduct
+	| a b |
+	a _ self newTuple.
+	b _ self newTuple.
+	self assert: a · b = (a asArray · b asArray)! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:57:16'!
+testFirstNonzeroIndex
+	| a i |
+	a _ self newTuple.
+	(2 atRandom: random) = 1 ifTrue: [a _ (self newTuple: (100 atRandom: random)) zero, a].
+	i _ a coefficients findFirst: [:x| x isZero not].
+	i = 0 ifTrue: [i _ nil].
+	self assert: a firstNonzeroIndex = i! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:23:14'!
+testIsZeroAt
+	| a x index |
+	a _ self newTuple.
+	x _ scalars zero.
+	index _ (1 to: a size) atRandom: random.
+	a at: index put: x.
+	self assert: (a isZeroAt: index).
+	1 to: a size do: [:i| self assert: (a isZeroAt: i) = (a at: i) isZero].! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:57:32'!
+testLastNonzeroIndex
+	| a i |
+	a _ self newTuple.
+	(2 atRandom: random) = 1 ifTrue: [a _ a, (self newTuple: (100 atRandom: random)) zero].
+	i _ a coefficients findLast: [:x| x isZero not].
+	i = 0 ifTrue: [i _ nil].
+	self assert: a lastNonzeroIndex = i! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:20:30'!
+testProduct
+	| a b c |
+	a _ self newTuple.
+	b _ self newTuple: a size.
+	c _ a * b.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) * (b at: i) = (c at: i)]! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:27:13'!
+testProductByScalar
+	| a c x |
+	a _ self newTuple.
+	x _ self newScalar.
+	c _ a * x.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) * x = (c at: i)]! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:27:46'!
+testReversed
+	| v i |
+	v _ self newTuple.
+	i _ v size atRandom: random.
+	self assert: (v reversed at: i) = (v at: v size - i + 1).
+	self assert: v reversed reversed = v! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:24:00'!
+testShift
+	| a b n |
+	a _ self newTuple.
+	n _ (a size negated to: a size) atRandom: random.
+	b _ a >> n.
+	self assert: b size = a size.
+	1 to: b size do: [:i|
+		self assert: (b at: i) = ((i-n between: 1 and: a size) ifTrue: [a at: i-n] ifFalse: [scalars zero])]! !
+
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:16:36'!
+testSubstraction
+	| a b c |
+	a _ self newTuple.
+	b _ self newTuple: a size.
+	c _ a - b.
+	self assert: c size = a size.
+	1 to: a size do: [:i| self assert: (a at: i) - (b at: i) = (c at: i)]! !
+
+!AbstractCommutativeRingTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/2/2021 12:30:57'!
+testCrossProduct
+	| V a b c r |
+	V _ scalars^3.
+	a _ V atRandom: random bits: 20.
+	b _ V atRandom: random bits: 20.
+	c _ V atRandom: random bits: 20.
+	r _ V scalars atRandom: random bits: 10.
+	self assert: (a × a) isZero.
+	self assert: a × b = (b × a) negated.
+	self assert: a × (b + c) = (a × b + (a × c)).
+	self assert: (a*r) × b = (a × (b*r)).
+	self assert: (a*r) × b = (a × b * r).
+	self assert: (a × (b × c) + (b × (c × a)) + (c × (a × b))) isZero! !
+
+!AbstractCommutativeRingTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/2/2021 12:31:07'!
+testCrossProductAndDotProduct
+	| V a b c d |
+	V _ scalars^3.
+	a _ V atRandom: random bits: 20.
+	b _ V atRandom: random bits: 20.
+	c _ V atRandom: random bits: 20.
+	d _ V atRandom: random bits: 20.
+	self assert: a · (b × c) = (b · (c × a)).
+	self assert: a · (b × c) = (c · (a × b)).
+	"Lagrange identity:"
+	self assert: (a × b) norm = (a norm * b norm - (a · b) squared).
+	"Binet-Chauchy identity:"
+	self assert: a × b · (c × d) = (a · c *(b · d) - (a · d * (b · c)))! !
+
+!AbstractCommutativeRingTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:02:18'!
+testHomogeneousTuples
+	| n a b c d |
+	n _ 5 atRandom: random.
+	[a _ scalars^n atRandom: random bits: 20. a isZero] whileTrue.
+	b _ a * (scalars units atRandom: random bits: 10).
+	self assert: a ~ b.
+	n >= 2 ifFalse: [n _ (2 to: 5) atRandom: random].
+	c _ scalars^n x: 1.
+	d _ scalars^n x: 2.
+	self deny: c ~ d! !
+
+!AbstractModularIntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:17:21'!
+testModTupleOperations
+	| n a b modulus |
+	modulus := scalars modulus.
+	n := 5 atRandom: random.
+	a := ℤ^n atRandom: random bits: 30.
+	b := ℤ^n atRandom: random bits: 30.
+	#(+ - · *) do: [:op|
+		self testTuple: a with: b operation: op modulo: modulus].
+	#(negated reversed copy sum product) do: [:op|
+		self testTuple: a operation: op modulo: modulus].! !
+
+!AbstractModularIntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:28:45'!
+testTuple: a operation: aSymbol modulo: modulus
+	self assert: (a perform: aSymbol) % modulus = (a % modulus perform: aSymbol)! !
+
+!AbstractModularIntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:28:53'!
+testTuple: a with: b operation: aSymbol modulo: modulus
+	self assert: (a perform: aSymbol with: b) % modulus = (a % modulus perform: aSymbol with: b % modulus)! !
+
+!BinaryTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:26:20'!
+initialize
+	super initialize.
+	scalars _ ℤ/2! !
+
+!BinaryTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:29:12'!
+testBitTupleBug
+	| Z2 |
+	Z2 _ PrimeField new: 2.
+	self assert: ((1,0,0) % 2 :: sum = Z2 one).
+	self assert: ((0,1,0) % 2 :: sum = Z2 one).
+	self assert: ((1,1,0) % 2 :: sum = Z2 zero).
+	self assert: ((1,1,1) % 2 :: sum = Z2 one)! !
+
+!ModularInteger16TupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 21:22:39'!
+initialize
+	super initialize.
+	scalars := ℤ / (2^8 + 1 to: 2^16) atRandom! !
+
+!ModularInteger32TupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 21:21:39'!
+initialize
+	super initialize.
+	scalars := ℤ / (2^16 + 1 to: 2^32) atRandom! !
+
+!ModularInteger8TupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:34:34'!
+initialize
+	super initialize.
+	scalars _ ℤ / (3 to: 256) atRandom! !
+
+!ModularIntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:10:05'!
+initialize
+	super initialize.
+	scalars _ ℤ / (16r100000001 to: 16r100000001 + 1000) atRandom! !
+
+!TernaryTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 17:23:24'!
+initialize
+	super initialize.
+	scalars _ ℤ/3! !
+
+!BinaryExtensionFieldTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:20:54'!
+initialize
+	super initialize.
+	scalars := GaloisField new: 2 to: 8 atRandom + 1! !
+
+!FiniteFieldTupleTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2022 14:55:35'!
+initialize
+	super initialize.
+	scalars _ GaloisField new: #(16rFF 16rFFFF 16rFFFFFFFF) atRandom atRandom nextPrime to: 10 atRandom! !
+
+!GaloisRingTupleTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 10:50:30'!
+initialize
+	super initialize.
+	scalars _ GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom! !
+
+!IntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:23:35'!
+initialize
+	super initialize.
+	scalars _ ℤ! !
+
+!IntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/16/2022 19:45:51'!
+testDomainError
+	| v |
+	v _ ℤ^3 !! #(1 2 3).
+	self should: [v / 2] raise: Error! !
+
+!ProductRingTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:11:10'!
+initialize
+	super initialize.
+	scalars _ ℤ × (ℤ/(64 atRandom + 1))! !
+
+!RationalPolynomialRingTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:31:32'!
+initialize
+	super initialize.
+	scalars _ ℚ polynomials! !
+
+!RationalTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:59:05'!
+initialize
+	super initialize.
+	scalars _ ℚ! !
+
+!SmallFiniteFieldTupleTest methodsFor: 'initialization' stamp: 'len 12/29/2022 10:10:29'!
+initialize
+	| p |
+	super initialize.
+	p _ 13 atRandom nextPrime.
+	scalars _ GaloisField new: p to: ((256 log: p) floor - 1)  atRandom + 1! !
+
+!TernaryExtensionFieldTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:21:20'!
+initialize
+	super initialize.
+	scalars := GaloisField new: 3 to: 8 atRandom + 1! !
+
+!MatrixAlgebraTupleTest methodsFor: 'as yet unclassified' stamp: 'len 7/24/2021 14:08:40'!
+initialize
+	super initialize.
+	scalars _ (ℚ^(0 to: 3) atRandom) endomorphisms! !
+
+!QuaternionAlgebraTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2021 11:00:55'!
+initialize
+	super initialize.
+	scalars _ QuaternionAlgebra over: ℚ invariants: #(1 1)! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 15:21:11'!
+testAddition
+	| A B |
+	A := self newMatrix.
+	B := self newMatrix: A height @ A width.
+	self testAddition: A with: B! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 15:20:59'!
+testAddition: A with: B
+	| x |
+	self assert: (A + A negated) isZero.
+	self assert: A + A zero = A.
+	self assert: A + B = (B + A).
+	x := A domain atRandom: random bits: 10.
+	self assert: (A+B)*x = (A*x + (B*x)).
+	x := A codomain atRandom: random bits: 10.
+	self assert: x*(A+B) = (x*A + (x*B))! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 16:38:20'!
+testInplaceAddition
+	| A B C |
+	A := self newMatrix.
+	B := self newMatrix: A height @ A width.
+	C := self newMatrix: A height @ A width.
+	C replaceWith: A plus: B.
+	self assert: A + B = C! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 18:54:46'!
+testInplaceMultiplication
+	| A B C |
+	A := self newMatrix.
+	B := self newMatrix: A width @ (5 atRandom: random).
+	C := self newMatrix: A height @ B width.
+	C replaceWith: A times: B.
+	self assert: A * B = C! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 16:39:06'!
+testInplaceSubstraction
+	| A B C |
+	A := self newMatrix.
+	B := self newMatrix: A height @ A width.
+	C := self newMatrix: A height @ A width.
+	C replaceWith: A minus: B.
+	self assert: A - B = C! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/22/2023 09:47:17'!
+testMatrixTupleMultiplication
+	| A v |
+	A := self newMatrix.
+	v := A domain atRandom: random.
+	self assert: (A * v) asMatrix transpose = (A * v asMatrix)! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 15:22:09'!
+testMultiplication
+	| A B |
+	A := self newMatrix.
+	B := self newMatrix: A width @ (5 atRandom: random).
+	self testMultiplication: A with: B! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 15:21:48'!
+testMultiplication: A with: B
+	| x |
+	self assert: A * A domain id = A.
+	self assert: A codomain id * A = A.
+	x := B domain atRandom: random bits: 10.
+	self assert: A*B*x = (A*(B*x)).
+	x := A codomain atRandom: random bits: 10.
+	self assert: x*A*B = (x*(A*B))! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 21:17:29'!
+testScalarAction
+	| A b B |
+	A := self newMatrix.
+	b := scalars atRandom: random bits: 20.
+	B := A*b.
+	A withIndicesDo: [:each :i :j| self assert: each*b = (B at: i@j)]! !
+
+!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 15:10:56'!
+newSubmatrix: extent of: aMatrix
+	| i₀ j₀ |
+	i₀ := aMatrix height - extent x + 1 atRandom: random.
+	j₀ := aMatrix width - extent y + 1 atRandom: random.
+	^ aMatrix from: i₀ @ j₀ to: i₀ @ j₀ + extent - (1@1)! !
+
+!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 15:10:02'!
+newSubmatrixOf: aMatrix
+	^ self newSubmatrix: (aMatrix height atRandom: random) @ (aMatrix width atRandom: random) of: aMatrix! !
+
+!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 15:21:17'!
+testMatrixSubmatrixAddition
+	| A B S |
+	A := self newNonemptyMatrix.
+	S := self newSubmatrixOf: A.
+	B := self newMatrix: S height @ S width.
+	self testAddition: S with: B! !
+
+!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 16:53:53'!
+testMatrixSubmatrixInplaceAdditionIntoMatrix
+	| A B S C |
+	A := self newNonemptyMatrix.
+	S := self newSubmatrixOf: A.
+	B := self newMatrix: S height @ S width.
+	C := self newMatrix: S height @ S width.
+	C replaceWith: S plus: B.
+	self assert: S + B = C.
+	C := self newMatrix: S height @ S width.
+	C replaceWith: B plus: S.
+	self assert: S + B = C! !
+
+!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 16:54:02'!
+testMatrixSubmatrixInplaceSubstractionIntoMatrix
+	| A B S C |
+	A := self newNonemptyMatrix.
+	S := self newSubmatrixOf: A.
+	B := self newMatrix: S height @ S width.
+	C := self newMatrix: S height @ S width.
+	C replaceWith: S minus: B.
+	self assert: S - B = C.
+	C := self newMatrix: S height @ S width.
+	C replaceWith: B minus: S.
+	self assert: B - S = C! !
+
+!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 15:22:01'!
+testMatrixSubmatrixMultiplication
+	| A B S |
+	A := self newNonemptyMatrix.
+	S := self newSubmatrixOf: A.
+	B := self newMatrix: S width @ (5 atRandom: random).
+	self testMultiplication: S with: B.
+	B := self newMatrix: (5 atRandom: random) @ S height.
+	self testMultiplication: B with: S! !
+
+!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 15:13:09'!
+testSubmatrix
+	| A i₀ i₁ j₀ j₁ start stop B S |
+	A := self newNonemptyMatrix.
+	i₀ := A height atRandom: random.
+	i₁ := (i₀ to: A height) atRandom: random.
+	j₀ := A width atRandom: random.
+	j₁ := (j₀ to: A width) atRandom: random.
+	start := i₀ @ j₀.
+	stop := i₁ @ j₁.
+	B := A copyFrom: start to: stop.
+	S := A from: start to: stop.
+	self assert: B = S.
+	self assert: S = B! !
+
+!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 15:21:23'!
+testSubmatrixSubmatrixAddition
+	| A S T |
+	A := self newNonemptyMatrix.
+	S := self newSubmatrixOf: A.
+	T := self newSubmatrix: S height @ S width of: A.
+	self testAddition: S with: T! !
+
+!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 16:56:48'!
+testSubmatrixSubmatrixInplaceAdditionIntoMatrix
+	| A S T C |
+	A := self newNonemptyMatrix.
+	S := self newSubmatrixOf: A.
+	T := self newSubmatrix: S height @ S width of: A.
+	C := self newMatrix: S height @ S width.
+	C replaceWith: S plus: T.
+	self assert: S + T = C.
+! !
+
+!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 16:57:10'!
+testSubmatrixSubmatrixInplaceSubstractionIntoMatrix
+	| A S T C |
+	A := self newNonemptyMatrix.
+	S := self newSubmatrixOf: A.
+	T := self newSubmatrix: S height @ S width of: A.
+	C := self newMatrix: S height @ S width.
+	C replaceWith: S minus: T.
+	self assert: S - T = C.
+! !
+
+!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 15:22:15'!
+testSubmatrixSubmatrixMultiplication
+	| A S T |
+	A := self newNonemptyMatrix.
+	S := self newSubmatrixOf: A.
+	T := self newSubmatrix: S width @ (A height atRandom: random) of: A transpose.
+	self testMultiplication: S with: T! !
+
+!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/22/2023 09:48:27'!
+testSubmatrixTupleMultiplication
+	| A S v |
+	A := self newNonemptyMatrix.
+	S := self newSubmatrixOf: A.
+	v := S domain atRandom: random.
+	self assert: (S * v) asMatrix transpose = (S * v asMatrix)! !
+
+!AbstractMatrixTest methodsFor: 'other' stamp: 'len 5/20/2023 11:51:00'!
+testCopyFromTo
+	| A i₀ i₁ j₀ j₁ start stop B |
+	A := self newMatrix.
+	i₀ := A height > 0 ifTrue: [A height atRandom: random] ifFalse: [0].
+	i₁ := A height > 0 ifTrue: [A height atRandom: random] ifFalse: [-1].
+	j₀ := A width > 0 ifTrue: [A width atRandom: random] ifFalse: [0].
+	j₁ := A width > 0 ifTrue: [A width atRandom: random] ifFalse: [-1].
+	start := i₀ @ j₀.
+	stop := i₁ @ j₁.
+	B := A copyFrom: start to: stop.
+	start x to: stop x do: [:i|
+		start y to: stop y do: [:j|
+			self assert: (A at: i@j) = (B at: i - start x + 1 @ (j - start y + 1))]	]! !
+
+!AbstractMatrixTest methodsFor: 'other' stamp: 'len 5/16/2022 11:41:01'!
+testDirectSumMatrix
+	| A B C |
+	A _ self newMatrix.
+	B _ self newMatrix.
+	C _ A ⊕ B.
+	self assert: A width + B width = C width.
+	self assert: A height + B height = C height.
+	self assert: (C copyFrom: 1 @ 1 to: A height @ A width) = A.
+	self assert: (C copyFrom: A height + 1 @ (A width + 1) to: C height @ C width) = B.
+	self assert: (C copyFrom: A height + 1 @ 1 to: C height @ A width) isZero.
+	self assert: (C copyFrom: 1 @ (A width + 1) to: A height @ C width) isZero! !
+
+!AbstractMatrixTest methodsFor: 'other' stamp: 'len 10/5/2022 17:08:41'!
+testLeftRightIdentity
+	| A |
+	A _ scalars^(5 atRandom: random) ⇒ (scalars^(7 atRandom: random)) atRandom: random bits: 100.
+	self assert: A codomain id * A = A.
+	self assert: A * A domain id = A! !
+
+!AbstractMatrixTest methodsFor: 'other' stamp: 'len 5/19/2022 12:56:56'!
+testMatrixConcatenation
+	| A B C |
+	A _ self newMatrix.
+	B _ self newMatrix: A height @ ((0 to: 10) atRandom: random).
+	C _ A ⊔ B.
+	self assert: (C copyFromColumn: 1 to: A width) = A.
+	self assert: (C copyFromColumn: A width + 1 to: C width) = B! !
+
+!AbstractMatrixTest methodsFor: 'other' stamp: 'len 5/19/2022 12:56:39'!
+testMatrixStacking
+	| A B C |
+	A _ self newMatrix.
+	B _ self newMatrix: ((0 to: 10) atRandom: random) @ A width.
+	C _ A ⊓ B.
+	self assert: (C copyFromRow: 1 to: A height) = A.
+	self assert: (C copyFromRow: A height + 1 to: C height) = B! !
+
+!AbstractMatrixTest methodsFor: 'other' stamp: 'len 3/26/2021 13:23:21'!
+testTranspose
+	| A |
+	A _ self newMatrix.
+	self assert: A columns = A transpose rows.
+	self assert: A rows = A transpose columns.
+	self assert: A transpose transpose = A! !
+
+!AbstractMatrixTest methodsFor: 'row/column operations' stamp: 'len 5/12/2023 20:47:17'!
+testAddRowTimesScalar
+	| A B i1 i2 j x |
+	[A _ self newMatrix. A height > 0 and: [A width > 0]] whileFalse.
+	i1 _ A height atRandom: random.
+	i2 _ A height atRandom: random.
+	j _ A width atRandom: random.
+	B _ A copy.
+	x _ scalars atRandom: random bits: 50.
+	B addRow: i1 times: x to: i2 startingAt: j.
+	self assert: ((B rowAt: i2) copyFrom: j to: A width) = ((A rowAt: i1) * x + (A rowAt: i2) copyFrom: j to: A width).
+	self assert: ((B rowAt: i2) copyFrom: 1 to: j-1) = ((A rowAt: i2) copyFrom: 1 to: j-1)! !
+
+!AbstractMatrixTest methodsFor: 'row/column operations' stamp: 'len 5/12/2023 20:47:23'!
+testMultiplyRowByScalar
+	| A B i j x |
+	[A _ self newMatrix. A height > 0 and: [A width > 0]] whileFalse.
+	i _ A height atRandom: random.
+	j _ A width atRandom: random.
+	B _ A copy.
+	x _ scalars atRandom: random bits: 50.
+	B multiplyRow: i by: x startingAt: j.
+	self assert: ((B rowAt: i) copyFrom: j to: A width) = ((A rowAt: i) * x copyFrom: j to: A width).
+	self assert: ((B rowAt: i) copyFrom: 1 to: j-1) = ((A rowAt: i) copyFrom: 1 to: j-1)! !
+
+!AbstractMatrixTest methodsFor: 'row/column operations' stamp: 'len 5/12/2023 20:47:29'!
+testSwapRows
+	| A B i1 i2 |
+	[A _ self newMatrix. A height > 0 and: [A width > 0]] whileFalse.
+	i1 _ A height atRandom: random.
+	i2 _ A height atRandom: random.
+	B _ A copy.
+	B swapRow: i1 with: i2.
+	self assert: (B rowAt: i1) = (A rowAt: i2).
+	self assert: (B rowAt: i2) = (A rowAt: i1).
+	B swapRow: i1 with: i2.
+	self assert: A = B! !
+
+!AbstractMatrixTest methodsFor: 'solving' stamp: 'len 10/5/2022 17:08:01'!
+testBackslashMatrix
+	| n m n2 A B X |
+	50 timesRepeat:
+		[n _ 4 atRandom: random.
+		m _ 4 atRandom: random.
+		A _ scalars^n ⇒ (scalars^m) atRandom: random bits: m*n*5.
+		n2 _ 4 atRandom: random.
+		B _ A*(scalars^n2 ⇒ (scalars^n) atRandom: random bits: n*n2*5).
+		X _ A \ B.
+		self assert: A*X = B]! !
+
+!AbstractMatrixTest methodsFor: 'solving' stamp: 'len 10/5/2022 17:08:14'!
+testBackslashOneRowMatrix
+	| n A v b x |
+	50 timesRepeat:
+		[n _ 5 atRandom: random.
+		A _ scalars^n ⇒ (scalars^1) atRandom: random bits: n*5.
+		v _ scalars^n atRandom: random bits: n*5.
+		b _ A*v.
+		x _ A \ b.
+		self assert: A*x = b]! !
+
+!AbstractMatrixTest methodsFor: 'solving' stamp: 'len 10/5/2022 17:08:20'!
+testBackslashTuple
+	| n m A v b x |
+	50 timesRepeat:
+		[n _ 4 atRandom: random.
+		m _ 4 atRandom: random.
+		A _ scalars^n ⇒ (scalars^m) atRandom: random bits: m*n*5.
+		v _ scalars^n atRandom: random bits: n*5.
+		b _ A*v.
+		x _ A \ b.
+		self assert: A*x = b]! !
+
+!AbstractMatrixTest methodsFor: 'solving' stamp: 'len 10/5/2022 17:08:29'!
+testBackslashZeroMatrix
+	| n m n2 A B X |
+	n _ 5 atRandom: random.
+	m _ 5 atRandom: random.
+	A _ (scalars^n ⇒ (scalars^m)) zero.
+	n2 _ 5 atRandom: random.
+	B _ A*(scalars^n2 ⇒ (scalars^n) atRandom: random bits: n*n2*5).
+	X _ A \ B.
+	self assert: A*X = B! !
+
+!AbstractMatrixTest methodsFor: 'solving' stamp: 'len 10/5/2022 17:08:46'!
+testMatrixDivision
+	| A B n result N X combinations |
+	n _ 5 atRandom: random.
+	A _ scalars^5 ⇒ (scalars^n) atRandom: random bits: 100.
+	combinations _ (1 to: n) collect: [:each| (2 atRandom: random) = 1].
+	B _ Matrix columns:
+		(combinations collect: [:isCombination|
+			isCombination
+				ifTrue: [A * (A domain atRandom: random bits: 20)]
+				ifFalse: [A codomain atRandom: random bits: 20]]).
+	result _ B divisionBy: A.
+	X _ result first.
+	N _ result second.
+	self assert: A*X + N = B.
+	combinations withIndexDo: [:isCombination :i| isCombination ifTrue: [self assert: (N columnAt: i) isZero]]! !
+
+!AbstractMatrixTest methodsFor: 'solving' stamp: 'len 10/5/2022 17:08:56'!
+testSlashMatrix
+	| n m n2 A B X |
+	50 timesRepeat:
+		[n _ 4 atRandom: random.
+		m _ 4 atRandom: random.
+		A _ scalars^n ⇒ (scalars^m) atRandom: random bits: m*n*5.
+		n2 _ 4 atRandom: random.
+		B _ (scalars^m ⇒ (scalars^n2) atRandom: random bits: n*n2*5)*A.
+		X _ B / A.
+		self assert: X*A = B]! !
+
+!AbstractMatrixTest methodsFor: 'solving' stamp: 'len 10/5/2022 17:09:04'!
+testSlashTuple
+	| n m A v b x |
+	50 timesRepeat:
+		[n _ 4 atRandom: random.
+		m _ 4 atRandom: random.
+		A _ scalars^n ⇒ (scalars^m) atRandom: random bits: m*n*5.
+		v _ scalars^m atRandom: random bits: n*5.
+		b _ v*A.
+		x _ b / A.
+		self assert: x*A = b]! !
+
+!AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 3/26/2021 13:16:39'!
+testCokernelAndCoequalizer
+	| A |
+	A _ self newMatrix.
+	self assert: A cokernel = (A coequalizer: A zero)! !
+
+!AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 7/25/2021 10:14:36'!
+testCosyzygies
+	| A X |
+	A _ self newMatrix.
+	X _ A cosyzygies.
+	self assert: (X · A) isZero! !
+
+!AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 10/5/2022 17:08:34'!
+testCosyzygiesZeroMatrix
+	| n m A X |
+	n _ 5 atRandom: random.
+	m _ 5 atRandom: random.
+	A _ (scalars^n ⇒ (scalars^m)) zero.
+	X _ A cosyzygies.
+	self assert: (X · A) isZero! !
+
+!AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 3/29/2021 11:08:38'!
+testImage
+	| A |
+	A _ self newMatrix.
+	self assert: A image = (scalars^A height span: A columns)! !
+
+!AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 3/26/2021 13:18:21'!
+testKernelAndEqualizer
+	| A |
+	A _ self newMatrix.
+	self assert: A kernel = (A equalizer: A zero)! !
+
+!AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 7/25/2021 09:35:46'!
+testSyzygies
+	| A X |
+	A _ self newMatrix.
+	X _ A syzygies.
+	self assert: (A · X) isZero.
+"	self assert: K isMonomorphism."
+	self assert: A kernel = X image! !
+
+!AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 10/5/2022 17:09:09'!
+testSyzygiesZeroMatrix
+	| n m A X |
+	n _ 5 atRandom: random.
+	m _ 5 atRandom: random.
+	A _ (scalars^n ⇒ (scalars^m)) zero.
+	X _ A syzygies.
+	self assert: (A · X) isZero.
+	self assert: A kernel = X image! !
+
+!AbstractMatrixTest methodsFor: 'private' stamp: 'len 10/5/2022 17:07:27'!
+newMatrix
+	| n m |
+	n _ (0 to: 5) atRandom: random.
+	m _ (0 to: 5) atRandom: random.
+	^ scalars^n ⇒ (scalars^m) atRandom: random bits: (m*n*5+1 atRandom: random)! !
+
+!AbstractMatrixTest methodsFor: 'private' stamp: 'len 11/23/2022 21:23:57'!
+newMatrix: shape
+	| samples hom |
+	hom _ scalars^shape y ⇒ (scalars^shape x).
+	(2 atRandom: random) = 1 ifTrue: [^ hom atRandom: random bits: 100].
+	samples _ {scalars zero. scalars one. scalars one negated}.
+	^ hom fill: [:i :j| (2 atRandom: random) > 1 ifTrue: [scalars zero] ifFalse: [samples atRandom: random]]! !
+
+!AbstractMatrixTest methodsFor: 'private' stamp: 'len 5/22/2023 11:25:22'!
+newNonemptyMatrix
+	| n m |
+	n := (1 to: 7) atRandom: random.
+	m := (1 to: 7) atRandom: random.
+	^ scalars^n ⇒ (scalars^m) atRandom: random bits: (m*n*5+1 atRandom: random)! !
+
+!AbstractMatrixTest methodsFor: 'private' stamp: 'len 8/4/2021 14:42:41'!
+newSquareMatrix
+	| n |
+	n _ (0 to: 5) atRandom: random.
+	^ (scalars^n) endomorphisms atRandom: random bits: (n*n*5+1 atRandom: random)! !
+
+!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:14:51'!
+testAdjugateCramerRule
+	| A I |
+	A _ scalars^3 :: endomorphisms atRandom: random bits: 10.
+	I _ A identity.
+	self assert: A * A adjugate = (I * A determinant)! !
+
+!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/21/2022 12:01:10'!
+testCanonicalBases
+	| basisAndTransformation A G T U |
+	scalars hasCanonicalBases ifFalse: [^ self].
+	A _ self newMatrix: (6 atRandom: random) @ (6 atRandom: random).
+	basisAndTransformation _ A copy basisAndTransformation.
+	G _ basisAndTransformation first.
+	T _ basisAndTransformation second.
+"	self assert: G isStandardBasis."
+	self assert: A * T = G.
+	U _ A domain automorphisms atRandom: random.
+	self assert: (A * U) basis = G! !
+
+!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 13:03:14'!
+testCayleyHamiltonTheorem
+	| A |
+	A _ (scalars^(6 atRandom: random)) endomorphisms atRandom: random bits: 100.
+	self assert: (A characteristicPolynomial value: A) isZero! !
+
+!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 12:58:42'!
+testCharacteristicMatrixAndPolynomial
+	| A |
+	A _ self newSquareMatrix.
+	self assert: A characteristicPolynomial = A characteristicMatrix determinant! !
+
+!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 13:04:31'!
+testCharacteristicPolynomial
+	| A p B |
+	A _ self newSquareMatrix.
+	p _ A characteristicPolynomial.
+	self assert: (p value: A) isZero.
+	self assert: p degree = A width.
+	self assert: p isMonic.
+	self assert: A transpose characteristicPolynomial = p.
+	B _ A parent atRandom: random bits: 100.
+	self assert: (A*B) characteristicPolynomial = (B*A) characteristicPolynomial! !
+
+!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:17:39'!
+testDeterminant
+	| n V I A B c |
+	n := (0 to: 4) atRandom: random.
+	V := scalars^n.
+	I := V id.
+	self assert: I determinant = scalars one.
+	A := V endomorphisms fill: [:i :j| scalars atRandom: random bits: 10].
+	B := V endomorphisms fill: [:i :j| scalars atRandom: random bits: 10].
+	self assert: (A * B) determinant = (A determinant * B determinant).
+	c := scalars atRandom: random bits: 10.
+	self assert: (A * c) determinant = (c^n * A determinant).
+	self assert: A transpose determinant = A determinant! !
+
+!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/22/2022 18:41:25'!
+testEchelonization
+	| A E T U |
+	scalars isEuclidean ifFalse: [^ self].
+	A _ self newMatrix: (6 atRandom: random) @ (6 atRandom: random).
+	T _ A echelonTransformation.
+	E _ A echelon.
+	self assert: E isEchelon.
+"	self assert: E isReducedEchelon."
+	self assert: T * A = E.
+	U _ A codomain automorphisms atRandom: random.
+	self assert: (U * A) echelon = E.
+	T _ A coechelonTransformation.
+	E _ A coechelon.
+	self assert: E transpose isEchelon.
+"	self assert: E transpose isReducedEchelon."
+	self assert: A * T = E.
+	U _ A domain automorphisms atRandom: random.
+	self assert: (A * U) coechelon = E! !
+
+!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:09:14'!
+testAbstractRankNullity
+	| n m A |
+	n _ 5 atRandom: random.
+	m _ 5 atRandom: random.
+	A _ scalars^n ⇒ (scalars^m) atRandom: random bits: (100 atRandom: random).
+	self assert: A kernel = A transpose image complement.
+	self assert: A image = A transpose kernel complement! !
+
+!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2022 10:12:30'!
+testColumnEquivalence
+	| n m A P |
+	n _ 5 atRandom: random.
+	m _ 5 atRandom: random.
+	A _ scalars^n ⇒ (scalars^m) atRandom: random bits: 10*n*m.
+	P _ A domain automorphisms atRandom: random bits: 10*n*n.
+	self assert: A * P ~ A! !
+
+!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2021 16:52:25'!
+testColumnExtended
+	| A B |
+	A _ self newMatrix.
+	B _ A columnExtended.
+	self assert: B height = A height.
+	self assert: B isSquare.
+	self assert: A image <= B image! !
+
+!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2022 10:16:21'!
+testCongruence
+	| n A P |
+	n _ 5 atRandom: random.
+	A _ (scalars^n) endomorphisms atRandom: random bits: 10*n*n.
+	P _ A domain automorphisms atRandom: random bits: 10*n*n.
+	self assert: P transpose * A * P ≅ A! !
+
+!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2022 10:11:23'!
+testEquivalence
+	| n m A Q P |
+	n _ 5 atRandom: random.
+	m _ 5 atRandom: random.
+	A _ scalars^n ⇒ (scalars^m) atRandom: random bits: 10*n*m.
+	P _ A domain automorphisms atRandom: random bits: 10*n*n.
+	Q _ A codomain automorphisms atRandom: random bits: 10*m*m.
+	self assert: Q * A * P ≡ A! !
+
+!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/27/2021 12:08:32'!
+testFundamentalSubspacesDimensions
+	| m n A r |
+	m _ 6 atRandom: random.
+	n _ 6 atRandom: random.
+	A _ self newMatrix: m@n.
+	r _ A rank.
+	self assert: A image rank = r.
+	self assert: A kernel rank = (n - r).
+	self assert: A nullity = (n - r). "definition"
+	self assert: A coimage rank = r.
+	self assert: A cokernel rank = (m - r)! !
+
+!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2021 12:45:46'!
+testKernelImageTheorem
+	| n A |
+	n _ 6 atRandom: random.
+	A _ self newMatrix: n@n.
+	self assert: A kernel rank + A image rank = n! !
+
+!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 12:49:12'!
+testMinimalPolynomial
+	| A f |
+	A _ self newSquareMatrix.
+	f _ A minimalPolynomial.
+	self assert: f | A characteristicPolynomial.
+	self assert: (f value: A) isZero! !
+
+!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2021 12:46:05'!
+testRankNullityTheorem
+	| n A |
+	n _ 6 atRandom: random.
+	A _ self newMatrix: n@n.
+	self assert: A rank + A nullity = n! !
+
+!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2021 16:52:32'!
+testRowExtended
+	| A B |
+	A _ self newMatrix.
+	B _ A rowExtended.
+	self assert: B = A transpose columnExtended transpose! !
+
+!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2022 09:57:52'!
+testSimilarity
+	| n A P |
+	n _ 5 atRandom: random.
+	A _ (scalars^n) endomorphisms atRandom: random bits: 10*n*n.
+	P _ A domain automorphisms atRandom: random bits: 10*n*n.
+	self assert: P inverse * A * P ≃ A! !
+
+!BinaryExtensionFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:22:31'!
+initialize
+	super initialize.
+	scalars := GaloisField new: 2 to: 8 atRandom + 1! !
+
+!BinaryMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 20:43:52'!
+initialize
+	super initialize.
+	scalars _ ℤ/2! !
+
+!CyclotomicFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/21/2021 17:35:18'!
+initialize
+	super initialize.
+	scalars _ CyclotomicField new: 3 atRandom + 2! !
+
+!FiniteFieldMatrixTest methodsFor: 'initialization' stamp: 'len 12/28/2022 14:59:59'!
+initialize
+	super initialize.
+	scalars _ GaloisField new: #(16rFF 16rFFFF 16rFFFFFFFF) atRandom atRandom nextPrime to: 10 atRandom! !
+
+!FiniteFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 11:36:26'!
+testCharacteristicPolynomialBug
+	"Using the Berkowitz algorithm this test fails."
+	| A |
+	A _ (ℤ/2^3) endomorphisms !! #(1 1 1 1 0 0 1 1 1).
+	self assert: (A characteristicPolynomial value: A) isZero! !
+
+!FiniteFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:09:19'!
+testEchelonExample
+	"From Magma Handbook example H26E10."
+	| K w A |
+	K _ GaloisField new: 8.
+	w _ K x.
+	A _ K^3 ⇒ (K^4) !! {1. w. w^5. 0. w^3. w^4. w. 1. w^6. w^3. 1. w^4}.
+	self assert: A echelon = (A parent !! {1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0})! !
+
+!QuadraticFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/9/2022 08:34:10'!
+initialize
+	| n |
+	super initialize.
+	[(n _ (2 to: 100) atRandom squarefreePart) > 1] whileFalse.
+	2 atRandom = 1 ifTrue: [n _ n negated].
+	scalars _ QuadraticField sqrt: n! !
+
+!RationalMatrixTest methodsFor: 'initialization' stamp: 'len 3/26/2021 12:54:30'!
+initialize
+	super initialize.
+	scalars _ ℚ! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:06:20'!
+testAdjugateExampleProperties
+	| A B I c |
+	A _ ℚ !!!!!! { (-3,2,-5). (-1,0,-2). (3,-4,1) }.
+	B _ ℚ !!!!!! { (-1,2,3). (1,-2,1). (2,2,-1) }.
+	c _ 7.
+	I _ (ℚ^3) id.
+	self assert: I adjugate = I.
+	self assert: (A * B) adjugate = (B adjugate * A adjugate).
+	self assert: (A*c) adjugate = (A adjugate * (c^2)).
+	self assert: (A^5) adjugate = (A adjugate ^ 5).
+	self assert: A transpose adjugate = A adjugate transpose! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:23:15'!
+testBackslashExample
+	"Example from Sage documentation. Non-singular and square."
+	| A B X |
+	A _ (ℚ^3) endomorphisms !! #(1 2 4 5 3 1 1 2 -1).
+	B _ ℚ^2 ⇒ (ℚ^3) !! #(1 5 1 2 1 5).
+	X _ A \ B.
+	self assert: X = (ℚ^2 ⇒ (ℚ^3) !! {-1/7. -11/7. 4/7. 23/7. 0. 0}).
+	self assert: A * X = B! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:09:32'!
+testBackslashExampleNoSolution
+	"Example from Sage documentation."
+	| A v |
+	A _ ℚ^3 ⇒ (ℚ^2) !! #(1 2 3 2 4 6).
+	v _ ℚ^2 !! #(1 1).
+	self assert: (A \ v) isNil! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:09:40'!
+testBackslashExampleNonSquare
+	"Example from Sage documentation."
+	| A B X |
+	A _ ℚ^4 ⇒ (ℚ^2) !! #(0 -1 1 0 -2 2 1 0).
+	B _ (ℚ^2) endomorphisms !! #(1 0 1 -1).
+	X _ A \ B.
+	self assert: X = (ℚ^2 ⇒ (ℚ^4) !! {-3/2. 1/2. -1. 0. 0. 0. 0. 0}).
+	self assert: A * X = B! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:09:45'!
+testBackslashExampleNonSquare2
+	| A B X |
+	A _ ℚ^4 ⇒ (ℚ^2) !! #(0 0 -1 1 0 -2 2 1).
+	B _ (ℚ^2) endomorphisms !! #(1 0 1 -1).
+	X _ A \ B.
+	self assert: A * X = B! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:09:56'!
+testBackslashExampleSingular
+	"Example from Sage documentation."
+	| A B X |
+	A _ ℚ^3 ⇒ (ℚ^2) !! #(1 2 3 2 4 6).
+	B _ ℚ^2 ⇒ (ℚ^2) !! #(6 -6 12 -12).
+	X _ A \ B.
+	self assert: X = (ℚ^2 ⇒ (ℚ^3) !! #(6 -6 0 0 0 0)).
+	self assert: A * X = B! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 10:28:32'!
+testBackslashRationalTuple
+	"Example from Sage documentation."
+	| A v x |
+	A _ (ℚ^3) endomorphisms !! #(1 2 3 -1 2 5 2 3 1).
+	v _ ℚ^3 !! #(1 2 3).
+	x _ A \ v.
+	self assert: x = (-13/12, (23/12), (-7/12)).
+	self assert: A * x = v! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:06:29'!
+testBackslashRationalTuple2
+	"Example from GAP manual."
+	| A b x |
+	A _ ℚ !!!!!! #((1 2 7) (4 5 6) (7 8 9) (10 11 19) (5 7 12)).
+	b _ ℚ !!!! #(95 115 182).
+	x _ ℚ !!!! {47/4. -17/2. 67/4. 0. 0}.
+	self assert: A transpose \ b = x! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:10:01'!
+testBackslashRationalTupleNonSquare
+	"Example from Sage documentation."
+	| A v x |
+	A _ ℚ^3 ⇒ (ℚ^2) !! #(1 2 3 2 4 6).
+	v _ (-1/2, -1).
+	x _ (-1/2, 0, 0).
+	self assert: A \ v = x! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:06:39'!
+testCauchyDeterminantProductFormulaExample
+	| A B |
+	A _ ℚ !!!!!! {(1,1,1). (3,5,7). (9,25,49)}.
+	B _ ℚ !!!!!! {(1,0,4). (1,1,1). (2,-2,-3)}.
+	self assert: A determinant * B determinant = (A * B) determinant! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:06:50'!
+testCokernelMatrixRational
+	"From Sage."
+	| A B |
+	A _ ℚ !!!!!! {(1,2,4,-7,4). (1,1,0,2,-1). (1,0,3,-3,1). (0,-1,-1,3,-2). (0,0,-1,2,-1)}.
+	B _ ℚ !!!!!! {(1,0,-1,2,-1). (0,1,-1,1,-4)}.
+	self assert: A cosyzygies echelon = B "we have to perform an additional echelonization"! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:06:55'!
+testDeterminantExample
+	| m |
+	m _ ℚ !!!!!! { (2,1). (-1,0) }.
+	self assert: m determinant = 1! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:00'!
+testDeterminantExample2
+	| vandermonde |
+	vandermonde _ ℚ !!!!!! {(1,1,1). (3,5,7). (9,25,49)}.
+	self assert: vandermonde determinant = 16! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 11:45:21'!
+testInverseBug
+	| X |
+	X _ (ℚ^2) endomorphisms !! #(1 2 0 0).
+	self should: [X inverse] raise: Error! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:07'!
+testInverseExample
+	| A I |
+	A _ ℚ !!!!!! { (2,1,1). (-1,0,1). (0,2,1) }.
+	I _ (ℚ^3) id.
+	self assert: A inverse * A = I.
+	self assert: A * A inverse = I! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:16:50'!
+testInverseExample2
+	| Qx x f A |
+	Qx _ ℚ polynomials.
+	x _ Qx x.
+	f _ x^8 + (x^6) - (3*(x^4)) - (3*(x^3)) + (8*(x^2)) + (2*x) - 5.
+	A _ f companion.
+	self assert: (A * A inverse) isIdentity! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:12'!
+testJordanNormalFormExample
+	| A jordan B |
+"	<timeout: 2>"
+	A _ ℚ !!!!!! { (5,4,2,1). (0,1,-1,-1). (-1,-1,3,0). (1,1,-1,2) }.
+	jordan _ A jordan.
+	self assert: jordan size = 3.
+	B _ (ℚ^1) id.
+	self assert: (jordan includes: B).
+	B _ (ℚ^1) id * 2.
+	self assert: (jordan includes: B).
+	B _ (ℚ^2) id * 4 :: at: 1@2 put: 1; yourself.
+	self assert: (jordan includes: B)! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:17'!
+testKernelExample
+	| A K |
+	A _ ℚ !!!!!! {(1, 0, -3, 0, 2, -8). (0, 1, 5, 0, -1, 4). (0, 0, 0, 1, 7, -9). (0, 0, 0, 0, 0, 0)}.
+	K _ ℚ^6 span: {(3,-5,1,0,0,0). (-2,1,0,-7,1,0). (8,-4,0,9,0,1)}.
+	self assert: A kernel = K! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:22'!
+testKernelExample2
+	"Example from GAP manual."
+	| A K |
+	A _ ℚ !!!!!! #((1 2 7) (4 5 6) (7 8 9) (10 11 19) (5 7 12)).
+	A _ A transpose.
+	K _ ℚ^5 span: {{-7/4. 9/2. -15/4. 1. 0}. {-3/4. -3/2. 1/4. 0. 1}}.
+	self assert: A kernel = K! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:10:06'!
+testLeftInverseRational
+	| A |
+	[A _ ℚ^3 ⇒ (ℚ^5) atRandom: random bits: 1000. A rank = 3] whileFalse.
+	self assert: (A retraction * A) isIdentity! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:22:53'!
+testRCFAndInvariantFactorsExample
+	"Example from Magma documentation."
+	| K A R x |
+	K _ ℤ/5.
+	A _ (K^5) endomorphisms !! #(0 2 4 2 0 2 2 2 3 3 3 4 4 1 3 0 0 0 0 1 0 0 0 1 0).
+	R _ A parent !! #(1 0 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0 1 0).
+	self assert: A RCF = R.
+	x _ K polynomials x.
+	self assert: A invariantFactors = {x - 1. x^2 - 1. x^2 - 1}
+	"TODO: test transformation T such that T*A*T inverse = R"! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:30'!
+testRCFExample
+	| A |
+	A _ ℚ !!!!!! #((-2 0 0) (-1 -4 -1) (2 4 0)).
+	self assert: A RCF = (ℚ !!!!!! #((-2 0 0) (0 0 -4) (0 1 -4)))! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:37'!
+testRCFExample2
+	"Example from wikipedia:"
+	| A C |
+	A _ ℚ !!!!!! #(
+		(-1 3 -1 0 -2 0 0 -2)
+		(-1 -1 1 1 -2 -1 0 -1)
+		(-2 -6 4 3 -8 -4 -2 1)
+		(-1 8 -3 -1 5 2 3 -3)
+		(0 0 0 0 0 0 0 1)
+		(0 0 0 0 -1 0 0 0)
+		(1 0 0 0 2 0 0 0)
+		(0 0 0 0 4 0 1 0)).
+	C _ ℚ !!!!!! #(
+		(0 1 0 0 0 0 0 0)
+		(1 1 0 0 0 0 0 0)
+		(0 0 0 0 0 0 0 -1)
+		(0 0 1 0 0 0 0 -4)
+		(0 0 0 1 0 0 0 -4)
+		(0 0 0 0 1 0 0 2)
+		(0 0 0 0 0 1 0 4)
+		(0 0 0 0 0 0 1 0)).
+	self assert: A RCF = C! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:44'!
+testRankExample
+	| vandermonde |
+	vandermonde _ ℚ !!!!!! {(1,1,1). (3,5,7). (9,25,49)}.
+	self assert: vandermonde rank = 3.
+	vandermonde _ ℤ !!!!!! {(1,1,1). (3,5,7). (9,25,49)}.
+	self assert: vandermonde rank = 3! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:48'!
+testRankExample2
+	| m |
+	m _ ℚ !!!!!! {(1,1,1). (2,2,0). (3,3,1)}.
+	self assert: m rank = 2! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:10:11'!
+testRightInverseRational
+	| A |
+	[A _ ℚ^5 ⇒ (ℚ^3) atRandom: random bits: 1000. A rank = 3] whileFalse.
+	self assert: (A * A section) isIdentity! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:58'!
+testSimilarityExample
+	"Examples from wikipedia article on SNF"
+	| A B C |
+	A _ ℚ !!!!!! {(1,2). (0,1)}.
+	B _ ℚ !!!!!! {(3,-4). (1,-1)}.
+	C _ ℚ !!!!!! {(1,0). (1,2)}.
+	self assert: A ≃ B.
+	self deny: A ≃ C! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:10:16'!
+testSlashWithMatrixExample
+	| A B X  |
+	A _ (ℚ^3) endomorphisms !! #(1 1 3 2 0 4 -1 6 -1).
+	B _ ℚ^3 ⇒ (ℚ^1) !! #(2 19 8).
+	X _ B / A.
+	self assert: X = (B parent !! #(1 2 3)).
+	self assert: X * A = B! !
+
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:25:07'!
+testSlashWithTupleExample
+	| A b x  |
+	A _ (ℚ^3) endomorphisms !! #(1 1 3 2 0 4 -1 6 -1).
+	b _ ℚ^3 !! #(2 19 8).
+	x _ b / A.
+	self assert: x = (ℚ^3 !! #(1 2 3)).
+	self assert: x * A = b! !
+
+!SmallFiniteFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/29/2022 10:10:20'!
+initialize
+	| p |
+	super initialize.
+	p _ 13 atRandom nextPrime.
+	scalars _ GaloisField new: p to: ((256 log: p) floor - 1)  atRandom + 1! !
+
+!TernaryExtensionFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:22:07'!
+initialize
+	super initialize.
+	scalars := GaloisField new: 3 to: 8 atRandom + 1! !
+
+!TernaryMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 17:23:44'!
+initialize
+	super initialize.
+	scalars _ ℤ/3! !
+
+!CyclotomicIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/21/2021 17:35:09'!
+initialize
+	super initialize.
+	scalars _ (CyclotomicField new: 3 atRandom + 2) integers! !
+
+!EisensteinIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:22:58'!
+initialize
+	super initialize.
+	scalars _ (CyclotomicField new: 3) integers! !
+
+!GaussianIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/7/2022 13:52:55'!
+initialize
+	super initialize.
+	scalars _ GaussianField new integers! !
+
+!IntegerMatrixTest methodsFor: 'initialization' stamp: 'len 3/26/2021 12:50:25'!
+initialize
+	super initialize.
+	scalars _ ℤ! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:03:53'!
+testAdjugateExample
+	| A I |
+	A _ Matrix rows: { (2,1,1). (-1,0,1). (0,2,1) }.
+	I _ A identity.
+	self assert: A * A adjugate = (I * A determinant)! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:04:04'!
+testAdjugateExample2
+	| A B |
+	A _ Matrix rows: { (-3,2,-5). (-1,0,-2). (3,-4,1) }.
+	B _ Matrix rows: { (-8,18,-4). (-5,12,-1). (4,-6,2) }.
+	self assert: A adjugate = B! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:10:21'!
+testBackslashIntegerTuple
+	"Example from Sage documentation."
+	| A v x |
+	A _ ℤ^3 ⇒ (ℤ^2) !! #(1 2 3 2 4 6).
+	v _ (-1, -2).
+	x _ A \ v.
+"	self assert: x = (-1, 0, 0)."
+	self assert: A * x = v! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:03'!
+testBackslashIntegerTuple2
+	"Example from GAP manual."
+	| A b |
+	A _ ℤ !!!!!! #((1 2 7) (4 5 6) (7 8 9) (10 11 19) (5 7 12)).
+	A _ A transpose.
+	b _ ℤ !!!! #(95 115 182).
+"	x _ ℤ tuple: #(2285 -5854 4888 -1299 0)." "<- GAP comes up with this solution, but this is not very small"
+	self assert: A * (A \ b) = b! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:08'!
+testBackslashIntegerTuple3
+	| A b |
+	A _ ℤ !!!!!! #((-8 1 -7 -9 -2 -1) (5 -2 3 -3 1 1) (7 0 6 4 -5 -8) (-7 -10 5 9 -4 4) (3 -4 1 -2 3 -8) (-7 3 2 6 7 -1) (4 8 5 1 -8 -9) (9 5 0 -10 -8 8) (-6 2 -6 -9 -5 6)).
+	A _ A transpose.
+	b _ ℤ !!!! #(3 -1 -1 -7 9 8).
+	"x _ ℤ !!!! #(38 25 -6 1 -34 -12 3 -3 -44)." "shortest solution"
+	self assert: A * (A \ b) = b! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 10:29:40'!
+testBackslashIntegerTupleBug
+	| A b x |
+	A _ (ℤ^3) endomorphisms !! #(1 0 0 0 1 0 0 0 10).
+	b _ (0, 0, 10).
+	x _ A \ b.
+	self assert: A * x = b! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 10:30:02'!
+testBackslashPascal3
+	"Example from Matlab documentation. Non-singular and square."
+	| A u x |
+	A _ (ℤ^3) endomorphisms !! #(1 1 1 1 2 3 1 3 6). "pascal(3)"
+	u _ (3, 1, 4).
+	x _ A \ u.
+	self assert: x = (10, -12, 5).
+	self assert: A * x = u! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 10:30:06'!
+testBackslashPascal3Magic3
+	"Example from Matlab documentation. Non-singular and square."
+	| A B X |
+	A _ (ℤ^3) endomorphisms !! #(1 1 1 1 2 3 1 3 6). "pascal(3)"
+	B _ (ℤ^3) endomorphisms !! #(8 1 6 3 5 7 4 9 2). "magic(3)"
+	X _ A \ B.
+	self assert: X = ((ℤ^3) endomorphisms !! #(19 -3 -1 -17 4 13 6 0 -6)).
+	self assert: A * X = B! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:14'!
+testCauchyDeterminantProductFormulaExample
+	| A B |
+	A _ ℤ !!!!!! {(1,1,1). (3,5,7). (9,25,49)}.
+	B _ ℤ !!!!!! {(1,0,4). (1,1,1). (2,-2,-3)}.
+	self assert: A determinant * B determinant = (A * B) determinant! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:24'!
+testCharacteristicPolynomialExample1x1
+	| A x |
+	A _ ℤ !!!!!! #((42)).
+	x _ ℤ polynomials x.
+	self assert: A characteristicPolynomial = (x - 42)! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:28'!
+testCharacteristicPolynomialExample2x2
+	| A x |
+	A _ ℤ !!!!!! #((1 2) (3 4)).
+	x _ ℤ polynomials x.
+	self assert: A characteristicPolynomial = (x^2 - (x*5) - 2)! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:32'!
+testCharacteristicPolynomialExample3x3
+	| A x |
+	A _ ℤ !!!!!! #((1 2 3) (4 5 6) (7 8 9)).
+	x _ ℤ polynomials x.
+	self assert: A characteristicPolynomial = (x^3 - (x^2*15) - (x*18))! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:36'!
+testCharacteristicPolynomialExample4x4
+	| A x |
+	A _ ℤ !!!!!! #((1 2 3 4) (5 6 7 8) (9 10 11 12) (13 14 15 16)).
+	x _ ℤ polynomials x.
+	self assert: A characteristicPolynomial = (x^4 - (x^3*34) - (x^2*80))! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:43'!
+testCokernelMatrixInteger
+	"From Sage."
+	| A B |
+	A _ ℤ !!!!!! {(1,2,4,-7,4). (1,1,0,2,-1). (1,0,3,-3,1). (0,-1,-1,3,-2). (0,0,-1,2,-1)}.
+	B _ ℤ !!!!!! {(1,0,-1,2,-1). (0,1,-1,1,-4)}.
+	self assert: A cosyzygies echelon = B! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:47'!
+testDeterminantExample
+	| m |
+	m _ ℤ !!!!!! { (2,1). (-1,0) }.
+	self assert: m determinant = 1! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:51'!
+testDeterminantExample2
+	| vandermonde |
+	vandermonde _ ℤ !!!!!! {(1,1,1). (3,5,7). (9,25,49)}.
+	self assert: vandermonde determinant = 16! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/29/2022 19:39:19'!
+testDomainError
+	| A B |
+	A _ (ℤ^4) id.
+	self should: [A / 2] raise: DivisibilityError.
+	B _ (ℚ^4) id.
+	self should: [A + B] raise: Error.
+	self should: [A * B] raise: Error! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:08:57'!
+testHermiteNormalFormBug
+	"Bug."
+	| A H |
+	A _ ℤ !!!!!! #((1 2 3 0) (1 2 3 1)).
+	H _ ℤ !!!!!! #((1 2 3 0) (0 0 0 1)).
+	self assert: A HNF = H! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:09:03'!
+testHermiteNormalFormExample
+	"Example from wikipedia."
+	| A H |
+	A _ ℤ !!!!!! { (3,3,1,4). (0,1,0,0). (0,0,19,16). (0,0,0,3) }.
+	H _ ℤ !!!!!! { (3,0,1,1). (0,1,0,0). (0,0,19,1). (0,0,0,3) }.
+	self assert: A HNF = H! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:09:08'!
+testHermiteNormalFormExample2
+	| A H |
+	A _ ℤ !!!!!! { (9,-36,30). (-36,192,-180). (30,-180,180) }.
+	H _ ℤ !!!!!! { (3,0,30). (0,12,0). (0,0,60) }.
+	self assert: A HNF = H! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:09:15'!
+testHermiteNormalFormExample3
+	"Example from wikipedia"
+	| A H |
+	A _ ℤ !!!!!! { (2,3,6,2). (5,6,1,6). (8,3,1,1) }.
+	H _ ℤ !!!!!! { (1,0,50,-11). (0,3,28,-2). (0,0,61,-13) }.
+	self assert: A HNF = H! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:09:20'!
+testHermiteNormalFormExample4
+	"Example from Sage"
+	| A B |
+	A _ ℤ !!!!!! {(1,2,3,4). (5,6,7,8). (9,10,11,12)}.
+	B _ ℤ !!!!!! {(1,2,3,4). (0,4,8,12). (0,0,0,0)}.
+	self assert: A HNF = B.
+	self assert: A echelon = B "the echelon form of integers matrices is the hermite normal form"! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:09:25'!
+testHermiteNormalFormExample5
+	"From Magma Handbook example H26E10."
+	| A H |
+	A _ ℤ !!!!!! #((2 -4 12 7 0) (3 -3 5 -1 4) (2 -1 -4 -5 -12) (0 3 6 -2 0)).
+	H _ ℤ !!!!!! #((1 1 1 6 -164) (0 3 0 16 -348) (0 0 2 13 -200) (0 0 0 19 -316)).
+	self assert: A HNF = H! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:09:35'!
+testHermiteNormalFormExample6
+	"From MuPAD documentation."
+	| A H |
+	A _ ℤ !!!!!! #(
+		(25 -300 1050 -1400 630)
+		(-300 4800 -18900 26880 -12600)
+		(1050 -18900 79380 -117600 56700)
+		(-1400 26880 -117600 179200 -88200)
+		(630 -12600 56700 -88200 44100)).
+	H _ ℤ !!!!!! #(
+		(5 0 210 560 630)
+		(0 60 0 0 0)
+		(0 0 420 0 0)
+		(0 0 0 840 0)
+		(0 0 0 0 2520)).
+	"The original from MuPAD documentation is:
+	H _ ℤ !!!!!! #(
+		(5 0 -210 -280 630)
+		(0 60 0 0 0)
+		(0 0 420 0 0)
+		(0 0 0 840 0)
+		(0 0 0 0 2520)).
+	but this is wrong, this is a bug in MuPAD"
+	self assert: A HNF = H! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:09:41'!
+testHermiteNormalFormExample7
+	"Example from GAP manual."
+	| A H |
+	A _ ℤ !!!!!! #((1 15 28) (4 5 6) (7 8 9)).
+	H _ ℤ !!!!!! #((1 0 1) (0 1 1) (0 0 3)).
+	self assert: A HNF = H! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:09:47'!
+testHermiteNormalFormExample8
+	"Example from Pernet-Stein 'Fast computation of Hermite normal forms of random integer matrices'."
+	| A H |
+	A _ ℤ !!!!!! #((-5 8 -3 -9 5 5) (-2 8 -2 -2 8 5) (7 -5 -8 4 3 -4) (1 -1 6 0 8 -3)).
+	H _ ℤ !!!!!! #((1 0 3 237 -299 90) (0 1 1 103 -130 40) (0 0 4 352 -450 135) (0 0 0 486 -627 188)).
+	self assert: A HNF = H! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:09:52'!
+testHermiteNormalFormExample9
+	"Example from Pernet-Stein 'Fast computation of Hermite normal forms of random integer matrices'."
+	| A H |
+	A _ ℤ !!!!!! #((-1 2 5 65 2) (4 -1 -3 1 -2) (-1 -2 1 -1 1)).
+	H _ ℤ !!!!!! #((1 0 17 259 7) (0 1 31 453 13) (0 0 40 582 17)).
+	self assert: A HNF = H! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:09:59'!
+testIsHermiteNormalForm
+	"Example from wikipedia."
+	| A H |
+	A _ ℤ !!!!!! { (3,3,1,4). (0,1,0,0). (0,0,19,16). (0,0,0,3) }.
+	H _ ℤ !!!!!! { (3,0,1,1). (0,1,0,0). (0,0,19,1). (0,0,0,3) }.
+	self assert: A isHermiteNormalForm not.
+	self assert: H isHermiteNormalForm! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:08'!
+testIsHermiteNormalForm2
+	| M |
+	M _ ℤ !!!!!! {(2,0,1,11). (0,1,5,12). (0,0,6,12). (0,0,0,33)}.
+	self assert: M isHermiteNormalForm.
+	self assert: M transpose isHermiteNormalForm not.
+	M _ ℤ !!!!!! {(2,0,1,11). (0,1,5,12). (0,0,6,12). (0,0,0,33). (0,0,0,0)}.
+	self assert: M isHermiteNormalForm.
+	M _ ℤ !!!!!! {(2,0,1,11). (0,1,5,12). (0,0,6,12). (0,0,0,33). (0,0,0,1)}.
+	self assert: M isHermiteNormalForm not! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:14'!
+testKernelExample
+	"Example from GAP manual."
+	| A K |
+	A _ ℤ !!!!!! #((1 2 7) (4 5 6) (7 8 9) (10 11 19) (5 7 12)).
+	A _ A transpose. "because in GAP matrices act on rows"
+	K _ ℤ !!!!!! #((1 18 -9 2 -6) (0 24 -13 3 -7)).
+	K _ K transpose.
+	self assert: A kernelMap asMatrix = K! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:21'!
+testKroneckerProductExample
+	| A B C |
+	A _ ℤ !!!!!! #((1 2) (3 4)).
+	B _ ℤ !!!!!! #((0 5) (6 7)).
+	C _ ℤ !!!!!! #((0 5 0 10) (6 7 12 14) (0 15 0 20) (18 21 24 28)).
+	self assert: A ⊗ B = C! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:25'!
+testMinorExample
+	| A |
+	A _ ℤ !!!!!! #((1 2 3) (4 5 6) (7 8 9)).
+	self assert: (A minor: 2@3) = -6! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:10:25'!
+testMinorsExample
+	| A |
+	A _ ℤ^3 ⇒ (ℤ^2) !! (1 to: 6).
+	self assert: (A minors: 2) asArray = #(-3 -6 -3)! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:21:22'!
+testPermanentExample
+	"Example from https://en.wikipedia.org/wiki/Permanent_(mathematics)"
+	| A |
+	A _ (ℤ^4) endomorphisms !! #(1 1 1 1 2 1 0 0 3 0 1 0 4 0 0 1).
+	self assert: A permanent = 10! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:30'!
+testPivots
+	| A |
+	A _ ℤ !!!!!! {(0,-1,-1). (0,-20,1). (0,1,2)}.
+	self assert: A echelon pivots asArray = {1@2. 2@3}! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:21:33'!
+testPositiveDefiniteExample
+	| M |
+	M _ (ℤ^3) endomorphisms !! #(3 -1 1 -1 3 1 1 1 3).
+	self assert: M isPositiveDefinite! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:34'!
+testRankExample
+	| m |
+	m _ ℤ !!!!!! {(1,1,1). (2,2,2). (5,5,5)}.
+	self assert: m rank = 1! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:38'!
+testSmithNormalFormExample1
+	| A |
+	A _ ℤ !!!!!! { (2,4,4). (-6,6,12). (10,-4,-16) }.
+	self assert: A SNF = ((ℤ^3) endomorphisms diagonal: #(2  6 12))! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:42'!
+testSmithNormalFormExample2
+	| A |
+	"Reduced Laplacian matrix of K_4:"
+	A _ ℤ !!!!!! { (3,-1,-1). (-1,3,-1). (-1,-1,3) }.
+	self assert: A SNF = ((ℤ^3) endomorphisms diagonal: #(1  4  4))! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:46'!
+testSmithNormalFormExample3
+	"Example from Willian Stein, 'Algebraic Number Theory, A Computational Approach'."
+	| A |
+	A _ ℤ !!!!!! { (1,4,9). (16,25,36). (49,64,81) }.
+	self assert: A SNF = ((ℤ^3) endomorphisms diagonal: #(1 3 72))! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:50'!
+testSmithNormalFormExample4
+	"Smith form of a 3x3 matrix of rank 2.
+	Example from Willian Stein, 'Algebraic Number Theory, A Computational Approach'."
+	| A |
+	A _ ℤ !!!!!! #((2 3 4) (5 6 7) (8 9 10)).
+	self assert: A SNF = ((ℤ^3) endomorphisms diagonal: #(1 3 0)) "this fails with SNF because Cohen defines SNF only for nonsingular matrices, so use SNF2"! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:56'!
+testSmithNormalFormExample5
+	"Example from youtube video: 'Derek Holt: Algorithms for finitely presented groups' @ 25:49."
+	| A |
+	A _ ℤ !!!!!! #((1 2 0 -2) (0 2 2 0) (-1 -4 4 2)).
+	self assert: A SNF = (ℤ !!!!!! #((1 0 0 0) (0 2 0 0) (0 0 6 0)))! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:01'!
+testSmithNormalFormExample6
+	"From Magma Handbook example H26E10."
+	| A |
+	A _ ℤ !!!!!! #((2 -4 12 7 0) (3 -3 5 -1 4) (2 -1 -4 -5 -12) (0 3 6 -2 0)).
+	self assert: A elementaryDivisors = #(1 1 1 2)! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:08'!
+testSmithNormalFormExample7
+	"From GAP manual."
+	| A |
+	A _ ℤ !!!!!! #((1 15 28) (4 5 6) (7 8 9)).
+	self assert: A SNF = ((ℤ^3) endomorphisms diagonal: #(1 1 3))! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:12'!
+testSmithNormalFormExample8
+	| A |
+	A _ ℤ !!!!!! #((2 1 -3) (3 -2 -1) (1 -3 2)).
+	self assert: A SNF = ((ℤ^3) endomorphisms diagonal: #(1 7 0))! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:18'!
+testSmithNormalFormExample9
+	| A |
+	A _ ℤ !!!!!! #((1 2 3 4 5 6 7) (1 0 1 0 1 0 1) (2 4 5 6 1 1 1) (1 4 2 5 2 0 0) (0 0 1 1 2 2 3)).
+	self assert: A SNF = (ℤ !!!!!! #((1 0 0 0 0 0 0) (0 1 0 0 0 0 0) (0 0 1 0 0 0 0) (0 0 0 1 0 0 0) (0 0 0 0 2 0 0)))! !
+
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:24'!
+testSmithNormalFormExampleDiagonal
+	| A |
+	A _ ℤ !!!!!! #((2 0 0) (0 1 0) (0 0 0)).
+	self assert: A SNF = ((ℤ^3) endomorphisms diagonal: #(1 2 0)).
+	A _ ℤ !!!!!! #((5 0 0) (0 2 0) (0 0 0)).
+	self assert: A SNF = ((ℤ^3) endomorphisms diagonal: #(1 10 0))! !
+
+!LocalIntegerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/23/2022 13:16:34'!
+initialize
+	super initialize.
+	scalars _ ℤ @ (ℤ * 64 atRandom nextPrime)! !
+
+!PrimeFieldMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/30/2021 12:23:00'!
+initialize
+	super initialize.
+	scalars _ ℤ/5 polynomialsIn: #(x y z)! !
+
+!PrimeFieldPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:06:29'!
+initialize
+	super initialize.
+	scalars _ ℤ/5! !
+
+!PrimeFieldPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:16:20'!
+testRankOverPolynomialsOverZ5
+	"Example form Magma handbook (H88E7)."
+	| K P x a |
+	K _ ℤ/5.
+	P _ K polynomials.
+	x _ P x.
+	a _ (P^5) endomorphisms fill: [:i :j| x^i + (x^j)].
+	self assert: a rank = 2! !
+
+!PrimeFieldPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:16:36'!
+testSmithNormalFormOverPolynomialsOverPrimeField1
+	"Example form Magma handbook (H88E7)."
+	| K P x a |
+	K _ ℤ/5.
+	P _ K polynomials.
+	x _ P x.
+	a _ (P^5) endomorphisms fill: [:i :j| x^i + (x^j)].
+	self assert: a elementaryDivisors = {x. x^3 + (x^2*3) + x}! !
+
+!PrimeFieldPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:05:31'!
+testSmithNormalFormOverPolynomialsOverPrimeField2
+	"Example form Magma handbook (H88E7)."
+	| K P x a ax |
+	K _ ℤ/5.
+	P _ K polynomials.
+	x _ P x.
+	a _ (ℤ^5) endomorphisms !! #(0 2 4 2 0 2 2 2 3 3 3 4 4 1 3 0 0 0 0 1 0 0 0 1 0).
+	a _ a over: P.
+	ax _ a identity * x - a.
+	self assert: ax SNF = ((P^5) endomorphisms diagonal: {P one. P one. x - 1. x^2 - 1. x^2 - 1}).
+	self assert: ax elementaryDivisors = {P one. P one. x - 1. x^2 - 1. x^2 - 1}! !
+
+!QuadraticRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/9/2022 08:34:13'!
+initialize
+	| n |
+	super initialize.
+	[(n _ (2 to: 100) atRandom squarefreePart) > 1] whileFalse.
+	2 atRandom = 1 ifTrue: [n _ n negated].
+	scalars _ (QuadraticField sqrt: n) integers! !
+
+!RationalMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/15/2021 07:37:23'!
+initialize
+	super initialize.
+	scalars _ ℚ polynomialsIn: #(x y z)! !
+
+!RationalPolynomialRingMatrixTest methodsFor: 'initialization' stamp: 'len 3/26/2021 12:58:50'!
+initialize
+	super initialize.
+	scalars _ ℚ polynomials! !
+
+!RationalPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:15:39'!
+testHermiteNormalFormExample
+	"From MuPAD documentation."
+	| R x A H |
+	R _ ℚ polynomials.
+	x _ R x.
+	A _ (R^2) endomorphisms !! {x^2 + 3. (x*2 - 1)^2. (x + 2)^2. x^2*3 + 5}.
+	H _ (R^2) endomorphisms !! {R one. (x^3*4 + (x^2*47) - (x*76) + 20) / 49. R zero. x^4 + (x^3*12) - (x^2*13) - (x*12) - 11}.
+	self assert: A HNF = H! !
+
+!RationalPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:31'!
+testSmithNormalFormOverExample1
+	"Example from Sage documentation."
+	| R x A |
+	R _ ℚ polynomials.
+	x _ R x.
+	A _ (R^2) id * x - (R !!!!!! #((3 -4) (1 -1))).
+	self assert: A SNF = ((R^2) endomorphisms diagonal: {R one. x^2 - (x*2) + 1})! !
+
+!GaloisRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 10:51:06'!
+initialize
+	super initialize.
+	scalars _ GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom! !
+
+!GaloisRingMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:01:06'!
+initialize
+	super initialize.
+	scalars _ (GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom) polynomialsIn: 3 atRandom! !
+
+!ModularIntegerMatrixTest methodsFor: 'initialization' stamp: 'len 4/26/2021 11:49:04'!
+initialize
+	super initialize.
+	scalars _ ℤ/(2 to: 64) atRandom! !
+
+!ModularIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:42'!
+testHowellNormalForm1
+	"Examples from 'Fast Algorithms for Linear Algebra Modulo N', Arne Storjohann, Thom Mulders."
+	| R A B C D H |
+	R _ ℤ/12.
+	A _ R !!!!!! #((4 1 0) (0 0 5) (0 0 0)).
+	B _ R !!!!!! #((8 5 5) (0 9 8) (0 0 10)).
+	C _ R !!!!!! #((4 1 10) (0 0 5) (0 0 0)).
+	D _ R !!!!!! #((4 1 0) (0 0 1) (0 0 0)).
+	H _ R !!!!!! #((4 1 0) (0 3 0) (0 0 1)).
+	self assert: A echelon = H.
+	self assert: B echelon = H.
+	self assert: C echelon = H.
+	self assert: D echelon = H! !
+
+!ModularIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 21:47:55'!
+testHowellNormalForm2
+	| m R t u |
+	100 timesRepeat:
+		[[m _ (256 atRandom: random) + 1. m isPrime] whileTrue.
+		R _ ℤ/m.
+		t _ R^(5 atRandom: random) atRandom: random.
+		u _ R units atRandom: random.
+		self assert: t asRowMatrix echelon = (t*u) asRowMatrix echelon]! !
+
+!ModularIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:49'!
+testHowellNormalForm3
+	"Example from 'Spans in the module (Z/mZ)^s', John A. Howell (1986)."
+	| R A H |
+	R _ ℤ/6.
+	A _ R !!!!!! #((2 1)).
+	H _ R !!!!!! #((2 1) (0 3)).
+	self assert: A echelon = H! !
+
+!ModularIntegerMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:01:24'!
+initialize
+	super initialize.
+	scalars _ ℤ/1024 atRandom polynomialsIn: 3 atRandom! !
+
+!PrimeFieldAffineAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 18:52:06'!
+initialize
+	| P |
+	super initialize.
+	P _ ℤ/64 atRandom nextPrime polynomialsIn: 3 atRandom.
+	[scalars _ P / ((1 to: 4 atRandom - 1) collect: [:i| P atRandomBits: 20]).
+	scalars isTrivial] whileTrue! !
+
+!PrimePowerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2021 12:57:12'!
+initialize
+	super initialize.
+	scalars _ PrimePowerRing new: 10 atRandom nextPrime to: 3 atRandom! !
+
+!PrimePowerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:54'!
+testSyzygiesBug
+	| R A X |
+	R _ ℤ/(7^3).
+	A _ R !!!!!! #((15 48 278 40)).
+	X _ A syzygies.
+	self assert: (A*X) isZero! !
+
+!ProductRingMatrixTest methodsFor: 'initialization' stamp: 'len 10/13/2022 05:00:06'!
+initialize
+	super initialize.
+	scalars _ ℤ × (ℤ/(64 atRandom + 1))! !
+
+!RationalAffineAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 18:52:28'!
+initialize
+	| P |
+	super initialize.
+	P _ ℚ polynomialsIn: 3 atRandom.
+	[scalars _ P / ((1 to: 4 atRandom - 1) collect: [:i| P atRandomBits: 20]).
+	scalars isTrivial] whileTrue! !
+
+!CliffordAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/22/2021 11:17:19'!
+initialize
+	super initialize.
+	scalars _ CliffordAlgebra on: (QuadraticForm from: ℚ^3 coefficients: #(1 0 0 1 0 1))! !
+
+!GroupAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/22/2021 18:30:01'!
+initialize
+	super initialize.
+	scalars _ (SymmetricGroup new: (0 to: 3) atRandom) groupAlgebraOver: ℤ/2! !
+
+!MatrixAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/21/2021 18:12:12'!
+initialize
+	super initialize.
+	scalars _ (ℚ^(0 to: 3) atRandom) endomorphisms! !
+
+!QuaternionAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:37:20'!
+initialize
+	super initialize.
+	scalars _ QuaternionAlgebra over: ℚ invariants: #(1 1)! !
+
+!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 10/5/2022 17:11:54'!
+testFirstIsomorphismTheorem
+	| M N f |
+	M _ self newFreeModule.
+	N _ self newFreeModule.
+	f _ M ⇒ N atRandom: random bits: 100.
+	self assert: f codomain >= f image.
+	self assert: f domain >= f kernel.
+	self assert: f domain / f kernel ~ f image! !
+
+!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 8/12/2022 13:17:01'!
+testSecondIsomorphismTheorem
+	| M k S T |
+	M _ self newFreeModule.
+	k _ M rank > 0 ifTrue: [M rank atRandom: random] ifFalse: [0].
+	S _ M span: ((1 to: k) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
+	k _ M rank > 0 ifTrue: [M rank atRandom: random] ifFalse: [0].
+	T _ M span: ((1 to: k) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
+	self assert: S+T <= M.
+	self assert: S ∩ T <= M.
+	self assert: (S+T)/T ~ (S/(S ∩ T))! !
+
+!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 6/19/2022 21:22:59'!
+testThirdIsomorphismTheorem
+	| M S T k |
+	M _ self newFreeModule.
+	k _ M rank > 0 ifTrue: [M rank atRandom: random] ifFalse: [0].
+	S _ M span: ((1 to: k) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
+	T _ S span: ((1 to: (k > 0 ifTrue: [k atRandom: random] ifFalse: [0])) collect: [:i| S atRandom: random bits: (10 atRandom: random)]).
+	self assert: S/T <= (M/T).
+	self assert: (M/T)/(S/T) ~ (M/S)! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:36:58'!
+testCoequalizer
+	| A B f g Q |
+	A _ self newFreeModule.
+	B _ self newFreeModule.
+	f _ (A ⇒ B) atRandom: random bits: (50 atRandom: random).
+	g _ (A ⇒ B) atRandom: random bits: (50 atRandom: random).
+	Q _ f coequalizer: g.
+	self assert: (f → Q) notNil.
+	self assert: f → Q = (g → Q)! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/29/2021 04:22:14'!
+testCoimage
+	| A J |
+	A _ self newModuleMap.
+	J _ A coimageMap.
+	self assert: A coimage = J image.
+	self assert: J isEpimorphism! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 6/21/2022 07:22:08'!
+testCokernel
+	| A Q |
+	A _ self newModuleMap.
+	Q _ A cokernelMap.
+	self assert: (Q · A) isZero.
+	self assert: Q isEpimorphism.
+	self assert: A cokernel = Q image! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:10:55'!
+testCokernelAndCoequalizer
+	| A B f |
+	A _ self newFreeModule.
+	B _ self newFreeModule.
+	f _ (A ⇒ B) atRandom: random bits: (100 atRandom: random).
+	self assert: f cokernel = (f coequalizer: f zero)! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:37:10'!
+testColift
+	| M X A i Y f g |
+	M _ self newSmallModule.
+	X _ self newSmallModule.
+	A _ (X ⇒ M atRandom: random bits: 20) kernel.
+	i _ A → X.
+	self assert: i isInjective.
+	Y _ self newSmallModule.
+	f _ A ⇒ Y atRandom: random bits: 20.
+	g _ f / i.
+	self assert: (X ⇒ Y includes: g).
+	self assert: i → g = f
+
+"	| M N phi cokernel L eta eta0 |
+	M _ ℚ^3.
+	N _ ℚ^4.
+	phi _ (M => N) atRandomBits: 20.
+	cokernel _ phi cokernel.
+	L _ ℚ^5.
+	eta _ N to: L map: [:x| L atRandomBits: 20]. ???
+	self assert: (phi -> eta) isZero.
+	eta0 _ eta / (M ->> cokernel).
+	self assert: (cokernel => L includes: eta0).
+	self assert: M ->> cokernel -> eta0 = eta"! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:37:19'!
+testColiftFree
+	| M X A i Y f g |
+	M _ self newFreeModule.
+	X _ self newFreeModule.
+	A _ (X ⇒ M atRandom: random bits: 20) kernel.
+	i _ A → X.
+	self assert: i isInjective.
+	Y _ self newFreeModule.
+	f _ A ⇒ Y atRandom: random bits: 20.
+	g _ f / i.
+	self assert: (X ⇒ Y includes: g).
+	self assert: i → g = f
+
+"	| M N phi cokernel L eta eta0 |
+	M _ ℚ^3.
+	N _ ℚ^4.
+	phi _ (M => N) atRandomBits: 20.
+	cokernel _ phi cokernel.
+	L _ ℚ^5.
+	eta _ N to: L map: [:x| L atRandomBits: 20]. ???
+	self assert: (phi -> eta) isZero.
+	eta0 _ eta / (M ->> cokernel).
+	self assert: (cokernel => L includes: eta0).
+	self assert: M ->> cokernel -> eta0 = eta"! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:11:25'!
+testComposition
+	| X Y Z f g x |
+	X _ self newModule.
+	Y _ self newModule.
+	Z _ self newModule.
+	f _ X ⇒ Y atRandom: random bits: 1000.
+	g _ Y ⇒ Z atRandom: random bits: 1000.
+	x _ X atRandom: random bits: 1000.
+	self assert: (X ⇒ Z includes: g · f).
+	self assert: (g · f value: x) = (g value: (f value: x)).
+	X >= Z ifFalse: [self should: [f · g] raise: Error]! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:11:32'!
+testCompositionError
+	| X Y Z f g |
+	X _ self newModule.
+	Y _ self newModule.
+	[Z _ self newModule. X >= Z] whileTrue.
+	f _ X ⇒ Y atRandom: random bits: 1000.
+	g _ Y ⇒ Z atRandom: random bits: 1000.
+	self should: [f · g] raise: DomainError! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:37:35'!
+testEqualizer
+	| A B f g Q |
+	A _ self newFreeModule.
+	B _ self newFreeModule.
+	f _ A ⇒ B atRandom: random bits: (100 atRandom: random).
+	g _ A ⇒ B atRandom: random bits: (100 atRandom: random).
+	Q _ f equalizer: g.
+	self assert: (Q → f) notNil.
+	self assert: Q → f = (Q → g)! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 5/10/2022 10:48:02'!
+testIdenittyImage
+	| M id |
+	M _ self newModule.
+	id _ M id.
+	self assert: id image = M.
+	self assert: id isSurjective! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 07:57:09'!
+testImage
+	| f image v w |
+	f _ self newModuleMap.
+	image _ f image.
+	v _ f domain atRandom: random bits: 100.
+	w _ f value: v.
+	self assert: (image includes: w)! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/29/2021 04:24:51'!
+testImageAndCoimage
+	| A |
+	A _ self newModuleMap.
+	self assert: A cokernelMap kernelMap = A imageMap.
+	self assert: A kernelMap cokernelMap = A coimageMap! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 4/4/2021 10:22:02'!
+testKernel
+	| A K |
+	A _ self newModuleMap.
+	K _ A kernelMap.
+	self assert: (A · K) isZero.
+	self assert: K isMonomorphism.
+	self assert: A kernel = K image! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 4/4/2021 10:23:04'!
+testKernel2
+	| f kernel v |
+	f _ self newModuleMap.
+	kernel _ f kernel.
+	v _ kernel atRandom: random bits: 100.
+	self assert: (f value: v) isZero! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:12:01'!
+testKernelAndEqualizer
+	| A B f |
+	A _ self newFreeModule.
+	B _ self newFreeModule.
+	f _ A ⇒ B atRandom: random bits: (100 atRandom: random).
+	self assert: f kernel = (f equalizer: f zero)! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:37:45'!
+testLift
+	| M X B Y p f g |
+	M _ self newSmallModule.
+	X _ self newSmallModule.
+	B _ (M ⇒ X atRandom: random bits: 20) cokernel.
+	p _ X → B.
+	self assert: p isSurjective.
+	Y _ self newSmallModule.
+	f _ Y ⇒ B atRandom: random bits: 20.
+	g _ p \ f.
+	self assert: (Y ⇒ X includes: g).
+	self assert: g → p = f
+
+"	| M N phi kernel L tau tau0 |
+	M _ ℚ^3.
+	N _ ℚ^4.
+	phi _ (M => N) atRandomBits: 20.
+	kernel _ phi kernel.
+	L _ ℚ^5.
+	tau _ L to: M map: [:x| kernel atRandomBits: 20].
+	self assert: (tau -> phi) isZero.
+	tau0 _ kernel >-> M \ tau.
+	self assert: (L => kernel includes: tau0).
+	self assert: tau0 -> (kernel >-> M) = tau"! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:37:54'!
+testLiftFree
+	| M X B Y p f g |
+	M _ self newFreeModule.
+	X _ self newFreeModule.
+	B _ (M ⇒ X atRandom: random bits: 20) cokernel.
+	p _ X → B.
+	self assert: p isSurjective.
+	Y _ self newFreeModule.
+	f _ Y ⇒ B atRandom: random bits: 20.
+	g _ p \ f.
+	self assert: (Y ⇒ X includes: g).
+	self assert: g → p = f
+
+"	| M N phi kernel L tau tau0 |
+	M _ ℚ^3.
+	N _ ℚ^4.
+	phi _ (M => N) atRandomBits: 20.
+	kernel _ phi kernel.
+	L _ ℚ^5.
+	tau _ L to: M map: [:x| kernel atRandomBits: 20].
+	self assert: (tau -> phi) isZero.
+	tau0 _ kernel >-> M \ tau.
+	self assert: (L => kernel includes: tau0).
+	self assert: tau0 -> (kernel >-> M) = tau"! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:12:29'!
+testMapToBiggerDimensionIsNotSurjective
+	| V W f |
+	 V _ scalars^(4 atRandom: random).
+	W _ scalars^((V rank atRandom: random) - 1).
+	f _ W ⇒ V atRandom: random bits: 100.
+	self assert: f isSurjective not! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:12:33'!
+testMapToSmallerDimensionIsNotInjective
+	| V W f |
+	 V _ scalars^(4 atRandom: random).
+	W _ scalars^((V rank atRandom: random) - 1).
+	f _ V ⇒ W atRandom: random bits: 100.
+	self assert: f isInjective not! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/23/2021 13:55:24'!
+testModuleMap
+	| f |
+	f _ self newModuleMap.
+	self testModuleMap: f! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 07:57:30'!
+testModuleMap: f
+	| a1 a2 b1 b2 x |
+	a1 _ f domain atRandom: random bits: 20.
+	a2 _ f domain atRandom: random bits: 20.
+	b1 _ f value: a1.
+	b2 _ f value: a2.
+	self assert: (f value: f domain zero) isZero.
+	x _ f domain scalars atRandom: random bits: 20.
+	self assert: (f value: a1 * x + a2) = (b1 * x + b2)! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/19/2022 11:17:19'!
+testPreimage
+	| f w v |
+	f _ self newModuleMap.
+	w _ f image atRandom: random bits: 100.
+	v _ f preimageRepresentative: w.
+	self assert: (f value: v) = w! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:10:07'!
+testProjection: f
+	| v |
+	self testModuleMap: f.
+	v _ f domain atRandom: random bits: 20.
+	self assert: (f value: v) = (f value: (f value: v)). "idempotent at v"
+	self assert: f isIdempotent.
+	self assert: (f image apply: f) = f image.
+	self assert: (f codomain apply: f) = f image! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:38:08'!
+testPullback
+	| X Y Z f g P projections |
+	Z _ self newSmallModule.
+	X _ self newSmallModule.
+	Y _ self newSmallModule.
+	f _ X ⇒ Z atRandom: random bits: 20.
+	g _ Y ⇒ Z atRandom: random bits: 20.
+	P _ f ∧ g.
+	projections _ P ⇉ (X, Y).
+	self assert: projections first → f = (projections second → g)! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:38:22'!
+testPullbackFree
+	| X Y Z f g P projections |
+	Z _ self newFreeModule.
+	X _ self newFreeModule.
+	Y _ self newFreeModule.
+	f _ X ⇒ Z atRandom: random bits: 20.
+	g _ Y ⇒ Z atRandom: random bits: 20.
+	P _ f ∧ g.
+	projections _ P ⇉ (X, Y).
+	self assert: projections first → f = (projections second → g)! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:38:30'!
+testPushout
+	| X Y Z f g P coprojections |
+	Z _ self newSmallModule.
+	X _ self newSmallModule.
+	Y _ self newSmallModule.
+	f _ Z ⇒ X atRandom: random bits: 20.
+	g _ Z ⇒ Y atRandom: random bits: 20.
+	P _ f ∨ g.
+	coprojections _ P ⇇ (X, Y).
+	self assert: f → coprojections first = (g → coprojections second)! !
+
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:38:38'!
+testPushoutFree
+	| X Y Z f g P coprojections |
+	Z _ self newFreeModule.
+	X _ self newFreeModule.
+	Y _ self newFreeModule.
+	f _ Z ⇒ X atRandom: random bits: 20.
+	g _ Z ⇒ Y atRandom: random bits: 20.
+	P _ f ∨ g.
+	coprojections _ P ⇇ (X, Y).
+	self assert: f → coprojections first = (g → coprojections second)! !
+
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 10/5/2022 17:36:42'!
+testCanonicalMorphisms
+	| V v W w |
+	V _ self newModule.
+	v _ V atRandom: random bits: 100.
+	W _ V span: {v}.
+	w _ W atRandom: random bits: 100.
+	self assert: (V null → W) isZero. "canonical morphism from initial object"
+	self assert: (V → W null) isZero. "canonical morphism to terminal object"
+	self assert: ((W → W null) value: w) isZero.
+	self assert: (W → V value: w) = w. "canonical morphism to overobject"! !
+
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 10/5/2022 16:53:44'!
+testDirectSum
+	| M N S |
+	M _ self newModule.
+	N _ self newModule.
+	S _ M ⊕ N.
+	S ⇇ (M, N) do: [:each| self testModuleMap: each].
+	S ⇉ (M, N) do: [:each| self testModuleMap: each]! !
+
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 10/5/2022 16:54:24'!
+testDirectSumFree
+	| M N S |
+	M _ self newFreeModule.
+	N _ self newFreeModule.
+	S _ M ⊕ N.
+	self testFreeModule: S.
+	S ⇇ (M, N) do: [:each| self testModuleMap: each].
+	S ⇉ (M, N) do: [:each| self testModuleMap: each]! !
+
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 4/26/2021 11:38:09'!
+testFreeModule: M
+	| c t v x y |
+	x _ M atRandom: random bits: 10 * M rank.
+	self assert: x = (M elementAt: M \ x).
+	y _ M atRandom: random bits: 10 * M rank.
+	c _ M scalars atRandom: random bits: 20.
+	v _ x * c + y.
+	t _ (M \ x) * c + (M \ y).
+	self assert: v = (M elementAt: t)! !
+
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 3/24/2021 08:32:58'!
+testSubmoduleInclusion
+	| V S P v w |
+	[[V _ self newModule.
+	v _ V atRandom: random bits: 10. v isZero] whileTrue.
+	S _ V span: {v}.
+	w _ V atRandom: random bits: 10. S includes: w] whileTrue.
+	P _ V span: {w*(V scalars atRandom: random bits: 10)-v. w}.
+	self assert: S < P.
+	self assert: P > S.
+	self assert: S ~= P.
+	self assert: P ~= S.
+	self assert: (S > P) not.
+	self assert: (P < S) not! !
+
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 3/24/2021 09:17:06'!
+testSubmoduleSum
+	| V v w S T P |
+	[[V _ self newModule.
+	v _ V atRandom: random bits: 10. v isZero not] whileFalse.
+	w _ V atRandom: random bits: 10. w isZero not and: [v ~= w]] whileFalse.
+	S _ V span: {v}.
+	T _ V span: {w}.
+	P _ V span: {v. w}.
+	self assert: S + T = P.
+	self assert: T + S = P.
+	T _ V span: {v - w. v + w}.
+	self assert: S + T = P! !
+
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 3/24/2021 09:15:57'!
+testTuples
+	self testFreeModule: (scalars ^ ((0 to: 5) atRandom: random))! !
+
+!AbstractModuleTest methodsFor: 'quotients' stamp: 'len 10/5/2022 17:38:47'!
+testQuotientMaps
+	| M N Q π v s |
+	M _ self newModule.
+	N _ M span: ((1 to: (3 atRandom: random) - 1) collect: [:i| M atRandom: random bits: 20]).
+	Q _ M / N.
+	π _ M → Q.
+	v _ M atRandom: random bits: 100.
+	self assert: (Q includes: (π value: v)).
+	s _ N atRandom: random bits: 100.
+	self assert: (π value: s) isZero.
+	self assert: (π value: v) = (π value: v+s)! !
+
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 10/5/2022 17:10:30'!
+newFreeModule
+	| M |
+	M _ (3 atRandom: random) = 1 ifTrue: [scalars asIdeal] ifFalse: [scalars ^ ((0 to: 3) atRandom: random)].
+	scalars isCommutative ifFalse: [^ M].
+	(5 atRandom: random) = 1 ifTrue: [^ M ⇒ self newSmallFreeModule].
+	(5 atRandom: random) = 1 ifTrue: [^ M dual].
+	^ M! !
+
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 11/23/2022 21:24:08'!
+newMatrix: shape
+	| hom samples |
+	hom _ scalars^shape y ⇒ (scalars^shape x).
+	(2 atRandom: random) = 1 ifTrue: [^ hom atRandom: random bits: 100].
+	samples _ {scalars zero. scalars one. scalars one negated}.
+	^ hom fill: [:i :j| (2 atRandom: random) > 1 ifTrue: [scalars zero] ifFalse: [samples atRandom: random]]! !
+
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 8/22/2021 12:27:37'!
+newModule
+	| M N |
+	M _ self newFreeModule.
+	(3 atRandom: random) = 1 ifTrue: [^ M].
+	N _ M span: ((1 to: ((0 to: M rank) atRandom: random)) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
+	(3 atRandom: random) = 1 ifTrue: [^ N].
+	^ M / N! !
+
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 10/5/2022 17:10:41'!
+newModuleMap
+	| V W |
+	V _ self newFreeModule.
+	W _ self newFreeModule.
+	^ V ⇒ W !! (self newMatrix: W rank @ V rank)! !
+
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 12/25/2021 10:54:29'!
+newSmallFreeModule
+	| M |
+	M _ (3 atRandom: random) = 1 ifTrue: [scalars asIdeal] ifFalse: [scalars ^ ((0 to: 3) atRandom: random)].
+	scalars isCommutative ifFalse: [^ M].
+	(3 atRandom: random) = 1 ifTrue: [^ M dual].
+	^ M! !
+
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 1/6/2022 14:38:20'!
+newSmallModule
+	| M N |
+	M _ self newSmallFreeModule.
+	(3 atRandom: random) = 1 ifTrue: [^ M].
+	N _ M span: ((1 to: ((0 to: M rank) atRandom: random)) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
+	(2 atRandom: random) = 1 ifTrue: [^ N].
+	^ M / N! !
+
+!AbstractModuleTest methodsFor: 'bugs' stamp: 'len 12/19/2022 11:51:05'!
+testQuotientBySelfBug
+	| V M |
+	V _ scalars ^ 3.
+	M _ V span: {V atRandom: random. V atRandom: random}.
+	self assert: (M / M) isTrivial! !
+
+!AbstractCommutativeRingModuleTest methodsFor: 'adjoint' stamp: 'len 10/14/2022 08:38:59'!
+testAdjoint
+	| V W f fAdjoint φ |
+	V _ self newFreeModule.
+	W _ self newFreeModule.
+	f _ V ⇒ W atRandom: random bits: 50.
+	fAdjoint _ f adjoint.
+	self assert: fAdjoint domain = f codomain dual.
+	self assert: fAdjoint codomain = f domain dual.
+	φ _ W dual atRandom: random bits: 20.
+	self assert: (fAdjoint value: φ) = (φ · f)! !
+
+!AbstractCommutativeRingModuleTest methodsFor: 'adjoint' stamp: 'len 10/5/2022 17:14:14'!
+testAdjointAndHomFunctor
+	"Given a R-linear map f, applying the Hom(-, R) produces the adjoint (the dual map).
+	Example from 'A Singular Introduction To Commutative Algebra, pp. 115, procedure kontraHom."
+	| f |
+	f _ self newFreeModule ⇒ self newFreeModule :: atRandom: random bits: 100.
+	self assert: (f ⇒ scalars asIdeal) = f adjoint! !
+
+!AbstractCommutativeRingModuleTest methodsFor: 'adjoint' stamp: 'len 10/5/2022 17:14:26'!
+testAdjointProperties
+	| V W U f g a |
+	V _ self newFreeModule.
+	W _ self newFreeModule.
+	f _ V ⇒ W atRandom: random bits: 100.
+	g _ V ⇒ W atRandom: random bits: 100.
+	a _ scalars atRandom: random bits: 10.
+	self assert: (f + g) adjoint = (f adjoint + g adjoint).
+	self assert: (f * a) adjoint = (f adjoint * a).
+	U _ self newFreeModule.
+	f _ U ⇒ V atRandom: random bits: 100.
+	self assert: (g · f) adjoint = (f adjoint · g adjoint)! !
+
+!AbstractCommutativeRingModuleTest methodsFor: 'tensor product' stamp: 'len 12/27/2021 08:09:13'!
+testTensorProductAssociativity
+	| V1 V2 V3 |
+	V1 _ self newSmallModule.
+	V2 _ self newSmallModule.
+	V3 _ self newSmallModule.
+	self assert: (V1 ⊗ V2) ⊗ V3 ~ (V1 ⊗ (V2 ⊗ V3))! !
+
+!AbstractCommutativeRingModuleTest methodsFor: 'tensor product' stamp: 'len 12/27/2021 08:09:19'!
+testTensorProductCommutativity
+	| V W |
+	V _ self newSmallModule.
+	W _ self newSmallModule.
+	self assert: V ⊗ W ~ (W ⊗ V)! !
+
+!AbstractCommutativeRingModuleTest methodsFor: 'tensor product' stamp: 'len 12/27/2021 08:09:23'!
+testTensorProductDimension
+	| V1 V2 |
+	V1 _ self newSmallFreeModule.
+	V2 _ self newSmallFreeModule.
+	self assert: (V1 ⊗ V2) rank = (V1 rank * V2 rank)! !
+
+!AbstractCommutativeRingModuleTest methodsFor: 'tensor product' stamp: 'len 12/27/2021 08:09:28'!
+testTensorProductDistributivity
+	| A B C |
+	A _ self newSmallFreeModule.
+	B _ self newSmallFreeModule.
+	C _ self newSmallFreeModule.
+	self assert: A ⊕ B ⊗ C ~ (A ⊗ C ⊕ (B ⊗ C))! !
+
+!AbstractCommutativeRingModuleTest methodsFor: 'tensor product' stamp: 'len 10/5/2022 17:14:33'!
+testTensorProductDualHomIsomorphism
+	| V W A B |
+	V _ self newFreeModule.
+	W _ self newFreeModule.
+	A _ V dual ⊗ W.
+	B _ V ⇒ W.
+	self assert: A ~ B.
+"	phi _ A to: B evaluating: [:t| B map: [:v| t second * (t first value: v)]].
+	self testLinearMap: phi.
+	self assert: phi isIsomorphism"! !
+
+!AbstractCommutativeRingModuleTest methodsFor: 'tensor product' stamp: 'len 9/18/2022 07:15:04'!
+testTensorProductDualIsomorphism
+	| V W A B |
+	V _ self newFreeModule.
+	W _ self newFreeModule.
+	A _ V dual ⊗ W dual.
+	B _ (V ⊗ W) dual.
+	self assert: A ~ B.
+"	phi _ A to: B evaluating: [:s| B map: [:t| (s first value: t first) * (s second value: t second)]].
+	self testLinearMap: phi.
+	self assert: phi isIsomorphism"! !
+
+!AbstractCommutativeRingModuleTest methodsFor: 'tensor product' stamp: 'len 12/27/2021 08:09:43'!
+testTensorProductRelations
+	| V W T v v1 v2 w w1 w2 c |
+	V _ self newFreeModule.
+	W _ self newFreeModule.
+	T _ V ⊗ W.
+	v _ V atRandom: random bits: 40.
+	v1 _ V atRandom: random bits: 40.
+	v2 _ V atRandom: random bits: 40.
+	w _ W atRandom: random bits: 40.
+	w1 _ W atRandom: random bits: 40.
+	w2 _ W atRandom: random bits: 40.
+	c _ V scalars atRandom: random bits: 40.
+	self assert: T !! {v1. w} + (T !! {v2. w}) = (T !! {v1 + v2. w}).
+	self assert: T !! {v. w1} + (T !! {v. w2}) = (T !! {v. w1 + w2}).
+	self assert: (T !! {v. w})*c = (T !! {v*c. w}).
+	self assert: (T !! {v. w})*c = (T !! {v. w*c})! !
+
+!AbstractCommutativeRingModuleTest methodsFor: 'bugs' stamp: 'len 1/3/2022 11:24:40'!
+testMapDirectSumAndTensorProductBug
+	| V W f g |
+	V _ self newFreeModule.
+	W _ self newFreeModule.
+	f _ V endomorphisms atRandom: random bits: 100.
+	g _ W endomorphisms atRandom: random bits: 100.
+	"doing it twice should give the same thing:"
+	self assert: (f⊗g) domain = (f⊗g) domain.
+	self assert: (f⊕g) domain = (f⊕g) domain! !
+
+!AbstractVectorSpaceTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:02:36'!
+testInverse
+	| V f |
+	V _ self newVectorSpace.
+	[(f _ V endomorphisms atRandom: random bits: 1000) isIsomorphism] whileFalse.
+	self assert: (f · f inverse) isIdentity.
+	self assert: (f inverse · f) isIdentity! !
+
+!AbstractVectorSpaceTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:14:44'!
+testRetraction
+	| V W f r |
+	[V _ self newVectorSpace.
+	W _ self newVectorSpace.
+	f _ V ⇒ W atRandom: random bits: 100. f isInjective] whileFalse.
+	r _ f retraction.
+	self assert: r isSurjective.
+	self assert: r · f = V id! !
+
+!AbstractVectorSpaceTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:14:49'!
+testSection
+	| V W f s |
+	[V _ self newVectorSpace.
+	W _ self newVectorSpace.
+	f _ V ⇒ W atRandom: random bits: 50. f isSurjective] whileFalse.
+	s _ f section.
+	self assert: s isInjective.
+	self assert: f · s = W id! !
+
+!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 3/24/2021 08:23:12'!
+testAnnihilator
+	| V v S S0 |
+	[(V _ self newVectorSpace) isTrivial] whileTrue.
+	[(v _ V atRandom: random bits: 100) isZero] whileTrue.
+	S _ V span: {v}.
+	S0 _ S annihilatorSpace.
+	self assert: S0 rank = S corank.
+	S0 generators do: [:f| self assert: (f value: v) isZero]! !
+
+!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 8/12/2022 13:13:38'!
+testAnnihilatorProperties
+	| V n m S T |
+	V _ self newVectorSpace.
+	n _ (0 to: V rank) atRandom: random.
+	S _ (V grassmannian: n) atRandom: random bits: (100 atRandom: random).
+	m _ (0 to: n) atRandom: random.
+	T _ (S grassmannian: m) atRandom: random bits: (100 atRandom: random).
+	self assert: T <= S.
+	self assert: T annihilatorSpace >= S annihilatorSpace. "reverses inclusions"
+	self assert: (S + T) annihilatorSpace = (S annihilatorSpace ∩ T annihilatorSpace).
+	self assert: S rank + S annihilatorSpace rank = V rank.
+	self assert: V annihilatorSpace isTrivial.
+"	self assert: S annihilator annihilator = S dual dual"! !
+
+!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 8/12/2022 13:13:49'!
+testGrassmannRelation
+	| V S T |
+	V _ self newVectorSpace.
+	S _ (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (20 atRandom: random).
+	T _ (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (20 atRandom: random).
+	self assert: S rank + T rank = ((S + T) rank + (S ∩ T) rank)! !
+
+!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 3/26/2021 14:23:01'!
+testGrassmannian
+	| V r G S |
+	V _ self newVectorSpace.
+	r _ (0 to: V rank) atRandom: random.
+	G _ V grassmannian: r.
+	S _ G atRandom: random bits: (20 atRandom: random).
+	self assert: S rank = r.
+	self assert: (G includes: S).
+	self assert: (G dual includes: S annihilatorSpace)! !
+
+!AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 3/24/2021 09:06:07'!
+testOrthogonalProjection
+	| V S p v |
+	V _ self newVectorSpace.
+	S _ (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (30 atRandom: random).
+	p _ S orthogonalProjection.
+	self testProjection: p.
+	v _ V atRandom: random bits: (50 atRandom: random).
+	self assert: (p value: v) = (p value: (p value: v)). "idempotent at v"
+	self assert: p isIdempotent.
+	self assert: p kernel = S complement.
+	self assert: p image = S.
+	self assert: (S apply: p) = S! !
+
+!AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 12/10/2021 19:55:03'!
+testQuotientSpace
+	| V S Q |
+	[(V _ self newVectorSpace) isTrivial] whileTrue.
+	S _ V grassmannian: (V rank atRandom: random) :: atRandom: random bits: V rank * 10.
+	Q _ V/S.
+	self assert: Q rank = (V rank - S rank).
+"	self assert: (Q includes: S + (V atRandomBits: V rank * 10))."
+	self assert: (V / V null) rank = V rank.
+	self assert: (V / V) rank = 0! !
+
+!AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 10/5/2022 17:38:51'!
+testQuotientSpaceMaps
+	| V S Q π v s |
+	V _ self newVectorSpace.
+	S _ V grassmannian: ((0 to: V rank) atRandom: random) :: atRandom: random bits: 50.
+	Q _ V/S.
+	π _ V → Q.
+	v _ V atRandom: random bits: 100.
+	self assert: (Q includes: (π value: v)).
+	s _ S atRandom: random bits: 100.
+	self assert: (π value: s) isZero.
+	self assert: (π value: v) = (π value: v+s)! !
+
+!AbstractVectorSpaceTest methodsFor: 'tensor product' stamp: 'len 10/14/2022 08:39:18'!
+testTensorHomAdjunction
+	| V W U A B φ |
+	V _ self newVectorSpace.
+	W _ self newVectorSpace.
+	U _ self newVectorSpace.
+	A _ V⊗W ⇒ U.
+	B _ V ⇒ (W ⇒ U).
+	self assert: A ~ B.
+	φ _ A to: B map: [:f| B map: [:v| W to: U map: [:w| f value: A domain !! {v. w}]]].
+	self testModuleMap: φ.
+	self assert: φ isIsomorphism! !
+
+!AbstractVectorSpaceTest methodsFor: 'tensor product' stamp: 'len 12/15/2021 14:29:26'!
+testTensorProductOfLinearForms
+	| V W f g t v w |
+	V _ self newFreeModule.
+	W _ self newFreeModule.
+	f _ V dual atRandom: random bits: 10.
+	g _ W dual atRandom: random bits: 10.
+	t _ f ⊗ g.
+	self assert: t domain = (V ⊗ W).
+	self assert: t codomain = (f codomain ⊗ g codomain).
+	v _ V atRandom: random bits: 10.
+	w _ W atRandom: random bits: 10.
+	self assert: (t value: t domain !! {v. w}) = (t codomain !! {f value: v. g value: w})! !
+
+!AbstractVectorSpaceTest methodsFor: 'private' stamp: 'len 3/24/2021 08:02:48'!
+newVectorSpace
+	^ self newFreeModule! !
+
+!AbstractVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:14:39'!
+testAdjointAndAnnihilator
+	| V W f a |
+	V _ scalars ^ (3 atRandom: random).
+	W _ scalars ^ (5 atRandom: random).
+	f _ V ⇒ W atRandom: random bits: 100.
+	a _ f adjoint.
+	self assert: a kernel = f image annihilatorSpace.
+	self assert: a image = f kernel annihilatorSpace.
+	self assert: f isSurjective = a isInjective.
+	self assert: f isInjective = a isSurjective! !
+
+!AbstractVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 4/6/2021 14:55:41'!
+testSubspaceOfSubspace
+	| V S s T t |
+	[V _ self newVectorSpace. V rank > 2] whileFalse.
+	S _ (V grassmannian: 2) atRandom: random bits: (100 atRandom: random).
+	T _ (S grassmannian: 1) atRandom: random bits: (100 atRandom: random).
+	self assert: S < V.
+	self assert: T < S.
+	self assert: T < V.
+	[s _ S atRandom: random bits: (100 atRandom: random). T includes: s] whileTrue.
+	[t _ T atRandom: random bits: (100 atRandom: random). t isZero] whileTrue.
+	self assert: (S includes: s).
+	self assert: (S includes: t).
+	self assert: (T includes: t)! !
+
+!AbstractVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:34:32'!
+testSubspaceSumRandom
+	| V S T U |
+	V _ self newVectorSpace.
+	S _ (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (100 atRandom: random).
+	T _ (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (100 atRandom: random).
+	U _ S + T.
+	self assert: S <= U.
+	self assert: T <= U! !
+
+!BinaryVectorSpaceTest methodsFor: 'initialization' stamp: 'len 3/24/2021 08:37:49'!
+initialize
+	super initialize.
+	scalars _ ℤ/2! !
+
+!BinaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 07:42:58'!
+testKernelZ2
+	| V f kernel |
+	V _ (PrimeField new: 2) ^ 3.
+	f _ V dual map: [:v| v sum].
+	kernel _ f kernel.
+	self assert: (kernel apply: f) isTrivial.
+	self assert: kernel rank = 2.
+	self assert: (kernel includes: V !! (0,1,1))! !
+
+!BinaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 07:43:04'!
+testLinearFormZ2
+	| V f |
+	V _ (PrimeField new: 2) ^ 4.
+	f _ V dual map: [:v| v sum].
+	self assert: f domain = V.
+	self assert: f kernel rank = 3.
+	self assert: f image rank = 1.
+	self assert: (f kernel includes: V !! (1,1,1,1))! !
+
+!BinaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:40:45'!
+testModuleMapZ2
+	| V f kernel v |
+	V _ (PrimeField new: 2) ^ ((5 atRandom: random) + 1).
+	[f _ V endomorphisms atRandom: random.
+	(kernel _ f kernel) isTrivial or: [kernel = V]] whileTrue. "find one with non-trivial kernel"
+	[v _ V atRandom: random. kernel includes: v] whileTrue.
+	self assert: (f value: v) isZero not.
+	v _ kernel atRandom: random.
+	self assert: (f value: v) isZero! !
+
+!BinaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:18:13'!
+testPerpZ2
+	| V S perp |
+	V _ (ℤ / 2) ^ 3.
+	S _ V span: {(1,1,1) % 2}.
+	perp _ S complement.
+	self assert: perp rank = 2.
+	self assert: (S basis first · perp basis first) isZero.
+	self assert: (S basis first · perp basis second) isZero! !
+
+!CyclotomicFieldVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2021 12:47:15'!
+initialize
+	super initialize.
+	scalars _ CyclotomicField new: 3 atRandom + 2! !
+
+!FiniteFieldVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2021 07:51:41'!
+initialize
+	super initialize.
+	scalars _ GaloisField new: 10 atRandom nextPrime to: 3 atRandom! !
+
+!QuadraticFieldVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 3/23/2021 13:51:16'!
+initialize
+	super initialize.
+	scalars _ QuadraticField sqrt: -5! !
+
+!RationalVectorSpaceTest methodsFor: 'initialization' stamp: 'len 3/23/2021 13:49:39'!
+initialize
+	super initialize.
+	scalars _ ℚ! !
+
+!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 07:43:10'!
+testLinearForm1
+	| V f |
+	V _ ℚ ^ 3.
+	f _ V dual map: [:v| v x + v y - v z].
+	self assert: (f value: (1,1,1)) = 1.
+	self assert: (f value: (2,2,1)) = 3.
+	self assert: (f value: (3,1, -1)) = 5! !
+
+!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 07:43:15'!
+testLinearForm2
+	| V f |
+	V _ ℚ ^ 3.
+	f _ V dual map: [:v| v x + v y - v z].
+	self assert: f domain = V.
+	self assert: f kernel rank = 2.
+	self assert: f image rank = 1! !
+
+!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:41:14'!
+testLinearFormAsPolynomial
+	| V f x |
+	V _ ℚ ^ (5 atRandom: random).
+	f _ V dual atRandom: random bits: 100.
+	x _ V atRandom: random bits: 100.
+	self assert: (f value: x) = (f asPolynomial value: x).
+	self assert: f parent !! f asPolynomial = f! !
+
+!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:23:57'!
+testMapsInducedByHom
+	"Example from 'A Singular Introduction to Commutative Algebra', Example 2.1.7 (Maps Induced by Hom)."
+	| X Y Z f g h yz zx |
+	X _ ℚ^3.
+	Y _ ℚ^3.
+	Z _ ℚ^2.
+	f _ X to: Y matrix: (ℚ^3) endomorphisms !! (1 to: 9).
+	g _ f ⇒ Z. "Hom(-,Z)"
+	self assert: g domain = (Y ⇒ Z). "it is contravariant"
+	self assert: g codomain = (X ⇒ Z).
+	self assert: g asMatrix = ((ℚ^2) id ⊗ f asMatrix transpose).
+	yz _ Y ⇒ Z atRandom: random bits: 100.
+	self assert: (g value: yz) = (yz · f).
+	h _ Z ⇒ f. "Hom(Z,-)"
+	self assert: h domain = (Z ⇒ X). "it is covariant"
+	self assert: h codomain = (Z ⇒ Y).
+	self assert: h asMatrix = (f asMatrix ⊗ (ℚ^2) id).
+	zx _ Z ⇒ X atRandom: random bits: 100.
+	self assert: (h value: zx) = (f · zx)! !
+
+!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:25:50'!
+testPerpExample
+	| V S p perp |
+	V _ ℚ ^ 3.
+	S _ V span: {(1, 1, 1). (2, 0, -2)}.
+	perp _ S complement.
+	self assert: perp rank = 1.
+	self assert: (perp basis first · S basis first) isZero.
+	self assert: (perp basis first · S basis second) isZero.
+	p _ S orthogonalProjection.
+	self assert: p kernel = perp! !
+
+!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:04:35'!
+testPerpProperties
+	| V S T |
+	V _ ℚ ^ 3.
+	S _ V span: {(1, 1, 1). (2, 0, -2)}.
+	T _ V span: {(1, -1, -3)}. "subspace of S"
+	self assert: S + S complement = V.
+	self assert: T + T complement = V.
+	self assert: (S ∩ S complement) isTrivial.
+	self assert: S <= S complement complement.
+	self assert: S complement < T complement "because S > T"! !
+
+!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:38:55'!
+testQuotientSpaceExample
+	| V M x |
+	V _ ℚ^3.
+	M _ V / {V !! (1,2,3)}.
+	x _ V → M value: (1,2,3).
+	self assert: x isZero.
+"	self assert: (M lifting value: x) = (0,0,0)"! !
+
+!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:04:41'!
+testSubspaceIntersectionAndSumExample
+	"Example from wikipedia Zassenhaus algorithm"
+	| V U W |
+	V _ ℚ ^ 4.
+	U _ V span: {(1,-1,0,1). (0,0,1,-1)}.
+	W _ V span: {(5,0,-3,3). (0,5,-3,-2)}.
+	self assert: U + W = (V span: {(1,0,0,0). (0,1,0,-1). (0,0,1,-1)}).
+	self assert: U ∩ W = (V span: {(1,-1,0,1)})! !
+
+!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:04:58'!
+testSubspaceIntersectionExample
+	| V S T T2 |
+	V _ ℚ ^ 3.
+	S _ V span: {(1, 1, 1). (2, 0, -2)}.
+	self assert: S ∩ V = S.
+	self assert: S ∩ S = S.
+	T _ V span: {(3,1,-1)}.
+	self assert: S ∩ T = T.
+	T2 _ V span: {(3,1,-1). (0,1,0)}.
+	self assert: S ∩ T2 = T! !
+
+!TernaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 17:24:00'!
+initialize
+	super initialize.
+	scalars _ ℤ/3! !
+
+!CyclotomicIntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/26/2021 10:20:31'!
+initialize
+	super initialize.
+	scalars _ (CyclotomicField new: 3 atRandom + 2) integers! !
+
+!EisensteinIntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:23:50'!
+initialize
+	super initialize.
+	scalars _ (CyclotomicField new: 3) integers! !
+
+!GaloisRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 10:56:30'!
+initialize
+	super initialize.
+	scalars _ GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom! !
+
+!GaloisRingMultivariatePolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:32:37'!
+initialize
+	super initialize.
+	scalars _ (GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom) polynomialsIn: 2! !
+
+!GaussianIntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 1/7/2022 13:52:03'!
+initialize
+	super initialize.
+	scalars _ GaussianField new integers! !
+
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/23/2021 13:49:57'!
+initialize
+	super initialize.
+	scalars _ ℤ! !
+
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2021 08:28:50'!
+testFreeModuleDiscriminant
+	"From Sage documentation of FreeModule."
+	| M |
+	M _ ℤ^3.
+	self assert: M discriminant = 1.
+	self assert: (M span: {(1,2,3)}) discriminant = 14.
+	self assert: (M span: {(1,2,3). (1,1,1)}) discriminant = 6! !
+
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:22:19'!
+testHomBug
+	| V |
+	V _ ℤ^1 / {5}.
+	self assert: V dual isTrivial.
+	self assert: V dual invariants isEmpty! !
+
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:15:38'!
+testHomBug2
+	| V W |
+	V _ ℤ^1 / {2}.
+	W _ ℤ^(5 atRandom: random).
+	self assert: (V ⇒ W) isTrivial! !
+
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:24:03'!
+testHomExample
+	| A B H |
+	A _ (ℤ/4) asAbelianGroup.
+	B _ (ℤ/2) asAbelianGroup.
+	H _ A ⇒ B.
+	self assert: H generators size = 1.
+	self assert: H generator = (A to: B map: [:x| B elementAt: {x representative \\ 2}]).
+	self assert: H size = 2.
+	H _ B ⇒ A.
+	self assert: H generators size = 1.
+	self assert: H generator = (B to: A map: [:x| A elementAt: {x representative * 2}]).
+	self assert: H size = 2! !
+
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:10:57'!
+testInvariantsAndIsomorphismExample
+	| M |
+	M _ ℤ^3 / {(0,-2,1). (-2,0,1)}.
+	self assert: M invariants = #(0 2).
+	self assert: M ~ (ℤ^1 / {2} ⊕ (ℤ^1))! !
+
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:11:08'!
+testInvariantsAndIsomorphismExample2
+	| M |
+	M _ ℤ^3 / {(2,1,0)}.
+	self assert: M invariants = #(0 0).
+	self assert: M ~ (ℤ^2)! !
+
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:11:19'!
+testInvariantsAndIsomorphismExample3
+	| M |
+	M _ ℤ^1 / {2} ⊕ (ℤ^1) / {(1,2)}.
+	self assert: M invariants = #(4).
+	self assert: M ~ (ℤ^1/{4})! !
+
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:42:48'!
+testModuleMapBug
+	| M f |
+	M _ ℤ^1 / {2}.
+	f _ M dual atRandom: random bits: 100.
+	self testModuleMap: f! !
+
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 9/18/2022 06:08:16'!
+testModuleMapBug2
+	| M N |
+	M _ ℤ^1/{3}.
+	N _ ℤ^1.
+	"these are not valid module homomorphisms:"
+	self should: [M to: N images: #(1)] raise: DomainError withMessageText: 'invalid morphism'.
+	self should: [M to: N images: #(2)] raise: DomainError withMessageText: 'invalid morphism'! !
+
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:24:01'!
+testQuotientModuleAnnihilator
+	"Example from Sage (removed denominators)"
+	| v1 v2 v3 V W |
+	v1 _ (1,0,0). v2 _ (3,4,2). v3 _ (0,0,2).
+	V _ ℤ^3 span: {v1. v2. v3}.
+	W _ V ambient span: {v1 + (v2*2). v1*9 + (v2*2). v3*4}.
+	self assert: (V/W) annihilator = (ℤ*16)
+	
+"original with denominators:
+	| v1 v2 v3 V W |
+	v1 _ (1/2,0,0). v2 _ (3/2,2,1). v3 _ (0,0,1).
+	V _ QQ^3 span: {v1. v2. v3} over: ℤ.
+	W _ QQ^3 span: {v1 + (v2*2). v1*9 + (v2*2). v3*4} over: ℤ.
+	self assert: (V/W) annihilator = (ℤ*16)
+"! !
+
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/18/2021 12:46:45'!
+testQuotientModuleBug
+	| M a |
+	M _ ℤ^2/{(0,2)}.
+	a _ M !! (3,0).
+	self assert: a representative = (3,0).
+	self assert: (a*2) representative = (6,0)! !
+
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:24:11'!
+testQuotientModuleInvariants
+	"Example from Sage (removed denominators)"
+	| v1 v2 v3 V W |
+	v1 _ (1,2,2). v2 _ (3,4,2). v3 _ (0,0,2).
+	V _ ℤ^3 span: {v1. v2. v3}.
+	W _ V ambient span: {v1*2 + (v2*4). v1*9 + (v2*12). v3*4}.
+	self assert: (V/W) invariants = #(4 12)
+
+"original with denominators:
+	| v1 v2 v3 V W |
+	v1 _ (1/2,1,1). v2 _ (3/2,2,1). v3 _ (0,0,1).
+	V _ QQ^3 span: {v1. v2. v3} over: ℤ.
+	W _ QQ^3 span: {v1*2 + (v2*4). v1*9 + (v2*12). v3*4} over: ℤ.
+	self assert: (V/W) invariants = #(4 12)
+"! !
+
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:24:19'!
+testQuotientModuleInvariants2
+	"Example from Sage"
+	| V W |
+	V _ ℤ^3.
+	W _ V span: {(1,2,0). (0,1,0). (0,2,0)}.
+	self assert: (V/W) invariants = #(0) "from example in sage fgp_module.py"! !
+
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:24:30'!
+testQuotientModuleIsFinite
+	"Example from Sage (removed denominators)"
+	| v1 v2 v3 V W |
+	v1 _ (1,0,0). v2 _ (3,4,2). v3 _ (0,0,2).
+	V _ ℤ^3 span: {v1. v2. v3}.
+	W _ V ambient span: {v1 + (v2*2). v1*9 + (v2*2). v3*4}.
+	self assert: (V/W) isFinite.
+	W _ V null.
+	self assert: (V/W) isFinite not
+
+"original with denominators:
+	| v1 v2 v3 V W |
+	v1 _ (1/2,0,0). v2 _ (3/2,2,1). v3 _ (0,0,1).
+	V _ QQ^3 span: {v1. v2. v3} over: ℤ.
+	W _ QQ^3 span: {v1 + (v2*2). v1*9 + (v2*2). v3*4} over: ℤ.
+	self assert: (V/W) isFinite.
+	W _ V null.
+	self assert: (V/W) isFinite not
+"! !
+
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:24:39'!
+testQuotientModuleSpanBug
+	"The span is the original module, but it answers a submodule."
+	| M |
+	M _ ℤ^2 / {(1,2)}.
+	self assert: M = (M span: M generators)! !
+
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:05:23'!
+testSubmoduleIntersectionExample
+	| M S T T2 |
+	M _ ℤ ^ 3.
+	S _ M span: {(1, 1, 1). (2, 0, -2)}.
+	self assert: S ∩ M = S.
+	self assert: M ∩ S = S.
+	self assert: S ∩ S = S.
+	T _ M span: {(3,1,-1)}.
+	self assert: S ∩ T = T.
+	T2 _ M span: {(3,1,-1). (0,1,0)}.
+	self assert: S ∩ T2 = T! !
+
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:17:27'!
+testSubquotientContainsBug
+	| V v S |
+	V _ ℤ / 5 :: asAbelianGroup.
+	v _ V elementAt: #(4).
+	S _ V span: {v}.
+	self assert: (S contains: v * 3)! !
+
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2022 11:22:25'!
+testSyzygies1
+	| V |
+	V _ ℤ^2 / {(2,0)}.
+	self assert: (V elementAt: (V relations atRandom: random bits: 100)) isZero! !
+
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:15:49'!
+testSyzygies2
+	| V W X |
+	V _ ℤ^2 / {(2,0)}.
+	W _ ℤ^3 / {(2,2,2)}.
+	X _ V ⇒ W.
+	self assert: (X elementAt: (X relations atRandom: random bits: 100)) isZero! !
+
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:13:27'!
+testTensorProductExample
+	self assert: ℤ^1 ⊗ (ℤ^1/{2}) ~ (ℤ^1/{2})! !
+
+!LocalIntegerRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/23/2022 13:16:57'!
+initialize
+	super initialize.
+	scalars _ ℤ @ (ℤ * 64 atRandom nextPrime)! !
+
+!ModularIntegerModuleTest methodsFor: 'initialization' stamp: 'len 4/2/2021 11:13:47'!
+initialize
+	super initialize.
+	scalars _ ℤ/(2 to: 64) atRandom! !
+
+!ModularIntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:22:53'!
+testExampleModulesOverZ12
+	| M A B |
+	M _ ℤ/12^3.
+	A _ M span: {(4,1,0). (0,0,5)}.
+	B _ M span: {(8,5,5). (0,9,8). (0,0,10)}.
+	self assert: A = B! !
+
+!ProductRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2022 05:02:42'!
+initialize
+	super initialize.
+	scalars _ ℤ × (ℤ/(64 atRandom + 1))! !
+
+!QuadraticRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 1/9/2022 08:34:16'!
+initialize
+	| n |
+	super initialize.
+	[(n _ (2 to: 100) atRandom squarefreePart) > 1] whileFalse.
+	2 atRandom = 1 ifTrue: [n _ n negated].
+	scalars _ (QuadraticField sqrt: n) integers! !
+
+!RationalMultivariatePolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/30/2021 14:16:08'!
+initialize
+	super initialize.
+	scalars _ ℚ polynomialsIn: 2! !
+
+!RationalPolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/23/2021 13:50:37'!
+initialize
+	super initialize.
+	scalars _ ℚ polynomials! !
+
+!AbstractModuleTODOTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:39:02'!
+testPullbackSquaresSharingMorphism
+	| A B C D f g h P r s Q t u |
+	C _ self newSmallFreeModule.
+	A _ self newSmallFreeModule.
+	B _ self newSmallFreeModule.
+	D _ self newSmallFreeModule.
+	f _ A ⇒ C atRandom: random bits: 20.
+	g _ B ⇒ C atRandom: random bits: 20.
+	h _ D ⇒ B atRandom: random bits: 20.
+	P _ f ∧ g.
+	r _ P ⇉ (A, B) at: 1.
+	s _ P ⇉ (A, B) at: 2.
+	Q _ s ∧ h.
+	t _ Q ⇉ (P, D) at: 1.
+	u _ Q ⇉ (P, D) at: 2.
+	self assert: (r · t) → f = (u → (g · h))! !
+
+!AbstractModuleTODOTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:39:13'!
+testPushoutSquaresSharingMorphism
+	| A B C D f g h P i j Q k l |
+	C _ self newSmallFreeModule.
+	A _ self newSmallFreeModule.
+	B _ self newSmallFreeModule.
+	D _ self newSmallFreeModule.
+	f _ C ⇒ A atRandom: random bits: 20.
+	g _ C ⇒ B atRandom: random bits: 20.
+	h _ B ⇒ D atRandom: random bits: 20.
+	P _ f ∨ g.
+	i _ P ⇇ (A, B) at: 1.
+	j _ P ⇇ (A, B) at: 2.
+	Q _ j ∨ h.
+	k _ Q ⇇ (P, D) at: 1.
+	l _ Q ⇇ (P, D) at: 2.
+	self assert: f → (k · i) = (h · g → l)! !
+
+!CliffordAlgebraModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/26/2021 10:19:57'!
+initialize
+	super initialize.
+	scalars _ CliffordAlgebra on: (QuadraticForm from: ℚ^3 coefficients: #(1 0 0 1 0 1))! !
+
+!MatrixAlgebraModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/22/2021 12:38:15'!
+initialize
+	super initialize.
+	scalars _ (ℤ/256 atRandom nextPrime^2 atRandom) endomorphisms! !
+
+!QuaternionAlgebraModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/25/2021 12:09:23'!
+initialize
+	super initialize.
+	scalars _ QuaternionAlgebra over: ℚ invariants: #(1 1)! !
+
 !RingTest methodsFor: 'euclidean' stamp: 'len 5/23/2020 09:34:55'!
 testModularIntegersEuclideanExample
 	"Some random example built in Magma online calculator."
@@ -13782,14 +13790,3 @@ testPermutationCompositionWords
 testSum: a with: b into: c modulo: m
 	1 to: a size do: [:i| c at: i put: (a at: i) + (b at: i) \\ m].
 	^ c! !
-
-!TestCase methodsFor: '*tests-algebra' stamp: 'len 5/20/2023 16:44:19'!
-debug
-	self setUpResources.
-	[self runCase] ensure: [self tearDownResources]
-			! !
-
-!TestCase methodsFor: '*tests-algebra' stamp: 'len 5/20/2023 16:44:00'!
-debugAsFailureIfCanNot: handler
-	self ifCanNotDebugDo: [^ handler value].
-	self runCaseAsFailure! !
