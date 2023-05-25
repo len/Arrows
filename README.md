@@ -13,7 +13,7 @@ As many systems based on Smalltalk, it comes complete with an environment for in
 ### Notation
 The notation is intended to be as close as possible to standard mathematical notation, yet adhering completly to Smalltalk syntax. For this we use unicode in Smalltalk code. Special characters can be input by typing backslash followed by the character name, similar to LaTeX. For example, ℤ can be input as \\Z, α as \\alpha and ⊗ as \\otimes.
 
-# Citing Arrows
+### Citing Arrows
 If you use Arrows in a non-trivial part of your research please consider citing it as follows:
 
 	@manual{Arrows,
