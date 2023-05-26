@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 25 May 2023 at 6:18:40 pm'!
+'From Cuis 6.0 [latest update: #5801] on 26 May 2023 at 1:03:47 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 49!
+!provides: 'Tests-Algebra' 1 50!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -7075,14 +7075,14 @@ testGramian
 		[x _ Q domain atRandomBits: 100 atRandom.
 		self assert: (Q value: x) = (x · (M * x))]! !
 
-!RandomizedTestCase methodsFor: 'copying' stamp: 'len 5/25/2023 07:45:00'!
-copy
-	^ super copy setSeed: seed! !
+!RandomizedTestCase methodsFor: 'debugging' stamp: 'len 5/25/2023 23:58:23'!
+debugInstance
+	^ super debugInstance setSeed: seed! !
 
-!RandomizedTestCase methodsFor: 'setUp/tearDown' stamp: 'len 8/5/2022 09:49:31'!
+!RandomizedTestCase methodsFor: 'setUp/tearDown' stamp: 'len 5/26/2023 00:49:17'!
 setUp
 	super setUp.
-	random _ Random seed: seed! !
+	random := Random seed: (seed bitXor: testSelector hash)! !
 
 !RandomizedTestCase methodsFor: 'setUp/tearDown' stamp: 'len 4/20/2021 06:56:32'!
 tearDown
@@ -7196,30 +7196,30 @@ testZeroIdeal
 	[f _ R atRandom: random bits: 10. f isZero] whileTrue.
 	self deny: (I includes: f)! !
 
-!FiniteFieldGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:58:16'!
-initialize
-	super initialize.
-	scalars _ GaloisField new: 5 atRandom nextPrime to: 3 atRandom! !
+!FiniteFieldGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:04:47'!
+setUp
+	super setUp.
+	scalars := GaloisField new: (5 atRandom: random) nextPrime to: (3 atRandom: random)! !
 
-!GaloisRingGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:12:06'!
-initialize
-	super initialize.
-	scalars _ GaloisRing new: 5 atRandom nextPrime to: 3 atRandom to: 2 atRandom! !
+!GaloisRingGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:05:20'!
+setUp
+	super setUp.
+	scalars := GaloisRing new: (5 atRandom: random) nextPrime to: (3 atRandom: random) to: (2 atRandom: random)! !
 
-!IntegerGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:58:29'!
-initialize
-	super initialize.
-	scalars _ ℤ! !
+!IntegerGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:05:30'!
+setUp
+	super setUp.
+	scalars := ℤ! !
 
-!ModularIntegerGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:11:24'!
-initialize
-	super initialize.
-	scalars _ ℤ/1024 atRandom! !
+!ModularIntegerGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:05:47'!
+setUp
+	super setUp.
+	scalars := ℤ/(1024 atRandom: random)! !
 
-!RationalGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:59:15'!
-initialize
-	super initialize.
-	scalars _ ℤ! !
+!RationalGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:06:21'!
+setUp
+	super setUp.
+	scalars := ℚ! !
 
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:25:17'!
 testDivisibility
@@ -7434,23 +7434,23 @@ testCoercionToAndFromFractions
 testHomomorphismToFractions
 	self testRingHomomorphism: R → R fractions! !
 
-!CyclotomicRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/17/2021 12:13:25'!
-initialize
-	super initialize.
-	R _ (CyclotomicField new: 3 atRandom + 2) integers! !
+!CyclotomicRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:27:55'!
+setUp
+	super setUp.
+	R := (CyclotomicField new: (3 atRandom: random) + 2) integers! !
 
-!QuadraticRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/9/2022 08:34:42'!
-initialize
+!QuadraticRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:52:42'!
+setUp
 	| n |
-	super initialize.
-	[(n _ (2 to: 100) atRandom squarefreePart) > 1] whileFalse.
-	2 atRandom = 1 ifTrue: [n _ n negated].
-	R _ (QuadraticField sqrt: n) integers! !
+	super setUp.
+	[((n := (2 to: 100) atRandom: random) squarefreePart) > 1] whileFalse.
+	random nextBoolean ifTrue: [n := n negated].
+	R := (QuadraticField sqrt: n) integers! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/25/2021 12:21:35'!
-initialize
-	super initialize.
-	R _ CliffordAlgebra on: (QuadraticForm from: ℚ^3 coefficients: #(1 0 0 1 0 1))! !
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:28:39'!
+setUp
+	super setUp.
+	R := CliffordAlgebra on: (QuadraticForm from: ℚ^3 coefficients: #(1 0 0 1 0 1))! !
 
 !CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:19:57'!
 testCliffordAlgebraDualGrade
@@ -7619,21 +7619,21 @@ testCliffordAlgebraUniversalProperty
 	v := R space atRandom: random bits: 10.
 	self assert: (R !! v) squared = (R one * (Q value: v))! !
 
-!MatrixAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:36:45'!
-initialize
+!MatrixAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:29:27'!
+setUp
 	| F |
-	super initialize.
-	F _ 2 atRandom = 1 ifTrue: [ℚ] ifFalse: [ℤ/64 atRandom nextPrime].
-	R _ (F^(0 to: 3) atRandom) endomorphisms! !
+	super setUp.
+	F := random nextBoolean ifTrue: [ℚ] ifFalse: [ℤ/(64 atRandom: random) nextPrime].
+	R := (F^((0 to: 3) atRandom: random)) endomorphisms! !
 
 !MatrixAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:37:45'!
 testMatrixAlgebraRank
 	self assert: R rank = R space rank squared! !
 
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 7/25/2021 12:20:24'!
-initialize
-	super initialize.
-	R _ QuaternionAlgebra over: ℚ invariants: #(1 1)! !
+!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:29:41'!
+setUp
+	super setUp.
+	R := QuaternionAlgebra over: ℚ invariants: #(1 1)! !
 
 !QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/7/2022 07:27:25'!
 testQuaternionAlgebraAnnihilatorIdeal
@@ -7704,12 +7704,12 @@ testQuaternionAlgebraTraceExample
 	self assert: A j trace isZero.
 	self assert: (A !! {1/3. 1/5. 1/7. 1}) trace = (2/3)! !
 
-!AffineAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 18:50:38'!
-initialize
+!AffineAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:30:32'!
+setUp
 	| P |
-	super initialize.
-	P _ ℚ polynomialsIn: 3 atRandom.
-	[R _ P / ((1 to: 4 atRandom - 1) collect: [:i| P atRandomBits: 20]).
+	super setUp.
+	P := ℚ polynomialsIn: (3 atRandom: random).
+	[R := P / ((1 to: (4 atRandom: random) - 1) collect: [:i| P atRandom: random bits: 20]).
 	R isTrivial] whileTrue! !
 
 !AbstractCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/4/2022 18:12:21'!
@@ -7906,111 +7906,111 @@ testZeroIdealIsPrimeAndMinimalPrime
 	self assert: P isPrime.
 	self assert: P isMinimalPrime! !
 
-!BinaryExtensionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:28:26'!
-initialize
-	super initialize.
-	R := GaloisField new: 2 to: 8 atRandom! !
+!BinaryExtensionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:30:52'!
+setUp
+	super setUp.
+	R := GaloisField new: 2 to: (8 atRandom: random)! !
 
 !BinaryExtensionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 18:08:56'!
 testZeroPowerBug
 	self assert: ((GaloisField new: 2 to: 2) zero^3) isZero! !
 
-!BinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/17/2023 10:56:39'!
-initialize
-	super initialize.
-	R _ ℤ/2! !
+!BinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:31:04'!
+setUp
+	super setUp.
+	R := ℤ/2! !
 
-!CyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:26:42'!
-initialize
-	super initialize.
-	R _ CyclotomicField new: 3 atRandom + 2! !
+!CyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:31:19'!
+setUp
+	super setUp.
+	R := CyclotomicField new: (3 atRandom: random) + 2! !
 
-!FiniteFieldRationalFunctionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2022 09:41:39'!
-initialize
-	super initialize.
-	R _ ((	GaloisField new: 5 atRandom nextPrime to: 3 atRandom) polynomialsIn: 3 atRandom) fractions! !
+!FiniteFieldRationalFunctionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:31:48'!
+setUp
+	super setUp.
+	R := ((	GaloisField new: (5 atRandom: random) nextPrime to: (3 atRandom: random)) polynomialsIn: (3 atRandom: random)) fractions! !
 
-!GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:21:39'!
-initialize
-	super initialize.
-	R _ GaloisField new: 5 atRandom nextPrime to: 3 atRandom! !
+!GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:32:08'!
+setUp
+	super setUp.
+	R := GaloisField new: (5 atRandom: random) nextPrime to: (3 atRandom: random)! !
 
-!GaussianFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:27:13'!
-initialize
-	super initialize.
-	R _ GaussianField new! !
+!GaussianFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:32:19'!
+setUp
+	super setUp.
+	R := GaussianField new! !
 
-!RationalFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2022 11:55:11'!
-initialize
-	super initialize.
-	R _ ℚ! !
+!RationalFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:32:28'!
+setUp
+	super setUp.
+	R := ℚ! !
 
-!RationalRationalFunctionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2022 09:41:16'!
-initialize
-	super initialize.
-	R _ (ℚ polynomialsIn: 3 atRandom) fractions! !
+!RationalRationalFunctionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:32:45'!
+setUp
+	super setUp.
+	R := (ℚ polynomialsIn: (3 atRandom: random)) fractions! !
 
-!TernaryExtensionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:28:44'!
-initialize
-	super initialize.
-	R := GaloisField new: 3 to: 8 atRandom! !
+!TernaryExtensionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:32:57'!
+setUp
+	super setUp.
+	R := GaloisField new: 3 to: (8 atRandom: random)! !
 
-!TernaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/17/2023 10:57:02'!
-initialize
-	super initialize.
-	R _ ℤ/3! !
+!TernaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:33:06'!
+setUp
+	super setUp.
+	R := ℤ/3! !
 
-!BinaryExtensionFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:29:47'!
-initialize
-	super initialize.
-	R := (	GaloisField new: 2 to: 8 atRandom) polynomials! !
+!BinaryExtensionFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:33:23'!
+setUp
+	super setUp.
+	R := (	GaloisField new: 2 to: (8 atRandom: random)) polynomials! !
 
-!BinaryFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 20:06:47'!
-initialize
-	super initialize.
-	R _ (ℤ/2) polynomials! !
+!BinaryFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:33:34'!
+setUp
+	super setUp.
+	R := (ℤ/2) polynomials! !
 
-!EisensteinRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:01:19'!
-initialize
-	super initialize.
-	R _ (CyclotomicField new: 3) integers! !
+!EisensteinRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:33:44'!
+setUp
+	super setUp.
+	R := (CyclotomicField new: 3) integers! !
 
-!EisensteinRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2022 06:24:15'!
+!EisensteinRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:35:20'!
 testIsPrimary
 	| a |
 	200 timesRepeat:
-		[a _ R atRandom: random.
+		[a := R atRandom: random.
 		a isPrimary ifTrue: [self assert: a norm \\ 3 = 1]]! !
 
-!FiniteFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 12:09:15'!
-initialize
-	super initialize.
-	R _ (	GaloisField new: 5 atRandom nextPrime to: 3 atRandom) polynomials! !
+!FiniteFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:35:45'!
+setUp
+	super setUp.
+	R := (	GaloisField new: (5 atRandom: random) nextPrime to: (3 atRandom: random)) polynomials! !
 
-!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/21/2021 08:18:32'!
-initialize
-	super initialize.
-	R _ GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom! !
+!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:36:14'!
+setUp
+	super setUp.
+	R := GaloisRing new: (3 atRandom: random) nextPrime to: (2 atRandom: random) to: (2 atRandom: random)! !
 
-!GaussianRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/4/2022 15:21:01'!
-initialize
-	super initialize.
-	R _ GaussianField new integers! !
+!GaussianRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:36:23'!
+setUp
+	super setUp.
+	R := GaussianField new integers! !
 
-!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:32:40'!
-initialize
-	super initialize.
-	R _ ℤ! !
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:36:33'!
+setUp
+	super setUp.
+	R := ℤ! !
 
-!LocalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/23/2022 13:17:15'!
-initialize
-	super initialize.
-	R _ ℤ @ (ℤ * 64 atRandom nextPrime)! !
+!LocalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:36:48'!
+setUp
+	super setUp.
+	R := ℤ @ (ℤ * (64 atRandom: random) nextPrime)! !
 
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 21:26:23'!
-initialize
-	super initialize.
-	R := ℤ/(2 to: {2^8. 2^16.  2^32. 2^40} atRandom) atRandom! !
+!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:37:16'!
+setUp
+	super setUp.
+	R := ℤ/((2 to: ({2^8. 2^16.  2^32. 2^40} atRandom: random)) atRandom: random)! !
 
 !ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 12:04:12'!
 testCongruenceSolvingExample1
@@ -8033,13 +8033,13 @@ testCongruenceSolvingExample2
 	self assert: solutions size = 23.
 	self assert: (solutions allSatisfy: [:x| a*x = b])! !
 
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:28:18'!
-initialize
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:37:47'!
+setUp
 	| k p |
-	super initialize.
-	p _ 10 atRandom nextPrime.
-	k _ 10 atRandom.
-	R _ PrimePowerRing new: p to: k! !
+	super setUp.
+	p := (10 atRandom: random) nextPrime.
+	k := 10 atRandom: random.
+	R := PrimePowerRing new: p to: k! !
 
 !PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2022 19:03:53'!
 testEuclideanDivisionCompatibleWithModularIntegerRing
@@ -8092,35 +8092,35 @@ testNormalizationCompatibleWithModularIntegerRing
 		s _ S !! r representative.
 		self assert: r normalization representative = s normalization representative]! !
 
-!RationalPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 12:08:03'!
-initialize
-	super initialize.
-	R _ ℚ polynomials! !
+!RationalPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:37:57'!
+setUp
+	super setUp.
+	R := ℚ polynomials! !
 
-!TernaryExtensionFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:30:03'!
-initialize
-	super initialize.
-	R := (	GaloisField new: 3 to: 8 atRandom) polynomials! !
+!TernaryExtensionFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:38:16'!
+setUp
+	super setUp.
+	R := (	GaloisField new: 3 to: (8 atRandom: random)) polynomials! !
 
-!TernaryFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 20:06:59'!
-initialize
-	super initialize.
-	R _ (ℤ/3) polynomials! !
+!TernaryFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:38:29'!
+setUp
+	super setUp.
+	R := (ℤ/3) polynomials! !
 
-!FiniteFieldMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 15:32:40'!
-initialize
-	super initialize.
-	R _ (	GaloisField new: 5 atRandom nextPrime to: 3 atRandom) polynomialsIn: 3 atRandom! !
+!FiniteFieldMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:39:01'!
+setUp
+	super setUp.
+	R := (	GaloisField new: (5 atRandom: random) nextPrime to: (3 atRandom: random)) polynomialsIn: (3 atRandom: random)! !
 
-!ProductRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/18/2022 12:53:32'!
-initialize
-	super initialize.
-	R _ ℤ × ℤ × (ℤ/4)! !
+!ProductRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:39:11'!
+setUp
+	super setUp.
+	R := ℤ × ℤ × (ℤ/4)! !
 
-!RationalMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 15:33:31'!
-initialize
-	super initialize.
-	R _ ℚ polynomialsIn: 3 atRandom! !
+!RationalMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:39:23'!
+setUp
+	super setUp.
+	R := ℚ polynomialsIn: (3 atRandom: random)! !
 
 !AbstractIntegralDomainTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2022 12:18:58'!
 testIsIntegralDomain
@@ -8133,20 +8133,20 @@ testZeroIdeal
 	self assert: P isPrime.
 	self assert: P isMinimalPrime! !
 
-!GaloisRingMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:04:18'!
-initialize
-	super initialize.
-	R _ (	GaloisRing new: 5 atRandom nextPrime to: 3 atRandom to: 2 atRandom) polynomialsIn: 3 atRandom! !
+!GaloisRingMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:40:02'!
+setUp
+	super setUp.
+	R := (	GaloisRing new: (5 atRandom: random) nextPrime to: (3 atRandom: random) to: (2 atRandom: random)) polynomialsIn: (3 atRandom: random)! !
 
-!ModularIntegerMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 21:23:26'!
-initialize
-	super initialize.
-	R := ℤ/(2 to: 256) atRandom polynomialsIn: 3 atRandom! !
+!ModularIntegerMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:40:33'!
+setUp
+	super setUp.
+	R := ℤ/((2 to: 256) atRandom: random) polynomialsIn: (3 atRandom: random)! !
 
-!ModularIntegerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 21:28:13'!
-initialize
-	super initialize.
-	R := (ℤ/(2 to: {2^8. 2^16.  2^32. 2^40} atRandom) atRandom) polynomials! !
+!ModularIntegerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:41:07'!
+setUp
+	super setUp.
+	R := (ℤ/((2 to: ({2^8. 2^16.  2^32. 2^40} atRandom: random)) atRandom: random)) polynomials! !
 
 !AbstractArrayTest methodsFor: 'private' stamp: 'len 5/6/2023 17:09:00'!
 newArray
@@ -8522,15 +8522,15 @@ testSwapFromToWithStartingAt
 	self assert: a = aCopy.
 	self assert: b = bCopy! !
 
-!ArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:37:16'!
-initialize
-	super initialize.
-	scalars _ ℤ! !
+!ArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2023 23:59:26'!
+setUp
+	super setUp.
+	scalars := ℤ! !
 
-!BinaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:11:27'!
-initialize
-	super initialize.
-	scalars _ ℤ/2! !
+!BinaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2023 23:59:43'!
+setUp
+	super setUp.
+	scalars := ℤ/2! !
 
 !BinaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/13/2023 12:56:50'!
 testIsAllOnes
@@ -8563,60 +8563,54 @@ testSumBug
 	self assert: (BinaryArray newFrom: 2r1011101) sum representative = 1.
 	self assert: (BinaryArray newFrom: 2r10000100100010) sum representative = 0! !
 
-!GaloisPackedArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 16:12:37'!
-initialize
-	super initialize.
-	scalars _ 2 atRandom = 1
-		ifTrue: [GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom]
-		ifFalse: [GaloisField new: #(16rFF 16rFFFF 16rFFFFFFFF) atRandom atRandom nextPrime to: 10 atRandom]! !
+!GaloisPackedArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:01:15'!
+setUp
+	super setUp.
+	scalars := (2 atRandom: random) = 1
+		ifTrue: [GaloisRing new: (3 atRandom: random) nextPrime to: (2 atRandom: random) to: (2 atRandom: random)]
+		ifFalse: [GaloisField new: ((#(16rFF 16rFFFF 16rFFFFFFFF) atRandom: random) atRandom: random) nextPrime to: (10 atRandom: random)]! !
 
-!ModularArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:35:19'!
-initialize
-	super initialize.
-	scalars _ ℤ / (16r100000001 to: 16r100000001 + 1000) atRandom! !
+!ModularArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:01:54'!
+setUp
+	super setUp.
+	scalars := ℤ / ((16r100000001 to: 16r100000001 + 1000) atRandom: random)! !
 
-!ModularByteArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:34:29'!
-initialize
-	super initialize.
-	scalars _ ℤ / (3 to: 256) atRandom! !
+!ModularByteArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:02:11'!
+setUp
+	super setUp.
+	scalars := ℤ / ((3 to: 256) atRandom: random)! !
 
 !ModularByteArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/12/2023 14:38:04'!
 testRepresentativesUseByteArray
 	self assert: self newArray representatives class = ByteArray! !
 
-!ModularDoubleByteArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 16:08:37'!
-initialize
-	super initialize.
-	scalars _ ℤ / (16rFF+2 to: 16rFFFF+1) atRandom! !
+!ModularDoubleByteArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:02:32'!
+setUp
+	super setUp.
+	scalars := ℤ / ((16rFF+2 to: 16rFFFF+1) atRandom: random)! !
 
 !ModularDoubleByteArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/12/2023 14:38:18'!
 testRepresentativesUseDoubleByteArray
 	self assert: self newArray representatives class = DoubleByteArray! !
 
-!ModularWordArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 16:08:10'!
-initialize
-	super initialize.
-	scalars _ ℤ / (16rFFFF+2 to: 16rFFFFFFFF+1) atRandom! !
+!ModularWordArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:02:53'!
+setUp
+	super setUp.
+	scalars := ℤ / ((16rFFFF+2 to: 16rFFFFFFFF+1) atRandom: random)! !
 
 !ModularWordArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/12/2023 14:38:31'!
 testRepresentativesUseWordArray
 	self assert: self newArray representatives class = WordArray! !
 
-!ProductArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:37:54'!
-initialize
-	super initialize.
-	scalars _ ℤ × (ℤ/(64 atRandom + 1))! !
+!ProductArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:03:27'!
+setUp
+	super setUp.
+	scalars := ℤ × (ℤ/((64 atRandom: random) + 1))! !
 
-!TernaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 13:01:13'!
-initialize
-	super initialize.
-	scalars _ ℤ/3! !
-
-!ZechArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 17:00:30'!
-initialize
-	super initialize.
-	scalars _ ℤ/10 atRandom nextPrime.
-	table _ ZechTable over: scalars! !
+!TernaryArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:03:46'!
+setUp
+	super setUp.
+	scalars := ℤ/3! !
 
 !ZechArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 17:00:35'!
 newArray: n fill: aBlock
@@ -8624,6 +8618,12 @@ newArray: n fill: aBlock
 	answer _ table new: n.
 	1 to: answer size do: [:i| answer at: i put: scalars !! (aBlock value: i)].
 	^ answer! !
+
+!ZechArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:04:11'!
+setUp
+	super setUp.
+	scalars := ℤ/(10 atRandom: random) nextPrime.
+	table := ZechTable over: scalars! !
 
 !AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:14:20'!
 newScalar
@@ -8830,10 +8830,10 @@ testTuple: a operation: aSymbol modulo: modulus
 testTuple: a with: b operation: aSymbol modulo: modulus
 	self assert: (a perform: aSymbol with: b) % modulus = (a % modulus perform: aSymbol with: b % modulus)! !
 
-!BinaryTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:26:20'!
-initialize
-	super initialize.
-	scalars _ ℤ/2! !
+!BinaryTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:41:19'!
+setUp
+	super setUp.
+	scalars := ℤ/2! !
 
 !BinaryTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:29:12'!
 testBitTupleBug
@@ -8844,50 +8844,50 @@ testBitTupleBug
 	self assert: ((1,1,0) % 2 :: sum = Z2 zero).
 	self assert: ((1,1,1) % 2 :: sum = Z2 one)! !
 
-!ModularInteger16TupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 21:22:39'!
-initialize
-	super initialize.
-	scalars := ℤ / (2^8 + 1 to: 2^16) atRandom! !
+!ModularInteger16TupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:41:39'!
+setUp
+	super setUp.
+	scalars := ℤ / ((2^8 + 1 to: 2^16) atRandom: random)! !
 
-!ModularInteger32TupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/22/2023 21:21:39'!
-initialize
-	super initialize.
-	scalars := ℤ / (2^16 + 1 to: 2^32) atRandom! !
+!ModularInteger32TupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:41:52'!
+setUp
+	super setUp.
+	scalars := ℤ / ((2^16 + 1 to: 2^32) atRandom: random)! !
 
-!ModularInteger8TupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:34:34'!
-initialize
-	super initialize.
-	scalars _ ℤ / (3 to: 256) atRandom! !
+!ModularInteger8TupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:42:12'!
+setUp
+	super setUp.
+	scalars := ℤ / ((4 to: 256) atRandom: random)! !
 
-!ModularIntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:10:05'!
-initialize
-	super initialize.
-	scalars _ ℤ / (16r100000001 to: 16r100000001 + 1000) atRandom! !
+!ModularIntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:42:30'!
+setUp
+	super setUp.
+	scalars := ℤ / ((16r100000001 to: 16r100000001 + 1000) atRandom: random)! !
 
-!TernaryTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 17:23:24'!
-initialize
-	super initialize.
-	scalars _ ℤ/3! !
+!TernaryTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:42:39'!
+setUp
+	super setUp.
+	scalars := ℤ/3! !
 
-!BinaryExtensionFieldTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:20:54'!
-initialize
-	super initialize.
-	scalars := GaloisField new: 2 to: 8 atRandom + 1! !
+!BinaryExtensionFieldTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:42:57'!
+setUp
+	super setUp.
+	scalars := GaloisField new: 2 to: (8 atRandom: random) + 1! !
 
-!FiniteFieldTupleTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2022 14:55:35'!
-initialize
-	super initialize.
-	scalars _ GaloisField new: #(16rFF 16rFFFF 16rFFFFFFFF) atRandom atRandom nextPrime to: 10 atRandom! !
+!FiniteFieldTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:43:33'!
+setUp
+	super setUp.
+	scalars := GaloisField new: ((#(16rFF 16rFFFF 16rFFFFFFFF) atRandom: random) atRandom: random) nextPrime to: (10 atRandom: random)! !
 
-!GaloisRingTupleTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 10:50:30'!
-initialize
-	super initialize.
-	scalars _ GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom! !
+!GaloisRingTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:44:04'!
+setUp
+	super setUp.
+	scalars := GaloisRing new: (3 atRandom: random) nextPrime to: (2 atRandom: random) to: (2 atRandom: random)! !
 
-!IntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:23:35'!
-initialize
-	super initialize.
-	scalars _ ℤ! !
+!IntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:44:14'!
+setUp
+	super setUp.
+	scalars := ℤ! !
 
 !IntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/16/2022 19:45:51'!
 testDomainError
@@ -8895,42 +8895,42 @@ testDomainError
 	v _ ℤ^3 !! #(1 2 3).
 	self should: [v / 2] raise: Error! !
 
-!ProductRingTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:11:10'!
-initialize
-	super initialize.
-	scalars _ ℤ × (ℤ/(64 atRandom + 1))! !
+!ProductRingTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:44:31'!
+setUp
+	super setUp.
+	scalars := ℤ × (ℤ/((64 atRandom: random) + 1))! !
 
-!RationalPolynomialRingTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:31:32'!
-initialize
-	super initialize.
-	scalars _ ℚ polynomials! !
+!RationalPolynomialRingTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:44:40'!
+setUp
+	super setUp.
+	scalars := ℚ polynomials! !
 
-!RationalTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:59:05'!
-initialize
-	super initialize.
-	scalars _ ℚ! !
+!RationalTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:44:50'!
+setUp
+	super setUp.
+	scalars := ℚ! !
 
-!SmallFiniteFieldTupleTest methodsFor: 'initialization' stamp: 'len 12/29/2022 10:10:29'!
-initialize
+!SmallFiniteFieldTupleTest methodsFor: 'initialization' stamp: 'len 5/26/2023 00:55:50'!
+setUp
 	| p |
-	super initialize.
-	p _ 13 atRandom nextPrime.
-	scalars _ GaloisField new: p to: ((256 log: p) floor - 1)  atRandom + 1! !
+	super setUp.
+	p := (13 atRandom: random) nextPrime.
+	scalars := GaloisField new: p to: (((256 log: p) floor + 1) atRandom: random) + 1! !
 
-!TernaryExtensionFieldTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:21:20'!
-initialize
-	super initialize.
-	scalars := GaloisField new: 3 to: 8 atRandom + 1! !
+!TernaryExtensionFieldTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:45:39'!
+setUp
+	super setUp.
+	scalars := GaloisField new: 3 to: (8 atRandom: random) + 1! !
 
-!MatrixAlgebraTupleTest methodsFor: 'as yet unclassified' stamp: 'len 7/24/2021 14:08:40'!
-initialize
-	super initialize.
-	scalars _ (ℚ^(0 to: 3) atRandom) endomorphisms! !
+!MatrixAlgebraTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:52:26'!
+setUp
+	super setUp.
+	scalars := (ℚ^((0 to: 3) atRandom: random)) endomorphisms! !
 
-!QuaternionAlgebraTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/23/2021 11:00:55'!
-initialize
-	super initialize.
-	scalars _ QuaternionAlgebra over: ℚ invariants: #(1 1)! !
+!QuaternionAlgebraTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:46:21'!
+setUp
+	super setUp.
+	scalars := QuaternionAlgebra over: ℚ invariants: #(1 1)! !
 
 !AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 15:21:11'!
 testAddition
@@ -9565,25 +9565,25 @@ testSimilarity
 	P _ A domain automorphisms atRandom: random bits: 10*n*n.
 	self assert: P inverse * A * P ≃ A! !
 
-!BinaryExtensionFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:22:31'!
-initialize
-	super initialize.
-	scalars := GaloisField new: 2 to: 8 atRandom + 1! !
+!BinaryExtensionFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:06:45'!
+setUp
+	super setUp.
+	scalars := GaloisField new: 2 to: (8 atRandom: random) + 1! !
 
-!BinaryMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 20:43:52'!
-initialize
-	super initialize.
-	scalars _ ℤ/2! !
+!BinaryMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:06:57'!
+setUp
+	super setUp.
+	scalars := ℤ/2! !
 
-!CyclotomicFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/21/2021 17:35:18'!
-initialize
-	super initialize.
-	scalars _ CyclotomicField new: 3 atRandom + 2! !
+!CyclotomicFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:07:17'!
+setUp
+	super setUp.
+	scalars := CyclotomicField new: (3 atRandom: random) + 2! !
 
-!FiniteFieldMatrixTest methodsFor: 'initialization' stamp: 'len 12/28/2022 14:59:59'!
-initialize
-	super initialize.
-	scalars _ GaloisField new: #(16rFF 16rFFFF 16rFFFFFFFF) atRandom atRandom nextPrime to: 10 atRandom! !
+!FiniteFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:07:54'!
+setUp
+	super setUp.
+	scalars := GaloisField new: ((#(16rFF 16rFFFF 16rFFFFFFFF) atRandom: random) atRandom: random) nextPrime to: (10 atRandom: random)! !
 
 !FiniteFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 11:36:26'!
 testCharacteristicPolynomialBug
@@ -9601,18 +9601,18 @@ testEchelonExample
 	A _ K^3 ⇒ (K^4) !! {1. w. w^5. 0. w^3. w^4. w. 1. w^6. w^3. 1. w^4}.
 	self assert: A echelon = (A parent !! {1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0})! !
 
-!QuadraticFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/9/2022 08:34:10'!
-initialize
+!QuadraticFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:08:54'!
+setUp
 	| n |
-	super initialize.
-	[(n _ (2 to: 100) atRandom squarefreePart) > 1] whileFalse.
-	2 atRandom = 1 ifTrue: [n _ n negated].
-	scalars _ QuadraticField sqrt: n! !
+	super setUp.
+	[(n := ((2 to: 100) atRandom: random) squarefreePart) > 1] whileFalse.
+	random nextBoolean ifTrue: [n := n negated].
+	scalars := QuadraticField sqrt: n! !
 
-!RationalMatrixTest methodsFor: 'initialization' stamp: 'len 3/26/2021 12:54:30'!
-initialize
-	super initialize.
-	scalars _ ℚ! !
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:09:07'!
+setUp
+	super setUp.
+	scalars := ℚ! !
 
 !RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:06:20'!
 testAdjugateExampleProperties
@@ -9877,42 +9877,42 @@ testSlashWithTupleExample
 	self assert: x = (ℚ^3 !! #(1 2 3)).
 	self assert: x * A = b! !
 
-!SmallFiniteFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/29/2022 10:10:20'!
-initialize
+!SmallFiniteFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 01:00:03'!
+setUp
 	| p |
-	super initialize.
-	p _ 13 atRandom nextPrime.
-	scalars _ GaloisField new: p to: ((256 log: p) floor - 1)  atRandom + 1! !
+	super setUp.
+	p := (13 atRandom: random) nextPrime.
+	scalars := GaloisField new: p to: (((256 log: p) floor + 1) atRandom: random) + 1! !
 
-!TernaryExtensionFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 17:22:07'!
-initialize
-	super initialize.
-	scalars := GaloisField new: 3 to: 8 atRandom + 1! !
+!TernaryExtensionFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:10:32'!
+setUp
+	super setUp.
+	scalars := GaloisField new: 3 to: (8 atRandom: random) + 1! !
 
-!TernaryMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 17:23:44'!
-initialize
-	super initialize.
-	scalars _ ℤ/3! !
+!TernaryMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:10:56'!
+setUp
+	super setUp.
+	scalars := ℤ/3! !
 
-!CyclotomicIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/21/2021 17:35:09'!
-initialize
-	super initialize.
-	scalars _ (CyclotomicField new: 3 atRandom + 2) integers! !
+!CyclotomicIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:11:32'!
+setUp
+	super setUp.
+	scalars := (CyclotomicField new: (3 atRandom: random) + 2) integers! !
 
-!EisensteinIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:22:58'!
-initialize
-	super initialize.
-	scalars _ (CyclotomicField new: 3) integers! !
+!EisensteinIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:11:46'!
+setUp
+	super setUp.
+	scalars := (CyclotomicField new: 3) integers! !
 
-!GaussianIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/7/2022 13:52:55'!
-initialize
-	super initialize.
-	scalars _ GaussianField new integers! !
+!GaussianIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:12:00'!
+setUp
+	super setUp.
+	scalars := GaussianField new integers! !
 
-!IntegerMatrixTest methodsFor: 'initialization' stamp: 'len 3/26/2021 12:50:25'!
-initialize
-	super initialize.
-	scalars _ ℤ! !
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:12:12'!
+setUp
+	super setUp.
+	scalars := ℤ! !
 
 !IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:03:53'!
 testAdjugateExample
@@ -10291,20 +10291,20 @@ testSmithNormalFormExampleDiagonal
 	A _ ℤ !!!!!! #((5 0 0) (0 2 0) (0 0 0)).
 	self assert: A SNF = ((ℤ^3) endomorphisms diagonal: #(1 10 0))! !
 
-!LocalIntegerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/23/2022 13:16:34'!
-initialize
-	super initialize.
-	scalars _ ℤ @ (ℤ * 64 atRandom nextPrime)! !
+!LocalIntegerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:12:37'!
+setUp
+	super setUp.
+	scalars := ℤ @ (ℤ * (64 atRandom: random) nextPrime)! !
 
-!PrimeFieldMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/30/2021 12:23:00'!
-initialize
-	super initialize.
-	scalars _ ℤ/5 polynomialsIn: #(x y z)! !
+!PrimeFieldMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:12:49'!
+setUp
+	super setUp.
+	scalars := ℤ/5 polynomialsIn: #(x y z)! !
 
-!PrimeFieldPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:06:29'!
-initialize
-	super initialize.
-	scalars _ ℤ/5! !
+!PrimeFieldPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:12:59'!
+setUp
+	super setUp.
+	scalars := ℤ/5! !
 
 !PrimeFieldPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:16:20'!
 testRankOverPolynomialsOverZ5
@@ -10339,23 +10339,23 @@ testSmithNormalFormOverPolynomialsOverPrimeField2
 	self assert: ax SNF = ((P^5) endomorphisms diagonal: {P one. P one. x - 1. x^2 - 1. x^2 - 1}).
 	self assert: ax elementaryDivisors = {P one. P one. x - 1. x^2 - 1. x^2 - 1}! !
 
-!QuadraticRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/9/2022 08:34:13'!
-initialize
+!QuadraticRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:13:28'!
+setUp
 	| n |
-	super initialize.
-	[(n _ (2 to: 100) atRandom squarefreePart) > 1] whileFalse.
-	2 atRandom = 1 ifTrue: [n _ n negated].
-	scalars _ (QuadraticField sqrt: n) integers! !
+	super setUp.
+	[(n := ((2 to: 100) atRandom: random) squarefreePart) > 1] whileFalse.
+	random nextBoolean ifTrue: [n := n negated].
+	scalars := (QuadraticField sqrt: n) integers! !
 
-!RationalMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/15/2021 07:37:23'!
-initialize
-	super initialize.
-	scalars _ ℚ polynomialsIn: #(x y z)! !
+!RationalMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:13:46'!
+setUp
+	super setUp.
+	scalars := ℚ polynomialsIn: #(x y z)! !
 
-!RationalPolynomialRingMatrixTest methodsFor: 'initialization' stamp: 'len 3/26/2021 12:58:50'!
-initialize
-	super initialize.
-	scalars _ ℚ polynomials! !
+!RationalPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:13:57'!
+setUp
+	super setUp.
+	scalars := ℚ polynomials! !
 
 !RationalPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:15:39'!
 testHermiteNormalFormExample
@@ -10376,20 +10376,20 @@ testSmithNormalFormOverExample1
 	A _ (R^2) id * x - (R !!!!!! #((3 -4) (1 -1))).
 	self assert: A SNF = ((R^2) endomorphisms diagonal: {R one. x^2 - (x*2) + 1})! !
 
-!GaloisRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 10:51:06'!
-initialize
-	super initialize.
-	scalars _ GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom! !
+!GaloisRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:14:34'!
+setUp
+	super setUp.
+	scalars := GaloisRing new: (3 atRandom: random) nextPrime to: (2 atRandom: random) to: (2 atRandom: random)! !
 
-!GaloisRingMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:01:06'!
-initialize
-	super initialize.
-	scalars _ (GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom) polynomialsIn: 3 atRandom! !
+!GaloisRingMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:15:14'!
+setUp
+	super setUp.
+	scalars := (GaloisRing new: (3 atRandom: random) nextPrime to: (2 atRandom: random) to: (2 atRandom: random)) polynomialsIn: (3 atRandom: random)! !
 
-!ModularIntegerMatrixTest methodsFor: 'initialization' stamp: 'len 4/26/2021 11:49:04'!
-initialize
-	super initialize.
-	scalars _ ℤ/(2 to: 64) atRandom! !
+!ModularIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:15:33'!
+setUp
+	super setUp.
+	scalars := ℤ/((2 to: 64) atRandom: random)! !
 
 !ModularIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:42'!
 testHowellNormalForm1
@@ -10425,23 +10425,23 @@ testHowellNormalForm3
 	H _ R !!!!!! #((2 1) (0 3)).
 	self assert: A echelon = H! !
 
-!ModularIntegerMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:01:24'!
-initialize
-	super initialize.
-	scalars _ ℤ/1024 atRandom polynomialsIn: 3 atRandom! !
+!ModularIntegerMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:16:01'!
+setUp
+	super setUp.
+	scalars := ℤ/(1024 atRandom: random) polynomialsIn: (3 atRandom: random)! !
 
-!PrimeFieldAffineAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 18:52:06'!
-initialize
+!PrimeFieldAffineAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:16:59'!
+setUp
 	| P |
-	super initialize.
-	P _ ℤ/64 atRandom nextPrime polynomialsIn: 3 atRandom.
-	[scalars _ P / ((1 to: 4 atRandom - 1) collect: [:i| P atRandomBits: 20]).
+	super setUp.
+	P := ℤ/(64 atRandom: random) nextPrime polynomialsIn: (3 atRandom: random).
+	[scalars := P / ((1 to: (4 atRandom: random) - 1) collect: [:i| P atRandom: random bits: 20]).
 	scalars isTrivial] whileTrue! !
 
-!PrimePowerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2021 12:57:12'!
-initialize
-	super initialize.
-	scalars _ PrimePowerRing new: 10 atRandom nextPrime to: 3 atRandom! !
+!PrimePowerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:17:24'!
+setUp
+	super setUp.
+	scalars := PrimePowerRing new: (10 atRandom: random) nextPrime to: (3 atRandom: random)! !
 
 !PrimePowerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:54'!
 testSyzygiesBug
@@ -10451,38 +10451,38 @@ testSyzygiesBug
 	X _ A syzygies.
 	self assert: (A*X) isZero! !
 
-!ProductRingMatrixTest methodsFor: 'initialization' stamp: 'len 10/13/2022 05:00:06'!
-initialize
-	super initialize.
-	scalars _ ℤ × (ℤ/(64 atRandom + 1))! !
+!ProductRingMatrixTest methodsFor: 'initialization' stamp: 'len 5/26/2023 00:17:47'!
+setUp
+	super setUp.
+	scalars := ℤ × (ℤ/((64 atRandom: random) + 1))! !
 
-!RationalAffineAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 18:52:28'!
-initialize
+!RationalAffineAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:18:20'!
+setUp
 	| P |
-	super initialize.
-	P _ ℚ polynomialsIn: 3 atRandom.
-	[scalars _ P / ((1 to: 4 atRandom - 1) collect: [:i| P atRandomBits: 20]).
+	super setUp.
+	P := ℚ polynomialsIn: (3 atRandom: random).
+	[scalars := P / ((1 to: (4 atRandom: random) - 1) collect: [:i| P atRandom: random bits: 20]).
 	scalars isTrivial] whileTrue! !
 
-!CliffordAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/22/2021 11:17:19'!
-initialize
-	super initialize.
-	scalars _ CliffordAlgebra on: (QuadraticForm from: ℚ^3 coefficients: #(1 0 0 1 0 1))! !
+!CliffordAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:18:29'!
+setUp
+	super setUp.
+	scalars := CliffordAlgebra on: (QuadraticForm from: ℚ^3 coefficients: #(1 0 0 1 0 1))! !
 
-!GroupAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/22/2021 18:30:01'!
-initialize
-	super initialize.
-	scalars _ (SymmetricGroup new: (0 to: 3) atRandom) groupAlgebraOver: ℤ/2! !
+!GroupAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:18:50'!
+setUp
+	super setUp.
+	scalars := (SymmetricGroup new: ((0 to: 3) atRandom: random)) groupAlgebraOver: ℤ/2! !
 
-!MatrixAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/21/2021 18:12:12'!
-initialize
-	super initialize.
-	scalars _ (ℚ^(0 to: 3) atRandom) endomorphisms! !
+!MatrixAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:19:08'!
+setUp
+	super setUp.
+	scalars := (ℚ^((0 to: 3) atRandom: random)) endomorphisms! !
 
-!QuaternionAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:37:20'!
-initialize
-	super initialize.
-	scalars _ QuaternionAlgebra over: ℚ invariants: #(1 1)! !
+!QuaternionAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:19:19'!
+setUp
+	super setUp.
+	scalars := QuaternionAlgebra over: ℚ invariants: #(1 1)! !
 
 !AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 10/5/2022 17:11:54'!
 testFirstIsomorphismTheorem
@@ -11278,10 +11278,10 @@ testSubspaceSumRandom
 	self assert: S <= U.
 	self assert: T <= U! !
 
-!BinaryVectorSpaceTest methodsFor: 'initialization' stamp: 'len 3/24/2021 08:37:49'!
-initialize
-	super initialize.
-	scalars _ ℤ/2! !
+!BinaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:19:40'!
+setUp
+	super setUp.
+	scalars := ℤ/2! !
 
 !BinaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 07:42:58'!
 testKernelZ2
@@ -11324,25 +11324,25 @@ testPerpZ2
 	self assert: (S basis first · perp basis first) isZero.
 	self assert: (S basis first · perp basis second) isZero! !
 
-!CyclotomicFieldVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 7/15/2021 12:47:15'!
-initialize
-	super initialize.
-	scalars _ CyclotomicField new: 3 atRandom + 2! !
+!CyclotomicFieldVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:20:03'!
+setUp
+	super setUp.
+	scalars := CyclotomicField new: (3 atRandom: random) + 2! !
 
-!FiniteFieldVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2021 07:51:41'!
-initialize
-	super initialize.
-	scalars _ GaloisField new: 10 atRandom nextPrime to: 3 atRandom! !
+!FiniteFieldVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:20:27'!
+setUp
+	super setUp.
+	scalars := GaloisField new: (10 atRandom: random) nextPrime to: (3 atRandom: random)! !
 
-!QuadraticFieldVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 3/23/2021 13:51:16'!
-initialize
-	super initialize.
-	scalars _ QuadraticField sqrt: -5! !
+!QuadraticFieldVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:20:40'!
+setUp
+	super setUp.
+	scalars := QuadraticField sqrt: -5! !
 
-!RationalVectorSpaceTest methodsFor: 'initialization' stamp: 'len 3/23/2021 13:49:39'!
-initialize
-	super initialize.
-	scalars _ ℚ! !
+!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:20:51'!
+setUp
+	super setUp.
+	scalars := ℚ! !
 
 !RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 07:43:10'!
 testLinearForm1
@@ -11447,40 +11447,40 @@ testSubspaceIntersectionExample
 	T2 _ V span: {(3,1,-1). (0,1,0)}.
 	self assert: S ∩ T2 = T! !
 
-!TernaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 5/15/2023 17:24:00'!
-initialize
-	super initialize.
-	scalars _ ℤ/3! !
+!TernaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:21:07'!
+setUp
+	super setUp.
+	scalars := ℤ/3! !
 
-!CyclotomicIntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/26/2021 10:20:31'!
-initialize
-	super initialize.
-	scalars _ (CyclotomicField new: 3 atRandom + 2) integers! !
+!CyclotomicIntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:21:30'!
+setUp
+	super setUp.
+	scalars := (CyclotomicField new: (3 atRandom: random) + 2) integers! !
 
-!EisensteinIntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 18:23:50'!
-initialize
-	super initialize.
-	scalars _ (CyclotomicField new: 3) integers! !
+!EisensteinIntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:21:47'!
+setUp
+	super setUp.
+	scalars := (CyclotomicField new: 3) integers! !
 
-!GaloisRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 10:56:30'!
-initialize
-	super initialize.
-	scalars _ GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom! !
+!GaloisRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:22:19'!
+setUp
+	super setUp.
+	scalars := GaloisRing new: (3 atRandom: random) nextPrime to: (2 atRandom: random) to: (2 atRandom: random)! !
 
-!GaloisRingMultivariatePolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 18:32:37'!
-initialize
-	super initialize.
-	scalars _ (GaloisRing new: 3 atRandom nextPrime to: 2 atRandom to: 2 atRandom) polynomialsIn: 2! !
+!GaloisRingMultivariatePolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:22:56'!
+setUp
+	super setUp.
+	scalars := (GaloisRing new: (3 atRandom: random) nextPrime to: (2 atRandom: random) to: (2 atRandom: random)) polynomialsIn: 2! !
 
-!GaussianIntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 1/7/2022 13:52:03'!
-initialize
-	super initialize.
-	scalars _ GaussianField new integers! !
+!GaussianIntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:23:10'!
+setUp
+	super setUp.
+	scalars := GaussianField new integers! !
 
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/23/2021 13:49:57'!
-initialize
-	super initialize.
-	scalars _ ℤ! !
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:23:23'!
+setUp
+	super setUp.
+	scalars := ℤ! !
 
 !IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2021 08:28:50'!
 testFreeModuleDiscriminant
@@ -11673,15 +11673,15 @@ testSyzygies2
 testTensorProductExample
 	self assert: ℤ^1 ⊗ (ℤ^1/{2}) ~ (ℤ^1/{2})! !
 
-!LocalIntegerRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/23/2022 13:16:57'!
-initialize
-	super initialize.
-	scalars _ ℤ @ (ℤ * 64 atRandom nextPrime)! !
+!LocalIntegerRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:23:54'!
+setUp
+	super setUp.
+	scalars := ℤ @ (ℤ * (64 atRandom: random) nextPrime)! !
 
-!ModularIntegerModuleTest methodsFor: 'initialization' stamp: 'len 4/2/2021 11:13:47'!
-initialize
-	super initialize.
-	scalars _ ℤ/(2 to: 64) atRandom! !
+!ModularIntegerModuleTest methodsFor: 'initialization' stamp: 'len 5/26/2023 00:24:13'!
+setUp
+	super setUp.
+	scalars := ℤ/((2 to: 64) atRandom: random)! !
 
 !ModularIntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:22:53'!
 testExampleModulesOverZ12
@@ -11691,28 +11691,28 @@ testExampleModulesOverZ12
 	B _ M span: {(8,5,5). (0,9,8). (0,0,10)}.
 	self assert: A = B! !
 
-!ProductRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/13/2022 05:02:42'!
-initialize
-	super initialize.
-	scalars _ ℤ × (ℤ/(64 atRandom + 1))! !
+!ProductRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:24:55'!
+setUp
+	super setUp.
+	scalars := ℤ × (ℤ/((64 atRandom: random) + 1))! !
 
-!QuadraticRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 1/9/2022 08:34:16'!
-initialize
+!QuadraticRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:25:40'!
+setUp
 	| n |
-	super initialize.
-	[(n _ (2 to: 100) atRandom squarefreePart) > 1] whileFalse.
-	2 atRandom = 1 ifTrue: [n _ n negated].
-	scalars _ (QuadraticField sqrt: n) integers! !
+	super setUp.
+	[(n := ((2 to: 100) atRandom: random) squarefreePart) > 1] whileFalse.
+	random nextBoolean ifTrue: [n := n negated].
+	scalars := (QuadraticField sqrt: n) integers! !
 
-!RationalMultivariatePolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/30/2021 14:16:08'!
-initialize
-	super initialize.
-	scalars _ ℚ polynomialsIn: 2! !
+!RationalMultivariatePolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:26:02'!
+setUp
+	super setUp.
+	scalars := ℚ polynomialsIn: 2! !
 
-!RationalPolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/23/2021 13:50:37'!
-initialize
-	super initialize.
-	scalars _ ℚ polynomials! !
+!RationalPolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:26:13'!
+setUp
+	super setUp.
+	scalars := ℚ polynomials! !
 
 !AbstractModuleTODOTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:39:02'!
 testPullbackSquaresSharingMorphism
@@ -11750,20 +11750,20 @@ testPushoutSquaresSharingMorphism
 	l _ Q ⇇ (P, D) at: 2.
 	self assert: f → (k · i) = (h · g → l)! !
 
-!CliffordAlgebraModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/26/2021 10:19:57'!
-initialize
-	super initialize.
-	scalars _ CliffordAlgebra on: (QuadraticForm from: ℚ^3 coefficients: #(1 0 0 1 0 1))! !
+!CliffordAlgebraModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:26:26'!
+setUp
+	super setUp.
+	scalars := CliffordAlgebra on: (QuadraticForm from: ℚ^3 coefficients: #(1 0 0 1 0 1))! !
 
-!MatrixAlgebraModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/22/2021 12:38:15'!
-initialize
-	super initialize.
-	scalars _ (ℤ/256 atRandom nextPrime^2 atRandom) endomorphisms! !
+!MatrixAlgebraModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:27:23'!
+setUp
+	super setUp.
+	scalars := (ℤ/(256 atRandom: random) nextPrime^(2 atRandom: random)) endomorphisms! !
 
-!QuaternionAlgebraModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/25/2021 12:09:23'!
-initialize
-	super initialize.
-	scalars _ QuaternionAlgebra over: ℚ invariants: #(1 1)! !
+!QuaternionAlgebraModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:27:33'!
+setUp
+	super setUp.
+	scalars := QuaternionAlgebra over: ℚ invariants: #(1 1)! !
 
 !RingTest methodsFor: 'euclidean' stamp: 'len 5/23/2020 09:34:55'!
 testModularIntegersEuclideanExample
