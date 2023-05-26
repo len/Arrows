@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 26 May 2023 at 1:03:47 am'!
+'From Cuis 6.0 [latest update: #5801] on 26 May 2023 at 6:50:43 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 50!
+!provides: 'Tests-Algebra' 1 51!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -8468,13 +8468,13 @@ testSumAndProductWithArgument
 	self assert: (a sum: [:each| dict at: each]) = (a asArray sum: [:each| dict at: each]).
 	self assert: (a product: [:each| dict at: each]) = (a asArray product: [:each| dict at: each])! !
 
-!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/6/2023 17:15:31'!
+!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/26/2023 14:58:29'!
 testFirstNonzeroIndex
 	| a i |
-	a _ self newArray.
-	(2 atRandom: random) = 1 ifTrue: [a _ (self newArray: (100 atRandom: random)) zero, a].
-	i _ a findFirst: [:x| x isZero not].
-	i = 0 ifTrue: [i _ nil].
+	a := self newArray.
+	random nextBoolean ifTrue: [a := (self newArray: (100 atRandom: random)) zero, a].
+	i := a findFirst: [:x| x isZero not].
+	i = 0 ifTrue: [i := nil].
 	self assert: a firstNonzeroIndex = i! !
 
 !AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/6/2023 17:16:16'!
@@ -8487,13 +8487,13 @@ testIsZeroAt
 	self assert: (a isZeroAt: index).
 	1 to: a size do: [:i| self assert: (a isZeroAt: i) = (a at: i) isZero].! !
 
-!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/6/2023 17:16:31'!
+!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/26/2023 14:58:42'!
 testLastNonzeroIndex
 	| a i |
-	a _ self newArray.
-	(2 atRandom: random) = 1 ifTrue: [a _ a, (self newArray: (100 atRandom: random)) zero].
-	i _ a findLast: [:x| x isZero not].
-	i = 0 ifTrue: [i _ nil].
+	a := self newArray.
+	random nextBoolean ifTrue: [a := a, (self newArray: (100 atRandom: random)) zero].
+	i := a findLast: [:x| x isZero not].
+	i = 0 ifTrue: [i := nil].
 	self assert: a lastNonzeroIndex = i! !
 
 !AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/11/2023 23:38:25'!
@@ -8563,10 +8563,10 @@ testSumBug
 	self assert: (BinaryArray newFrom: 2r1011101) sum representative = 1.
 	self assert: (BinaryArray newFrom: 2r10000100100010) sum representative = 0! !
 
-!GaloisPackedArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:01:15'!
+!GaloisPackedArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 14:58:51'!
 setUp
 	super setUp.
-	scalars := (2 atRandom: random) = 1
+	scalars := random nextBoolean
 		ifTrue: [GaloisRing new: (3 atRandom: random) nextPrime to: (2 atRandom: random) to: (2 atRandom: random)]
 		ifFalse: [GaloisField new: ((#(16rFF 16rFFFF 16rFFFFFFFF) atRandom: random) atRandom: random) nextPrime to: (10 atRandom: random)]! !
 
@@ -8695,13 +8695,13 @@ testDotProduct
 	b _ self newTuple.
 	self assert: a · b = (a asArray · b asArray)! !
 
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:57:16'!
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 14:59:00'!
 testFirstNonzeroIndex
 	| a i |
-	a _ self newTuple.
-	(2 atRandom: random) = 1 ifTrue: [a _ (self newTuple: (100 atRandom: random)) zero, a].
-	i _ a coefficients findFirst: [:x| x isZero not].
-	i = 0 ifTrue: [i _ nil].
+	a := self newTuple.
+	random nextBoolean ifTrue: [a := (self newTuple: (100 atRandom: random)) zero, a].
+	i := a coefficients findFirst: [:x| x isZero not].
+	i = 0 ifTrue: [i := nil].
 	self assert: a firstNonzeroIndex = i! !
 
 !AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:23:14'!
@@ -8714,13 +8714,13 @@ testIsZeroAt
 	self assert: (a isZeroAt: index).
 	1 to: a size do: [:i| self assert: (a isZeroAt: i) = (a at: i) isZero].! !
 
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 17:57:32'!
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 14:59:17'!
 testLastNonzeroIndex
 	| a i |
-	a _ self newTuple.
-	(2 atRandom: random) = 1 ifTrue: [a _ a, (self newTuple: (100 atRandom: random)) zero].
-	i _ a coefficients findLast: [:x| x isZero not].
-	i = 0 ifTrue: [i _ nil].
+	a := self newTuple.
+	random nextBoolean ifTrue: [a := a, (self newTuple: (100 atRandom: random)) zero].
+	i := a coefficients findLast: [:x| x isZero not].
+	i = 0 ifTrue: [i := nil].
 	self assert: a lastNonzeroIndex = i! !
 
 !AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:20:30'!
@@ -9009,6 +9009,26 @@ testScalarAction
 	B := A*b.
 	A withIndicesDo: [:each :i :j| self assert: each*b = (B at: i@j)]! !
 
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/26/2023 18:47:21'!
+testStrassenWinogradSquareEven
+	| n A B C |
+	n := (10 atRandom: random) bitAnd: 1 bitInvert.
+	A := self newMatrix: n @ n.
+	B := self newMatrix: n @ n.
+	C := A copy.
+	C replaceStrassenWinogradWith: A times: B.
+	self assert: A * B = C! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/26/2023 18:47:43'!
+testStrassenWinogradSquareOddPeeling
+	| n A B C |
+	n := (10 atRandom: random) bitOr: 1.
+	A := self newMatrix: n @ n.
+	B := self newMatrix: n @ n.
+	C := A copy.
+	C replacePeelingStrassenWinogradWith: A times: B.
+	self assert: A * B = C! !
+
 !AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 15:10:56'!
 newSubmatrix: extent of: aMatrix
 	| i₀ j₀ |
@@ -9270,20 +9290,20 @@ testBackslashZeroMatrix
 	X _ A \ B.
 	self assert: A*X = B! !
 
-!AbstractMatrixTest methodsFor: 'solving' stamp: 'len 10/5/2022 17:08:46'!
+!AbstractMatrixTest methodsFor: 'solving' stamp: 'len 5/26/2023 15:00:01'!
 testMatrixDivision
 	| A B n result N X combinations |
-	n _ 5 atRandom: random.
-	A _ scalars^5 ⇒ (scalars^n) atRandom: random bits: 100.
-	combinations _ (1 to: n) collect: [:each| (2 atRandom: random) = 1].
-	B _ Matrix columns:
+	n := 5 atRandom: random.
+	A := scalars^5 ⇒ (scalars^n) atRandom: random bits: 100.
+	combinations := (1 to: n) collect: [:each| random nextBoolean].
+	B := Matrix columns:
 		(combinations collect: [:isCombination|
 			isCombination
 				ifTrue: [A * (A domain atRandom: random bits: 20)]
 				ifFalse: [A codomain atRandom: random bits: 20]]).
-	result _ B divisionBy: A.
-	X _ result first.
-	N _ result second.
+	result := B divisionBy: A.
+	X := result first.
+	N := result second.
 	self assert: A*X + N = B.
 	combinations withIndexDo: [:isCombination :i| isCombination ifTrue: [self assert: (N columnAt: i) isZero]]! !
 
@@ -9371,12 +9391,12 @@ newMatrix
 	m _ (0 to: 5) atRandom: random.
 	^ scalars^n ⇒ (scalars^m) atRandom: random bits: (m*n*5+1 atRandom: random)! !
 
-!AbstractMatrixTest methodsFor: 'private' stamp: 'len 11/23/2022 21:23:57'!
+!AbstractMatrixTest methodsFor: 'private' stamp: 'len 5/26/2023 14:59:33'!
 newMatrix: shape
 	| samples hom |
-	hom _ scalars^shape y ⇒ (scalars^shape x).
-	(2 atRandom: random) = 1 ifTrue: [^ hom atRandom: random bits: 100].
-	samples _ {scalars zero. scalars one. scalars one negated}.
+	hom := scalars^shape y ⇒ (scalars^shape x).
+	random nextBoolean ifTrue: [^ hom atRandom: random bits: 100].
+	samples := {scalars zero. scalars one. scalars one negated}.
 	^ hom fill: [:i :j| (2 atRandom: random) > 1 ifTrue: [scalars zero] ifFalse: [samples atRandom: random]]! !
 
 !AbstractMatrixTest methodsFor: 'private' stamp: 'len 5/22/2023 11:25:22'!
@@ -10935,12 +10955,12 @@ newFreeModule
 	(5 atRandom: random) = 1 ifTrue: [^ M dual].
 	^ M! !
 
-!AbstractModuleTest methodsFor: 'private' stamp: 'len 11/23/2022 21:24:08'!
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 5/26/2023 15:00:19'!
 newMatrix: shape
 	| hom samples |
-	hom _ scalars^shape y ⇒ (scalars^shape x).
-	(2 atRandom: random) = 1 ifTrue: [^ hom atRandom: random bits: 100].
-	samples _ {scalars zero. scalars one. scalars one negated}.
+	hom := scalars^shape y ⇒ (scalars^shape x).
+	random nextBoolean ifTrue: [^ hom atRandom: random bits: 100].
+	samples := {scalars zero. scalars one. scalars one negated}.
 	^ hom fill: [:i :j| (2 atRandom: random) > 1 ifTrue: [scalars zero] ifFalse: [samples atRandom: random]]! !
 
 !AbstractModuleTest methodsFor: 'private' stamp: 'len 8/22/2021 12:27:37'!

@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 25 May 2023 at 6:18:00 pm'!
+'From Cuis 6.0 [latest update: #5801] on 26 May 2023 at 6:50:34 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -37,6 +37,7 @@ References:
 [KY86] Mitsuo Kanemitsu; Ken-ichi Yoshida; "Euclidean rings" (1986)
 [KSWZ17] Deepak Kapur, Yao Sun, Dingkang Wang, Jie Zhou, "The Generalized Rabinowitsch Trick" (2017)
 [Kem11] Gregor Kemper; "A Course in Commutative Algebra", GTM 256, Springer, 2011
+[LN16] Patrick Longa, Michael Naehrig; "Speeding up the Number Theoretic Transform for Faster Ideal Lattice-Based Cryptography" (2016)
 [Mat11] Keith Matthews, "Solving AX=B using the Hermite normal form" (2011)
 [McC42] N. H. McCoy; "Remarks on divisors of zero" (1942)
 [McD74] Bernard R. McDonald; "Finite Rings with Identity" (1974)
@@ -66,7 +67,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 78!
+!provides: 'Algebra' 1 79!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -24168,10 +24169,25 @@ value: aTuple
 -= aMatrix
 	self replaceWith: self minus: aMatrix! !
 
-!Matrix methodsFor: 'operations-inplace' stamp: 'len 5/21/2023 12:35:28'!
+!Matrix methodsFor: 'operations-inplace' stamp: 'len 5/26/2023 18:45:10'!
+replacePeelingStrassenWinogradWith: aMatrix1 times: aMatrix2
+	"Apply dynamic peeling if needed and perform Strassen-Winograd on submatrices with even dimensions.
+	Assumes the matrices are square."
+	| n A B C₁₁ |
+	(n := aMatrix1 width) even ifTrue: [^ self replaceStrassenWinogradWith: aMatrix1 times: aMatrix2].
+	A := aMatrix1.
+	B := aMatrix2.
+	C₁₁ := self from: 1@1 to: n-1 @ (n-1).
+	C₁₁ replaceStrassenWinogradWith: (A from: 1@1 to: n-1 @ (n-1)) times: (B from: 1@1 to: n-1 @ (n-1)).
+	C₁₁ accumulateWith: (A from: 1@n to: n-1@n) times: (B from: n@1 to: n@(n-1)).
+	(self from: 1@n to: n-1@n) replaceWith: (A from: 1@1 to: n-1@n) times: (B from: 1@n to: n@n).
+	(self from: n@1 to: n@n) replaceWith: (A from: n@1 to: n@n) times: B! !
+
+!Matrix methodsFor: 'operations-inplace' stamp: 'len 5/26/2023 17:16:09'!
 replaceStrassenWinogradWith: aMatrix1 times: aMatrix2
 	"Strassen-Winograd matrix multiplication algorithm with complexity O(n^ω), ω = log₂(7) ≈ 2.8074.
-	Schedule with 2 temporary matrices from [BDPZ07] and dynamic peeling as [HLJJ+96]."
+	Schedule with 2 temporary matrices from [BDPZ07] and dynamic peeling as [HLJJ+96].
+	Assumes the matrices are square with even dimension."
 	| A B m ℓ n mₕ ℓₕ nₕ A₁₁ A₁₂ A₂₁ A₂₂ B₁₁ B₁₂ B₂₁ B₂₂ C₁₁ C₁₂ C₂₁ C₂₂ S₁ S₂ S₃ S₄ T₁ T₂ T₃ T₄ P₁ P₂ P₃ P₄ P₅ P₆ P₇ U₁ U₂ U₃ U₄ U₅ U₆ U₇ X Y |
 	A := aMatrix1.
 	B := aMatrix2.
@@ -32857,11 +32873,13 @@ sprs: aPolynomial
 			f2 _ f1. f1 _ r].
 	^ answer! !
 
-!Polynomial methodsFor: 'testing' stamp: 'len 5/31/2022 11:27:37'!
+!Polynomial methodsFor: 'testing' stamp: 'len 5/25/2023 20:20:13'!
 | aPolynomial
 	"Answer true if the receiver divides the argument."
 	aPolynomial isZero ifTrue: [^ true].
 	self isZero ifTrue: [^ false].
+	self leadingCoefficient | aPolynomial leadingCoefficient ifFalse: [^ false].
+	self coefficients sum | aPolynomial coefficients sum ifFalse: [^ false].
 	self scalars isField ifTrue: [^ (aPolynomial \\ self) isZero].
 	self isUnit ifTrue: [^ true].
 	self scalars isIntegralDomain ifTrue: [^ (aPolynomial pseudoRem: self) isZero].
@@ -39591,13 +39609,13 @@ replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionKaratsuba: a
 	"finally add t3 * x^m to result:"
 	self replaceFrom: start + m to: start + m + m2 - 2 with: self startingAt: start + m plus: tempArray startingAt: tempStart! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/25/2023 18:17:48'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/25/2023 20:35:05'!
 replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionKronecker: anArray2 from: start2 to: stop2 modulo: modulus
 	| n₁ n₂ ℓ₀ ℓ z₁ z₂ z j |
 	n₁ := stop1 - start1 + 1.
 	n₂ := stop2 - start2 + 1.
 	ℓ₀ := (modulus - 1) highBit.
-	ℓ := ℓ₀ * 2 + (n₁ max: n₂) highBit.
+	ℓ := ℓ₀ * 2 + (n₁ min: n₂) highBit.
 	z₁ := LargePositiveInteger new: n₁ * ℓ + 7 // 8.
 	j := 1.
 	start1 to: stop1 do: [:i| z₁ bits: ℓ₀ at: j xor: (anArray1 at: i). j := j + ℓ].
