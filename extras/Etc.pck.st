@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5597] on 13 May 2023 at 8:33:22 pm'!
+'From Cuis 6.0 [latest update: #5801] on 27 May 2023 at 10:00:36 pm'!
 'Description '!
-!provides: 'Etc' 1 27!
+!provides: 'Etc' 1 28!
 !requires: 'Algebra' 1 7 nil!
 SystemOrganization addCategory: #Etc!
 SystemOrganization addCategory: #'Etc-Matrices'!
@@ -17,6 +17,16 @@ Array variableSubclass: #IdentityArray
 	category: 'Etc'!
 !classDefinition: 'IdentityArray class' category: #Etc!
 IdentityArray class
+	instanceVariableNames: ''!
+
+!classDefinition: #ZechArray category: #Etc!
+ArrayedCollection subclass: #ZechArray
+	instanceVariableNames: 'logarithms table'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'ZechArray class' category: #Etc!
+ZechArray class
 	instanceVariableNames: ''!
 
 !classDefinition: #StandardBasis category: #Etc!
@@ -349,16 +359,6 @@ Object subclass: #ExtendedSmithReduction
 ExtendedSmithReduction class
 	instanceVariableNames: ''!
 
-!classDefinition: #GrayCode category: #Etc!
-Object subclass: #GrayCode
-	instanceVariableNames: 'codewords increments length'
-	classVariableNames: 'Cache'
-	poolDictionaries: ''
-	category: 'Etc'!
-!classDefinition: 'GrayCode class' category: #Etc!
-GrayCode class
-	instanceVariableNames: ''!
-
 !classDefinition: #ModularHermiteReduction category: #Etc!
 Object subclass: #ModularHermiteReduction
 	instanceVariableNames: 'matrix HNF'
@@ -387,6 +387,16 @@ MultivariateReducer subclass: #GlobalMultivariateReducer
 	category: 'Etc'!
 !classDefinition: 'GlobalMultivariateReducer class' category: #Etc!
 GlobalMultivariateReducer class
+	instanceVariableNames: ''!
+
+!classDefinition: #NTT category: #Etc!
+Object subclass: #NTT
+	instanceVariableNames: 'modulus primitiveRoot'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'NTT class' category: #Etc!
+NTT class
 	instanceVariableNames: ''!
 
 !classDefinition: #OEIS category: #Etc!
@@ -457,6 +467,36 @@ Object subclass: #SubgroupSeries
 	category: 'Etc'!
 !classDefinition: 'SubgroupSeries class' category: #Etc!
 SubgroupSeries class
+	instanceVariableNames: ''!
+
+!classDefinition: #ZechArrayTest category: #Etc!
+Object subclass: #ZechArrayTest
+	instanceVariableNames: 'table'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'ZechArrayTest class' category: #Etc!
+ZechArrayTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #ZechTable category: #Etc!
+Object subclass: #ZechTable
+	instanceVariableNames: 'scalars base q q̄ minusOne successors'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'ZechTable class' category: #Etc!
+ZechTable class
+	instanceVariableNames: ''!
+
+!classDefinition: #ZechTableTest category: #Etc!
+Object subclass: #ZechTableTest
+	instanceVariableNames: 'table'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc'!
+!classDefinition: 'ZechTableTest class' category: #Etc!
+ZechTableTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #Coechelonization category: #'Etc-Matrices'!
@@ -580,6 +620,9 @@ CyclicCode class
 	instanceVariableNames: ''!
 
 
+!ZechArray commentStamp: '<historical>' prior: 0!
+Arrays of elements of small Galois fields GF(p,r). Each element is stored as its Zech logarithm using 8 or 16 bits per element. See ZechTable.!
+
 !StandardBasis commentStamp: '<historical>' prior: 0!
 Standard bases of polynomial ideals. A standard basis is nothing but a special set of generators with the property that the leading monomials generate the leading ideal.
 
@@ -643,10 +686,10 @@ Output: the minimal polynomial of the sequence.
 
 The algorithm performs O(n^2/2) multiplications; more precisely, at most 2 floor(n^2/4) - n + 1 multiplications.!
 
-!GrayCode commentStamp: 'len 5/13/2023 19:21:02' prior: 0!
-A k-bit Gray Code is all 2^k binary strings of length k, ordered so that each differs by exactly one bit in one position from each of its neighbors. For example, one 3-bit Gray Code is {000, 001, 011, 010, 110, 111, 101, 100}.
+!NTT commentStamp: '<historical>' prior: 0!
+Number Theoretic Transforms, the analog of DFTs for 𝔽ₚ. Special cases are the Fermat Number Transform (p = 2^(2^k) + 1) and the Mersenne Number Transform (p = 2^k - 1).
 
-See [Gra53].!
+The (pseudo) number theoretic transform may be meaningful in the ring ℤ/mℤ even when the modulo m is not prime, provided a principal root of order n exists.!
 
 !RealBox commentStamp: '<historical>' prior: 0!
 Boxes in R^n built by the cartesian product of one-dimensional intervals (instances of RealInterval).
@@ -731,6 +774,164 @@ hashQuick
 		elem == self ifFalse: [
 			hash _ (hash + elem identityHash) hashMultiply]].
 	^hash! !
+
+!ZechArray methodsFor: 'accessing' stamp: 'len 5/11/2023 15:08:42'!
+at: anInteger
+	^ table exp: (logarithms at: anInteger)! !
+
+!ZechArray methodsFor: 'accessing' stamp: 'len 5/11/2023 15:08:42'!
+at: anInteger put: anElement
+	logarithms at: anInteger put: (table log: anElement).
+	^ anElement! !
+
+!ZechArray methodsFor: 'accessing' stamp: 'len 5/11/2023 15:24:19'!
+atAllPut: anElement
+	logarithms atAllPut: (table log: anElement)! !
+
+!ZechArray methodsFor: 'accessing' stamp: 'len 5/11/2023 15:08:53'!
+logarithms
+	^ logarithms! !
+
+!ZechArray methodsFor: 'accessing' stamp: 'len 5/10/2023 13:06:30'!
+scalars
+	^ table scalars! !
+
+!ZechArray methodsFor: 'accessing' stamp: 'len 5/11/2023 15:08:42'!
+size
+	^ logarithms size! !
+
+!ZechArray methodsFor: 'accessing' stamp: 'len 5/11/2023 15:08:42'!
+swap: oneIndex with: anotherIndex 
+	logarithms swap: oneIndex with: anotherIndex! !
+
+!ZechArray methodsFor: 'accessing' stamp: 'len 5/11/2023 15:13:53'!
+table
+	^ table! !
+
+!ZechArray methodsFor: 'comparing' stamp: 'len 5/11/2023 17:01:46'!
+= anObject
+	^ self class = anObject class and: [logarithms = anObject logarithms]! !
+
+!ZechArray methodsFor: 'comparing' stamp: 'len 5/11/2023 15:08:42'!
+hash
+	| answer |
+	answer _ 0.
+	logarithms do: [:each| each = 0 ifFalse: [answer _ answer hashMultiply + each hash]].
+	^ answer! !
+
+!ZechArray methodsFor: 'copying' stamp: 'len 5/11/2023 15:11:17'!
+postCopy
+	super postCopy.
+	logarithms _ logarithms copy! !
+
+!ZechArray methodsFor: 'operations' stamp: 'len 5/11/2023 15:32:39'!
+product
+	| answer |
+	answer _ 1.
+	logarithms do: [:each|
+		each = 0 ifTrue: [^ self scalars zero].
+		answer _ answer + each].
+	^ table exp: answer - 1 \\ table q̄ + 1! !
+
+!ZechArray methodsFor: 'operations' stamp: 'len 5/11/2023 15:25:30'!
+reversed
+	^ self class logarithms: logarithms reversed table: table! !
+
+!ZechArray methodsFor: 'operations' stamp: 'len 5/11/2023 15:47:44'!
+sum
+	^ table exp: (logarithms inject: 0 into: [:sum :each| table op: sum plus: each])! !
+
+!ZechArray methodsFor: 'operations' stamp: 'len 5/11/2023 15:29:57'!
+weight
+	^ logarithms weight! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/21/2023 00:18:59'!
+· anArray
+	^ table exp: (logarithms dot: anArray logarithms zechTable: table)! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/22/2023 16:54:52'!
+accumulateFrom: start to: stop withMatrix: anArray timesTuple: anotherArray
+	logarithms accumulateFrom: start to: stop withMatrix: anArray logarithms timesTuple: anotherArray logarithms zechTable: table! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 21:27:10'!
+findFirstNonzeroFrom: start to: stop
+	^ logarithms findFirstNonzeroFrom: start to: stop! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 21:27:23'!
+findLastNonzeroFrom: start to: stop
+	^ logarithms findLastNonzeroFrom: start to: stop! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 23:39:43'!
+polynomialValue: anElement
+	^ table exp: (logarithms polynomialValue: (table log: anElement) zechTable: table)! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/23/2023 10:45:31'!
+reduceBy: g quotient: q
+	logarithms reduceBy: g logarithms quotient: (q ifNotNil: [q logarithms]) zechTable: table! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 15:10:53'!
+replaceFrom: start to: stop with: replacement startingAt: repStart
+	(replacement class = self class and: [table = replacement table])
+		ifFalse: [^ super replaceFrom: start to: stop with: replacement startingAt: repStart].
+	logarithms replaceFrom: start to: stop with: replacement logarithms startingAt: repStart! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 14:04:38'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 startingAt: start2
+	logarithms replaceFrom: start to: stop with: anArray1 logarithms startingAt: start1 minus: anArray2 logarithms startingAt: start2 zechTable: table! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 21:31:57'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2
+	logarithms replaceFrom: start to: stop with: anArray1 logarithms startingAt: start1 plus: anArray2 logarithms startingAt: start2 zechTable: table! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 21:31:22'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 timesScalar: anElement
+	logarithms replaceFrom: start to: stop with: anArray1 logarithms startingAt: start1 plus: anArray2 logarithms startingAt: start2 timesScalar: (table log: anElement) zechTable: table! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 21:27:53'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2
+	logarithms replaceFrom: start to: stop with: anArray1 logarithms startingAt: start1 times: anArray2 logarithms startingAt: start2 zechTable: table! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 21:32:42'!
+replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anElement
+	logarithms replaceFrom: start to: stop with: anArray logarithms startingAt: srcStart timesScalar: (table log: anElement) zechTable: table
+! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 21:33:09'!
+replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
+	logarithms replaceFrom: start to: stop withNegated: anArray logarithms startingAt: srcStart zechTable: table! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/12/2023 21:41:52'!
+replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
+	logarithms replaceFrom: start with: anArray1 logarithms from: start1 to: stop1 convolutionLong: anArray2 logarithms from: start2 to: stop2 zechTable: table! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/18/2023 17:33:57'!
+replaceWithMatrixTranspose: anArray width: width
+	logarithms replaceWithMatrixTranspose: anArray logarithms width: width! !
+
+!ZechArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 15:42:35'!
+swapFrom: start to: stop with: anArray startingAt: start2
+	logarithms swapFrom: start to: stop with: anArray logarithms startingAt: start2! !
+
+!ZechArray methodsFor: 'testing' stamp: 'len 5/11/2023 15:08:42'!
+isZero
+	^ logarithms isZero! !
+
+!ZechArray methodsFor: 'testing' stamp: 'len 5/11/2023 15:08:42'!
+isZeroAt: anInteger
+	^ logarithms isZeroAt: anInteger! !
+
+!ZechArray methodsFor: 'private' stamp: 'len 5/11/2023 15:09:20'!
+logarithms: anArray table: aZechTable
+	logarithms _ anArray.
+	table _ aZechTable! !
+
+!ZechArray methodsFor: 'private' stamp: 'len 5/11/2023 17:01:29'!
+species
+	^ table! !
+
+!ZechArray class methodsFor: 'instance creation' stamp: 'len 5/11/2023 15:13:24'!
+logarithms: anArray table: aZechTable
+	^ self basicNew logarithms: anArray table: aZechTable! !
 
 !StandardBasis methodsFor: 'printing' stamp: 'len 5/7/2018 23:22:28'!
 printOn: aStream
@@ -2931,36 +3132,6 @@ run
 	elementaryDivisors add: ((S at: 1@1) gcd: D).
 	^ {L. S. R}! !
 
-!GrayCode methodsFor: 'as yet unclassified' stamp: 'len 5/13/2023 14:55:37'!
-codewords
-	^ codewords! !
-
-!GrayCode methodsFor: 'as yet unclassified' stamp: 'len 5/13/2023 14:55:48'!
-increments
-	^ increments! !
-
-!GrayCode methodsFor: 'as yet unclassified' stamp: 'len 5/13/2023 19:27:23'!
-initializeLength: anInteger
-	| G |
-	length _ anInteger.
-	anInteger = 0 ifTrue: [codewords _ #(0). increments _ #(). ^ self].
-	G _ self class new: anInteger - 1.
-	codewords _ G codewords, (G codewords reversed collect: [:each| each bitXor: 1 << (length - 1)]).
-	increments _ (2 to: codewords size) collect: [:i| ((codewords at: i-1) bitXor: (codewords at: i)) highBit]! !
-
-!GrayCode methodsFor: 'as yet unclassified' stamp: 'len 5/13/2023 14:55:54'!
-length
-	^ length! !
-
-!GrayCode class methodsFor: 'as yet unclassified' stamp: 'len 5/13/2023 14:51:13'!
-initialize
-	super initialize.
-	Cache _ #()! !
-
-!GrayCode class methodsFor: 'as yet unclassified' stamp: 'len 5/13/2023 14:51:45'!
-new: anInteger
-	^ Cache at: anInteger+1 ifAbsent: [Cache _ Cache, (self basicNew initializeLength: anInteger)]! !
-
 !ModularHermiteReduction methodsFor: 'as yet unclassified' stamp: 'len 4/5/2018 15:36:20'!
 addColumn: a to: B
 	^ (B columnAugmented: a) HNF columnAt: B width + 1! !
@@ -3082,6 +3253,33 @@ reduceFull: anElement
 			[g _ self reduce: g.
 			g isZero ifFalse: [h _ h + g leadingTerm. g _ g tail]].
 	^ h normalized! !
+
+!NTT methodsFor: 'accessing' stamp: 'len 4/25/2016 00:28'!
+modulus
+	^ modulus! !
+
+!NTT methodsFor: 'initialization' stamp: 'len 5/20/2023 12:10:36'!
+modulus: anInteger
+	self modulus: anInteger primitiveRoot: anInteger primitiveRoot! !
+
+!NTT methodsFor: 'initialization' stamp: 'len 5/20/2023 12:10:24'!
+modulus: anInteger primitiveRoot: anotherInteger
+	modulus := anInteger.
+	primitiveRoot := anotherInteger! !
+
+!NTT methodsFor: 'running' stamp: 'len 5/20/2023 12:13:15'!
+inverseValue: input
+	"Naive algorithm, O(n²)."
+	^ (1 to: input size) collect: [:i| ((1 to: input size) sum: [:j| (primitiveRoot negated raisedTo: i*j modulo: modulus) * (input at: j) \\ modulus]) \\ modulus]! !
+
+!NTT methodsFor: 'running' stamp: 'len 5/20/2023 12:13:26'!
+value: input
+	"Naive algorithm, O(n²)."
+	^ (1 to: input size) collect: [:i| ((1 to: input size) sum: [:j| (primitiveRoot raisedTo: i*j modulo: modulus) * (input at: j) \\ modulus]) \\ modulus]! !
+
+!NTT class methodsFor: 'instance creation' stamp: 'len 5/20/2023 12:12:21'!
+modulus: anInteger
+	^ self new modulus: anInteger! !
 
 !OEIS methodsFor: 'as yet unclassified' stamp: 'len 4/27/2016 07:02'!
 initialize
@@ -3719,6 +3917,169 @@ isNormal
 !SubgroupSeries methodsFor: 'private' stamp: 'len 5/1/98 17:33'!
 subgroups: aCollection
 	subgroups _ aCollection! !
+
+!ZechArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 17:00:35'!
+newArray: n fill: aBlock
+	| answer |
+	answer _ table new: n.
+	1 to: answer size do: [:i| answer at: i put: scalars !! (aBlock value: i)].
+	^ answer! !
+
+!ZechArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:04:11'!
+setUp
+	super setUp.
+	scalars := ℤ/(10 atRandom: random) nextPrime.
+	table := ZechTable over: scalars! !
+
+!ZechTable methodsFor: 'accessing' stamp: 'len 5/10/2023 11:53:03'!
+base
+	^ base! !
+
+!ZechTable methodsFor: 'accessing' stamp: 'len 5/10/2023 23:44:54'!
+exp: anInteger
+	anInteger = 0 ifTrue: [^ scalars zero].
+	anInteger = q̄ ifTrue: [^ scalars one].
+	^ base ^ anInteger! !
+
+!ZechTable methodsFor: 'accessing' stamp: 'len 5/11/2023 21:36:29'!
+log: anElement
+	| a g i |
+	a _ scalars !! anElement.
+	a isZero ifTrue: [^ 0].
+	a isOne ifTrue: [^ q̄].
+	i _ 1.
+	g _ base.
+	[a = g] whileFalse: [i _ i + 1. g _ g * base. i >= q ifTrue: [^ self halt]].
+	^ i! !
+
+!ZechTable methodsFor: 'accessing' stamp: 'len 5/11/2023 15:32:59'!
+q̄
+	^ q̄! !
+
+!ZechTable methodsFor: 'accessing' stamp: 'len 5/10/2023 21:08:26'!
+scalars
+	^ scalars! !
+
+!ZechTable methodsFor: 'operations' stamp: 'len 5/11/2023 00:12:55'!
+invert: i
+	i = 0 ifTrue: [^ DivisibilityError new signalReceiver: scalars one selector: #/ argument: scalars zero].
+	i = q̄ ifTrue: [^ i].
+	^ q̄ - i! !
+
+!ZechTable methodsFor: 'operations' stamp: 'len 5/11/2023 15:01:13'!
+negate: i
+	| answer |
+	q even ifTrue: [^ i].
+	i = 0 ifTrue: [^ 0].
+	^ (answer _ i - minusOne) < 1 ifTrue: [answer + q̄] ifFalse: [answer]! !
+
+!ZechTable methodsFor: 'operations' stamp: 'len 5/12/2023 14:22:38'!
+op: i minus: j
+	| minusJ k answer |
+	j = 0 ifTrue: [^ i].
+	minusJ _ q even ifTrue: [j] ifFalse: [(minusJ _ j - minusOne) < 1 ifTrue: [minusJ + q̄] ifFalse: [minusJ]].
+	i = 0 ifTrue: [^ minusJ].
+	(k _ minusJ - i) > 0 ifFalse: [k _ k + q̄].
+	k = minusOne ifTrue: [^ 0].
+	^ (answer _ i + (successors at: k + 1)) > q̄ ifTrue: [answer - q̄] ifFalse: [answer]! !
+
+!ZechTable methodsFor: 'operations' stamp: 'len 5/11/2023 15:01:03'!
+op: i plus: j
+	| k answer |
+	i = 0 ifTrue: [^ j].
+	j = 0 ifTrue: [^ i].
+	(k _ j - i) > 0 ifFalse: [k _ k + q̄].
+	k = minusOne ifTrue: [^ 0].
+	^ (answer _ i + (successors at: k + 1)) > q̄ ifTrue: [answer - q̄] ifFalse: [answer]! !
+
+!ZechTable methodsFor: 'operations' stamp: 'len 5/11/2023 00:10:35'!
+op: i times: j
+	| answer |
+	(i = 0 or: [j = 0]) ifTrue: [^ 0].
+	^ (answer _ i + j) > q̄ ifTrue: [answer - q̄] ifFalse: [answer]! !
+
+!ZechTable methodsFor: 'operations' stamp: 'len 5/10/2023 21:32:54'!
+successor: i
+	^ successors at: i + 1! !
+
+!ZechTable methodsFor: 'private' stamp: 'len 5/12/2023 21:24:44'!
+scalars: aFiniteField
+	| g |
+	scalars _ aFiniteField.
+	q _ aFiniteField size.
+	q̄ _ q - 1.
+	q̄ <= 16rFFFF ifFalse: [^ self error: 'field too big'].
+	minusOne _ q = 2 ifTrue: [1] ifFalse: [q̄ // 2].
+	base _ aFiniteField primitiveRoot.
+	successors _ self logarithmsArrayClass new: q. "this can be ByteArray or DoubleByteArray"
+	successors at: 1 put: q̄.
+	g _ base.
+	2 to: successors size do: [:i|
+		successors at: i put: (self log: g + 1).
+		g _ g * base]! !
+
+!ZechTable methodsFor: 'as yet unclassified' stamp: 'len 5/12/2023 21:22:56'!
+logarithmsArrayClass
+	^ q̄ <= 16rFF ifTrue: [ByteArray] ifFalse: [DoubleByteArray]! !
+
+!ZechTable methodsFor: 'as yet unclassified' stamp: 'len 5/12/2023 21:23:18'!
+new: anInteger
+	^ ZechArray logarithms: (self logarithmsArrayClass new: anInteger) table: self! !
+
+!ZechTable class methodsFor: 'instance creation' stamp: 'len 5/10/2023 21:35:44'!
+over: aFiniteField
+	^ self new scalars: aFiniteField! !
+
+!ZechTableTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2023 21:44:08'!
+setUp
+	table _ ZechTable over: (GaloisField new: 5 atRandom nextPrime to: 1 "3 atRandom")! !
+
+!ZechTableTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2023 21:47:00'!
+testAddition
+	table scalars do: [:x|
+		| i |
+		i _ table log: x.
+		table scalars do: [:y|
+			| j |
+			j _ table log: y.
+			self assert: (table exp: (table op: i plus: j)) = (x + y)]]! !
+
+!ZechTableTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2023 21:56:31'!
+testAdditiveInverse
+	table scalars do: [:x| self assert: (table exp: (table negate: (table log: x))) = x negated]! !
+
+!ZechTableTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2023 21:38:50'!
+testLogExp
+	table scalars do: [:x| self assert: (table exp: (table log: x)) = x]! !
+
+!ZechTableTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2023 21:47:25'!
+testMultiplication
+	table scalars do: [:x|
+		| i |
+		i _ table log: x.
+		table scalars do: [:y|
+			| j |
+			j _ table log: y.
+			self assert: (table exp: (table op: i times: j)) = (x * y)]]! !
+
+!ZechTableTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2023 21:56:44'!
+testMultiplicativeInverse
+	table scalars units do: [:x| self assert: (table exp: (table invert: (table log: x))) = x inverse].
+	self should: [table invert: (table log: table scalars zero)] raise: DivisibilityError! !
+
+!ZechTableTest methodsFor: 'as yet unclassified' stamp: 'len 5/11/2023 23:37:45'!
+testSubstraction
+	table scalars do: [:x|
+		| i |
+		i _ table log: x.
+		table scalars do: [:y|
+			| j |
+			j _ table log: y.
+			self assert: (table exp: (table op: i minus: j)) = (x - y)]]! !
+
+!ZechTableTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2023 21:48:51'!
+testSuccessor
+	table scalars do: [:x| self assert: (table exp: (table successor: (table log: x))) = (x + 1)]! !
 
 !Coechelonization methodsFor: 'accessing' stamp: 'len 12/18/2022 10:56:00'!
 echelon
@@ -4460,4 +4821,3 @@ includes: aCodeword
 !CyclicCode methodsFor: 'testing' stamp: 'len 6/29/2016 22:18'!
 isIrreducible
 	^ generator isIrreducible! !
-GrayCode initialize!
