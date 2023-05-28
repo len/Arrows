@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 28 May 2023 at 4:27:04 pm'!
+'From Cuis 6.0 [latest update: #5801] on 28 May 2023 at 7:38:17 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -67,7 +67,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 81!
+!provides: 'Algebra' 1 82!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -5384,9 +5384,9 @@ vertices
 volume
 	^ self notYetImplemented "see wikipedia"! !
 
-!Simplex methodsFor: 'accessing-private' stamp: 'len 2/24/2017 11:32:53'!
+!Simplex methodsFor: 'accessing-private' stamp: 'len 5/28/2023 19:04:41'!
 vertices: aCollection
-	vertices _ aCollection asSortedCollection! !
+	vertices := aCollection sorted: [:a :b| a ⊂ b]! !
 
 !Simplex methodsFor: 'comparing' stamp: 'len 6/13/2016 09:34'!
 < aSimplex
@@ -10266,9 +10266,9 @@ atRandom: aRandom bits: bitSize
 	[(b _ self numerators atRandom: aRandom bits: bitSize/2) isZeroDivisor] whileTrue.
 	^ (self embed: a) / (self embed: b)! !
 
-!FractionRing methodsFor: 'testing' stamp: 'len 11/20/2022 11:23:19'!
+!FractionRing methodsFor: 'testing' stamp: 'len 5/28/2023 17:52:05'!
 hasCanonicalAssociates
-	^ self numerators hasCanonicalAssociates! !
+	^ self numerators hasCanonicalAssociates or: [self isField]! !
 
 !FractionRing methodsFor: 'testing' stamp: 'len 4/25/2020 09:57:00'!
 includes: anObject
@@ -14776,9 +14776,10 @@ unitAtRandom: aRandom bits: bitSize
 has: anIndeterminate
 	^ self indeterminates includes: anIndeterminate! !
 
-!PolynomialRing methodsFor: 'testing' stamp: 'len 12/30/2021 11:48:38'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 5/28/2023 17:53:27'!
 hasCanonicalAssociates
-	^ self scalars isIntegralDomain! !
+	self flag: #fixme.
+	^ self scalars isIntegralDomain "and: [self scalars hasCanonicalAssociates]"! !
 
 !PolynomialRing methodsFor: 'testing' stamp: 'len 6/7/2022 12:31:37'!
 hasCanonicalBases
@@ -15451,6 +15452,10 @@ unitAtRandom: aRandom
 unitAtRandom: aRandom bits: bitSize
 	^ self unitAtRandom: aRandom! !
 
+!EisensteinRing methodsFor: 'testing' stamp: 'len 5/28/2023 17:56:08'!
+hasCanonicalAssociates
+	^ true! !
+
 !EisensteinRing methodsFor: 'testing' stamp: 'len 10/17/2022 09:48:33'!
 isEuclidean
 	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder."
@@ -15494,6 +15499,10 @@ unitAtRandom: aRandom
 unitAtRandom: aRandom bits: bitSize
 	self fractions d < 0 ifFalse: [^ super unitAtRandom: aRandom bits: bitSize].
 	^ self unitsList atRandom: aRandom! !
+
+!QuadraticRing methodsFor: 'testing' stamp: 'len 5/28/2023 19:24:03'!
+hasCanonicalAssociates
+	^ self unitsSize isFinite! !
 
 !QuadraticRing methodsFor: 'testing' stamp: 'len 6/3/2022 07:08:19'!
 isEuclidean
@@ -34088,22 +34097,19 @@ norm
 	b _ moduleElement at: 2.
 	^ a squared - (a*b) + b squared! !
 
-!EisensteinInteger methodsFor: 'operations' stamp: 'len 5/28/2023 16:24:07'!
+!EisensteinInteger methodsFor: 'operations' stamp: 'len 5/28/2023 19:19:50'!
 normalization
 	"Answer a unit u such that 'self * u' is a unique choice of associate. See >>normalized."
 	self isZero ifTrue: [^ parent one].
 	self flag: #fixme. "there should be a more efficient way"
-	^ (parent units select: [:u|
-		| x |
-		x := self * u.
-		(x asModuleElement at: 1) > 0 and: [(x asModuleElement at: 2) > 0]]) detectMin: [:u| (self * u) asModuleElement at: 1]
+	^ ((parent units reject: [:u| (self * u) asModuleElement asArray <= #(0 0)]) sorted: [:u :v| (self * u) asModuleElement asArray reversed <= (self * v) asModuleElement asArray reversed]) first
 
 "
 	| a b ra rb |
 	a _ moduleElement at: 1.
-	b _ moduleElement at: 2.
-	ra _ a \\ 3.
-	rb _ b \\ 3.
+	b := moduleElement at: 2.
+	ra := a \\ 3.
+	rb := b \\ 3.
 	ra = 0 ifTrue:
 		[rb = 1 ifTrue: [^ parent ω squared negated].
 		rb = 2 ifTrue: [^ parent ω squared].
@@ -34135,6 +34141,13 @@ isPrime
 positive
 	"Answer true if the receiver is in the first sextant of the complex plane, taking ω = (1 + √-3)/2."
 	^ (moduleElement at: 1) > 0 and: [(moduleElement at: 2) > 0]! !
+
+!QuadraticInteger methodsFor: 'operations' stamp: 'len 5/28/2023 19:20:02'!
+normalization
+	"Answer a unit u such that 'self * u' is a unique choice of associate. See >>normalized."
+	self isZero ifTrue: [^ parent one].
+	self flag: #fixme. "there should be a more efficient way"
+	^ ((parent units reject: [:u| (self * u) asModuleElement asArray <= #(0 0)]) sorted: [:u :v| (self * u) asModuleElement asArray reversed <= (self * v) asModuleElement asArray reversed]) first! !
 
 !QuadraticInteger methodsFor: 'testing' stamp: 'len 8/5/2021 08:42:38'!
 isPrime
@@ -38201,6 +38214,10 @@ xxgcd: anInteger
 ∨ anInteger
 	^ self bitOr: anInteger! !
 
+!Integer methodsFor: '*algebra' stamp: 'len 5/28/2023 18:57:09'!
+⊂ anInteger
+	^ self <= anInteger! !
+
 !LargePositiveInteger methodsFor: '*algebra' stamp: 'len 5/14/2023 13:43:01'!
 ÷ anInteger
 	"Answer the exact division of the receiver by the argument.
@@ -38494,12 +38511,16 @@ upTo: max do: aBlock
 ∪ aCollection
 	^ self union: aCollection! !
 
-!SequenceableCollection methodsFor: '*algebra' stamp: 'len 8/12/2016 22:01'!
+!SequenceableCollection methodsFor: '*algebra' stamp: 'len 5/28/2023 19:13:41'!
 <= aCollection
-	"Answer true if the receiver is a subcollection of aCollection."
-	(aCollection isKindOf: self species) ifFalse: [^ false].
-	self size <= aCollection size ifFalse: [^ false].
-	^ (aCollection indexOfSubCollection: self startingAt: 1) > 0! !
+	"Answer true if the receiver is before aCollection in lexicographic order."
+	1 to: (self size min: aCollection size) do: [:i|
+		| a b |
+		a := self at: i.
+		b := aCollection at: i.
+		a > b ifTrue: [^ false].
+		a = b ifFalse: [^ true]].
+	^ self size <= aCollection size! !
 
 !SequenceableCollection methodsFor: '*algebra' stamp: 'len 12/6/2022 12:17:04'!
 · aCollection
@@ -38554,6 +38575,13 @@ sum
 	answer _ self at: 1.
 	2 to: self size do: [:i| answer _ answer + (self at: i)].
 	^ answer! !
+
+!SequenceableCollection methodsFor: '*algebra' stamp: 'len 5/28/2023 18:09:38'!
+⊂ aCollection
+	"Answer true if the receiver is a subcollection of aCollection."
+	(aCollection isKindOf: self species) ifFalse: [^ false].
+	self size <= aCollection size ifFalse: [^ false].
+	^ (aCollection indexOfSubCollection: self startingAt: 1) > 0! !
 
 !ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/5/2023 16:35:18'!
 * anObject

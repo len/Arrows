@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 28 May 2023 at 4:27:24 pm'!
+'From Cuis 6.0 [latest update: #5801] on 28 May 2023 at 7:38:28 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 53!
+!provides: 'Tests-Algebra' 1 54!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -118,16 +118,6 @@ TestCase subclass: #MonomialTest
 	category: 'Tests-Algebra'!
 !classDefinition: 'MonomialTest class' category: #'Tests-Algebra'!
 MonomialTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #MultivariateModuleTest category: #'Tests-Algebra'!
-TestCase subclass: #MultivariateModuleTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'MultivariateModuleTest class' category: #'Tests-Algebra'!
-MultivariateModuleTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #NumberFieldTest category: #'Tests-Algebra'!
@@ -958,6 +948,16 @@ AbstractCommutativeRingTupleTest subclass: #IntegerTupleTest
 	category: 'Tests-Algebra-Tuples'!
 !classDefinition: 'IntegerTupleTest class' category: #'Tests-Algebra-Tuples'!
 IntegerTupleTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #MultivariateTupleTest category: #'Tests-Algebra-Tuples'!
+AbstractCommutativeRingTupleTest subclass: #MultivariateTupleTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'MultivariateTupleTest class' category: #'Tests-Algebra-Tuples'!
+MultivariateTupleTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #ProductRingTupleTest category: #'Tests-Algebra-Tuples'!
@@ -5472,144 +5472,6 @@ testMonomialProduct
 	self assert: ((x*y*y) at: 2) = 2.
 	self assert: (x*y*x*x*y) degree = 5! !
 
-!MultivariateModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2022 21:01:35'!
-testModuleGroebnerBasisReduced
-	"William W. Adams, Philippe Loustaunau, 'An Introduction to Groebner Bases' (1994), Example 3.6.1."
-	| R x y M f1 f2 f3 f4 A |
-	R _ ℚ polynomialsIn: #(x y) ordering: #invlex.
-	x _ R x. y _ R y.
-	self assert: x leadingMonomial < y leadingMonomial.
-	M _ R^3 orderedBy: #top.
-"	e1 _ M x: 3. e2 _ M x: 2. e3 _ M x: 1."
-	f1 _ M !! {x*y. y. x} reversed.
-	f2 _ M !! {x^2 + x. y + (x^2). y} reversed.
-	f3 _ M !! {y negated. x. y} reversed.
-	f4 _ M !! {x^2. x. y} reversed.
-	A _ Matrix rows: {f1. f2. f3. f4}.
-	self assert: A basis "reduced" width = 6 "it's already reduced"
-	"TODO: verify that it matches the book"! !
-
-!MultivariateModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/30/2021 13:28:14'!
-testPOTOrdering
-	"William W. Adams, Philippe Loustaunau, 'An Introduction to Groebner Bases' (1994), Definition 3.5.3."
-	| R x y M e1 e2 |
-	R _ ℚ polynomialsIn: #(x y) ordering: #invlex.
-	x _ R x. y _ R y.
-	self assert: x leadingMonomial < y leadingMonomial.
-	M _ R^2 orderedBy: #pot.
-	e1 _ M x: 1. e2 _ M x: 2.
-	self assert: e1 leadingMonomial < e2 leadingMonomial.
-	self assert: (e1*x) leadingMonomial < (e1*y) leadingMonomial.
-	self assert: (e1*y) leadingMonomial < (e1*x*y) leadingMonomial.
-	self assert: (e1*x*y) leadingMonomial < (e2*x) leadingMonomial! !
-
-!MultivariateModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/24/2022 19:56:28'!
-testSTuple
-	"William W. Adams, Philippe Loustaunau, 'An Introduction to Groebner Bases' (1994), Example 3.5.18."
-	| R x y M e1 e2 f g h |
-	R _ ℚ polynomialsIn: #(x y) ordering: #invlex.
-	x _ R x. y _ R y.
-	x leadingMonomial < y leadingMonomial.
-	M _ R^2 orderedBy: #top.
-	e1 _ M x: 1. e2 _ M x: 2.
-	self assert: e1 leadingMonomial < e2 leadingMonomial.
-	f _ M !! {x^2 + 1. x*(y^3)*5 + x}.
-	g _ M !! {x^2*y. x^3*y*3 + y}.
-	h _ M !! {x^4/5 + (x^2/5) - (x^2*(y^3)/3). x^3/5 - (y^3/3)}.
-	self assert: (f s: g) = h
-! !
-
-!MultivariateModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/7/2023 01:42:50'!
-testSchreyerOrdering
-	"William W. Adams, Philippe Loustaunau, 'An Introduction to Groebner Bases' (1994), Example 3.7.11."
-	| R x y M e1 e2 e3 g1 g2 g3 a b c |
-	R _ ℚ polynomialsIn: #(x y) ordering: #invlex.
-	x _ R x. y _ R y.
-	self assert: x leadingMonomial < y leadingMonomial.
-	g1 _ x^2*(y^2) - (x^3*y).
-	g2 _ x*(y^3) - (x^2*(y^2)).
-	g3 _ y^4 - (x^3).
-	M _ R^3 orderedBy: (SchreyerMonomialOrdering weights: {g1. g2. g3}).
-	e1 _ M x: 1. e2 _ M x: 2. e3 _ M x: 3.
-	a _ e2*x.
-	b _ e1*y.
-	c _ e3*x.
-	self assert: a leadingMonomial < b leadingMonomial.
-	self assert: b leadingMonomial < c leadingMonomial.
-	self assert: a leadingMonomial < c leadingMonomial! !
-
-!MultivariateModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/30/2021 13:28:30'!
-testTOPOrdering
-	"William W. Adams, Philippe Loustaunau, 'An Introduction to Groebner Bases' (1994), Definition 3.5.2."
-	| R x y M e1 e2 |
-	R _ ℚ polynomialsIn: #(x y) ordering: #invlex.
-	x _ R x. y _ R y.
-	self assert: x leadingMonomial < y leadingMonomial.
-	M _ R^2 orderedBy: #top.
-	e1 _ M x: 1. e2 _ M x: 2.
-	self assert: e1 leadingMonomial < e2 leadingMonomial.
-	self assert: (e1*x) leadingMonomial < (e2*x) leadingMonomial.
-	self assert: (e2*x) leadingMonomial < (e1*y) leadingMonomial.
-	self assert: (e1*y) leadingMonomial < (e1*x*y) leadingMonomial! !
-
-!MultivariateModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/30/2021 13:28:35'!
-testTupleOrderings
-	"William W. Adams, Philippe Loustaunau, 'An Introduction to Groebner Bases' (1994), Example 3.5.5."
-	| R x y M e1 e2 f |
-	R _ ℚ polynomialsIn: #(x y) ordering: #invlex.
-	x _ R x. y _ R y.
-	self assert: x leadingMonomial < y leadingMonomial.
-	M _ R^2 orderedBy: #top.
-	e1 _ M x: 1. e2 _ M x: 2.
-	self assert: e1 leadingMonomial < e2 leadingMonomial.
-	f _ M !! {x^3*y*2 - (y^3) + (x*5). x*(y^2)*3 + (y^2) + (x*4)}.
-
-	self assert: f leadingMonomial position = 1.
-	self assert: f leadingMonomial monomial = (y^3) leadingMonomial.
-	self assert: f leadingCoefficient = (-1).
-	self assert: f leadingTerm = (e1 * (y^3) negated).
-
-	M _ M orderedBy: #pot.
-	e1 _ M x: 1. e2 _ M x: 2.
-	self assert: e1 leadingMonomial < e2 leadingMonomial.
-	f _ M !! f.
-
-	self assert: f leadingMonomial position = 2.
-	self assert: f leadingMonomial monomial = (y^2*x) leadingMonomial.
-	self assert: f leadingCoefficient = 3.
-	self assert: f leadingTerm = (e2 * (y^2*x*3))! !
-
-!MultivariateModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/30/2021 13:28:40'!
-testTupleReduction
-	"William W. Adams, Philippe Loustaunau, 'An Introduction to Groebner Bases' (1994), Example 3.5.7."
-	|R x y M e1 e2 f g h |
-	R _ ℚ polynomialsIn: #(x y) ordering: #invlex.
-	x _ R x. y _ R y.
-	self assert: x leadingMonomial < y leadingMonomial.
-	M _ R^2 orderedBy: #top.
-	e1 _ M x: 1. e2 _ M x: 2.
-	self assert: e1 leadingMonomial < e2 leadingMonomial.
-	f _ M !! {x^3*y*2 - (y^3). x*(y^2)*3 + (y^2) + (x*4)}.
-	g _ M !! {x + 1. y^2 + x}.
-	h _ M !! {x^3*y*2 - (y^3) - (x^2*3) - (x*4) - 1. x*3 - (x^2*3)}.
-	self assert: f \\ {g} = h! !
-
-!MultivariateModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/30/2021 13:28:45'!
-testTupleReduction2
-	"William W. Adams, Philippe Loustaunau, 'An Introduction to Groebner Bases' (1994), Example 3.5.9."
-	|R x y M e1 e2 f1 f2 f h |
-	R _ ℚ polynomialsIn: #(x y) ordering: #invlex.
-	x _ R x. y _ R y.
-	self assert: x leadingMonomial < y leadingMonomial.
-	M _ R^2 orderedBy: #top.
-	e1 _ M x: 1. e2 _ M x: 2.
-	self assert: e1 leadingMonomial < e2 leadingMonomial.
-	f1 _ M !! {x*y - y. x^2}.
-	f2 _ M !! {x. y^2 - x}.
-	f _ M !! {y^2 + (x^2*y*2). y^2}.
-	h _ M !! {y^2 + (y*2) - x. x^3*(-2) - (x^2*2) + x}.
-	self assert: f \\ {f1. f2} = h! !
-
 !NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
 testMinimalPolynomial
 	"Example from 'Algebraic Number Theory: A Computational Approach' by William Stein (28 pp)."
@@ -5897,8 +5759,9 @@ testDivision: F
 	[g _ Fx atRandomBits: 50 maxDegree: 5 atRandom. g isZero] whileTrue.
 	self assert: (f // g) * g + (f \\ g) = f! !
 
-!PolynomialTest methodsFor: 'division' stamp: 'len 5/10/2020 02:23:03'!
+!PolynomialTest methodsFor: 'division' stamp: 'len 5/28/2023 19:34:16'!
 testDivisionPrimeField65535
+	self flag: #fixme. "this hangs with 2^16 - 1"
 	self testDivision: (PrimeField new: 2^17 - 1)! !
 
 !PolynomialTest methodsFor: 'division' stamp: 'len 5/10/2020 02:22:44'!
@@ -7884,6 +7747,10 @@ testExactDivisionCompatibleWithEuclideanDivision
 		self assert: xy ÷ y = q.
 		self assert: (xy \\ y) isZero]! !
 
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 17:55:26'!
+testHasCanonicalAssociates
+	self assert: R hasCanonicalAssociates! !
+
 !AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/4/2022 18:12:54'!
 testIsEuclidean
 	self assert: R isEuclidean.
@@ -9082,6 +8949,131 @@ testDomainError
 	| v |
 	v _ ℤ^3 !! #(1 2 3).
 	self should: [v / 2] raise: Error! !
+
+!MultivariateTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 16:56:26'!
+setUp
+	super setUp.
+	scalars := ℚ polynomialsIn: #(x y) ordering: #invlex! !
+
+!MultivariateTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 16:57:37'!
+testPOTOrderingExample
+	"William W. Adams, Philippe Loustaunau, 'An Introduction to Groebner Bases' (1994), Definition 3.5.3."
+	| R x y M e1 e2 |
+	R := ℚ polynomialsIn: #(x y) ordering: #invlex.
+	x := R x. y := R y.
+	self assert: x leadingMonomial < y leadingMonomial.
+	M := R^2 orderedBy: #pot.
+	e1 := M x: 1. e2 := M x: 2.
+	self assert: e1 leadingMonomial < e2 leadingMonomial.
+	self assert: (e1*x) leadingMonomial < (e1*y) leadingMonomial.
+	self assert: (e1*y) leadingMonomial < (e1*x*y) leadingMonomial.
+	self assert: (e1*x*y) leadingMonomial < (e2*x) leadingMonomial! !
+
+!MultivariateTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 16:57:25'!
+testSTupleExample
+	"William W. Adams, Philippe Loustaunau, 'An Introduction to Groebner Bases' (1994), Example 3.5.18."
+	| R x y M e1 e2 f g h |
+	R := ℚ polynomialsIn: #(x y) ordering: #invlex.
+	x := R x. y := R y.
+	x leadingMonomial < y leadingMonomial.
+	M := R^2 orderedBy: #top.
+	e1 := M x: 1. e2 := M x: 2.
+	self assert: e1 leadingMonomial < e2 leadingMonomial.
+	f := M !! {x^2 + 1. x*(y^3)*5 + x}.
+	g := M !! {x^2*y. x^3*y*3 + y}.
+	h := M !! {x^4/5 + (x^2/5) - (x^2*(y^3)/3). x^3/5 - (y^3/3)}.
+	self assert: (f s: g) = h! !
+
+!MultivariateTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 16:58:29'!
+testSchreyerOrderingExample
+	"William W. Adams, Philippe Loustaunau, 'An Introduction to Groebner Bases' (1994), Example 3.7.11."
+	| R x y M e1 e2 e3 g1 g2 g3 a b c |
+	R := ℚ polynomialsIn: #(x y) ordering: #invlex.
+	x := R x. y := R y.
+	self assert: x leadingMonomial < y leadingMonomial.
+	g1 := x^2*(y^2) - (x^3*y).
+	g2 := x*(y^3) - (x^2*(y^2)).
+	g3 := y^4 - (x^3).
+	M := R^3 orderedBy: (SchreyerMonomialOrdering weights: {g1. g2. g3}).
+	e1 := M x: 1. e2 := M x: 2. e3 := M x: 3.
+	a := e2*x.
+	b := e1*y.
+	c := e3*x.
+	self assert: a leadingMonomial < b leadingMonomial.
+	self assert: b leadingMonomial < c leadingMonomial.
+	self assert: a leadingMonomial < c leadingMonomial! !
+
+!MultivariateTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 16:57:47'!
+testTOPOrderingExample
+	"William W. Adams, Philippe Loustaunau, 'An Introduction to Groebner Bases' (1994), Definition 3.5.2."
+	| R x y M e1 e2 |
+	R := ℚ polynomialsIn: #(x y) ordering: #invlex.
+	x := R x. y := R y.
+	self assert: x leadingMonomial < y leadingMonomial.
+	M := R^2 orderedBy: #top.
+	e1 := M x: 1. e2 := M x: 2.
+	self assert: e1 leadingMonomial < e2 leadingMonomial.
+	self assert: (e1*x) leadingMonomial < (e2*x) leadingMonomial.
+	self assert: (e2*x) leadingMonomial < (e1*y) leadingMonomial.
+	self assert: (e1*y) leadingMonomial < (e1*x*y) leadingMonomial! !
+
+!MultivariateTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 16:57:58'!
+testTupleOrderingsExamples
+	"William W. Adams, Philippe Loustaunau, 'An Introduction to Groebner Bases' (1994), Example 3.5.5."
+	| R x y M e1 e2 f |
+	R := ℚ polynomialsIn: #(x y) ordering: #invlex.
+	x := R x. y := R y.
+	self assert: x leadingMonomial < y leadingMonomial.
+	M := R^2 orderedBy: #top.
+	e1 := M x: 1. e2 := M x: 2.
+	self assert: e1 leadingMonomial < e2 leadingMonomial.
+	f := M !! {x^3*y*2 - (y^3) + (x*5). x*(y^2)*3 + (y^2) + (x*4)}.
+
+	self assert: f leadingMonomial position = 1.
+	self assert: f leadingMonomial monomial = (y^3) leadingMonomial.
+	self assert: f leadingCoefficient = (-1).
+	self assert: f leadingTerm = (e1 * (y^3) negated).
+
+	M := M orderedBy: #pot.
+	e1 := M x: 1. e2 := M x: 2.
+	self assert: e1 leadingMonomial < e2 leadingMonomial.
+	f := M !! f.
+
+	self assert: f leadingMonomial position = 2.
+	self assert: f leadingMonomial monomial = (y^2*x) leadingMonomial.
+	self assert: f leadingCoefficient = 3.
+	self assert: f leadingTerm = (e2 * (y^2*x*3))! !
+
+!MultivariateTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 16:58:09'!
+testTupleReductionExample
+	"William W. Adams, Philippe Loustaunau, 'An Introduction to Groebner Bases' (1994), Example 3.5.7."
+	|R x y M e1 e2 f g h |
+	R := ℚ polynomialsIn: #(x y) ordering: #invlex.
+	x := R x. y := R y.
+	self assert: x leadingMonomial < y leadingMonomial.
+	M := R^2 orderedBy: #top.
+	e1 := M x: 1. e2 := M x: 2.
+	self assert: e1 leadingMonomial < e2 leadingMonomial.
+	f := M !! {x^3*y*2 - (y^3). x*(y^2)*3 + (y^2) + (x*4)}.
+	g := M !! {x + 1. y^2 + x}.
+	h := M !! {x^3*y*2 - (y^3) - (x^2*3) - (x*4) - 1. x*3 - (x^2*3)}.
+	self assert: f \\ {g} = h! !
+
+!MultivariateTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 16:58:18'!
+testTupleReductionExample2
+	"William W. Adams, Philippe Loustaunau, 'An Introduction to Groebner Bases' (1994), Example 3.5.9."
+	|R x y M e1 e2 f1 f2 f h |
+	R := ℚ polynomialsIn: #(x y) ordering: #invlex.
+	x := R x. y := R y.
+	self assert: x leadingMonomial < y leadingMonomial.
+	M := R^2 orderedBy: #top.
+	e1 := M x: 1. e2 := M x: 2.
+	self assert: e1 leadingMonomial < e2 leadingMonomial.
+	f1 := M !! {x*y - y. x^2}.
+	f2 := M !! {x. y^2 - x}.
+	f := M !! {y^2 + (x^2*y*2). y^2}.
+	h := M !! {y^2 + (y*2) - x. x^3*(-2) - (x^2*2) + x}.
+	self assert: f \\ {f1. f2} = h! !
 
 !ProductRingTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:44:31'!
 setUp
@@ -11927,6 +11919,23 @@ setUp
 setUp
 	super setUp.
 	scalars := ℚ polynomialsIn: 2! !
+
+!RationalMultivariatePolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 16:59:33'!
+testModuleGroebnerBasisReducedExample
+	"William W. Adams, Philippe Loustaunau, 'An Introduction to Groebner Bases' (1994), Example 3.6.1."
+	| R x y M f1 f2 f3 f4 A |
+	R := ℚ polynomialsIn: #(x y) ordering: #invlex.
+	x := R x. y := R y.
+	self assert: x leadingMonomial < y leadingMonomial.
+	M := R^3 orderedBy: #top.
+"	e1 _ M x: 3. e2 _ M x: 2. e3 _ M x: 1."
+	f1 := M !! {x*y. y. x} reversed.
+	f2 := M !! {x^2 + x. y + (x^2). y} reversed.
+	f3 := M !! {y negated. x. y} reversed.
+	f4 := M !! {x^2. x. y} reversed.
+	A := Matrix rows: {f1. f2. f3. f4}.
+	self assert: A basis "reduced" width = 6 "it's already reduced"
+	"TODO: verify that it matches the book"! !
 
 !RationalPolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:26:13'!
 setUp
