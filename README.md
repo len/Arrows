@@ -5,7 +5,7 @@ The goal of this project is to build an extensible and mathematically rigorous e
 
 The most fundamental classes of the system are *Domain* and *Morphism*, corresponding to *objects* and *arrows* of a category. You can explore the hierarchy starting from these classes and read the class comments. The code is well documented and contains references to the relevant bibliography.
 
-For an introduction to the system, see [Arrows: a Computer Algebra System in Smalltalk](https://openreview.net/pdf?id=olozVmVool), published in November 2022 in FAST Workshop on Smalltalk Related Technologies.
+For an introduction to the system see [Arrows: a Computer Algebra System in Smalltalk](https://openreview.net/pdf?id=oIozVmVool), published in November 2022 in FAST Workshop on Smalltalk Related Technologies.
 
 ### Smalltalk
 The system is based on Smalltalk-80, in particular Cuis Smalltalk. It is multiplatform and runs with the OpenSmalltalk virtual machine.
