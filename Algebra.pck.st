@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 27 May 2023 at 10:00:29 pm'!
+'From Cuis 6.0 [latest update: #5801] on 28 May 2023 at 4:27:04 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -67,7 +67,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 80!
+!provides: 'Algebra' 1 81!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -16513,12 +16513,12 @@ from: aDomain
 		[self isAmbient ifFalse: [aDomain → self ambient ifNotNil: [:aMorphism| ^ self → self ambient \ aMorphism]]].
 	^ super from: aDomain! !
 
-!Module methodsFor: 'morphisms' stamp: 'len 6/9/2022 12:41:17'!
+!Module methodsFor: 'morphisms' stamp: 'len 5/28/2023 15:51:18'!
 hom: aCodomain
 	"Answer the module of homomorphisms from the receiver to aCodomain. This is the internal hom."
 	aCodomain isModule ifFalse: [^ super hom: aCodomain].
 	self checkScalarsMatch: aCodomain.
-	(self scalars isCommutative "or: [self scalars isInvolutive]") ifTrue: [^ HomModule from: self to: aCodomain].
+	(self scalars isCommutative or: [self scalars isInvolutive]) ifTrue: [^ HomModule from: self to: aCodomain].
 	"TODO: if scalars are an R-algebra, answer an R-module"
 	^ super hom: aCodomain! !
 
@@ -23748,9 +23748,9 @@ comatrix
 	"Answer the co-matrix (or cofactor matrix) of the receiver, i.e. the matrix '(a{ij})' where 'a{ij}' is the cofactor 'ij'."
 	^ self adjugate transpose! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 7/21/2021 18:09:56'!
+!Matrix methodsFor: 'operations' stamp: 'len 5/28/2023 15:53:17'!
 conjugate
-	"Answer the conjugate of the receiver. This is the involution of the matrix algebra."
+	"Answer the conjugate transpose of the receiver. This is the involution of the matrix algebra."
 	^ self scalars isInvolutive ifTrue: [self transpose collect: [:each| each conjugate]] ifFalse: [self transpose]! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 5/14/2023 12:04:25'!
@@ -24729,10 +24729,10 @@ withIndicesDo: aBlock
 	^ self class from: domain ⊕ aMatrix domain to: codomain ⊕ aMatrix codomain coefficients: newCoefficients
 ! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 5/27/2023 15:57:20'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 5/28/2023 14:58:47'!
 ∘ aMatrix
 	self class = aMatrix class ifFalse: [^ super ∘ aMatrix].
-	self flag: #fixme. "should do this with localizations?"
+	self flag: #fixme. "should do this with localizations? we are doing the same for polynomial multiplication"
 	self scalars isLocalization ifTrue: [^ (self numerator * aMatrix numerator over: self scalars) / (self denominator * aMatrix denominator)].
 	self checkCompatibleComposition: aMatrix.
 	(coefficients isEmpty or: [aMatrix coefficients isEmpty])
@@ -25867,9 +25867,9 @@ partiallyFrom: aDomain to: aCodomain representatives: anArray
 at: anInteger
 	^ self at: anInteger ifAbsent: []! !
 
-!Sequence methodsFor: 'accessing' stamp: 'len 6/3/2019 17:30:31'!
+!Sequence methodsFor: 'accessing' stamp: 'len 5/28/2023 16:06:10'!
 at: anInteger ifAbsent: aBlock
-	^ anInteger > 0 ifTrue: [super value: anInteger] ifFalse: [aBlock value]! !
+	^ self codomain !! (anInteger > 0 ifTrue: [super value: anInteger] ifFalse: [aBlock value])! !
 
 !Sequence methodsFor: 'accessing' stamp: 'len 5/23/2020 09:34:55'!
 codomain
@@ -32794,9 +32794,11 @@ dividedByScalar: anElement
 exactlyDividedBy: anElement
 	^ (self divisionBy: anElement) exactQuotient! !
 
-!Polynomial methodsFor: 'private' stamp: 'len 7/1/2022 05:52:55'!
+!Polynomial methodsFor: 'private' stamp: 'len 5/28/2023 16:09:06'!
 multipliedBy: aPolynomial
 	aPolynomial isConstant ifTrue: [^ self class coefficients: coefficients * aPolynomial leadingCoefficient parent: parent].
+	self flag: #fixme. "should do this with localizations? we are doing the same for matrix multiplication"
+"	self scalars isLocalization ifTrue: [^ parent !! (self numerator * aPolynomial numerator) / (self denominator * aPolynomial denominator)]."
 	^ self class coefficients: (coefficients convolution: aPolynomial coefficients) parent: parent! !
 
 !Polynomial methodsFor: 'private' stamp: 'len 8/11/2019 12:13:56'!
@@ -34086,14 +34088,15 @@ norm
 	b _ moduleElement at: 2.
 	^ a squared - (a*b) + b squared! !
 
-!EisensteinInteger methodsFor: 'operations' stamp: 'len 10/19/2022 10:44:12'!
+!EisensteinInteger methodsFor: 'operations' stamp: 'len 5/28/2023 16:24:07'!
 normalization
 	"Answer a unit u such that 'self * u' is a unique choice of associate. See >>normalized."
 	self isZero ifTrue: [^ parent one].
-	^ parent units detect: [:u|
+	self flag: #fixme. "there should be a more efficient way"
+	^ (parent units select: [:u|
 		| x |
-		x _ self * u.
-		(x asModuleElement at: 1) > 0 and: [(x asModuleElement at: 2) > 0]]
+		x := self * u.
+		(x asModuleElement at: 1) > 0 and: [(x asModuleElement at: 2) > 0]]) detectMin: [:u| (self * u) asModuleElement at: 1]
 
 "
 	| a b ra rb |

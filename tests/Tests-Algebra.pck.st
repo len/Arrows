@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 27 May 2023 at 10:00:44 pm'!
+'From Cuis 6.0 [latest update: #5801] on 28 May 2023 at 4:27:24 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 52!
+!provides: 'Tests-Algebra' 1 53!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -3704,15 +3704,15 @@ testAffineRingIdealMembershipRandom
 	h _ I atRandomBits: 10.
 	self assert: (I includes: h)! !
 
-!CommutativeAlgebraTest methodsFor: 'affine ring' stamp: 'len 7/26/2022 13:43:49'!
-testAffineRingIdealOperations
+!CommutativeAlgebraTest methodsFor: 'affine ring' stamp: 'len 5/28/2023 14:04:29'!
+testAffineRingIdealRadical
 	"Magma handbook, example H105E2."
 	| R A I J |
-	R _ ℚ polynomialsIn: #(x y z) "ordering: #lex".
-	A _ R / (R !! [:x :y :z| {x^2 - y + 1. y^3 + z - 1}]).
-	I _ A * (A !! [:x :y :z| x^3*y*(z^2)]).
+	R := ℚ polynomialsIn: #(x y z) "ordering: #lex".
+	A := R / (R !! [:x :y :z| {x^2 - y + 1. y^3 + z - 1}]).
+	I := A * (A !! [:x :y :z| x^3*y*(z^2)]).
 	self deny: I isRadical.
-	J _ A * (A !! [:x :y :z| {x*(y^2) + (x*y) - (x*z) + x. y*z. z^2 - z}]).
+	J := A * (A !! [:x :y :z| {x*(y^2) + (x*y) - (x*z) + x. y*z. z^2 - z}]).
 	self assert: I radical = J. "this fails probably because PolynomialIdeal>>radical is broken"
 	"... and then some tests of primary decomposition"! !
 
@@ -4842,11 +4842,11 @@ testContinuedFractionsGoldenRatio
 	x _ phi convergentAt: 20.
 	self assert: (x asFloat - 1.6180339887) abs < 0.000001! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/9/2020 10:16:07'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 16:08:32'!
 testContinuedFractionsGoldenRatio2
 	| phi denominators |
-	phi _ ContinuedFraction phi.
-	denominators _ phi convergents collect: [:each| each asRational denominator].
+	phi := ContinuedFraction phi.
+	denominators := phi convergents collect: [:each| each denominator].
 	self assert: (denominators equals: Sequence fibonacci << 1 upTo: 100)! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/3/2015 02:18'!
@@ -7264,6 +7264,14 @@ testExactDivision
 		b _ a * (R atRandom: random bits: 30).
 		self assert: (a isZero or: [a * (b ÷ a) = b])]! !
 
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 13:53:19'!
+testIntegersCoercion
+	| a |
+	self testRingHomomorphism: ℤ → R.
+	a := ℤ atRandom: random bits: 20.
+	self assert: (ℤ → R value: a) = (R one * a).
+	self assert: R !! a = (R one * a)! !
+
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:23:37'!
 testLeftDivision
 	20 timesRepeat:
@@ -7276,6 +7284,21 @@ testLeftDivision
 testLiftColiftOfZero
 	self assert: (R zero colift: R zero) = R zero.
 	self assert: (R zero lift: R zero) = R zero! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 14:01:35'!
+testPower
+	| x |
+	self assert: R zero ^ 2 = R zero.
+	self assert: R zero ^ 0 = R one.
+	x := R atRandom: random.
+	self assert: x^0 = R one.
+	self assert: x^1 = x.
+	self assert: x^2 = (x*x).
+	self assert: x^3 = (x*x*x).
+	x := R units atRandom: random.
+	self assert: x^(-1) = x inverse.
+	self assert: x^(-2) = x inverse squared.
+	self assert: x^(-3) = (x inverse squared * x inverse)! !
 
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:23:08'!
 testRightDivision
@@ -7371,11 +7394,6 @@ testUnitsAreDivisorsOfEveryElement
 		x _ R atRandom: random bits: 30.
 		u _ R units atRandom: random.
 		self assert: u | x]! !
-
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 23:37:57'!
-testZeroPower
-	self assert: R zero ^ 2 = R zero.
-	self assert: R zero ^ 0 = R one! !
 
 !AbstractAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:42:41'!
 testAlgebra
@@ -8174,63 +8192,64 @@ setUp
 	k := 10 atRandom: random.
 	R := PrimePowerRing new: p to: k! !
 
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2022 19:03:53'!
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 13:49:49'!
 testEuclideanDivisionCompatibleWithModularIntegerRing
 	| S r1 r2 s1 s2 |
-	S _ ModularIntegerRing new: R modulus.
+	"Hacky way to instantiate a ModularIntegerRing, otherwise we might get the cached original one"
+	S := ModularIntegerRing new modulus: R modulus.
 	100 timesRepeat:
-		[r1 _ R atRandom: random.
-		[r2 _ R atRandom: random. r2 isZero] whileTrue.
-		s1 _ S !! r1 representative.
-		s2 _ S !! r2 representative.
+		[r1 := R atRandom: random.
+		[r2 := R atRandom: random. r2 isZero] whileTrue.
+		s1 := S !! r1 representative.
+		s2 := S !! r2 representative.
 		self assert: (r1 // r2) representative = (s1 // s2) representative]! !
 
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2022 10:44:51'!
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 13:49:53'!
 testEuclideanFunctionCompatibleWithModularIntegerRing
 	| S r s |
-	S _ ModularIntegerRing new: R modulus.
+	"Hacky way to instantiate a ModularIntegerRing, otherwise we might get the cached original one"
+	S := ModularIntegerRing new modulus: R modulus.
 	100 timesRepeat:
-		[r _ R atRandom: random.
-		s _ S !! r representative.
+		[r := R atRandom: random.
+		s := S !! r representative.
 		self assert: r gauge = s gauge]! !
 
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2022 12:53:48'!
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 13:49:58'!
 testGCDCompatibleWithModularIntegerRing
 	| S r1 r2 s1 s2 |
-	S _ ModularIntegerRing new: R modulus.
+	"Hacky way to instantiate a ModularIntegerRing, otherwise we might get the cached original one"
+	S := ModularIntegerRing new modulus: R modulus.
 	100 timesRepeat:
-		[r1 _ R atRandom: random.
-		r2 _ R atRandom: random.
-		s1 _ S !! r1 representative.
-		s2 _ S !! r2 representative.
+		[r1 := R atRandom: random.
+		r2 := R atRandom: random.
+		s1 := S !! r1 representative.
+		s2 := S !! r2 representative.
 		self assert: (r1 gcd: r2) representative = (s1 gcd: s2) representative]! !
 
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2022 12:54:08'!
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 13:50:02'!
 testLCMCompatibleWithModularIntegerRing
 	| S r1 r2 s1 s2 |
-	S _ ModularIntegerRing new: R modulus.
+	"Hacky way to instantiate a ModularIntegerRing, otherwise we might get the cached original one"
+	S := ModularIntegerRing new modulus: R modulus.
 	100 timesRepeat:
-		[r1 _ R atRandom: random.
-		r2 _ R atRandom: random.
-		s1 _ S !! r1 representative.
-		s2 _ S !! r2 representative.
+		[r1 := R atRandom: random.
+		r2 := R atRandom: random.
+		s1 := S !! r1 representative.
+		s2 := S !! r2 representative.
 		self assert: (r1 lcm: r2) representative = (s1 lcm: s2) representative]! !
 
 !PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 21:30:00'!
 testNilradical
 	self assert: R nilradical = (R * R p)! !
 
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 21:29:46'!
-testNilradicalAndUnits
-	self assert: R units size + R nilradical size = R size! !
-
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2022 20:17:37'!
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 13:49:17'!
 testNormalizationCompatibleWithModularIntegerRing
 	| S r s |
-	S _ ModularIntegerRing new: R modulus.
+	"Hacky way to instantiate a ModularIntegerRing, otherwise we might get the cached original one"
+	S := ModularIntegerRing new modulus: R modulus.
 	100 timesRepeat:
-		[r _ R atRandom: random.
-		s _ S !! r representative.
+		[r := R atRandom: random.
+		s := S !! r representative.
 		self assert: r normalization representative = s normalization representative]! !
 
 !PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 21:21:23'!
@@ -12322,6 +12341,12 @@ testPrimePowerRingCanonicalProjections
 	self assert: (B includes: b).
 	self assert: a representative \\ (p^m) = b representative.
 	self testRingHomomorphism: φ! !
+
+!RingTest methodsFor: 'finite rings' stamp: 'len 5/28/2023 13:47:37'!
+testPrimePowerRingNilradicalAndUnits
+	| R |
+	R := PrimePowerRing new: #(2 3 5) atRandom to: 5 atRandom.
+	self assert: R units size + R nilradical size = R size	! !
 
 !RingTest methodsFor: 'finite rings' stamp: 'len 7/30/2021 10:49:15'!
 testPrimePowerRingValuationAndUnit
