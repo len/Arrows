@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 28 May 2023 at 7:38:28 pm'!
+'From Cuis 6.0 [latest update: #5801] on 28 May 2023 at 11:38:32 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 54!
+!provides: 'Tests-Algebra' 1 55!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -750,14 +750,14 @@ AbstractArrayTest subclass: #BinaryArrayTest
 BinaryArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisPackedArrayTest category: #'Tests-Algebra-Arrays'!
-AbstractArrayTest subclass: #GaloisPackedArrayTest
+!classDefinition: #ExtensionPackedArrayTest category: #'Tests-Algebra-Arrays'!
+AbstractArrayTest subclass: #ExtensionPackedArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'GaloisPackedArrayTest class' category: #'Tests-Algebra-Arrays'!
-GaloisPackedArrayTest class
+!classDefinition: 'ExtensionPackedArrayTest class' category: #'Tests-Algebra-Arrays'!
+ExtensionPackedArrayTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModularArrayTest category: #'Tests-Algebra-Arrays'!
@@ -8631,7 +8631,7 @@ testSumBug
 	self assert: (BinaryArray newFrom: 2r1011101) sum representative = 1.
 	self assert: (BinaryArray newFrom: 2r10000100100010) sum representative = 0! !
 
-!GaloisPackedArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 14:58:51'!
+!ExtensionPackedArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 14:58:51'!
 setUp
 	super setUp.
 	scalars := random nextBoolean
