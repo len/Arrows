@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 28 May 2023 at 11:38:24 pm'!
+'From Cuis 6.0 [latest update: #5801] on 29 May 2023 at 12:12:23 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -67,7 +67,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 83!
+!provides: 'Algebra' 1 84!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -4025,9 +4025,9 @@ replaceWithMatrixTranspose: anArray width: width
 "	words replaceBitsWithMatrixTranspose: anArray words width: width	"
 	super replaceWithMatrixTranspose: anArray width: width! !
 
-!BinaryArray methodsFor: 'printing' stamp: 'len 5/16/2023 13:54:33'!
+!BinaryArray methodsFor: 'printing' stamp: 'len 5/29/2023 11:32:46'!
 printOn: aStream
-	self do: [:each| aStream print: each]! !
+	self do: [:each| aStream nextPut: (each isOne ifTrue: [$▪] ifFalse: [$▫])]! !
 
 !BinaryArray methodsFor: 'testing' stamp: 'len 5/9/2023 13:57:50'!
 includes: anObject
@@ -24120,26 +24120,45 @@ replaceWith: aMatrix1 times: aMatrix2
 	self atAllPut: self scalars zero.
 	self accumulateWith: aMatrix1 times: aMatrix2! !
 
-!Matrix methodsFor: 'printing' stamp: 'len 8/20/2021 16:01:04'!
+!Matrix methodsFor: 'printing' stamp: 'len 5/29/2023 12:10:30'!
+printBinaryForm
+	| elementSize space answer canvas rect side |
+	elementSize := Preferences defaultFontSize.
+	space := elementSize / 8.0.
+	answer := Form extent: self width @ self height * elementSize depth: 8.
+	answer fillColor: Color transparent.
+	canvas := BitBltCanvas onForm: answer.
+	1 to: self height do: [:i|
+		1 to: self width do: [:j|
+			rect := j-1@(i-1) * elementSize + space extent: elementSize@elementSize - (space*2).
+			(self isZeroAt: i@j)
+				ifTrue: [canvas frameRectangle: rect borderWidth: 1 color: Color white]
+				ifFalse: [canvas fillRectangle: rect color: Color white]]].
+	(side := answer width max: answer height) > 300 ifTrue: [answer := answer magnifyBy: 300.0 / side].
+	^ answer! !
+
+!Matrix methodsFor: 'printing' stamp: 'len 5/29/2023 12:11:05'!
 printOn: aStream
 	| lengths string pad |
 	self isTrivial ifTrue: [aStream print: 0. ^ self].
+	(self scalars isKindOf: BinaryField)
+		ifTrue: [aStream print: self printBinaryForm. ^ self].
 	((self scalars isKindOf: ModularIntegerRing) and: [self scalars modulus <= 16])
 		ifTrue: [self rows do: [:each| aStream nextPut: $[; print: each; nextPut: $]] separatedBy: [aStream newLine]. ^ self].
-	lengths _ (1 to: self width) collect: [:each| 0].
+	lengths := (1 to: self width) collect: [:each| 0].
 	self rows do: [:each|
 		1 to: each size do: [:i|
 			lengths at: i put: ((lengths at: i) max: (each at: i) printText size)]].
 	self rows do: [:each|
 		aStream nextPut: $[.
 		1 to: each size - 1 do: [:i|
-			string _ (each at: i) printText.
-			pad _ (lengths at: i) - string size.
+			string := (each at: i) printText.
+			pad := (lengths at: i) - string size.
 			pad timesRepeat: [aStream space].
 			aStream nextPutAll: string.
 			pad + 1 timesRepeat: [aStream space]].
-		string _ (each at: each size) printText.
-		pad _ (lengths at: each size) - string size.
+		string := (each at: each size) printText.
+		pad := (lengths at: each size) - string size.
 		pad timesRepeat: [aStream space].
 		aStream nextPutAll: string.
 		pad timesRepeat: [aStream space].
