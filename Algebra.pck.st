@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 30 May 2023 at 12:03:39 am'!
+'From Cuis 6.0 [latest update: #5801] on 30 May 2023 at 8:03:36 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -67,7 +67,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 85!
+!provides: 'Algebra' 1 86!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -4304,7 +4304,7 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 sta
 		j1 := j1 + n.
 		j2 := j2 + n]! !
 
-!ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 5/29/2023 21:19:21'!
+!ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 5/30/2023 17:45:22'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2
 	| n modulusCoefficients tmp j1 j2 |
 	n := scalars degree.
@@ -4313,9 +4313,7 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 st
 	j1 := start1-1*n+1.
 	j2 := start2-1*n+1.
 	start-1*n+1 to: stop-1*n+1 by: n do: [:i|
-"		tmp atAllPut: scalars scalars zero.
-		tmp accumulateFrom: 1 to: n with: anArray1 coefficients from: j1 to: j1 + n - 1 convolution: anArray2 coefficients from: j2 to: j2 + n - 1 reducedWithTable: scalars powersTable.
-"		tmp replaceFrom: 1 with: anArray1 coefficients from: j1 to: j1+n-1 convolution: anArray2 coefficients from: j2 to: j2+n-1.
+		tmp replaceFrom: 1 with: anArray1 coefficients from: j1 to: j1+n-1 convolution: anArray2 coefficients from: j2 to: j2+n-1.
 		tmp reduceBy: modulusCoefficients.
 		coefficients replaceFrom: i to: i+n-1 with: tmp startingAt: 1.
 		j1 := j1 + n.
@@ -12216,12 +12214,12 @@ elementClass
 extensionClass
 	^ GaloisField! !
 
-!PrimeField methodsFor: 'private' stamp: 'len 11/30/2016 19:12:00'!
+!PrimeField methodsFor: 'private' stamp: 'len 5/30/2023 16:57:10'!
 inverseOfRepresentative: anInteger
 	| result |
-	anInteger == 0 ifTrue: [^ nil].
-	anInteger == 1 ifTrue: [^ 1].
-	result _ anInteger xgcd: modulus.
+	anInteger = 0 ifTrue: [^ nil].
+	anInteger = 1 ifTrue: [^ 1].
+	result := anInteger xgcd: modulus.
 	^ (result at: 2) \\ modulus! !
 
 !PrimeField methodsFor: 'private' stamp: 'len 5/16/2023 21:51:22'!
@@ -12676,18 +12674,18 @@ elementClass
 isValidArray: anArray
 	^ anArray class = ExtensionPackedArray and: [anArray scalars = self]! !
 
-!ExtensionRing methodsFor: 'private' stamp: 'len 5/29/2023 21:19:56'!
+!ExtensionRing methodsFor: 'private' stamp: 'len 5/30/2023 17:45:50'!
 powersTable
-	"Answer a table with the coefficients for x^(n+1) to: x^(2n).
+	"Answer a table with the coefficients for x^n to: x^(2n-2).
 	This table is used for reducing the product of two elements."
-	self flag: #fixme. "is this used?"
+	self flag: #deprecated. "is this needed?"
 	^ self propertyAt: #powersTable ifAbsentPut:
 		[| n table tmp |
 		n := self degree.
 		table := self scalars new: n * (n - 1).
 		n + 1 to: n * 2 - 1 do: [:i|
 			tmp := self scalars zeros: i.
-			tmp at: i put: self scalars one.
+			tmp at: i put: self scalars one. "x^(i-1)"
 			tmp reduceBy: self modulus coefficients.
 			table replaceFrom: i - n - 1 * n + 1 to: i - n * n with: tmp startingAt: 1].
 		table]! !
@@ -24164,19 +24162,24 @@ printBinaryOn: aStream
 	(side := form width max: form height) > 300 ifTrue: [form := form magnifyBy: 300.0 / side].
 	aStream print: form! !
 
-!Matrix methodsFor: 'printing' stamp: 'len 5/30/2023 00:02:09'!
+!Matrix methodsFor: 'printing' stamp: 'len 5/30/2023 16:45:40'!
 printOn: aStream
-	| canvas cellExtent form h textColor w space lineWidth |
+	| columnWidth rowHeight w h canvas form textColor space lineWidth |
 	self isTrivial ifTrue: [aStream print: 0. ^ self].
 	(self scalars isKindOf: BinaryField)
-		ifTrue: [self printBinaryOn: aStream. ^ self].
-	cellExtent := 0@0.
-	1 to: self height do: [:i|
-		1 to: self width do: [:j|
-			cellExtent := cellExtent max: (TextComposition new setModel: (TextModel withText: (self at: i@j) printText, ' '); extentForComposing: 9999999@9999999; composeAll; usedExtent)]].
+		ifTrue: [^ self printBinaryOn: aStream].
+	columnWidth := Array new: self width withAll: 0.
+	rowHeight := 0.
+	1 to: self width do: [:j|
+		| cellExtent |
+		cellExtent := 0@0.
+		1 to: self height do: [:i|
+			cellExtent := cellExtent max: (TextComposition new setModel: (TextModel withText: (self at: i@j) printText, '  '); extentForComposing: 9999999@9999999; composeAll; usedExtent)].
+		columnWidth at: j put: cellExtent x.
+		rowHeight := rowHeight max: cellExtent y].
 	space := 5.
-	w := self width * cellExtent x + (space * 2).
-	h := self height * cellExtent y + (space * 1.5).
+	w := columnWidth sum + (space * 2).
+	h := self height * rowHeight + (space * 1.5).
 	form := Form extent: w@h + 2 depth: 32.
 	form fillColor: Color transparent.
 	canvas := VectorCanvas onForm: form.
@@ -24184,20 +24187,20 @@ printOn: aStream
 	1 to: self height do: [:i|
 		1 to: self width do: [:j|
 			| textComposition |
-			textComposition := TextComposition new setModel: (TextModel withText: (self at: i@j) printText centered); extentForComposing: cellExtent; composeAll.
+			textComposition := TextComposition new setModel: (TextModel withText: (self at: i@j) printText centered); extentForComposing: (columnWidth at: j) @ rowHeight; composeAll.
 			canvas
 				drawTextComposition: textComposition
-				at: j-1@(i-1)*cellExtent + space
+				at: ((1 to: j-1) sum: [:k| columnWidth at: k] ifEmpty: [0]) @ (i-1*rowHeight) + space
 				extent: textComposition usedExtent
 				color: textColor
 				selectionColor: textColor
 				avoidOverhang: true]].
 	lineWidth := 1.0.
 	canvas
-		line: 1@1 to: 1@h width: lineWidth color: textColor;
+		line: 1@2 to: 1@(h-1) width: lineWidth color: textColor;
 		line: 1@1 to: space*1.5@1 width: lineWidth color: textColor;
 		line: 1@h to: space*1.5@h width: lineWidth color: textColor;
-		line: w@1 to: w@h width: lineWidth color: textColor;
+		line: w@2 to: w@(h-1) width: lineWidth color: textColor;
 		line: w@1 to: w-(space*1.5)@1 width: lineWidth color: textColor;
 		line: w@h to: w-(space*1.5)@h width: lineWidth color: textColor.
 	aStream print: form! !
@@ -29601,6 +29604,10 @@ lift: anElement
 negated
 	^ self class opposite: opposite negated! !
 
+!Opposite methodsFor: 'operations' stamp: 'len 5/30/2023 13:43:01'!
+squared
+	^ self class opposite: opposite squared! !
+
 !Opposite methodsFor: 'printing' stamp: 'len 4/26/2021 11:21:47'!
 printOn: aStream
 	opposite printOn: aStream! !
@@ -30360,6 +30367,10 @@ normalization
 	[(euclid _ x xgcd: modulus) first isOne] whileFalse: [x _ x + m].
 	^ parent project: euclid second! !
 
+!Residue methodsFor: 'operations' stamp: 'len 5/30/2023 13:42:36'!
+squared
+	^ parent project: representative squared! !
+
 !Residue methodsFor: 'operations' stamp: 'len 6/10/2022 11:53:35'!
 stabilizerWith: b modulo: N
 	"If the receiver is 'a', answer 'c' such that '<a + cb, N> = <a, b, N>'."
@@ -30831,8 +30842,9 @@ gcd: anElement
 	representative = 0 ifTrue: [^ anElement normalized].
 	^ parent one! !
 
-!PrimeResidue methodsFor: 'operations' stamp: 'len 5/29/2022 19:39:19'!
+!PrimeResidue methodsFor: 'operations' stamp: 'len 5/30/2023 16:56:56'!
 inverse
+	representative = 1 ifTrue: [^ self].
 	^ parent representative:
 		((parent inverseOfRepresentative: representative)
 			ifNil: [^ DivisibilityError new signalReceiver: self one selector: #/ argument: self])! !
@@ -31105,10 +31117,11 @@ isZeroDivisor
 	anInteger isFraction ifTrue: [^ (self root: anInteger denominator) ^ anInteger numerator].
 	^ parent representative: (representative raisedTo: anInteger \\ (parent size - 1) modulo: parent modulus)! !
 
-!GaloisFieldElement methodsFor: 'operations' stamp: 'len 5/29/2022 19:39:19'!
+!GaloisFieldElement methodsFor: 'operations' stamp: 'len 5/30/2023 16:57:52'!
 inverse
 	"This is faster than using the extended Euclidean algorithm to compute the inverse."
 	self isZero ifTrue: [^ DivisibilityError new signalReceiver: self one selector: #/ argument: self].
+	self isOne ifTrue: [^ self].
 	^ parent representative: (representative raisedTo: parent inversionExponent modulo: parent modulus)! !
 
 !GaloisFieldElement methodsFor: 'operations' stamp: 'len 5/9/2022 11:11:30'!
@@ -31336,6 +31349,10 @@ negated
 normalization
 	"Answer a unit u such that 'self * u' is a unique choice of associate. See >>normalized."
 	^ parent compose: (components collect: [:each| each normalization])! !
+
+!RingTuple methodsFor: 'operations' stamp: 'len 5/30/2023 13:44:46'!
+squared
+	^ self class components: components squared parent: parent! !
 
 !RingTuple methodsFor: 'operations' stamp: 'len 12/21/2022 13:28:24'!
 xgcd: anElement
@@ -32320,7 +32337,7 @@ gauge
 	"Answer the value of the Euclidean function at the receiver."
 	^ self isZero ifTrue: [0] ifFalse: [self leadingMonomial degree]! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 5/14/2023 15:10:16'!
+!Polynomial methodsFor: 'operations' stamp: 'len 5/30/2023 19:52:27'!
 gcd: aPolynomial
 	| a b u v r |
 	self isZero ifTrue: [^ aPolynomial normalized].
@@ -32332,24 +32349,24 @@ gcd: aPolynomial
 	"Multivariate case:"
 	self parent isUnivariate ifFalse:
 		[| ma mb |
-		ma _ self monomials gcd.
-		mb _ aPolynomial monomials gcd.
-		a _ (self / ma) asUnivariate.
-		b _ (aPolynomial / mb) asUnivariate.
-		u _ a content.
-		v _ b content.
+		ma := self monomials gcd.
+		mb := aPolynomial monomials gcd.
+		a := (self / ma) asUnivariate.
+		b := (aPolynomial / mb) asUnivariate.
+		u := a content.
+		v := b content.
 		^ ((self parent !! ((a / u gcd: b / v) * (u gcd: v)) asMultivariate) * (ma gcd: mb)) normalized].
 	"Generic Euclidean algorithm:"
 	self scalars isField ifTrue: [^ super gcd: aPolynomial].
 	"Over a general ring we use the primitive PRS algorithm [Coh96, Algorithm 3.2.10]:"
 	self scalars isUFD ifFalse: [^ self error: 'the coefficients ring is not a UFD'].
-	u _ self content.
-	v _ aPolynomial content.
-	a _ self ÷ u.
-	b _ aPolynomial ÷ v.
-	[b isZero] whileFalse: [r _ (a pseudoRem: b) primitivePart. a _ b. b _ r].
-	a isConstant ifTrue: [a _ self one].
-	^ a * (u gcd: v)
+	u := self content.
+	v := aPolynomial content.
+	a := self ÷ u.
+	b := aPolynomial ÷ v.
+	[b isZero] whileFalse: [r := (a pseudoRem: b) primitivePart. a := b. b := r].
+	a isConstant ifTrue: [a := self one].
+	^ a normalized * (u gcd: v)
 
 "alternative for the last part:
 	""Over a general UFD we use the subresultant GCD algorithm [Coh96, Algorithm 3.3.1]:""
@@ -38615,6 +38632,10 @@ printElementsOn: aStream
 	self do: [:element| aStream print: element] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $)! !
 
+!Collection methodsFor: '*algebra' stamp: 'len 5/30/2023 13:44:11'!
+squared
+	^ self collect: [:each | each squared]! !
+
 !Collection methodsFor: '*algebra' stamp: 'len 6/23/2019 04:34:56'!
 upTo: max do: aBlock
 	"Iterate over the elements of the receiver, just like #do:, but stop after max elements."
@@ -38835,25 +38856,6 @@ sum
 		[answer := (self at: i) * (anArray at: i) + answer.
 		i := i + 1].
 	^ answer! !
-
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/29/2023 21:24:19'!
-accumulateFrom: start to: stop with: anArray1 from: start1 to: stop1 convolution: anArray2 from: start2 to: stop2 reducedWithTable: table
-	self flag: #fixme. "not sure this is wroth it, it's complicated, need to implement it in subclasses"
-	0 to: stop2 - start2 do: [:i|
-		| start2ᵢ |
-		start2ᵢ := start2 + i.
-		(anArray2 isZeroAt: start2ᵢ) ifFalse:
-			[| startᵢ x start1ᵢ |
-			startᵢ := start + i.
-			x := anArray2 at: start2ᵢ.
-			self replaceFrom: startᵢ to: start + stop1 - start1
-				with: self startingAt: startᵢ
-				plus: anArray1 startingAt: start1 timesScalar: x.
-			start1ᵢ := start1 + stop - start - i.
-			1 to: (i min: stop1 - start1ᵢ) do: [:j|
-				self replaceFrom: start to: stop
-				with: self startingAt: start
-				plus: table startingAt: j-1 * (stop - start + 1) + 1 timesScalar: (anArray1 at: start1ᵢ + j) * x]]]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/22/2023 16:56:28'!
 accumulateFrom: start to: stop withMatrix: anArray1 rowIndices: rowIndices timesTuple: anArray2
@@ -39289,28 +39291,44 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 sta
 		j1 _ j1 + 1.
 		j2 _ j2 + 1]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 4/26/2022 11:07:37'!
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/30/2023 17:40:32'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 timesScalar: anElement
 	| j1 j2 |
-	j1 _ start1.
-	j2 _ start2.
+	(self == anArray1 and: [start = start1]) ifTrue: "this optimization makes reduction by a sparse modulus much faster"
+		[j2 := start2.
+		start to: stop do: [:i|
+			| x |
+			(x := anArray2 at: j2) isZero
+				ifFalse: [self at: i put: (self at: i) + (x * anElement)].
+			j2 := j2 + 1].
+		^ self].
+	j1 := start1.
+	j2 := start2.
 	start to: stop do: [:i|
 		self at: i put: (anArray1 at: j1) + ((anArray2 at: j2) * anElement).
-		j1 _ j1 + 1.
-		j2 _ j2 + 1].
+		j1 := j1 + 1.
+		j2 := j2 + 1].
 	^ self! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 12/27/2022 18:06:32'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/30/2023 17:39:01'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 timesScalar: anInteger modulo: modulus
 	| j1 j2 |
 	anInteger = 0 ifTrue: [^ self replaceFrom: start to: stop with: anArray1 startingAt: start1].
 	anInteger = 1 ifTrue: [^ self replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 modulo: modulus].
-	j1 _ start1.
-	j2 _ start2.
+	(self == anArray1 and: [start = start1]) ifTrue: "this optimization makes reduction by a sparse modulus much faster"
+		[j2 := start2.
+		start to: stop do: [:i|
+			| x |
+			(x := anArray2 at: j2) = 0
+				ifFalse: [self at: i put: (self at: i) + (x * anInteger) \\ modulus].
+			j2 := j2 + 1].
+		^ self].
+	j1 := start1.
+	j2 := start2.
 	start to: stop do: [:i|
 		self at: i put: (anArray1 at: j1) + ((anArray2 at: j2) * anInteger) \\ modulus.
-		j1 _ j1 + 1.
-		j2 _ j2 + 1]! !
+		j1 := j1 + 1.
+		j2 := j2 + 1]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/11/2023 18:13:10'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 timesScalar: anInteger zechTable: table
