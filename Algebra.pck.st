@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 29 May 2023 at 12:12:23 pm'!
+'From Cuis 6.0 [latest update: #5801] on 30 May 2023 at 12:03:39 am'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -67,7 +67,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 84!
+!provides: 'Algebra' 1 85!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -1893,8 +1893,18 @@ Residue subclass: #RegularFunction
 RegularFunction class
 	instanceVariableNames: ''!
 
+!classDefinition: #ExtensionElement category: #'Algebra-Algebras-Affine'!
+RegularFunction subclass: #ExtensionElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algebras-Affine'!
+!classDefinition: 'ExtensionElement class' category: #'Algebra-Algebras-Affine'!
+ExtensionElement class
+	instanceVariableNames: ''!
+
 !classDefinition: #GaloisRingElement category: #'Algebra-Rings-Finite'!
-RegularFunction subclass: #GaloisRingElement
+ExtensionElement subclass: #GaloisRingElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1914,7 +1924,7 @@ GaloisFieldElement class
 	instanceVariableNames: ''!
 
 !classDefinition: #AlgebraicNumber category: #'Algebra-Fields-Global'!
-RegularFunction subclass: #AlgebraicNumber
+ExtensionElement subclass: #AlgebraicNumber
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -4294,7 +4304,7 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 sta
 		j1 := j1 + n.
 		j2 := j2 + n]! !
 
-!ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 5/23/2023 10:42:17'!
+!ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 5/29/2023 21:19:21'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2
 	| n modulusCoefficients tmp j1 j2 |
 	n := scalars degree.
@@ -4303,7 +4313,9 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 st
 	j1 := start1-1*n+1.
 	j2 := start2-1*n+1.
 	start-1*n+1 to: stop-1*n+1 by: n do: [:i|
-		tmp replaceFrom: 1 with: anArray1 coefficients from: j1 to: j1+n-1 convolution: anArray2 coefficients from: j2 to: j2+n-1.
+"		tmp atAllPut: scalars scalars zero.
+		tmp accumulateFrom: 1 to: n with: anArray1 coefficients from: j1 to: j1 + n - 1 convolution: anArray2 coefficients from: j2 to: j2 + n - 1 reducedWithTable: scalars powersTable.
+"		tmp replaceFrom: 1 with: anArray1 coefficients from: j1 to: j1+n-1 convolution: anArray2 coefficients from: j2 to: j2+n-1.
 		tmp reduceBy: modulusCoefficients.
 		coefficients replaceFrom: i to: i+n-1 with: tmp startingAt: 1.
 		j1 := j1 + n.
@@ -6303,13 +6315,12 @@ toAll: anArray
 	self isSet ifFalse: [^ self subclassResponsibility].
 	^ self select: [:each| aDomain includes: each]! !
 
-!Structure methodsFor: 'printing' stamp: 'len 5/1/2020 14:11:05'!
+!Structure methodsFor: 'printing' stamp: 'len 5/29/2023 14:01:28'!
 printOn: aStream
 	self propertyAt: #elements ifPresent: [:aCollection|
 		(aCollection isKindOf: Structure) ifTrue: [aStream print: aCollection. ^ self].
-		aStream nextPut: ${. "Wildberger notation for unordered sets: elements separated by spaces"
-		aCollection asSet do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ' '].
-		aStream nextPut: $}.
+		aStream withBraces: [:aStream2| "Wildberger notation for unordered sets: elements separated by spaces"
+			aCollection asSet do: [:each| aStream2 print: each] separatedBy: [aStream nextPutAll: ' ']].
 		^ self].
 	^ super printOn: aStream! !
 
@@ -7578,16 +7589,15 @@ span: aCollection
 	self checkIsSibling: aGroup.
 	^ self select: [:each| aGroup includes: each]! !
 
-!Group methodsFor: 'printing' stamp: 'len 8/9/2022 10:12:40'!
+!Group methodsFor: 'printing' stamp: 'len 5/29/2023 13:56:02'!
 printOn: aStream
 	| generators |
-	(generators _ self generators) ifNil: [^ super printOn: aStream].
+	(generators := self generators) ifNil: [^ super printOn: aStream].
 	"use the original printOn for wrapped objects:"
 	self propertyAt: #elements ifPresent: [:elements| (elements isKindOf: Structure) ifTrue: [aStream print: elements. ^ self]].
 	generators isEmpty ifTrue: [aStream print: (self isAdditiveGroup ifTrue: [0] ifFalse: [1]). ^ self].
-	aStream nextPut: $⟨.
-	generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; '].
-	aStream nextPut: $⟩! !
+	aStream withAngleBrackets: [:aStream2|
+		generators do: [:each| aStream2 print: each] separatedBy: [aStream2 nextPutAll: '; ']]! !
 
 !Group methodsFor: 'random' stamp: 'len 5/25/2019 04:43:18'!
 atRandom: aRandom
@@ -8022,12 +8032,11 @@ abelianization
 normalClosureOf: aSubset
 	^ self shouldNotImplement! !
 
-!FreeGroup methodsFor: 'printing' stamp: 'len 8/9/2022 10:11:11'!
+!FreeGroup methodsFor: 'printing' stamp: 'len 5/29/2023 13:56:25'!
 printOn: aStream
 	self isTrivial ifTrue: [aStream print: 1. ^ self].
-	aStream nextPut: $⟨.
-	self generators do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
-	aStream nextPut: $⟩! !
+	aStream withAngleBrackets: [:aStream2|
+		self generators do: [:each| aStream2 print: each] separatedBy: [aStream2 nextPut: $,]]! !
 
 !FreeGroup methodsFor: 'random' stamp: 'len 10/28/2020 14:42:24'!
 atRandom: aRandom bits: bitSize
@@ -8258,17 +8267,16 @@ projection
 	relators addAll: (aGroup relators apply: coprojections second).
 	^ F / relators! !
 
-!QuotientGroup methodsFor: 'printing' stamp: 'len 8/9/2022 10:22:12'!
+!QuotientGroup methodsFor: 'printing' stamp: 'len 5/29/2023 13:57:39'!
 printOn: aStream
 	self generators isEmpty ifTrue: [aStream print: (self isAdditiveGroup ifTrue: [0] ifFalse: [1]). ^ self].
 	self isFPGroup ifTrue:
-		[aStream nextPut: $⟨.
-		self generators do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
-		self relators isEmpty
-			ifFalse:
-				[aStream nextPutAll: ' | '.
-				self relators do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,]].
-		aStream nextPut: $⟩.
+		[aStream withAngleBrackets: [:aStream2|
+			self generators do: [:each| aStream2 print: each] separatedBy: [aStream2 nextPut: $,].
+			self relators isEmpty
+				ifFalse:
+					[aStream2 nextPutAll: ' | '.
+					self relators do: [:each| aStream2 print: each] separatedBy: [aStream2 nextPut: $,]]].
 		^ self].
 	aStream print: self cover; nextPut: $╱; print: self relations! !
 
@@ -12660,9 +12668,29 @@ embeddingsIn: aField
 isSimpleExtension
 	^ true! !
 
+!ExtensionRing methodsFor: 'private' stamp: 'len 5/29/2023 18:43:43'!
+elementClass
+	^ ExtensionElement! !
+
 !ExtensionRing methodsFor: 'private' stamp: 'len 5/27/2023 08:01:10'!
 isValidArray: anArray
 	^ anArray class = ExtensionPackedArray and: [anArray scalars = self]! !
+
+!ExtensionRing methodsFor: 'private' stamp: 'len 5/29/2023 21:19:56'!
+powersTable
+	"Answer a table with the coefficients for x^(n+1) to: x^(2n).
+	This table is used for reducing the product of two elements."
+	self flag: #fixme. "is this used?"
+	^ self propertyAt: #powersTable ifAbsentPut:
+		[| n table tmp |
+		n := self degree.
+		table := self scalars new: n * (n - 1).
+		n + 1 to: n * 2 - 1 do: [:i|
+			tmp := self scalars zeros: i.
+			tmp at: i put: self scalars one.
+			tmp reduceBy: self modulus coefficients.
+			table replaceFrom: i - n - 1 * n + 1 to: i - n * n with: tmp startingAt: 1].
+		table]! !
 
 !ExtensionRing methodsFor: 'private' stamp: 'len 5/28/2023 22:44:42'!
 relations: anIdeal
@@ -16689,7 +16717,7 @@ to: aModule validMatrix: aMatrix
 	aSubmodule isTrivial ifTrue: [^ self].
 	^ self ambient span: self generatorMatrix ⊔ aSubmodule generatorMatrix! !
 
-!Module methodsFor: 'operations' stamp: 'len 5/12/2023 20:11:47'!
+!Module methodsFor: 'operations' stamp: 'len 5/29/2023 23:46:23'!
 / aSubmodule
 	"Answer the quotient of the receiver by aSubmodule,
 	i.e. the module obtained by 'collapsing' the submodule to zero.
@@ -16700,48 +16728,48 @@ to: aModule validMatrix: aMatrix
 	self checkIsSibling: aSubmodule.
 	self isAmbient ifFalse:
 		[| π |
-		π _ self ambient → (self ambient / aSubmodule).
-		answer _ self apply: π.
+		π := self ambient → (self ambient / aSubmodule).
+		answer := self apply: π.
 		answer addMap: (self onto: answer map: [:x| π value: x]).
 		^ answer].
 	"From here we can assume the receiver is an ambient module:"
 	aSubmodule isTrivial ifTrue: [^ self].
 	aSubmodule = self ifTrue: [^ self null].
 	self generatorMatrix isIdentity ifFalse: [^ self notYetImplemented].
-	R _ self relationsMatrix ⊔ aSubmodule generatorMatrix.
-	self scalars hasCanonicalBases ifTrue: [R _ R basis].
-	P _ R codomain id copy "reductionBy: R".
+	R := self relationsMatrix ⊔ aSubmodule generatorMatrix.
+	self scalars hasCanonicalBases ifTrue: [R := R basis].
+	P := R codomain id copy "reductionBy: R".
 	"Remove units from the relations matrix because they are redundant.
 	By Nakayama's lemma, over a local ring or a graded ring whose degree 0 component is a field this gives a presentation with a minimal set of generators (see [GP08, pag 127] and [BLH11, Remark 4.4])."
 "				C _ (R columnAt: j) * u inverse negated.
 				(P rowAt: i) withIndexDo: [:a :k| P columnAt: k put: (P columnAt: k) + (C * a)]."
 	self flag: #fixme.
-	Transcript show: 'start:'; show: R.
-	"j _ 1."
-	j _ R width + 1. "<- changed to this to bypass the following until I fix it:"
+"	Transcript show: 'start:'; show: R."
+	"j := 1."
+	j := R width + 1. "<- changed to this to bypass the following until I fix it:"
 	[j <= R width] whileTrue:
-		[(i _ (1 to: R height) findFirst: [:k| (u _ R at: k@j) isUnit]) > 0
+		[(i := (1 to: R height) findFirst: [:k| (u := R at: k@j) isUnit]) > 0
 			ifTrue:
 				[self assert: P height = R height.
-				Transcript show: 'has a unit at ', (i@j) printString; show: R.
+				"Transcript show: 'has a unit at ', (i@j) printString; show: R."
 				"Make the entry at i@j be 1:"
-				R _ R transpose.
+				R := R transpose.
 				R multiplyRow: j by: u inverse.
 				"Put zeros in the columns before and after j:"
 				1 to: j-1 do: [:k| R addRow: j times: (R at: k@i) negated to: k].
 				j+1 to: R height do: [:k| R addRow: j times: (R at: k@i) negated to: k].
 				"Put zeros in the rows before and after i:"
-				R _ R transpose.
+				R := R transpose.
 				1 to: i-1 do: [:k| R addRow: i times: (R at: k@j) negated to: k].
 				i+1 to: R width do: [:k| R addRow: i times: (R at: k@j) negated to: k].
-				Transcript show: 'should have all zeros at column ', j printString, ' and row ', i printString, ' except a 1 at ', (i@j) printString; show: R.
-				R _ R copyWithoutRowAndColumn: i@j.
-				P _ P copyWithoutRow: i.
-				Transcript show: 'removed column and row:'; show: R.
+				"Transcript show: 'should have all zeros at column ', j printString, ' and row ', i printString, ' except a 1 at ', (i@j) printString; show: R."
+				R := R copyWithoutRowAndColumn: i@j.
+				P := P copyWithoutRow: i.
+				"Transcript show: 'removed column and row:'; show: R."
 				self assert: P codomain = R codomain]
 			ifFalse:
-				[j _ j + 1]].
-	answer _ R isZero ifTrue: [FreeModule new: R codomain rank over: R scalars] ifFalse: [QuotientModule relationsMatrix: R].
+				[j := j + 1]].
+	answer := R isZero ifTrue: [FreeModule new: R codomain rank over: R scalars] ifFalse: [QuotientModule relationsMatrix: R].
 	answer addMap: ((self to: answer validMatrix: P "reductionBy: R)") name: 'π').
 	^ answer
 
@@ -17012,12 +17040,10 @@ printGeneratorsOn: aStream
 	self isTrivial ifTrue: [aStream print: self zero. ^ self].
 	self generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: '; ']! !
 
-!Module methodsFor: 'printing' stamp: 'len 5/6/2023 15:19:04'!
+!Module methodsFor: 'printing' stamp: 'len 5/29/2023 13:59:03'!
 printOn: aStream
 	self isTrivial ifTrue: [aStream print: 0. ^ self].
-	aStream nextPut: $⟨.
-	self printGeneratorsOn: aStream.
-	aStream nextPut: $⟩.
+	aStream withAngleBrackets: [:aStream2| self printGeneratorsOn: aStream2].
 	self ambient isQuotient ifTrue: [aStream nextPut: $╱; print: self ambient relations]! !
 
 !Module methodsFor: 'random' stamp: 'len 6/10/2022 11:14:01'!
@@ -17434,16 +17460,14 @@ printGeneratorsOn: aStream
 	self generators "asSortedCollection: [:a :b| a printString <= b printString])"
 		do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', ']! !
 
-!Ideal methodsFor: 'printing' stamp: 'len 8/9/2022 09:24:29'!
+!Ideal methodsFor: 'printing' stamp: 'len 5/29/2023 13:58:55'!
 printOn: aStream
 	self isTrivial ifTrue: [^ super printOn: aStream].
 	(self scalars isKindOf: ModularIntegerRing)
 		ifTrue: [aStream print: self generator; print: self scalars. ^ self].
 	self isOne ifTrue: [aStream print: self scalars. ^ self].
 	self scalars = ℤ ifTrue: [aStream print: self generator; nextPut: $ℤ. ^ self].
-	aStream nextPut: $⟨.
-	self printGeneratorsOn: aStream.
-	aStream nextPut: $⟩! !
+	aStream withAngleBrackets: [:aStream2| self printGeneratorsOn: aStream2]! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 12/15/2021 20:55:08'!
 contains: anElement
@@ -20946,11 +20970,10 @@ suspension
 	aSimplicialComplex facets do: [:each| facets add: (each collect: [:w| w = w0 ifTrue: [{0. 0}] ifFalse: [{2. w}]])].
 	^ self species "on: vertices" facets: facets! !
 
-!SimplicialComplex methodsFor: 'printing' stamp: 'len 9/20/2022 05:59:17'!
+!SimplicialComplex methodsFor: 'printing' stamp: 'len 5/29/2023 13:58:51'!
 printOn: aStream
-	aStream nextPut: $⟨.
-	self facets do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
-	aStream nextPut: $⟩! !
+	aStream withAngleBrackets: [:aStream2|
+		self facets do: [:each| aStream2 print: each] separatedBy: [aStream2 nextPut: $,]]! !
 
 !SimplicialComplex methodsFor: 'testing' stamp: 'len 2/15/2017 08:24:23'!
 contains: aSimplex
@@ -22218,13 +22241,14 @@ preimageRepresentative: anElement
 	Answer nil if anElement is not in the image of the receiver."
 	^ self domain detect: [:one| (self value: one) = anElement] ifNone: []! !
 
-!GroupMap methodsFor: 'operations' stamp: 'len 7/31/2021 12:34:42'!
+!GroupMap methodsFor: 'operations' stamp: 'len 5/29/2023 21:41:09'!
 value: anElement
 	| answer images |
 	self propertyAt: #expression ifPresent: [:anObject| ^ anObject value: anElement].
-	answer _ self codomain identity.
-	images _ self images.
-	self domain \ anElement do: [:i :exponent| answer _ answer · ((images at: i) ^ exponent)].
+	answer := self codomain identity.
+	images := self images.
+	self flag: #fixme. "assume multiplicative"
+	self domain \ anElement do: [:i :exponent| answer := answer · ((images at: i) ^ exponent)].
 	^ answer! !
 
 !GroupMap methodsFor: 'testing' stamp: 'len 5/10/2019 07:40:55'!
@@ -22243,24 +22267,26 @@ isSurjective
 isTrivial
 	^ self domain generators allSatisfy: [:each| (self value: each) = self codomain identity]! !
 
-!GroupMap methodsFor: 'private' stamp: 'len 7/19/2022 11:04:26'!
+!GroupMap methodsFor: 'private' stamp: 'len 5/29/2023 21:38:37'!
 computeImageAndKernel
 	"'Handbook of Computational Group Theory', 3.4.2, algorithm IMAGEKERNEL, page 76."
 	| image kernel random |
-	random _ Random new.
-	kernel _ self domain null.
-	image _ self codomain null.
+	random := Random new.
+	kernel := self domain null.
+	image := self codomain null.
 	[kernel size * image size < self domain size]
 		whileTrue:
 			[| g h |
-			g _ self domain atRandom: random.
-			h _ self value: g.
+			g := self domain atRandom: random.
+			h := self value: g.
 			(image includes: h)
-				ifFalse: [image _ self codomain span: (image generators copyWith: h)]
+				ifFalse: [image := self codomain span: (image generators copyWith: h)]
 				ifTrue:
 					[| k |
-					k _ g · (self preimageRepresentative: h) inverse.
-					(kernel includes: k) ifFalse: [kernel _ self domain span: (kernel generators copyWith: k)]]].
+					k := self domain isAdditiveGroup
+						ifTrue: [g - (self preimageRepresentative: h)]
+						ifFalse: [g · (self preimageRepresentative: h) inverse].
+					(kernel includes: k) ifFalse: [kernel := self domain span: (kernel generators copyWith: k)]]].
 	self propertyAt: #image put: image.
 	self propertyAt: #kernel put: kernel! !
 
@@ -24120,50 +24146,61 @@ replaceWith: aMatrix1 times: aMatrix2
 	self atAllPut: self scalars zero.
 	self accumulateWith: aMatrix1 times: aMatrix2! !
 
-!Matrix methodsFor: 'printing' stamp: 'len 5/29/2023 12:10:30'!
-printBinaryForm
-	| elementSize space answer canvas rect side |
+!Matrix methodsFor: 'printing' stamp: 'len 5/29/2023 23:29:54'!
+printBinaryOn: aStream
+	| elementSize space form canvas rect side color |
 	elementSize := Preferences defaultFontSize.
 	space := elementSize / 8.0.
-	answer := Form extent: self width @ self height * elementSize depth: 8.
-	answer fillColor: Color transparent.
-	canvas := BitBltCanvas onForm: answer.
+	form := Form extent: self width @ self height * elementSize depth: 8.
+	form fillColor: Color transparent.
+	canvas := BitBltCanvas onForm: form.
+	color := Theme current text.
 	1 to: self height do: [:i|
 		1 to: self width do: [:j|
 			rect := j-1@(i-1) * elementSize + space extent: elementSize@elementSize - (space*2).
 			(self isZeroAt: i@j)
-				ifTrue: [canvas frameRectangle: rect borderWidth: 1 color: Color white]
-				ifFalse: [canvas fillRectangle: rect color: Color white]]].
-	(side := answer width max: answer height) > 300 ifTrue: [answer := answer magnifyBy: 300.0 / side].
-	^ answer! !
+				ifTrue: [canvas frameRectangle: rect borderWidth: 1 color: color]
+				ifFalse: [canvas fillRectangle: rect color: color]]].
+	(side := form width max: form height) > 300 ifTrue: [form := form magnifyBy: 300.0 / side].
+	aStream print: form! !
 
-!Matrix methodsFor: 'printing' stamp: 'len 5/29/2023 12:11:05'!
+!Matrix methodsFor: 'printing' stamp: 'len 5/30/2023 00:02:09'!
 printOn: aStream
-	| lengths string pad |
+	| canvas cellExtent form h textColor w space lineWidth |
 	self isTrivial ifTrue: [aStream print: 0. ^ self].
 	(self scalars isKindOf: BinaryField)
-		ifTrue: [aStream print: self printBinaryForm. ^ self].
-	((self scalars isKindOf: ModularIntegerRing) and: [self scalars modulus <= 16])
-		ifTrue: [self rows do: [:each| aStream nextPut: $[; print: each; nextPut: $]] separatedBy: [aStream newLine]. ^ self].
-	lengths := (1 to: self width) collect: [:each| 0].
-	self rows do: [:each|
-		1 to: each size do: [:i|
-			lengths at: i put: ((lengths at: i) max: (each at: i) printText size)]].
-	self rows do: [:each|
-		aStream nextPut: $[.
-		1 to: each size - 1 do: [:i|
-			string := (each at: i) printText.
-			pad := (lengths at: i) - string size.
-			pad timesRepeat: [aStream space].
-			aStream nextPutAll: string.
-			pad + 1 timesRepeat: [aStream space]].
-		string := (each at: each size) printText.
-		pad := (lengths at: each size) - string size.
-		pad timesRepeat: [aStream space].
-		aStream nextPutAll: string.
-		pad timesRepeat: [aStream space].
-		aStream nextPut: $]]
-			separatedBy: [aStream newLine]! !
+		ifTrue: [self printBinaryOn: aStream. ^ self].
+	cellExtent := 0@0.
+	1 to: self height do: [:i|
+		1 to: self width do: [:j|
+			cellExtent := cellExtent max: (TextComposition new setModel: (TextModel withText: (self at: i@j) printText, ' '); extentForComposing: 9999999@9999999; composeAll; usedExtent)]].
+	space := 5.
+	w := self width * cellExtent x + (space * 2).
+	h := self height * cellExtent y + (space * 1.5).
+	form := Form extent: w@h + 2 depth: 32.
+	form fillColor: Color transparent.
+	canvas := VectorCanvas onForm: form.
+	textColor := Theme current text.
+	1 to: self height do: [:i|
+		1 to: self width do: [:j|
+			| textComposition |
+			textComposition := TextComposition new setModel: (TextModel withText: (self at: i@j) printText centered); extentForComposing: cellExtent; composeAll.
+			canvas
+				drawTextComposition: textComposition
+				at: j-1@(i-1)*cellExtent + space
+				extent: textComposition usedExtent
+				color: textColor
+				selectionColor: textColor
+				avoidOverhang: true]].
+	lineWidth := 1.0.
+	canvas
+		line: 1@1 to: 1@h width: lineWidth color: textColor;
+		line: 1@1 to: space*1.5@1 width: lineWidth color: textColor;
+		line: 1@h to: space*1.5@h width: lineWidth color: textColor;
+		line: w@1 to: w@h width: lineWidth color: textColor;
+		line: w@1 to: w-(space*1.5)@1 width: lineWidth color: textColor;
+		line: w@h to: w-(space*1.5)@h width: lineWidth color: textColor.
+	aStream print: form! !
 
 !Matrix methodsFor: 'solving' stamp: 'len 5/8/2023 18:47:04'!
 colift: aMatrix
@@ -30958,6 +30995,15 @@ isZeroDivisor2
 	P1 _ P value: 1.
 	^ P0 size <= P1 size and: [P1 noneSatisfy: [:none| none isUnit]]! !
 
+!ExtensionElement methodsFor: 'as yet unclassified' stamp: 'len 5/29/2023 19:09:59'!
+** anElement
+"	anElement isInteger ifTrue: [^ parent representative: representative * anElement].
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #*].
+	n := parent degree.
+	newCoefficients := parent scalars zeros: n.
+	newCoefficients accumulateFrom: 1 with: representative coefficients from: 1 to: representative coefficients size convolution: anElement representative coefficients from: 1 to: anElement representative coefficients size reduceWithTable: parent powersTable.
+	^ parent coefficients: newCoefficients"! !
+
 !GaloisRingElement methodsFor: 'operations' stamp: 'len 4/26/2022 09:13:25'!
 * anElement
 	(anElement isInteger or: [parent scalars includes: anElement])
@@ -31088,7 +31134,7 @@ isZeroDivisor
 	"Answer true if there exists a nonzero element that multiplied by the receiver is zero."
 	^ self isZero! !
 
-!AlgebraicNumber methodsFor: 'as yet unclassified' stamp: 'len 10/17/2022 12:27:36'!
+!AlgebraicNumber methodsFor: 'printing' stamp: 'len 10/17/2022 12:27:36'!
 printOn: aStream
 	(representative orderedBy: #lgrevlex) printOn: aStream! !
 
@@ -36098,16 +36144,14 @@ solve: aCollection
 		x _ x % m].
 	^ x! !
 
-!Division methodsFor: 'printing' stamp: 'len 7/8/2022 11:04:09'!
+!Division methodsFor: 'printing' stamp: 'len 5/29/2023 14:06:56'!
 printOn: aStream
-	aStream
-		print: self dividend;
-		nextPutAll: ' = ';
-		printWithParenthesis: self divisor;
-		nextPutAll: '*';
-		printWithParenthesis: self quotient;
-		nextPutAll: ' + ';
-		printWithParenthesis: self remainder! !
+	aStream print: self dividend; nextPutAll: ' = '.
+	(divisor includesAnyOf: ' +-/') ifTrue: [aStream withParentheses: [:aStream2| aStream2 print: divisor]] ifFalse: [aStream print: divisor].
+	aStream 	nextPutAll: '*'.
+	(self quotient includesAnyOf: ' +-/') ifTrue: [aStream withParentheses: [:aStream2| aStream2 print: self quotient]] ifFalse: [aStream print: self quotient].
+	aStream nextPutAll: ' + '.
+	(self remainder includesAnyOf: ' +-/') ifTrue: [aStream withParentheses: [:aStream2| aStream2 print: self remainder]] ifFalse: [aStream print: self remainder]! !
 
 !Division methodsFor: 'accessing' stamp: 'len 5/15/2020 05:40:12'!
 dividend
@@ -38792,6 +38836,25 @@ sum
 		i := i + 1].
 	^ answer! !
 
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/29/2023 21:24:19'!
+accumulateFrom: start to: stop with: anArray1 from: start1 to: stop1 convolution: anArray2 from: start2 to: stop2 reducedWithTable: table
+	self flag: #fixme. "not sure this is wroth it, it's complicated, need to implement it in subclasses"
+	0 to: stop2 - start2 do: [:i|
+		| start2ᵢ |
+		start2ᵢ := start2 + i.
+		(anArray2 isZeroAt: start2ᵢ) ifFalse:
+			[| startᵢ x start1ᵢ |
+			startᵢ := start + i.
+			x := anArray2 at: start2ᵢ.
+			self replaceFrom: startᵢ to: start + stop1 - start1
+				with: self startingAt: startᵢ
+				plus: anArray1 startingAt: start1 timesScalar: x.
+			start1ᵢ := start1 + stop - start - i.
+			1 to: (i min: stop1 - start1ᵢ) do: [:j|
+				self replaceFrom: start to: stop
+				with: self startingAt: start
+				plus: table startingAt: j-1 * (stop - start + 1) + 1 timesScalar: (anArray1 at: start1ᵢ + j) * x]]]! !
+
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/22/2023 16:56:28'!
 accumulateFrom: start to: stop withMatrix: anArray1 rowIndices: rowIndices timesTuple: anArray2
 	| width j j₀ |
@@ -39566,14 +39629,13 @@ zero
 	self isEmpty ifTrue: [^ self].
 	^ (self species new: self size) atAllPut: self first zero! !
 
-!Array methodsFor: '*algebra' stamp: 'len 11/6/2016 09:26'!
+!Array methodsFor: '*algebra' stamp: 'len 5/29/2023 13:49:47'!
 printOn: aStream
 	self == Smalltalk specialObjectsArray
 		ifTrue: [aStream nextPutAll: 'Smalltalk specialObjectsArray' ]
 		ifFalse:
-			[aStream nextPut: $(.
-			self do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
-			aStream nextPut: $)]! !
+			[aStream withParentheses: [:aStream2|
+				self do: [:each| aStream2 print: each] separatedBy: [aStream2 nextPutAll: ', ']]]! !
 
 !ByteArray methodsFor: '*algebra' stamp: 'len 5/11/2023 15:28:48'!
 weight
@@ -40021,11 +40083,37 @@ tuttePolynomial
 					ifFalse: [^ G tuttePolynomial + (self / e) tuttePolynomial]]].
 	^ self error: 'inconsistency, this line should have been reaached'! !
 
-!Stream methodsFor: '*algebra' stamp: 'len 5/15/2020 06:10:16'!
-printWithParenthesis: anObject
-	(anObject printString includesAnyOf: ' +-/')
-		ifTrue: [self nextPut: $(; print: anObject; nextPut: $)]
-		ifFalse: [self print: anObject]! !
+!Stream methodsFor: '*algebra' stamp: 'len 5/29/2023 23:55:00'!
+open: openCharacter close: closeCharacter enclosing: aBlock
+	| h innerStream innerText |
+	self isText ifFalse: [self nextPut: openCharacter. aBlock value: self. self nextPut: closeCharacter. ^ self].
+	innerStream := '' asText writeStream.
+	aBlock value: innerStream.
+	innerText := innerStream contents.
+	h := 0.
+	innerText attributesFrom: 1 to: innerText size do: [:each|
+		each anchoredFormOrMorph ifNotNil: [:anObject|
+			(anObject is: #Morph)
+				ifTrue: [h := h max: anObject morphHeight]
+				ifFalse: [(anObject is: #Form) ifTrue: [h := h max: anObject height]]]].
+	h > 0 ifFalse: [^ self nextPut: openCharacter; nextPutAll: innerText; nextPut: closeCharacter].
+	self nextPutAll: (openCharacter asText pointSize: h); nextPutAll: innerText; nextPutAll: (closeCharacter asText pointSize: h)! !
+
+!Stream methodsFor: '*algebra' stamp: 'len 5/29/2023 23:42:38'!
+withAngleBrackets: aBlock
+	self open: $⟨ close: $⟩ enclosing: aBlock! !
+
+!Stream methodsFor: '*algebra' stamp: 'len 5/29/2023 23:43:01'!
+withBraces: aBlock
+	self open: ${ close: $} enclosing: aBlock! !
+
+!Stream methodsFor: '*algebra' stamp: 'len 5/29/2023 23:42:13'!
+withBrackets: aBlock
+	self open: $[ close: $] enclosing: aBlock! !
+
+!Stream methodsFor: '*algebra' stamp: 'len 5/29/2023 23:43:24'!
+withParentheses: aBlock
+	self open: $( close: $) enclosing: aBlock! !
 
 !Point methodsFor: '*algebra' stamp: 'len 2/25/2016 17:01'!
 norm
