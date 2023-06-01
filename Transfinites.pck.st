@@ -1,36 +1,36 @@
-'From Cuis 6.0 [latest update: #5438] on 21 August 2022 at 8:28:50 am'!
+'From Cuis 6.0 [latest update: #5801] on 1 June 2023 at 5:57:34 pm'!
 'Description '!
-!provides: 'Transfinites' 1 3!
-SystemOrganization addCategory: 'Transfinites'!
+!provides: 'Transfinites' 1 4!
+SystemOrganization addCategory: #Transfinites!
 
 
-!classDefinition: #Cardinal category: 'Transfinites'!
+!classDefinition: #Cardinal category: #Transfinites!
 Magnitude subclass: #Cardinal
 	instanceVariableNames: 'order'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Transfinites'!
-!classDefinition: 'Cardinal class' category: 'Transfinites'!
+!classDefinition: 'Cardinal class' category: #Transfinites!
 Cardinal class
 	instanceVariableNames: ''!
 
-!classDefinition: #Infinity category: 'Transfinites'!
+!classDefinition: #Infinity category: #Transfinites!
 Magnitude subclass: #Infinity
 	instanceVariableNames: 'sign'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Transfinites'!
-!classDefinition: 'Infinity class' category: 'Transfinites'!
+!classDefinition: 'Infinity class' category: #Transfinites!
 Infinity class
 	instanceVariableNames: ''!
 
-!classDefinition: #Ordinal category: 'Transfinites'!
+!classDefinition: #Ordinal category: #Transfinites!
 Magnitude subclass: #Ordinal
 	instanceVariableNames: 'terms'
 	classVariableNames: 'Zero'
 	poolDictionaries: ''
 	category: 'Transfinites'!
-!classDefinition: 'Ordinal class' category: 'Transfinites'!
+!classDefinition: 'Ordinal class' category: #Transfinites!
 Ordinal class
 	instanceVariableNames: ''!
 
@@ -241,6 +241,14 @@ isInfinite
 !Infinity methodsFor: 'testing' stamp: 'len 11/19/2015 17:00'!
 isInfinity
 	^ true! !
+
+!Infinity methodsFor: 'testing' stamp: 'len 6/1/2023 14:56:13'!
+isNegativeInfinity
+	^ self negative! !
+
+!Infinity methodsFor: 'testing' stamp: 'len 6/1/2023 14:56:04'!
+isPositiveInfinity
+	^ self positive! !
 
 !Infinity methodsFor: 'testing' stamp: 'len 12/6/2016 13:19:59'!
 isZero
@@ -484,6 +492,14 @@ initialize
 
 !Object methodsFor: '*transfinites' stamp: 'len 11/19/2015 17:01'!
 isInfinity
+	^ false! !
+
+!Object methodsFor: '*transfinites' stamp: 'len 6/1/2023 14:56:31'!
+isNegativeInfinity
+	^ false! !
+
+!Object methodsFor: '*transfinites' stamp: 'len 6/1/2023 14:56:36'!
+isPositiveInfinity
 	^ false! !
 
 !Magnitude methodsFor: '*transfinites' stamp: 'len 10/18/2016 13:58'!
