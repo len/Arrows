@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5597] on 12 May 2023 at 10:29:42 pm'!
+'From Cuis 6.0 [latest update: #5801] on 1 June 2023 at 12:58:48 pm'!
 'Description '!
-!provides: 'Codes' 1 9!
+!provides: 'Codes' 1 10!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Codes!
 
@@ -61,9 +61,9 @@ minimumDistance
 	If the minimum distance is d, the code can correct (d-1)/2 errors."
 	^ self propertyAt: #minimumDistance ifAbsentPut: [self computeMinimumDistance]! !
 
-!LinearCode methodsFor: 'accessing' stamp: 'len 8/10/2020 06:41:49'!
+!LinearCode methodsFor: 'accessing' stamp: 'len 5/31/2023 16:51:14'!
 parityCheckMatrix
-	"Answer a parity check matrix for the receiver. This is a matrix P such that P*x = 0 iff x is a word of the receiver, i.e. the receiver as module is the kernel of a matrix."
+	"Answer a parity check matrix for the receiver. This is a matrix P such that P*x = 0 iff x is a word of the receiver, i.e. the receiver as module is the kernel of the matrix."
 	^ self dual generatorMatrix transpose! !
 
 !LinearCode methodsFor: 'accessing' stamp: 'len 8/3/2020 07:14:56'!
