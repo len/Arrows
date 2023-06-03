@@ -1,27 +1,27 @@
-'From Cuis 6.0 [latest update: #5434] on 5 August 2022 at 9:28:10 am'!
+'From Cuis 6.0 [latest update: #5801] on 3 June 2023 at 9:58:34 pm'!
 'Description '!
-!provides: 'Tests-Transfinites' 1 2!
+!provides: 'Tests-Transfinites' 1 3!
 !requires: 'Transfinites' 1 0 nil!
-SystemOrganization addCategory: 'Tests-Transfinites'!
+SystemOrganization addCategory: #'Tests-Transfinites'!
 
 
-!classDefinition: #InfinityTest category: 'Tests-Transfinites'!
+!classDefinition: #InfinityTest category: #'Tests-Transfinites'!
 TestCase subclass: #InfinityTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Transfinites'!
-!classDefinition: 'InfinityTest class' category: 'Tests-Transfinites'!
+!classDefinition: 'InfinityTest class' category: #'Tests-Transfinites'!
 InfinityTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #OrdinalsTest category: 'Tests-Transfinites'!
+!classDefinition: #OrdinalsTest category: #'Tests-Transfinites'!
 TestCase subclass: #OrdinalsTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Transfinites'!
-!classDefinition: 'OrdinalsTest class' category: 'Tests-Transfinites'!
+!classDefinition: 'OrdinalsTest class' category: #'Tests-Transfinites'!
 OrdinalsTest class
 	instanceVariableNames: ''!
 
@@ -44,12 +44,14 @@ testInfinityUndeterminates
 	self should: [Infinity positive ^ 0] raise: Error
 ! !
 
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 12:03:01'!
+!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 21:20:13'!
+newFiniteOrdinal
+	^ (0 to: 2) atRandom asOrdinal! !
+
+!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 21:20:36'!
 newOrdinal
-	| answer |
-	answer _ (0 to: 2) atRandom asOrdinal.
-	2 atRandom = 1 ifTrue: [answer _ answer exp].
-	^ answer! !
+	2 atRandom = 1 ifTrue: [self newFiniteOrdinal exp].
+	^ self newFiniteOrdinal! !
 
 !OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 12:41:47'!
 testAdditionAssociativity
@@ -135,33 +137,33 @@ testExp2
 	a < b] whileFalse.
 	self assert: a exp + b exp = b exp! !
 
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 12:44:36'!
+!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 21:20:46'!
 testExponentiation
 	| a b c |
-	a _ self newOrdinal.
-	b _ self newOrdinal.
-	c _ self newOrdinal.
+	a := self newOrdinal.
+	b := self newFiniteOrdinal.
+	c := self newFiniteOrdinal.
 	self assert: a^(b*c) = (a^b^c).
 	self assert: a^(b+c) = (a^b * (a^c))! !
 
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 16:01:00'!
+!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 21:20:59'!
 testExponentiationIncreasing
 	"Ordinal exponentiation is strictly increasing in the exponent for bases exceeing 1."
 	| a b c |
-	[a _ self newOrdinal. a > 1 asOrdinal] whileFalse.
-	[b _ self newOrdinal.
-	c _ self newOrdinal.
+	[a := self newOrdinal. a > 1 asOrdinal] whileFalse.
+	[b := self newFiniteOrdinal.
+	c := self newFiniteOrdinal.
 	b < c] whileFalse.
 	self assert: a^b < (a^c)! !
 
-!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 16:02:06'!
+!OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 21:21:09'!
 testExponentiationNondecreasing
 	"Ordinal exponentiation is nondecreasing in the base."
 	| a b c |
-	[a _ self newOrdinal.
-	b _ self newOrdinal.
+	[a := self newOrdinal.
+	b := self newOrdinal.
 	a <= b] whileFalse.
-	c _ self newOrdinal.
+	c := self newFiniteOrdinal.
 	self assert: a^c <= (b^c)! !
 
 !OrdinalsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2021 11:52:34'!

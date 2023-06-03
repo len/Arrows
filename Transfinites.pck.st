@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 1 June 2023 at 5:57:34 pm'!
+'From Cuis 6.0 [latest update: #5801] on 3 June 2023 at 9:58:39 pm'!
 'Description '!
-!provides: 'Transfinites' 1 4!
+!provides: 'Transfinites' 1 5!
 SystemOrganization addCategory: #Transfinites!
 
 
@@ -377,9 +377,9 @@ asOrdinal
 "	(self isFinite and: [anOrdinal isFinite]) ifTrue: [^ (self asInteger + anOrdinal asInteger) asOrdinal].
 	^ self class parts: (self truncatedAt: anOrdinal degree) parts, anOrdinal parts"! !
 
-!Ordinal methodsFor: 'operations' stamp: 'len 12/31/2021 11:27:52'!
+!Ordinal methodsFor: 'operations' stamp: 'len 6/3/2023 21:55:45'!
 ^ anOrdinal
-	anOrdinal isInteger ifTrue: [^ self ^ anOrdinal asOrdinal].
+	anOrdinal isFinite ifTrue: [^ self raisedToInteger: anOrdinal asInteger].
 	self isOmega ifTrue: [^ self class terms: {anOrdinal -> 1}].
 	^ self notYetImplemented! !
 
@@ -409,6 +409,13 @@ exp
 log
 	(terms size = 1 and: [terms first value = 1]) ifTrue: [^ terms first key].
 	^ self notYetImplemented! !
+
+!Ordinal methodsFor: 'operations' stamp: 'len 6/3/2023 21:57:58'!
+raisedToInteger: anInteger
+	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ 1 asOrdinal].
+	anInteger < 0 ifTrue: [^ self error: 'negative exponent'].
+	^ anInteger even ifTrue: [self * self ^ (anInteger // 2)] ifFalse: [self * self ^ (anInteger // 2) * self]! !
 
 !Ordinal methodsFor: 'operations' stamp: 'len 12/31/2021 11:26:52'!
 truncatedAt: anOrdinal
