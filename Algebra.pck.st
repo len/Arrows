@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 4 June 2023 at 9:06:44 pm'!
+'From Cuis 6.0 [latest update: #5801] on 4 June 2023 at 11:57:09 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -69,7 +69,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 89!
+!provides: 'Algebra' 1 90!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -2745,7 +2745,7 @@ Cyclotomic fields, i.e. number fields obtained by adjoining a complex primitive 
 Quadratic number fields, i.e. number fields with defining quadratic polynomial of the form x^2 - d, with d a squarefree integer.!
 
 !GaussianField commentStamp: '<historical>' prior: 0!
-The field of Gaussian numbers ℚ[i]. See GaussianRing.!
+The field of Gaussian rationals ℚ[i]. This is the same as the cyclotomic field of order 4. See GaussianRing.!
 
 !ComplexField commentStamp: '<historical>' prior: 0!
 The singletion global instance ℂ is the field of complex numbers. This is an approximate field, it's the the actual complex numbers but floating point approximations.!
@@ -2789,7 +2789,7 @@ Rings of integers of global fields (i.e. maximal orders). They are the integral 
 Rings of integers of cyclotomic number fields. See CyclotomicField.!
 
 !EisensteinRing commentStamp: '<historical>' prior: 0!
-The ring of Eisenstein integers, ℤ[ω]. This is the ring of integers of the cyclotomic field of order 3 defined by the polynomial ω² + ω + 1.!
+The ring of Eisenstein (or Eulerian) integers, ℤ[ω]. This is the ring of integers of the cyclotomic field of order 3 defined by the polynomial ω² + ω + 1.!
 
 !QuadraticRing commentStamp: '<historical>' prior: 0!
 Rings of integers of quadratic number fields. See QuadraticField.!
@@ -12670,11 +12670,16 @@ maximalIdeal
 p
 	^ self scalars p! !
 
-!GaloisRing methodsFor: 'accessing' stamp: 'len 5/12/2023 21:08:44'!
+!GaloisRing methodsFor: 'accessing' stamp: 'len 6/4/2023 23:31:40'!
 primitiveRoot
 	"Answer a primitive root (or basic primitive element) of the receiver.
-	For GR(p^n,r), a basic primitive element is an element of multiplicative order p^r - 1, which is a root of a basic primitive polynomial of degree r over ℤ/(p^n)ℤ and dividing x^(p^r - 1) - 1 in ℤ/(p^n)ℤ[x]. Powers of this element form a Teichmuller set."
-	^ self notYetImplemented! !
+	For GR(p^n,r), a basic primitive element is an element of multiplicative order p^r - 1, which is a root of a basic primitive polynomial of degree r over ℤ/(p^n)ℤ and dividing x^(p^r - 1) - 1 in ℤ/(p^n)ℤ[x]. Powers of this element form a Teichmuller set.
+	For a Galois field GF(q) with q = p^r, this is a primitive (q-1)-th root of unity."
+	| order |
+	self propertyAt: #primitiveRoot ifPresent: [:anElement| ^ anElement].
+	order := self p ^ self degree - 1.
+	self x multiplicativeOrder = order ifTrue: [^ self propertyAt: #primitiveRoot put: self x].
+	^ self propertyAt: #primitiveRoot put: (self units detect: [:one| one multiplicativeOrder = order])! !
 
 !GaloisRing methodsFor: 'accessing' stamp: 'len 10/5/2022 18:34:07'!
 residueField
@@ -12682,16 +12687,26 @@ residueField
 	^ self propertyAt: #residueField ifAbsentPut:
 		[GaloisField modulus: (self modulus apply: self scalars → self scalars residueField)]! !
 
-!GaloisRing methodsFor: 'accessing' stamp: 'len 5/7/2023 14:06:19'!
+!GaloisRing methodsFor: 'accessing' stamp: 'len 6/4/2023 23:42:17'!
 teichmuller
 	"Answer a Teichmuller set of the receiver.
-	Any element of GR(p^n,r) can be written as a polynomial in p with coefficients in the Teichmuller set."
-	| answer ω |
-	answer _ OrderedCollection new: self characteristic.
-	answer add: self zero; add: self one.
-	ω _ self primitiveRoot.
-	self characteristic - 2 timesRepeat: [answer add: answer last * ω].
-	^ answer! !
+	Any element of GR(p^n,r) can be written uniquely as a polynomial in p with coefficients in the Teichmuller set, and this is called the 'p-adic representation'."
+	| T ξ |
+	self propertyAt: #teichmullerSet ifPresent: [:anArray| ^ anArray].
+	T := OrderedCollection new: self characteristic.
+	T add: self zero; add: self one.
+	ξ := self primitiveRoot.
+	self characteristic - 2 timesRepeat: [T add: T last * ξ].
+	^ self propertyAt: #teichmullerSet put: T asArray! !
+
+!GaloisRing methodsFor: 'accessing' stamp: 'len 6/4/2023 23:22:09'!
+unitsSize
+	"The group of units of GR(p^n,r) is the direct product G₁ × G₂, with G₁ the group of (p^r - 1)-th roots of unity, and G₂ a cyclic group of order p^r - 1."
+	| p n r |
+	p := self p.
+	n := self exponent.
+	r := self degree.
+	^ p ^ r - 1 * (p ^ (n - 1 * r))! !
 
 !GaloisRing methodsFor: 'enumerating' stamp: 'len 10/9/2022 09:02:38'!
 idealsDo: aBlock
@@ -12825,14 +12840,6 @@ new: p to: n to: m
 !GaloisRing class methodsFor: 'private' stamp: 'len 5/12/2023 16:39:56'!
 irreduciblePolynomialOfDegree: r mod: p
 	^ (IrreduciblePolynomialsCache at: {p. r} ifAbsent: []) ifNil: [IrreduciblePolynomialsCache at: {p. r} put: ((PrimeField new: p) polynomials findIrreducibleOfDegree: r)]! !
-
-!GaloisField methodsFor: 'accessing' stamp: 'len 5/12/2023 21:02:56'!
-primitiveRoot
-	"Answer a generator of the group of units.
-	For a Galois field GF(q), this is a primitive (q-1)-th root of unity."
-	self propertyAt: #primitiveRoot ifPresent: [:anElement| ^ anElement].
-	self x isPrimitiveRoot ifTrue: [^ self propertyAt: #primitiveRoot put: self x].
-	^ self propertyAt: #primitiveRoot put: (self units detect: [:one| one isPrimitiveRoot])! !
 
 !GaloisField methodsFor: 'accessing' stamp: 'len 5/9/2022 11:18:24'!
 residueField
@@ -13349,6 +13356,11 @@ new: anInteger
 	(d = 0 or: [d = 1]) ifTrue: [DomainError signal: 'not a quadratic field'].
 	P := ℚ polynomialsIn: {d = -1 ifTrue: ['i' italic] ifFalse: ['√', d printString]}.
 	^ self modulus: P x squared - d! !
+
+!GaussianField methodsFor: 'accessing' stamp: 'len 6/4/2023 23:06:46'!
+conductor
+	"The field of Gaussian rationals is the same as the cyclotomic field of order 4."
+	^ 4! !
 
 !GaussianField methodsFor: 'accessing' stamp: 'len 1/4/2022 14:59:24'!
 integers
@@ -31148,6 +31160,12 @@ valuation
 isNilpotent
 	"Answer true if self^n = 0 for some integer n >= 1."
 	^ self isZeroDivisor! !
+
+!GaloisRingElement methodsFor: 'testing' stamp: 'len 6/4/2023 23:28:20'!
+isPrimitiveRoot
+	"Answer true if the receiver is a generator of the group of units.
+	For a Galois ring GR(p^n,r), this is a primitive (p^r - 1)-th root of unity."
+	^ self isUnit and: [self multiplicativeOrder = (self parent p ^ self parent degree - 1)]! !
 
 !GaloisRingElement methodsFor: 'testing' stamp: 'len 5/7/2022 07:38:36'!
 isUnit

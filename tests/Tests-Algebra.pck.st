@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 4 June 2023 at 2:58:59 pm'!
+'From Cuis 6.0 [latest update: #5801] on 4 June 2023 at 11:57:18 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 57!
+!provides: 'Tests-Algebra' 1 58!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -71,26 +71,6 @@ TestCase subclass: #CommutativeAlgebraTest
 CommutativeAlgebraTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupTest category: #'Tests-Algebra'!
-TestCase subclass: #GroupTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'GroupTest class' category: #'Tests-Algebra'!
-GroupTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #LinearGroupsTest category: #'Tests-Algebra'!
-TestCase subclass: #LinearGroupsTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'LinearGroupsTest class' category: #'Tests-Algebra'!
-LinearGroupsTest class
-	instanceVariableNames: ''!
-
 !classDefinition: #MathematicsTest category: #'Tests-Algebra'!
 TestCase subclass: #MathematicsTest
 	instanceVariableNames: ''
@@ -131,16 +111,6 @@ TestCase subclass: #PolynomialTest
 PolynomialTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuadraticFormTest category: #'Tests-Algebra'!
-TestCase subclass: #QuadraticFormTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'QuadraticFormTest class' category: #'Tests-Algebra'!
-QuadraticFormTest class
-	instanceVariableNames: ''!
-
 !classDefinition: #RandomizedTestCase category: #'Tests-Algebra'!
 TestCase subclass: #RandomizedTestCase
 	instanceVariableNames: 'seed random'
@@ -149,6 +119,36 @@ TestCase subclass: #RandomizedTestCase
 	category: 'Tests-Algebra'!
 !classDefinition: 'RandomizedTestCase class' category: #'Tests-Algebra'!
 RandomizedTestCase class
+	instanceVariableNames: ''!
+
+!classDefinition: #GroupTest category: #'Tests-Algebra'!
+RandomizedTestCase subclass: #GroupTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'GroupTest class' category: #'Tests-Algebra'!
+GroupTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #LinearGroupsTest category: #'Tests-Algebra'!
+RandomizedTestCase subclass: #LinearGroupsTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'LinearGroupsTest class' category: #'Tests-Algebra'!
+LinearGroupsTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #QuadraticFormTest category: #'Tests-Algebra'!
+RandomizedTestCase subclass: #QuadraticFormTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'QuadraticFormTest class' category: #'Tests-Algebra'!
+QuadraticFormTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #AbstractRingTest category: #'Tests-Algebra-Rings'!
@@ -4555,304 +4555,6 @@ testPolynomialsWithWeightedDegrees
 	I _ P * {x^2*y + z. (x^4 + z)^2. y^2 + z}.
 	self assert: I isHomogeneous! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 4/1/2021 12:19:16'!
-smallGroupAtRandom
-	^ {[SymmetricGroup new: 3].
-	[AlternatingGroup new: 3].
-	[PermutationGroup klein].
-	[LinearGroup klein]} atRandom value! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 2/1/2018 23:02:45'!
-testActionOrbitOf
-	| G |
-	G _ PermutationGroup on: (1 to: 8) generators: {#((1 3 2) (4 6 5)). #((1 2 3) (4 5 6)). #((7 8))}.
-	self assert: (G action orbitOf: 1) = #(1 2 3) asSet.
-	self assert: (G action orbitOf: 4) = #(4 6 5) asSet.
-	self assert: (G action orbitOf: 7) = #(7 8) asSet! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 2/1/2018 23:04:44'!
-testActionStabilizerOf
-	| G g1 g2 g3 id H |
-	G _ SymmetricGroup new: 8.
-	g1 _ G !! #((1 3 2) (4 6 5)).
-	g2 _ G !! #((1 2 3) (4 5 6)).
-	g3 _ G !! #((7 8)).
-	id _ G identity.
-	H _ G span: {g1. g2. g3}.
-	self assert: (H action stabilizerOf: 1) asSet = {id. g3} asSet.
-	self assert: (H action stabilizerOf: 7) asSet = {id. g1. g2} asSet! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 4/25/2020 08:59:32'!
-testAlternatingIsSymmetricCommutator
-	| S A |
-	S _ SymmetricGroup new: 3.
-	A _ S alternatingSubgroup.
-	self assert: A = S commutator.
-	self assert: (S indexOf: A) = 2! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2020 15:40:39'!
-testAlternatingOrder
-	| A |
-	A _ AlternatingGroup new: 3.
-	self assert: A size = (3 factorial / 2)! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2020 15:40:46'!
-testBigOrder1
-	"Test fast computation of group order with Schreier-Sims algorithm.
-	This is Sym(10), with order 10!!."
-	| G |
-	G _ PermutationGroup new: 10 generators: {#((1 2)). #(10 1 2 3 4 5 6 7 8 9)}.
-	self assert: G size = 10 factorial! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2020 15:40:52'!
-testBigOrder2
-	"Test fast computation of group order with Schreier-Sims algorithm.
-	This is the Mathieu group on 12 points, the second smallest of the 26 sporadic simple groups, with order 95040."
-	self assert: PermutationGroup M12 size = 95040! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/14/2022 08:40:37'!
-testCauchyFrobeniusLemma
-	"Also called Brunside's lemma, Burnside counting theorem, or orbit-counting theorem."
-	| X G φ sum |
-	X _ 1 to: 3.
-	G _ AlternatingGroup on: X.
-	φ _ GroupAction from: (G, X) to: X mapWithArguments: [:f :x| f value: x].
-	sum _ G sum: [:g| (φ fixedPointsOf: g) size].
-	self assert: φ orbits size * G size = sum! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 1/28/2018 08:37:03'!
-testConjugacyClasses
-	"From wikipedia article on conjugacy classes."
-	self assert: (SymmetricGroup new: 3) conjugacyClasses size = 3.
-	self assert: (SymmetricGroup new: 4) conjugacyClasses size = 5! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 10:04'!
-testD3
-	| D S A |
-	D _ PermutationGroup dihedral: 2*3.
-	self testGroup: D.
-	S _ SymmetricGroup new: 3.
-	self assert: D = S.
-	A _ AlternatingGroup new: 3.
-	self assert: D commutator = A.
-	self assert: D center isTrivial! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 16:56:53'!
-testDirectProduct
-	| S A G g |
-	S _ self smallGroupAtRandom.
-	A _ self smallGroupAtRandom.
-	G _ S × A.
-	g _ G atRandom.
-	self assert: g · g inverse = G identity.
-	self testGroup: G.
-	G ⇇ (S, A) do: [:each| self testGroupHomomorphism: each].
-	G ⇉ (S, A) do: [:each| self testGroupHomomorphism: each]! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 5/5/2019 18:14:45'!
-testGroup: G
-	| e a b c |
-	e _ G identity.
-	a _ G atRandomBits: 100.
-	b _ G atRandomBits: 100.
-	c _ G atRandomBits: 100.
-	self assert: e · a = a.
-	self assert: a · e = a.
-	self assert: a · a inverse = e.
-	self assert: a inverse · a = e.
-	self assert: (a · b) · c = (a · (b · c))! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/14/2022 08:40:53'!
-testGroupAction: φ
-	| G X e g h x |
-	G _ φ group.
-	X _ φ space.
-	e _ G identity.
-	g _ G atRandomBits: 100.
-	h _ G atRandomBits: 100.
-	x _ X atRandomBits: 100.
-	self assert: (φ value: {e. x}) = x.
-	self assert: (φ value: {g. φ value: {h. x}}) = (φ value: {g · h. x})! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 7/14/2020 18:17:25'!
-testGroupAlgebra
-	| G R a b c xa xb xc |
-	G _ self smallGroupAtRandom.
-	R _ G groupAlgebra.
-	a _ G atRandom.
-	b _ G atRandom.
-	c _ G atRandom.
-	xa _ R !! a.
-	xb _ R !! b.
-	xc _ R !! c.
-	self assert: xa*xb = (R !! (a·b)).
-	self assert: xa*2 + xb*xc - (xa*xc) - (xb*xc) = (R !! (a·c)).
-	self assert: (xa + xb) * (xa - xb) = (xa^2 - (xb^2) + (xb*xa) - (xa*xb))! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 7/14/2020 18:17:49'!
-testGroupAlgebraIsARing
-	| G R a a2 b b2 c c2 e e2 |
-	G _ self smallGroupAtRandom.
-	R _ G groupAlgebra.
-	e _ G identity.
-	a _ G atRandom.
-	b _ G atRandom.
-	c _ G atRandom.
-	e2 _ R !! e.
-	a2 _ R !! a.
-	b2 _ R !! b.
-	c2 _ R !! c.
-	self assert: e2 = R one.
-	self assert: e2 * a2 = a2.
-	self assert: a2 * e2 = a2.
-	self assert: (a2 * b2 * c2) = (a2 * (b2 * c2)).
-	G isCommutative ifTrue: [self assert: a2 * b2 = (b2 * a2)].! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/14/2022 08:41:15'!
-testGroupHomomorphism: φ
-	| G H a b |
-	G _ φ domain.
-	H _ φ codomain.
-	a _ G atRandomBits: 100.
-	b _ G atRandomBits: 100.
-	self assert: (φ value: G identity) = H identity.
-	self assert: (φ value: a · b) = ((φ value: a) · (φ value: b))! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/11/2022 10:40:06'!
-testHessian
-	| H |
-	H _ PermutationGroup hessian.
-	self assert: H size = 216.
-	self testGroup: H! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 4/30/2019 11:51:16'!
-testIsSolvable
-	| G |
-	G _ SymmetricGroup new: 3.
-	self assert: G isSolvable! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 4/30/2019 11:52:58'!
-testIsSolvableNot
-	| G |
-	G _ AlternatingGroup new: 5.
-	self assert: G isSolvable not! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2020 06:38:34'!
-testKleinFour
-	| V S A |
-	V _ PermutationGroup klein.
-	self testGroup: V.
-	S _ V ambient.
-	self assert: (V isNormalIn: S).
-	A _ S commutator.
-	self assert: (V isNormalIn: A)! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2020 15:41:07'!
-testLagrangeTheorem
-	"G finite group, H subgroup of G, then |H| divides |G|."
-	| G H |
-	G _ self smallGroupAtRandom.
-	H _ G span: ((1 to: 3 atRandom) collect: [:i| G atRandom]) asSet.
-	self assert: H size | G size! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:34:55'!
-testModularIntegersUnits
-	| m R U |
-	m _ (2 to: 100) atRandom.
-	R _ ℤ / m.
-	U _ R units.
-	self assert: U size = (Sequence phi value: m).
-	self testGroup: U! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/14/2022 08:41:34'!
-testOrbitStabilizerTheorem
-	| X G φ p |
-	X _ 1 to: 4.
-	G _ AlternatingGroup on: X.
-	φ _ GroupAction from: (G, X) to: X mapWithArguments: [:f :x| f value: x].
-	p _ X atRandom.
-	self assert: (φ stabilizerOf: p) size * (φ orbitOf: p) size = G size! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 1/30/2018 21:34:39'!
-testPermutationGroupAction
-	self testGroupAction: (SymmetricGroup new: 10) action.
-	self testGroupAction: (PermutationGroup cyclic: 15) action! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 20:31:57'!
-testPermutationGroupHomomorphism1
-	"Magma Handbook, Example H62E2."
-	| C15 A15 f |
-	C15 := PermutationGroup cyclic: 15.
-	A15 := (ℤ/15) asAbelianGroup.
-	f := C15 to: A15 images: (C15 generators collect: [:each| A15 generator * 11]).
-	self assert: A15 = f image.
-	self assert: A15 = (C15 apply: f).
-	C15 do: [:c|
-		C15 do: [:d|
-			self assert: (f value: c) + (f value: d) = (f value: c*d)]]! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 07:38:30'!
-testPermutationGroupHomomorphism2
-	"Magma Handbook, Example H62E2."
-	| C15 h im |
-	C15 _ PermutationGroup cyclic: 15.
-	h _ C15 to: C15 map: [:g| g ^ 3].
-	im _ h image.
-	self assert: im space size = 15. "a permutation group acting on a set of cardinality 15"
-	self assert: im size = 5. "of order 5"
-	self assert: im isCyclic! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2020 15:41:22'!
-testSymmetricOrder
-	| G |
-	G _ SymmetricGroup new: 4.
-	self assert: G size = 4 factorial! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/14/2016 08:35'!
-testTrivial
-	| G |
-	G _ PermutationGroup new: 4 generators: #().
-	self assert: G size = 1.
-	self assert: G isTrivial! !
-
-!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
-testGeneralLinearAtRandom
-	| V G |
-	V _ ℚ ^ 3.
-	G _ V automorphisms.
-	self assert: (G atRandomBits: 100) isAutomorphism.
-	self assert: (G includes: (G atRandomBits: 100))! !
-
-!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 7/28/2020 09:37:01'!
-testOrthogonalAtRandom
-	| V O |
-	V _ ℚ ^ 3.
-	O _ V innerProduct automorphisms.
-	self assert: (O atRandomBits: 100) isOrthogonal.
-	self assert: (O includes: (O atRandomBits: 100))! !
-
-!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 4/1/2021 12:19:16'!
-testRotationsBy90Degrees
-	"Group of rotations by 90 degrees in the plane, isomorphic to Z/4Z."
-	| V G |
-	V _ ℚ ^ 2.
-	G _ LinearGroup on: V generators: {V endomorphisms elementAt: (0, 1, -1, 0)}.
-	self assert: G size = 4.
-	self assert: G isCyclic.
-	self flag: #todo.
-	"test invariant ring K[x,y]^G = K[x^2+y^2, x^2y^2, x^3y-xy^3], isomorphic to K[a,b,c]/<c^2-a^2b+4b^2>"
-	"test hilbert series is 1-z^8 / ((1-z^2)^2(1-z^4)) = 1 + z^2 + 3z^4 + 3z^6 + ..."! !
-
-!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 12:05:15'!
-testSpecialLinearAtRandom
-	| V G g |
-	V _ ℚ ^ 3.
-	G _ V automorphisms special.
-	g _ G atRandomBits: 100.
-	self assert: g isAutomorphism.
-	g determinant = V scalars one.
-	self assert: (G includes: g)! !
-
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
 testAlgebraicExtension
 	| x E a b |
@@ -6229,34 +5931,359 @@ testCyclotomicFieldRoots
 	f _ roots product: [:α| x - α].
 	self assert: f allRoots = roots asBag! !
 
-!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2018 15:13:47'!
-newQuadraticForm
-	^ self newQuadraticForm: (2 to: 5) atRandom! !
+!RandomizedTestCase methodsFor: 'debugging' stamp: 'len 5/25/2023 23:58:23'!
+debugInstance
+	^ super debugInstance setSeed: seed! !
 
-!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
+!RandomizedTestCase methodsFor: 'setUp/tearDown' stamp: 'len 5/26/2023 00:49:17'!
+setUp
+	super setUp.
+	random := Random seed: (seed bitXor: testSelector hash)! !
+
+!RandomizedTestCase methodsFor: 'setUp/tearDown' stamp: 'len 4/20/2021 06:56:32'!
+tearDown
+	super tearDown.
+	random _ nil! !
+
+!RandomizedTestCase methodsFor: 'private' stamp: 'len 5/20/2023 16:45:01'!
+initialize
+	super initialize.
+	seed := 16rFFFFFFFF atRandom! !
+
+!RandomizedTestCase methodsFor: 'private' stamp: 'len 5/25/2023 07:44:41'!
+setSeed: anInteger
+	seed := anInteger! !
+
+!RandomizedTestCase class methodsFor: 'testing' stamp: 'len 5/25/2023 07:43:42'!
+isAbstract
+	^ thisContext methodClass == self class or: [self name beginsWith: 'Abstract']! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:11:58'!
+smallGroupAtRandom
+	^ ({[SymmetricGroup new: 3].
+	[AlternatingGroup new: 3].
+	[PermutationGroup klein].
+	[LinearGroup klein]} atRandom: random) value! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 2/1/2018 23:02:45'!
+testActionOrbitOf
+	| G |
+	G _ PermutationGroup on: (1 to: 8) generators: {#((1 3 2) (4 6 5)). #((1 2 3) (4 5 6)). #((7 8))}.
+	self assert: (G action orbitOf: 1) = #(1 2 3) asSet.
+	self assert: (G action orbitOf: 4) = #(4 6 5) asSet.
+	self assert: (G action orbitOf: 7) = #(7 8) asSet! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 2/1/2018 23:04:44'!
+testActionStabilizerOf
+	| G g1 g2 g3 id H |
+	G _ SymmetricGroup new: 8.
+	g1 _ G !! #((1 3 2) (4 6 5)).
+	g2 _ G !! #((1 2 3) (4 5 6)).
+	g3 _ G !! #((7 8)).
+	id _ G identity.
+	H _ G span: {g1. g2. g3}.
+	self assert: (H action stabilizerOf: 1) asSet = {id. g3} asSet.
+	self assert: (H action stabilizerOf: 7) asSet = {id. g1. g2} asSet! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 4/25/2020 08:59:32'!
+testAlternatingIsSymmetricCommutator
+	| S A |
+	S _ SymmetricGroup new: 3.
+	A _ S alternatingSubgroup.
+	self assert: A = S commutator.
+	self assert: (S indexOf: A) = 2! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2020 15:40:39'!
+testAlternatingOrder
+	| A |
+	A _ AlternatingGroup new: 3.
+	self assert: A size = (3 factorial / 2)! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2020 15:40:46'!
+testBigOrder1
+	"Test fast computation of group order with Schreier-Sims algorithm.
+	This is Sym(10), with order 10!!."
+	| G |
+	G _ PermutationGroup new: 10 generators: {#((1 2)). #(10 1 2 3 4 5 6 7 8 9)}.
+	self assert: G size = 10 factorial! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2020 15:40:52'!
+testBigOrder2
+	"Test fast computation of group order with Schreier-Sims algorithm.
+	This is the Mathieu group on 12 points, the second smallest of the 26 sporadic simple groups, with order 95040."
+	self assert: PermutationGroup M12 size = 95040! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/14/2022 08:40:37'!
+testCauchyFrobeniusLemma
+	"Also called Brunside's lemma, Burnside counting theorem, or orbit-counting theorem."
+	| X G φ sum |
+	X _ 1 to: 3.
+	G _ AlternatingGroup on: X.
+	φ _ GroupAction from: (G, X) to: X mapWithArguments: [:f :x| f value: x].
+	sum _ G sum: [:g| (φ fixedPointsOf: g) size].
+	self assert: φ orbits size * G size = sum! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 1/28/2018 08:37:03'!
+testConjugacyClasses
+	"From wikipedia article on conjugacy classes."
+	self assert: (SymmetricGroup new: 3) conjugacyClasses size = 3.
+	self assert: (SymmetricGroup new: 4) conjugacyClasses size = 5! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2016 10:04'!
+testD3
+	| D S A |
+	D _ PermutationGroup dihedral: 2*3.
+	self testGroup: D.
+	S _ SymmetricGroup new: 3.
+	self assert: D = S.
+	A _ AlternatingGroup new: 3.
+	self assert: D commutator = A.
+	self assert: D center isTrivial! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:12:39'!
+testDirectProduct
+	| S A G g |
+	S := self smallGroupAtRandom.
+	A := self smallGroupAtRandom.
+	G := S × A.
+	g := G atRandom: random.
+	self assert: g · g inverse = G identity.
+	self testGroup: G.
+	G ⇇ (S, A) do: [:each| self testGroupHomomorphism: each].
+	G ⇉ (S, A) do: [:each| self testGroupHomomorphism: each]! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:13:01'!
+testGroup: G
+	| e a b c |
+	e := G identity.
+	a := G atRandom: random bits: 100.
+	b := G atRandom: random bits: 100.
+	c := G atRandom: random bits: 100.
+	self assert: e · a = a.
+	self assert: a · e = a.
+	self assert: a · a inverse = e.
+	self assert: a inverse · a = e.
+	self assert: (a · b) · c = (a · (b · c))! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:13:26'!
+testGroupAction: φ
+	| G X e g h x |
+	G := φ group.
+	X := φ space.
+	e := G identity.
+	g := G atRandom: random bits: 100.
+	h := G atRandom: random bits: 100.
+	x := X atRandom: random bits: 100.
+	self assert: (φ value: {e. x}) = x.
+	self assert: (φ value: {g. φ value: {h. x}}) = (φ value: {g · h. x})! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:13:41'!
+testGroupAlgebra
+	| G R a b c xa xb xc |
+	G := self smallGroupAtRandom.
+	R := G groupAlgebra.
+	a := G atRandom: random.
+	b := G atRandom: random.
+	c := G atRandom: random.
+	xa := R !! a.
+	xb := R !! b.
+	xc := R !! c.
+	self assert: xa*xb = (R !! (a·b)).
+	self assert: xa*2 + xb*xc - (xa*xc) - (xb*xc) = (R !! (a·c)).
+	self assert: (xa + xb) * (xa - xb) = (xa^2 - (xb^2) + (xb*xa) - (xa*xb))! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:14:15'!
+testGroupAlgebraIsARing
+	| G R a a2 b b2 c c2 e e2 |
+	G := self smallGroupAtRandom.
+	R := G groupAlgebra.
+	e := G identity.
+	a := G atRandom: random.
+	b := G atRandom: random.
+	c := G atRandom: random.
+	e2 := R !! e.
+	a2 := R !! a.
+	b2 := R !! b.
+	c2 := R !! c.
+	self assert: e2 = R one.
+	self assert: e2 * a2 = a2.
+	self assert: a2 * e2 = a2.
+	self assert: (a2 * b2 * c2) = (a2 * (b2 * c2)).
+	G isCommutative ifTrue: [self assert: a2 * b2 = (b2 * a2)].! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:14:38'!
+testGroupHomomorphism: φ
+	| G H a b |
+	G := φ domain.
+	H := φ codomain.
+	a := G atRandom: random bits: 100.
+	b := G atRandom: random bits: 100.
+	self assert: (φ value: G identity) = H identity.
+	self assert: (φ value: a · b) = ((φ value: a) · (φ value: b))! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/11/2022 10:40:06'!
+testHessian
+	| H |
+	H _ PermutationGroup hessian.
+	self assert: H size = 216.
+	self testGroup: H! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 4/30/2019 11:51:16'!
+testIsSolvable
+	| G |
+	G _ SymmetricGroup new: 3.
+	self assert: G isSolvable! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 4/30/2019 11:52:58'!
+testIsSolvableNot
+	| G |
+	G _ AlternatingGroup new: 5.
+	self assert: G isSolvable not! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2020 06:38:34'!
+testKleinFour
+	| V S A |
+	V _ PermutationGroup klein.
+	self testGroup: V.
+	S _ V ambient.
+	self assert: (V isNormalIn: S).
+	A _ S commutator.
+	self assert: (V isNormalIn: A)! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:15:17'!
+testLagrangeTheorem
+	"G finite group, H subgroup of G, then |H| divides |G|."
+	| G H |
+	G := self smallGroupAtRandom.
+	H := G span: ((1 to: (3 atRandom: random)) collect: [:i| G atRandom: random]) asSet.
+	self assert: H size | G size! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:15:25'!
+testModularIntegersUnits
+	| m R U |
+	m := (2 to: 100) atRandom: random.
+	R := ℤ / m.
+	U := R units.
+	self assert: U size = (Sequence phi value: m).
+	self testGroup: U! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:15:32'!
+testOrbitStabilizerTheorem
+	| X G φ p |
+	X := 1 to: 4.
+	G := AlternatingGroup on: X.
+	φ := GroupAction from: (G, X) to: X mapWithArguments: [:f :x| f value: x].
+	p := X atRandom: random.
+	self assert: (φ stabilizerOf: p) size * (φ orbitOf: p) size = G size! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 1/30/2018 21:34:39'!
+testPermutationGroupAction
+	self testGroupAction: (SymmetricGroup new: 10) action.
+	self testGroupAction: (PermutationGroup cyclic: 15) action! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 20:31:57'!
+testPermutationGroupHomomorphism1
+	"Magma Handbook, Example H62E2."
+	| C15 A15 f |
+	C15 := PermutationGroup cyclic: 15.
+	A15 := (ℤ/15) asAbelianGroup.
+	f := C15 to: A15 images: (C15 generators collect: [:each| A15 generator * 11]).
+	self assert: A15 = f image.
+	self assert: A15 = (C15 apply: f).
+	C15 do: [:c|
+		C15 do: [:d|
+			self assert: (f value: c) + (f value: d) = (f value: c*d)]]! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 07:38:30'!
+testPermutationGroupHomomorphism2
+	"Magma Handbook, Example H62E2."
+	| C15 h im |
+	C15 _ PermutationGroup cyclic: 15.
+	h _ C15 to: C15 map: [:g| g ^ 3].
+	im _ h image.
+	self assert: im space size = 15. "a permutation group acting on a set of cardinality 15"
+	self assert: im size = 5. "of order 5"
+	self assert: im isCyclic! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2020 15:41:22'!
+testSymmetricOrder
+	| G |
+	G _ SymmetricGroup new: 4.
+	self assert: G size = 4 factorial! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/14/2016 08:35'!
+testTrivial
+	| G |
+	G _ PermutationGroup new: 4 generators: #().
+	self assert: G size = 1.
+	self assert: G isTrivial! !
+
+!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:24:06'!
+testGeneralLinearAtRandom
+	| V G |
+	V := ℚ ^ 3.
+	G := V automorphisms.
+	self assert: (G atRandom: random bits: 100) isAutomorphism.
+	self assert: (G includes: (G atRandom: random bits: 100))! !
+
+!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:24:16'!
+testOrthogonalAtRandom
+	| V O |
+	V := ℚ ^ 3.
+	O := V innerProduct automorphisms.
+	self assert: (O atRandom: random bits: 100) isOrthogonal.
+	self assert: (O includes: (O atRandom: random bits: 100))! !
+
+!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 4/1/2021 12:19:16'!
+testRotationsBy90Degrees
+	"Group of rotations by 90 degrees in the plane, isomorphic to Z/4Z."
+	| V G |
+	V _ ℚ ^ 2.
+	G _ LinearGroup on: V generators: {V endomorphisms elementAt: (0, 1, -1, 0)}.
+	self assert: G size = 4.
+	self assert: G isCyclic.
+	self flag: #todo.
+	"test invariant ring K[x,y]^G = K[x^2+y^2, x^2y^2, x^3y-xy^3], isomorphic to K[a,b,c]/<c^2-a^2b+4b^2>"
+	"test hilbert series is 1-z^8 / ((1-z^2)^2(1-z^4)) = 1 + z^2 + 3z^4 + 3z^6 + ..."! !
+
+!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 12:05:15'!
+testSpecialLinearAtRandom
+	| V G g |
+	V _ ℚ ^ 3.
+	G _ V automorphisms special.
+	g _ G atRandomBits: 100.
+	self assert: g isAutomorphism.
+	g determinant = V scalars one.
+	self assert: (G includes: g)! !
+
+!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:24:50'!
+newQuadraticForm
+	^ self newQuadraticForm: ((2 to: 5) atRandom: random)! !
+
+!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:25:01'!
 newQuadraticForm: n
 	| V |
-	V _ ℚ^n.
-	^ QuadraticForm from: V coefficients: (ℚ^(n + 1 * n / 2) atRandomBits: 100)! !
+	V := ℚ^n.
+	^ QuadraticForm from: V coefficients: (ℚ^(n + 1 * n / 2) atRandom: random bits: 100)! !
 
-!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
+!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:25:19'!
 testArithmetic
 	| n Q1 Q2 p a |
-	n _ (1 to: 5) atRandom.
-	Q1 _ self newQuadraticForm: n.
-	Q2 _ self newQuadraticForm: n.
-	p _ Q1 domain atRandomBits: 100.
-	a _ ℚ atRandomBits: 100.
+	n := (1 to: 5) atRandom: random.
+	Q1 := self newQuadraticForm: n.
+	Q2 := self newQuadraticForm: n.
+	p := Q1 domain atRandom: random bits: 100.
+	a := ℚ atRandom: random bits: 100.
 	self assert: (Q1 value: p) + (Q2 value: p) = (Q1 + Q2 value: p).
 	self assert: (Q1 * a value: p) = ((Q1 value: p) * a).
 	self assert: Q1 + Q2 + Q2 negated = Q1! !
 
-!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 3/27/2018 23:52:45'!
+!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:25:26'!
 testAsPolynomial
 	| Q f p |
-	Q _ self newQuadraticForm.
-	f _ Q asPolynomial.
-	p _ Q domain atRandomBits: 100.
+	Q := self newQuadraticForm.
+	f := Q asPolynomial.
+	p := Q domain atRandom: random bits: 100.
 	self assert: (Q value: p) = (f value: p).
 	self assert: (f degree = 2 and: [f isHomogeneous])! !
 
@@ -6285,15 +6312,15 @@ testAssociatedBilinearForm2
 	self assert: (B value: {(1,1). (1/2,2)}) = (19/4).
 	self assert: B depolarization = Q! !
 
-!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 7/26/2022 13:44:33'!
+!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:25:44'!
 testDiscriminant
 	"Test the discriminant of a binary quadratic form matches the definition in Magma."
 	| a b c f Q |
-	a _ (-10 to: 10) atRandom.
-	b _ (-10 to: 10) atRandom.
-	c _ (-10 to: 10) atRandom.
-	f _ (ℚ polynomialsIn: #(x y)) !! [:x :y| x^2*a + (x*y*b) + (y^2*c)].
-	Q _ f asQuadraticForm.
+	a := (-10 to: 10) atRandom: random.
+	b := (-10 to: 10) atRandom: random.
+	c := (-10 to: 10) atRandom: random.
+	f := (ℚ polynomialsIn: #(x y)) !! [:x :y| x^2*a + (x*y*b) + (y^2*c)].
+	Q := f asQuadraticForm.
 	self assert: Q discriminant = (b^2 - (4*a*c))! !
 
 !QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
@@ -6305,16 +6332,16 @@ testEvaluation
 	self assert: (Q value: (1,0,0)) = 0.
 	self assert: (Q value: (1,1,1)) = 15! !
 
-!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:27:43'!
+!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:25:58'!
 testExternalOrthogonalSum
 	| Q1 Q2 S v1 v2 embeddings w |
-	Q1 _ self newQuadraticForm.
-	Q2 _ self newQuadraticForm.
-	S _ Q1 ⊕ Q2.
-	v1 _ Q1 domain atRandomBits: 100.
-	v2 _ Q2 domain atRandomBits: 100.
-	embeddings _ S domain ⇇ (Q1 domain, Q2 domain).
-	w _ (embeddings first value: v1) + (embeddings second value: v2).
+	Q1 := self newQuadraticForm.
+	Q2 := self newQuadraticForm.
+	S := Q1 ⊕ Q2.
+	v1 := Q1 domain atRandom: random bits: 100.
+	v2 := Q2 domain atRandom: random bits: 100.
+	embeddings := S domain ⇇ (Q1 domain, Q2 domain).
+	w := (embeddings first value: v1) + (embeddings second value: v2).
 	self assert: (Q1 value: v1) + (Q2 value: v2) = (S value: w)! !
 
 !QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 7/6/2020 09:32:19'!
@@ -6331,41 +6358,14 @@ testFromHessian
 	P _ QuadraticForm from: Q domain hessian: Q hessian.
 	self assert: P = Q! !
 
-!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 7/6/2020 06:31:50'!
+!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:26:15'!
 testGramian
 	| Q M x |
-	Q _ QuadraticForm from: ℚ^3 coefficients: (0 to: 5).
-	M _ Q gramian.
+	Q := QuadraticForm from: ℚ^3 coefficients: (0 to: 5).
+	M := Q gramian.
 	10 timesRepeat:
-		[x _ Q domain atRandomBits: 100 atRandom.
+		[x := Q domain atRandom: random bits: (100 atRandom: random).
 		self assert: (Q value: x) = (x · (M * x))]! !
-
-!RandomizedTestCase methodsFor: 'debugging' stamp: 'len 5/25/2023 23:58:23'!
-debugInstance
-	^ super debugInstance setSeed: seed! !
-
-!RandomizedTestCase methodsFor: 'setUp/tearDown' stamp: 'len 5/26/2023 00:49:17'!
-setUp
-	super setUp.
-	random := Random seed: (seed bitXor: testSelector hash)! !
-
-!RandomizedTestCase methodsFor: 'setUp/tearDown' stamp: 'len 4/20/2021 06:56:32'!
-tearDown
-	super tearDown.
-	random _ nil! !
-
-!RandomizedTestCase methodsFor: 'private' stamp: 'len 5/20/2023 16:45:01'!
-initialize
-	super initialize.
-	seed := 16rFFFFFFFF atRandom! !
-
-!RandomizedTestCase methodsFor: 'private' stamp: 'len 5/25/2023 07:44:41'!
-setSeed: anInteger
-	seed := anInteger! !
-
-!RandomizedTestCase class methodsFor: 'testing' stamp: 'len 5/25/2023 07:43:42'!
-isAbstract
-	^ thisContext methodClass == self class or: [self name beginsWith: 'Abstract']! !
 
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:25:17'!
 testDivisibility
@@ -7564,6 +7564,16 @@ setUp
 	super setUp.
 	R := GaloisField new: (5 atRandom: random) nextPrime to: (3 atRandom: random)! !
 
+!GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 23:52:32'!
+testPrimitiveRoot
+	| ξ i x |
+	ξ := R primitiveRoot.
+	self assert: ξ multiplicativeOrder = (R size - 1).
+	i := 1.
+	x := ξ.
+	[x = R one] whileFalse: [x := x*ξ. i := i+1].
+	self assert: i = (R size - 1)! !
+
 !PrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 21:26:18'!
 setUp
 	super setUp.
@@ -7591,15 +7601,15 @@ testPrimeFieldBasicProperties
 	self assert: R characteristic = R p.
 	self testRingHomomorphism: R projection! !
 
-!PrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 21:28:43'!
+!PrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 23:53:28'!
 testPrimitiveRoot
-	| p g i x |
+	| p ξ i x |
 	p := R p.
-	g := R primitiveRoot.
-	self assert: g multiplicativeOrder = (p-1).
+	ξ := R primitiveRoot.
+	self assert: ξ multiplicativeOrder = (p-1).
 	i := 1.
-	x := g.
-	[x = R one] whileFalse: [x := x*g. i := i+1].
+	x := ξ.
+	[x = R one] whileFalse: [x := x*ξ. i := i+1].
 	self assert: i = (p-1)! !
 
 !PrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 21:30:53'!
@@ -7760,6 +7770,18 @@ testEmbeddingIntoOverring
 testIsLocal
 	self assert: R isLocal.
 	self assert: R maximalIdeal = (R * R p)! !
+
+!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 23:51:27'!
+testPrimitiveRoot
+	| p r ξ i x |
+	p := R p.
+	r := R degree.
+	ξ := R primitiveRoot.
+	self assert: ξ multiplicativeOrder = (p^r - 1).
+	i := 1.
+	x := ξ.
+	[x = R one] whileFalse: [x := x*ξ. i := i+1].
+	self assert: i = (p^r - 1)! !
 
 !GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 20:51:43'!
 testProjectionToResidueField
