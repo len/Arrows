@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 4 June 2023 at 2:58:50 pm'!
+'From Cuis 6.0 [latest update: #5801] on 4 June 2023 at 9:06:44 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -49,6 +49,7 @@ References:
 [Sam71] Pierre Samuel, "About Euclidean Rings", J. Algebra, 19:282-301, 1971
 [San11] Metod Saniga; "Projective Lines over Finite Rings", 2011
 [SOoS01] Richard Schroeppel; Hilarie Orman; Sean O''Malley; Oliver Spatscheck; "Fast Key Exchange with Elliptic Curve Systems" (2001)
+[Sha71] Daniel Shanks; "Class number, a theory of factorization and genera" (1971)
 [Sho09] Victor Shoup; "A Computational Introduction to Number Theory and Algebra" (2009)
 [Sim70] Charles C. Sims, "Computational methods in the study of permutation groups" (1970)
 [Sti06] Michael Stillman; "Computing with sheaves and sheaf cohomology in algebraic geometry" (2006)
@@ -68,7 +69,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 88!
+!provides: 'Algebra' 1 89!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -2246,6 +2247,16 @@ Object subclass: #DirichletSeries
 DirichletSeries class
 	instanceVariableNames: ''!
 
+!classDefinition: #BabyStepGiantStep category: #'Algebra-Algorithms'!
+Object subclass: #BabyStepGiantStep
+	instanceVariableNames: 'group table δ'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algorithms'!
+!classDefinition: 'BabyStepGiantStep class' category: #'Algebra-Algorithms'!
+BabyStepGiantStep class
+	instanceVariableNames: ''!
+
 !classDefinition: #CRT category: #'Algebra-Algorithms'!
 Object subclass: #CRT
 	instanceVariableNames: 'moduli C'
@@ -3360,6 +3371,9 @@ Examples:
 Structure:
  coefficients	Sequence -- the coefficients of the Dirichlet series
 !
+
+!BabyStepGiantStep commentStamp: 'len 6/4/2023 20:49:45' prior: 0!
+This is Daniel Shanks' Baby-Step/Giant-Step algorithm for computing discrete logarithms (see [Sha71]). Given an element α in a group G, and a bound n for the order of α, the algorithm can compute the discrete logarithm of another element β with respect to α, that is it computes i such that (in multiplicative notation) β = αⁱ. The algorithm precomputes a hash table of size √n containing powers of α, that is then used for computing the discrete logarithm of any β.!
 
 !CRT commentStamp: '<historical>' prior: 0!
 This is the Chinese Remainder Theorem. My instances find solutions to systems of linear Diophantine equations x = xᵢ (mod mᵢ). The algorithm works on any Euclidean domain.
@@ -7272,13 +7286,16 @@ asMonoid
 	"Forgetful functor to the category of monoids."
 	^ self propertyAt: #asMonoid ifAbsentPut: [Monoid newFrom: (self propertyAt: #elements ifAbsent: [self])]! !
 
-!Group methodsFor: 'elements' stamp: 'len 6/3/2023 20:31:23'!
+!Group methodsFor: 'elements' stamp: 'len 6/4/2023 21:01:56'!
 \ anElement
 	"Answer anElement expressed as a word on the generators. Answer nil if anElement is not in the receiver."
-	| F |
+	| F bsgs |
 	F := FreeGroup new: self generators size.
 	anElement = self identity ifTrue: [^ F identity].
-	^ F x: (self generators indexOf: anElement ifAbsent: [^ self notYetImplemented])! !
+	self generators indexOf: anElement ifPresent: [:i| F x: i].
+	self generators size = 1 ifFalse: [^ self notYetImplemented].
+	bsgs := self propertyAt: #bsgs ifAbsentPut: [BabyStepGiantStep on: self].
+	^ F x: 1 to: ((bsgs logarithmOf: anElement) ifNil: [^ nil])! !
 
 !Group methodsFor: 'elements' stamp: 'len 6/4/2023 01:46:03'!
 elementAt: aWord
@@ -12853,9 +12870,9 @@ zeros: anInteger
 "	self size <= self zechMaximumOrder ifTrue: [^ self zechTable new: anInteger]."
 	^ super zeros: anInteger! !
 
-!GaloisField methodsFor: 'morphisms' stamp: 'len 5/12/2023 21:08:55'!
+!GaloisField methodsFor: 'morphisms' stamp: 'len 6/4/2023 17:35:06'!
 automorphisms
-	"Answer the Galous group of the receiver, i.e. the gruop of endomorphisms fixing the scalar field ℤ/pℤ."
+	"Answer the Galois group of the receiver, i.e. the gruop of endomorphisms fixing the scalar field ℤ/pℤ."
 	^ Group new generators: {self frobenius}! !
 
 !GaloisField methodsFor: 'printing' stamp: 'len 5/6/2023 15:24:37'!
@@ -28685,26 +28702,40 @@ representative
 hash
 	^ parent hash! !
 
-!Coset methodsFor: 'enumerating' stamp: 'len 6/14/2022 12:47:16'!
+!Coset methodsFor: 'enumerating' stamp: 'len 6/4/2023 17:40:21'!
 do: aBlock
-	"Enumerate the elements of the receiver."
-	parent relations do: [:each| aBlock value: each · representative]! !
+	parent cover isAdditiveGroup
+		ifTrue: [parent relations do: [:each| aBlock value: each + representative]]
+		ifFalse: [parent relations do: [:each| aBlock value: each · representative]]! !
 
-!Coset methodsFor: 'operations' stamp: 'len 7/16/2022 11:17:06'!
+!Coset methodsFor: 'operations' stamp: 'len 6/4/2023 17:39:11'!
 · aCoset
-	^ self class new representative: representative · aCoset representative; parent: parent! !
+	^ self class new
+		representative:
+			(parent cover isAdditiveGroup
+				ifTrue: [representative + aCoset representative]
+				ifFalse: [representative · aCoset representative]);
+		parent: parent! !
 
-!Coset methodsFor: 'operations' stamp: 'len 6/14/2022 12:46:08'!
+!Coset methodsFor: 'operations' stamp: 'len 6/4/2023 17:40:45'!
 inverse
-	^ self class new representative: representative inverse; parent: parent! !
+	^ self class new
+		representative:
+			(parent cover isAdditiveGroup
+				ifTrue: [representative negated]
+				ifFalse: [representative inverse]);
+		parent: parent! !
 
 !Coset methodsFor: 'printing' stamp: 'len 6/14/2022 12:47:38'!
 printOn: aStream
 	aStream print: representative! !
 
-!Coset methodsFor: 'testing' stamp: 'len 6/14/2022 12:47:48'!
+!Coset methodsFor: 'testing' stamp: 'len 6/4/2023 17:37:56'!
 contains: anElement
-	^ parent relations contains: anElement · representative inverse! !
+	^ parent relations contains:
+		(parent cover isAdditiveGroup
+			ifTrue: [anElement - representative]
+			ifFalse: [anElement · representative inverse])! !
 
 !Coset methodsFor: 'testing' stamp: 'len 6/14/2022 12:49:11'!
 includes: anObject
@@ -28714,9 +28745,9 @@ includes: anObject
 parent: aQuotientGroup
 	parent _ aQuotientGroup! !
 
-!Coset methodsFor: 'private' stamp: 'len 11/25/2015 02:29'!
-representative: anObject
-	representative _ anObject! !
+!Coset methodsFor: 'private' stamp: 'len 6/4/2023 17:41:16'!
+representative: anElement
+	representative := anElement! !
 
 !GroupTuple methodsFor: 'accessing' stamp: 'len 4/25/2020 06:38:06'!
 at: anInteger
@@ -31150,6 +31181,13 @@ unitPart
 	self isZero ifTrue: [^ self].
 	anInteger isFraction ifTrue: [^ (self root: anInteger denominator) ^ anInteger numerator].
 	^ parent representative: (representative raisedTo: anInteger \\ (parent size - 1) modulo: parent modulus)! !
+
+!GaloisFieldElement methodsFor: 'operations' stamp: 'len 6/4/2023 17:29:47'!
+colift: anElement
+	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
+	This is the right division of b by a, written b / a."
+	anElement isZero ifTrue: [^ anElement].
+	^ self isZero ifFalse: [anElement * self inverse]! !
 
 !GaloisFieldElement methodsFor: 'operations' stamp: 'len 5/9/2022 11:09:52'!
 normalized
@@ -36145,6 +36183,45 @@ zeta
 coefficients: aSequence
 	^ self new coefficients: aSequence! !
 
+!BabyStepGiantStep methodsFor: 'computing' stamp: 'len 6/4/2023 18:01:09'!
+logarithmOf: anElement
+	| m γ |
+	γ := anElement.
+	m := table size.
+	group isAdditiveGroup
+		ifTrue:
+			[0 to: m do: [:i| table at: γ ifPresent: [:j| ^ i*m + j]. γ := γ + δ]]
+		ifFalse:
+			[0 to: m do: [:i| table at: γ ifPresent: [:j| ^ i*m + j]. γ := γ * δ]].
+	^ nil! !
+
+!BabyStepGiantStep methodsFor: 'private' stamp: 'len 6/4/2023 20:55:17'!
+group: aGroup base: α order: n
+	| m x |
+	group := aGroup.
+	m := n sqrtFloor + 1.
+	table := Dictionary new: m.
+	x := aGroup identity.
+	aGroup isAdditiveGroup
+		ifTrue:
+			[0 to: m - 1 do: [:j| table at: x put: j. x := x + α].
+			δ := α * m negated]			
+		ifFalse:
+			[0 to: m - 1 do: [:j| table at: x put: j. x := x * α].
+			δ := α ^ m negated]! !
+
+!BabyStepGiantStep class methodsFor: 'instance creation' stamp: 'len 6/4/2023 20:56:37'!
+on: aGroup
+	^ self new group: aGroup base: aGroup generator order: aGroup size! !
+
+!BabyStepGiantStep class methodsFor: 'instance creation' stamp: 'len 6/4/2023 20:56:12'!
+on: aGroup base: anElement
+	^ self new group: aGroup base: anElement order: (aGroup orderOf: anElement)! !
+
+!BabyStepGiantStep class methodsFor: 'instance creation' stamp: 'len 6/4/2023 20:55:52'!
+on: aGroup base: anElement order: anInteger
+	^ self new group: aGroup base: anElement order: anInteger! !
+
 !CRT methodsFor: 'computing' stamp: 'len 5/14/2020 12:28:51'!
 solve: remainders
 	| k mj y yj x |
@@ -38712,6 +38789,10 @@ copyWithoutIndex: index
 	answer replaceFrom: 1 to: index - 1 with: self startingAt: 1.
 	answer replaceFrom: index to: answer size with: self startingAt: index + 1.
 	^ answer! !
+
+!SequenceableCollection methodsFor: '*algebra' stamp: 'len 6/4/2023 17:45:41'!
+indexOf: anElement ifPresent: aBlock
+	^ aBlock value: (self indexOf: anElement ifAbsent: [^ 0])! !
 
 !SequenceableCollection methodsFor: '*algebra' stamp: 'len 5/20/2022 11:55:54'!
 isZero
