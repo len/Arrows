@@ -1,17 +1,17 @@
-'From Cuis 6.0 [latest update: #5434] on 5 August 2022 at 9:28:03 am'!
+'From Cuis 6.0 [latest update: #5801] on 4 June 2023 at 2:37:33 pm'!
 'Description '!
-!provides: 'Tests-Lattices' 1 0!
+!provides: 'Tests-Lattices' 1 1!
 !requires: 'Lattices' 1 0 nil!
-SystemOrganization addCategory: 'Tests-Lattices'!
+SystemOrganization addCategory: #'Tests-Lattices'!
 
 
-!classDefinition: #LatticeTest category: 'Tests-Lattices'!
+!classDefinition: #LatticeTest category: #'Tests-Lattices'!
 TestCase subclass: #LatticeTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Lattices'!
-!classDefinition: 'LatticeTest class' category: 'Tests-Lattices'!
+!classDefinition: 'LatticeTest class' category: #'Tests-Lattices'!
 LatticeTest class
 	instanceVariableNames: ''!
 
@@ -101,19 +101,19 @@ testLatticeDualGramian
 	R _ L dual.
 	self assert: L gramian = R gramian inverse! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 7/30/2020 18:15:32'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 14:36:55'!
 testLatticeElements
 	| V L v w |
-	V _ ℚ^3.
-	L _ Lattice basis: {V !! (1,0,0). V !! (1,2,3). V !! (3,6,2)}.
-	v _ L elementAt: #(1 2 1).
+	V := ℚ^3.
+	L := Lattice basis: {V !! (1,0,0). V !! (1,2,3). V !! (3,6,2)}.
+	v := L elementAt: #(1 2 1).
 	self assert: v asVector = (V !! (6,10,8)).
-	v _ L x: 2.
+	v := L x: 2.
 	self assert: v asVector = (V !! (1,2,3)).
-	w _ v*2.
+	w := v*2.
 	self assert: w asVector = (V !! (2,4,6)).
 	self assert: v norm = 14.
-	self assert: (v | w) = 28! !
+	self assert: v · w = 28! !
 
 !LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2020 19:16:10'!
 testLeech

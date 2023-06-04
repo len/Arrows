@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 4 June 2023 at 9:02:44 am'!
+'From Cuis 6.0 [latest update: #5801] on 4 June 2023 at 2:37:21 pm'!
 'Description '!
-!provides: 'Lattices' 1 12!
+!provides: 'Lattices' 1 13!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Lattices!
 
@@ -13,16 +13,6 @@ Group subclass: #Lattice
 	category: 'Lattices'!
 !classDefinition: 'Lattice class' category: #Lattices!
 Lattice class
-	instanceVariableNames: ''!
-
-!classDefinition: #LatticeMap category: #Lattices!
-GroupMap subclass: #LatticeMap
-	instanceVariableNames: 'matrix'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Lattices'!
-!classDefinition: 'LatticeMap class' category: #Lattices!
-LatticeMap class
 	instanceVariableNames: ''!
 
 !classDefinition: #LLL category: #Lattices!
@@ -52,9 +42,6 @@ A lattice is the set of integer linear combinations of a basis of a rational or 
 More generally, given an integral domain R and a finite-dimensional vector space V over its field of fractions, a lattice or R-lattice in V is a finitely generated R-module over R that spans V. In particular, lattices are defined to have full rank in V.
 
 A lattice is defined by giving a basis {v₁,...,vₙ} consisting of linearly independent vectors of the ambient vector space V, and an inner product (a positive definite symmetric bilinear form) or equivalently the Gramian matrix aᵢⱼ := <vᵢ, vⱼ>. The inner product or the Gramian matrix correspond also to the associated quadratic form.!
-
-!LatticeMap commentStamp: '<historical>' prior: 0!
-A group homomorphism between two lattices. See Lattice.!
 
 !LLL commentStamp: '<historical>' prior: 0!
 This is the Lenstra-Lenstra-Lovasz algorithm.
@@ -128,10 +115,6 @@ space
 !Lattice methodsFor: 'comparing' stamp: 'len 8/11/2020 08:02:25'!
 hash
 	^ self generatorMatrix transpose HNF hash! !
-
-!Lattice methodsFor: 'converting' stamp: 'len 10/20/2020 19:04:14'!
-asAbelianGroup
-	^ self asModule! !
 
 !Lattice methodsFor: 'converting' stamp: 'len 9/16/2022 08:24:47'!
 asModule
@@ -237,10 +220,6 @@ packingSphereVolume
 		ifFalse: [2^n * pi ^ ((n-1)/2) * ((n-1)/2) factorial / n factorial].
 	p _ self packingRadius.
 	^ p ^ n * Vn! !
-
-!Lattice methodsFor: 'morphisms' stamp: 'len 9/16/2022 08:01:03'!
-to: aLattice map: aBlock
-	^ LatticeMap from: self to: aLattice matrix: (self asModule to: aLattice asModule map: aBlock)! !
 
 !Lattice methodsFor: 'operations' stamp: 'len 8/3/2020 07:30:24'!
 * aScalar
@@ -536,33 +515,6 @@ gramian: aMatrix
 on: aBilinearForm basis: aCollection
 	^ self new basis: aCollection innerProduct: aBilinearForm! !
 
-!LatticeMap methodsFor: 'accessing' stamp: 'len 6/4/2023 08:53:23'!
-category
-	^ Group! !
-
-!LatticeMap methodsFor: 'accessing' stamp: 'len 7/29/2020 08:39:41'!
-matrix
-	^ matrix! !
-
-!LatticeMap methodsFor: 'initialization' stamp: 'len 7/29/2020 13:03:05'!
-matrix: aMatrix
-	matrix _ aMatrix! !
-
-!LatticeMap methodsFor: 'operations' stamp: 'len 7/29/2020 08:40:16'!
-value: anElement
-	^ self codomain elementAt: matrix * (self domain !! anElement) coordinates! !
-
-!LatticeMap methodsFor: 'printing' stamp: 'len 7/29/2020 08:40:33'!
-printOn: aStream
-	aStream print: matrix! !
-
-!LatticeMap class methodsFor: 'instance creation' stamp: 'len 7/29/2020 08:39:16'!
-from: aDomain to: aCodomain matrix: aMatrix
-	^ self new
-		domain: aDomain;
-		codomain: aCodomain;
-		matrix: aMatrix! !
-
 !LLL methodsFor: 'accessing' stamp: 'len 12/23/2015 03:01'!
 reducedBasis
 	orthogonalBasis notNil ifFalse: [self computeReducedBasis].
@@ -655,21 +607,12 @@ example2
 basis: aCollection innerProduct: aBilinearForm
 	^ self new basis: aCollection innerProduct: aBilinearForm! !
 
-!LatticeElement methodsFor: 'printing' stamp: 'len 7/8/2020 19:13:32'!
-printOn: aStream
-	aStream print: self asVector! !
-
 !LatticeElement methodsFor: 'converting' stamp: 'len 7/29/2020 06:32:28'!
 asVector
 	| answer |
 	answer _ parent space zero.
 	coordinates with: parent basis do: [:ai :xi| answer _ xi * ai + answer].
 	^ answer! !
-
-!LatticeElement methodsFor: 'initialization' stamp: 'len 7/29/2020 06:30:18'!
-coordinates: aTuple parent: aLattice 
-	coordinates _ aTuple.
-	parent _ aLattice! !
 
 !LatticeElement methodsFor: 'operations' stamp: 'len 7/29/2020 06:42:14'!
 * anInteger
@@ -690,8 +633,8 @@ coordinates: aTuple parent: aLattice
 	anInteger isInteger ifFalse: [^ DomainError signal].
 	^ self class coordinates: coordinates // anInteger parent: parent! !
 
-!LatticeElement methodsFor: 'operations' stamp: 'len 7/28/2020 19:39:07'!
-| anElement
+!LatticeElement methodsFor: 'operations' stamp: 'len 6/4/2023 14:13:53'!
+· anElement
 	"Answer the inner product of the receiver and the argument."
 	^ parent innerProduct value: anElement asVector value: self asVector! !
 
@@ -703,11 +646,13 @@ length
 negated
 	^ self class coordinates: coordinates negated parent: parent! !
 
-!LatticeElement methodsFor: 'operations' stamp: 'len 7/8/2020 19:14:19'!
+!LatticeElement methodsFor: 'operations' stamp: 'len 6/4/2023 14:14:20'!
 norm
-	| v |
-	v _ self asVector.
-	^ parent innerProduct value: v value: v! !
+	^ self · self! !
+
+!LatticeElement methodsFor: 'printing' stamp: 'len 7/8/2020 19:13:32'!
+printOn: aStream
+	aStream print: self asVector! !
 
 !LatticeElement methodsFor: 'testing' stamp: 'len 7/8/2020 18:52:04'!
 isZero
@@ -716,6 +661,11 @@ isZero
 !LatticeElement methodsFor: 'private' stamp: 'len 7/8/2020 18:47:55'!
 coordinates
 	^ coordinates! !
+
+!LatticeElement methodsFor: 'private' stamp: 'len 7/29/2020 06:30:18'!
+coordinates: aTuple parent: aLattice 
+	coordinates _ aTuple.
+	parent _ aLattice! !
 
 !LatticeElement methodsFor: 'private' stamp: 'len 7/8/2020 18:47:25'!
 parent
