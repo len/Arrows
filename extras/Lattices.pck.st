@@ -1,12 +1,12 @@
-'From Cuis 6.0 [latest update: #5801] on 30 May 2023 at 8:04:05 pm'!
+'From Cuis 6.0 [latest update: #5801] on 4 June 2023 at 9:02:44 am'!
 'Description '!
-!provides: 'Lattices' 1 11!
+!provides: 'Lattices' 1 12!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Lattices!
 
 
 !classDefinition: #Lattice category: #Lattices!
-Structure subclass: #Lattice
+Group subclass: #Lattice
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -16,7 +16,7 @@ Lattice class
 	instanceVariableNames: ''!
 
 !classDefinition: #LatticeMap category: #Lattices!
-Function subclass: #LatticeMap
+GroupMap subclass: #LatticeMap
 	instanceVariableNames: 'matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -47,11 +47,14 @@ LatticeElement class
 
 
 !Lattice commentStamp: '<historical>' prior: 0!
-A lattice is the set of integer linear combinations of a basis of a rational or real vector space. This is a discrete subgroup of the ambient vector space (as abelian group) isomorphic to ℤ^n.
+A lattice is the set of integer linear combinations of a basis of a rational or real vector space. This is a discrete subgroup of the ambient vector space (as abelian group) isomorphic to ℤⁿ.
 
 More generally, given an integral domain R and a finite-dimensional vector space V over its field of fractions, a lattice or R-lattice in V is a finitely generated R-module over R that spans V. In particular, lattices are defined to have full rank in V.
 
-A lattice is defined by giving a basis {v1,...,vn} consisting of linearly independent vectors of the ambient vector space V, and an inner product (a positive definite symmetric bilinear form) or equivalently the Gramian matrix aij := <vi, vj>. The inner product or the Gramian matrix correspond also to the associated quadratic form.!
+A lattice is defined by giving a basis {v₁,...,vₙ} consisting of linearly independent vectors of the ambient vector space V, and an inner product (a positive definite symmetric bilinear form) or equivalently the Gramian matrix aᵢⱼ := <vᵢ, vⱼ>. The inner product or the Gramian matrix correspond also to the associated quadratic form.!
+
+!LatticeMap commentStamp: '<historical>' prior: 0!
+A group homomorphism between two lattices. See Lattice.!
 
 !LLL commentStamp: '<historical>' prior: 0!
 This is the Lenstra-Lenstra-Lovasz algorithm.
@@ -118,10 +121,6 @@ space
 	"Answer the ambient space of the receiver."
 	^ self innerProduct space! !
 
-!Lattice methodsFor: 'accessing' stamp: 'len 7/8/2020 08:35:58'!
-zero
-	^ self space zero! !
-
 !Lattice methodsFor: 'comparing' stamp: 'len 8/11/2020 08:01:46'!
 = anObject
 	^ self class = anObject class and: [self innerProduct = anObject innerProduct and: [self generatorMatrix transpose HNF = anObject generatorMatrix transpose HNF]]! !
@@ -143,16 +142,29 @@ asModule
 		self addCoercionFrom: answer map: [:each| self elementAt: each].
 		answer]! !
 
+!Lattice methodsFor: 'elements' stamp: 'len 6/4/2023 09:02:29'!
+\ anElement
+	"Answer anElement expressed as a word on the generators. Answer nil if anElement is not in the receiver."
+	^ self asModule \ anElement coordinates! !
+
 !Lattice methodsFor: 'elements' stamp: 'len 7/28/2020 19:57:44'!
 elementAt: anArray
 	"Answer the element with the given coordinates."
 	^ LatticeElement coordinates: self asModule !! anArray parent: self! !
+
+!Lattice methodsFor: 'elements' stamp: 'len 6/4/2023 08:56:49'!
+identity
+	^ self zero! !
 
 !Lattice methodsFor: 'elements' stamp: 'len 7/29/2020 06:44:50'!
 newFrom: anObject
 "	(anObject isSequenceable and: [anObject size = self rank])
 		ifTrue: [^ self elementAt: (self scalars tuple: anObject)]."
 	^ super newFrom: anObject! !
+
+!Lattice methodsFor: 'elements' stamp: 'len 7/8/2020 08:35:58'!
+zero
+	^ self space zero! !
 
 !Lattice methodsFor: 'invariants' stamp: 'len 12/8/2017 18:41:52'!
 coveringNormalizedThinkness
@@ -277,6 +289,10 @@ atRandom: aRandom bits: bitSize
 !Lattice methodsFor: 'testing' stamp: 'len 7/29/2020 06:38:35'!
 includes: anObject
 	^ anObject parent == self! !
+
+!Lattice methodsFor: 'testing' stamp: 'len 6/4/2023 08:52:28'!
+isAdditiveGroup
+	^ true! !
 
 !Lattice methodsFor: 'testing' stamp: 'len 8/2/2020 17:11:36'!
 isDoublyEven
@@ -520,9 +536,9 @@ gramian: aMatrix
 on: aBilinearForm basis: aCollection
 	^ self new basis: aCollection innerProduct: aBilinearForm! !
 
-!LatticeMap methodsFor: 'accessing' stamp: 'len 7/29/2020 08:36:30'!
+!LatticeMap methodsFor: 'accessing' stamp: 'len 6/4/2023 08:53:23'!
 category
-	^ Lattices! !
+	^ Group! !
 
 !LatticeMap methodsFor: 'accessing' stamp: 'len 7/29/2020 08:39:41'!
 matrix
@@ -539,11 +555,6 @@ value: anElement
 !LatticeMap methodsFor: 'printing' stamp: 'len 7/29/2020 08:40:33'!
 printOn: aStream
 	aStream print: matrix! !
-
-!LatticeMap class methodsFor: 'class initialization' stamp: 'len 7/29/2020 08:35:50'!
-initialize
-	super initialize.
-	Smalltalk at: #Lattices put: (Category new name: #Lattices)! !
 
 !LatticeMap class methodsFor: 'instance creation' stamp: 'len 7/29/2020 08:39:16'!
 from: aDomain to: aCodomain matrix: aMatrix
@@ -713,4 +724,3 @@ parent
 !LatticeElement class methodsFor: 'instance creation' stamp: 'len 7/29/2020 06:30:28'!
 coordinates: aTuple parent: aLattice
 	^ self new coordinates: aTuple parent: aLattice! !
-LatticeMap initialize!
