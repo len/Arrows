@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 4 June 2023 at 11:57:09 pm'!
+'From Cuis 6.0 [latest update: #5801] on 5 June 2023 at 8:29:29 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -29,6 +29,7 @@ References:
 [GM73] Ganske, G.; McDonald, B.R. "Finite local rings". Rocky Mountain J. Math. 3 (1973), no. 4, 521-540
 [GP08] Gert-Martin Greuel; Gerhard Pfister; "A Singular Introduction to Commutative Algebra" (2008)
 [Gra53] Frank Gray, "Pulse Code Communication" (1953)
+[Har11] William B. Hart; "A one line factoring algorithm" (2011)
 [Har77] Robin Hartshorne; "Algebraic Geometry", GTM 52, Springer, 1977
 [HEO05] Derek F. Holt; B. Eick; E. A. O''Brien; "Handbook of Computational Group Theory" (2005)
 [HH11] Jurgen Herzog, Takayuki Hibi, "Monomial Ideals" (2011)
@@ -69,7 +70,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 90!
+!provides: 'Algebra' 1 91!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -2685,7 +2686,7 @@ Ring ℤ/nℤ of residue classes of integers modulo n. Elements are instances of
 !PrimePowerRing commentStamp: '<historical>' prior: 0!
 Residue class ring ℤ/(p^n)ℤ of integers modulo p^n for a prime p.
 
-These are Euclidean rings, and the simplest examples of Galois rings, GR(p^n,1). They are local rings with maximal ideal <p> and residue field isomorphic to ℤ/pℤ. The maximal ideal <p> is also the set of zero divisors as well as nilpotent elements. Other Galois rings are constructed by finite algebraic extensions (see GaloisRing).
+These are Euclidean rings, and the simplest examples of Galois rings, GR(p^n,1). They are local rings with maximal ideal ⟨p⟩ and residue field isomorphic to ℤ/pℤ. The maximal ideal ⟨p⟩ is also the set of zero divisors as well as nilpotent elements. Other Galois rings are constructed by finite algebraic extensions (see GaloisRing).
 
 These are also the simplest examples of 'chain rings', rings whose ideals form a chain under inclusion. A finite-chain ring is a principal ideal ring, and its maximal ideal is the nilradical (the set of nilpotent elements).
 
@@ -11716,19 +11717,17 @@ dimension
 modulus
 	^ modulus! !
 
-!ModularIntegerRing methodsFor: 'accessing' stamp: 'len 5/12/2023 21:04:06'!
+!ModularIntegerRing methodsFor: 'accessing' stamp: 'len 6/5/2023 19:43:19'!
 primitiveRoot
 	"Answer a generator of the group of units.
 	For ℤ/pℤ this is a primitive (p-1)-th root of unity."
-	| order powers |
+	| φ powers |
 	self propertyAt: #primitiveRoot ifPresent: [:anElement| ^ anElement].
 	modulus <= 2 ifTrue: [^ self one].
-	order _ self unitsSize.
-	powers _ order factorization asSet asArray collect: [:p| order / p].
-	self units do: [:x|
-		(powers anySatisfy: [:n| (x^n) representative = 1])
-			ifFalse: [^ self propertyAt: #primitiveRoot put: x]].
-	^ self error: 'no primitive root'! !
+	(modulus isPowerOfTwo and: [modulus >= 8]) ifTrue: [^ self error: 'no primitive root'].
+	φ := self unitsSize.
+	powers := φ factorization asSet asArray collect: [:p| φ / p].
+	^ self units detect: [:x| powers noneSatisfy: [:n| (x^n) representative = 1]]! !
 
 !ModularIntegerRing methodsFor: 'accessing' stamp: 'len 5/23/2020 09:13:12'!
 relations
@@ -12670,16 +12669,16 @@ maximalIdeal
 p
 	^ self scalars p! !
 
-!GaloisRing methodsFor: 'accessing' stamp: 'len 6/4/2023 23:31:40'!
-primitiveRoot
-	"Answer a primitive root (or basic primitive element) of the receiver.
+!GaloisRing methodsFor: 'accessing' stamp: 'len 6/5/2023 19:46:46'!
+primitiveElement
+	"Answer basic primitive element of the receiver.
 	For GR(p^n,r), a basic primitive element is an element of multiplicative order p^r - 1, which is a root of a basic primitive polynomial of degree r over ℤ/(p^n)ℤ and dividing x^(p^r - 1) - 1 in ℤ/(p^n)ℤ[x]. Powers of this element form a Teichmuller set.
 	For a Galois field GF(q) with q = p^r, this is a primitive (q-1)-th root of unity."
 	| order |
-	self propertyAt: #primitiveRoot ifPresent: [:anElement| ^ anElement].
+	self propertyAt: #primitiveElement ifPresent: [:anElement| ^ anElement].
 	order := self p ^ self degree - 1.
-	self x multiplicativeOrder = order ifTrue: [^ self propertyAt: #primitiveRoot put: self x].
-	^ self propertyAt: #primitiveRoot put: (self units detect: [:one| one multiplicativeOrder = order])! !
+	self x multiplicativeOrder = order ifTrue: [^ self propertyAt: #primitiveElement put: self x].
+	^ self propertyAt: #primitiveElement put: (self units detect: [:one| one multiplicativeOrder = order])! !
 
 !GaloisRing methodsFor: 'accessing' stamp: 'len 10/5/2022 18:34:07'!
 residueField
@@ -12687,7 +12686,7 @@ residueField
 	^ self propertyAt: #residueField ifAbsentPut:
 		[GaloisField modulus: (self modulus apply: self scalars → self scalars residueField)]! !
 
-!GaloisRing methodsFor: 'accessing' stamp: 'len 6/4/2023 23:42:17'!
+!GaloisRing methodsFor: 'accessing' stamp: 'len 6/5/2023 19:48:32'!
 teichmuller
 	"Answer a Teichmuller set of the receiver.
 	Any element of GR(p^n,r) can be written uniquely as a polynomial in p with coefficients in the Teichmuller set, and this is called the 'p-adic representation'."
@@ -12695,7 +12694,7 @@ teichmuller
 	self propertyAt: #teichmullerSet ifPresent: [:anArray| ^ anArray].
 	T := OrderedCollection new: self characteristic.
 	T add: self zero; add: self one.
-	ξ := self primitiveRoot.
+	ξ := self primitiveElement.
 	self characteristic - 2 timesRepeat: [T add: T last * ξ].
 	^ self propertyAt: #teichmullerSet put: T asArray! !
 
@@ -12840,6 +12839,10 @@ new: p to: n to: m
 !GaloisRing class methodsFor: 'private' stamp: 'len 5/12/2023 16:39:56'!
 irreduciblePolynomialOfDegree: r mod: p
 	^ (IrreduciblePolynomialsCache at: {p. r} ifAbsent: []) ifNil: [IrreduciblePolynomialsCache at: {p. r} put: ((PrimeField new: p) polynomials findIrreducibleOfDegree: r)]! !
+
+!GaloisField methodsFor: 'accessing' stamp: 'len 6/5/2023 19:45:16'!
+primitiveRoot
+	^ self primitiveElement! !
 
 !GaloisField methodsFor: 'accessing' stamp: 'len 5/9/2022 11:18:24'!
 residueField
@@ -14815,9 +14818,9 @@ atRandom: aRandom modulo: anIdeal
 atRandomBits: bitSize maxDegree: d
 	^ self atRandom: self newRandom bits: bitSize maxDegree: d! !
 
-!PolynomialRing methodsFor: 'random' stamp: 'len 5/8/2023 16:45:47'!
+!PolynomialRing methodsFor: 'random' stamp: 'len 6/5/2023 13:36:09'!
 atRandomDegree: d
-	"Answer a polynomial of degree d choosen at random with a uniform distribution."
+	"Answer a monic polynomial of degree d choosen at random with a uniform distribution."
 	self isUnivariate ifFalse: [^ self notYetImplemented].
 	^ self coefficients: (self scalars^d) atRandom coefficients, self scalars one! !
 
@@ -31161,12 +31164,6 @@ isNilpotent
 	"Answer true if self^n = 0 for some integer n >= 1."
 	^ self isZeroDivisor! !
 
-!GaloisRingElement methodsFor: 'testing' stamp: 'len 6/4/2023 23:28:20'!
-isPrimitiveRoot
-	"Answer true if the receiver is a generator of the group of units.
-	For a Galois ring GR(p^n,r), this is a primitive (p^r - 1)-th root of unity."
-	^ self isUnit and: [self multiplicativeOrder = (self parent p ^ self parent degree - 1)]! !
-
 !GaloisRingElement methodsFor: 'testing' stamp: 'len 5/7/2022 07:38:36'!
 isUnit
 	"Answer true if the argument is invertible.
@@ -31212,12 +31209,6 @@ normalized
 	"Answer a unique choice of associate. See >>normalization."
 	self isZero ifTrue: [^ self].
 	^ parent one! !
-
-!GaloisFieldElement methodsFor: 'testing' stamp: 'len 5/12/2023 20:58:20'!
-isPrimitiveRoot
-	"Answer true if the receiver is a generator of the group of units.
-	For a Galois field GF(q), this is a primitive (q-1)-th root of unity."
-	^ self isUnit and: [self multiplicativeOrder = self parent units size]! !
 
 !GaloisFieldElement methodsFor: 'testing' stamp: 'len 5/9/2022 11:07:52'!
 isZeroDivisor
@@ -33045,6 +33036,11 @@ multipliedBy: aPolynomial
 !Polynomial methodsFor: 'private' stamp: 'len 8/11/2019 12:13:56'!
 multipliedBy: aPolynomial truncatedTo: anInteger
 	^ (self multipliedBy: aPolynomial) truncatedTo: anInteger "optimize this"! !
+
+!Polynomial methodsFor: 'as yet unclassified' stamp: 'len 6/5/2023 19:33:05'!
+^ anInteger
+	self isMonomial ifTrue: [^ self parent coefficient: self leadingCoefficient ^ anInteger monomial: self monomials first ^ anInteger].
+	^ super ^ anInteger! !
 
 !Polynomial class methodsFor: 'instance creation' stamp: 'len 2/6/2017 05:43:55'!
 new
@@ -38270,6 +38266,16 @@ normalized
 numberOfDivisors
 	^ self primeSignature inject: 1 into: [:x :each| x * (each + 1)]! !
 
+!Integer methodsFor: '*algebra' stamp: 'len 6/5/2023 13:33:55'!
+olf
+	"One-line factoring algorithm. See [Har11]."
+	self flag: #fixme. "TODO"
+	1 to: self - 1 do: [:i| | m s t |
+		s := (self * i) sqrt ceiling.
+		m := s squared \\ self.
+		(t := m sqrtFloor) squared = m ifTrue: [^ self gcd: s - t]].
+	^ self! !
+
 !Integer methodsFor: '*algebra' stamp: 'len 5/5/2023 16:13:20'!
 parent
 	^ ℤ! !
@@ -38383,7 +38389,7 @@ reciprocalModulo2: n
 	xgcd _ self xgcd: n.
 	^ (xgcd at: 1) == 1 ifTrue: [^ (xgcd at: 2) \\ n]! !
 
-!Integer methodsFor: '*algebra' stamp: 'sqr 1/14/2014 01:30'!
+!Integer methodsFor: '*algebra' stamp: 'len 6/5/2023 17:14:12'!
 reciprocalModulo: mod
 	"Answer an integer x such that self * x \\ n = 1, with 0 < x < n, or nil if x does not exist.
 	The algorithm is a non extended euclidean modular inversion called NINV.
@@ -38401,7 +38407,7 @@ reciprocalModulo: mod
 	u := mod bitShift: b.
 	fPlusN := f + mod.
 	[v >= fPlusN] whileTrue:
-		[v := u \\\ (u := v)].
+		[v := u \\ (u := v)].
 	result := v - f.
 	result2 := result + mod.
 	result2 > 0 ifFalse: [^nil].
@@ -38990,24 +38996,35 @@ accumulateFrom: start to: stop withMatrix: anArray1 rowIndices: rowIndices times
 		self at: i put: value.
 		j := j + 1]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/22/2023 16:59:42'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 6/5/2023 20:18:40'!
 accumulateFrom: start to: stop withMatrix: anArray1 rowIndices: rowIndices timesTuple: anArray2 modulo: modulus
-	| width delayedReduction j j₀ |
+	| width j j₀ value modulusMinusOne |
 	(width := anArray2 size) = 0 ifTrue: [^ self].
-	delayedReduction := modulus * width < 16r40000000.
 	j := 1.
-	start to: stop do: [:i|
-		| value |
-		j₀ := rowIndices at: j.
-		value := self at: i.
-		delayedReduction
-			ifTrue:
-				[j₀ to: j₀ + width - 1 do: [:k| value := (anArray1 at: k) * (anArray2 at: k - j₀ + 1) + value].
-				value := value \\ modulus]
-			ifFalse:
-				[j₀ to: j₀ + width - 1 do: [:k| value := (anArray1 at: k) * (anArray2 at: k - j₀ + 1) + value \\ modulus]].
-		self at: i put: value.
-		j := j + 1]! !
+	modulus * width < 16r40000000
+		ifTrue: "delayed reduction"
+			[start to: stop do: [:i|
+				j₀ := rowIndices at: j.
+				value := self at: i.
+				j₀ to: j₀ + width - 1 do: [:k| value := (anArray1 at: k) * (anArray2 at: k - j₀ + 1) + value].
+				self at: i put: value \\ modulus.
+				j := j + 1]]
+		ifFalse:
+			[((modulusMinusOne := modulus - 1) bitAnd: modulus) = 0
+				ifTrue: "power of 2"
+					[start to: stop do: [:i|
+						j₀ := rowIndices at: j.
+						value := self at: i.
+						j₀ to: j₀ + width - 1 do: [:k| value := (anArray1 at: k) * (anArray2 at: k - j₀ + 1) + value bitAnd: modulusMinusOne].
+						self at: i put: value.
+						j := j + 1]]
+				ifFalse:
+					[start to: stop do: [:i|
+						j₀ := rowIndices at: j.
+						value := self at: i.
+						j₀ to: j₀ + width - 1 do: [:k| value := (anArray1 at: k) * (anArray2 at: k - j₀ + 1) + value \\ modulus].
+						self at: i put: value.
+						j := j + 1]]]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/22/2023 16:52:53'!
 accumulateFrom: start to: stop withMatrix: anArray1 timesTuple: anArray2
@@ -39021,23 +39038,32 @@ accumulateFrom: start to: stop withMatrix: anArray1 timesTuple: anArray2
 		self at: i put: value.
 		j := j + width]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/22/2023 16:55:30'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 6/5/2023 20:14:41'!
 accumulateFrom: start to: stop withMatrix: anArray1 timesTuple: anArray2 modulo: modulus
-	| width delayedReduction j |
+	| width j value modulusMinusOne |
 	(width := anArray2 size) = 0 ifTrue: [^ self].
-	delayedReduction := modulus * width < 16r40000000.
 	j := 1.
-	start to: stop do: [:i|
-		| value |
-		value := self at: i.
-		delayedReduction
-			ifTrue:
-				[j to: j+width-1 do: [:k| value := (anArray1 at: k) * (anArray2 at: k-j+1) + value].
-				value := value \\ modulus]
-			ifFalse:
-				[j to: j+width-1 do: [:k| value := (anArray1 at: k) * (anArray2 at: k-j+1) + value \\ modulus]].
-		self at: i put: value.
-		j := j + width]! !
+	modulus * width < 16r40000000
+		ifTrue: "delayed reduction"
+			[start to: stop do: [:i|
+				value := self at: i.
+				j to: j+width-1 do: [:k| value := (anArray1 at: k) * (anArray2 at: k-j+1) + value].
+				self at: i put: value \\ modulus.
+				j := j + width]]
+		ifFalse:
+			[((modulusMinusOne := modulus - 1) bitAnd: modulus) = 0
+				ifTrue: "power of 2"
+					[start to: stop do: [:i|
+						value := self at: i.
+						j to: j+width-1 do: [:k| value := (anArray1 at: k) * (anArray2 at: k-j+1) + value bitAnd: modulusMinusOne].
+						self at: i put: value.
+						j := j + width]]
+				ifFalse:
+					[start to: stop do: [:i|
+						value := self at: i.
+						j to: j+width-1 do: [:k| value := (anArray1 at: k) * (anArray2 at: k-j+1) + value \\ modulus].
+						self at: i put: value.
+						j := j + width]]]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/22/2023 16:55:55'!
 accumulateFrom: start to: stop withMatrix: anArray1 timesTuple: anArray2 zechTable: table
@@ -39077,28 +39103,46 @@ accumulateRowIndices: rowIndices withMatrix: anArray1 width: width1 rowIndices: 
 			k := k + 1].
 		j := j + 1]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/21/2023 09:06:21'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 6/5/2023 20:10:51'!
 accumulateRowIndices: rowIndices withMatrix: anArray1 width: width1 rowIndices: rowIndices1 timesMatrix: anArray2 width: width2 rowIndices: rowIndices2 modulo: modulus
-	| delayedReduction j k |
-	delayedReduction := modulus * width1 < 16r40000000.
+	| j k j₀ value modulusMinusOne |
 	j := 1.
-	rowIndices do: [:i₀|
-		| j₀ value |
-		j₀ := rowIndices1 at: j.
-		k := 1.
-		i₀ to: i₀ + width2 - 1 do: [:i|
-			value := self at: i.
-			delayedReduction
-				ifTrue:
-					[j₀ to: j₀ + width1 - 1 do: [:t|
+	modulus * width1 < 16r40000000
+		ifTrue: "delayed reduction"
+			[rowIndices do: [:i₀|
+				j₀ := rowIndices1 at: j.
+				k := 1.
+				i₀ to: i₀ + width2 - 1 do: [:i|
+					value := self at: i.
+					j₀ to: j₀ + width1 - 1 do: [:t|
 						value := (anArray1 at: t) * (anArray2 at: (rowIndices2 at: t - j₀ + 1) + k - 1) + value].
-					value := value \\ modulus]
+					self at: i put: value \\ modulus.
+					k := k + 1].
+				j := j + 1]]
+		ifFalse:
+			[((modulusMinusOne := modulus - 1) bitAnd: modulus) = 0
+				ifTrue: "power of 2"
+					[rowIndices do: [:i₀|
+						j₀ := rowIndices1 at: j.
+						k := 1.
+						i₀ to: i₀ + width2 - 1 do: [:i|
+							value := self at: i.
+							j₀ to: j₀ + width1 - 1 do: [:t|
+								value := (anArray1 at: t) * (anArray2 at: (rowIndices2 at: t - j₀ + 1) + k - 1) + value bitAnd: modulusMinusOne].
+							self at: i put: value.
+							k := k + 1].
+						j := j + 1]]
 				ifFalse:
-					[j₀ to: j₀ + width1 - 1 do: [:t|
-						value := (anArray1 at: t) * (anArray2 at: (rowIndices2 at: t - j₀ + 1) + k - 1) + value \\ modulus]].
-			self at: i put: value.
-			k := k + 1].
-		j := j + 1]! !
+					[rowIndices do: [:i₀|
+						j₀ := rowIndices1 at: j.
+						k := 1.
+						i₀ to: i₀ + width2 - 1 do: [:i|
+							value := self at: i.
+							j₀ to: j₀ + width1 - 1 do: [:t|
+								value := (anArray1 at: t) * (anArray2 at: (rowIndices2 at: t - j₀ + 1) + k - 1) + value \\ modulus].
+							self at: i put: value.
+							k := k + 1].
+						j := j + 1]]]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/22/2023 16:44:35'!
 accumulateWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2
@@ -39115,26 +39159,41 @@ accumulateWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2
 			[k := 1.
 			j := j + width1]]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/21/2023 09:06:44'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 6/5/2023 20:05:25'!
 accumulateWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2 modulo: modulus
-	| delayedReduction j k |
-	delayedReduction := modulus * width1 < 16r40000000.
+	| j k value modulusMinusOne |
 	j := 1.
 	k := 1.
-	1 to: self size do: [:i|
-		| value |
-		value := self at: i.
-		delayedReduction
-			ifTrue:
-				[j to: j+width1-1 do: [:t| value := (anArray1 at: t) * (anArray2 at: t-j*width2+k) + value].
-				value := value \\ modulus]
-			ifFalse:
-				[j to: j+width1-1 do: [:t| value := (anArray1 at: t) * (anArray2 at: t-j*width2+k) + value \\ modulus]].
-		self at: i put: value.
-		k := k + 1.
-		k > width2 ifTrue:
-			[k := 1.
-			j := j + width1]]! !
+	modulus * width1 < 16r40000000
+		ifTrue: "delayed reduction"
+			[1 to: self size do: [:i|
+				value := self at: i.
+				j to: j+width1-1 do: [:t| value := (anArray1 at: t) * (anArray2 at: t-j*width2+k) + value].
+				self at: i put: value \\ modulus.
+				k := k + 1.
+				k > width2 ifTrue:
+					[k := 1.
+					j := j + width1]]]
+		ifFalse:
+			[((modulusMinusOne := modulus - 1) bitAnd: modulus) = 0
+				ifTrue: "power of 2"
+					[1 to: self size do: [:i|
+						value := self at: i.
+						j to: j+width1-1 do: [:t| value := (anArray1 at: t) * (anArray2 at: t-j*width2+k) + value bitAnd: modulusMinusOne].
+						self at: i put: value.
+						k := k + 1.
+						k > width2 ifTrue:
+							[k := 1.
+							j := j + width1]]]
+				ifFalse:
+					[1 to: self size do: [:i|
+						value := self at: i.
+						j to: j+width1-1 do: [:t| value := (anArray1 at: t) * (anArray2 at: t-j*width2+k) + value \\ modulus].
+						self at: i put: value.
+						k := k + 1.
+						k > width2 ifTrue:
+							[k := 1.
+							j := j + width1]]]]! !
 
 !ArrayedCollection methodsFor: '*algebra' stamp: 'len 12/9/2022 07:57:27'!
 autoconvolution
@@ -39159,12 +39218,12 @@ determinant3x3
 	self flag: #deprecated.
 	^ (self at: 1) * (self at: 5) * (self at: 9) + ((self at: 2) * (self at: 6) * (self at: 7)) + ((self at: 3) * (self at: 4) * (self at: 8)) - ((self at: 7) * (self at: 5) * (self at: 3)) - ((self  at: 8) * (self at: 6) * (self at: 1)) - ((self at: 9) * (self at: 4) * (self at: 2))! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/21/2023 09:11:02'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 6/5/2023 15:38:13'!
 dot: anArray modulo: modulus
 	| answer n i |
 	n := self size min: anArray size.
 	answer := 0.
-	i := 1.
+	i := 1.		
 	modulus * n < 16r40000000
 		ifTrue: "delayed reduction"
 			[[i <= n] whileTrue:
@@ -39172,9 +39231,16 @@ dot: anArray modulo: modulus
 				i := i + 1].
 			answer := answer \\ modulus]
 		ifFalse:
-			[[i <= n] whileTrue:
-				[answer := (self at: i) * (anArray at: i) + answer \\ modulus.
-				i := i + 1]].
+			[| modulusMinusOne |
+			((modulusMinusOne := modulus - 1) bitAnd: modulus) = 0
+				ifTrue: "modulus is power of 2"
+					[[i <= n] whileTrue:
+						[answer := (self at: i) * (anArray at: i) + answer bitAnd: modulusMinusOne.
+						i := i + 1]]
+				ifFalse:
+					[[i <= n] whileTrue:
+						[answer := (self at: i) * (anArray at: i) + answer \\ modulus.
+						i := i + 1]]].
 	^ answer! !
 
 !ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/21/2023 00:20:56'!
@@ -39288,17 +39354,23 @@ polynomialValue: anElement
 		i _ i - 1].
 	^ answer! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 12/27/2022 11:14:05'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 6/5/2023 20:21:14'!
 polynomialValue: anInteger modulo: modulus
 	"Evaluate the receiver (as an univariate polynomial) at the given argument using Horner's method."
-	| answer i |
+	| answer i modulusMinusOne |
 	self isEmpty ifTrue: [^ 0].
 	anInteger = 0 ifTrue: [^ self at: 1].
-	answer _ 0.
-	i _ self size.
-	[i > 0] whileTrue:
-		[answer _ anInteger * answer + (self at: i) \\ modulus.
-		i _ i - 1].
+	answer := 0.
+	i := self size.
+	((modulusMinusOne := modulus - 1) bitAnd: modulus) = 0
+		ifTrue: "power of 2"
+			[[i > 0] whileTrue:
+				[answer := anInteger * answer + (self at: i) bitAnd: modulusMinusOne.
+				i := i - 1]]
+		ifFalse:
+			[[i > 0] whileTrue:
+				[answer := anInteger * answer + (self at: i) \\ modulus.
+				i := i - 1]].
 	^ answer! !
 
 !ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/11/2023 21:38:14'!
@@ -39482,15 +39554,22 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 st
 		j1 _ j1 + 1.
 		j2 _ j2 + 1]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 4/25/2022 07:59:02'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 6/5/2023 15:40:21'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2 modulo: modulus
-	| j1 j2 |
-	j1 _ start1.
-	j2 _ start2.
-	start to: stop do: [:i|
-		self at: i put: (anArray1 at: j1) * (anArray2 at: j2) \\ modulus.
-		j1 _ j1 + 1.
-		j2 _ j2 + 1]! !
+	| j1 j2 modulusMinusOne |
+	j1 := start1.
+	j2 := start2.
+	((modulusMinusOne := modulus - 1) bitAnd: modulus) = 0
+		ifTrue: "modulus is power of 2"
+			[start to: stop do: [:i|
+				self at: i put: ((anArray1 at: j1) * (anArray2 at: j2) bitAnd: modulusMinusOne).
+				j1 := j1 + 1.
+				j2 := j2 + 1]]
+		ifFalse:
+			[start to: stop do: [:i|
+				self at: i put: (anArray1 at: j1) * (anArray2 at: j2) \\ modulus.
+				j1 := j1 + 1.
+				j2 := j2 + 1]]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/12/2023 21:27:34'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2 zechTable: table
@@ -39510,15 +39589,21 @@ replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anEl
 		self at: i put: (anArray at: j) * anElement.
 		j _ j + 1]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 12/27/2022 18:08:26'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 6/5/2023 15:41:59'!
 replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anInteger modulo: modulus
-	| j |
+	| j modulusMinusOne |
 	anInteger = 0 ifTrue: [^ self from: start to: stop put: 0].
 	anInteger = 1 ifTrue: [^ self replaceFrom: start to: stop with: anArray startingAt: srcStart].
-	j _ srcStart.
-	start to: stop do: [:i|
-		self at: i put: (anArray at: j) * anInteger \\ modulus.
-		j _ j + 1]! !
+	j := srcStart.
+	((modulusMinusOne := modulus - 1) bitAnd: modulus) = 0
+		ifTrue: "modulus is power of 2"
+			[start to: stop do: [:i|
+				self at: i put: ((anArray at: j) * anInteger bitAnd: modulusMinusOne).
+				j := j + 1]]
+		ifFalse:
+			[start to: stop do: [:i|
+				self at: i put: (anArray at: j) * anInteger \\ modulus.
+				j := j + 1]]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/11/2023 18:10:37'!
 replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anInteger zechTable: table
@@ -39616,12 +39701,12 @@ replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionKaratsuba: a
 	"finally add t3 * x^m to result:"
 	self replaceFrom: start + m to: start + m + m2 - 2 with: self startingAt: start + m plus: tempArray startingAt: tempStart! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/25/2023 20:35:05'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 6/5/2023 20:26:20'!
 replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionKronecker: anArray2 from: start2 to: stop2 modulo: modulus
-	| n₁ n₂ ℓ₀ ℓ z₁ z₂ z j |
+	| n₁ n₂ modulusMinusOne ℓ₀ ℓ z₁ z₂ z j |
 	n₁ := stop1 - start1 + 1.
 	n₂ := stop2 - start2 + 1.
-	ℓ₀ := (modulus - 1) highBit.
+	ℓ₀ := (modulusMinusOne := modulus - 1) highBit.
 	ℓ := ℓ₀ * 2 + (n₁ min: n₂) highBit.
 	z₁ := LargePositiveInteger new: n₁ * ℓ + 7 // 8.
 	j := 1.
@@ -39631,7 +39716,11 @@ replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionKronecker: a
 	start2 to: stop2 do: [:i| z₂ bits: ℓ₀ at: j xor: (anArray2 at: i). j := j + ℓ].
 	z := z₁*z₂.
 	j := 1.
-	start to: start + n₁ + n₂ - 2 do: [:i| self at: i put: (z bits: ℓ at: j) \\ modulus. j := j + ℓ]! !
+	(modulusMinusOne bitAnd: modulus) = 0
+		ifTrue: "modulus is power of 2"
+			[start to: start + n₁ + n₂ - 2 do: [:i| self at: i put: (z bits: ℓ₀ at: j). j := j + ℓ]]
+		ifFalse:
+			[start to: start + n₁ + n₂ - 2 do: [:i| self at: i put: (z bits: ℓ at: j) \\ modulus. j := j + ℓ]]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/27/2023 12:27:52'!
 replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
@@ -39705,18 +39794,22 @@ replaceFrom: start withAutoconvolutionKaratsuba: anArray1 from: start1 to: stop1
 	"finally add t3 * x^m to result:"
 	self replaceFrom: start + m to: start + m + m2 - 2 with: self startingAt: start + m plus: tempArray startingAt: tempStart! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/25/2023 18:12:42'!
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 6/5/2023 20:25:57'!
 replaceFrom: start withAutoconvolutionKronecker: anArray1 from: start1 to: stop1 modulo: modulus
-	| n ℓ₀ ℓ z₁ z j |
+	| n modulusMinusOne ℓ₀ ℓ z₁ z j |
 	n := stop1 - start1 + 1.
-	ℓ₀ := (modulus - 1) highBit.
+	ℓ₀ := (modulusMinusOne := modulus - 1) highBit.
 	ℓ := ℓ₀ * 2 + n highBit.
 	z₁ := LargePositiveInteger new: n * ℓ + 7 // 8.
 	j := 1.
 	start1 to: stop1 do: [:i| z₁ bits: ℓ₀ at: j xor: (anArray1 at: i). j := j + ℓ].
 	z := z₁ squared.
 	j := 1.
-	start to: start + (n * 2) - 2 do: [:i| self at: i put: (z bits: ℓ at: j) \\ modulus. j := j + ℓ]! !
+	(modulusMinusOne bitAnd: modulus) = 0
+		ifTrue: "modulus is power of 2"
+			[start to: start + (n * 2) - 2 do: [:i| self at: i put: (z bits: ℓ₀ at: j). j := j + ℓ]]
+		ifFalse:
+			[start to: start + (n * 2) - 2 do: [:i| self at: i put: (z bits: ℓ at: j) \\ modulus. j := j + ℓ]]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/9/2022 07:47:55'!
 replaceFrom: start withAutoconvolutionLong: anArray1 from: start1 to: stop1
