@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 5 June 2023 at 8:29:41 pm'!
+'From Cuis 6.0 [latest update: #5801] on 6 June 2023 at 12:20:36 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 59!
+!provides: 'Tests-Algebra' 1 60!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -6376,13 +6376,14 @@ testAssociatedBilinearForm2
 	self assert: (B value: {(1,1). (1/2,2)}) = (19/4).
 	self assert: B depolarization = Q! !
 
-!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:25:44'!
+!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 6/6/2023 00:14:24'!
 testDiscriminant
 	"Test the discriminant of a binary quadratic form matches the definition in Magma."
 	| a b c f Q |
-	a := (-10 to: 10) atRandom: random.
+	[a := (-10 to: 10) atRandom: random.
 	b := (-10 to: 10) atRandom: random.
 	c := (-10 to: 10) atRandom: random.
+	a isZero and: [b isZero and: [c isZero]]] whileTrue. "must be not all zero"
 	f := (ℚ polynomialsIn: #(x y)) !! [:x :y| x^2*a + (x*y*b) + (y^2*c)].
 	Q := f asQuadraticForm.
 	self assert: Q discriminant = (b^2 - (4*a*c))! !

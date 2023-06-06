@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 5 June 2023 at 8:29:29 pm'!
+'From Cuis 6.0 [latest update: #5801] on 6 June 2023 at 12:20:26 am'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -70,7 +70,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 91!
+!provides: 'Algebra' 1 92!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -32313,8 +32313,9 @@ sign
 	(self scalars includes: anObject) ifTrue: [^ self apply: [:each| each \\ anObject]].
 	^ (self divisionBy: anObject) remainderAlone! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 5/14/2023 15:05:49'!
+!Polynomial methodsFor: 'operations' stamp: 'len 6/6/2023 00:09:00'!
 ÷ anElement
+	(self scalars isIntegralDomain and: [self parent includes: anElement]) ifTrue: [^ self // anElement].
 	^ self / anElement! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 8/14/2022 10:57:46'!
@@ -33515,7 +33516,7 @@ squarefreeFactorizationYun
 					q _ q // gcd - p derivative]].
 	^ answer add: p withOccurrences: count; yourself! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 5/21/2022 06:28:31'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 6/5/2023 23:49:36'!
 // anElement
 	"Answer the quotient of the division of the receiver by the argument."
 	(self scalars includes: anElement)
@@ -33523,8 +33524,8 @@ squarefreeFactorizationYun
 	anElement isCollection ifTrue: [^ (self divisionBy: anElement) quotients].
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #//].
 	anElement leadingCoefficient isUnit
-		ifFalse: [^ self class coefficients: (coefficients polynomialPartialDivisionBy: anElement coefficients) first parent: parent].
-	^ self class coefficients: (coefficients polynomialDivisionBy: anElement coefficients) first parent: parent! !
+		ifFalse: [^ self class coefficients: (coefficients polynomialPartialQuotientBy: anElement coefficients) parent: parent].
+	^ self class coefficients: (coefficients polynomialQuotientBy: anElement coefficients) parent: parent! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 12/2/2022 11:32:47'!
 << anInteger
@@ -39335,13 +39336,34 @@ polynomialDivisionBy: anArray
 	r := self copy reduceBy: anArray quotient: q.
 	^ {q. r}! !
 
-!ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/22/2023 21:07:11'!
+!ArrayedCollection methodsFor: '*algebra' stamp: 'len 6/5/2023 23:35:33'!
 polynomialPartialDivisionBy: anArray
 	| q r |
 	q := self zero.
-	r := self copy.
-	r partiallyReduceBy: anArray quotient: q.
+	r := self copy partiallyReduceBy: anArray quotient: q.
 	^ {q. r}! !
+
+!ArrayedCollection methodsFor: '*algebra' stamp: 'len 6/6/2023 00:17:56'!
+polynomialPartialQuotientBy: anArray
+	| q r k m n |
+	n := self size - 1.
+	m := anArray size - 1.
+	(n > m and: [(k := n - m * 2) < n]) ifFalse: [^ (self polynomialPartialDivisionBy: anArray) first].
+	r := self copyFrom: n - k + 1 to: n + 1.
+	q := (self species new: n - m + 1) atAllPut: self first zero.
+	r partiallyReduceBy: (anArray copyFrom: n - k + 1 to: m + 1) quotient: q.
+	^ q! !
+
+!ArrayedCollection methodsFor: '*algebra' stamp: 'len 6/6/2023 00:18:19'!
+polynomialQuotientBy: anArray
+	| q r k m n |
+	n := self size - 1.
+	m := anArray size - 1.
+	(n > m and: [(k := n - m * 2) < n]) ifFalse: [^ (self polynomialDivisionBy: anArray) first].
+	r := self copyFrom: n - k + 1 to: n + 1.
+	q := (self species new: n - m + 1) atAllPut: self first zero.
+	r reduceBy: (anArray copyFrom: n - k + 1 to: m + 1) quotient: q.
+	^ q! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/27/2022 11:12:30'!
 polynomialValue: anElement
