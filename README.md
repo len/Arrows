@@ -1,7 +1,5 @@
 # Arrows: a Computer Algebra System in Smalltalk
-The goal of this project is to build an extensible and mathematically rigorous environment where one can construct mathematical objects (such as groups, rings, modules, etc) and their morphisms and elements.
-
-The most fundamental classes of the system are *Domain* and *Morphism*, corresponding to *objects* and *arrows* of a category. You can explore the hierarchy starting from these classes and read the class comments. The code is well documented and contains references to the relevant bibliography.
+Arrows is an extensible and mathematically rigorous environment where one can construct mathematical objects (such as groups, rings, modules, etc) and operare with them, their morphisms and their elements.
 
 For an introduction to the system see [Arrows: a Computer Algebra System in Smalltalk](https://openreview.net/pdf?id=oIozVmVool), published in November 2022 in FAST Workshop on Smalltalk Related Technologies.
 
