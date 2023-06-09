@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 9 June 2023 at 9:02:01 pm'!
+'From Cuis 6.0 [latest update: #5801] on 9 June 2023 at 11:18:07 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 61!
+!provides: 'Tests-Algebra' 1 62!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -7398,6 +7398,15 @@ testSinSquaredPlusCosSquaredExample
 setUp
 	super setUp.
 	R := (	GaloisField new: (5 atRandom: random) nextPrime to: (3 atRandom: random)) polynomials! !
+
+!FiniteFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/9/2023 23:15:48'!
+testModularComposition
+	| d f g m |
+	d := 10 atRandom: random.
+	f := R atRandom: random maxDegree: d.
+	g := R atRandom: random maxDegree: d.
+	m := R atRandom: random degree: d + 1.
+	self assert: (f value: g) \\ m = (f composeWith: g modulo: m)! !
 
 !BinaryExtensionFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:33:23'!
 setUp

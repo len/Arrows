@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 9 June 2023 at 9:01:51 pm'!
+'From Cuis 6.0 [latest update: #5801] on 9 June 2023 at 11:17:59 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -7,15 +7,16 @@ References:
 [Bar06] Gregory Bard, "Accelerating Cryptanalysis with th eMethod of Four Russians" (2006)
 [ADL06] Nadia Ben Atti, Gema M. Diaz-Toca, Henri Lombardi, "The Berlekamp-Massey Algorithm Revisited" (2006)
 [BLH11] Mohamed Barakat; Markus Lange-Hegermann; "An Axiomatic Setup for Algorithmic Homological Algebra and an Alternative Approach to Localization" (2017)
-[BDPZ07] Brice Boyer; Jean-Guillaume Dumas; Clement Pernet; Wei Zhou; "Memory Efficient Scheduling of Strassen-Winograd''s Matrix Multiplication Algorithm" (2007)
 [BW93] Thomas Becker; Volker Weispfenning; "Groebner Bases: A Computational Approach to Commutative Algebra" (1993)
 [BF15] Bini, G.; Flamini, F. "Finite commutative rings and their applications" (2015)
 [BB09] Thomas J. Boothy, Robert W. Bradshaw; "Bitslicing and the Method of Four Russians over Larger Finite Fields" (2009)
+[BDPZ07] Brice Boyer; Jean-Guillaume Dumas; Clement Pernet; Wei Zhou; "Memory Efficient Scheduling of Strassen-Winograd''s Matrix Multiplication Algorithm" (2007)
+[BK78] R. P. Brent; H. T. Kung; "Fast algorithms for manipulating formal power series" (1978)
 [Coh96] Henri Cohen, "A Course in Computational Algebraic Number Theory" (1996)
 [Coh+05] Henri Cohen et al, "Handbook of elliptic and hyperelliptic curve cryptography" (2005)
 [CLO97] David Cox; John Little; Donals O''Shea; "Ideals, Varieties and Algorithms", UTM, Springer, 1997
 [CLO05] David Cox; John Little; Donals O''Shea; "Using Algebraic Geometry", GTM, Springer, 2005
-[DK02] Harm Derksen; Gregor Kemper; "Computational Invariant Theory"
+[DK02] Harm Derksen; Gregor Kemper; "Computational Invariant Theory" (2002)
 [Dix82] John D. Dixon, "Exact Solution of Linear Equations Using p-Adic Expansions" (1982)
 [Eis95] David Eisenbud; "Commutative Algebra With a View Towards Algebraic Geometry", GTM 150, Springer, 1995
 [EH99] David Eisenbud; Joe Harris; "The Geometry of Schemes", GTM 197, Springer, 1999
@@ -72,7 +73,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 93!
+!provides: 'Algebra' 1 94!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -2747,7 +2748,7 @@ When the coefficients ring is a field K and the relations ideal I is maximal, th
 See also PolynomialRing.!
 
 !QuasiGaloisRing commentStamp: '<historical>' prior: 0!
-The quasi-Galois ring A(p^r,n) is an extension of degree n of the Galois field GF(p^r) isomorphic to GF(p^r)[x]/<x^n>. See also GaloisRing.
+The quasi-Galois ring A(p^r,n) is an extension of degree n of the Galois field GF(p^r) isomorphic to GF(p^r)[x]/⟨x^n⟩. See also GaloisRing.
 !
 
 !GaloisRing commentStamp: '<historical>' prior: 0!
@@ -14876,6 +14877,12 @@ atRandom: aRandom bits: bitSize maxDegree: d maxTerms: n
 		answer _ answer + term].
 	^ answer! !
 
+!PolynomialRing methodsFor: 'random' stamp: 'len 6/9/2023 23:14:27'!
+atRandom: aRandom degree: anInteger
+	"Answer a monic polynomial of degree anInteger choosen at random."
+	self isUnivariate ifFalse: [^ self notYetImplemented].
+	^ self coefficients: ((self scalars^anInteger) atRandom: aRandom) coefficients, self scalars one! !
+
 !PolynomialRing methodsFor: 'random' stamp: 'len 5/8/2023 16:44:25'!
 atRandom: aRandom maxDegree: d
 	self isUnivariate ifFalse: [^ self notYetImplemented].
@@ -14891,11 +14898,10 @@ atRandom: aRandom modulo: anIdeal
 atRandomBits: bitSize maxDegree: d
 	^ self atRandom: self newRandom bits: bitSize maxDegree: d! !
 
-!PolynomialRing methodsFor: 'random' stamp: 'len 6/5/2023 13:36:09'!
-atRandomDegree: d
-	"Answer a monic polynomial of degree d choosen at random with a uniform distribution."
-	self isUnivariate ifFalse: [^ self notYetImplemented].
-	^ self coefficients: (self scalars^d) atRandom coefficients, self scalars one! !
+!PolynomialRing methodsFor: 'random' stamp: 'len 6/9/2023 23:14:13'!
+atRandomDegree: anInteger
+	"Answer a monic polynomial of degree anInteger choosen at random."
+	^ self atRandom: self newRandom degree: anInteger! !
 
 !PolynomialRing methodsFor: 'random' stamp: 'len 5/8/2023 16:46:00'!
 atRandomMaxDegree: d
@@ -15441,10 +15447,9 @@ isNoetherian
 isSemisimple
 	^ self radical isTrivial! !
 
-!FiniteAlgebra methodsFor: 'testing' stamp: 'len 6/11/2020 12:19:24'!
+!FiniteAlgebra methodsFor: 'testing' stamp: 'len 6/9/2023 21:10:17'!
 isSimple
-	self compositionFactorsDo: [:each| each isTrivial ifFalse: [^ false]].
-	^ true! !
+	^ self compositionFactors allSatisfy: [:each| each isTrivial]! !
 
 !FiniteAlgebra methodsFor: 'testing' stamp: 'len 6/11/2020 12:20:40'!
 isTrivial
@@ -33858,6 +33863,27 @@ companion
 	zero _ self scalars zero.
 	one _ self scalars one.
 	^ self scalars matrix: n@n fill: [:i :j| i-1 = j ifTrue: [one] ifFalse: [j < n ifTrue: [zero] ifFalse: [(self at: i-1) negated]]]! !
+
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 6/9/2023 23:03:43'!
+composeWith: aPolynomial modulo: modulus
+	"Brent-Kung modular composition algorithm [BK78].
+	See [Coh+05, Algorithm 11.50]."
+	| k G P F |
+	self assert: self degree < modulus degree.
+	self assert: aPolynomial degree < modulus degree.
+	self assert: self scalars isFiniteField.
+	k := modulus degree sqrt ceiling.
+	G := Array new: k + 1.
+	G at: 1 put: self one.
+	2 to: k + 1 do: [:i| G at: i put: (G at: i - 1) * aPolynomial \\ modulus].
+	"G withIndexDo: [:each :i| self assert: aPolynomial^(i-1) \\ modulus = each]."
+	P := Array new: k.
+	P at: 1 put: self one.
+	2 to: k do: [:i| P at: i put: (G at: k + 1) * (P at: i - 1) \\ modulus].
+	"P withIndexDo: [:each :i| self assert: aPolynomial^(i-1 * k) \\ modulus = each]."
+	F := Array new: k.
+	1 to: k do: [:i| F at: i put: ((1 to: k) sum: [:j| (G at: j) * (self at: i - 1 * k + j - 1)])].
+	^ ((1 to: k) sum: [:i| (F at: i) * (P at: i)]) \\ modulus! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 5/8/2023 17:06:45'!
 derivative
