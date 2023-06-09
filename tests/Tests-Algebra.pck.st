@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 6 June 2023 at 12:20:36 am'!
+'From Cuis 6.0 [latest update: #5801] on 9 June 2023 at 9:02:01 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 60!
+!provides: 'Tests-Algebra' 1 61!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -629,6 +629,16 @@ AbstractGCDRingTest subclass: #FiniteFieldMultivariatePolynomialRingTest
 	category: 'Tests-Algebra-Rings'!
 !classDefinition: 'FiniteFieldMultivariatePolynomialRingTest class' category: #'Tests-Algebra-Rings'!
 FiniteFieldMultivariatePolynomialRingTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #IntegerMultivariatePolynomialRingTest category: #'Tests-Algebra-Rings'!
+AbstractGCDRingTest subclass: #IntegerMultivariatePolynomialRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'IntegerMultivariatePolynomialRingTest class' category: #'Tests-Algebra-Rings'!
+IntegerMultivariatePolynomialRingTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #IntegerPolynomialRingTest category: #'Tests-Algebra-Rings'!
@@ -5691,6 +5701,16 @@ testDomainError
 	self should: [f + g] raise: Error.
 	self should: [f * g] raise: Error"! !
 
+!PolynomialTest methodsFor: 'etc' stamp: 'len 6/7/2023 16:40:07'!
+testFlatten
+	| R f |
+	R := ℚ polynomialsIn: 3 atRandom :: polynomialsIn: 3 atRandom.
+	50 timesRepeat:
+		[f := R atRandom.
+		self assert: (R !! (R flatten !! f)) = f.
+		f := R scalars atRandom.
+		self assert: (R !! (R flatten !! f)) = (R constant: f)]! !
+
 !PolynomialTest methodsFor: 'etc' stamp: 'len 5/23/2020 09:34:55'!
 testGaussLemma
 	"Lemma (Gauss): The product of two primitive polynomials is primitive."
@@ -8086,6 +8106,21 @@ setUp
 	super setUp.
 	R := (	GaloisField new: (5 atRandom: random) nextPrime to: (3 atRandom: random)) polynomialsIn: (3 atRandom: random)! !
 
+!IntegerMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/7/2023 16:45:45'!
+setUp
+	super setUp.
+	R := ℤ polynomialsIn: (3 atRandom: random)! !
+
+!IntegerMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/7/2023 16:46:04'!
+testPolynomialFlatten
+	| S f |
+	S := R polynomialsIn: (3 atRandom: random).
+	50 timesRepeat:
+		[f := S atRandom: random.
+		self assert: (S !! (S flatten !! f)) = f.
+		f := R atRandom: random.
+		self assert: (S !! (S flatten !! f)) = (S constant: f)]! !
+
 !IntegerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 17:37:53'!
 setUp
 	super setUp.
@@ -8167,6 +8202,16 @@ testPPRSExample
 		(13 25 -49)
 		(4663 -6150)
 		(1))! !
+
+!IntegerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/7/2023 16:44:51'!
+testPolynomialFlatten
+	| S f |
+	S := R polynomialsIn: (3 atRandom: random).
+	50 timesRepeat:
+		[f := S atRandom: random.
+		self assert: (S !! (S flatten !! f)) = f.
+		f := R atRandom: random.
+		self assert: (S !! (S flatten !! f)) = (S constant: f)]! !
 
 !IntegerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 17:40:06'!
 testPrimeNotMaximalIdeal
@@ -8707,11 +8752,11 @@ testSumAndProductWithArgument
 	self assert: (a sum: [:each| dict at: each]) = (a asArray sum: [:each| dict at: each]).
 	self assert: (a product: [:each| dict at: each]) = (a asArray product: [:each| dict at: each])! !
 
-!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/26/2023 14:58:29'!
+!AbstractArrayTest methodsFor: 'low level' stamp: 'len 6/6/2023 08:51:49'!
 testFirstNonzeroIndex
 	| a i |
 	a := self newArray.
-	random nextBoolean ifTrue: [a := (self newArray: (100 atRandom: random)) zero, a].
+	random nextBoolean ifTrue: [a := (self newArray: (100 atRandom: random)) zeros, a].
 	i := a findFirst: [:x| x isZero not].
 	i = 0 ifTrue: [i := nil].
 	self assert: a firstNonzeroIndex = i! !
@@ -8726,21 +8771,21 @@ testIsZeroAt
 	self assert: (a isZeroAt: index).
 	1 to: a size do: [:i| self assert: (a isZeroAt: i) = (a at: i) isZero].! !
 
-!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/26/2023 14:58:42'!
+!AbstractArrayTest methodsFor: 'low level' stamp: 'len 6/6/2023 08:52:48'!
 testLastNonzeroIndex
 	| a i |
 	a := self newArray.
-	random nextBoolean ifTrue: [a := a, (self newArray: (100 atRandom: random)) zero].
+	random nextBoolean ifTrue: [a := a, (self newArray: (100 atRandom: random)) zeros].
 	i := a findLast: [:x| x isZero not].
 	i = 0 ifTrue: [i := nil].
 	self assert: a lastNonzeroIndex = i! !
 
-!AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/11/2023 23:38:25'!
+!AbstractArrayTest methodsFor: 'low level' stamp: 'len 6/6/2023 13:19:02'!
 testPolynomialEvaluation
 	| a x |
-	a _ self newArray.
-	x _ self newScalar.
-	self assert: (a polynomialValue: x) = ((1 to: a size) sum: [:i| x^(i-1) * (a at: i)])! !
+	a := self newArray.
+	x := self newScalar.
+	self assert: (a evaluateFrom: 1 to: a size at: x) = ((1 to: a size) sum: [:i| x^(i-1) * (a at: i)])! !
 
 !AbstractArrayTest methodsFor: 'low level' stamp: 'len 5/6/2023 17:20:33'!
 testSwapFromToWithStartingAt
@@ -13197,10 +13242,11 @@ testBitTranspose32x32
 	array2 := (WordArray new: 32) at: 1 put: 3380307080; at: 2 put: 505613209; at: 3 put: 3211737355; at: 4 put: 2934365441; at: 5 put: 3404939391; at: 6 put: 1571883507; at: 7 put: 1721684941; at: 8 put: 21191643; at: 9 put: 2321119939; at: 10 put: 2635687863; at: 11 put: 2764057565; at: 12 put: 2091378642; at: 13 put: 2864437801; at: 14 put: 2571496506; at: 15 put: 1298632925; at: 16 put: 2276105172; at: 17 put: 1453344337; at: 18 put: 2233563914; at: 19 put: 2582079514; at: 20 put: 2957428620; at: 21 put: 255977013; at: 22 put: 1654533703; at: 23 put: 163053786; at: 24 put: 690408570; at: 25 put: 1502712250; at: 26 put: 376407401; at: 27 put: 384360538; at: 28 put: 531253359; at: 29 put: 3442865444; at: 30 put: 192358606; at: 31 put: 189153309; at: 32 put: 1002988923; yourself.
 	self assert: array1 copy bitTranspose32x32 = array2! !
 
-!FiniteFieldRationalFunctionFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 22:37:05'!
+!FiniteFieldRationalFunctionFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/9/2023 19:10:37'!
 setUp
 	super setUp.
-	scalars := ((	GaloisField new: 5 atRandom nextPrime to: 3 atRandom) polynomialsIn: 3 atRandom) fractions! !
+	self flag: #fixme. "test 2 or 3 variables"
+	scalars := ((	GaloisField new: (5 atRandom: random) nextPrime to: (3 atRandom: random)) polynomials"In: 3 atRandom: random") fractions! !
 
 !RationalLocalPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2022 12:31:01'!
 initialize
@@ -13222,10 +13268,10 @@ initialize
 		x _ R x: 1. y _ R x: 2. z _ R x: 3.
 		R @ (R * {y^4 - (z^3). y^2 - (x*z). x*(y^2) - (z^2). x^2 - z})]"} atRandom value! !
 
-!RationalRationalFunctionFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 9/3/2022 11:14:37'!
-initialize
-	super initialize.
-	scalars _ (ℚ polynomialsIn: 3 atRandom) fractions! !
+!RationalRationalFunctionFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/9/2023 19:16:36'!
+setUp
+	super setUp.
+	scalars := (ℚ polynomialsIn: (3 atRandom: random)) fractions! !
 
 !Benchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 04:20'!
 run
