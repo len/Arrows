@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 10 June 2023 at 5:38:15 pm'!
+'From Cuis 6.0 [latest update: #5801] on 10 June 2023 at 8:11:43 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -73,7 +73,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 96!
+!provides: 'Algebra' 1 98!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -4269,6 +4269,41 @@ reversed
 	modulusCoefficients := scalars modulus coefficients.
 	^ scalars coefficients: (tmp2 reduceBy: modulusCoefficients)! !
 
+!ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 6/10/2023 19:43:59'!
+accumulateFrom: start to: stop withMatrix: anArray1 rowIndices: rowIndices timesTuple: anArray2
+	| width n modulusCoefficients tmp j j₀ |
+	self flag: #fixme. "use convolution, not convolutionLong"
+	(width := anArray2 size) = 0 ifTrue: [^ self].
+	n := scalars degree.
+	modulusCoefficients := scalars modulus coefficients.
+	tmp := scalars scalars zeros: n*2-1.
+	j := 1.
+	start to: stop do: [:i|
+		j₀ := rowIndices at: j.
+		tmp replaceFrom: 1 to: n with: coefficients startingAt: i-1*n+1.
+		j₀ to: j₀ + width - 1 do: [:k|
+			tmp accumulateFrom: 1 with: anArray1 coefficients from: k-1*n+1 to: k*n convolutionLong: anArray2 coefficients from: k-j₀*n+1 to: k-j₀*n+n].
+		tmp reduceBy: modulusCoefficients.
+		coefficients replaceFrom: i-1*n+1 to: i*n with: tmp startingAt: 1.
+		j := j + 1]! !
+
+!ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 6/10/2023 19:43:54'!
+accumulateFrom: start to: stop withMatrix: anArray1 timesTuple: anArray2
+	| width n modulusCoefficients tmp j |
+	self flag: #fixme. "use convolution, not convolutionLong"
+	(width := anArray2 size) = 0 ifTrue: [^ self].
+	n := scalars degree.
+	modulusCoefficients := scalars modulus coefficients.
+	tmp := scalars scalars zeros: n*2-1.
+	j := 1.
+	start to: stop do: [:i|
+		tmp replaceFrom: 1 to: n with: coefficients startingAt: i-1*n+1.
+		j to: j + width - 1 do: [:k|
+			tmp accumulateFrom: 1 with: anArray1 coefficients from: k-1*n+1 to: k*n convolutionLong: anArray2 coefficients from: k-j*n+1 to: k-j*n+n].
+		tmp reduceBy: modulusCoefficients.
+		coefficients replaceFrom: i-1*n+1 to: i*n with: tmp startingAt: 1.
+		j := j + width]! !
+
 !ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 5/28/2023 23:14:58'!
 accumulateFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
 	| n modulusCoefficients tmp |
@@ -4287,6 +4322,51 @@ accumulateFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anA
 				coefficients replaceFrom: j to: j+n-1 with: coefficients startingAt: j1 plus: tmp startingAt: 1.
 				j1 := j1 + n.
 				j2 := j2 + n]]]! !
+
+!ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 6/10/2023 19:43:41'!
+accumulateRowIndices: rowIndices withMatrix: anArray1 width: width1 rowIndices: rowIndices1 timesMatrix: anArray2 width: width2 rowIndices: rowIndices2
+	| n modulusCoefficients tmp j k |
+	self flag: #fixme. "use convolution, not convolutionLong"
+	n := scalars degree.
+	modulusCoefficients := scalars modulus coefficients.
+	tmp := scalars scalars zeros: n*2-1.
+	j := 1.
+	rowIndices do: [:i₀|
+		| j₀ |
+		j₀ := rowIndices1 at: j.
+		k := 1.
+		i₀ to: i₀ + width2 - 1 do: [:i|
+			tmp replaceFrom: 1 to: n with: coefficients startingAt: i-1*n+1.
+			j₀ to: j₀ + width1 - 1 do: [:t|
+				| s |
+				s := (rowIndices2 at: t - j₀ + 1) + k - 1.
+				tmp accumulateFrom: 1 with: anArray1 coefficients from: t-1*n+1 to: t*n convolutionLong: anArray2 coefficients from: s-1*n+1 to: s*n].
+			tmp reduceBy: modulusCoefficients.
+			coefficients replaceFrom: i-1*n+1 to: i*n with: tmp startingAt: 1.
+			k := k + 1].
+		j := j + 1]! !
+
+!ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 6/10/2023 19:55:32'!
+accumulateWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2
+	| n modulusCoefficients tmp j k |
+	self flag: #fixme. "use convolution, not convolutionLong"
+	n := scalars degree.
+	modulusCoefficients := scalars modulus coefficients.
+	tmp := scalars scalars zeros: n*2-1.
+	j := 1.
+	k := 1.
+	1 to: self size do: [:i|
+		tmp replaceFrom: 1 to: n with: coefficients startingAt: i-1*n+1.
+		j to: j+width1-1 do: [:t|
+			| s |
+			s := t-j*width2+k.
+			tmp accumulateFrom: 1 with: anArray1 coefficients from: t-1*n+1 to: t*n convolutionLong: anArray2 coefficients from: s-1*n+1 to: s*n].
+		tmp reduceBy: modulusCoefficients.
+		coefficients replaceFrom: i-1*n+1 to: i*n with: tmp startingAt: 1.
+		k := k + 1.
+		k > width2 ifTrue:
+			[k := 1.
+			j := j + width1]]! !
 
 !ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:29'!
 findFirstNonzeroFrom: start to: stop
@@ -4652,6 +4732,14 @@ accumulateFrom: start to: stop withMatrix: anArray1 timesTuple: anArray2
 		timesTuple: anArray2 representatives
 		modulo: scalars modulus
 ! !
+
+!ModularArray methodsFor: 'operations-low level' stamp: 'len 6/10/2023 20:03:13'!
+accumulateFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
+	representatives
+		accumulateFrom: start
+		with: anArray1 representatives from: start1 to: stop1
+		convolutionLong: anArray2 representatives from: start2 to: stop2
+		modulo: scalars modulus! !
 
 !ModularArray methodsFor: 'operations-low level' stamp: 'len 5/21/2023 09:22:24'!
 accumulateRowIndices: rowIndices withMatrix: anArray1 width: width1 rowIndices: rowIndices1 timesMatrix: anArray2 width: width2 rowIndices: rowIndices2
@@ -12706,11 +12794,10 @@ elementClass
 isValidArray: anArray
 	^ anArray class = ExtensionPackedArray and: [anArray scalars = self]! !
 
-!ExtensionRing methodsFor: 'private' stamp: 'len 5/30/2023 17:45:50'!
+!ExtensionRing methodsFor: 'private' stamp: 'len 6/10/2023 18:30:19'!
 powersTable
-	"Answer a table with the coefficients for x^n to: x^(2n-2).
+	"Answer a table with the coefficients for x^n to: x^(2n-2), where n is the degree of the receiver.
 	This table is used for reducing the product of two elements."
-	self flag: #deprecated. "is this needed?"
 	^ self propertyAt: #powersTable ifAbsentPut:
 		[| n table tmp |
 		n := self degree.
@@ -14306,7 +14393,7 @@ size
 hash
 	^ scalars hash + monomials hash hashMultiply! !
 
-!PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/10/2023 10:45:03'!
+!PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/10/2023 18:20:42'!
 basisAndTransformationOf: aMatrix
 	"Andswer a standard basis of the module generated by the columns of aMatrix and a transformation matrix that maps the original generators to the basis."
 	| buchberger |
@@ -14316,7 +14403,7 @@ basisAndTransformationOf: aMatrix
 	buchberger := (self scalars isField ifTrue: [ExtendedBuchberger] ifFalse: [ExtendedStrongBuchberger]) on: aMatrix.
 	^ {buchberger basis. buchberger transformation}! !
 
-!PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/10/2023 10:45:45'!
+!PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/10/2023 18:20:33'!
 basisOf: aMatrix
 	"Compute a standard basis from the columns of aMatrix with the specified ordering.
 	When the monomial ordering is global, the algorithm outputs a Groebner basis. In case of a local monomial ordering, the algorithm uses Mora's normal form and outputs a standard basis."
@@ -32424,9 +32511,9 @@ sign
 	"Answer the sign of the receiver, i.e. the sign if its leading coefficient."
 	^ self leadingCoefficient sign! !
 
-!Polynomial methodsFor: 'gcd' stamp: 'len 6/10/2023 16:09:34'!
+!Polynomial methodsFor: 'gcd' stamp: 'len 6/10/2023 17:54:49'!
 gcd: aPolynomial
-	| a b u v r |
+	| f₁ f₂ m₁ m₂ c₁ c₂ |
 	self isZero ifTrue: [^ aPolynomial normalized].
 	aPolynomial isZero ifTrue: [^ self normalized].
 	(self isConstant or: [aPolynomial isConstant]) ifTrue:
@@ -32435,43 +32522,15 @@ gcd: aPolynomial
 "	(self scalars isKindOf: PolynomialRing) ifTrue: [^ self parent !! (self flatten gcd: aPolynomial flatten)]."
 "	self scalars = ℤ ifTrue: [(self gcdheu: aPolynomial) ifNotNil: [:answer| ^ answer]]."
 "	self scalars = ℤ ifTrue: [^ self mgcd: aPolynomial]."
+	self parent isUnivariate ifTrue: [^ self ugcd: aPolynomial]. "should not happen, see UnivariatePolynomial>>#gcd:"
 	"Multivariate case:"
-	self parent isUnivariate ifFalse:
-		[| ma mb |
-		ma := self monomials gcd.
-		mb := aPolynomial monomials gcd.
-		a := (self / ma) asUnivariate.
-		b := (aPolynomial / mb) asUnivariate.
-		u := a content.
-		v := b content.
-		^ ((self parent !! ((a / u gcd: b / v) * (u gcd: v)) asMultivariate) * (ma gcd: mb)) normalized].
-	"Generic Euclidean algorithm:"
-	self scalars isField ifTrue: [^ super gcd: aPolynomial].
-	"Over a general ring we use the primitive PRS algorithm [Coh96, Algorithm 3.2.10]:"
-	self scalars isUFD ifFalse: [^ self error: 'the coefficients ring is not a UFD'].
-	u := self content.
-	v := aPolynomial content.
-	a := self ÷ u.
-	b := aPolynomial ÷ v.
-	[b isZero] whileFalse: [r := (a pseudoRem: b) primitivePart. a := b. b := r].
-	a isConstant ifTrue: [a := self one].
-	^ a normalized * (u gcd: v)
-
-"alternative for the last part:
-	""Over a general UFD we use the subresultant GCD algorithm [Coh96, Algorithm 3.3.1]:""
-	self scalars isUFD ifFalse: [^ self error: 'the coefficients ring is not a UFD'].
-	aPolynomial degree > self degree ifTrue: [^ aPolynomial gcd: self].
-	u := self content.
-	v := aPolynomial content.
-	a := self ÷ u.
-	b := aPolynomial ÷ v.
-	h := g := self scalars one.
-	[δ := a degree - b degree.
-	r := a pseudoRem: b.
-	r isConstant] whileFalse:
-		[a := b. b := r ÷ (g*(h^δ)). g := a leadingCoefficient. h := g^δ ÷ (h^(δ - 1))].
-	r isZero ifFalse: [b := self one].
-	^ b primitivePart	 * (u gcd: v)"! !
+	m₁ := self monomials gcd.
+	m₂ := aPolynomial monomials gcd.
+	f₁ := (self / m₁) asUnivariate.
+	f₂ := (aPolynomial / m₂) asUnivariate.
+	c₁ := f₁ content.
+	c₂ := f₂ content.
+	^ ((self parent !! ((f₁ / c₁ ugcd: f₂ / c₂) * (c₁ gcd: c₂)) asMultivariate) * (m₁ gcd: m₂)) normalized! !
 
 !Polynomial methodsFor: 'gcd' stamp: 'len 6/7/2023 00:35:55'!
 gcdheu: aPolynomial
@@ -32631,27 +32690,26 @@ pgcd: aPolynomial
 					ifTrue: [^ C * c]
 					ifFalse: [m = 0 ifTrue: [^ c]]]]]] repeat! !
 
-!Polynomial methodsFor: 'gcd' stamp: 'len 6/7/2023 11:21:44'!
+!Polynomial methodsFor: 'gcd' stamp: 'len 6/10/2023 18:12:55'!
 ugcd: aPolynomial
 	"Univariate GCD."
-	| a b u v r |
+	| f₁ f₂ c₁ c₂ r |
 	self isZero ifTrue: [^ aPolynomial normalized].
 	aPolynomial isZero ifTrue: [^ self normalized].
 	(self isConstant or: [aPolynomial isConstant]) ifTrue:
 		[^ self scalars isField ifTrue: [self one] ifFalse: [self parent constant: (self content gcd: aPolynomial content)]].
-	self scalars hasGCD ifFalse: [^ self error: 'the coefficients ring doesn''t have GCD'].
 	self scalars isLocalization ifTrue: [^ (self parent !! (self numerator gcd: aPolynomial numerator)) normalized].
 	"Generic Euclidean algorithm:"
 	self scalars isField ifTrue: [^ super gcd: aPolynomial].
 	"Over a general ring we use the primitive PRS algorithm [Coh96, Algorithm 3.2.10]:"
 	self scalars isUFD ifFalse: [^ self error: 'the coefficients ring is not a UFD'].
-	u := self content.
-	v := aPolynomial content.
-	a := self ÷ u.
-	b := aPolynomial ÷ v.
-	[b isZero] whileFalse: [r := (a pseudoRem: b) primitivePart. a := b. b := r].
-	a isConstant ifTrue: [a := self one].
-	^ a normalized * (u gcd: v)
+	c₁ := self content.
+	c₂ := aPolynomial content.
+	f₁ := self ÷ c₁.
+	f₂ := aPolynomial ÷ c₂.
+	[f₂ isZero] whileFalse: [r := (f₁ pseudoRem: f₂) primitivePart. f₁ := f₂. f₂ := r].
+	f₁ isConstant ifTrue: [^ self parent constant: (c₁ gcd: c₂)].
+	^ f₁ normalized * (c₁ gcd: c₂)
 
 "alternative for the last part:
 	""Over a general UFD we use the subresultant GCD algorithm [Coh96, Algorithm 3.3.1]:""
@@ -34525,6 +34583,10 @@ multipliedByMonomial: aMonomial
 validate
 	super validate.
 	self assert: (self scalars isValidArray: coefficients)! !
+
+!UnivariatePolynomial methodsFor: 'gcd' stamp: 'len 6/10/2023 17:48:14'!
+gcd: aPolynomial
+	^ self ugcd: aPolynomial! !
 
 !UnivariatePolynomial class methodsFor: 'instance creation' stamp: 'len 4/20/2022 08:14:25'!
 coefficients: anArray parent: aPolynomialRing
@@ -39572,9 +39634,9 @@ accumulateFrom: start to: stop withMatrix: anArray1 rowIndices: rowIndices times
 						self at: i put: value.
 						j := j + 1]]]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/22/2023 16:52:53'!
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 6/10/2023 19:26:08'!
 accumulateFrom: start to: stop withMatrix: anArray1 timesTuple: anArray2
-	| j width |
+	| width j |
 	(width := anArray2 size) = 0 ifTrue: [^ self].
 	j := 1.
 	start to: stop do: [:i|
@@ -39632,6 +39694,17 @@ accumulateFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anA
 			self replaceFrom: k to: k+stop1-start1
 				with: self startingAt: k
 				plus: anArray1 startingAt: start1 timesScalar: (anArray2 at: i)]]! !
+
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 6/10/2023 20:01:20'!
+accumulateFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2 modulo: modulus
+	start2 to: stop2 do: [:i| | x |
+		(x := anArray2 at: i) = 0 ifFalse:
+			[| index |
+			index := i-start2+start.
+			self replaceFrom: index to: index+stop1-start1
+				with: self startingAt: index
+				plus: anArray1 startingAt: start1 timesScalar: x
+				modulo: modulus]]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/21/2023 08:33:19'!
 accumulateRowIndices: rowIndices withMatrix: anArray1 width: width1 rowIndices: rowIndices1 timesMatrix: anArray2 width: width2 rowIndices: rowIndices2
@@ -40293,18 +40366,6 @@ replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionKronecker: a
 replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
 	self from: start to: start + stop1 - start1 + stop2 - start2 put: (anArray1 at: start1) zero.
 	self accumulateFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2! !
-
-!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 5/25/2023 17:18:46'!
-replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2 modulo: modulus
-	self from: start to: start + stop1 - start1 + stop2 - start2 put: 0.
-	start2 to: stop2 do: [:i| | x |
-		(x := anArray2 at: i) = 0 ifFalse:
-			[| index |
-			index := i-start2+start.
-			self replaceFrom: index to: index+stop1-start1
-				with: self startingAt: index
-				plus: anArray1 startingAt: start1 timesScalar: x
-				modulo: modulus]]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/12/2023 21:41:18'!
 replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2 zechTable: table

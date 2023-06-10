@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 10 June 2023 at 5:38:23 pm'!
+'From Cuis 6.0 [latest update: #5801] on 10 June 2023 at 7:47:40 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 63!
+!provides: 'Tests-Algebra' 1 64!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -1819,16 +1819,6 @@ AbstractGroebnerBasisTest subclass: #RationalGroebnerBasisTest
 	category: 'Tests-Algebra-Groebner Bases'!
 !classDefinition: 'RationalGroebnerBasisTest class' category: #'Tests-Algebra-Groebner Bases'!
 RationalGroebnerBasisTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #RationalPolynomialRingGroebnerBasisTest category: #'Tests-Algebra-Groebner Bases'!
-AbstractGroebnerBasisTest subclass: #RationalPolynomialRingGroebnerBasisTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Groebner Bases'!
-!classDefinition: 'RationalPolynomialRingGroebnerBasisTest class' category: #'Tests-Algebra-Groebner Bases'!
-RationalPolynomialRingGroebnerBasisTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #RingTest category: #'Tests-Algebra'!
@@ -8150,6 +8140,15 @@ setUp
 	super setUp.
 	R := ℤ polynomialsIn: (3 atRandom: random)! !
 
+!IntegerMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2023 18:08:09'!
+testExtractCoercionBug
+	| S x₁ f g |
+	S := ℤ polynomialsIn: 2.
+	x₁ := S x: 1.
+	f := S → (S extract: #(1)) value: x₁.
+	g := (S extract: #(1)) !! x₁.
+	self assert: f = g! !
+
 !IntegerMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/7/2023 16:46:04'!
 testPolynomialFlatten
 	| S f |
@@ -12472,11 +12471,6 @@ setUp
 setUp
 	super setUp.
 	scalars := ℚ! !
-
-!RationalPolynomialRingGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2023 11:04:05'!
-setUp
-	super setUp.
-	scalars := ℚ polynomials! !
 
 !RingTest methodsFor: 'finite rings' stamp: 'len 5/23/2020 09:34:55'!
 testFiniteRingJacobsonRadical
