@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 10 June 2023 at 8:11:43 pm'!
+'From Cuis 6.0 [latest update: #5801] on 10 June 2023 at 11:20:18 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -73,7 +73,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 98!
+!provides: 'Algebra' 1 99!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -4269,10 +4269,9 @@ reversed
 	modulusCoefficients := scalars modulus coefficients.
 	^ scalars coefficients: (tmp2 reduceBy: modulusCoefficients)! !
 
-!ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 6/10/2023 19:43:59'!
+!ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 6/10/2023 23:02:32'!
 accumulateFrom: start to: stop withMatrix: anArray1 rowIndices: rowIndices timesTuple: anArray2
 	| width n modulusCoefficients tmp j j₀ |
-	self flag: #fixme. "use convolution, not convolutionLong"
 	(width := anArray2 size) = 0 ifTrue: [^ self].
 	n := scalars degree.
 	modulusCoefficients := scalars modulus coefficients.
@@ -4282,15 +4281,14 @@ accumulateFrom: start to: stop withMatrix: anArray1 rowIndices: rowIndices times
 		j₀ := rowIndices at: j.
 		tmp replaceFrom: 1 to: n with: coefficients startingAt: i-1*n+1.
 		j₀ to: j₀ + width - 1 do: [:k|
-			tmp accumulateFrom: 1 with: anArray1 coefficients from: k-1*n+1 to: k*n convolutionLong: anArray2 coefficients from: k-j₀*n+1 to: k-j₀*n+n].
+			tmp accumulateFrom: 1 with: anArray1 coefficients from: k-1*n+1 to: k*n convolution: anArray2 coefficients from: k-j₀*n+1 to: k-j₀*n+n].
 		tmp reduceBy: modulusCoefficients.
 		coefficients replaceFrom: i-1*n+1 to: i*n with: tmp startingAt: 1.
 		j := j + 1]! !
 
-!ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 6/10/2023 19:43:54'!
+!ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 6/10/2023 23:02:37'!
 accumulateFrom: start to: stop withMatrix: anArray1 timesTuple: anArray2
 	| width n modulusCoefficients tmp j |
-	self flag: #fixme. "use convolution, not convolutionLong"
 	(width := anArray2 size) = 0 ifTrue: [^ self].
 	n := scalars degree.
 	modulusCoefficients := scalars modulus coefficients.
@@ -4299,7 +4297,7 @@ accumulateFrom: start to: stop withMatrix: anArray1 timesTuple: anArray2
 	start to: stop do: [:i|
 		tmp replaceFrom: 1 to: n with: coefficients startingAt: i-1*n+1.
 		j to: j + width - 1 do: [:k|
-			tmp accumulateFrom: 1 with: anArray1 coefficients from: k-1*n+1 to: k*n convolutionLong: anArray2 coefficients from: k-j*n+1 to: k-j*n+n].
+			tmp accumulateFrom: 1 with: anArray1 coefficients from: k-1*n+1 to: k*n convolution: anArray2 coefficients from: k-j*n+1 to: k-j*n+n].
 		tmp reduceBy: modulusCoefficients.
 		coefficients replaceFrom: i-1*n+1 to: i*n with: tmp startingAt: 1.
 		j := j + width]! !
@@ -4323,10 +4321,9 @@ accumulateFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anA
 				j1 := j1 + n.
 				j2 := j2 + n]]]! !
 
-!ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 6/10/2023 19:43:41'!
+!ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 6/10/2023 23:02:42'!
 accumulateRowIndices: rowIndices withMatrix: anArray1 width: width1 rowIndices: rowIndices1 timesMatrix: anArray2 width: width2 rowIndices: rowIndices2
 	| n modulusCoefficients tmp j k |
-	self flag: #fixme. "use convolution, not convolutionLong"
 	n := scalars degree.
 	modulusCoefficients := scalars modulus coefficients.
 	tmp := scalars scalars zeros: n*2-1.
@@ -4340,16 +4337,15 @@ accumulateRowIndices: rowIndices withMatrix: anArray1 width: width1 rowIndices: 
 			j₀ to: j₀ + width1 - 1 do: [:t|
 				| s |
 				s := (rowIndices2 at: t - j₀ + 1) + k - 1.
-				tmp accumulateFrom: 1 with: anArray1 coefficients from: t-1*n+1 to: t*n convolutionLong: anArray2 coefficients from: s-1*n+1 to: s*n].
+				tmp accumulateFrom: 1 with: anArray1 coefficients from: t-1*n+1 to: t*n convolution: anArray2 coefficients from: s-1*n+1 to: s*n].
 			tmp reduceBy: modulusCoefficients.
 			coefficients replaceFrom: i-1*n+1 to: i*n with: tmp startingAt: 1.
 			k := k + 1].
 		j := j + 1]! !
 
-!ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 6/10/2023 19:55:32'!
+!ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 6/10/2023 23:02:47'!
 accumulateWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2
 	| n modulusCoefficients tmp j k |
-	self flag: #fixme. "use convolution, not convolutionLong"
 	n := scalars degree.
 	modulusCoefficients := scalars modulus coefficients.
 	tmp := scalars scalars zeros: n*2-1.
@@ -4360,7 +4356,7 @@ accumulateWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2
 		j to: j+width1-1 do: [:t|
 			| s |
 			s := t-j*width2+k.
-			tmp accumulateFrom: 1 with: anArray1 coefficients from: t-1*n+1 to: t*n convolutionLong: anArray2 coefficients from: s-1*n+1 to: s*n].
+			tmp accumulateFrom: 1 with: anArray1 coefficients from: t-1*n+1 to: t*n convolution: anArray2 coefficients from: s-1*n+1 to: s*n].
 		tmp reduceBy: modulusCoefficients.
 		coefficients replaceFrom: i-1*n+1 to: i*n with: tmp startingAt: 1.
 		k := k + 1.
@@ -4732,6 +4728,18 @@ accumulateFrom: start to: stop withMatrix: anArray1 timesTuple: anArray2
 		timesTuple: anArray2 representatives
 		modulo: scalars modulus
 ! !
+
+!ModularArray methodsFor: 'operations-low level' stamp: 'len 6/10/2023 22:57:16'!
+accumulateFrom: start with: anArray1 from: start1 to: stop1 convolution: anArray2 from: start2 to: stop2
+	self accumulateFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2! !
+
+!ModularArray methodsFor: 'operations-low level' stamp: 'len 6/10/2023 22:55:45'!
+accumulateFrom: start with: anArray1 from: start1 to: stop1 convolutionKronecker: anArray2 from: start2 to: stop2
+	representatives
+		accumulateFrom: start
+		with: anArray1 representatives from: start1 to: stop1
+		convolutionKronecker: anArray2 representatives from: start2 to: stop2
+		modulo: scalars modulus! !
 
 !ModularArray methodsFor: 'operations-low level' stamp: 'len 6/10/2023 20:03:13'!
 accumulateFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
@@ -7691,20 +7699,26 @@ normalClosureOf: aSubset
 				(N includes: hg) ifFalse: [Z add: hg. N := self span: Z]]].
 	^ N! !
 
-!Group methodsFor: 'operations' stamp: 'len 5/10/2023 21:17:01'!
+!Group methodsFor: 'operations' stamp: 'len 6/10/2023 23:08:14'!
 orderOf: anElement
 	"Answer the order of the argument in the receiver, i.e. the minimum e such that g^e = 1.
 	[Coh96] Algorithm 1.4.3 (Order of an Element)."
 	| h factors id e g1 |
-	self flag: #fixme. "TODO: handle additive groups"
-	h _ self size.
-	factors _ self propertyAt: #orderFactorization ifAbsentPut: [h factorization].
-	e _ h.
-	id _ self identity.
-	factors asSet do: [:p|
-		e _ e / (p ^ (factors occurrencesOf: p)).
-		g1 _ anElement ^ e.
-		[g1 = id] whileFalse: [g1 _ g1 ^ p. e _ e * p]].
+	h := self size.
+	factors := self propertyAt: #sizeFactorization ifAbsentPut: [h factorization].
+	e := h.
+	id := self identity.
+	self isAdditiveGroup
+		ifTrue:
+			[factors asSet do: [:p|
+				e := e / (p ^ (factors occurrencesOf: p)).
+				g1 := anElement * e.
+				[g1 = id] whileFalse: [g1 := g1 * p. e := e * p]]]
+		ifFalse:
+			[factors asSet do: [:p|
+				e := e / (p ^ (factors occurrencesOf: p)).
+				g1 := anElement ^ e.
+				[g1 = id] whileFalse: [g1 := g1 ^ p. e := e * p]]].
 	^ e! !
 
 !Group methodsFor: 'operations' stamp: 'len 8/5/2021 08:39:38'!
@@ -17169,7 +17183,7 @@ leadingSubmodule
 	self basis do: [:each| | t | t _ each leadingTerm. (t \\ leadingTerms) isZero ifFalse: [leadingTerms add: t]].
 	^ self ambient span: leadingTerms! !
 
-!Module methodsFor: 'operations' stamp: 'len 8/5/2021 08:40:36'!
+!Module methodsFor: 'operations' stamp: 'len 6/10/2023 23:06:35'!
 orderOf: anElement
 	"Answer the order of the argument in the receiver, i.e. the minimum e such that x*e = 0."
 	| h factors id e g1 |
@@ -17177,14 +17191,14 @@ orderOf: anElement
 		[(self torsionFree !! anElement) isZero ifFalse: [^ Infinity positive].
 		^ self torsion orderOf: self torsion !! anElement].
 	"[Coh96] Algorithm 1.4.3 (Order of an Element):"
-	h _ self size.
-	factors _ self propertyAt: #orderFactorization ifAbsentPut: [h factorization].
-	e _ h.
-	id _ self identity.
+	h := self size.
+	factors := self propertyAt: #sizeFactorization ifAbsentPut: [h factorization].
+	e := h.
+	id := self identity.
 	factors asSet do: [:p|
-		e _ e / (p ^ (factors occurrencesOf: p)).
-		g1 _ anElement * e.
-		[g1 = id] whileFalse: [g1 _ g1 * p. e _ e * p]].
+		e := e / (p ^ (factors occurrencesOf: p)).
+		g1 := anElement * e.
+		[g1 = id] whileFalse: [g1 := g1 * p. e := e * p]].
 	^ e! !
 
 !Module methodsFor: 'operations' stamp: 'len 8/12/2022 13:08:54'!
@@ -33328,15 +33342,13 @@ sprs: aPolynomial
 			f2 _ f1. f1 _ r].
 	^ answer! !
 
-!Polynomial methodsFor: 'testing' stamp: 'len 5/26/2023 23:03:53'!
+!Polynomial methodsFor: 'testing' stamp: 'len 6/10/2023 23:09:15'!
 | aPolynomial
 	"Answer true if the receiver divides the argument."
 	aPolynomial isZero ifTrue: [^ true].
 	self isZero ifTrue: [^ false].
 	self scalars isField ifTrue: [^ (aPolynomial \\ self) isZero].
 	self independentCoefficient | aPolynomial independentCoefficient ifFalse: [^ false].
-	self flag: #fixme.
-	"self leadingCoefficient | aPolynomial leadingCoefficient ifFalse: [^ false]."
 	self coefficients sum | aPolynomial coefficients sum ifFalse: [^ false].
 	self isUnit ifTrue: [^ true].
 	self scalars isIntegralDomain ifTrue: [^ (aPolynomial pseudoRem: self) isZero].
@@ -38517,18 +38529,27 @@ bitParity
 	1 to: self digitLength do: [:i| sum _ sum bitXor: (self digitAt: i)].
 	^ sum bitParity8! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 5/17/2023 23:02:57'!
+!Integer methodsFor: '*algebra' stamp: 'len 6/10/2023 23:19:27'!
 bitReduce: anInteger
 	"If the receiver and the argument represent polynomials over Z/2Z,
 	the answer represents the remainder of the polynomial division of the receiver by the argument."
 	| answer m n |
-	n _ self highBit.
-	m _ anInteger highBit.
-	answer _ self.
+	n := self highBit.
+	m := anInteger highBit.
+	answer := self.
 	[n >= m] whileTrue:
-		[(answer bitAt: n) = 1 ifTrue: [answer _ answer bitXor: (anInteger bitShift: n - m)].
-		n _ n - 1].
-	^ answer! !
+		[(answer bitAt: n) = 1 ifTrue: [answer := answer bitXor: (anInteger bitShift: n - m)].
+		n := n - 1].
+	^ answer
+
+"alternative: (sometimes faster)
+	| m r n |
+	(m := anInteger highBit) = 0 ifTrue: [^ self error: 'division by zero'].
+	r := self.
+	[(n := r highBit) >= m]
+		whileTrue:
+			[r := r bitXor: anInteger << (n-m)].
+	^ r"! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 7/1/2016 23:03'!
 bitSize
@@ -39684,6 +39705,32 @@ accumulateFrom: start to: stop withMatrix: anArray1 timesTuple: anArray2 zechTab
 		j to: j+width-1 do: [:k| value := table op: value plus: (table op: (anArray1 at: k) times: (anArray2 at: k-j+1))].
 		self at: i put: value.
 		j := j + width]! !
+
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 6/10/2023 22:48:11'!
+accumulateFrom: start with: anArray1 from: start1 to: stop1 convolution: anArray2 from: start2 to: stop2
+	self accumulateFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2! !
+
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 6/10/2023 22:58:24'!
+accumulateFrom: start with: anArray1 from: start1 to: stop1 convolutionKronecker: anArray2 from: start2 to: stop2 modulo: modulus
+	| n₁ n₂ modulusMinusOne ℓ₀ ℓ z₁ z₂ z j |
+	self flag: #fixme. "this seems to be slower than convolutionLong"
+	n₁ := stop1 - start1 + 1.
+	n₂ := stop2 - start2 + 1.
+	ℓ₀ := (modulusMinusOne := modulus - 1) highBit.
+	ℓ := ℓ₀ * 2 + (n₁ min: n₂) highBit.
+	z₁ := LargePositiveInteger new: n₁ * ℓ + 7 // 8.
+	j := 1.
+	start1 to: stop1 do: [:i| z₁ bits: ℓ₀ at: j xor: (anArray1 at: i). j := j + ℓ].
+	z₂ := LargePositiveInteger new: n₂ * ℓ + 7 // 8.
+	j := 1.
+	start2 to: stop2 do: [:i| z₂ bits: ℓ₀ at: j xor: (anArray2 at: i). j := j + ℓ].
+	z := z₁*z₂.
+	j := 1.
+	(modulusMinusOne bitAnd: modulus) = 0
+		ifTrue: "modulus is power of 2"
+			[start to: start + n₁ + n₂ - 2 do: [:i| self at: i put: ((self at: i) + (z bits: ℓ₀ at: j) bitAnd: modulusMinusOne). j := j + ℓ]]
+		ifFalse:
+			[start to: start + n₁ + n₂ - 2 do: [:i| self at: i put: (self at: i) + (z bits: ℓ at: j) \\ modulus. j := j + ℓ]]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/28/2023 22:52:09'!
 accumulateFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
