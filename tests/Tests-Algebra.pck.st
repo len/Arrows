@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 9 June 2023 at 11:18:07 pm'!
+'From Cuis 6.0 [latest update: #5801] on 10 June 2023 at 5:38:23 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 62!
+!provides: 'Tests-Algebra' 1 63!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -1351,6 +1351,16 @@ AbstractIntegralDomainMatrixTest subclass: #RationalPolynomialRingMatrixTest
 RationalPolynomialRingMatrixTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #RationalPolynomialRingPolynomialRingMatrixTest category: #'Tests-Algebra-Matrices'!
+AbstractIntegralDomainMatrixTest subclass: #RationalPolynomialRingPolynomialRingMatrixTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'RationalPolynomialRingPolynomialRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
+RationalPolynomialRingPolynomialRingMatrixTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #BinaryPowerMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractCommutativeRingMatrixTest subclass: #BinaryPowerMatrixTest
 	instanceVariableNames: ''
@@ -1701,6 +1711,16 @@ AbstractCommutativeRingModuleTest subclass: #RationalPolynomialRingModuleTest
 RationalPolynomialRingModuleTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #RationalPolynomialRingPolynomialRingModuleTest category: #'Tests-Algebra-Modules'!
+AbstractCommutativeRingModuleTest subclass: #RationalPolynomialRingPolynomialRingModuleTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Modules'!
+!classDefinition: 'RationalPolynomialRingPolynomialRingModuleTest class' category: #'Tests-Algebra-Modules'!
+RationalPolynomialRingPolynomialRingModuleTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #AbstractModuleTODOTest category: #'Tests-Algebra-Modules'!
 AbstractModuleTest subclass: #AbstractModuleTODOTest
 	instanceVariableNames: ''
@@ -1799,6 +1819,16 @@ AbstractGroebnerBasisTest subclass: #RationalGroebnerBasisTest
 	category: 'Tests-Algebra-Groebner Bases'!
 !classDefinition: 'RationalGroebnerBasisTest class' category: #'Tests-Algebra-Groebner Bases'!
 RationalGroebnerBasisTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #RationalPolynomialRingGroebnerBasisTest category: #'Tests-Algebra-Groebner Bases'!
+AbstractGroebnerBasisTest subclass: #RationalPolynomialRingGroebnerBasisTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Groebner Bases'!
+!classDefinition: 'RationalPolynomialRingGroebnerBasisTest class' category: #'Tests-Algebra-Groebner Bases'!
+RationalPolynomialRingGroebnerBasisTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #RingTest category: #'Tests-Algebra'!
@@ -10868,6 +10898,11 @@ testSmithNormalFormOverExample1
 	A _ (R^2) id * x - (R !!!!!! #((3 -4) (1 -1))).
 	self assert: A SNF = ((R^2) endomorphisms diagonal: {R one. x^2 - (x*2) + 1})! !
 
+!RationalPolynomialRingPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2023 11:00:12'!
+setUp
+	super setUp.
+	scalars := ℚ polynomials polynomials! !
+
 !BinaryPowerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2023 17:29:05'!
 setUp
 	super setUp.
@@ -12262,6 +12297,11 @@ setUp
 	super setUp.
 	scalars := ℚ polynomials! !
 
+!RationalPolynomialRingPolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2023 11:01:19'!
+setUp
+	super setUp.
+	scalars := ℚ polynomials polynomials! !
+
 !AbstractModuleTODOTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:39:02'!
 testPullbackSquaresSharingMorphism
 	| A B C D f g h P r s Q t u |
@@ -12432,6 +12472,11 @@ setUp
 setUp
 	super setUp.
 	scalars := ℚ! !
+
+!RationalPolynomialRingGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2023 11:04:05'!
+setUp
+	super setUp.
+	scalars := ℚ polynomials! !
 
 !RingTest methodsFor: 'finite rings' stamp: 'len 5/23/2020 09:34:55'!
 testFiniteRingJacobsonRadical

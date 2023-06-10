@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 10 June 2023 at 10:50:18 am'!
+'From Cuis 6.0 [latest update: #5801] on 10 June 2023 at 5:38:15 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -73,7 +73,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 95!
+!provides: 'Algebra' 1 96!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -14325,11 +14325,13 @@ basisOf: aMatrix
 	self scalars isEuclidean ifFalse: [^ self notYetImplemented].
 	^ ((self scalars isField ifTrue: [Buchberger] ifFalse: [StrongBuchberger]) on: aMatrix) basis! !
 
-!PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/4/2023 14:22:34'!
+!PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/10/2023 17:34:11'!
 matrix: B quotientBy: A
 	"Answer X such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
 	| G T C basis |
 	self isEuclideanDomain ifTrue: [^ self matrixOverEuclideanDomain: B quotientBy: A].
+	(self scalars isKindOf: PolynomialRing)
+		ifTrue: [^ ((B apply: self → self flatten) quotientBy: (A apply: self → self flatten)) apply: self flatten → self].
 	T := A basisTransformation.
 	G := A basis.
 	A height = 1
@@ -14337,49 +14339,53 @@ matrix: B quotientBy: A
 		ifFalse: [C := B columns. basis := G columns].
 	^ Matrix to: A domain columns: (C collect: [:each| T * (T domain !! (each // basis))])! !
 
-!PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/5/2022 19:08:31'!
+!PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/10/2023 17:34:05'!
 matrix: B reductionBy: A
 	"Answer N such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
 	| G C basis |
 	self isEuclideanDomain ifTrue: [^ super matrix: B reductionBy: A].
-	G _ A basis.
+	(self scalars isKindOf: PolynomialRing)
+		ifTrue: [^ ((B apply: self → self flatten) reductionBy: (A apply: self → self flatten)) apply: self flatten → self].
+	G := A basis.
 	A height = 1
 		ifTrue:
-			[basis _ G asTuple asArray.
-			C _ (B asTuple asArray collect: [:each| A codomain !! (each reductionFullBy: basis)])]
+			[basis := G asTuple asArray.
+			C := (B asTuple asArray collect: [:each| A codomain !! (each reductionFullBy: basis)])]
 		ifFalse:
-			[basis _ G columns.
-			C _ (B columns collect: [:each| each reductionFullBy: basis])].
+			[basis := G columns.
+			C := (B columns collect: [:each| each reductionFullBy: basis])].
 	^ Matrix to: B codomain columns: C
 		! !
 
-!PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 12/22/2022 19:11:21'!
+!PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/10/2023 17:26:42'!
 syzygiesOf: aMatrix
 	"Answer a matrix whose rows span the kernel of the given matrix.
 	For a matrix A, the output is X with AX = 0."
 	| G T S syzygies |
 	self isEuclideanDomain ifTrue: [^ self syzygiesOverEuclideanDomainOf: aMatrix].
-	T _ aMatrix basisTransformation.
-	G _ aMatrix basis.
+	(self scalars isKindOf: PolynomialRing)
+		ifTrue: [^ (aMatrix apply: self → self flatten) syzygies apply: self flatten → self].
+	T := aMatrix basisTransformation.
+	G := aMatrix basis.
 	self assert: aMatrix*T = G.
-	syzygies _ OrderedCollection new.
+	syzygies := OrderedCollection new.
 	1 to: G width - 1 do: [:i|
 		| gi hi |
-		gi _ G columnAt: i.
-		hi _ gi leadingMonomial.
+		gi := G columnAt: i.
+		hi := gi leadingMonomial.
 		i+1 to: G width do: [:j|
 			| gj hj q s |
-			gj _ G columnAt: j.
-			hj _ gj leadingMonomial.
+			gj := G columnAt: j.
+			hj := gj leadingMonomial.
 			(hi lcm: hj) ifNotNil: [:lcm|
 				| ri rj |
-				ri _ lcm / hi.
-				rj _ lcm / hj.
-				q _ G domain !! (gi * ri - (gj * rj) // G columns).
-				s _ (G domain x: i monomial: ri) - (G domain x: j monomial: rj) - q.
-				s _ T * s.
+				ri := lcm / hi.
+				rj := lcm / hj.
+				q := G domain !! (gi * ri - (gj * rj) // G columns).
+				s := (G domain x: i monomial: ri) - (G domain x: j monomial: rj) - q.
+				s := T * s.
 				s isZero ifFalse: [syzygies add: s]]]].
-	S _ Matrix to: G domain columns: (aMatrix columns collect: [:each| G domain !! (each // G columns)]).
+	S := Matrix to: G domain columns: (aMatrix columns collect: [:each| G domain !! (each // G columns)]).
 	self assert: G*S = aMatrix.
 	^ Matrix to: aMatrix domain columns: syzygies, ((aMatrix domain id - (T*S)) columns select: [:each| each isZero not])! !
 
@@ -14465,7 +14471,7 @@ slice: anArray
 	"Given a subset Y of the indeterminates of the receiver R[X], answer the subring R[Y] equipped with the embedding map."
 	^ self class monomials: (monomials slice: anArray) over: self scalars! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 5/8/2023 16:42:27'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 6/10/2023 16:12:52'!
 adapt: anElement
 	(anElement isInteger or: [anElement isFraction])
 		ifTrue: [^ self constant: scalars !! anElement].
@@ -14473,6 +14479,8 @@ adapt: anElement
 		ifTrue: [^ self constant: anElement].
 	(monomials includes: anElement)
 		ifTrue: [^ self monomial: anElement].
+	"(super adapt: anElement) ifNotNil: [:aPolynomial| ^ aPolynomial]."
+	self flag: #fixme. "this is broken"
 	(anElement parent class = self class and: [anElement parent monomials = monomials]) ifFalse:
 			[(scalars adapt: anElement) ifNotNil: [:aScalar| ^ self constant: aScalar].
 			(super adapt: anElement) ifNotNil: [:aPolynomial| ^ aPolynomial]].
@@ -14900,10 +14908,22 @@ atRandom: aRandom degree: anInteger
 	self isUnivariate ifFalse: [^ self notYetImplemented].
 	^ self coefficients: ((self scalars^anInteger) atRandom: aRandom) coefficients, self scalars one! !
 
-!PolynomialRing methodsFor: 'random' stamp: 'len 5/8/2023 16:44:25'!
+!PolynomialRing methodsFor: 'random' stamp: 'len 6/10/2023 11:29:04'!
 atRandom: aRandom maxDegree: d
-	self isUnivariate ifFalse: [^ self notYetImplemented].
-	^ self coefficients: (self scalars^(d+1) atRandom: aRandom) coefficients! !
+	^ self atRandom: aRandom maxDegree: d maxTerms: 2 ^ self rank! !
+
+!PolynomialRing methodsFor: 'random' stamp: 'len 6/10/2023 11:28:10'!
+atRandom: aRandom maxDegree: d maxTerms: n
+	| answer term |
+	d = 0 ifTrue: [^ self constant: (scalars atRandom: aRandom)].
+	self isUnivariate ifTrue: [^ self coefficients: (scalars^(d+1) atRandom: aRandom) coefficients].
+	answer := self zero.
+	(n atRandom: aRandom) timesRepeat:
+		[term := self one.
+		((0 to: d) atRandom: aRandom) timesRepeat: [term := term * (self generators atRandom: aRandom)].
+		term := term * (scalars atRandom: aRandom).
+		answer := answer + term].
+	^ answer! !
 
 !PolynomialRing methodsFor: 'random' stamp: 'len 5/8/2023 17:58:48'!
 atRandom: aRandom modulo: anIdeal
@@ -14911,20 +14931,19 @@ atRandom: aRandom modulo: anIdeal
 	(anIdeal isPrincipal and: [self isUnivariate]) ifFalse: [^ self notYetImplemented].
 	^ self coefficients: (scalars new: anIdeal generator degree fill: [:i| scalars atRandom: aRandom])! !
 
-!PolynomialRing methodsFor: 'random' stamp: 'len 3/11/2021 16:39:15'!
-atRandomBits: bitSize maxDegree: d
-	^ self atRandom: self newRandom bits: bitSize maxDegree: d! !
+!PolynomialRing methodsFor: 'random' stamp: 'len 6/10/2023 11:30:22'!
+atRandomBits: bitSize maxDegree: anInteger
+	^ self atRandom: self newRandom bits: bitSize maxDegree: anInteger! !
 
 !PolynomialRing methodsFor: 'random' stamp: 'len 6/9/2023 23:14:13'!
 atRandomDegree: anInteger
 	"Answer a monic polynomial of degree anInteger choosen at random."
 	^ self atRandom: self newRandom degree: anInteger! !
 
-!PolynomialRing methodsFor: 'random' stamp: 'len 5/8/2023 16:46:00'!
-atRandomMaxDegree: d
-	"Answer a polynomial of degree at most d choosen at random with a uniform distribution."
-	self isUnivariate ifFalse: [^ self notYetImplemented].
-	^ self coefficients: (self scalars^(d+1)) atRandom coefficients! !
+!PolynomialRing methodsFor: 'random' stamp: 'len 6/10/2023 11:30:07'!
+atRandomMaxDegree: anInteger
+	"Answer a polynomial of degree at most anInteger choosen at random."
+	^ self atRandom: self newRandom maxDegree: anInteger! !
 
 !PolynomialRing methodsFor: 'random' stamp: 'len 5/25/2022 19:34:42'!
 unitAtRandom: aRandom
@@ -32405,17 +32424,17 @@ sign
 	"Answer the sign of the receiver, i.e. the sign if its leading coefficient."
 	^ self leadingCoefficient sign! !
 
-!Polynomial methodsFor: 'gcd' stamp: 'len 6/9/2023 10:11:20'!
+!Polynomial methodsFor: 'gcd' stamp: 'len 6/10/2023 16:09:34'!
 gcd: aPolynomial
 	| a b u v r |
 	self isZero ifTrue: [^ aPolynomial normalized].
 	aPolynomial isZero ifTrue: [^ self normalized].
 	(self isConstant or: [aPolynomial isConstant]) ifTrue:
 		[^ self scalars isField ifTrue: [self one] ifFalse: [self parent constant: (self content gcd: aPolynomial content)]].
-	self scalars hasGCD ifFalse: [^ self error: 'the coefficients ring doesn''t have GCD'].
 	self scalars isLocalization ifTrue: [^ (self parent !! (self numerator gcd: aPolynomial numerator)) normalized].
-"	self scalars = ℤ ifTrue: [(self gcdheu: aPolynomial) ifNotNil: [:answer| ^ answer]]."
 "	(self scalars isKindOf: PolynomialRing) ifTrue: [^ self parent !! (self flatten gcd: aPolynomial flatten)]."
+"	self scalars = ℤ ifTrue: [(self gcdheu: aPolynomial) ifNotNil: [:answer| ^ answer]]."
+"	self scalars = ℤ ifTrue: [^ self mgcd: aPolynomial]."
 	"Multivariate case:"
 	self parent isUnivariate ifFalse:
 		[| ma mb |
@@ -32480,23 +32499,22 @@ gcdheu: aPolynomial
 		ξ := ξ * 73794 // 27011].
 	^ nil! !
 
-!Polynomial methodsFor: 'gcd' stamp: 'len 6/9/2023 10:27:38'!
+!Polynomial methodsFor: 'gcd' stamp: 'len 6/10/2023 15:43:37'!
 mgcd: aPolynomial
 	"Modular GCD Algorithm. See [GCL92, Algorithm 7.1].
 	This algorithm reduces the multivariate integer GCD problem to a series of multivariate finite field GCD problems by applying modular homomorphisms."
 	| R k a b A B c g q H limit p 𝔽ₚ Rₚ Aₚ Bₚ gₚ Cₚ n m C |
-	self isZero ifTrue: [^ aPolynomial normalized].
-	aPolynomial isZero ifTrue: [^ self normalized].
 	self assert: self scalars = ℤ.
 	R := self parent.
-	k := (R rank to: 1 by: -1) detect: [:i| (self has: i) or: [aPolynomial has: i]] ifNone: [0].
-	k > 1 ifFalse: [^ self ugcd: aPolynomial].
+"	k > 1 ifFalse: [^ self ugcd: aPolynomial]."
 	"Remove the content:"
 	a := self content. b := aPolynomial content.
+	(self indeterminates anySatisfy: [:i| aPolynomial has: i]) ifFalse: [^ self parent constant: (a gcd: b)].
+	k := (R rank to: 1 by: -1) detect: [:i| (self has: i) or: [aPolynomial has: i]] ifNone: [0].
 	A := self / a. B := aPolynomial / b.
 	"Compute coefficient bound for the GCD:"
 	c := a gcd: b. g := A leadingCoefficient gcd: B leadingCoefficient.
-	q := 0. H := R zero. n := (A degreeIn: k) min: (B degreeIn: k).
+	q := 1. H := R zero. n := (A degreeIn: k) min: (B degreeIn: k).
 	limit := (1 << n) * g abs * (A normMax min: B normMax).
 	"Main loop:"
 	[[p := 16rFFFFFFFF atRandom nextPrime. p | g] whileTrue.
@@ -32510,38 +32528,79 @@ mgcd: aPolynomial
 	m < n
 		ifTrue: [q := p. H := Cₚ lift. n := m]
 		ifFalse: [m = n ifTrue:
-			["..."
-			q := q * p]].
-	q > limit
-		ifTrue:
-			[C := H primitivePart.
-			(C | A and: [C | B]) ifTrue: [^ C * c]]
-		ifFalse:
-			[m = 0 ifTrue: [^ R constant: c]]] repeat! !
+			[| xgcd |
+			xgcd := q xgcd: p.
+			H := R associations: ((H monomials asSet, Cₚ monomials asSet) asArray
+				collect: [:each| | hᵢ cᵢ |
+					hᵢ := H at: each. cᵢ := (Cₚ at: each) lift.
+					each -> (hᵢ * (xgcd at: 3) * p + (cᵢ * (xgcd at: 2) * q))]).
+			q := q * p.
+			q > limit
+				ifTrue:
+					[C := H primitivePart.
+					(C | A and: [C | B]) ifTrue: [^ C * c]]
+				ifFalse:
+					[m = 0 ifTrue: [^ R constant: c]]]]] repeat! !
 
-!Polynomial methodsFor: 'gcd' stamp: 'len 6/7/2023 11:05:12'!
-pgcd2: aPolynomial
-	"Answer the greatest common divisor of the receiver and aPolynomial using a probabilistic algorithm."
-	| f g maps samples n |
-	self parent scalars = ℤ ifFalse: [^ DomainError signal: 'not over rational integers'].
-	f := self primitivePart.
-	g := aPolynomial primitivePart.
-	n := f degree max: g degree.
-	maps := OrderedCollection new: n + 1.
-	samples := 1 to: n.
-	samples do: [:each| maps add: each -> ((f value: each) gcd: (g value: each))].
-	^ self parent interpolate: maps! !
+!Polynomial methodsFor: 'gcd' stamp: 'len 6/10/2023 13:31:17'!
+oldgcd: aPolynomial
+	| a b u v r |
+	self isZero ifTrue: [^ aPolynomial normalized].
+	aPolynomial isZero ifTrue: [^ self normalized].
+	(self isConstant or: [aPolynomial isConstant]) ifTrue:
+		[^ self scalars isField ifTrue: [self one] ifFalse: [self parent constant: (self content gcd: aPolynomial content)]].
+	self scalars hasGCD ifFalse: [^ self error: 'the coefficients ring doesn''t have GCD'].
+	self scalars isLocalization ifTrue: [^ (self parent !! (self numerator gcd: aPolynomial numerator)) normalized].
+"	self scalars = ℤ ifTrue: [(self gcdheu: aPolynomial) ifNotNil: [:answer| ^ answer]]."
+"	(self scalars isKindOf: PolynomialRing) ifTrue: [^ self parent !! (self flatten gcd: aPolynomial flatten)]."
+	"Multivariate case:"
+	self parent isUnivariate ifFalse:
+		[| ma mb |
+		ma := self monomials gcd.
+		mb := aPolynomial monomials gcd.
+		a := (self / ma) asUnivariate.
+		b := (aPolynomial / mb) asUnivariate.
+		u := a content.
+		v := b content.
+		^ ((self parent !! ((a / u gcd: b / v) * (u gcd: v)) asMultivariate) * (ma gcd: mb)) normalized].
+	"Generic Euclidean algorithm:"
+	self scalars isField ifTrue: [^ super gcd: aPolynomial].
+	"Over a general ring we use the primitive PRS algorithm [Coh96, Algorithm 3.2.10]:"
+	self scalars isUFD ifFalse: [^ self error: 'the coefficients ring is not a UFD'].
+	u := self content.
+	v := aPolynomial content.
+	a := self ÷ u.
+	b := aPolynomial ÷ v.
+	[b isZero] whileFalse: [r := (a pseudoRem: b) primitivePart. a := b. b := r].
+	a isConstant ifTrue: [a := self one].
+	^ a normalized * (u gcd: v)
 
-!Polynomial methodsFor: 'gcd' stamp: 'len 6/9/2023 10:47:02'!
+"alternative for the last part:
+	""Over a general UFD we use the subresultant GCD algorithm [Coh96, Algorithm 3.3.1]:""
+	self scalars isUFD ifFalse: [^ self error: 'the coefficients ring is not a UFD'].
+	aPolynomial degree > self degree ifTrue: [^ aPolynomial gcd: self].
+	u := self content.
+	v := aPolynomial content.
+	a := self ÷ u.
+	b := aPolynomial ÷ v.
+	h := g := self scalars one.
+	[δ := a degree - b degree.
+	r := a pseudoRem: b.
+	r isConstant] whileFalse:
+		[a := b. b := r ÷ (g*(h^δ)). g := a leadingCoefficient. h := g^δ ÷ (h^(δ - 1))].
+	r isZero ifFalse: [b := self one].
+	^ b primitivePart	 * (u gcd: v)"! !
+
+!Polynomial methodsFor: 'gcd' stamp: 'len 6/10/2023 16:06:24'!
 pgcd: aPolynomial
 	"Multivariate GCD Reduction Algorithm. See [GCL92, Algorithm 7.2].
 	This algorithm reduces the k-variate finite field GCD problem to a series of (k-1)-variate finite field GCD problems by applying evaluation homomorphisms. This algorithm is applied recursively."
-	| k R S A B a b c g q H n A₀ B₀ C₀ m g₀ C |
+	| k R S A B a b c g q H n α A₀ B₀ C₀ m g₀ C |
 	R := self parent.
 	k := (R rank to: 1 by: -1) detect: [:i| (self has: i) or: [aPolynomial has: i]] ifNone: [0].
 	k > 1 ifFalse: [^ self ugcd: aPolynomial].
 	"Determine the content of A and B considered as polynomials in 𝔽[xₖ][x₁...xₖ₋₁] (polynomials with coefficients in 𝔽[xₖ])."
-	S := R extract: (1 to: k-1).
+	S := R extract: (1 to: k-1), (k+1 to: R rank).
 	A := S !! self. B := S !! aPolynomial.
 	a := A content. b := B content.
 	A := A / a. B := B / b.
@@ -32550,26 +32609,27 @@ pgcd: aPolynomial
 	A := R !! A. B := R !! B. c := R !! c.
 	q := R one. H := R one. n := (A degreeIn: k) min: (B degreeIn: k). "limit := n + g degree."
 	"Main loop:"
-	[[b := R scalars atRandom. (g₀ := g value: b) isZero] whileTrue.
-	A₀ := A value: b in: k. B₀ := B value: b in: k.
+	[[α := R scalars atRandom. (g₀ := g value: α) isZero or: [(q value: α in: k) isZero "already used"]] whileTrue.
+	"Warning: the line above could hang if the coefficients field doesn't have enough elements. In that case we should move to a field extension."
+	A₀ := A value: α in: k. B₀ := B value: α in: k.
 	C₀ := A₀ pgcd: B₀. m := C₀ degreeIn: k - 1.
 	"Normalize C₀ so that the leading coefficient is g₀:"
 	C₀ := C₀ * (C₀ leadingCoefficient inverse * g₀).
 	"Test for unlucky homomorphisms:"
 	m < n
 		ifTrue: [q := R one. H := R one. n := m]
-		ifFalse: [m = n ifTrue:
+		ifFalse: [m >= "or =?" n ifTrue:
 			[| v |
-			v := (q value: b in: k) inverse * (g₀ "or C₀?" - (H value: b in: k)).
+			"Interpolate:"
+			v := (q value: α in: k) inverse * (C₀ "g₀ or C₀?" - (H value: α in: k)).
 			H := H + (v * q "* C₀?").
-			q := q * ((R x: k) - b)
-			"polyinterp(q, H, b, C₀, p)"]].
-	"Test for completion:"
-	H leadingCoefficient = g ifTrue:
-		[C := H primitivePart.
-		(C | A and: [C | B])
-			ifTrue: [^ C * c]
-			ifFalse: [m = 0 ifTrue: [^ c]]]] repeat! !
+			q := q * ((R x: k) - α).
+			"Test for completion:"
+			(S !! H) leadingCoefficient = g ifTrue:
+				[C := H primitivePart.
+				(C | A and: [C | B])
+					ifTrue: [^ C * c]
+					ifFalse: [m = 0 ifTrue: [^ c]]]]]] repeat! !
 
 !Polynomial methodsFor: 'gcd' stamp: 'len 6/7/2023 11:21:44'!
 ugcd: aPolynomial
@@ -32972,10 +33032,11 @@ value: anObject
 		answer _ (monomial isIdentity ifTrue: [one * each value] ifFalse: [(monomial value: anObject) * each value]) + answer].
 	^ answer! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 6/8/2023 14:56:31'!
+!Polynomial methodsFor: 'operations' stamp: 'len 6/10/2023 11:37:43'!
 value: anElement in: anIndeterminate
 	"Answer the value of the receiver when substituting the given indeterminate by anElement."
 	self flag: #fixme. "optimize this"
+	self assert: (self parent scalars includes: anElement).
 	^ self value: ((1 to: self parent rank) collect: [:i| i = anIndeterminate ifTrue: [self parent constant: anElement] ifFalse: [self parent x: i]])! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 11/1/2016 18:40'!
@@ -36631,7 +36692,7 @@ on: aGroup base: anElement
 on: aGroup base: anElement order: anInteger
 	^ self new group: aGroup base: anElement order: anInteger! !
 
-!BrentKung methodsFor: 'computing' stamp: 'len 6/10/2023 09:52:31'!
+!BrentKung methodsFor: 'computing' stamp: 'len 6/10/2023 12:17:06'!
 compose: aPolynomial
 	"Compute the composition using the precomputed tables."
 	| k F |
@@ -36639,6 +36700,7 @@ compose: aPolynomial
 	self assert: aPolynomial parent = modulus parent.
 	k := P size.
 	F := Array new: k.
+	self flag: #fixme. "TODO: use fast matrix multiplication for this step"
 	1 to: k do: [:i| F at: i put: ((1 to: k) sum: [:j| (G at: j) * (aPolynomial at: i - 1 * k + j - 1)])].
 	^ ((1 to: k) sum: [:i| (F at: i) * (P at: i)]) \\ modulus! !
 
