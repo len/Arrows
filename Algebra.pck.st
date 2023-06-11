@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 11 June 2023 at 1:31:21 pm'!
+'From Cuis 6.0 [latest update: #5801] on 11 June 2023 at 2:10:36 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -73,7 +73,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 100!
+!provides: 'Algebra' 1 101!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -4634,12 +4634,13 @@ species
 slices: anArray scalars: anExtensionRing
 	^ self basicNew slices: anArray scalars: anExtensionRing! !
 
-!BinaryExtensionArray methodsFor: 'operations-low level' stamp: 'len 6/11/2023 13:29:19'!
-accumulateRowIndices: rowIndices withMatrix: anArray1 width: width1 rowIndices: rowIndices1 timesMatrix: anArray2 width: width2 rowIndices: rowIndices2
+!BinaryExtensionArray methodsFor: 'operations-low level' stamp: 'len 6/11/2023 14:09:52'!
+accumulateFrom: start to: stop withMatrix: anArray1 rowIndices: rowIndices timesTuple: anArray2
 	| zero tmp1 tmp2 tmp3 |
+	self flag: #fixme. "we're doing unnecesary work here, we should only work with slices of submatrices"
 	zero := self scalars scalars zero.
-	tmp1 := self scalars scalars new: self size.
-	tmp2 := self scalars scalars new: self size.
+	tmp1 := self scalars scalars new: anArray1 size.
+	tmp2 := self scalars scalars new: anArray2 size.
 	tmp3 := self scalars scalars new: self size.
 	self scalars karatsubaFormula do: [:each|
 		| t a b |
@@ -4655,16 +4656,76 @@ accumulateRowIndices: rowIndices withMatrix: anArray1 width: width1 rowIndices: 
 				[tmp2 replaceFrom: 1 to: tmp2 size with: (anArray2 slice: t first) startingAt: 1.
 				t allButFirstDo: [:i| tmp2 += (anArray2 slice: i)].
 				tmp2].
-		tmp3 atAllPut: zero.
-		tmp3 accumulateRowIndices: rowIndices withMatrix: a width: width1 rowIndices: rowIndices1 timesMatrix: b width: width2 rowIndices: rowIndices2.
-		(each at: 3) do: [:i| (self slice: i) += tmp3]]! !
+		(t := each at: 3) size = 1
+			ifTrue: [(self slice: t first) accumulateFrom: start to: stop withMatrix: a rowIndices: rowIndices timesTuple: b]
+			ifFalse:
+				[tmp3 atAllPut: zero.
+				tmp3 accumulateFrom: start to: stop withMatrix: a rowIndices: rowIndices timesTuple: b.
+				t do: [:i| (self slice: i) replaceFrom: start to: stop with: (self slice: i) startingAt: start plus: tmp3 startingAt: 1]]]! !
 
-!BinaryExtensionArray methodsFor: 'operations-low level' stamp: 'len 6/11/2023 13:29:15'!
+!BinaryExtensionArray methodsFor: 'operations-low level' stamp: 'len 6/11/2023 14:07:57'!
+accumulateFrom: start to: stop withMatrix: anArray1 timesTuple: anArray2
+	| zero tmp1 tmp2 tmp3 |
+	zero := self scalars scalars zero.
+	tmp1 := self scalars scalars new: anArray1 size.
+	tmp2 := self scalars scalars new: anArray2 size.
+	tmp3 := self scalars scalars new: stop - start + 1.
+	self scalars karatsubaFormula do: [:each|
+		| t a b |
+		a := (t := each at: 1) size = 1
+			ifTrue: [anArray1 slice: t first]
+			ifFalse:
+				[tmp1 replaceFrom: 1 to: tmp1 size with: (anArray1 slice: t first) startingAt: 1.
+				t allButFirstDo: [:i| tmp1 += (anArray1 slice: i)].
+				tmp1].
+		b := (t := each at: 2) size = 1
+			ifTrue: [anArray2 slice: t first]
+			ifFalse:
+				[tmp2 replaceFrom: 1 to: tmp2 size with: (anArray2 slice: t first) startingAt: 1.
+				t allButFirstDo: [:i| tmp2 += (anArray2 slice: i)].
+				tmp2].
+		(t := each at: 3) size = 1
+			ifTrue: [(self slice: t first) accumulateFrom: start to: stop withMatrix: a timesTuple: b]
+			ifFalse:
+				[tmp3 atAllPut: zero.
+				tmp3 accumulateFrom: start to: stop withMatrix: a timesTuple: b.
+				t do: [:i| (self slice: i) replaceFrom: start to: stop with: (self slice: i) startingAt: start plus: tmp3 startingAt: 1]]]! !
+
+!BinaryExtensionArray methodsFor: 'operations-low level' stamp: 'len 6/11/2023 14:08:37'!
+accumulateRowIndices: rowIndices withMatrix: anArray1 width: width1 rowIndices: rowIndices1 timesMatrix: anArray2 width: width2 rowIndices: rowIndices2
+	| zero tmp1 tmp2 tmp3 |
+	self flag: #fixme. "we're doing unnecesary work here, we should only work with slices of submatrices"
+	zero := self scalars scalars zero.
+	tmp1 := self scalars scalars new: anArray1 size.
+	tmp2 := self scalars scalars new: anArray2 size.
+	tmp3 := self scalars scalars new: self size.
+	self scalars karatsubaFormula do: [:each|
+		| t a b |
+		a := (t := each at: 1) size = 1
+			ifTrue: [anArray1 slice: t first]
+			ifFalse:
+				[tmp1 replaceFrom: 1 to: tmp1 size with: (anArray1 slice: t first) startingAt: 1.
+				t allButFirstDo: [:i| tmp1 += (anArray1 slice: i)].
+				tmp1].
+		b := (t := each at: 2) size = 1
+			ifTrue: [anArray2 slice: t first]
+			ifFalse:
+				[tmp2 replaceFrom: 1 to: tmp2 size with: (anArray2 slice: t first) startingAt: 1.
+				t allButFirstDo: [:i| tmp2 += (anArray2 slice: i)].
+				tmp2].
+		(t := each at: 3) size = 1
+			ifTrue: [(self slice: t first) accumulateRowIndices: rowIndices withMatrix: a width: width1 rowIndices: rowIndices1 timesMatrix: b width: width2 rowIndices: rowIndices2]
+			ifFalse:
+				[tmp3 atAllPut: zero.
+				tmp3 accumulateRowIndices: rowIndices withMatrix: a width: width1 rowIndices: rowIndices1 timesMatrix: b width: width2 rowIndices: rowIndices2.
+				t do: [:i| (self slice: i) += tmp3]]]! !
+
+!BinaryExtensionArray methodsFor: 'operations-low level' stamp: 'len 6/11/2023 14:09:03'!
 accumulateWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2
 	| zero tmp1 tmp2 tmp3 |
 	zero := self scalars scalars zero.
-	tmp1 := self scalars scalars new: self size.
-	tmp2 := self scalars scalars new: self size.
+	tmp1 := self scalars scalars new: anArray1 size.
+	tmp2 := self scalars scalars new: anArray2 size.
 	tmp3 := self scalars scalars new: self size.
 	self scalars karatsubaFormula do: [:each|
 		| t a b |
@@ -4680,9 +4741,12 @@ accumulateWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2
 				[tmp2 replaceFrom: 1 to: tmp2 size with: (anArray2 slice: t first) startingAt: 1.
 				t allButFirstDo: [:i| tmp2 += (anArray2 slice: i)].
 				tmp2].
-		tmp3 atAllPut: zero.
-		tmp3 accumulateWithMatrix: a width: width1 timesMatrix: b width: width2.
-		(each at: 3) do: [:i| (self slice: i) += tmp3]]! !
+		(t := each at: 3) size = 1
+			ifTrue: [(self slice: t first) accumulateWithMatrix: a width: width1 timesMatrix: b width: width2]
+			ifFalse:
+				[tmp3 atAllPut: zero.
+				tmp3 accumulateWithMatrix: a width: width1 timesMatrix: b width: width2.
+				t do: [:i| (self slice: i) += tmp3]]]! !
 
 !ModularArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:44:53'!
 at: anInteger
@@ -13144,18 +13208,18 @@ isValidArray: anArray
 "	self size <= self zechMaximumOrder ifTrue: [^ anArray class = ZechArray and: [anArray scalars = self]]."
 	^ super isValidArray: anArray! !
 
-!GaloisField methodsFor: 'private' stamp: 'len 6/11/2023 13:21:00'!
+!GaloisField methodsFor: 'private' stamp: 'len 6/11/2023 13:59:17'!
 karatsubaFormula
 	| unreducedFormula powers |
 	self propertyAt: #karatsubaFormula ifPresent: [:anArray| ^ anArray].
 	self characteristic = 2 ifFalse: [^ self notYetImplemented].
 	unreducedFormula := #(
-		(((1 2) (1 2) (1)) ((1) (1) (1 1)) ((2) (2) (2 3)))
+		(((1 2) (1 2) (2)) ((1) (1) (1 2)) ((2) (2) (2 3)))
 		(((1 2) (1 2) (2)) ((1 3) (1 3) (3)) ((2 3) (2 3) (4)) ((1) (1) (1 2 3)) ((2) (2) (2 3 4)) ((3) (3) (3 4 5)))
 		(((1 2 3 4) (1 2 3 4) (4)) ((1 2) (1 2) (2 4)) ((1 3) (1 3) (3 4)) ((2 4) (2 4) (4 5)) ((3 4) (3 4) (4 6)) ((1) (1) (1 2 3 4)) ((2) (2) (2 3 4 5)) ((3) (3) (3 4 5 6)) ((4) (4) (4 5 6 7)))
 		(((1) (1) (1 2 3 5 6 7)) ((2) (2) (2 5)) ((4) (4) (5 8)) ((5) (5) (3 4 5 7 8 9)) ((1 5) (1 5) (3 4 6 7)) ((1 2) (1 2) (2 3 5 6)) ((4 5) (4 5) (4 5 7 8)) ((2 3 5) (2 3 5) (3 5)) ((1 3 4) (1 3 4) (5 7)) ((1 2 4 5) (1 2 4 5) (4 6)) ((1 2 3 5) (1 2 3 5) (3 6)) ((1 3 4 5) (1 3 4 5) (4 7)) ((1 2 3 4 5) (1 2 3 4 5) (4 5 6)))
 		(((1) (1) (1 2 6 7)) ((2) (2) (2 4 5 6 7 8)) ((5) (5) (4 6 8 10)) ((6) (6) (6 7 10 11)) ((5 6) (5 6) (4 5 9 10)) ((1 2) (1 2) (2 3 5 8)) ((4 5) (4 5) (4 7 8 9)) ((2 3) (2 3) (3 4 7 8)) ((2 5) (2 5) (5 6)) ((3 4) (3 4) (4 5 7 8)) ((4 5 6) (4 5 6) (4 5 7 9)) ((1 2 3) (1 2 3) (3 8)) ((1 4 6) (1 4 6) (6 8)) ((1 3 6) (1 3 6) (4 5 6 7)) ((1 3 4 6) (1 3 4 6) (4 5 6 8)) ((1 2 4 5) (1 2 4 5) (5 7)) ((1 2 3 4 5 6) (1 2 3 4 5 6) (7)))
-		(((1 2 3 4 5 6 7) (1 2 3 4 5 6 7) (6 7 8)) ((2 3 4 6 7) (2 3 4 6 7) (7 10)) ((1 2 4 5 6) (1 2 4 5 6) (4 7)) ((1 3 4 5 7) (1 3 4 5 7) (4 10)) ((1 3 4 6 7) (1 3 4 6 7) (4 8)) ((1 2 4 5 7) (1 2 4 5 7) (6 10)) ((2 3 5 6) (2 3 5 6) (4 6 8)) ((1 2) (1 2) (2 4 8 10)) ((1 3) (1 3) (3 6 7 10)) ((1 5) (1 5) (5 8)) ((2 4) (2 4) (4 5 7 8)) ((3 7) (3 7) (6 9)) ((4 6) (4 6) (6 7 9 10)) ((5 7) (5 7) (4 7 8 11)) ((6 7) (6 7) (4 6 10 12)) ((1) (1) (1 2 3 5 6 7)) ((2) (2) (2 3 5 6)) ((3) (3) (3 4 5 7 8 9)) ((4) (4) (5 6 8 9)) ((5) (5) (5 6 7 9 10 11)) ((6) (6) (8 9 11 12)) ((7) (7) (7 8 9 11 12 13)))
+		(((1 2 3 4 5 6 7) (1 2 3 4 5 6 7) (6 7 8)) ((2 3 4 6 7) (2 3 4 6 7) (7 10)) ((1 2 4 5 6) (1 2 4 5 6) (4 7)) ((1 3 4 5 7) (1 3 4 5 7) (4 10)) ((1 3 4 6 7) (1 3 4 6 7) (4 8)) ((1 2 4 5 7) (1 2 4 5 7) (6 10)) ((2 3 5 6) (2 3 5 6) (4 6 8 10)) ((1 2) (1 2) (2 4 8 10)) ((1 3) (1 3) (3 6 7 10)) ((1 5) (1 5) (5 8)) ((2 4) (2 4) (4 5 7 8)) ((3 7) (3 7) (6 9)) ((4 6) (4 6) (6 7 9 10)) ((5 7) (5 7) (4 7 8 11)) ((6 7) (6 7) (4 6 10 12)) ((1) (1) (1 2 3 5 6 7)) ((2) (2) (2 3 5 6)) ((3) (3) (3 4 5 7 8 9)) ((4) (4) (5 6 8 9)) ((5) (5) (5 6 7 9 10 11)) ((6) (6) (8 9 11 12)) ((7) (7) (7 8 9 11 12 13)))
 		) at: self degree - 1.
 	powers := (0 to: self degree * 2 - 2) collect: [:i| (self project: self cover x^i) coefficients support asArray].
 	^ self propertyAt: #karatsubaFormula put:
