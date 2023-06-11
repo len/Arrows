@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 10 June 2023 at 11:20:18 pm'!
+'From Cuis 6.0 [latest update: #5801] on 11 June 2023 at 1:31:21 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -73,7 +73,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 99!
+!provides: 'Algebra' 1 100!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -2526,7 +2526,7 @@ Given a Float, and assuming the number is actually rational, its continued fract
 !
 
 !BinaryArray commentStamp: '<historical>' prior: 0!
-Arrays of elements of the field ℤ/2ℤ. They are stored as bits in an array of 32-bit words.!
+Arrays of elements of the field 𝔽₂ = ℤ/2ℤ. They are stored as bits in an array of 32-bit words.!
 
 !ExtensionPackedArray commentStamp: '<historical>' prior: 0!
 Arrays of elements of an extension ring or field stored in packed form.!
@@ -2545,7 +2545,7 @@ Arrays of elements of an integer residue class ring ℤ/nℤ. See ModularInteger
 Arrays of elements of a product ring. See ProductRing.!
 
 !TernaryArray commentStamp: '<historical>' prior: 0!
-Arrays of elements of the field ℤ/3ℤ. They are stored using 2 bits per element in bitsliced representation with two arrays of 32-bit words. See [BB09].
+Arrays of elements of the field 𝔽₃ = ℤ/3ℤ. They are stored using 2 bits per element in bitsliced representation with two arrays of 32-bit words. See [BB09].
 
 The element 0 is represented as 00, 1 as 10 and -1 as 11. So the first slice marks whether an element is 0 or a unit, while the second slice indicates the sign.
 !
@@ -4255,19 +4255,16 @@ reversed
 		newCoefficients replaceFrom: i to: i+n-1 with: coefficients startingAt: m-n-i+2].
 	^ self class coefficients: newCoefficients scalars: scalars! !
 
-!ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 5/23/2023 10:41:21'!
+!ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 6/10/2023 23:35:19'!
 · anArray
-	| n modulusCoefficients tmp1 tmp2 j |
+	| n tmp j |
 	n := scalars degree.
-	tmp1 := scalars scalars new: n*2 - 1.
-	tmp2 := scalars scalars zeros: n*2 - 1.
+	tmp := scalars scalars zeros: n*2 - 1.
 	j := 1.
 	1 to: (self size min: anArray size)-1*n+1 by: n do: [:i|
-		tmp1 replaceFrom: 1 with: coefficients from: i to: i+n-1 convolution: anArray coefficients from: j to: j+n-1.
-		tmp2 replaceFrom: 1 to: tmp2 size with: tmp2 startingAt: 1 plus: tmp1 startingAt: 1.
+		tmp accumulateFrom: 1 with: coefficients from: i to: i+n-1 convolution: anArray coefficients from: j to: j+n-1.
 		j := j + n].
-	modulusCoefficients := scalars modulus coefficients.
-	^ scalars coefficients: (tmp2 reduceBy: modulusCoefficients)! !
+	^ scalars coefficients: (tmp reduceBy: scalars modulus coefficients)! !
 
 !ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 6/10/2023 23:02:32'!
 accumulateFrom: start to: stop withMatrix: anArray1 rowIndices: rowIndices timesTuple: anArray2
@@ -4475,11 +4472,9 @@ swapFrom: start to: stop with: anArray startingAt: start2
 	n _ scalars degree.
 	coefficients swapFrom: start-1*n+1 to: stop*n with: anArray coefficients startingAt: start2-1*n+1! !
 
-!ExtensionPackedArray methodsFor: 'printing' stamp: 'len 5/23/2023 06:59:41'!
+!ExtensionPackedArray methodsFor: 'printing' stamp: 'len 6/11/2023 10:37:46'!
 printOn: aStream
-	aStream nextPut: $(.
-	self do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $)! !
+	aStream withParentheses: [:aStream2| self do: [:each| aStream2 print: each] separatedBy: [aStream2 nextPutAll: ', ']]! !
 
 !ExtensionPackedArray methodsFor: 'testing' stamp: 'len 5/4/2023 23:44:29'!
 isZero
@@ -4490,6 +4485,14 @@ isZeroAt: anInteger
 	| n |
 	n _ scalars degree.
 	^ (coefficients findFirstNonzeroFrom: anInteger-1*n+1 to: anInteger*n) isNil! !
+
+!ExtensionPackedArray methodsFor: 'private' stamp: 'len 6/11/2023 13:30:45'!
+asSliced
+	| answer |
+	self flag: #fixme. "remove this method"
+	answer := BinaryExtensionArray slices: ((1 to: scalars degree) collect: [:i| scalars scalars new: self size]) scalars: scalars.
+	1 to: self size do: [:i| answer at: i put: (self at: i)].
+	^ answer! !
 
 !ExtensionPackedArray methodsFor: 'private' stamp: 'len 5/4/2023 23:44:29'!
 coefficients
@@ -4513,9 +4516,9 @@ coefficients: anArray scalars: aGaloisRing
 at: anInteger
 	^ scalars !! (slices collect: [:each| each at: anInteger])! !
 
-!ExtensionSlicedArray methodsFor: 'accessing' stamp: 'len 5/12/2023 23:23:27'!
+!ExtensionSlicedArray methodsFor: 'accessing' stamp: 'len 6/11/2023 01:31:14'!
 at: anInteger put: anElement
-	slices withIndexDo: [:each :i| each at: anInteger put: (anElement at: i)].
+	slices withIndexDo: [:each :i| each at: anInteger put: (anElement at: i - 1)].
 	^ anElement! !
 
 !ExtensionSlicedArray methodsFor: 'accessing' stamp: 'len 5/12/2023 23:23:42'!
@@ -4605,6 +4608,10 @@ replaceWithMatrixTranspose: anArray width: width
 swapFrom: start to: stop with: anArray startingAt: start2
 	slices withIndexDo: [:each :i| each swapFrom: start to: stop with: (anArray slice: i) startingAt: start2]! !
 
+!ExtensionSlicedArray methodsFor: 'printing' stamp: 'len 6/11/2023 10:39:34'!
+printOn: aStream
+	aStream withParentheses: [:aStream2| self do: [:each| aStream2 print: each] separatedBy: [aStream2 nextPutAll: ', ']]! !
+
 !ExtensionSlicedArray methodsFor: 'testing' stamp: 'len 5/12/2023 23:26:09'!
 isZero
 	^ slices allSatisfy: [:each| each isZero]! !
@@ -4613,10 +4620,11 @@ isZero
 isZeroAt: anInteger
 	^ slices allSatisfy: [:each| (each isZeroAt: anInteger)]! !
 
-!ExtensionSlicedArray methodsFor: 'private' stamp: 'len 5/12/2023 23:27:11'!
+!ExtensionSlicedArray methodsFor: 'private' stamp: 'len 6/11/2023 01:30:46'!
 slices: anArray scalars: anExtensionRing
-	slices _ anArray.
-	scalars _ anExtensionRing! !
+	slices := anArray.
+	scalars := anExtensionRing.
+	self assert: slices size = scalars degree! !
 
 !ExtensionSlicedArray methodsFor: 'private' stamp: 'len 5/12/2023 23:27:28'!
 species
@@ -4625,6 +4633,56 @@ species
 !ExtensionSlicedArray class methodsFor: 'instance creation' stamp: 'len 5/12/2023 23:28:30'!
 slices: anArray scalars: anExtensionRing
 	^ self basicNew slices: anArray scalars: anExtensionRing! !
+
+!BinaryExtensionArray methodsFor: 'operations-low level' stamp: 'len 6/11/2023 13:29:19'!
+accumulateRowIndices: rowIndices withMatrix: anArray1 width: width1 rowIndices: rowIndices1 timesMatrix: anArray2 width: width2 rowIndices: rowIndices2
+	| zero tmp1 tmp2 tmp3 |
+	zero := self scalars scalars zero.
+	tmp1 := self scalars scalars new: self size.
+	tmp2 := self scalars scalars new: self size.
+	tmp3 := self scalars scalars new: self size.
+	self scalars karatsubaFormula do: [:each|
+		| t a b |
+		a := (t := each at: 1) size = 1
+			ifTrue: [anArray1 slice: t first]
+			ifFalse:
+				[tmp1 replaceFrom: 1 to: tmp1 size with: (anArray1 slice: t first) startingAt: 1.
+				t allButFirstDo: [:i| tmp1 += (anArray1 slice: i)].
+				tmp1].
+		b := (t := each at: 2) size = 1
+			ifTrue: [anArray2 slice: t first]
+			ifFalse:
+				[tmp2 replaceFrom: 1 to: tmp2 size with: (anArray2 slice: t first) startingAt: 1.
+				t allButFirstDo: [:i| tmp2 += (anArray2 slice: i)].
+				tmp2].
+		tmp3 atAllPut: zero.
+		tmp3 accumulateRowIndices: rowIndices withMatrix: a width: width1 rowIndices: rowIndices1 timesMatrix: b width: width2 rowIndices: rowIndices2.
+		(each at: 3) do: [:i| (self slice: i) += tmp3]]! !
+
+!BinaryExtensionArray methodsFor: 'operations-low level' stamp: 'len 6/11/2023 13:29:15'!
+accumulateWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2
+	| zero tmp1 tmp2 tmp3 |
+	zero := self scalars scalars zero.
+	tmp1 := self scalars scalars new: self size.
+	tmp2 := self scalars scalars new: self size.
+	tmp3 := self scalars scalars new: self size.
+	self scalars karatsubaFormula do: [:each|
+		| t a b |
+		a := (t := each at: 1) size = 1
+			ifTrue: [anArray1 slice: t first]
+			ifFalse:
+				[tmp1 replaceFrom: 1 to: tmp1 size with: (anArray1 slice: t first) startingAt: 1.
+				t allButFirstDo: [:i| tmp1 += (anArray1 slice: i)].
+				tmp1].
+		b := (t := each at: 2) size = 1
+			ifTrue: [anArray2 slice: t first]
+			ifFalse:
+				[tmp2 replaceFrom: 1 to: tmp2 size with: (anArray2 slice: t first) startingAt: 1.
+				t allButFirstDo: [:i| tmp2 += (anArray2 slice: i)].
+				tmp2].
+		tmp3 atAllPut: zero.
+		tmp3 accumulateWithMatrix: a width: width1 timesMatrix: b width: width2.
+		(each at: 3) do: [:i| (self slice: i) += tmp3]]! !
 
 !ModularArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:44:53'!
 at: anInteger
@@ -5090,11 +5148,9 @@ swapFrom: start to: stop with: anArray startingAt: start2
 	components withIndexDo: [:each :i|
 		each swapFrom: start to: stop with: (anArray projection: i) startingAt: start2]! !
 
-!ProductArray methodsFor: 'printing' stamp: 'len 5/20/2023 19:47:27'!
+!ProductArray methodsFor: 'printing' stamp: 'len 6/11/2023 10:37:36'!
 printOn: aStream
-	aStream nextPut: $(.
-	self do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
-	aStream nextPut: $)! !
+	aStream withParentheses: [:aStream2| self do: [:each| aStream2 print: each] separatedBy: [aStream2 nextPutAll: ', ']]! !
 
 !ProductArray methodsFor: 'testing' stamp: 'len 5/4/2023 23:39:54'!
 isZero
@@ -12765,6 +12821,11 @@ coefficients: anArray
 new: anInteger
 	^ ExtensionPackedArray coefficients: (self scalars new: anInteger * self degree) scalars: self! !
 
+!ExtensionRing methodsFor: 'elements' stamp: 'len 6/11/2023 10:36:05'!
+newFrom: anObject
+	anObject isSequenceable ifTrue: [^ self project: self cover !! anObject].
+	^ super newFrom: anObject! !
+
 !ExtensionRing methodsFor: 'elements' stamp: 'len 5/27/2023 08:01:59'!
 zeros: anInteger
 	^ ExtensionPackedArray coefficients: (self scalars zeros: anInteger * self degree) scalars: self! !
@@ -13083,9 +13144,31 @@ isValidArray: anArray
 "	self size <= self zechMaximumOrder ifTrue: [^ anArray class = ZechArray and: [anArray scalars = self]]."
 	^ super isValidArray: anArray! !
 
-!GaloisField methodsFor: 'private' stamp: 'len 5/15/2023 20:20:06'!
+!GaloisField methodsFor: 'private' stamp: 'len 6/11/2023 13:21:00'!
+karatsubaFormula
+	| unreducedFormula powers |
+	self propertyAt: #karatsubaFormula ifPresent: [:anArray| ^ anArray].
+	self characteristic = 2 ifFalse: [^ self notYetImplemented].
+	unreducedFormula := #(
+		(((1 2) (1 2) (1)) ((1) (1) (1 1)) ((2) (2) (2 3)))
+		(((1 2) (1 2) (2)) ((1 3) (1 3) (3)) ((2 3) (2 3) (4)) ((1) (1) (1 2 3)) ((2) (2) (2 3 4)) ((3) (3) (3 4 5)))
+		(((1 2 3 4) (1 2 3 4) (4)) ((1 2) (1 2) (2 4)) ((1 3) (1 3) (3 4)) ((2 4) (2 4) (4 5)) ((3 4) (3 4) (4 6)) ((1) (1) (1 2 3 4)) ((2) (2) (2 3 4 5)) ((3) (3) (3 4 5 6)) ((4) (4) (4 5 6 7)))
+		(((1) (1) (1 2 3 5 6 7)) ((2) (2) (2 5)) ((4) (4) (5 8)) ((5) (5) (3 4 5 7 8 9)) ((1 5) (1 5) (3 4 6 7)) ((1 2) (1 2) (2 3 5 6)) ((4 5) (4 5) (4 5 7 8)) ((2 3 5) (2 3 5) (3 5)) ((1 3 4) (1 3 4) (5 7)) ((1 2 4 5) (1 2 4 5) (4 6)) ((1 2 3 5) (1 2 3 5) (3 6)) ((1 3 4 5) (1 3 4 5) (4 7)) ((1 2 3 4 5) (1 2 3 4 5) (4 5 6)))
+		(((1) (1) (1 2 6 7)) ((2) (2) (2 4 5 6 7 8)) ((5) (5) (4 6 8 10)) ((6) (6) (6 7 10 11)) ((5 6) (5 6) (4 5 9 10)) ((1 2) (1 2) (2 3 5 8)) ((4 5) (4 5) (4 7 8 9)) ((2 3) (2 3) (3 4 7 8)) ((2 5) (2 5) (5 6)) ((3 4) (3 4) (4 5 7 8)) ((4 5 6) (4 5 6) (4 5 7 9)) ((1 2 3) (1 2 3) (3 8)) ((1 4 6) (1 4 6) (6 8)) ((1 3 6) (1 3 6) (4 5 6 7)) ((1 3 4 6) (1 3 4 6) (4 5 6 8)) ((1 2 4 5) (1 2 4 5) (5 7)) ((1 2 3 4 5 6) (1 2 3 4 5 6) (7)))
+		(((1 2 3 4 5 6 7) (1 2 3 4 5 6 7) (6 7 8)) ((2 3 4 6 7) (2 3 4 6 7) (7 10)) ((1 2 4 5 6) (1 2 4 5 6) (4 7)) ((1 3 4 5 7) (1 3 4 5 7) (4 10)) ((1 3 4 6 7) (1 3 4 6 7) (4 8)) ((1 2 4 5 7) (1 2 4 5 7) (6 10)) ((2 3 5 6) (2 3 5 6) (4 6 8)) ((1 2) (1 2) (2 4 8 10)) ((1 3) (1 3) (3 6 7 10)) ((1 5) (1 5) (5 8)) ((2 4) (2 4) (4 5 7 8)) ((3 7) (3 7) (6 9)) ((4 6) (4 6) (6 7 9 10)) ((5 7) (5 7) (4 7 8 11)) ((6 7) (6 7) (4 6 10 12)) ((1) (1) (1 2 3 5 6 7)) ((2) (2) (2 3 5 6)) ((3) (3) (3 4 5 7 8 9)) ((4) (4) (5 6 8 9)) ((5) (5) (5 6 7 9 10 11)) ((6) (6) (8 9 11 12)) ((7) (7) (7 8 9 11 12 13)))
+		) at: self degree - 1.
+	powers := (0 to: self degree * 2 - 2) collect: [:i| (self project: self cover x^i) coefficients support asArray].
+	^ self propertyAt: #karatsubaFormula put:
+		(unreducedFormula collect: [:each|
+			| reduction |
+			reduction := Bag new.
+			each third do: [:i| reduction addAll: (powers at: i)].
+			{each first. each second. (reduction asSet select: [:i| (reduction occurrencesOf: i) odd]) asArray sort}])! !
+
+!GaloisField methodsFor: 'private' stamp: 'len 6/11/2023 10:56:36'!
 zechMaximumOrder
 	"Answer the maximum order p^r for a Galois field GF(p^r) for which to use Zech representation."
+	self flag: #deprecated.
 	^ 1024! !
 
 !GaloisField class methodsFor: 'examples' stamp: 'len 5/21/2018 06:46:16'!
@@ -31304,6 +31387,10 @@ isZeroDivisor2
 	P0 _ P value: 0.
 	P1 _ P value: 1.
 	^ P0 size <= P1 size and: [P1 noneSatisfy: [:none| none isUnit]]! !
+
+!ExtensionElement methodsFor: 'accessing' stamp: 'len 6/11/2023 01:30:04'!
+at: anInteger
+	^ representative at: anInteger! !
 
 !ExtensionElement methodsFor: 'printing' stamp: 'len 6/3/2023 16:29:49'!
 printOn: aStream
