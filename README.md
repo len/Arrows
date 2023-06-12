@@ -1,7 +1,7 @@
 # Arrows: a Computer Algebra System in Smalltalk
 Arrows is a very general, extensible and mathematically rigorous environment where one can construct mathematical objects (such as groups, rings, modules, etc) and operare with them, their morphisms and their elements.
 
-For an introduction to the system see [Arrows: a Computer Algebra System in Smalltalk](https://openreview.net/pdf?id=oIozVmVool), published in November 2022 in FAST Workshop on Smalltalk Related Technologies.
+For an introduction to the system see [Arrows: a Computer Algebra System in Smalltalk](https://len.github.io/Arrows.pdf), published in November 2022 in FAST Workshop on Smalltalk Related Technologies.
 
 ### Smalltalk
 The system is based on Smalltalk-80, specifically [Cuis Smalltalk](https://github.com/Cuis-Smalltalk/Cuis-Smalltalk-Dev). It is multiplatform and runs with the [OpenSmalltalk virtual machine](https://github.com/OpenSmalltalk/opensmalltalk-vm).
@@ -19,7 +19,7 @@ If you use Arrows in a non-trivial part of your research please consider citing 
 	  author = "Luciano Notarfrancesco",
 	  organization = "The Arrows~Team",
 	  title = "{The Arrows Computer Algebra System}",
-	  year = 2022,
+	  year = 2023,
 	  url = "\url{https://github.com/len/arrows}",
 	}
 
