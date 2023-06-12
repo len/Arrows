@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 11 June 2023 at 2:10:36 pm'!
+'From Cuis 6.0 [latest update: #5801] on 12 June 2023 at 1:14:03 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -48,6 +48,7 @@ References:
 [McD74] Bernard R. McDonald; "Finite Rings with Identity" (1974)
 [Mis93] Mishra, B; "Algorithmic Algebra", Springer, Monographs in Computer Science, 1993
 [Mon04] Michael Monagan; "Maximal Quotient Rational Reconstruction: An Almost Optimal Algorithm for Rational Reconstructoin" (2004)
+[Mon05] Peter L. Montgomery; "Five, Six, and Seven-Term Karatsuba-Like Formulae" (2005)
 [Pos17] Sebastian Posur; "Linear Systems over Localizations of Rings" (2017)
 [SY09] Michael Sagraloff, Chee K. Yap, "An Efficient and Exact Subdivision Algorithm for Isolating Complex Roots of a Polynomial and its Complexity Analysis" (2009)
 [Sam71] Pierre Samuel, "About Euclidean Rings", J. Algebra, 19:282-301, 1971
@@ -73,7 +74,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 101!
+!provides: 'Algebra' 1 102!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -3971,6 +3972,32 @@ accumulateFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anA
 				j := j + m]].
 		i := i + n]! !
 
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 6/12/2023 08:49:11'!
+accumulateFrom: start withAutoconvolutionLong: anArray1 from: start1 to: stop1
+	"Autoconvolution in 𝔽₂ is a linear operation. It is just interleaving each bit with a zero, for example 1011 becomes 0100101.
+	We implement it with a table lookup as [SOoS01]."
+	| i j ℓ in out k |
+	i := start.
+	j := start1.
+	[j <= stop1] whileTrue:
+		[ℓ := 30 min: stop1 - j + 1. "we use a window size of 30 bits so that the convolution fits in a SmallInteger"
+		in := anArray1 bits: ℓ at: j.
+		out := 0.
+		k := 0.
+		[in = 0] whileFalse:
+			[out := out bitXor: ((ByteSquares at: (in bitAnd: 16rFF) + 1) bitShift: k).
+			in := in bitShift: -8.
+			k := k + 16].
+		j := j + ℓ.
+		ℓ := ℓ * 2.
+		ℓ > 32
+			ifTrue:
+				[self bits: 32 at: i xor: (out bitAnd: 16rFFFFFFFF).
+				self bits: ℓ - 32 at: i + 32 xor: (out bitShift: -32)]
+			ifFalse:
+				[self bits: ℓ at: i xor: out].
+		i := i + ℓ]! !
+
 !BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/27/2023 12:59:43'!
 accumulateRowIndices: rowIndices withMatrix: anArray1 width: width1 rowIndices: rowIndices1 timesMatrix: anArray2 width: width2 rowIndices: rowIndices2
 	"Matrix multiplication in O(n^3 / log n) with the Method of Four Russians. See [ABH08], [Bar06]."
@@ -4042,36 +4069,10 @@ replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anEl
 replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
 	self replaceFrom: start to: stop with: anArray startingAt: srcStart! !
 
-!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/27/2023 12:29:04'!
-replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
-	words clearBitsFrom: start to: start + stop1 - start1 + stop2 - start2.
-	self accumulateFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2! !
-
-!BinaryArray methodsFor: 'operations-low level' stamp: 'len 6/9/2023 12:35:14'!
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 6/12/2023 08:53:51'!
 replaceFrom: start withAutoconvolution: anArray1 from: start1 to: stop1
-	"Autoconvolution in 𝔽₂ is a linear operation. It is just interleaving each bit with a zero, for example 1011 becomes 0100101.
-	We implement it with a table lookup as [SOoS01]."
-	| i j ℓ in out k |
-	i := start.
-	j := start1.
-	[j <= stop1] whileTrue:
-		[ℓ := 30 min: stop1 - j + 1. "we use a window size of 30 bits so that the convolution fits in a SmallInteger"
-		in := anArray1 bits: ℓ at: j.
-		out := 0.
-		k := 0.
-		[in = 0] whileFalse:
-			[out := out bitXor: ((ByteSquares at: (in bitAnd: 16rFF) + 1) bitShift: k).
-			in := in bitShift: -8.
-			k := k + 16].
-		j := j + ℓ.
-		ℓ := ℓ * 2.
-		ℓ > 32
-			ifTrue:
-				[self bits: 32 at: i put: (out bitAnd: 16rFFFFFFFF).
-				self bits: ℓ - 32 at: i + 32 put: (out bitShift: -32)]
-			ifFalse:
-				[self bits: ℓ at: i put: out].
-		i := i + ℓ]! !
+	"No need to use Karatsuba because autoconvolution over 𝔽₂ is linear and we do it just with a table lookup."
+	self replaceFrom: start withAutoconvolutionLong: anArray1 from: start1 to: stop1! !
 
 !BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/18/2023 18:10:42'!
 replaceWithMatrixTranspose: anArray width: width
@@ -4521,9 +4522,9 @@ at: anInteger put: anElement
 	slices withIndexDo: [:each :i| each at: anInteger put: (anElement at: i - 1)].
 	^ anElement! !
 
-!ExtensionSlicedArray methodsFor: 'accessing' stamp: 'len 5/12/2023 23:23:42'!
+!ExtensionSlicedArray methodsFor: 'accessing' stamp: 'len 6/11/2023 23:09:11'!
 atAllPut: anElement
-	slices withIndexDo: [:each :i| each atAllPut: (anElement at: i)]! !
+	slices withIndexDo: [:each :i| each atAllPut: (anElement at: i - 1)]! !
 
 !ExtensionSlicedArray methodsFor: 'accessing' stamp: 'len 5/12/2023 23:23:53'!
 scalars
@@ -4634,119 +4635,153 @@ species
 slices: anArray scalars: anExtensionRing
 	^ self basicNew slices: anArray scalars: anExtensionRing! !
 
-!BinaryExtensionArray methodsFor: 'operations-low level' stamp: 'len 6/11/2023 14:09:52'!
+!BinaryExtensionArray methodsFor: 'operations-low level' stamp: 'len 6/12/2023 09:12:32'!
+· anArray
+	| tmp1 tmp2 tmp3 |
+	tmp1 := self scalars scalars new: (self size min: anArray size).
+	tmp2 := self scalars scalars new: tmp1 size.
+	tmp3 := self scalars scalars zeros: self scalars degree + 1.
+	self scalars karatsubaFormula do: [:each|
+		tmp1 replaceFrom: 1 to: tmp1 size with: (self slice: each first first) startingAt: 1.
+		tmp2 replaceFrom: 1 to: tmp2 size with: (anArray slice: each first first) startingAt: 1.
+		each first allButFirstDo: [:i|
+			tmp1 accumulateFrom: 1 to: tmp1 size with: (self slice: i) startingAt: 1.
+			tmp2 accumulateFrom: 1 to: tmp2 size with: (anArray slice: i) startingAt: 1].
+		(tmp1 · tmp2) isZero ifFalse: [each second do: [:i| tmp3 at: i add: 1]]].
+	^ self scalars coefficients: tmp3! !
+
+!BinaryExtensionArray methodsFor: 'operations-low level' stamp: 'len 6/12/2023 12:57:46'!
 accumulateFrom: start to: stop withMatrix: anArray1 rowIndices: rowIndices timesTuple: anArray2
-	| zero tmp1 tmp2 tmp3 |
-	self flag: #fixme. "we're doing unnecesary work here, we should only work with slices of submatrices"
-	zero := self scalars scalars zero.
-	tmp1 := self scalars scalars new: anArray1 size.
+	| width1 tmp1 tmp2 tmp3 |
+	width1 := anArray2 size.
+	tmp1 := self scalars scalars new: rowIndices size * width1.
 	tmp2 := self scalars scalars new: anArray2 size.
 	tmp3 := self scalars scalars new: self size.
 	self scalars karatsubaFormula do: [:each|
-		| t a b |
-		a := (t := each at: 1) size = 1
-			ifTrue: [anArray1 slice: t first]
-			ifFalse:
-				[tmp1 replaceFrom: 1 to: tmp1 size with: (anArray1 slice: t first) startingAt: 1.
-				t allButFirstDo: [:i| tmp1 += (anArray1 slice: i)].
-				tmp1].
-		b := (t := each at: 2) size = 1
-			ifTrue: [anArray2 slice: t first]
-			ifFalse:
-				[tmp2 replaceFrom: 1 to: tmp2 size with: (anArray2 slice: t first) startingAt: 1.
-				t allButFirstDo: [:i| tmp2 += (anArray2 slice: i)].
-				tmp2].
-		(t := each at: 3) size = 1
-			ifTrue: [(self slice: t first) accumulateFrom: start to: stop withMatrix: a rowIndices: rowIndices timesTuple: b]
-			ifFalse:
-				[tmp3 atAllPut: zero.
-				tmp3 accumulateFrom: start to: stop withMatrix: a rowIndices: rowIndices timesTuple: b.
-				t do: [:i| (self slice: i) replaceFrom: start to: stop with: (self slice: i) startingAt: start plus: tmp3 startingAt: 1]]]! !
+		tmp1 replaceWithMatrix: (anArray1 slice: each first first) rowIndices: rowIndices width: width1.
+		tmp2 replaceFrom: 1 to: tmp2 size with: (anArray2 slice: each first first) startingAt: 1.
+		each first allButFirstDo: [:i|
+			tmp1 accumulateWithMatrix: (anArray1 slice: i) rowIndices: rowIndices width: width1.
+			tmp2 += (anArray2 slice: i)].
+		tmp3 replaceFrom: start to: stop withMatrix: tmp1 timesTuple: tmp2.
+		each second do: [:i| (self slice: i) accumulateFrom: start to: stop with: tmp3 startingAt: 1]]! !
 
-!BinaryExtensionArray methodsFor: 'operations-low level' stamp: 'len 6/11/2023 14:07:57'!
+!BinaryExtensionArray methodsFor: 'operations-low level' stamp: 'len 6/12/2023 12:58:04'!
 accumulateFrom: start to: stop withMatrix: anArray1 timesTuple: anArray2
-	| zero tmp1 tmp2 tmp3 |
-	zero := self scalars scalars zero.
+	| tmp1 tmp2 tmp3 |
 	tmp1 := self scalars scalars new: anArray1 size.
 	tmp2 := self scalars scalars new: anArray2 size.
 	tmp3 := self scalars scalars new: stop - start + 1.
 	self scalars karatsubaFormula do: [:each|
 		| t a b |
-		a := (t := each at: 1) size = 1
-			ifTrue: [anArray1 slice: t first]
+		(t := each first) size = 1
+			ifTrue: [a := anArray1 slice: t first. b := anArray2 slice: t first]
 			ifFalse:
-				[tmp1 replaceFrom: 1 to: tmp1 size with: (anArray1 slice: t first) startingAt: 1.
-				t allButFirstDo: [:i| tmp1 += (anArray1 slice: i)].
-				tmp1].
-		b := (t := each at: 2) size = 1
-			ifTrue: [anArray2 slice: t first]
-			ifFalse:
-				[tmp2 replaceFrom: 1 to: tmp2 size with: (anArray2 slice: t first) startingAt: 1.
-				t allButFirstDo: [:i| tmp2 += (anArray2 slice: i)].
-				tmp2].
-		(t := each at: 3) size = 1
+				[a := tmp1 replaceFrom: 1 to: tmp1 size with: (anArray1 slice: t first) startingAt: 1.
+				b := tmp2 replaceFrom: 1 to: tmp2 size with: (anArray2 slice: t first) startingAt: 1.
+				t allButFirstDo: [:i|
+					tmp1 += (anArray1 slice: i).
+					tmp2 += (anArray2 slice: i)]].
+		(t := each second) size = 1
 			ifTrue: [(self slice: t first) accumulateFrom: start to: stop withMatrix: a timesTuple: b]
 			ifFalse:
-				[tmp3 atAllPut: zero.
-				tmp3 accumulateFrom: start to: stop withMatrix: a timesTuple: b.
-				t do: [:i| (self slice: i) replaceFrom: start to: stop with: (self slice: i) startingAt: start plus: tmp3 startingAt: 1]]]! !
+				[tmp3 replaceFrom: start to: stop withMatrix: a timesTuple: b.
+				t do: [:i| (self slice: i) accumulateFrom: start to: stop with: tmp3 startingAt: 1]]]! !
 
-!BinaryExtensionArray methodsFor: 'operations-low level' stamp: 'len 6/11/2023 14:08:37'!
+!BinaryExtensionArray methodsFor: 'operations-low level' stamp: 'len 6/12/2023 09:17:39'!
+accumulateFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
+	| tmp1 tmp2 tmp3 |
+	tmp1 := self scalars scalars new: stop1 - start1 + 1.
+	tmp2 := self scalars scalars new: stop2 - start2 + 1.
+	tmp3 := self scalars scalars new: tmp1 size + tmp2 size - 1.
+	self scalars karatsubaFormula do: [:each|
+		tmp1 replaceFrom: 1 to: tmp1 size with: (anArray1 slice: each first first) startingAt: start1.
+		tmp2 replaceFrom: 1 to: tmp2 size with: (anArray2 slice: each first first) startingAt: start2.
+		each first allButFirstDo: [:i|
+			tmp1 accumulateFrom: 1 to: tmp1 size with: (anArray1 slice: i) startingAt: start1.
+			tmp2 accumulateFrom: 1 to: tmp2 size with: (anArray2 slice: i) startingAt: start2].
+		tmp3 replaceFrom: 1 with: tmp1 from: 1 to: tmp1 size convolution: tmp2 from: 1 to: tmp2 size.
+		each second do: [:i| (self slice: i) accumulateFrom: start to: start + tmp3 size - 1 with: tmp3 startingAt: 1]]! !
+
+!BinaryExtensionArray methodsFor: 'operations-low level' stamp: 'len 6/12/2023 12:58:30'!
 accumulateRowIndices: rowIndices withMatrix: anArray1 width: width1 rowIndices: rowIndices1 timesMatrix: anArray2 width: width2 rowIndices: rowIndices2
-	| zero tmp1 tmp2 tmp3 |
-	self flag: #fixme. "we're doing unnecesary work here, we should only work with slices of submatrices"
-	zero := self scalars scalars zero.
-	tmp1 := self scalars scalars new: anArray1 size.
-	tmp2 := self scalars scalars new: anArray2 size.
-	tmp3 := self scalars scalars new: self size.
+	| tmp1 tmp2 tmp3 |
+	tmp1 := self scalars scalars new: rowIndices1 size * width1.
+	tmp2 := self scalars scalars new: rowIndices2 size * width2.
+	tmp3 := self scalars scalars new: rowIndices size * width2.
 	self scalars karatsubaFormula do: [:each|
-		| t a b |
-		a := (t := each at: 1) size = 1
-			ifTrue: [anArray1 slice: t first]
-			ifFalse:
-				[tmp1 replaceFrom: 1 to: tmp1 size with: (anArray1 slice: t first) startingAt: 1.
-				t allButFirstDo: [:i| tmp1 += (anArray1 slice: i)].
-				tmp1].
-		b := (t := each at: 2) size = 1
-			ifTrue: [anArray2 slice: t first]
-			ifFalse:
-				[tmp2 replaceFrom: 1 to: tmp2 size with: (anArray2 slice: t first) startingAt: 1.
-				t allButFirstDo: [:i| tmp2 += (anArray2 slice: i)].
-				tmp2].
-		(t := each at: 3) size = 1
-			ifTrue: [(self slice: t first) accumulateRowIndices: rowIndices withMatrix: a width: width1 rowIndices: rowIndices1 timesMatrix: b width: width2 rowIndices: rowIndices2]
-			ifFalse:
-				[tmp3 atAllPut: zero.
-				tmp3 accumulateRowIndices: rowIndices withMatrix: a width: width1 rowIndices: rowIndices1 timesMatrix: b width: width2 rowIndices: rowIndices2.
-				t do: [:i| (self slice: i) += tmp3]]]! !
+		tmp1 replaceWithMatrix: (anArray1 slice: each first first) rowIndices: rowIndices1 width: width1.
+		tmp2 replaceWithMatrix: (anArray2 slice: each first first) rowIndices: rowIndices2 width: width2.
+		each first allButFirstDo: [:i|
+			tmp1 accumulateWithMatrix: (anArray1 slice: i) rowIndices: rowIndices1 width: width1.
+			tmp2 accumulateWithMatrix: (anArray2 slice: i) rowIndices: rowIndices2 width: width2].
+		tmp3 replaceWithMatrix: tmp1 width: width1 timesMatrix: tmp2 width: width2.
+		each second do: [:i| (self slice: i) accumulateRowIndices: rowIndices withMatrix: tmp3 width: width2]]! !
 
-!BinaryExtensionArray methodsFor: 'operations-low level' stamp: 'len 6/11/2023 14:09:03'!
+!BinaryExtensionArray methodsFor: 'operations-low level' stamp: 'len 6/12/2023 12:58:46'!
 accumulateWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2
-	| zero tmp1 tmp2 tmp3 |
-	zero := self scalars scalars zero.
+	| tmp1 tmp2 tmp3 |
 	tmp1 := self scalars scalars new: anArray1 size.
 	tmp2 := self scalars scalars new: anArray2 size.
 	tmp3 := self scalars scalars new: self size.
 	self scalars karatsubaFormula do: [:each|
 		| t a b |
-		a := (t := each at: 1) size = 1
-			ifTrue: [anArray1 slice: t first]
+		(t := each first) size = 1
+			ifTrue: [a := anArray1 slice: t first. b := anArray2 slice: t first]
 			ifFalse:
-				[tmp1 replaceFrom: 1 to: tmp1 size with: (anArray1 slice: t first) startingAt: 1.
-				t allButFirstDo: [:i| tmp1 += (anArray1 slice: i)].
-				tmp1].
-		b := (t := each at: 2) size = 1
-			ifTrue: [anArray2 slice: t first]
-			ifFalse:
-				[tmp2 replaceFrom: 1 to: tmp2 size with: (anArray2 slice: t first) startingAt: 1.
-				t allButFirstDo: [:i| tmp2 += (anArray2 slice: i)].
-				tmp2].
-		(t := each at: 3) size = 1
+				[a := tmp1 replaceFrom: 1 to: tmp1 size with: (anArray1 slice: t first) startingAt: 1.
+				b := tmp2 replaceFrom: 1 to: tmp2 size with: (anArray2 slice: t first) startingAt: 1.
+				t allButFirstDo: [:i|
+					tmp1 += (anArray1 slice: i).
+					tmp2 += (anArray2 slice: i)]].
+		(t := each second) size = 1
 			ifTrue: [(self slice: t first) accumulateWithMatrix: a width: width1 timesMatrix: b width: width2]
 			ifFalse:
-				[tmp3 atAllPut: zero.
-				tmp3 accumulateWithMatrix: a width: width1 timesMatrix: b width: width2.
+				[tmp3 replaceWithMatrix: a width: width1 timesMatrix: b width: width2.
 				t do: [:i| (self slice: i) += tmp3]]]! !
+
+!BinaryExtensionArray methodsFor: 'operations-low level' stamp: 'len 6/12/2023 12:51:14'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 timesScalar: anElement
+	anElement isInteger ifTrue:
+		[slices withIndexDo: [:each :i| each replaceFrom: start to: stop with: (anArray1 slice: i) startingAt: start1 plus: (anArray2 slice: i) startingAt: start2 timesScalar: anElement].
+		^ self].
+	self flag: #fixme. "optimize this, avoid creating temporary array"
+	^ self replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: (anArray2 copyFrom: start2 to: start2 + stop - start) * anElement startingAt: 1! !
+
+!BinaryExtensionArray methodsFor: 'operations-low level' stamp: 'len 6/12/2023 12:51:47'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2
+	| tmp1 tmp2 tmp3 |
+	tmp1 := self scalars scalars new: stop - start + 1.
+	tmp2 := self scalars scalars new: stop - start + 1.
+	self flag: #fixme. "optimize this, avoid using temporary array tmp3"
+	tmp3 := self scalars zeros: stop - start + 1.
+	self scalars karatsubaFormula do: [:each|
+		tmp1 replaceFrom: 1 to: tmp1 size with: (anArray1 slice: each first first) startingAt: start1.
+		tmp2 replaceFrom: 1 to: tmp2 size with: (anArray2 slice: each first first) startingAt: start1.
+		each first allButFirstDo: [:i|
+			tmp1 accumulateFrom: 1 to: tmp1 size with: (anArray1 slice: i) startingAt: start1.
+			tmp2 accumulateFrom: 1 to: tmp2 size with: (anArray2 slice: i) startingAt: start2].
+		tmp1 replaceFrom: 1 to: tmp1 size with: tmp1 startingAt: 1 times: tmp2 startingAt: 1.
+		each second do: [:i| (tmp3 slice: i) += tmp1]].
+	self replaceFrom: start to: stop with: tmp3 startingAt: 1! !
+
+!BinaryExtensionArray methodsFor: 'operations-low level' stamp: 'len 6/12/2023 12:52:16'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 timesScalar: anElement
+	| tmp1 tmp2 tmp3 |
+	anElement isInteger ifTrue:
+		[slices withIndexDo: [:each :i| each replaceFrom: start to: stop with: (anArray1 slice: i) startingAt: start1 timesScalar: anElement].
+		^ self].
+	tmp1 := self scalars scalars new: stop - start + 1.
+	self flag: #fixme. "optimize this, avoid using temporary array tmp3"
+	tmp3 := self scalars zeros: stop - start + 1.
+	self scalars karatsubaFormula do: [:each|
+		tmp2 := anElement at: each first first - 1.
+		each first allButFirstDo: [:i| tmp2 := tmp2 + (anElement at: i - 1)].
+		tmp2 isZero ifFalse:
+			[tmp1 replaceFrom: 1 to: tmp1 size with: (anArray1 slice: each first first) startingAt: start1.
+			each first allButFirstDo: [:i| tmp1 accumulateFrom: 1 to: tmp1 size with: (anArray1 slice: i) startingAt: start1].
+			each second do: [:i| (tmp3 slice: i) += tmp1]]].
+	self replaceFrom: start to: stop with: tmp3 startingAt: 1! !
 
 !ModularArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:44:53'!
 at: anInteger
@@ -5599,13 +5634,6 @@ replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anEl
 replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
 	words₀ replaceBitsFrom: start to: stop with: anArray words₀ startingAt: srcStart.
 	words₁ replaceBitsFrom: start to: stop with: anArray words₀ startingAt: srcStart xor: anArray words₁ startingAt: srcStart! !
-
-!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/27/2023 12:31:29'!
-replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
-	words₀ clearBitsFrom: start to: start + stop1 - start1 + stop2 - start2.
-	words₁ clearBitsFrom: start to: start + stop1 - start1 + stop2 - start2.
-	self accumulateFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
-! !
 
 !TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/18/2023 18:47:38'!
 replaceWithMatrixTranspose: anArray width: width
@@ -13166,14 +13194,16 @@ syzygiesOf: aMatrix
 	For a matrix A, the output is X with AX = 0."
 	^ self syzygiesOverEuclideanDomainOf: aMatrix! !
 
-!GaloisField methodsFor: 'elements' stamp: 'len 5/15/2023 20:27:05'!
+!GaloisField methodsFor: 'elements' stamp: 'len 6/11/2023 21:34:38'!
 new: anInteger
 "	self size <= self zechMaximumOrder ifTrue: [^ self zechTable new: anInteger]."
+	(self characteristic = 2 and: [self degree < 8]) ifTrue: [^ BinaryExtensionArray slices: ((1 to: self degree) collect: [:i| self scalars new: anInteger]) scalars: self].
 	^ super new: anInteger! !
 
-!GaloisField methodsFor: 'elements' stamp: 'len 5/15/2023 20:27:09'!
+!GaloisField methodsFor: 'elements' stamp: 'len 6/11/2023 21:34:17'!
 zeros: anInteger
 "	self size <= self zechMaximumOrder ifTrue: [^ self zechTable new: anInteger]."
+	(self characteristic = 2 and: [self degree < 8]) ifTrue: [^ BinaryExtensionArray slices: ((1 to: self degree) collect: [:i| self scalars zeros: anInteger]) scalars: self].
 	^ super zeros: anInteger! !
 
 !GaloisField methodsFor: 'morphisms' stamp: 'len 6/4/2023 17:35:06'!
@@ -13203,31 +13233,33 @@ isFiniteField
 elementClass
 	^ GaloisFieldElement! !
 
-!GaloisField methodsFor: 'private' stamp: 'len 5/15/2023 20:26:56'!
+!GaloisField methodsFor: 'private' stamp: 'len 6/11/2023 21:31:31'!
 isValidArray: anArray
 "	self size <= self zechMaximumOrder ifTrue: [^ anArray class = ZechArray and: [anArray scalars = self]]."
+	(self characteristic = 2 and: [self degree < 8]) ifTrue: [^ anArray class = BinaryExtensionArray and: [anArray scalars = self]].
 	^ super isValidArray: anArray! !
 
-!GaloisField methodsFor: 'private' stamp: 'len 6/11/2023 13:59:17'!
+!GaloisField methodsFor: 'private' stamp: 'len 6/12/2023 12:33:38'!
 karatsubaFormula
+	"See [Mon05] and https://github.com/malb/m4rie/src/karatsuba.c."
 	| unreducedFormula powers |
 	self propertyAt: #karatsubaFormula ifPresent: [:anArray| ^ anArray].
 	self characteristic = 2 ifFalse: [^ self notYetImplemented].
 	unreducedFormula := #(
-		(((1 2) (1 2) (2)) ((1) (1) (1 2)) ((2) (2) (2 3)))
-		(((1 2) (1 2) (2)) ((1 3) (1 3) (3)) ((2 3) (2 3) (4)) ((1) (1) (1 2 3)) ((2) (2) (2 3 4)) ((3) (3) (3 4 5)))
-		(((1 2 3 4) (1 2 3 4) (4)) ((1 2) (1 2) (2 4)) ((1 3) (1 3) (3 4)) ((2 4) (2 4) (4 5)) ((3 4) (3 4) (4 6)) ((1) (1) (1 2 3 4)) ((2) (2) (2 3 4 5)) ((3) (3) (3 4 5 6)) ((4) (4) (4 5 6 7)))
-		(((1) (1) (1 2 3 5 6 7)) ((2) (2) (2 5)) ((4) (4) (5 8)) ((5) (5) (3 4 5 7 8 9)) ((1 5) (1 5) (3 4 6 7)) ((1 2) (1 2) (2 3 5 6)) ((4 5) (4 5) (4 5 7 8)) ((2 3 5) (2 3 5) (3 5)) ((1 3 4) (1 3 4) (5 7)) ((1 2 4 5) (1 2 4 5) (4 6)) ((1 2 3 5) (1 2 3 5) (3 6)) ((1 3 4 5) (1 3 4 5) (4 7)) ((1 2 3 4 5) (1 2 3 4 5) (4 5 6)))
-		(((1) (1) (1 2 6 7)) ((2) (2) (2 4 5 6 7 8)) ((5) (5) (4 6 8 10)) ((6) (6) (6 7 10 11)) ((5 6) (5 6) (4 5 9 10)) ((1 2) (1 2) (2 3 5 8)) ((4 5) (4 5) (4 7 8 9)) ((2 3) (2 3) (3 4 7 8)) ((2 5) (2 5) (5 6)) ((3 4) (3 4) (4 5 7 8)) ((4 5 6) (4 5 6) (4 5 7 9)) ((1 2 3) (1 2 3) (3 8)) ((1 4 6) (1 4 6) (6 8)) ((1 3 6) (1 3 6) (4 5 6 7)) ((1 3 4 6) (1 3 4 6) (4 5 6 8)) ((1 2 4 5) (1 2 4 5) (5 7)) ((1 2 3 4 5 6) (1 2 3 4 5 6) (7)))
-		(((1 2 3 4 5 6 7) (1 2 3 4 5 6 7) (6 7 8)) ((2 3 4 6 7) (2 3 4 6 7) (7 10)) ((1 2 4 5 6) (1 2 4 5 6) (4 7)) ((1 3 4 5 7) (1 3 4 5 7) (4 10)) ((1 3 4 6 7) (1 3 4 6 7) (4 8)) ((1 2 4 5 7) (1 2 4 5 7) (6 10)) ((2 3 5 6) (2 3 5 6) (4 6 8 10)) ((1 2) (1 2) (2 4 8 10)) ((1 3) (1 3) (3 6 7 10)) ((1 5) (1 5) (5 8)) ((2 4) (2 4) (4 5 7 8)) ((3 7) (3 7) (6 9)) ((4 6) (4 6) (6 7 9 10)) ((5 7) (5 7) (4 7 8 11)) ((6 7) (6 7) (4 6 10 12)) ((1) (1) (1 2 3 5 6 7)) ((2) (2) (2 3 5 6)) ((3) (3) (3 4 5 7 8 9)) ((4) (4) (5 6 8 9)) ((5) (5) (5 6 7 9 10 11)) ((6) (6) (8 9 11 12)) ((7) (7) (7 8 9 11 12 13)))
+		(((1 2) (2)) ((1) (1 2)) ((2) (2 3)))
+		(((1 2) (2)) ((1 3) (3)) ((2 3) (4)) ((1) (1 2 3)) ((2) (2 3 4)) ((3) (3 4 5)))
+		(((1 2 3 4) (4)) ((1 2) (2 4)) ((1 3) (3 4)) ((2 4) (4 5)) ((3 4) (4 6)) ((1) (1 2 3 4)) ((2) (2 3 4 5)) ((3) (3 4 5 6)) ((4) (4 5 6 7)))
+		(((1) (1 2 3 5 6 7)) ((2) (2 5)) ((4) (5 8)) ((5) (3 4 5 7 8 9)) ((1 5) (3 4 6 7)) ((1 2) (2 3 5 6)) ((4 5) (4 5 7 8)) ((2 3 5) (3 5)) ((1 3 4) (5 7)) ((1 2 4 5) (4 6)) ((1 2 3 5) (3 6)) ((1 3 4 5) (4 7)) ((1 2 3 4 5) (4 5 6)))
+		(((1) (1 2 6 7)) ((2) (2 4 5 6 7 8)) ((5) (4 6 8 10)) ((6) (6 7 10 11)) ((5 6) (4 5 9 10)) ((1 2) (2 3 5 8)) ((4 5) (4 7 8 9)) ((2 3) (3 4 7 8)) ((2 5) (5 6)) ((3 4) (4 5 7 8)) ((4 5 6) (4 5 7 9)) ((1 2 3) (3 8)) ((1 4 6) (6 8)) ((1 3 6) (4 5 6 7)) ((1 3 4 6) (4 5 6 8)) ((1 2 4 5) (5 7)) ((1 2 3 4 5 6) (7)))
+		(((1 2 3 4 5 6 7) (6 7 8)) ((2 3 4 6 7) (7 10)) ((1 2 4 5 6) (4 7)) ((1 3 4 5 7) (4 10)) ((1 3 4 6 7) (4 8)) ((1 2 4 5 7) (6 10)) ((2 3 5 6) (4 6 8 10)) ((1 2) (2 4 8 10)) ((1 3) (3 6 7 10)) ((1 5) (5 8)) ((2 4) (4 5 7 8)) ((3 7) (6 9)) ((4 6) (6 7 9 10)) ((5 7) (4 7 8 11)) ((6 7) (4 6 10 12)) ((1) (1 2 3 5 6 7)) ((2) (2 3 5 6)) ((3) (3 4 5 7 8 9)) ((4) (5 6 8 9)) ((5) (5 6 7 9 10 11)) ((6) (8 9 11 12)) ((7) (7 8 9 11 12 13)))
 		) at: self degree - 1.
 	powers := (0 to: self degree * 2 - 2) collect: [:i| (self project: self cover x^i) coefficients support asArray].
 	^ self propertyAt: #karatsubaFormula put:
 		(unreducedFormula collect: [:each|
 			| reduction |
 			reduction := Bag new.
-			each third do: [:i| reduction addAll: (powers at: i)].
-			{each first. each second. (reduction asSet select: [:i| (reduction occurrencesOf: i) odd]) asArray sort}])! !
+			each second do: [:i| reduction addAll: (powers at: i)].
+			{each first. (reduction asSet select: [:i| (reduction occurrencesOf: i) odd]) asArray sort}])! !
 
 !GaloisField methodsFor: 'private' stamp: 'len 6/11/2023 10:56:36'!
 zechMaximumOrder
@@ -14554,24 +14586,26 @@ size
 hash
 	^ scalars hash + monomials hash hashMultiply! !
 
-!PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/10/2023 18:20:42'!
+!PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/12/2023 09:34:31'!
 basisAndTransformationOf: aMatrix
 	"Andswer a standard basis of the module generated by the columns of aMatrix and a transformation matrix that maps the original generators to the basis."
-	| buchberger |
+	self scalars isEuclidean ifTrue:
+		[| buchberger |
+		buchberger := (self scalars isField ifTrue: [ExtendedBuchberger] ifFalse: [ExtendedStrongBuchberger]) on: aMatrix.
+		^ {buchberger basis. buchberger transformation}].
 	(self scalars isKindOf: PolynomialRing)
 		ifTrue: [^ (aMatrix apply: self → self flatten) basisAndTransformation collect: [:each| each apply: self flatten → self]].
-	self scalars isEuclidean ifFalse: [^ self notYetImplemented].
-	buchberger := (self scalars isField ifTrue: [ExtendedBuchberger] ifFalse: [ExtendedStrongBuchberger]) on: aMatrix.
-	^ {buchberger basis. buchberger transformation}! !
+	^ self notYetImplemented! !
 
-!PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/10/2023 18:20:33'!
+!PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/12/2023 09:33:03'!
 basisOf: aMatrix
 	"Compute a standard basis from the columns of aMatrix with the specified ordering.
 	When the monomial ordering is global, the algorithm outputs a Groebner basis. In case of a local monomial ordering, the algorithm uses Mora's normal form and outputs a standard basis."
+	self scalars isEuclidean ifTrue:
+		[^ ((self scalars isField ifTrue: [Buchberger] ifFalse: [StrongBuchberger]) on: aMatrix) basis].
 	(self scalars isKindOf: PolynomialRing)
 		ifTrue: [^ (aMatrix apply: self → self flatten) basis apply: self flatten → self].
-	self scalars isEuclidean ifFalse: [^ self notYetImplemented].
-	^ ((self scalars isField ifTrue: [Buchberger] ifFalse: [StrongBuchberger]) on: aMatrix) basis! !
+	^ self notYetImplemented! !
 
 !PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/10/2023 17:34:11'!
 matrix: B quotientBy: A
@@ -25260,9 +25294,10 @@ withIndicesDo: aBlock
 	^ self class from: domain ⊕ aMatrix domain to: codomain ⊕ aMatrix codomain coefficients: newCoefficients
 ! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 5/28/2023 14:58:47'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 6/12/2023 07:57:26'!
 ∘ aMatrix
 	self class = aMatrix class ifFalse: [^ super ∘ aMatrix].
+	self flag: #fixme. "TODO: multiplication with submatrix"
 	self flag: #fixme. "should do this with localizations? we are doing the same for polynomial multiplication"
 	self scalars isLocalization ifTrue: [^ (self numerator * aMatrix numerator over: self scalars) / (self denominator * aMatrix denominator)].
 	self checkCompatibleComposition: aMatrix.
@@ -25552,22 +25587,21 @@ atRow: i column: j put: anElement
 	(j between: 1 and: self width) ifFalse: [^ self  error: 'index out of bounds'].
 	^ coefficients at: (rowIndices at: i) + j - 1 put: anElement! !
 
-!Submatrix methodsFor: 'copying' stamp: 'len 5/21/2023 17:07:21'!
+!Submatrix methodsFor: 'copying' stamp: 'len 6/11/2023 19:25:31'!
 copy
-	| i newCoefficients |
-	newCoefficients := self scalars new: self width * self height.
-	i := 1.
-	rowIndices do: [:i₀|
-		newCoefficients replaceFrom: i to: i + self width - 1 with: coefficients startingAt: i₀.
-		i := i + self width].
-	^ DenseMatrix from: domain to: codomain coefficients: newCoefficients! !
+	^ DenseMatrix
+		from: domain
+		to: codomain
+		coefficients:
+			((self scalars new: self width * self height)
+				replaceWithMatrix: coefficients rowIndices: rowIndices width: self width)! !
 
-!Submatrix methodsFor: 'operations' stamp: 'len 5/22/2023 16:56:50'!
+!Submatrix methodsFor: 'operations' stamp: 'len 6/11/2023 19:40:01'!
 value: aTuple
 "	(self domain includes: aTuple) ifFalse: [^ DomainError signal]."
 	(coefficients isEmpty or: [aTuple isEmpty]) ifTrue: [^ codomain zero].
 	^ codomain coefficients:
-		((self scalars zeros: self height)
+		((codomain scalars zeros: self height)
 			accumulateFrom: 1 to: self height
 			withMatrix: coefficients rowIndices: rowIndices
 			timesTuple: aTuple coefficients)! !
@@ -33493,11 +33527,12 @@ sprs: aPolynomial
 			f2 _ f1. f1 _ r].
 	^ answer! !
 
-!Polynomial methodsFor: 'testing' stamp: 'len 6/10/2023 23:09:15'!
+!Polynomial methodsFor: 'testing' stamp: 'len 6/12/2023 13:10:40'!
 | aPolynomial
 	"Answer true if the receiver divides the argument."
 	aPolynomial isZero ifTrue: [^ true].
 	self isZero ifTrue: [^ false].
+	(self independentCoefficient isZero and: [aPolynomial independentCoefficient isZero not]) ifTrue: [^ false].
 	self scalars isField ifTrue: [^ (aPolynomial \\ self) isZero].
 	self independentCoefficient | aPolynomial independentCoefficient ifFalse: [^ false].
 	self coefficients sum | aPolynomial coefficients sum ifFalse: [^ false].
@@ -39763,6 +39798,10 @@ sum
 		i := i + 1].
 	^ answer! !
 
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 6/11/2023 23:38:29'!
+accumulateFrom: start to: stop with: anArray1 startingAt: start1
+	self replaceFrom: start to: stop with: self startingAt: start plus: anArray1 startingAt: start1! !
+
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/22/2023 16:56:28'!
 accumulateFrom: start to: stop withMatrix: anArray1 rowIndices: rowIndices timesTuple: anArray2
 	| width j j₀ |
@@ -39904,6 +39943,22 @@ accumulateFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anA
 				plus: anArray1 startingAt: start1 timesScalar: x
 				modulo: modulus]]! !
 
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 6/12/2023 08:43:19'!
+accumulateFrom: start withAutoconvolution: anArray1 from: start1 to: stop1
+	self accumulateFrom: start withAutoconvolutionLong: anArray1 from: start1 to: stop1! !
+
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 6/12/2023 08:43:05'!
+accumulateFrom: start withAutoconvolutionLong: anArray1 from: start1 to: stop1
+	self accumulateFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray1 from: start1 to: stop1! !
+
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 6/11/2023 19:28:46'!
+accumulateRowIndices: rowIndices withMatrix: anArray1 width: width
+	| j |
+	j := 1.
+	rowIndices do: [:i₀|
+		self replaceFrom: i₀ to: i₀ + width - 1 with: self startingAt: i₀ plus: anArray1 startingAt: j.
+		j := j + width]! !
+
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/21/2023 08:33:19'!
 accumulateRowIndices: rowIndices withMatrix: anArray1 width: width1 rowIndices: rowIndices1 timesMatrix: anArray2 width: width2 rowIndices: rowIndices2
 	| j k |
@@ -39960,6 +40015,14 @@ accumulateRowIndices: rowIndices withMatrix: anArray1 width: width1 rowIndices: 
 							self at: i put: value.
 							k := k + 1].
 						j := j + 1]]]! !
+
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 6/12/2023 00:09:23'!
+accumulateWithMatrix: anArray rowIndices: rowIndices width: width
+	| i |
+	i := 1.
+	rowIndices do: [:i₀|
+		self replaceFrom: i to: i + width - 1 with: self startingAt: i plus: anArray startingAt: i₀.
+		i := i + width]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/22/2023 16:44:35'!
 accumulateWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2
@@ -40419,13 +40482,13 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 st
 		j1 _ j1 + 1.
 		j2 _ j2 + 1]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 4/26/2022 11:06:51'!
-replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anElement
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 6/11/2023 23:20:44'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 timesScalar: anElement
 	| j |
-	j _ srcStart.
+	j := start1.
 	start to: stop do: [:i|
-		self at: i put: (anArray at: j) * anElement.
-		j _ j + 1]! !
+		self at: i put: (anArray1 at: j) * anElement.
+		j := j + 1]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 6/5/2023 15:41:59'!
 replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anInteger modulo: modulus
@@ -40452,6 +40515,12 @@ replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anIn
 	start to: stop do: [:i|
 		self at: i put: (table op: (anArray at: j) times: anInteger).
 		j _ j + 1]! !
+
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 6/12/2023 12:57:23'!
+replaceFrom: start to: stop withMatrix: anArray1 timesTuple: anArray2
+	anArray2 size = 0 ifTrue: [^ self].
+	self from: start to: stop put: anArray2 first zero.
+	self accumulateFrom: start to: stop withMatrix: anArray1 timesTuple: anArray2! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 4/25/2022 07:59:56'!
 replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
@@ -40637,10 +40706,24 @@ replaceFrom: start withAutoconvolutionKronecker: anArray1 from: start1 to: stop1
 		ifFalse:
 			[start to: start + (n * 2) - 2 do: [:i| self at: i put: (z bits: ℓ at: j) \\ modulus. j := j + ℓ]]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/9/2022 07:47:55'!
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 6/12/2023 08:42:56'!
 replaceFrom: start withAutoconvolutionLong: anArray1 from: start1 to: stop1
-	self flag: #fixme. "TOOD"
-	self replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray1 from: start1 to: stop1! !
+	self from: start to: stop1 - start1 * 2 + start put: (anArray1 at: start1) zero.
+	self accumulateFrom: start withAutoconvolutionLong: anArray1 from: start1 to: stop1! !
+
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 6/11/2023 19:08:02'!
+replaceWithMatrix: anArray rowIndices: rowIndices width: width
+	| i |
+	i := 1.
+	rowIndices do: [:i₀|
+		self replaceFrom: i to: i + width - 1 with: anArray startingAt: i₀.
+		i := i + width]! !
+
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 6/12/2023 12:55:29'!
+replaceWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2
+	(width1 = 0 or: [width2 = 0]) ifTrue: [^ self].
+	self atAllPut: (anArray1 at: 1) zero.
+	self accumulateWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/18/2023 17:34:08'!
 replaceWithMatrixTranspose: anArray width: width

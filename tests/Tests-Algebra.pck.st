@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 10 June 2023 at 7:47:40 pm'!
+'From Cuis 6.0 [latest update: #5801] on 12 June 2023 at 1:14:13 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 64!
+!provides: 'Tests-Algebra' 1 65!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -811,6 +811,16 @@ AbstractArrayTest subclass: #BinaryArrayTest
 BinaryArrayTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #BinaryExtensionSlicedArrayTest category: #'Tests-Algebra-Arrays'!
+AbstractArrayTest subclass: #BinaryExtensionSlicedArrayTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Arrays'!
+!classDefinition: 'BinaryExtensionSlicedArrayTest class' category: #'Tests-Algebra-Arrays'!
+BinaryExtensionSlicedArrayTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #BinaryPowerArrayTest category: #'Tests-Algebra-Arrays'!
 AbstractArrayTest subclass: #BinaryPowerArrayTest
 	instanceVariableNames: ''
@@ -821,14 +831,24 @@ AbstractArrayTest subclass: #BinaryPowerArrayTest
 BinaryPowerArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtensionPackedArrayTest category: #'Tests-Algebra-Arrays'!
-AbstractArrayTest subclass: #ExtensionPackedArrayTest
+!classDefinition: #GaloisFieldArrayTest category: #'Tests-Algebra-Arrays'!
+AbstractArrayTest subclass: #GaloisFieldArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'ExtensionPackedArrayTest class' category: #'Tests-Algebra-Arrays'!
-ExtensionPackedArrayTest class
+!classDefinition: 'GaloisFieldArrayTest class' category: #'Tests-Algebra-Arrays'!
+GaloisFieldArrayTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #GaloisRingArrayTest category: #'Tests-Algebra-Arrays'!
+AbstractArrayTest subclass: #GaloisRingArrayTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Arrays'!
+!classDefinition: 'GaloisRingArrayTest class' category: #'Tests-Algebra-Arrays'!
+GaloisRingArrayTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModularArrayTest category: #'Tests-Algebra-Arrays'!
@@ -8885,17 +8905,25 @@ testSumBug
 	self assert: (BinaryArray newFrom: 2r1011101) sum representative = 1.
 	self assert: (BinaryArray newFrom: 2r10000100100010) sum representative = 0! !
 
+!BinaryExtensionSlicedArrayTest methodsFor: 'as yet unclassified' stamp: 'len 6/11/2023 21:38:55'!
+setUp
+	super setUp.
+	scalars := GaloisField new: 2 to: ((2 to: 7) atRandom: random)! !
+
 !BinaryPowerArrayTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2023 17:29:25'!
 setUp
 	super setUp.
 	scalars := PrimePowerRing new: 2 to: ((2 to: 64) atRandom: random)! !
 
-!ExtensionPackedArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 14:58:51'!
+!GaloisFieldArrayTest methodsFor: 'as yet unclassified' stamp: 'len 6/11/2023 21:37:31'!
 setUp
 	super setUp.
-	scalars := random nextBoolean
-		ifTrue: [GaloisRing new: (3 atRandom: random) nextPrime to: (2 atRandom: random) to: (2 atRandom: random)]
-		ifFalse: [GaloisField new: ((#(16rFF 16rFFFF 16rFFFFFFFF) atRandom: random) atRandom: random) nextPrime to: (10 atRandom: random)]! !
+	scalars := GaloisField new: ((#(16rFF 16rFFFF 16rFFFFFFFF) atRandom: random) atRandom: random) nextPrime to: (10 atRandom: random)! !
+
+!GaloisRingArrayTest methodsFor: 'as yet unclassified' stamp: 'len 6/12/2023 09:27:09'!
+setUp
+	super setUp.
+	scalars := GaloisRing new: (3 atRandom: random) nextPrime to: (2 atRandom: random) to: (2 atRandom: random)! !
 
 !ModularArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:01:54'!
 setUp
