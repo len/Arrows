@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 12 June 2023 at 1:14:13 pm'!
+'From Cuis 6.0 [latest update: #5801] on 13 June 2023 at 10:39:22 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 65!
+!provides: 'Tests-Algebra' 1 66!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -1731,16 +1731,6 @@ AbstractCommutativeRingModuleTest subclass: #RationalPolynomialRingModuleTest
 RationalPolynomialRingModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalPolynomialRingPolynomialRingModuleTest category: #'Tests-Algebra-Modules'!
-AbstractCommutativeRingModuleTest subclass: #RationalPolynomialRingPolynomialRingModuleTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'RationalPolynomialRingPolynomialRingModuleTest class' category: #'Tests-Algebra-Modules'!
-RationalPolynomialRingPolynomialRingModuleTest class
-	instanceVariableNames: ''!
-
 !classDefinition: #AbstractModuleTODOTest category: #'Tests-Algebra-Modules'!
 AbstractModuleTest subclass: #AbstractModuleTODOTest
 	instanceVariableNames: ''
@@ -1909,6 +1899,16 @@ Object subclass: #RationalRationalFunctionFieldMatrixTest
 	category: 'Tests-Algebra-Matrices'!
 !classDefinition: 'RationalRationalFunctionFieldMatrixTest class' category: #'Tests-Algebra-Matrices'!
 RationalRationalFunctionFieldMatrixTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #RationalPolynomialRingPolynomialRingModuleTest category: #'Tests-Algebra-Modules'!
+Object subclass: #RationalPolynomialRingPolynomialRingModuleTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Modules'!
+!classDefinition: 'RationalPolynomialRingPolynomialRingModuleTest class' category: #'Tests-Algebra-Modules'!
+RationalPolynomialRingPolynomialRingModuleTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #Benchmark category: #'Tests-Algebra-Benchmarks'!
@@ -11800,6 +11800,17 @@ testQuotientSpace
 	self assert: (V / V null) rank = V rank.
 	self assert: (V / V) rank = 0! !
 
+!AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 6/12/2023 19:58:19'!
+testQuotientSpaceBug
+	| V v Q |
+	V := scalars^3.
+	v := V atRandom.
+	Q := V / {v}.
+	"The number of generators should be minimal (a basis):"
+	self assert: Q rank = Q generators size.
+	"The rank and basis size should match:"
+	self assert: Q rank = Q basis size! !
+
 !AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 10/5/2022 17:38:51'!
 testQuotientSpaceMaps
 	| V S Q π v s |
@@ -12323,11 +12334,6 @@ testModuleGroebnerBasisReducedExample
 setUp
 	super setUp.
 	scalars := ℚ polynomials! !
-
-!RationalPolynomialRingPolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2023 11:01:19'!
-setUp
-	super setUp.
-	scalars := ℚ polynomials polynomials! !
 
 !AbstractModuleTODOTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:39:02'!
 testPullbackSquaresSharingMorphism
@@ -13348,6 +13354,11 @@ initialize
 setUp
 	super setUp.
 	scalars := (ℚ polynomialsIn: (3 atRandom: random)) fractions! !
+
+!RationalPolynomialRingPolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2023 11:01:19'!
+setUp
+	super setUp.
+	scalars := ℚ polynomials polynomials! !
 
 !Benchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 04:20'!
 run

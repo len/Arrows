@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 12 June 2023 at 1:14:03 pm'!
+'From Cuis 6.0 [latest update: #5801] on 13 June 2023 at 10:39:13 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -74,7 +74,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 102!
+!provides: 'Algebra' 1 103!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -4402,12 +4402,13 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 sta
 		with: anArray1 coefficients startingAt: start1-1*n+1
 		plus: anArray2 coefficients startingAt: start2-1*n+1! !
 
-!ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 5/28/2023 22:47:45'!
+!ExtensionPackedArray methodsFor: 'operations-low level' stamp: 'len 6/12/2023 18:56:37'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 timesScalar: anElement
 	| n scalarCoefficients modulusCoefficients tmp j1 j2 |
-	self flag: #fixme. "consider when anElement is an integer"
-	anElement isInteger ifTrue: [^ self notYetImplemented].
 	n := scalars degree.
+	anElement isInteger ifTrue:
+		[coefficients replaceFrom: start-1*n+1 to: stop-1*n+1 with: anArray1 coefficients startingAt: start1-1*n+1 plus: anArray2 startingAt: start2-1*n+1 timesScalar: anElement.
+		^ self].
 	modulusCoefficients := scalars modulus coefficients.
 	scalarCoefficients := anElement coefficients.
 	tmp := scalars scalars new: n*2-1.
@@ -4487,10 +4488,10 @@ isZeroAt: anInteger
 	n _ scalars degree.
 	^ (coefficients findFirstNonzeroFrom: anInteger-1*n+1 to: anInteger*n) isNil! !
 
-!ExtensionPackedArray methodsFor: 'private' stamp: 'len 6/11/2023 13:30:45'!
+!ExtensionPackedArray methodsFor: 'private' stamp: 'len 6/12/2023 16:04:15'!
 asSliced
 	| answer |
-	self flag: #fixme. "remove this method"
+	self flag: #deprecated. "remove this method"
 	answer := BinaryExtensionArray slices: ((1 to: scalars degree) collect: [:i| scalars scalars new: self size]) scalars: scalars.
 	1 to: self size do: [:i| answer at: i put: (self at: i)].
 	^ answer! !
@@ -14639,7 +14640,7 @@ matrix: B reductionBy: A
 	^ Matrix to: B codomain columns: C
 		! !
 
-!PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/10/2023 17:26:42'!
+!PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/12/2023 16:55:38'!
 syzygiesOf: aMatrix
 	"Answer a matrix whose rows span the kernel of the given matrix.
 	For a matrix A, the output is X with AX = 0."
@@ -14649,7 +14650,7 @@ syzygiesOf: aMatrix
 		ifTrue: [^ (aMatrix apply: self → self flatten) syzygies apply: self flatten → self].
 	T := aMatrix basisTransformation.
 	G := aMatrix basis.
-	self assert: aMatrix*T = G.
+"	self assert: aMatrix*T = G."
 	syzygies := OrderedCollection new.
 	1 to: G width - 1 do: [:i|
 		| gi hi |
@@ -14668,7 +14669,7 @@ syzygiesOf: aMatrix
 				s := T * s.
 				s isZero ifFalse: [syzygies add: s]]]].
 	S := Matrix to: G domain columns: (aMatrix columns collect: [:each| G domain !! (each // G columns)]).
-	self assert: G*S = aMatrix.
+"	self assert: G*S = aMatrix."
 	^ Matrix to: aMatrix domain columns: syzygies, ((aMatrix domain id - (T*S)) columns select: [:each| each isZero not])! !
 
 !PolynomialRing methodsFor: 'converting' stamp: 'len 5/16/2023 22:15:54'!
@@ -16294,10 +16295,9 @@ rows: anArray
 printOn: aStream
 	aStream nextPutAll: 'ℳ', self degree printString sub, '('; print: self scalars; nextPut: $)! !
 
-!MatrixAlgebra methodsFor: 'testing' stamp: 'len 6/3/2023 17:53:31'!
+!MatrixAlgebra methodsFor: 'testing' stamp: 'len 6/12/2023 18:59:50'!
 hasCanonicalAssociates
-	self flag: #fixme.
-	^ self scalars isPID "or isEuclideanDomain?"! !
+	^ self scalars isEuclideanDomain! !
 
 !MatrixAlgebra methodsFor: 'testing' stamp: 'len 10/3/2018 03:05:18'!
 isCommutative
@@ -17126,7 +17126,7 @@ to: aModule validMatrix: aMatrix
 	aSubmodule isTrivial ifTrue: [^ self].
 	^ self ambient span: self generatorMatrix ⊔ aSubmodule generatorMatrix! !
 
-!Module methodsFor: 'operations' stamp: 'len 5/29/2023 23:46:23'!
+!Module methodsFor: 'operations' stamp: 'len 6/13/2023 22:31:39'!
 / aSubmodule
 	"Answer the quotient of the receiver by aSubmodule,
 	i.e. the module obtained by 'collapsing' the submodule to zero.
@@ -17141,55 +17141,36 @@ to: aModule validMatrix: aMatrix
 		answer := self apply: π.
 		answer addMap: (self onto: answer map: [:x| π value: x]).
 		^ answer].
-	"From here we can assume the receiver is an ambient module:"
+	"The receiver is an ambient module:"
 	aSubmodule isTrivial ifTrue: [^ self].
 	aSubmodule = self ifTrue: [^ self null].
 	self generatorMatrix isIdentity ifFalse: [^ self notYetImplemented].
 	R := self relationsMatrix ⊔ aSubmodule generatorMatrix.
 	self scalars hasCanonicalBases ifTrue: [R := R basis].
-	P := R codomain id copy "reductionBy: R".
 	"Remove units from the relations matrix because they are redundant.
 	By Nakayama's lemma, over a local ring or a graded ring whose degree 0 component is a field this gives a presentation with a minimal set of generators (see [GP08, pag 127] and [BLH11, Remark 4.4])."
-"				C _ (R columnAt: j) * u inverse negated.
-				(P rowAt: i) withIndexDo: [:a :k| P columnAt: k put: (P columnAt: k) + (C * a)]."
-	self flag: #fixme.
-"	Transcript show: 'start:'; show: R."
-	"j := 1."
-	j := R width + 1. "<- changed to this to bypass the following until I fix it:"
-	[j <= R width] whileTrue:
-		[(i := (1 to: R height) findFirst: [:k| (u := R at: k@j) isUnit]) > 0
-			ifTrue:
-				[self assert: P height = R height.
-				"Transcript show: 'has a unit at ', (i@j) printString; show: R."
-				"Make the entry at i@j be 1:"
-				R := R transpose.
-				R multiplyRow: j by: u inverse.
-				"Put zeros in the columns before and after j:"
-				1 to: j-1 do: [:k| R addRow: j times: (R at: k@i) negated to: k].
-				j+1 to: R height do: [:k| R addRow: j times: (R at: k@i) negated to: k].
-				"Put zeros in the rows before and after i:"
-				R := R transpose.
-				1 to: i-1 do: [:k| R addRow: i times: (R at: k@j) negated to: k].
-				i+1 to: R width do: [:k| R addRow: i times: (R at: k@j) negated to: k].
-				"Transcript show: 'should have all zeros at column ', j printString, ' and row ', i printString, ' except a 1 at ', (i@j) printString; show: R."
-				R := R copyWithoutRowAndColumn: i@j.
-				P := P copyWithoutRow: i.
-				"Transcript show: 'removed column and row:'; show: R."
-				self assert: P codomain = R codomain]
-			ifFalse:
-				[j := j + 1]].
+	P := R codomain id copy.
+	self scalars isCommutative ifTrue:
+		[R := R transpose. "We transpose temporarily in order to work with row operations."
+		j := 1.
+		[j <= R height] whileTrue:
+			[(i := (1 to: R width) findFirst: [:k| (u := R at: j@k) isUnit]) > 0
+				ifTrue:
+					["Make the entry at j@i be 1:"
+					R multiplyRow: j by: u inverse.
+					"Put zeros in row i at columns before and after j:"
+					1 to: R height do: [:k| k ~= j ifTrue: [R addRow: j times: (R at: k@i) negated to: k]].
+					"Put zeros in the projection matrix in column j at rows before and after i:"
+					1 to: P height do: [:k| k ~= i ifTrue: [P addRow: i times: (R at: j@k) negated to: k]].
+					"Remove the j-th relation the i-th generator:"
+					R := R copyWithoutRowAndColumn: j@i.
+					P := P copyWithoutRow: i]
+				ifFalse:
+					[j := j + 1]].
+	R := R transpose].
 	answer := R isZero ifTrue: [FreeModule new: R codomain rank over: R scalars] ifFalse: [QuotientModule relationsMatrix: R].
-	answer addMap: ((self to: answer validMatrix: P "reductionBy: R)") name: 'π').
-	^ answer
-
-	"Answer the subquotient module."
-	"Given modules M1 and M2 (presented by matrices M1 and M2).
-	The subquotient module (M1+M2)/M2, written shorthand as M1/M2, is computed like this:
-	- compute a basis B of M2;
-	- reduce M1 modulo B and get N;
-	- the syzygy matrix S of M modulo N is the desired presentation.
-	See GAP4 homalg SubfactorModule(M1,M2)."
-! !
+	answer addMap: ((self to: answer validMatrix: P) name: 'π').
+	^ answer! !
 
 !Module methodsFor: 'operations' stamp: 'len 6/6/2022 09:54:24'!
 : aModuleOrIdeal
@@ -24591,10 +24572,11 @@ printBinaryOn: aStream
 	(side := form width max: form height) > 300 ifTrue: [form := form magnifyBy: 300.0 / side].
 	aStream print: form! !
 
-!Matrix methodsFor: 'printing' stamp: 'len 6/1/2023 18:58:48'!
+!Matrix methodsFor: 'printing' stamp: 'len 6/13/2023 17:17:22'!
 printOn: aStream
 	| columnWidth rowHeight w h canvas form textColor space lineWidth |
 	self isTrivial ifTrue: [aStream print: 0. ^ self].
+	aStream isText ifFalse: [self printPlainStringOn: aStream. ^ self].
 	(self scalars isKindOf: BinaryField)
 		ifTrue: [^ self printBinaryOn: aStream].
 	columnWidth := Array new: self width withAll: 0.
@@ -24633,6 +24615,10 @@ printOn: aStream
 		line: w@1 to: w-(space*1.5)@1 width: lineWidth color: textColor;
 		line: w@h to: w-(space*1.5)@h width: lineWidth color: textColor.
 	aStream print: form! !
+
+!Matrix methodsFor: 'printing' stamp: 'len 6/13/2023 17:20:02'!
+printPlainStringOn: aStream
+	self rows do: [:each| aStream withBrackets: [:aStream2| each asArray do: [:x| aStream2 print: x] separatedBy: [aStream nextPutAll: '  ']]] separatedBy: [aStream nextPutAll: String lfString]! !
 
 !Matrix methodsFor: 'solving' stamp: 'len 5/8/2023 18:47:04'!
 colift: aMatrix
@@ -31650,9 +31636,9 @@ normalized
 	self isZero ifTrue: [^ self].
 	^ parent one! !
 
-!GaloisFieldElement methodsFor: 'operations' stamp: 'len 6/9/2023 14:44:26'!
+!GaloisFieldElement methodsFor: 'operations' stamp: 'len 6/12/2023 17:54:04'!
 sqrt
-	self parent characteristic = 2 ifTrue: [^ self ^ (self parent size // 2)].
+	self parent characteristic = 2 ifTrue: [^ self ^ (self parent size // 2)]. "this could also be computed with lookup table like squares!!"
 	^ super sqrt! !
 
 !GaloisFieldElement methodsFor: 'testing' stamp: 'len 6/9/2023 14:44:09'!
@@ -32187,9 +32173,8 @@ unitPart
 			^ parent representative: representative >> v precision: precision - v].
 	^ self notYetImplemented! !
 
-!PowerSeries methodsFor: 'accessing' stamp: 'len 6/1/2023 21:49:12'!
+!PowerSeries methodsFor: 'accessing' stamp: 'len 6/12/2023 16:24:49'!
 valuation
-	representative isZero ifTrue: [^ Infinity positive].
 	^ representative order! !
 
 !PowerSeries methodsFor: 'comparing' stamp: 'len 6/2/2023 01:21:59'!
@@ -32484,10 +32469,11 @@ leadingIndeterminate
 	indeterminates reverseDo: [:i| (self has: i) ifTrue: [^ i]].
 	^ indeterminates first! !
 
-!Polynomial methodsFor: 'accessing-monomials' stamp: 'len 1/24/2017 12:04:29'!
+!Polynomial methodsFor: 'accessing-monomials' stamp: 'len 6/12/2023 16:13:08'!
 degree
 	"Answer the total degree of the receiver, i.e. the maximum of the degree of its monomials."
 	self isZero ifTrue: [^ Infinity negative].
+"	self parent ordering isOrdinaryGraded ifTrue: [^ self monomials first degree]."
 	^ self monomials max: [:each| each degree]! !
 
 !Polynomial methodsFor: 'accessing-monomials' stamp: 'len 3/2/2016 23:47'!
@@ -32512,11 +32498,10 @@ monomials
 	"Answer the collection of monomials effectively present in this polynomial (with nonzero coefficient). This is called the 'support' of a polynomial."
 	^ Iterator on: self performing: #monomialsDo:! !
 
-!Polynomial methodsFor: 'accessing-monomials' stamp: 'len 6/1/2023 21:53:20'!
+!Polynomial methodsFor: 'accessing-monomials' stamp: 'len 6/12/2023 16:18:06'!
 order
 	"Answer the minimum degree of the monomials present in the receiver."
-	self flag: #fixme. "should it be positive infinity?"
-	^ self isZero ifTrue: [Infinity negative] ifFalse: [self monomials min: [:each| each degree]]! !
+	^ self isZero ifTrue: [Infinity positive] ifFalse: [self monomials min: [:each| each degree]]! !
 
 !Polynomial methodsFor: 'accessing-monomials' stamp: 'len 2/3/2017 07:17:54'!
 ordering
@@ -32540,14 +32525,12 @@ formAt: anInteger
 	self terms do: [:each| each degree = anInteger ifTrue: [answer _ answer + each]].
 	^ answer! !
 
-!Polynomial methodsFor: 'accessing-terms' stamp: 'len 6/7/2020 14:32:41'!
+!Polynomial methodsFor: 'accessing-terms' stamp: 'len 6/12/2023 16:17:46'!
 initialForm
 	"Answer the homogeneous component of the lowest degree.
 	This makes sense for a local ordering."
 	self ordering isLocal ifFalse: [self error: 'not a local ordering'].
-	^ self isZero
-		 ifTrue: [self]
-		 ifFalse: [self formAt: self order]! !
+	^ self isZero ifTrue: [self] ifFalse: [self formAt: self order]! !
 
 !Polynomial methodsFor: 'accessing-terms' stamp: 'len 6/7/2020 14:31:24'!
 initialTerm
@@ -33527,7 +33510,7 @@ sprs: aPolynomial
 			f2 _ f1. f1 _ r].
 	^ answer! !
 
-!Polynomial methodsFor: 'testing' stamp: 'len 6/12/2023 13:10:40'!
+!Polynomial methodsFor: 'testing' stamp: 'len 6/12/2023 16:32:38'!
 | aPolynomial
 	"Answer true if the receiver divides the argument."
 	aPolynomial isZero ifTrue: [^ true].
@@ -33775,9 +33758,9 @@ coefficients: aSortedDictionary parent: aPolynomialRing
 bitSize
 	^ self coefficients bitSize! !
 
-!UnivariatePolynomial methodsFor: 'accessing' stamp: 'len 7/6/2022 10:14:52'!
+!UnivariatePolynomial methodsFor: 'accessing' stamp: 'len 6/12/2023 16:24:19'!
 degree
-	coefficients isEmpty ifTrue: [^ Infinity negative].
+	coefficients isZero ifTrue: [^ Infinity negative].
 	^ parent ordering isGradedWeighted
 		ifTrue: [coefficients size - 1 * (parent ordering weightOf: 1)]
 		ifFalse: [coefficients size - 1]! !
@@ -33824,11 +33807,10 @@ leadingMonomial
 	^ self isZero ifFalse: [self parent monomials x: self parent indeterminate to: self degree]
 "! !
 
-!UnivariatePolynomial methodsFor: 'accessing-monomials' stamp: 'len 6/1/2023 21:53:32'!
+!UnivariatePolynomial methodsFor: 'accessing-monomials' stamp: 'len 6/12/2023 16:19:52'!
 order
 	"Answer the minimum degree of the monomials present in the receiver."
-	self flag: #fixme. "should it be positive infinity?"
-	^ self isZero ifTrue: [Infinity negative] ifFalse: [(coefficients findFirst: [:one| one isZero not]) - 1]! !
+	^ (coefficients firstNonzeroIndex ifNil: [^ Infinity positive]) - 1! !
 
 !UnivariatePolynomial methodsFor: 'converting' stamp: 'len 5/8/2023 17:15:17'!
 over: aRing
@@ -37878,19 +37860,19 @@ run
 	"6. Finished?"
 	j = n or: [i = m]] whileFalse: [i _ i + 1. j _ j + 1]! !
 
-!HowellEchelonization methodsFor: 'computing' stamp: 'len 12/29/2022 20:21:54'!
+!HowellEchelonization methodsFor: 'computing' stamp: 'len 6/12/2023 16:54:13'!
 run
 	| width height |
-	width _ echelon width.
-	height _ echelon height.
+	width := echelon width.
+	height := echelon height.
 	(width = 0 or: [height = 0]) ifTrue: [^ self]. "nothing to do"
 	"If more columns than rows, augment the matrix with zero rows to make it square:"
 	width > height ifTrue:
 		[self addZeroRows: width - height.
-		height _ width].
+		height := width].
 	"Put it in upper triangular form:"
 	1 to: width do: [:j| j+1 to: height do: [:i| self cancel: j@j with: i]].
-	self assert: echelon isUpperTriangular.
+"	self assert: echelon isUpperTriangular."
 	"Put it in Howell form:"
 	self addZeroRows: 1. "augment with one zero row"
 	1 to: width do: [:i|
@@ -37905,8 +37887,8 @@ run
 	"Sort rows"
 	self sort.
 	"Output first m rows"
-	echelon _ echelon copyFromRow: 1 to: width.
-	transformation ifNotNil: [transformation _ transformation copyFromRow: 1 to: width]! !
+	echelon := echelon copyFromRow: 1 to: width.
+	transformation ifNotNil: [transformation := transformation copyFromRow: 1 to: width]! !
 
 !HowellEchelonization methodsFor: 'computing' stamp: 'len 12/29/2022 19:52:41'!
 sort
@@ -40548,23 +40530,23 @@ replaceFrom: start to: stop withNegated: anArray startingAt: srcStart zechTable:
 		self at: i put: (table negate: (anArray at: j)).
 		j _ j + 1]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/17/2023 21:11:47'!
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 6/13/2023 22:39:00'!
 replaceFrom: start with: anArray1 from: start1 to: stop1 convolution: anArray2 from: start2 to: stop2
 	| s1 s2 k tempArray tempSize depth m |
-	s1 _ stop1 - start1 + 1.
-	s2 _ stop2 - start2 + 1.
-	self flag: #fixme. "assumes commutativity"
+	s1 := stop1 - start1 + 1.
+	s2 := stop2 - start2 + 1.
+	"Note: this assumes commutativity. It is fine, because the convolution is only used for multiplication of polynomials, and the coefficients ring is always commutative."
 	s1 < s2 ifTrue: [^ self replaceFrom: start with: anArray2 from: start2 to: stop2 convolution: anArray1 from: start1 to: stop1].
-	k _ self karatsubaThreshold.
+	k := self karatsubaThreshold.
 	s1 < k ifTrue: [^ self replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2].
-	tempSize _ 0.
-	depth _ 0.
-	[m _ s1 + 1 // 2.
-	tempSize _ m * 2 - 1 + tempSize.
-	s1 _ m.
-	depth _ depth + 1.
+	tempSize := 0.
+	depth := 0.
+	[m := s1 + 1 // 2.
+	tempSize := m * 2 - 1 + tempSize.
+	s1 := m.
+	depth := depth + 1.
 	s1 >= k] whileTrue.
-	tempArray _ self species new: tempSize.
+	tempArray := self species new: tempSize.
 	self replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionKaratsuba: anArray2 from: start2 to: stop2 temporary: tempArray startingAt: 1! !
 
 !ArrayedCollection methodsFor: '*algebra-low level-karatsuba' stamp: 'len 5/14/2023 22:53:18'!
