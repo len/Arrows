@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 27 May 2023 at 10:00:36 pm'!
+'From Cuis 6.0 [latest update: #5801] on 14 June 2023 at 1:38:54 pm'!
 'Description '!
-!provides: 'Etc' 1 28!
+!provides: 'Etc' 1 29!
 !requires: 'Algebra' 1 7 nil!
 SystemOrganization addCategory: #Etc!
 SystemOrganization addCategory: #'Etc-Matrices'!
@@ -4821,3 +4821,123 @@ includes: aCodeword
 !CyclicCode methodsFor: 'testing' stamp: 'len 6/29/2016 22:18'!
 isIrreducible
 	^ generator isIrreducible! !
+
+!ArrayedCollection methodsFor: '*etc-low level-zech logs' stamp: 'len 5/22/2023 16:55:55'!
+accumulateFrom: start to: stop withMatrix: anArray1 timesTuple: anArray2 zechTable: table
+	| width j |
+	(width := anArray2 size) = 0 ifTrue: [^ self].
+	j := 1.
+	start to: stop do: [:i|
+		| value |
+		value := self at: i.
+		j to: j+width-1 do: [:k| value := table op: value plus: (table op: (anArray1 at: k) times: (anArray2 at: k-j+1))].
+		self at: i put: value.
+		j := j + width]! !
+
+!ArrayedCollection methodsFor: '*etc-low level-zech logs' stamp: 'len 5/21/2023 00:20:56'!
+dot: anArray zechTable: table
+	| answer n i |
+	answer := 0.
+	n := self size min: anArray size.
+	i := 1.
+	[i <= n] whileTrue:
+		[answer := table op: answer plus: (table op: (self at: i) times: (anArray at: i)).
+		i := i + 1].
+	^ answer! !
+
+!ArrayedCollection methodsFor: '*etc-low level-zech logs' stamp: 'len 5/11/2023 21:38:14'!
+polynomialValue: anInteger zechTable: table
+	| answer i |
+	self isEmpty ifTrue: [^ 0].
+	anInteger = 0 ifTrue: [^ self at: 1].
+	answer _ 0.
+	i _ self size.
+	[i > 0] whileTrue:
+		[answer _ table op: (table op: anInteger times: answer) plus: (self at: i).
+		i _ i - 1].
+	^ answer! !
+
+!ArrayedCollection methodsFor: '*etc-low level-zech logs' stamp: 'len 5/23/2023 10:51:05'!
+reduceBy: g quotient: q zechTable: table
+	| n m minusU |
+	m := g size "lastNonzeroIndex".
+	minusU := table negate: (table invert: (g at: m)).
+	[(n := self lastNonzeroIndex ifNil: [0]) >= m]
+		whileTrue:
+			[| i c |
+			i := n-m+1.
+			c := table op: (self at: n) times: minusU.
+			q ifNotNil: [q at: i put: (table op: (q at: i) minus: c)].
+			self replaceFrom: i to: i+m-1 with: self startingAt: i plus: g startingAt: 1 timesScalar: c zechTable: table]! !
+
+!ArrayedCollection methodsFor: '*etc-low level-zech logs' stamp: 'len 5/11/2023 23:26:15'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 startingAt: start2 zechTable: table
+	| j1 j2 |
+	j1 _ start1.
+	j2 _ start2.
+	start to: stop do: [:i| | x |
+		self at: i put: ((x _ anArray2 at: j2) = 0 ifTrue: [anArray1 at: j1] ifFalse: [table op: (anArray1 at: j1) minus: x]).
+		j1 _ j1 + 1.
+		j2 _ j2 + 1]! !
+
+!ArrayedCollection methodsFor: '*etc-low level-zech logs' stamp: 'len 5/11/2023 18:13:10'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 timesScalar: anInteger zechTable: table
+	| j1 j2 |
+	anInteger = 0 ifTrue: [^ self replaceFrom: start to: stop with: anArray1 startingAt: start1].
+	anInteger = table q̄ ifTrue: [^ self replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 zechTable: table].
+	j1 _ start1.
+	j2 _ start2.
+	start to: stop do: [:i|
+		self at: i put: (table op: (anArray1 at: j1) plus: (table op: (anArray2 at: j2) times: anInteger)).
+		j1 _ j1 + 1.
+		j2 _ j2 + 1]! !
+
+!ArrayedCollection methodsFor: '*etc-low level-zech logs' stamp: 'len 5/11/2023 18:07:44'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 zechTable: table
+	| j1 j2 |
+	j1 _ start1.
+	j2 _ start2.
+	start to: stop do: [:i|
+		self at: i put: (table op: (anArray1 at: j1) plus: (anArray2 at: j2)).
+		j1 _ j1 + 1.
+		j2 _ j2 + 1]! !
+
+!ArrayedCollection methodsFor: '*etc-low level-zech logs' stamp: 'len 5/12/2023 21:27:34'!
+replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2 zechTable: table
+	| j1 j2 |
+	j1 _ start1.
+	j2 _ start2.
+	start to: stop do: [:i|
+		self at: i put: (table op: (anArray1 at: j1) times: (anArray2 at: j2)).
+		j1 _ j1 + 1.
+		j2 _ j2 + 1]! !
+
+!ArrayedCollection methodsFor: '*etc-low level-zech logs' stamp: 'len 5/11/2023 18:10:37'!
+replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anInteger zechTable: table
+	| j |
+	anInteger = 0 ifTrue: [^ self from: start to: stop put: 0].
+	anInteger = table q̄ ifTrue: [^ self replaceFrom: start to: stop with: anArray startingAt: srcStart].
+	j _ srcStart.
+	start to: stop do: [:i|
+		self at: i put: (table op: (anArray at: j) times: anInteger).
+		j _ j + 1]! !
+
+!ArrayedCollection methodsFor: '*etc-low level-zech logs' stamp: 'len 5/11/2023 17:49:40'!
+replaceFrom: start to: stop withNegated: anArray startingAt: srcStart zechTable: table
+	| j |
+	j _ srcStart.
+	start to: stop do: [:i|
+		self at: i put: (table negate: (anArray at: j)).
+		j _ j + 1]! !
+
+!ArrayedCollection methodsFor: '*etc-low level-zech logs' stamp: 'len 5/12/2023 21:41:18'!
+replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2 zechTable: table
+	self from: start to: start + stop1 - start1 + stop2 - start2 put: 0.
+	start2 to: stop2 do: [:i| | x |
+		(x _ anArray2 at: i) = 0 ifFalse:
+			[| index |
+			index _ i-start2+start.
+			self replaceFrom: index to: index+stop1-start1
+				with: self startingAt: index
+				plus: anArray1 startingAt: start1 timesScalar: x
+				zechTable: table]]! !

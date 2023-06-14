@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 13 June 2023 at 10:39:13 pm'!
+'From Cuis 6.0 [latest update: #5801] on 14 June 2023 at 3:35:44 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -49,6 +49,7 @@ References:
 [Mis93] Mishra, B; "Algorithmic Algebra", Springer, Monographs in Computer Science, 1993
 [Mon04] Michael Monagan; "Maximal Quotient Rational Reconstruction: An Almost Optimal Algorithm for Rational Reconstructoin" (2004)
 [Mon05] Peter L. Montgomery; "Five, Six, and Seven-Term Karatsuba-Like Formulae" (2005)
+[PS09] Clement Pernet; William Stein; "Fast computation of Hermite normal forms of random integer matrices" (2009)
 [Pos17] Sebastian Posur; "Linear Systems over Localizations of Rings" (2017)
 [SY09] Michael Sagraloff, Chee K. Yap, "An Efficient and Exact Subdivision Algorithm for Isolating Complex Roots of a Polynomial and its Complexity Analysis" (2009)
 [Sam71] Pierre Samuel, "About Euclidean Rings", J. Algebra, 19:282-301, 1971
@@ -74,7 +75,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 103!
+!provides: 'Algebra' 1 104!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -3998,7 +3999,7 @@ accumulateFrom: start withAutoconvolutionLong: anArray1 from: start1 to: stop1
 				[self bits: ℓ at: i xor: out].
 		i := i + ℓ]! !
 
-!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/27/2023 12:59:43'!
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 6/13/2023 23:22:49'!
 accumulateRowIndices: rowIndices withMatrix: anArray1 width: width1 rowIndices: rowIndices1 timesMatrix: anArray2 width: width2 rowIndices: rowIndices2
 	"Matrix multiplication in O(n^3 / log n) with the Method of Four Russians. See [ABH08], [Bar06]."
 	| ℓ G T i |
@@ -4012,10 +4013,10 @@ accumulateRowIndices: rowIndices withMatrix: anArray1 width: width1 rowIndices: 
 		1 to: rowIndices1 size do: [:j| | bits j₀ |
 			bits := anArray1 bits: ℓ at: (rowIndices1 at: j) + i.
 			j₀ := rowIndices at: j.
-			self replaceFrom: j₀ to: j₀ + width2 - 1 with: self startingAt: j₀ plus: (T at: (G indexOf: bits)) startingAt: 1].
+			self accumulateFrom: j₀ to: j₀ + width2 - 1 with: (T at: (G indexOf: bits)) startingAt: 1].
 		i := i + ℓ]! !
 
-!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/27/2023 12:59:52'!
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 6/13/2023 23:22:27'!
 accumulateWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2
 	"Matrix multiplication in O(n^3 / log n) with the Method of Four Russians. See [ABH08], [Bar06]."
 	| ℓ G T m i |
@@ -4030,7 +4031,7 @@ accumulateWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2
 		0 to: m-1 do: [:j| | bits j₀ |
 			bits := anArray1 bits: ℓ at: j * width1 + 1 + i.
 			j₀ := j * width2 + 1.
-			self replaceFrom: j₀ to: j₀ + width2 - 1 with: self startingAt: j₀ plus: (T at: (G indexOf: bits)) startingAt: 1].
+			self accumulateFrom: j₀ to: j₀ + width2 - 1 with: (T at: (G indexOf: bits)) startingAt: 1].
 		i := i + ℓ]! !
 
 !BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 21:32:16'!
@@ -6490,9 +6491,8 @@ upTo: max do: aBlock
 		aBlock value: each.
 		k _ k+1]! !
 
-!Structure methodsFor: 'morphisms' stamp: 'len 5/13/2019 17:12:18'!
+!Structure methodsFor: 'morphisms' stamp: 'len 6/14/2023 13:17:59'!
 apply: aMorphism
-	"Answer the homomorphic image of the receiver."
 	^ (aMorphism isBlock ifTrue: [self] ifFalse: [aMorphism codomain]) span: ((self generators ifNil: [^ self collect: aMorphism]) apply: aMorphism)! !
 
 !Structure methodsFor: 'morphisms' stamp: 'len 7/31/2020 11:49:07'!
@@ -13262,12 +13262,6 @@ karatsubaFormula
 			each second do: [:i| reduction addAll: (powers at: i)].
 			{each first. (reduction asSet select: [:i| (reduction occurrencesOf: i) odd]) asArray sort}])! !
 
-!GaloisField methodsFor: 'private' stamp: 'len 6/11/2023 10:56:36'!
-zechMaximumOrder
-	"Answer the maximum order p^r for a Galois field GF(p^r) for which to use Zech representation."
-	self flag: #deprecated.
-	^ 1024! !
-
 !GaloisField class methodsFor: 'examples' stamp: 'len 5/21/2018 06:46:16'!
 example1
 	"The Galois field of order 2^3."
@@ -15267,11 +15261,11 @@ hasCanonicalBases
 hasCanonicalReduction
 	^ self scalars hasCanonicalReduction! !
 
-!PolynomialRing methodsFor: 'testing' stamp: 'len 6/18/2022 09:01:25'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 6/13/2023 23:40:23'!
 hasGCD
 	"Answer true if the receiver is known to have computable GCDs
 	(for example if it's a UFD or an Euclidean ring and implements an algorithm for GCDs)."
-	^ self scalars hasGCD and: [self scalars isUFD]! !
+	^ self scalars hasGCD "and: [self scalars isUFD]"! !
 
 !PolynomialRing methodsFor: 'testing' stamp: 'len 5/8/2023 00:19:26'!
 includes: anObject
@@ -17003,13 +16997,12 @@ do: aBlock
 		each with: self generators do: [:ai :xi| x _ xi * ai + x].
 		visited add: x ifAbsent: [aBlock value: x]]! !
 
-!Module methodsFor: 'morphisms' stamp: 'len 12/9/2022 06:51:20'!
+!Module methodsFor: 'morphisms' stamp: 'len 6/14/2023 13:17:54'!
 apply: aMorphism
-	"Answer the homomorphic image of the receiver."
-	aMorphism isBlock ifTrue: [^ self ambient span: (self generators collect: aMorphism)].
+	aMorphism isBlock ifTrue: [^ self ambient span: (self generators apply: aMorphism)].
 	aMorphism domain == self ifTrue: [^ aMorphism image].
 "	aMorphism domain == self ambient ifTrue: [^ (self → self ambient → aMorphism) image]."
-	^ aMorphism codomain ambient span: (self generators collect: aMorphism)! !
+	^ aMorphism codomain ambient span: (self generators apply: aMorphism)! !
 
 !Module methodsFor: 'morphisms' stamp: 'len 10/5/2022 18:38:00'!
 from: aDomain
@@ -17126,7 +17119,7 @@ to: aModule validMatrix: aMatrix
 	aSubmodule isTrivial ifTrue: [^ self].
 	^ self ambient span: self generatorMatrix ⊔ aSubmodule generatorMatrix! !
 
-!Module methodsFor: 'operations' stamp: 'len 6/13/2023 22:31:39'!
+!Module methodsFor: 'operations' stamp: 'len 6/13/2023 22:50:43'!
 / aSubmodule
 	"Answer the quotient of the receiver by aSubmodule,
 	i.e. the module obtained by 'collapsing' the submodule to zero.
@@ -17158,7 +17151,7 @@ to: aModule validMatrix: aMatrix
 				ifTrue:
 					["Make the entry at j@i be 1:"
 					R multiplyRow: j by: u inverse.
-					"Put zeros in row i at columns before and after j:"
+					"Put zeros in the relations matrix in row i at columns before and after j:"
 					1 to: R height do: [:k| k ~= j ifTrue: [R addRow: j times: (R at: k@i) negated to: k]].
 					"Put zeros in the projection matrix in column j at rows before and after i:"
 					1 to: P height do: [:k| k ~= i ifTrue: [P addRow: i times: (R at: j@k) negated to: k]].
@@ -17167,7 +17160,7 @@ to: aModule validMatrix: aMatrix
 					P := P copyWithoutRow: i]
 				ifFalse:
 					[j := j + 1]].
-	R := R transpose].
+		R := R transpose].
 	answer := R isZero ifTrue: [FreeModule new: R codomain rank over: R scalars] ifFalse: [QuotientModule relationsMatrix: R].
 	answer addMap: ((self to: answer validMatrix: P) name: 'π').
 	^ answer! !
@@ -17376,6 +17369,13 @@ reduce: anElement
 	self isAmbient ifTrue: [^ self zero].
 	self isTrivial ifTrue: [^ anElement].
 	^ self ambient elementAt: ((self ambient \ anElement) asMatrix reductionBy: self generatorMatrix modulo: self ambient relationsMatrix) asTuple! !
+
+!Module methodsFor: 'operations' stamp: 'len 6/14/2023 13:44:06'!
+saturation
+	"If the receiver is a submodule of Rⁿ for a Euclidean domain R, the saturation is the intersection of Rⁿ with the Frac(R)-span of any basis of the receiver. See [PS09, Section 8]."
+	(self scalars isEuclideanDomain and: [self ambient isFreelyGenerated])
+		ifFalse: [^ self error: 'not a submodule of a free module over a Euclidean domain'].
+	^ self ambient span: (self basisMatrix HNF copyWithoutZeroRows \ self basisMatrix transpose) transpose! !
 
 !Module methodsFor: 'operations' stamp: 'len 6/21/2022 09:33:14'!
 span: aCollectionOrMatrix
@@ -17737,9 +17737,8 @@ over: aRing
 adapt: anElement
 	^ (super adapt: anElement) ifNil: [self scalars adapt: anElement]! !
 
-!Ideal methodsFor: 'morphisms' stamp: 'len 12/15/2021 21:05:37'!
+!Ideal methodsFor: 'morphisms' stamp: 'len 6/14/2023 13:17:50'!
 apply: aMorphism
-	"Answer the homomorphic image of the receiver."
 	aMorphism isBlock
 		ifTrue: [^ self scalars * (self generators collect: aMorphism)].
 	aMorphism domain = self scalars
@@ -19512,9 +19511,8 @@ sections
 Sheaves
 	^ self propertyAt: #Sheaves ifAbsentPut: [Sheaves on: self]! !
 
-!Scheme methodsFor: 'operations' stamp: 'len 10/5/2022 18:39:25'!
+!Scheme methodsFor: 'operations' stamp: 'len 6/14/2023 13:17:45'!
 apply: aMorphism
-	"Answer the homomorphic image of the receiver."
 	"This is the image of aMorphism applied to the receiver, assuming the receiver is a subscheme of the domain of aMorphism."
 	^ (self → aMorphism) image! !
 
@@ -21212,9 +21210,8 @@ dimension
 	self isVoid ifTrue: [^ Infinity negative].
 	^ self facets max: [:each| each dimension]! !
 
-!SimplicialComplex methodsFor: 'morphisms' stamp: 'len 12/15/2021 21:04:10'!
+!SimplicialComplex methodsFor: 'morphisms' stamp: 'len 6/14/2023 13:17:34'!
 apply: aMorphism
-	"Answer the homomorphic image of the receiver."
 	^ self species faces: (self facets collect: aMorphism)! !
 
 !SimplicialComplex methodsFor: 'morphisms' stamp: 'len 6/7/2023 15:25:22'!
@@ -24100,15 +24097,15 @@ apply: aFunction
 	aFunction isBlock ifTrue: [^ domain to: codomain fill: [:i :j| aFunction value: (self at: i@j)]].
 	^ (domain over: aFunction codomain) to: (codomain over: aFunction codomain) fill: [:i :j| aFunction value: (self at: i@j)]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 11/23/2022 17:10:19'!
+!Matrix methodsFor: 'operations' stamp: 'len 6/14/2023 15:10:47'!
 berkowitz
 	"Answer the coefficients of the characteristic polynomial of the receiver.
 	It's computed by the Berkowitz division-free algorithm and works over any commutative ring.
-	It uses small space in comparision with classic gaussian elimination and performs O(n^4) scalar operations."
+	It uses small space in comparision with classic Gaussian elimination and performs O(n^4) scalar operations."
 	| n v C Ar R S Q one |
 	self isSquare ifFalse: [^ self error: 'not square'].
-	one _ self scalars one.
-	(n _ self width) = 0 ifTrue: [^ self scalars !!!! {one}].
+	one := self scalars one.
+	(n := self width) = 0 ifTrue: [^ self scalars !!!! {one}].
 	n = 1 ifTrue: [^ self scalars !!!! {one. (self at: 1@1) negated}].
 	n = 2 ifTrue:
 			[^ self scalars !!!!
@@ -24116,35 +24113,35 @@ berkowitz
 				((self at: 1@1) + (self at: 2@2)) negated.
 				(self at: 1@1) * (self at: 2@2) - ((self at: 1@2) * (self at: 2@1))}].
 
-	v _ self scalars !!!!
+	v := self scalars !!!!
 		{one.
 		(self at: 2@2) negated - (self at: 1@1).
 		(self at: 2@2) * (self at: 1@1) - ((self at: 1@2) * (self at: 2@1))}.
 
 	3 to: n do: [:r|
-		C _ (self scalars^r ⇒ (self scalars^(r+1))) zero.
-		Ar _ self copyFrom: 1@1 to: r-1 @ (r-1).
+		C := (self scalars^r ⇒ (self scalars^(r+1))) zero.
+		Ar := self copyFrom: 1@1 to: r-1 @ (r-1).
 
-		R _ (self rowAt: r) copyFrom: 1 to: r-1.
-		S _ (self columnAt: r) copyFrom: 1 to: r-1.
+		R := (self rowAt: r) copyFrom: 1 to: r-1.
+		S := (self columnAt: r) copyFrom: 1 to: r-1.
 
 		C at: 1@1 put: one negated.
 		C at: 2@1 put: (self at: r@r).
 		C at: 3@1 put: (R · S).
 
-		Q _ Ar * S.
+		Q := Ar * S.
 
 		C at: 4@1 put: (R · Q).
 
 		3 to: r-1 do: [:i|
-			Q _ Ar * Q.
+			Q := Ar * Q.
 			C at: i+2 @ 1 put: (R · Q)].
 
 		2 to: r do: [ :i |
 			0 to: r+1-i do: [ :j |
 				C at: i+j @ i put: (C at: j+1 @ 1)]].
 
-		v _ C * v].
+		v := C * v].
 
 	^ n even ifTrue: [v] ifFalse: [v negated]! !
 
@@ -24321,19 +24318,19 @@ determinant3
 	self isEmpty ifTrue: [^ self scalars one].
 	^ (1 to: self height) sum: [:i| (self at: i@1) * (self cofactor: i@1)]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 7/27/2020 14:31:31'!
+!Matrix methodsFor: 'operations' stamp: 'len 6/14/2023 15:08:27'!
 determinantModular
 	| B C n r moduli determinants |
-	B _ 0.
-	self do: [:each| B _ B max: each abs].
-	n _ self width.
-	C _ (n^n) sqrt * (B^n).
-	r _ (C log: 2) ceiling.
-	moduli _ OrderedCollection new: r.
+	B := 0.
+	self do: [:each| B := B max: each abs].
+	n := self width.
+	C := (n^n) sqrt * (B^n).
+	r := (C log: 2) ceiling.
+	moduli := OrderedCollection new: r.
 	moduli add: 2.
 	r - 1 timesRepeat: [moduli add: moduli last nextPrime].
-	determinants _ moduli collect: [:each| (self % each) determinant].
-	^ determinants "(CRT solve: determinants) lift"! !
+	determinants := moduli collect: [:each| (self % each) determinant].
+	^ (CRT solve: determinants) lift! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 4/5/2018 15:29:05'!
 determinantx
@@ -25280,12 +25277,17 @@ withIndicesDo: aBlock
 	^ self class from: domain ⊕ aMatrix domain to: codomain ⊕ aMatrix codomain coefficients: newCoefficients
 ! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 6/12/2023 07:57:26'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 6/14/2023 15:32:28'!
 ∘ aMatrix
 	self class = aMatrix class ifFalse: [^ super ∘ aMatrix].
 	self flag: #fixme. "TODO: multiplication with submatrix"
 	self flag: #fixme. "should do this with localizations? we are doing the same for polynomial multiplication"
-	self scalars isLocalization ifTrue: [^ (self numerator * aMatrix numerator over: self scalars) / (self denominator * aMatrix denominator)].
+	self scalars isLocalization ifTrue:
+		[| F numerators denominator |
+		F := self scalars.
+		numerators := (self numerator * aMatrix numerator) coefficients.
+		denominator := self denominator * aMatrix denominator.
+		^ self class from: aMatrix domain to: codomain coefficients: (F new: numerators size fill: [:i| F numerator: (numerators at: i) denominator: denominator])].
 	self checkCompatibleComposition: aMatrix.
 	(coefficients isEmpty or: [aMatrix coefficients isEmpty])
 		ifTrue: [^ self class from: aMatrix domain to: codomain coefficients: (self scalars zeros: aMatrix width * self height)].
@@ -39866,18 +39868,6 @@ accumulateFrom: start to: stop withMatrix: anArray1 timesTuple: anArray2 modulo:
 						self at: i put: value.
 						j := j + width]]]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/22/2023 16:55:55'!
-accumulateFrom: start to: stop withMatrix: anArray1 timesTuple: anArray2 zechTable: table
-	| width j |
-	(width := anArray2 size) = 0 ifTrue: [^ self].
-	j := 1.
-	start to: stop do: [:i|
-		| value |
-		value := self at: i.
-		j to: j+width-1 do: [:k| value := table op: value plus: (table op: (anArray1 at: k) times: (anArray2 at: k-j+1))].
-		self at: i put: value.
-		j := j + width]! !
-
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 6/10/2023 22:48:11'!
 accumulateFrom: start with: anArray1 from: start1 to: stop1 convolution: anArray2 from: start2 to: stop2
 	self accumulateFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2! !
@@ -40105,17 +40095,6 @@ dot: anArray modulo: modulus
 						i := i + 1]]].
 	^ answer! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/21/2023 00:20:56'!
-dot: anArray zechTable: table
-	| answer n i |
-	answer := 0.
-	n := self size min: anArray size.
-	i := 1.
-	[i <= n] whileTrue:
-		[answer := table op: answer plus: (table op: (self at: i) times: (anArray at: i)).
-		i := i + 1].
-	^ answer! !
-
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 6/6/2023 13:16:08'!
 evaluateFrom: start to: stop at: anElement
 	"Evaluate the receiver (as an univariate polynomial from start to stop) at the given argument using ranged Horner's method."
@@ -40256,18 +40235,6 @@ polynomialQuotientBy: anArray
 	r reduceBy: (anArray copyFrom: n - k + 1 to: m + 1) quotient: q.
 	^ q! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/11/2023 21:38:14'!
-polynomialValue: anInteger zechTable: table
-	| answer i |
-	self isEmpty ifTrue: [^ 0].
-	anInteger = 0 ifTrue: [^ self at: 1].
-	answer _ 0.
-	i _ self size.
-	[i > 0] whileTrue:
-		[answer _ table op: (table op: anInteger times: answer) plus: (self at: i).
-		i _ i - 1].
-	^ answer! !
-
 !ArrayedCollection methodsFor: '*algebra' stamp: 'len 5/23/2023 10:40:54'!
 reduceBy: g
 	self reduceBy: g quotient: nil! !
@@ -40299,19 +40266,6 @@ reduceBy: g quotient: q
 				[q ifNotNil: [q at: i put: (q at: i) - c].
 				self replaceFrom: i to: i+m-1 with: self startingAt: i plus: g startingAt: 1 timesScalar: c]]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/23/2023 10:51:05'!
-reduceBy: g quotient: q zechTable: table
-	| n m minusU |
-	m := g size "lastNonzeroIndex".
-	minusU := table negate: (table invert: (g at: m)).
-	[(n := self lastNonzeroIndex ifNil: [0]) >= m]
-		whileTrue:
-			[| i c |
-			i := n-m+1.
-			c := table op: (self at: n) times: minusU.
-			q ifNotNil: [q at: i put: (table op: (q at: i) minus: c)].
-			self replaceFrom: i to: i+m-1 with: self startingAt: i plus: g startingAt: 1 timesScalar: c zechTable: table]! !
-
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 4/25/2022 07:55:30'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 startingAt: start2
 	| j1 j2 |
@@ -40331,16 +40285,6 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 st
 		x _ anArray2 at: j2.
 		x = 0 ifTrue: [x _ anArray1 at: j1] ifFalse: [x _ (anArray1 at: j1) + modulus - x. x >= modulus ifTrue: [x _ x - modulus]].
 		self at: i put: x.
-		j1 _ j1 + 1.
-		j2 _ j2 + 1]! !
-
-!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/11/2023 23:26:15'!
-replaceFrom: start to: stop with: anArray1 startingAt: start1 minus: anArray2 startingAt: start2 zechTable: table
-	| j1 j2 |
-	j1 _ start1.
-	j2 _ start2.
-	start to: stop do: [:i| | x |
-		self at: i put: ((x _ anArray2 at: j2) = 0 ifTrue: [anArray1 at: j1] ifFalse: [table op: (anArray1 at: j1) minus: x]).
 		j1 _ j1 + 1.
 		j2 _ j2 + 1]! !
 
@@ -40405,28 +40349,6 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 sta
 		j1 := j1 + 1.
 		j2 := j2 + 1]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/11/2023 18:13:10'!
-replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 timesScalar: anInteger zechTable: table
-	| j1 j2 |
-	anInteger = 0 ifTrue: [^ self replaceFrom: start to: stop with: anArray1 startingAt: start1].
-	anInteger = table q̄ ifTrue: [^ self replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 zechTable: table].
-	j1 _ start1.
-	j2 _ start2.
-	start to: stop do: [:i|
-		self at: i put: (table op: (anArray1 at: j1) plus: (table op: (anArray2 at: j2) times: anInteger)).
-		j1 _ j1 + 1.
-		j2 _ j2 + 1]! !
-
-!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/11/2023 18:07:44'!
-replaceFrom: start to: stop with: anArray1 startingAt: start1 plus: anArray2 startingAt: start2 zechTable: table
-	| j1 j2 |
-	j1 _ start1.
-	j2 _ start2.
-	start to: stop do: [:i|
-		self at: i put: (table op: (anArray1 at: j1) plus: (anArray2 at: j2)).
-		j1 _ j1 + 1.
-		j2 _ j2 + 1]! !
-
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 4/25/2022 07:58:39'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2
 	| j1 j2 |
@@ -40454,16 +40376,6 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 st
 				j1 := j1 + 1.
 				j2 := j2 + 1]]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/12/2023 21:27:34'!
-replaceFrom: start to: stop with: anArray1 startingAt: start1 times: anArray2 startingAt: start2 zechTable: table
-	| j1 j2 |
-	j1 _ start1.
-	j2 _ start2.
-	start to: stop do: [:i|
-		self at: i put: (table op: (anArray1 at: j1) times: (anArray2 at: j2)).
-		j1 _ j1 + 1.
-		j2 _ j2 + 1]! !
-
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 6/11/2023 23:20:44'!
 replaceFrom: start to: stop with: anArray1 startingAt: start1 timesScalar: anElement
 	| j |
@@ -40488,16 +40400,6 @@ replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anIn
 				self at: i put: (anArray at: j) * anInteger \\ modulus.
 				j := j + 1]]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/11/2023 18:10:37'!
-replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anInteger zechTable: table
-	| j |
-	anInteger = 0 ifTrue: [^ self from: start to: stop put: 0].
-	anInteger = table q̄ ifTrue: [^ self replaceFrom: start to: stop with: anArray startingAt: srcStart].
-	j _ srcStart.
-	start to: stop do: [:i|
-		self at: i put: (table op: (anArray at: j) times: anInteger).
-		j _ j + 1]! !
-
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 6/12/2023 12:57:23'!
 replaceFrom: start to: stop withMatrix: anArray1 timesTuple: anArray2
 	anArray2 size = 0 ifTrue: [^ self].
@@ -40520,14 +40422,6 @@ replaceFrom: start to: stop withNegated: anArray startingAt: srcStart modulo: mo
 		x _ anArray at: j.
 		x = 0 ifFalse: [x _ modulus - x].
 		self at: i put: x.
-		j _ j + 1]! !
-
-!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/11/2023 17:49:40'!
-replaceFrom: start to: stop withNegated: anArray startingAt: srcStart zechTable: table
-	| j |
-	j _ srcStart.
-	start to: stop do: [:i|
-		self at: i put: (table negate: (anArray at: j)).
 		j _ j + 1]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 6/13/2023 22:39:00'!
@@ -40615,18 +40509,6 @@ replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionKronecker: a
 replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2
 	self from: start to: start + stop1 - start1 + stop2 - start2 put: (anArray1 at: start1) zero.
 	self accumulateFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2! !
-
-!ArrayedCollection methodsFor: '*algebra-low level-zech logs' stamp: 'len 5/12/2023 21:41:18'!
-replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionLong: anArray2 from: start2 to: stop2 zechTable: table
-	self from: start to: start + stop1 - start1 + stop2 - start2 put: 0.
-	start2 to: stop2 do: [:i| | x |
-		(x _ anArray2 at: i) = 0 ifFalse:
-			[| index |
-			index _ i-start2+start.
-			self replaceFrom: index to: index+stop1-start1
-				with: self startingAt: index
-				plus: anArray1 startingAt: start1 timesScalar: x
-				zechTable: table]]! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 12/9/2022 07:47:04'!
 replaceFrom: start withAutoconvolution: anArray1 from: start1 to: stop1

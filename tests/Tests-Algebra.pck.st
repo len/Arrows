@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 13 June 2023 at 10:39:22 pm'!
+'From Cuis 6.0 [latest update: #5801] on 14 June 2023 at 3:35:52 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 66!
+!provides: 'Tests-Algebra' 1 67!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -9940,17 +9940,18 @@ testAdjugateCramerRule
 	I _ A identity.
 	self assert: A * A adjugate = (I * A determinant)! !
 
-!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/21/2022 12:01:10'!
+!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/14/2023 13:54:18'!
 testCanonicalBases
 	| basisAndTransformation A G T U |
+	self flag: #fixme. "should move this to a test case for matrices over rings with canonical bases"
 	scalars hasCanonicalBases ifFalse: [^ self].
-	A _ self newMatrix: (6 atRandom: random) @ (6 atRandom: random).
-	basisAndTransformation _ A copy basisAndTransformation.
-	G _ basisAndTransformation first.
-	T _ basisAndTransformation second.
+	A := self newMatrix: (6 atRandom: random) @ (6 atRandom: random).
+	basisAndTransformation := A basisAndTransformation.
+	G := basisAndTransformation first.
+	T := basisAndTransformation second.
 "	self assert: G isStandardBasis."
 	self assert: A * T = G.
-	U _ A domain automorphisms atRandom: random.
+	U := A domain automorphisms atRandom: random.
 	self assert: (A * U) basis = G! !
 
 !AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 13:03:14'!
