@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5801] on 14 June 2023 at 3:35:44 pm'!
+'From Cuis 6.0 [latest update: #5852] on 14 June 2023 at 5:15:14 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -75,2441 +75,2441 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 104!
-!requires: 'Complex' 1 7 nil!
+!provides: 'Algebra' 1 105!
+!requires: 'Transfinites' 1 2 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
+!requires: 'Complex' 1 7 nil!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
-!requires: 'Transfinites' 1 2 nil!
-SystemOrganization addCategory: #'Algebra-Categories'!
-SystemOrganization addCategory: #'Algebra-Monoids'!
-SystemOrganization addCategory: #'Algebra-Monoids-Orderings'!
-SystemOrganization addCategory: #'Algebra-Groups'!
-SystemOrganization addCategory: #'Algebra-Groups-Permutations'!
-SystemOrganization addCategory: #'Algebra-Groups-Linear'!
-SystemOrganization addCategory: #'Algebra-Rings'!
-SystemOrganization addCategory: #'Algebra-Rings-Finite'!
-SystemOrganization addCategory: #'Algebra-Fields'!
-SystemOrganization addCategory: #'Algebra-Fields-Global'!
-SystemOrganization addCategory: #'Algebra-Fields-Global-Cyclotomic'!
-SystemOrganization addCategory: #'Algebra-Fields-Global-Quadratic'!
-SystemOrganization addCategory: #'Algebra-Fields-Local'!
-SystemOrganization addCategory: #'Algebra-Modules'!
-SystemOrganization addCategory: #'Algebra-Modules-Orderings'!
-SystemOrganization addCategory: #'Algebra-Modules-Multilinear'!
-SystemOrganization addCategory: #'Algebra-Complexes'!
-SystemOrganization addCategory: #'Algebra-Algebras-Affine'!
-SystemOrganization addCategory: #'Algebra-Algebras-Finite'!
-SystemOrganization addCategory: #'Algebra-Algebras-Free'!
-SystemOrganization addCategory: #'Algebra-Algebras-Distributive'!
-SystemOrganization addCategory: #'Algebra-Schemes'!
-SystemOrganization addCategory: #'Algebra-Schemes-Affine Space'!
-SystemOrganization addCategory: #'Algebra-Schemes-Projective Space'!
-SystemOrganization addCategory: #'Algebra-Sequences'!
-SystemOrganization addCategory: #'Algebra-Simplicial Complexes'!
-SystemOrganization addCategory: #'Algebra-Algorithms'!
-SystemOrganization addCategory: #'Algebra-Algorithms-Arrays'!
-SystemOrganization addCategory: #'Algebra-Algorithms-Echelonization'!
-SystemOrganization addCategory: #'Algebra-Algorithms-Standard Bases'!
+SystemOrganization addCategory: 'Algebra-Categories'!
+SystemOrganization addCategory: 'Algebra-Monoids'!
+SystemOrganization addCategory: 'Algebra-Monoids-Orderings'!
+SystemOrganization addCategory: 'Algebra-Groups'!
+SystemOrganization addCategory: 'Algebra-Groups-Permutations'!
+SystemOrganization addCategory: 'Algebra-Groups-Linear'!
+SystemOrganization addCategory: 'Algebra-Rings'!
+SystemOrganization addCategory: 'Algebra-Rings-Finite'!
+SystemOrganization addCategory: 'Algebra-Fields'!
+SystemOrganization addCategory: 'Algebra-Fields-Global'!
+SystemOrganization addCategory: 'Algebra-Fields-Global-Cyclotomic'!
+SystemOrganization addCategory: 'Algebra-Fields-Global-Quadratic'!
+SystemOrganization addCategory: 'Algebra-Fields-Local'!
+SystemOrganization addCategory: 'Algebra-Modules'!
+SystemOrganization addCategory: 'Algebra-Modules-Orderings'!
+SystemOrganization addCategory: 'Algebra-Modules-Multilinear'!
+SystemOrganization addCategory: 'Algebra-Complexes'!
+SystemOrganization addCategory: 'Algebra-Algebras-Affine'!
+SystemOrganization addCategory: 'Algebra-Algebras-Finite'!
+SystemOrganization addCategory: 'Algebra-Algebras-Free'!
+SystemOrganization addCategory: 'Algebra-Algebras-Distributive'!
+SystemOrganization addCategory: 'Algebra-Schemes'!
+SystemOrganization addCategory: 'Algebra-Schemes-Affine Space'!
+SystemOrganization addCategory: 'Algebra-Schemes-Projective Space'!
+SystemOrganization addCategory: 'Algebra-Sequences'!
+SystemOrganization addCategory: 'Algebra-Simplicial Complexes'!
+SystemOrganization addCategory: 'Algebra-Algorithms'!
+SystemOrganization addCategory: 'Algebra-Algorithms-Arrays'!
+SystemOrganization addCategory: 'Algebra-Algorithms-Echelonization'!
+SystemOrganization addCategory: 'Algebra-Algorithms-Standard Bases'!
 
 
-!classDefinition: #ContinuedFraction category: #'Algebra-Sequences'!
+!classDefinition: #ContinuedFraction category: 'Algebra-Sequences'!
 Number subclass: #ContinuedFraction
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Sequences'!
-!classDefinition: 'ContinuedFraction class' category: #'Algebra-Sequences'!
+!classDefinition: 'ContinuedFraction class' category: 'Algebra-Sequences'!
 ContinuedFraction class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryArray category: #'Algebra-Algorithms-Arrays'!
+!classDefinition: #BinaryArray category: 'Algebra-Algorithms-Arrays'!
 ArrayedCollection subclass: #BinaryArray
 	instanceVariableNames: 'words size'
 	classVariableNames: 'ByteSquares One Zero'
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Arrays'!
-!classDefinition: 'BinaryArray class' category: #'Algebra-Algorithms-Arrays'!
+!classDefinition: 'BinaryArray class' category: 'Algebra-Algorithms-Arrays'!
 BinaryArray class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtensionPackedArray category: #'Algebra-Algorithms-Arrays'!
+!classDefinition: #ExtensionPackedArray category: 'Algebra-Algorithms-Arrays'!
 ArrayedCollection subclass: #ExtensionPackedArray
 	instanceVariableNames: 'coefficients scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Arrays'!
-!classDefinition: 'ExtensionPackedArray class' category: #'Algebra-Algorithms-Arrays'!
+!classDefinition: 'ExtensionPackedArray class' category: 'Algebra-Algorithms-Arrays'!
 ExtensionPackedArray class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtensionSlicedArray category: #'Algebra-Algorithms-Arrays'!
+!classDefinition: #ExtensionSlicedArray category: 'Algebra-Algorithms-Arrays'!
 ArrayedCollection subclass: #ExtensionSlicedArray
 	instanceVariableNames: 'slices scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Arrays'!
-!classDefinition: 'ExtensionSlicedArray class' category: #'Algebra-Algorithms-Arrays'!
+!classDefinition: 'ExtensionSlicedArray class' category: 'Algebra-Algorithms-Arrays'!
 ExtensionSlicedArray class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryExtensionArray category: #'Algebra-Algorithms-Arrays'!
+!classDefinition: #BinaryExtensionArray category: 'Algebra-Algorithms-Arrays'!
 ExtensionSlicedArray subclass: #BinaryExtensionArray
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Arrays'!
-!classDefinition: 'BinaryExtensionArray class' category: #'Algebra-Algorithms-Arrays'!
+!classDefinition: 'BinaryExtensionArray class' category: 'Algebra-Algorithms-Arrays'!
 BinaryExtensionArray class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularArray category: #'Algebra-Algorithms-Arrays'!
+!classDefinition: #ModularArray category: 'Algebra-Algorithms-Arrays'!
 ArrayedCollection subclass: #ModularArray
 	instanceVariableNames: 'representatives scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Arrays'!
-!classDefinition: 'ModularArray class' category: #'Algebra-Algorithms-Arrays'!
+!classDefinition: 'ModularArray class' category: 'Algebra-Algorithms-Arrays'!
 ModularArray class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProductArray category: #'Algebra-Algorithms-Arrays'!
+!classDefinition: #ProductArray category: 'Algebra-Algorithms-Arrays'!
 ArrayedCollection subclass: #ProductArray
 	instanceVariableNames: 'components scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Arrays'!
-!classDefinition: 'ProductArray class' category: #'Algebra-Algorithms-Arrays'!
+!classDefinition: 'ProductArray class' category: 'Algebra-Algorithms-Arrays'!
 ProductArray class
 	instanceVariableNames: ''!
 
-!classDefinition: #TernaryArray category: #'Algebra-Algorithms-Arrays'!
+!classDefinition: #TernaryArray category: 'Algebra-Algorithms-Arrays'!
 ArrayedCollection subclass: #TernaryArray
 	instanceVariableNames: 'words₀ words₁ size'
 	classVariableNames: 'MinusOne One Zero'
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Arrays'!
-!classDefinition: 'TernaryArray class' category: #'Algebra-Algorithms-Arrays'!
+!classDefinition: 'TernaryArray class' category: 'Algebra-Algorithms-Arrays'!
 TernaryArray class
 	instanceVariableNames: ''!
 
-!classDefinition: #Simplex category: #'Algebra-Simplicial Complexes'!
+!classDefinition: #Simplex category: 'Algebra-Simplicial Complexes'!
 Collection subclass: #Simplex
 	instanceVariableNames: 'vertices'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Simplicial Complexes'!
-!classDefinition: 'Simplex class' category: #'Algebra-Simplicial Complexes'!
+!classDefinition: 'Simplex class' category: 'Algebra-Simplicial Complexes'!
 Simplex class
 	instanceVariableNames: ''!
 
-!classDefinition: #DivisibilityError category: #'Algebra-Rings'!
+!classDefinition: #DivisibilityError category: 'Algebra-Rings'!
 ArithmeticMessageError subclass: #DivisibilityError
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'DivisibilityError class' category: #'Algebra-Rings'!
+!classDefinition: 'DivisibilityError class' category: 'Algebra-Rings'!
 DivisibilityError class
 	instanceVariableNames: ''!
 
-!classDefinition: #Domain category: #'Algebra-Categories'!
+!classDefinition: #Domain category: 'Algebra-Categories'!
 Object subclass: #Domain
 	instanceVariableNames: 'properties'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Categories'!
-!classDefinition: 'Domain class' category: #'Algebra-Categories'!
+!classDefinition: 'Domain class' category: 'Algebra-Categories'!
 Domain class
 	instanceVariableNames: ''!
 
-!classDefinition: #Structure category: #'Algebra-Categories'!
+!classDefinition: #Structure category: 'Algebra-Categories'!
 Domain subclass: #Structure
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Categories'!
-!classDefinition: 'Structure class' category: #'Algebra-Categories'!
+!classDefinition: 'Structure class' category: 'Algebra-Categories'!
 Structure class
 	instanceVariableNames: ''!
 
-!classDefinition: #CartesianProduct category: #'Algebra-Categories'!
+!classDefinition: #CartesianProduct category: 'Algebra-Categories'!
 Structure subclass: #CartesianProduct
 	instanceVariableNames: 'components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Categories'!
-!classDefinition: 'CartesianProduct class' category: #'Algebra-Categories'!
+!classDefinition: 'CartesianProduct class' category: 'Algebra-Categories'!
 CartesianProduct class
 	instanceVariableNames: ''!
 
-!classDefinition: #Category category: #'Algebra-Categories'!
+!classDefinition: #Category category: 'Algebra-Categories'!
 Structure subclass: #Category
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Categories'!
-!classDefinition: 'Category class' category: #'Algebra-Categories'!
+!classDefinition: 'Category class' category: 'Algebra-Categories'!
 Category class
 	instanceVariableNames: ''!
 
-!classDefinition: #Modules category: #'Algebra-Modules'!
+!classDefinition: #Modules category: 'Algebra-Modules'!
 Category subclass: #Modules
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'Modules class' category: #'Algebra-Modules'!
+!classDefinition: 'Modules class' category: 'Algebra-Modules'!
 Modules class
 	instanceVariableNames: ''!
 
-!classDefinition: #ChainComplexes category: #'Algebra-Complexes'!
+!classDefinition: #ChainComplexes category: 'Algebra-Complexes'!
 Category subclass: #ChainComplexes
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Complexes'!
-!classDefinition: 'ChainComplexes class' category: #'Algebra-Complexes'!
+!classDefinition: 'ChainComplexes class' category: 'Algebra-Complexes'!
 ChainComplexes class
 	instanceVariableNames: ''!
 
-!classDefinition: #CochainComplexes category: #'Algebra-Complexes'!
+!classDefinition: #CochainComplexes category: 'Algebra-Complexes'!
 Category subclass: #CochainComplexes
 	instanceVariableNames: 'opposite'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Complexes'!
-!classDefinition: 'CochainComplexes class' category: #'Algebra-Complexes'!
+!classDefinition: 'CochainComplexes class' category: 'Algebra-Complexes'!
 CochainComplexes class
 	instanceVariableNames: ''!
 
-!classDefinition: #Sheaves category: #'Algebra-Schemes'!
+!classDefinition: #Sheaves category: 'Algebra-Schemes'!
 Category subclass: #Sheaves
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'Sheaves class' category: #'Algebra-Schemes'!
+!classDefinition: 'Sheaves class' category: 'Algebra-Schemes'!
 Sheaves class
 	instanceVariableNames: ''!
 
-!classDefinition: #HomSet category: #'Algebra-Categories'!
+!classDefinition: #HomSet category: 'Algebra-Categories'!
 Structure subclass: #HomSet
 	instanceVariableNames: 'domain codomain'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Categories'!
-!classDefinition: 'HomSet class' category: #'Algebra-Categories'!
+!classDefinition: 'HomSet class' category: 'Algebra-Categories'!
 HomSet class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalPointSet category: #'Algebra-Schemes'!
+!classDefinition: #RationalPointSet category: 'Algebra-Schemes'!
 HomSet subclass: #RationalPointSet
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'RationalPointSet class' category: #'Algebra-Schemes'!
+!classDefinition: 'RationalPointSet class' category: 'Algebra-Schemes'!
 RationalPointSet class
 	instanceVariableNames: ''!
 
-!classDefinition: #Naturals category: #'Algebra-Categories'!
+!classDefinition: #Naturals category: 'Algebra-Categories'!
 Structure subclass: #Naturals
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Categories'!
-!classDefinition: 'Naturals class' category: #'Algebra-Categories'!
+!classDefinition: 'Naturals class' category: 'Algebra-Categories'!
 Naturals class
 	instanceVariableNames: ''!
 
-!classDefinition: #Monoid category: #'Algebra-Monoids'!
+!classDefinition: #Monoid category: 'Algebra-Monoids'!
 Structure subclass: #Monoid
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids'!
-!classDefinition: 'Monoid class' category: #'Algebra-Monoids'!
+!classDefinition: 'Monoid class' category: 'Algebra-Monoids'!
 Monoid class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreeAbelianMonoid category: #'Algebra-Monoids'!
+!classDefinition: #FreeAbelianMonoid category: 'Algebra-Monoids'!
 Monoid subclass: #FreeAbelianMonoid
 	instanceVariableNames: 'rank ordering'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids'!
-!classDefinition: 'FreeAbelianMonoid class' category: #'Algebra-Monoids'!
+!classDefinition: 'FreeAbelianMonoid class' category: 'Algebra-Monoids'!
 FreeAbelianMonoid class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreeMonoid category: #'Algebra-Monoids'!
+!classDefinition: #FreeMonoid category: 'Algebra-Monoids'!
 Monoid subclass: #FreeMonoid
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids'!
-!classDefinition: 'FreeMonoid class' category: #'Algebra-Monoids'!
+!classDefinition: 'FreeMonoid class' category: 'Algebra-Monoids'!
 FreeMonoid class
 	instanceVariableNames: ''!
 
-!classDefinition: #Group category: #'Algebra-Groups'!
+!classDefinition: #Group category: 'Algebra-Groups'!
 Structure subclass: #Group
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups'!
-!classDefinition: 'Group class' category: #'Algebra-Groups'!
+!classDefinition: 'Group class' category: 'Algebra-Groups'!
 Group class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreeGroup category: #'Algebra-Groups'!
+!classDefinition: #FreeGroup category: 'Algebra-Groups'!
 Group subclass: #FreeGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups'!
-!classDefinition: 'FreeGroup class' category: #'Algebra-Groups'!
+!classDefinition: 'FreeGroup class' category: 'Algebra-Groups'!
 FreeGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProductGroup category: #'Algebra-Groups'!
+!classDefinition: #ProductGroup category: 'Algebra-Groups'!
 Group subclass: #ProductGroup
 	instanceVariableNames: 'components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups'!
-!classDefinition: 'ProductGroup class' category: #'Algebra-Groups'!
+!classDefinition: 'ProductGroup class' category: 'Algebra-Groups'!
 ProductGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuotientGroup category: #'Algebra-Groups'!
+!classDefinition: #QuotientGroup category: 'Algebra-Groups'!
 Group subclass: #QuotientGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups'!
-!classDefinition: 'QuotientGroup class' category: #'Algebra-Groups'!
+!classDefinition: 'QuotientGroup class' category: 'Algebra-Groups'!
 QuotientGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #PermutationGroup category: #'Algebra-Groups-Permutations'!
+!classDefinition: #PermutationGroup category: 'Algebra-Groups-Permutations'!
 Group subclass: #PermutationGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Permutations'!
-!classDefinition: 'PermutationGroup class' category: #'Algebra-Groups-Permutations'!
+!classDefinition: 'PermutationGroup class' category: 'Algebra-Groups-Permutations'!
 PermutationGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlternatingGroup category: #'Algebra-Groups-Permutations'!
+!classDefinition: #AlternatingGroup category: 'Algebra-Groups-Permutations'!
 PermutationGroup subclass: #AlternatingGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Permutations'!
-!classDefinition: 'AlternatingGroup class' category: #'Algebra-Groups-Permutations'!
+!classDefinition: 'AlternatingGroup class' category: 'Algebra-Groups-Permutations'!
 AlternatingGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #SymmetricGroup category: #'Algebra-Groups-Permutations'!
+!classDefinition: #SymmetricGroup category: 'Algebra-Groups-Permutations'!
 PermutationGroup subclass: #SymmetricGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Permutations'!
-!classDefinition: 'SymmetricGroup class' category: #'Algebra-Groups-Permutations'!
+!classDefinition: 'SymmetricGroup class' category: 'Algebra-Groups-Permutations'!
 SymmetricGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearGroup category: #'Algebra-Groups-Linear'!
+!classDefinition: #LinearGroup category: 'Algebra-Groups-Linear'!
 Group subclass: #LinearGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Linear'!
-!classDefinition: 'LinearGroup class' category: #'Algebra-Groups-Linear'!
+!classDefinition: 'LinearGroup class' category: 'Algebra-Groups-Linear'!
 LinearGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #GeneralLinearGroup category: #'Algebra-Groups-Linear'!
+!classDefinition: #GeneralLinearGroup category: 'Algebra-Groups-Linear'!
 LinearGroup subclass: #GeneralLinearGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Linear'!
-!classDefinition: 'GeneralLinearGroup class' category: #'Algebra-Groups-Linear'!
+!classDefinition: 'GeneralLinearGroup class' category: 'Algebra-Groups-Linear'!
 GeneralLinearGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #OrthogonalGroup category: #'Algebra-Groups-Linear'!
+!classDefinition: #OrthogonalGroup category: 'Algebra-Groups-Linear'!
 LinearGroup subclass: #OrthogonalGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Linear'!
-!classDefinition: 'OrthogonalGroup class' category: #'Algebra-Groups-Linear'!
+!classDefinition: 'OrthogonalGroup class' category: 'Algebra-Groups-Linear'!
 OrthogonalGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #ScalarGroup category: #'Algebra-Groups-Linear'!
+!classDefinition: #ScalarGroup category: 'Algebra-Groups-Linear'!
 LinearGroup subclass: #ScalarGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Linear'!
-!classDefinition: 'ScalarGroup class' category: #'Algebra-Groups-Linear'!
+!classDefinition: 'ScalarGroup class' category: 'Algebra-Groups-Linear'!
 ScalarGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #SpecialLinearGroup category: #'Algebra-Groups-Linear'!
+!classDefinition: #SpecialLinearGroup category: 'Algebra-Groups-Linear'!
 LinearGroup subclass: #SpecialLinearGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Linear'!
-!classDefinition: 'SpecialLinearGroup class' category: #'Algebra-Groups-Linear'!
+!classDefinition: 'SpecialLinearGroup class' category: 'Algebra-Groups-Linear'!
 SpecialLinearGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #SpecialOrthogonalGroup category: #'Algebra-Groups-Linear'!
+!classDefinition: #SpecialOrthogonalGroup category: 'Algebra-Groups-Linear'!
 LinearGroup subclass: #SpecialOrthogonalGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Linear'!
-!classDefinition: 'SpecialOrthogonalGroup class' category: #'Algebra-Groups-Linear'!
+!classDefinition: 'SpecialOrthogonalGroup class' category: 'Algebra-Groups-Linear'!
 SpecialOrthogonalGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #SpecialScalarGroup category: #'Algebra-Groups-Linear'!
+!classDefinition: #SpecialScalarGroup category: 'Algebra-Groups-Linear'!
 LinearGroup subclass: #SpecialScalarGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Linear'!
-!classDefinition: 'SpecialScalarGroup class' category: #'Algebra-Groups-Linear'!
+!classDefinition: 'SpecialScalarGroup class' category: 'Algebra-Groups-Linear'!
 SpecialScalarGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #UnitsGroup category: #'Algebra-Rings'!
+!classDefinition: #UnitsGroup category: 'Algebra-Rings'!
 Group subclass: #UnitsGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'UnitsGroup class' category: #'Algebra-Rings'!
+!classDefinition: 'UnitsGroup class' category: 'Algebra-Rings'!
 UnitsGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularUnitsGroup category: #'Algebra-Rings-Finite'!
+!classDefinition: #ModularUnitsGroup category: 'Algebra-Rings-Finite'!
 UnitsGroup subclass: #ModularUnitsGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'ModularUnitsGroup class' category: #'Algebra-Rings-Finite'!
+!classDefinition: 'ModularUnitsGroup class' category: 'Algebra-Rings-Finite'!
 ModularUnitsGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #Ring category: #'Algebra-Rings'!
+!classDefinition: #Ring category: 'Algebra-Rings'!
 Structure subclass: #Ring
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'Ring class' category: #'Algebra-Rings'!
+!classDefinition: 'Ring class' category: 'Algebra-Rings'!
 Ring class
 	instanceVariableNames: ''!
 
-!classDefinition: #FractionRing category: #'Algebra-Rings'!
+!classDefinition: #FractionRing category: 'Algebra-Rings'!
 Ring subclass: #FractionRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'FractionRing class' category: #'Algebra-Rings'!
+!classDefinition: 'FractionRing class' category: 'Algebra-Rings'!
 FractionRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalField category: #'Algebra-Rings'!
+!classDefinition: #RationalField category: 'Algebra-Rings'!
 FractionRing subclass: #RationalField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'RationalField class' category: #'Algebra-Rings'!
+!classDefinition: 'RationalField class' category: 'Algebra-Rings'!
 RationalField class
 	instanceVariableNames: ''!
 
-!classDefinition: #AdicField category: #'Algebra-Fields-Local'!
+!classDefinition: #AdicField category: 'Algebra-Fields-Local'!
 FractionRing subclass: #AdicField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Local'!
-!classDefinition: 'AdicField class' category: #'Algebra-Fields-Local'!
+!classDefinition: 'AdicField class' category: 'Algebra-Fields-Local'!
 AdicField class
 	instanceVariableNames: ''!
 
-!classDefinition: #AdicNumberField category: #'Algebra-Fields-Local'!
+!classDefinition: #AdicNumberField category: 'Algebra-Fields-Local'!
 AdicField subclass: #AdicNumberField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Local'!
-!classDefinition: 'AdicNumberField class' category: #'Algebra-Fields-Local'!
+!classDefinition: 'AdicNumberField class' category: 'Algebra-Fields-Local'!
 AdicNumberField class
 	instanceVariableNames: ''!
 
-!classDefinition: #LaurentSeriesField category: #'Algebra-Fields-Local'!
+!classDefinition: #LaurentSeriesField category: 'Algebra-Fields-Local'!
 AdicField subclass: #LaurentSeriesField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Local'!
-!classDefinition: 'LaurentSeriesField class' category: #'Algebra-Fields-Local'!
+!classDefinition: 'LaurentSeriesField class' category: 'Algebra-Fields-Local'!
 LaurentSeriesField class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalFunctionField category: #'Algebra-Algebras-Affine'!
+!classDefinition: #RationalFunctionField category: 'Algebra-Algebras-Affine'!
 FractionRing subclass: #RationalFunctionField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'RationalFunctionField class' category: #'Algebra-Algebras-Affine'!
+!classDefinition: 'RationalFunctionField class' category: 'Algebra-Algebras-Affine'!
 RationalFunctionField class
 	instanceVariableNames: ''!
 
-!classDefinition: #IntegerRing category: #'Algebra-Rings'!
+!classDefinition: #IntegerRing category: 'Algebra-Rings'!
 Ring subclass: #IntegerRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'IntegerRing class' category: #'Algebra-Rings'!
+!classDefinition: 'IntegerRing class' category: 'Algebra-Rings'!
 IntegerRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #LocalRing category: #'Algebra-Rings'!
+!classDefinition: #LocalRing category: 'Algebra-Rings'!
 Ring subclass: #LocalRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'LocalRing class' category: #'Algebra-Rings'!
+!classDefinition: 'LocalRing class' category: 'Algebra-Rings'!
 LocalRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #OppositeRing category: #'Algebra-Rings'!
+!classDefinition: #OppositeRing category: 'Algebra-Rings'!
 Ring subclass: #OppositeRing
 	instanceVariableNames: 'opposite'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'OppositeRing class' category: #'Algebra-Rings'!
+!classDefinition: 'OppositeRing class' category: 'Algebra-Rings'!
 OppositeRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProductRing category: #'Algebra-Rings'!
+!classDefinition: #ProductRing category: 'Algebra-Rings'!
 Ring subclass: #ProductRing
 	instanceVariableNames: 'components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'ProductRing class' category: #'Algebra-Rings'!
+!classDefinition: 'ProductRing class' category: 'Algebra-Rings'!
 ProductRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuotientRing category: #'Algebra-Rings'!
+!classDefinition: #QuotientRing category: 'Algebra-Rings'!
 Ring subclass: #QuotientRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'QuotientRing class' category: #'Algebra-Rings'!
+!classDefinition: 'QuotientRing class' category: 'Algebra-Rings'!
 QuotientRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerRing category: #'Algebra-Rings-Finite'!
+!classDefinition: #ModularIntegerRing category: 'Algebra-Rings-Finite'!
 QuotientRing subclass: #ModularIntegerRing
 	instanceVariableNames: 'modulus'
 	classVariableNames: 'Cache'
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'ModularIntegerRing class' category: #'Algebra-Rings-Finite'!
+!classDefinition: 'ModularIntegerRing class' category: 'Algebra-Rings-Finite'!
 ModularIntegerRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimePowerRing category: #'Algebra-Rings-Finite'!
+!classDefinition: #PrimePowerRing category: 'Algebra-Rings-Finite'!
 ModularIntegerRing subclass: #PrimePowerRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'PrimePowerRing class' category: #'Algebra-Rings-Finite'!
+!classDefinition: 'PrimePowerRing class' category: 'Algebra-Rings-Finite'!
 PrimePowerRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimeField category: #'Algebra-Rings-Finite'!
+!classDefinition: #PrimeField category: 'Algebra-Rings-Finite'!
 PrimePowerRing subclass: #PrimeField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'PrimeField class' category: #'Algebra-Rings-Finite'!
+!classDefinition: 'PrimeField class' category: 'Algebra-Rings-Finite'!
 PrimeField class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryField category: #'Algebra-Rings-Finite'!
+!classDefinition: #BinaryField category: 'Algebra-Rings-Finite'!
 PrimeField subclass: #BinaryField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'BinaryField class' category: #'Algebra-Rings-Finite'!
+!classDefinition: 'BinaryField class' category: 'Algebra-Rings-Finite'!
 BinaryField class
 	instanceVariableNames: ''!
 
-!classDefinition: #TernaryField category: #'Algebra-Rings-Finite'!
+!classDefinition: #TernaryField category: 'Algebra-Rings-Finite'!
 PrimeField subclass: #TernaryField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'TernaryField class' category: #'Algebra-Rings-Finite'!
+!classDefinition: 'TernaryField class' category: 'Algebra-Rings-Finite'!
 TernaryField class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineRing category: #'Algebra-Algebras-Affine'!
+!classDefinition: #AffineRing category: 'Algebra-Algebras-Affine'!
 QuotientRing subclass: #AffineRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'AffineRing class' category: #'Algebra-Algebras-Affine'!
+!classDefinition: 'AffineRing class' category: 'Algebra-Algebras-Affine'!
 AffineRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuasiGaloisRing category: #'Algebra-Rings-Finite'!
+!classDefinition: #QuasiGaloisRing category: 'Algebra-Rings-Finite'!
 AffineRing subclass: #QuasiGaloisRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'QuasiGaloisRing class' category: #'Algebra-Rings-Finite'!
+!classDefinition: 'QuasiGaloisRing class' category: 'Algebra-Rings-Finite'!
 QuasiGaloisRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtensionRing category: #'Algebra-Algebras-Affine'!
+!classDefinition: #ExtensionRing category: 'Algebra-Algebras-Affine'!
 AffineRing subclass: #ExtensionRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'ExtensionRing class' category: #'Algebra-Algebras-Affine'!
+!classDefinition: 'ExtensionRing class' category: 'Algebra-Algebras-Affine'!
 ExtensionRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisRing category: #'Algebra-Rings-Finite'!
+!classDefinition: #GaloisRing category: 'Algebra-Rings-Finite'!
 ExtensionRing subclass: #GaloisRing
 	instanceVariableNames: ''
 	classVariableNames: 'IrreduciblePolynomialsCache'
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'GaloisRing class' category: #'Algebra-Rings-Finite'!
+!classDefinition: 'GaloisRing class' category: 'Algebra-Rings-Finite'!
 GaloisRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisField category: #'Algebra-Rings-Finite'!
+!classDefinition: #GaloisField category: 'Algebra-Rings-Finite'!
 GaloisRing subclass: #GaloisField
 	instanceVariableNames: ''
 	classVariableNames: 'ConwayPolynomials'
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'GaloisField class' category: #'Algebra-Rings-Finite'!
+!classDefinition: 'GaloisField class' category: 'Algebra-Rings-Finite'!
 GaloisField class
 	instanceVariableNames: ''!
 
-!classDefinition: #FunctionField category: #'Algebra-Fields-Global'!
+!classDefinition: #FunctionField category: 'Algebra-Fields-Global'!
 ExtensionRing subclass: #FunctionField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global'!
-!classDefinition: 'FunctionField class' category: #'Algebra-Fields-Global'!
+!classDefinition: 'FunctionField class' category: 'Algebra-Fields-Global'!
 FunctionField class
 	instanceVariableNames: ''!
 
-!classDefinition: #NumberField category: #'Algebra-Fields-Global'!
+!classDefinition: #NumberField category: 'Algebra-Fields-Global'!
 ExtensionRing subclass: #NumberField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global'!
-!classDefinition: 'NumberField class' category: #'Algebra-Fields-Global'!
+!classDefinition: 'NumberField class' category: 'Algebra-Fields-Global'!
 NumberField class
 	instanceVariableNames: ''!
 
-!classDefinition: #CyclotomicField category: #'Algebra-Fields-Global-Cyclotomic'!
+!classDefinition: #CyclotomicField category: 'Algebra-Fields-Global-Cyclotomic'!
 NumberField subclass: #CyclotomicField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Cyclotomic'!
-!classDefinition: 'CyclotomicField class' category: #'Algebra-Fields-Global-Cyclotomic'!
+!classDefinition: 'CyclotomicField class' category: 'Algebra-Fields-Global-Cyclotomic'!
 CyclotomicField class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuadraticField category: #'Algebra-Fields-Global-Quadratic'!
+!classDefinition: #QuadraticField category: 'Algebra-Fields-Global-Quadratic'!
 NumberField subclass: #QuadraticField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Quadratic'!
-!classDefinition: 'QuadraticField class' category: #'Algebra-Fields-Global-Quadratic'!
+!classDefinition: 'QuadraticField class' category: 'Algebra-Fields-Global-Quadratic'!
 QuadraticField class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianField category: #'Algebra-Fields-Global-Quadratic'!
+!classDefinition: #GaussianField category: 'Algebra-Fields-Global-Quadratic'!
 QuadraticField subclass: #GaussianField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Quadratic'!
-!classDefinition: 'GaussianField class' category: #'Algebra-Fields-Global-Quadratic'!
+!classDefinition: 'GaussianField class' category: 'Algebra-Fields-Global-Quadratic'!
 GaussianField class
 	instanceVariableNames: ''!
 
-!classDefinition: #LaurentPolynomialRing category: #'Algebra-Algebras-Affine'!
+!classDefinition: #LaurentPolynomialRing category: 'Algebra-Algebras-Affine'!
 AffineRing subclass: #LaurentPolynomialRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'LaurentPolynomialRing class' category: #'Algebra-Algebras-Affine'!
+!classDefinition: 'LaurentPolynomialRing class' category: 'Algebra-Algebras-Affine'!
 LaurentPolynomialRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicClosureField category: #'Algebra-Fields'!
+!classDefinition: #AlgebraicClosureField category: 'Algebra-Fields'!
 Ring subclass: #AlgebraicClosureField
 	instanceVariableNames: 'scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields'!
-!classDefinition: 'AlgebraicClosureField class' category: #'Algebra-Fields'!
+!classDefinition: 'AlgebraicClosureField class' category: 'Algebra-Fields'!
 AlgebraicClosureField class
 	instanceVariableNames: ''!
 
-!classDefinition: #ComplexField category: #'Algebra-Fields'!
+!classDefinition: #ComplexField category: 'Algebra-Fields'!
 Ring subclass: #ComplexField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields'!
-!classDefinition: 'ComplexField class' category: #'Algebra-Fields'!
+!classDefinition: 'ComplexField class' category: 'Algebra-Fields'!
 ComplexField class
 	instanceVariableNames: ''!
 
-!classDefinition: #RealField category: #'Algebra-Fields'!
+!classDefinition: #RealField category: 'Algebra-Fields'!
 Ring subclass: #RealField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields'!
-!classDefinition: 'RealField class' category: #'Algebra-Fields'!
+!classDefinition: 'RealField class' category: 'Algebra-Fields'!
 RealField class
 	instanceVariableNames: ''!
 
-!classDefinition: #AdicRing category: #'Algebra-Fields-Local'!
+!classDefinition: #AdicRing category: 'Algebra-Fields-Local'!
 Ring subclass: #AdicRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Local'!
-!classDefinition: 'AdicRing class' category: #'Algebra-Fields-Local'!
+!classDefinition: 'AdicRing class' category: 'Algebra-Fields-Local'!
 AdicRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #AdicIntegerRing category: #'Algebra-Fields-Local'!
+!classDefinition: #AdicIntegerRing category: 'Algebra-Fields-Local'!
 AdicRing subclass: #AdicIntegerRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Local'!
-!classDefinition: 'AdicIntegerRing class' category: #'Algebra-Fields-Local'!
+!classDefinition: 'AdicIntegerRing class' category: 'Algebra-Fields-Local'!
 AdicIntegerRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #PowerSeriesRing category: #'Algebra-Fields-Local'!
+!classDefinition: #PowerSeriesRing category: 'Algebra-Fields-Local'!
 AdicRing subclass: #PowerSeriesRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Local'!
-!classDefinition: 'PowerSeriesRing class' category: #'Algebra-Fields-Local'!
+!classDefinition: 'PowerSeriesRing class' category: 'Algebra-Fields-Local'!
 PowerSeriesRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialRing category: #'Algebra-Algebras-Affine'!
+!classDefinition: #PolynomialRing category: 'Algebra-Algebras-Affine'!
 Ring subclass: #PolynomialRing
 	instanceVariableNames: 'monomials scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'PolynomialRing class' category: #'Algebra-Algebras-Affine'!
+!classDefinition: 'PolynomialRing class' category: 'Algebra-Algebras-Affine'!
 PolynomialRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #FiniteAlgebra category: #'Algebra-Algebras-Finite'!
+!classDefinition: #FiniteAlgebra category: 'Algebra-Algebras-Finite'!
 Ring subclass: #FiniteAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'FiniteAlgebra class' category: #'Algebra-Algebras-Finite'!
+!classDefinition: 'FiniteAlgebra class' category: 'Algebra-Algebras-Finite'!
 FiniteAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #Order category: #'Algebra-Fields-Global'!
+!classDefinition: #Order category: 'Algebra-Fields-Global'!
 FiniteAlgebra subclass: #Order
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global'!
-!classDefinition: 'Order class' category: #'Algebra-Fields-Global'!
+!classDefinition: 'Order class' category: 'Algebra-Fields-Global'!
 Order class
 	instanceVariableNames: ''!
 
-!classDefinition: #MaximalOrder category: #'Algebra-Fields-Global'!
+!classDefinition: #MaximalOrder category: 'Algebra-Fields-Global'!
 Order subclass: #MaximalOrder
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global'!
-!classDefinition: 'MaximalOrder class' category: #'Algebra-Fields-Global'!
+!classDefinition: 'MaximalOrder class' category: 'Algebra-Fields-Global'!
 MaximalOrder class
 	instanceVariableNames: ''!
 
-!classDefinition: #CyclotomicRing category: #'Algebra-Fields-Global-Cyclotomic'!
+!classDefinition: #CyclotomicRing category: 'Algebra-Fields-Global-Cyclotomic'!
 MaximalOrder subclass: #CyclotomicRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Cyclotomic'!
-!classDefinition: 'CyclotomicRing class' category: #'Algebra-Fields-Global-Cyclotomic'!
+!classDefinition: 'CyclotomicRing class' category: 'Algebra-Fields-Global-Cyclotomic'!
 CyclotomicRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #EisensteinRing category: #'Algebra-Fields-Global-Cyclotomic'!
+!classDefinition: #EisensteinRing category: 'Algebra-Fields-Global-Cyclotomic'!
 CyclotomicRing subclass: #EisensteinRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Cyclotomic'!
-!classDefinition: 'EisensteinRing class' category: #'Algebra-Fields-Global-Cyclotomic'!
+!classDefinition: 'EisensteinRing class' category: 'Algebra-Fields-Global-Cyclotomic'!
 EisensteinRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuadraticRing category: #'Algebra-Fields-Global-Quadratic'!
+!classDefinition: #QuadraticRing category: 'Algebra-Fields-Global-Quadratic'!
 MaximalOrder subclass: #QuadraticRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Quadratic'!
-!classDefinition: 'QuadraticRing class' category: #'Algebra-Fields-Global-Quadratic'!
+!classDefinition: 'QuadraticRing class' category: 'Algebra-Fields-Global-Quadratic'!
 QuadraticRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianRing category: #'Algebra-Fields-Global-Quadratic'!
+!classDefinition: #GaussianRing category: 'Algebra-Fields-Global-Quadratic'!
 QuadraticRing subclass: #GaussianRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Quadratic'!
-!classDefinition: 'GaussianRing class' category: #'Algebra-Fields-Global-Quadratic'!
+!classDefinition: 'GaussianRing class' category: 'Algebra-Fields-Global-Quadratic'!
 GaussianRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #CliffordAlgebra category: #'Algebra-Algebras-Finite'!
+!classDefinition: #CliffordAlgebra category: 'Algebra-Algebras-Finite'!
 FiniteAlgebra subclass: #CliffordAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'CliffordAlgebra class' category: #'Algebra-Algebras-Finite'!
+!classDefinition: 'CliffordAlgebra class' category: 'Algebra-Algebras-Finite'!
 CliffordAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #EndomorphismAlgebra category: #'Algebra-Algebras-Finite'!
+!classDefinition: #EndomorphismAlgebra category: 'Algebra-Algebras-Finite'!
 FiniteAlgebra subclass: #EndomorphismAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'EndomorphismAlgebra class' category: #'Algebra-Algebras-Finite'!
+!classDefinition: 'EndomorphismAlgebra class' category: 'Algebra-Algebras-Finite'!
 EndomorphismAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #MatrixAlgebra category: #'Algebra-Algebras-Finite'!
+!classDefinition: #MatrixAlgebra category: 'Algebra-Algebras-Finite'!
 EndomorphismAlgebra subclass: #MatrixAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'MatrixAlgebra class' category: #'Algebra-Algebras-Finite'!
+!classDefinition: 'MatrixAlgebra class' category: 'Algebra-Algebras-Finite'!
 MatrixAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupAlgebra category: #'Algebra-Algebras-Finite'!
+!classDefinition: #GroupAlgebra category: 'Algebra-Algebras-Finite'!
 FiniteAlgebra subclass: #GroupAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'GroupAlgebra class' category: #'Algebra-Algebras-Finite'!
+!classDefinition: 'GroupAlgebra class' category: 'Algebra-Algebras-Finite'!
 GroupAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuaternionAlgebra category: #'Algebra-Algebras-Finite'!
+!classDefinition: #QuaternionAlgebra category: 'Algebra-Algebras-Finite'!
 FiniteAlgebra subclass: #QuaternionAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'QuaternionAlgebra class' category: #'Algebra-Algebras-Finite'!
+!classDefinition: 'QuaternionAlgebra class' category: 'Algebra-Algebras-Finite'!
 QuaternionAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreeAlgebra category: #'Algebra-Algebras-Free'!
+!classDefinition: #FreeAlgebra category: 'Algebra-Algebras-Free'!
 Ring subclass: #FreeAlgebra
 	instanceVariableNames: 'scalars monomials'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Free'!
-!classDefinition: 'FreeAlgebra class' category: #'Algebra-Algebras-Free'!
+!classDefinition: 'FreeAlgebra class' category: 'Algebra-Algebras-Free'!
 FreeAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #Module category: #'Algebra-Modules'!
+!classDefinition: #Module category: 'Algebra-Modules'!
 Structure subclass: #Module
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'Module class' category: #'Algebra-Modules'!
+!classDefinition: 'Module class' category: 'Algebra-Modules'!
 Module class
 	instanceVariableNames: ''!
 
-!classDefinition: #Ideal category: #'Algebra-Rings'!
+!classDefinition: #Ideal category: 'Algebra-Rings'!
 Module subclass: #Ideal
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'Ideal class' category: #'Algebra-Rings'!
+!classDefinition: 'Ideal class' category: 'Algebra-Rings'!
 Ideal class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialIdeal category: #'Algebra-Algebras-Affine'!
+!classDefinition: #PolynomialIdeal category: 'Algebra-Algebras-Affine'!
 Ideal subclass: #PolynomialIdeal
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'PolynomialIdeal class' category: #'Algebra-Algebras-Affine'!
+!classDefinition: 'PolynomialIdeal class' category: 'Algebra-Algebras-Affine'!
 PolynomialIdeal class
 	instanceVariableNames: ''!
 
-!classDefinition: #MonomialIdeal category: #'Algebra-Algebras-Affine'!
+!classDefinition: #MonomialIdeal category: 'Algebra-Algebras-Affine'!
 PolynomialIdeal subclass: #MonomialIdeal
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'MonomialIdeal class' category: #'Algebra-Algebras-Affine'!
+!classDefinition: 'MonomialIdeal class' category: 'Algebra-Algebras-Affine'!
 MonomialIdeal class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreeModule category: #'Algebra-Modules'!
+!classDefinition: #FreeModule category: 'Algebra-Modules'!
 Module subclass: #FreeModule
 	instanceVariableNames: 'scalars rank'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'FreeModule class' category: #'Algebra-Modules'!
+!classDefinition: 'FreeModule class' category: 'Algebra-Modules'!
 FreeModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #HomModule category: #'Algebra-Modules'!
+!classDefinition: #HomModule category: 'Algebra-Modules'!
 Module subclass: #HomModule
 	instanceVariableNames: 'domain codomain'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'HomModule class' category: #'Algebra-Modules'!
+!classDefinition: 'HomModule class' category: 'Algebra-Modules'!
 HomModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #MatrixModule category: #'Algebra-Modules'!
+!classDefinition: #MatrixModule category: 'Algebra-Modules'!
 HomModule subclass: #MatrixModule
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'MatrixModule class' category: #'Algebra-Modules'!
+!classDefinition: 'MatrixModule class' category: 'Algebra-Modules'!
 MatrixModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuotientModule category: #'Algebra-Modules'!
+!classDefinition: #QuotientModule category: 'Algebra-Modules'!
 Module subclass: #QuotientModule
 	instanceVariableNames: 'relationsMatrix'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'QuotientModule class' category: #'Algebra-Modules'!
+!classDefinition: 'QuotientModule class' category: 'Algebra-Modules'!
 QuotientModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #DistributiveAlgebra category: #'Algebra-Algebras-Distributive'!
+!classDefinition: #DistributiveAlgebra category: 'Algebra-Algebras-Distributive'!
 Structure subclass: #DistributiveAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Distributive'!
-!classDefinition: 'DistributiveAlgebra class' category: #'Algebra-Algebras-Distributive'!
+!classDefinition: 'DistributiveAlgebra class' category: 'Algebra-Algebras-Distributive'!
 DistributiveAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #LieAlgebra category: #'Algebra-Algebras-Distributive'!
+!classDefinition: #LieAlgebra category: 'Algebra-Algebras-Distributive'!
 DistributiveAlgebra subclass: #LieAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Distributive'!
-!classDefinition: 'LieAlgebra class' category: #'Algebra-Algebras-Distributive'!
+!classDefinition: 'LieAlgebra class' category: 'Algebra-Algebras-Distributive'!
 LieAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #OctonionAlgebra category: #'Algebra-Algebras-Distributive'!
+!classDefinition: #OctonionAlgebra category: 'Algebra-Algebras-Distributive'!
 DistributiveAlgebra subclass: #OctonionAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Distributive'!
-!classDefinition: 'OctonionAlgebra class' category: #'Algebra-Algebras-Distributive'!
+!classDefinition: 'OctonionAlgebra class' category: 'Algebra-Algebras-Distributive'!
 OctonionAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #Scheme category: #'Algebra-Schemes'!
+!classDefinition: #Scheme category: 'Algebra-Schemes'!
 Structure subclass: #Scheme
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'Scheme class' category: #'Algebra-Schemes'!
+!classDefinition: 'Scheme class' category: 'Algebra-Schemes'!
 Scheme class
 	instanceVariableNames: ''!
 
-!classDefinition: #Grassmannian category: #'Algebra-Modules'!
+!classDefinition: #Grassmannian category: 'Algebra-Modules'!
 Scheme subclass: #Grassmannian
 	instanceVariableNames: 'space rank'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'Grassmannian class' category: #'Algebra-Modules'!
+!classDefinition: 'Grassmannian class' category: 'Algebra-Modules'!
 Grassmannian class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineScheme category: #'Algebra-Schemes'!
+!classDefinition: #AffineScheme category: 'Algebra-Schemes'!
 Scheme subclass: #AffineScheme
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'AffineScheme class' category: #'Algebra-Schemes'!
+!classDefinition: 'AffineScheme class' category: 'Algebra-Schemes'!
 AffineScheme class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineVariety category: #'Algebra-Schemes-Affine Space'!
+!classDefinition: #AffineVariety category: 'Algebra-Schemes-Affine Space'!
 AffineScheme subclass: #AffineVariety
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Affine Space'!
-!classDefinition: 'AffineVariety class' category: #'Algebra-Schemes-Affine Space'!
+!classDefinition: 'AffineVariety class' category: 'Algebra-Schemes-Affine Space'!
 AffineVariety class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineCurve category: #'Algebra-Schemes-Affine Space'!
+!classDefinition: #AffineCurve category: 'Algebra-Schemes-Affine Space'!
 AffineVariety subclass: #AffineCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Affine Space'!
-!classDefinition: 'AffineCurve class' category: #'Algebra-Schemes-Affine Space'!
+!classDefinition: 'AffineCurve class' category: 'Algebra-Schemes-Affine Space'!
 AffineCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineHypersurface category: #'Algebra-Schemes-Affine Space'!
+!classDefinition: #AffineHypersurface category: 'Algebra-Schemes-Affine Space'!
 AffineVariety subclass: #AffineHypersurface
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Affine Space'!
-!classDefinition: 'AffineHypersurface class' category: #'Algebra-Schemes-Affine Space'!
+!classDefinition: 'AffineHypersurface class' category: 'Algebra-Schemes-Affine Space'!
 AffineHypersurface class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffinePlaneCurve category: #'Algebra-Schemes-Affine Space'!
+!classDefinition: #AffinePlaneCurve category: 'Algebra-Schemes-Affine Space'!
 AffineHypersurface subclass: #AffinePlaneCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Affine Space'!
-!classDefinition: 'AffinePlaneCurve class' category: #'Algebra-Schemes-Affine Space'!
+!classDefinition: 'AffinePlaneCurve class' category: 'Algebra-Schemes-Affine Space'!
 AffinePlaneCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineSpace category: #'Algebra-Schemes-Affine Space'!
+!classDefinition: #AffineSpace category: 'Algebra-Schemes-Affine Space'!
 AffineVariety subclass: #AffineSpace
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Affine Space'!
-!classDefinition: 'AffineSpace class' category: #'Algebra-Schemes-Affine Space'!
+!classDefinition: 'AffineSpace class' category: 'Algebra-Schemes-Affine Space'!
 AffineSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveScheme category: #'Algebra-Schemes'!
+!classDefinition: #ProjectiveScheme category: 'Algebra-Schemes'!
 Scheme subclass: #ProjectiveScheme
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'ProjectiveScheme class' category: #'Algebra-Schemes'!
+!classDefinition: 'ProjectiveScheme class' category: 'Algebra-Schemes'!
 ProjectiveScheme class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveVariety category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: #ProjectiveVariety category: 'Algebra-Schemes-Projective Space'!
 ProjectiveScheme subclass: #ProjectiveVariety
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'ProjectiveVariety class' category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: 'ProjectiveVariety class' category: 'Algebra-Schemes-Projective Space'!
 ProjectiveVariety class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveCurve category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: #ProjectiveCurve category: 'Algebra-Schemes-Projective Space'!
 ProjectiveVariety subclass: #ProjectiveCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'ProjectiveCurve class' category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: 'ProjectiveCurve class' category: 'Algebra-Schemes-Projective Space'!
 ProjectiveCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveHypersurface category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: #ProjectiveHypersurface category: 'Algebra-Schemes-Projective Space'!
 ProjectiveVariety subclass: #ProjectiveHypersurface
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'ProjectiveHypersurface class' category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: 'ProjectiveHypersurface class' category: 'Algebra-Schemes-Projective Space'!
 ProjectiveHypersurface class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectivePlaneCurve category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: #ProjectivePlaneCurve category: 'Algebra-Schemes-Projective Space'!
 ProjectiveHypersurface subclass: #ProjectivePlaneCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'ProjectivePlaneCurve class' category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: 'ProjectivePlaneCurve class' category: 'Algebra-Schemes-Projective Space'!
 ProjectivePlaneCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #Conic category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: #Conic category: 'Algebra-Schemes-Projective Space'!
 ProjectivePlaneCurve subclass: #Conic
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'Conic class' category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: 'Conic class' category: 'Algebra-Schemes-Projective Space'!
 Conic class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalCurve category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: #RationalCurve category: 'Algebra-Schemes-Projective Space'!
 ProjectivePlaneCurve subclass: #RationalCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'RationalCurve class' category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: 'RationalCurve class' category: 'Algebra-Schemes-Projective Space'!
 RationalCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveSpace category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: #ProjectiveSpace category: 'Algebra-Schemes-Projective Space'!
 ProjectiveVariety subclass: #ProjectiveSpace
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'ProjectiveSpace class' category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: 'ProjectiveSpace class' category: 'Algebra-Schemes-Projective Space'!
 ProjectiveSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveLine category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: #ProjectiveLine category: 'Algebra-Schemes-Projective Space'!
 ProjectiveSpace subclass: #ProjectiveLine
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'ProjectiveLine class' category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: 'ProjectiveLine class' category: 'Algebra-Schemes-Projective Space'!
 ProjectiveLine class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectivePlane category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: #ProjectivePlane category: 'Algebra-Schemes-Projective Space'!
 ProjectiveSpace subclass: #ProjectivePlane
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'ProjectivePlane class' category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: 'ProjectivePlane class' category: 'Algebra-Schemes-Projective Space'!
 ProjectivePlane class
 	instanceVariableNames: ''!
 
-!classDefinition: #CellComplex category: #'Algebra-Simplicial Complexes'!
+!classDefinition: #CellComplex category: 'Algebra-Simplicial Complexes'!
 Structure subclass: #CellComplex
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Simplicial Complexes'!
-!classDefinition: 'CellComplex class' category: #'Algebra-Simplicial Complexes'!
+!classDefinition: 'CellComplex class' category: 'Algebra-Simplicial Complexes'!
 CellComplex class
 	instanceVariableNames: ''!
 
-!classDefinition: #SimplicialComplex category: #'Algebra-Simplicial Complexes'!
+!classDefinition: #SimplicialComplex category: 'Algebra-Simplicial Complexes'!
 CellComplex subclass: #SimplicialComplex
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Simplicial Complexes'!
-!classDefinition: 'SimplicialComplex class' category: #'Algebra-Simplicial Complexes'!
+!classDefinition: 'SimplicialComplex class' category: 'Algebra-Simplicial Complexes'!
 SimplicialComplex class
 	instanceVariableNames: ''!
 
-!classDefinition: #ChainComplex category: #'Algebra-Complexes'!
+!classDefinition: #ChainComplex category: 'Algebra-Complexes'!
 Domain subclass: #ChainComplex
 	instanceVariableNames: 'differentials shift'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Complexes'!
-!classDefinition: 'ChainComplex class' category: #'Algebra-Complexes'!
+!classDefinition: 'ChainComplex class' category: 'Algebra-Complexes'!
 ChainComplex class
 	instanceVariableNames: ''!
 
-!classDefinition: #Sheaf category: #'Algebra-Schemes'!
+!classDefinition: #Sheaf category: 'Algebra-Schemes'!
 Domain subclass: #Sheaf
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'Sheaf class' category: #'Algebra-Schemes'!
+!classDefinition: 'Sheaf class' category: 'Algebra-Schemes'!
 Sheaf class
 	instanceVariableNames: ''!
 
-!classDefinition: #Morphism category: #'Algebra-Categories'!
+!classDefinition: #Morphism category: 'Algebra-Categories'!
 Object subclass: #Morphism
 	instanceVariableNames: 'properties'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Categories'!
-!classDefinition: 'Morphism class' category: #'Algebra-Categories'!
+!classDefinition: 'Morphism class' category: 'Algebra-Categories'!
 Morphism class
 	instanceVariableNames: ''!
 
-!classDefinition: #Function category: #'Algebra-Categories'!
+!classDefinition: #Function category: 'Algebra-Categories'!
 Morphism subclass: #Function
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Categories'!
-!classDefinition: 'Function class' category: #'Algebra-Categories'!
+!classDefinition: 'Function class' category: 'Algebra-Categories'!
 Function class
 	instanceVariableNames: ''!
 
-!classDefinition: #Functor category: #'Algebra-Categories'!
+!classDefinition: #Functor category: 'Algebra-Categories'!
 Function subclass: #Functor
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Categories'!
-!classDefinition: 'Functor class' category: #'Algebra-Categories'!
+!classDefinition: 'Functor class' category: 'Algebra-Categories'!
 Functor class
 	instanceVariableNames: ''!
 
-!classDefinition: #MonoidMap category: #'Algebra-Monoids'!
+!classDefinition: #MonoidMap category: 'Algebra-Monoids'!
 Function subclass: #MonoidMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids'!
-!classDefinition: 'MonoidMap class' category: #'Algebra-Monoids'!
+!classDefinition: 'MonoidMap class' category: 'Algebra-Monoids'!
 MonoidMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupAction category: #'Algebra-Groups'!
+!classDefinition: #GroupAction category: 'Algebra-Groups'!
 Function subclass: #GroupAction
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups'!
-!classDefinition: 'GroupAction class' category: #'Algebra-Groups'!
+!classDefinition: 'GroupAction class' category: 'Algebra-Groups'!
 GroupAction class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupMap category: #'Algebra-Groups'!
+!classDefinition: #GroupMap category: 'Algebra-Groups'!
 Function subclass: #GroupMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups'!
-!classDefinition: 'GroupMap class' category: #'Algebra-Groups'!
+!classDefinition: 'GroupMap class' category: 'Algebra-Groups'!
 GroupMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #RingMap category: #'Algebra-Rings'!
+!classDefinition: #RingMap category: 'Algebra-Rings'!
 Function subclass: #RingMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'RingMap class' category: #'Algebra-Rings'!
+!classDefinition: 'RingMap class' category: 'Algebra-Rings'!
 RingMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialMap category: #'Algebra-Algebras-Affine'!
+!classDefinition: #PolynomialMap category: 'Algebra-Algebras-Affine'!
 RingMap subclass: #PolynomialMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'PolynomialMap class' category: #'Algebra-Algebras-Affine'!
+!classDefinition: 'PolynomialMap class' category: 'Algebra-Algebras-Affine'!
 PolynomialMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #FiniteAlgebraMap category: #'Algebra-Algebras-Finite'!
+!classDefinition: #FiniteAlgebraMap category: 'Algebra-Algebras-Finite'!
 RingMap subclass: #FiniteAlgebraMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'FiniteAlgebraMap class' category: #'Algebra-Algebras-Finite'!
+!classDefinition: 'FiniteAlgebraMap class' category: 'Algebra-Algebras-Finite'!
 FiniteAlgebraMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModuleMap category: #'Algebra-Modules'!
+!classDefinition: #ModuleMap category: 'Algebra-Modules'!
 Function subclass: #ModuleMap
 	instanceVariableNames: 'domain codomain'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'ModuleMap class' category: #'Algebra-Modules'!
+!classDefinition: 'ModuleMap class' category: 'Algebra-Modules'!
 ModuleMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #Matrix category: #'Algebra-Modules'!
+!classDefinition: #Matrix category: 'Algebra-Modules'!
 ModuleMap subclass: #Matrix
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'Matrix class' category: #'Algebra-Modules'!
+!classDefinition: 'Matrix class' category: 'Algebra-Modules'!
 Matrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #BlockSparseMatrix category: #'Algebra-Modules'!
+!classDefinition: #BlockSparseMatrix category: 'Algebra-Modules'!
 Matrix subclass: #BlockSparseMatrix
 	instanceVariableNames: 'coefficients blockIndices columnIndices rowPointers'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'BlockSparseMatrix class' category: #'Algebra-Modules'!
+!classDefinition: 'BlockSparseMatrix class' category: 'Algebra-Modules'!
 BlockSparseMatrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #DenseMatrix category: #'Algebra-Modules'!
+!classDefinition: #DenseMatrix category: 'Algebra-Modules'!
 Matrix subclass: #DenseMatrix
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'DenseMatrix class' category: #'Algebra-Modules'!
+!classDefinition: 'DenseMatrix class' category: 'Algebra-Modules'!
 DenseMatrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #SparseMatrix category: #'Algebra-Modules'!
+!classDefinition: #SparseMatrix category: 'Algebra-Modules'!
 Matrix subclass: #SparseMatrix
 	instanceVariableNames: 'coefficients columnIndices rowPointers'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'SparseMatrix class' category: #'Algebra-Modules'!
+!classDefinition: 'SparseMatrix class' category: 'Algebra-Modules'!
 SparseMatrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #Submatrix category: #'Algebra-Modules'!
+!classDefinition: #Submatrix category: 'Algebra-Modules'!
 Matrix subclass: #Submatrix
 	instanceVariableNames: 'coefficients rowIndices'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'Submatrix class' category: #'Algebra-Modules'!
+!classDefinition: 'Submatrix class' category: 'Algebra-Modules'!
 Submatrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #BilinearMap category: #'Algebra-Modules-Multilinear'!
+!classDefinition: #BilinearMap category: 'Algebra-Modules-Multilinear'!
 Function subclass: #BilinearMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules-Multilinear'!
-!classDefinition: 'BilinearMap class' category: #'Algebra-Modules-Multilinear'!
+!classDefinition: 'BilinearMap class' category: 'Algebra-Modules-Multilinear'!
 BilinearMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #BilinearForm category: #'Algebra-Modules-Multilinear'!
+!classDefinition: #BilinearForm category: 'Algebra-Modules-Multilinear'!
 BilinearMap subclass: #BilinearForm
 	instanceVariableNames: 'space matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules-Multilinear'!
-!classDefinition: 'BilinearForm class' category: #'Algebra-Modules-Multilinear'!
+!classDefinition: 'BilinearForm class' category: 'Algebra-Modules-Multilinear'!
 BilinearForm class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuadraticForm category: #'Algebra-Modules-Multilinear'!
+!classDefinition: #QuadraticForm category: 'Algebra-Modules-Multilinear'!
 Function subclass: #QuadraticForm
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules-Multilinear'!
-!classDefinition: 'QuadraticForm class' category: #'Algebra-Modules-Multilinear'!
+!classDefinition: 'QuadraticForm class' category: 'Algebra-Modules-Multilinear'!
 QuadraticForm class
 	instanceVariableNames: ''!
 
-!classDefinition: #DistributiveAlgebraMap category: #'Algebra-Algebras-Distributive'!
+!classDefinition: #DistributiveAlgebraMap category: 'Algebra-Algebras-Distributive'!
 Function subclass: #DistributiveAlgebraMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Distributive'!
-!classDefinition: 'DistributiveAlgebraMap class' category: #'Algebra-Algebras-Distributive'!
+!classDefinition: 'DistributiveAlgebraMap class' category: 'Algebra-Algebras-Distributive'!
 DistributiveAlgebraMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalMap category: #'Algebra-Schemes-Affine Space'!
+!classDefinition: #RationalMap category: 'Algebra-Schemes-Affine Space'!
 Function subclass: #RationalMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Affine Space'!
-!classDefinition: 'RationalMap class' category: #'Algebra-Schemes-Affine Space'!
+!classDefinition: 'RationalMap class' category: 'Algebra-Schemes-Affine Space'!
 RationalMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #Sequence category: #'Algebra-Sequences'!
+!classDefinition: #Sequence category: 'Algebra-Sequences'!
 Function subclass: #Sequence
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Sequences'!
-!classDefinition: 'Sequence class' category: #'Algebra-Sequences'!
+!classDefinition: 'Sequence class' category: 'Algebra-Sequences'!
 Sequence class
 	instanceVariableNames: ''!
 
-!classDefinition: #CFiniteSequence category: #'Algebra-Sequences'!
+!classDefinition: #CFiniteSequence category: 'Algebra-Sequences'!
 Sequence subclass: #CFiniteSequence
 	instanceVariableNames: 'coefficients initialValues'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Sequences'!
-!classDefinition: 'CFiniteSequence class' category: #'Algebra-Sequences'!
+!classDefinition: 'CFiniteSequence class' category: 'Algebra-Sequences'!
 CFiniteSequence class
 	instanceVariableNames: ''!
 
-!classDefinition: #SimplicialMap category: #'Algebra-Simplicial Complexes'!
+!classDefinition: #SimplicialMap category: 'Algebra-Simplicial Complexes'!
 Function subclass: #SimplicialMap
 	instanceVariableNames: 'vertexMap'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Simplicial Complexes'!
-!classDefinition: 'SimplicialMap class' category: #'Algebra-Simplicial Complexes'!
+!classDefinition: 'SimplicialMap class' category: 'Algebra-Simplicial Complexes'!
 SimplicialMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #ChainMap category: #'Algebra-Complexes'!
+!classDefinition: #ChainMap category: 'Algebra-Complexes'!
 Morphism subclass: #ChainMap
 	instanceVariableNames: 'components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Complexes'!
-!classDefinition: 'ChainMap class' category: #'Algebra-Complexes'!
+!classDefinition: 'ChainMap class' category: 'Algebra-Complexes'!
 ChainMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #CochainMap category: #'Algebra-Complexes'!
+!classDefinition: #CochainMap category: 'Algebra-Complexes'!
 Morphism subclass: #CochainMap
 	instanceVariableNames: 'opposite'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Complexes'!
-!classDefinition: 'CochainMap class' category: #'Algebra-Complexes'!
+!classDefinition: 'CochainMap class' category: 'Algebra-Complexes'!
 CochainMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #SchemeMorphism category: #'Algebra-Schemes'!
+!classDefinition: #SchemeMorphism category: 'Algebra-Schemes'!
 Morphism subclass: #SchemeMorphism
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'SchemeMorphism class' category: #'Algebra-Schemes'!
+!classDefinition: 'SchemeMorphism class' category: 'Algebra-Schemes'!
 SchemeMorphism class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineMorphism category: #'Algebra-Schemes'!
+!classDefinition: #AffineMorphism category: 'Algebra-Schemes'!
 SchemeMorphism subclass: #AffineMorphism
 	instanceVariableNames: 'ringMap'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'AffineMorphism class' category: #'Algebra-Schemes'!
+!classDefinition: 'AffineMorphism class' category: 'Algebra-Schemes'!
 AffineMorphism class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffinePoint category: #'Algebra-Schemes-Affine Space'!
+!classDefinition: #AffinePoint category: 'Algebra-Schemes-Affine Space'!
 AffineMorphism subclass: #AffinePoint
 	instanceVariableNames: 'codomain coordinates'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Affine Space'!
-!classDefinition: 'AffinePoint class' category: #'Algebra-Schemes-Affine Space'!
+!classDefinition: 'AffinePoint class' category: 'Algebra-Schemes-Affine Space'!
 AffinePoint class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectivePoint category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: #ProjectivePoint category: 'Algebra-Schemes-Projective Space'!
 SchemeMorphism subclass: #ProjectivePoint
 	instanceVariableNames: 'codomain coordinates'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'ProjectivePoint class' category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: 'ProjectivePoint class' category: 'Algebra-Schemes-Projective Space'!
 ProjectivePoint class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveLinePoint category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: #ProjectiveLinePoint category: 'Algebra-Schemes-Projective Space'!
 ProjectivePoint subclass: #ProjectiveLinePoint
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'ProjectiveLinePoint class' category: #'Algebra-Schemes-Projective Space'!
+!classDefinition: 'ProjectiveLinePoint class' category: 'Algebra-Schemes-Projective Space'!
 ProjectiveLinePoint class
 	instanceVariableNames: ''!
 
-!classDefinition: #SheafMap category: #'Algebra-Schemes'!
+!classDefinition: #SheafMap category: 'Algebra-Schemes'!
 Morphism subclass: #SheafMap
 	instanceVariableNames: 'domain codomain moduleMap'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'SheafMap class' category: #'Algebra-Schemes'!
+!classDefinition: 'SheafMap class' category: 'Algebra-Schemes'!
 SheafMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #MonomialOrdering category: #'Algebra-Monoids-Orderings'!
+!classDefinition: #MonomialOrdering category: 'Algebra-Monoids-Orderings'!
 Object subclass: #MonomialOrdering
 	instanceVariableNames: 'indeterminates'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids-Orderings'!
-!classDefinition: 'MonomialOrdering class' category: #'Algebra-Monoids-Orderings'!
+!classDefinition: 'MonomialOrdering class' category: 'Algebra-Monoids-Orderings'!
 MonomialOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #BlockMonomialOrdering category: #'Algebra-Monoids-Orderings'!
+!classDefinition: #BlockMonomialOrdering category: 'Algebra-Monoids-Orderings'!
 MonomialOrdering subclass: #BlockMonomialOrdering
 	instanceVariableNames: 'blocks'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids-Orderings'!
-!classDefinition: 'BlockMonomialOrdering class' category: #'Algebra-Monoids-Orderings'!
+!classDefinition: 'BlockMonomialOrdering class' category: 'Algebra-Monoids-Orderings'!
 BlockMonomialOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #GradedLexicographicOrdering category: #'Algebra-Monoids-Orderings'!
+!classDefinition: #GradedLexicographicOrdering category: 'Algebra-Monoids-Orderings'!
 MonomialOrdering subclass: #GradedLexicographicOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids-Orderings'!
-!classDefinition: 'GradedLexicographicOrdering class' category: #'Algebra-Monoids-Orderings'!
+!classDefinition: 'GradedLexicographicOrdering class' category: 'Algebra-Monoids-Orderings'!
 GradedLexicographicOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #GradedReverseLexicographicOrdering category: #'Algebra-Monoids-Orderings'!
+!classDefinition: #GradedReverseLexicographicOrdering category: 'Algebra-Monoids-Orderings'!
 MonomialOrdering subclass: #GradedReverseLexicographicOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids-Orderings'!
-!classDefinition: 'GradedReverseLexicographicOrdering class' category: #'Algebra-Monoids-Orderings'!
+!classDefinition: 'GradedReverseLexicographicOrdering class' category: 'Algebra-Monoids-Orderings'!
 GradedReverseLexicographicOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #GradedReverseLexicographicWeightedOrdering category: #'Algebra-Monoids-Orderings'!
+!classDefinition: #GradedReverseLexicographicWeightedOrdering category: 'Algebra-Monoids-Orderings'!
 GradedReverseLexicographicOrdering subclass: #GradedReverseLexicographicWeightedOrdering
 	instanceVariableNames: 'weights'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids-Orderings'!
-!classDefinition: 'GradedReverseLexicographicWeightedOrdering class' category: #'Algebra-Monoids-Orderings'!
+!classDefinition: 'GradedReverseLexicographicWeightedOrdering class' category: 'Algebra-Monoids-Orderings'!
 GradedReverseLexicographicWeightedOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #LexicographicOrdering category: #'Algebra-Monoids-Orderings'!
+!classDefinition: #LexicographicOrdering category: 'Algebra-Monoids-Orderings'!
 MonomialOrdering subclass: #LexicographicOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids-Orderings'!
-!classDefinition: 'LexicographicOrdering class' category: #'Algebra-Monoids-Orderings'!
+!classDefinition: 'LexicographicOrdering class' category: 'Algebra-Monoids-Orderings'!
 LexicographicOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #LocalGradedLexicographicOrdering category: #'Algebra-Monoids-Orderings'!
+!classDefinition: #LocalGradedLexicographicOrdering category: 'Algebra-Monoids-Orderings'!
 MonomialOrdering subclass: #LocalGradedLexicographicOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids-Orderings'!
-!classDefinition: 'LocalGradedLexicographicOrdering class' category: #'Algebra-Monoids-Orderings'!
+!classDefinition: 'LocalGradedLexicographicOrdering class' category: 'Algebra-Monoids-Orderings'!
 LocalGradedLexicographicOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #LocalGradedReverseLexicographicOrdering category: #'Algebra-Monoids-Orderings'!
+!classDefinition: #LocalGradedReverseLexicographicOrdering category: 'Algebra-Monoids-Orderings'!
 MonomialOrdering subclass: #LocalGradedReverseLexicographicOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids-Orderings'!
-!classDefinition: 'LocalGradedReverseLexicographicOrdering class' category: #'Algebra-Monoids-Orderings'!
+!classDefinition: 'LocalGradedReverseLexicographicOrdering class' category: 'Algebra-Monoids-Orderings'!
 LocalGradedReverseLexicographicOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #LocalLexicographicOrdering category: #'Algebra-Monoids-Orderings'!
+!classDefinition: #LocalLexicographicOrdering category: 'Algebra-Monoids-Orderings'!
 MonomialOrdering subclass: #LocalLexicographicOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids-Orderings'!
-!classDefinition: 'LocalLexicographicOrdering class' category: #'Algebra-Monoids-Orderings'!
+!classDefinition: 'LocalLexicographicOrdering class' category: 'Algebra-Monoids-Orderings'!
 LocalLexicographicOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupElement category: #'Algebra-Groups'!
+!classDefinition: #GroupElement category: 'Algebra-Groups'!
 Object subclass: #GroupElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups'!
-!classDefinition: 'GroupElement class' category: #'Algebra-Groups'!
+!classDefinition: 'GroupElement class' category: 'Algebra-Groups'!
 GroupElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #Monomial category: #'Algebra-Monoids'!
+!classDefinition: #Monomial category: 'Algebra-Monoids'!
 GroupElement subclass: #Monomial
 	instanceVariableNames: 'exponents parent degree'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids'!
-!classDefinition: 'Monomial class' category: #'Algebra-Monoids'!
+!classDefinition: 'Monomial class' category: 'Algebra-Monoids'!
 Monomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #Word category: #'Algebra-Monoids'!
+!classDefinition: #Word category: 'Algebra-Monoids'!
 GroupElement subclass: #Word
 	instanceVariableNames: 'syllables parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids'!
-!classDefinition: 'Word class' category: #'Algebra-Monoids'!
+!classDefinition: 'Word class' category: 'Algebra-Monoids'!
 Word class
 	instanceVariableNames: ''!
 
-!classDefinition: #Coset category: #'Algebra-Groups'!
+!classDefinition: #Coset category: 'Algebra-Groups'!
 GroupElement subclass: #Coset
 	instanceVariableNames: 'representative parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups'!
-!classDefinition: 'Coset class' category: #'Algebra-Groups'!
+!classDefinition: 'Coset class' category: 'Algebra-Groups'!
 Coset class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupTuple category: #'Algebra-Groups'!
+!classDefinition: #GroupTuple category: 'Algebra-Groups'!
 GroupElement subclass: #GroupTuple
 	instanceVariableNames: 'parent components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups'!
-!classDefinition: 'GroupTuple class' category: #'Algebra-Groups'!
+!classDefinition: 'GroupTuple class' category: 'Algebra-Groups'!
 GroupTuple class
 	instanceVariableNames: ''!
 
-!classDefinition: #Permutation category: #'Algebra-Groups-Permutations'!
+!classDefinition: #Permutation category: 'Algebra-Groups-Permutations'!
 GroupElement subclass: #Permutation
 	instanceVariableNames: 'images parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Permutations'!
-!classDefinition: 'Permutation class' category: #'Algebra-Groups-Permutations'!
+!classDefinition: 'Permutation class' category: 'Algebra-Groups-Permutations'!
 Permutation class
 	instanceVariableNames: ''!
 
-!classDefinition: #FractionalIdeal category: #'Algebra-Fields-Global'!
+!classDefinition: #FractionalIdeal category: 'Algebra-Fields-Global'!
 GroupElement subclass: #FractionalIdeal
 	instanceVariableNames: 'numerator denominator'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global'!
-!classDefinition: 'FractionalIdeal class' category: #'Algebra-Fields-Global'!
+!classDefinition: 'FractionalIdeal class' category: 'Algebra-Fields-Global'!
 FractionalIdeal class
 	instanceVariableNames: ''!
 
-!classDefinition: #RingElement category: #'Algebra-Rings'!
+!classDefinition: #RingElement category: 'Algebra-Rings'!
 Object subclass: #RingElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'RingElement class' category: #'Algebra-Rings'!
+!classDefinition: 'RingElement class' category: 'Algebra-Rings'!
 RingElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #Opposite category: #'Algebra-Rings'!
+!classDefinition: #Opposite category: 'Algebra-Rings'!
 RingElement subclass: #Opposite
 	instanceVariableNames: 'opposite'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'Opposite class' category: #'Algebra-Rings'!
+!classDefinition: 'Opposite class' category: 'Algebra-Rings'!
 Opposite class
 	instanceVariableNames: ''!
 
-!classDefinition: #Ratio category: #'Algebra-Rings'!
+!classDefinition: #Ratio category: 'Algebra-Rings'!
 RingElement subclass: #Ratio
 	instanceVariableNames: 'numerator denominator'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'Ratio class' category: #'Algebra-Rings'!
+!classDefinition: 'Ratio class' category: 'Algebra-Rings'!
 Ratio class
 	instanceVariableNames: ''!
 
-!classDefinition: #Germ category: #'Algebra-Rings'!
+!classDefinition: #Germ category: 'Algebra-Rings'!
 Ratio subclass: #Germ
 	instanceVariableNames: 'parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'Germ class' category: #'Algebra-Rings'!
+!classDefinition: 'Germ class' category: 'Algebra-Rings'!
 Germ class
 	instanceVariableNames: ''!
 
-!classDefinition: #Rational category: #'Algebra-Rings'!
+!classDefinition: #Rational category: 'Algebra-Rings'!
 Ratio subclass: #Rational
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'Rational class' category: #'Algebra-Rings'!
+!classDefinition: 'Rational class' category: 'Algebra-Rings'!
 Rational class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalFunction category: #'Algebra-Algebras-Affine'!
+!classDefinition: #RationalFunction category: 'Algebra-Algebras-Affine'!
 Ratio subclass: #RationalFunction
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'RationalFunction class' category: #'Algebra-Algebras-Affine'!
+!classDefinition: 'RationalFunction class' category: 'Algebra-Algebras-Affine'!
 RationalFunction class
 	instanceVariableNames: ''!
 
-!classDefinition: #Residue category: #'Algebra-Rings'!
+!classDefinition: #Residue category: 'Algebra-Rings'!
 RingElement subclass: #Residue
 	instanceVariableNames: 'representative parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'Residue class' category: #'Algebra-Rings'!
+!classDefinition: 'Residue class' category: 'Algebra-Rings'!
 Residue class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularInteger category: #'Algebra-Rings-Finite'!
+!classDefinition: #ModularInteger category: 'Algebra-Rings-Finite'!
 Residue subclass: #ModularInteger
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'ModularInteger class' category: #'Algebra-Rings-Finite'!
+!classDefinition: 'ModularInteger class' category: 'Algebra-Rings-Finite'!
 ModularInteger class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimePowerResidue category: #'Algebra-Rings-Finite'!
+!classDefinition: #PrimePowerResidue category: 'Algebra-Rings-Finite'!
 ModularInteger subclass: #PrimePowerResidue
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'PrimePowerResidue class' category: #'Algebra-Rings-Finite'!
+!classDefinition: 'PrimePowerResidue class' category: 'Algebra-Rings-Finite'!
 PrimePowerResidue class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimeResidue category: #'Algebra-Rings-Finite'!
+!classDefinition: #PrimeResidue category: 'Algebra-Rings-Finite'!
 PrimePowerResidue subclass: #PrimeResidue
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'PrimeResidue class' category: #'Algebra-Rings-Finite'!
+!classDefinition: 'PrimeResidue class' category: 'Algebra-Rings-Finite'!
 PrimeResidue class
 	instanceVariableNames: ''!
 
-!classDefinition: #RegularFunction category: #'Algebra-Algebras-Affine'!
+!classDefinition: #RegularFunction category: 'Algebra-Algebras-Affine'!
 Residue subclass: #RegularFunction
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'RegularFunction class' category: #'Algebra-Algebras-Affine'!
+!classDefinition: 'RegularFunction class' category: 'Algebra-Algebras-Affine'!
 RegularFunction class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtensionElement category: #'Algebra-Algebras-Affine'!
+!classDefinition: #ExtensionElement category: 'Algebra-Algebras-Affine'!
 RegularFunction subclass: #ExtensionElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'ExtensionElement class' category: #'Algebra-Algebras-Affine'!
+!classDefinition: 'ExtensionElement class' category: 'Algebra-Algebras-Affine'!
 ExtensionElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisRingElement category: #'Algebra-Rings-Finite'!
+!classDefinition: #GaloisRingElement category: 'Algebra-Rings-Finite'!
 ExtensionElement subclass: #GaloisRingElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'GaloisRingElement class' category: #'Algebra-Rings-Finite'!
+!classDefinition: 'GaloisRingElement class' category: 'Algebra-Rings-Finite'!
 GaloisRingElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisFieldElement category: #'Algebra-Rings-Finite'!
+!classDefinition: #GaloisFieldElement category: 'Algebra-Rings-Finite'!
 GaloisRingElement subclass: #GaloisFieldElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'GaloisFieldElement class' category: #'Algebra-Rings-Finite'!
+!classDefinition: 'GaloisFieldElement class' category: 'Algebra-Rings-Finite'!
 GaloisFieldElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianRational category: #'Algebra-Fields-Global-Quadratic'!
+!classDefinition: #GaussianRational category: 'Algebra-Fields-Global-Quadratic'!
 ExtensionElement subclass: #GaussianRational
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Quadratic'!
-!classDefinition: 'GaussianRational class' category: #'Algebra-Fields-Global-Quadratic'!
+!classDefinition: 'GaussianRational class' category: 'Algebra-Fields-Global-Quadratic'!
 GaussianRational class
 	instanceVariableNames: ''!
 
-!classDefinition: #LaurentPolynomial category: #'Algebra-Algebras-Affine'!
+!classDefinition: #LaurentPolynomial category: 'Algebra-Algebras-Affine'!
 RegularFunction subclass: #LaurentPolynomial
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'LaurentPolynomial class' category: #'Algebra-Algebras-Affine'!
+!classDefinition: 'LaurentPolynomial class' category: 'Algebra-Algebras-Affine'!
 LaurentPolynomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #RingTuple category: #'Algebra-Rings'!
+!classDefinition: #RingTuple category: 'Algebra-Rings'!
 RingElement subclass: #RingTuple
 	instanceVariableNames: 'parent components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'RingTuple class' category: #'Algebra-Rings'!
+!classDefinition: 'RingTuple class' category: 'Algebra-Rings'!
 RingTuple class
 	instanceVariableNames: ''!
 
-!classDefinition: #Adic category: #'Algebra-Fields-Local'!
+!classDefinition: #Adic category: 'Algebra-Fields-Local'!
 RingElement subclass: #Adic
 	instanceVariableNames: 'parent representative precision'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Local'!
-!classDefinition: 'Adic class' category: #'Algebra-Fields-Local'!
+!classDefinition: 'Adic class' category: 'Algebra-Fields-Local'!
 Adic class
 	instanceVariableNames: ''!
 
-!classDefinition: #AdicInteger category: #'Algebra-Fields-Local'!
+!classDefinition: #AdicInteger category: 'Algebra-Fields-Local'!
 Adic subclass: #AdicInteger
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Local'!
-!classDefinition: 'AdicInteger class' category: #'Algebra-Fields-Local'!
+!classDefinition: 'AdicInteger class' category: 'Algebra-Fields-Local'!
 AdicInteger class
 	instanceVariableNames: ''!
 
-!classDefinition: #PowerSeries category: #'Algebra-Fields-Local'!
+!classDefinition: #PowerSeries category: 'Algebra-Fields-Local'!
 Adic subclass: #PowerSeries
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Local'!
-!classDefinition: 'PowerSeries class' category: #'Algebra-Fields-Local'!
+!classDefinition: 'PowerSeries class' category: 'Algebra-Fields-Local'!
 PowerSeries class
 	instanceVariableNames: ''!
 
-!classDefinition: #AdicFraction category: #'Algebra-Fields-Local'!
+!classDefinition: #AdicFraction category: 'Algebra-Fields-Local'!
 RingElement subclass: #AdicFraction
 	instanceVariableNames: 'valuation unitPart'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Local'!
-!classDefinition: 'AdicFraction class' category: #'Algebra-Fields-Local'!
+!classDefinition: 'AdicFraction class' category: 'Algebra-Fields-Local'!
 AdicFraction class
 	instanceVariableNames: ''!
 
-!classDefinition: #Polynomial category: #'Algebra-Algebras-Affine'!
+!classDefinition: #Polynomial category: 'Algebra-Algebras-Affine'!
 RingElement subclass: #Polynomial
 	instanceVariableNames: 'parent coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'Polynomial class' category: #'Algebra-Algebras-Affine'!
+!classDefinition: 'Polynomial class' category: 'Algebra-Algebras-Affine'!
 Polynomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #MultivariatePolynomial category: #'Algebra-Algebras-Affine'!
+!classDefinition: #MultivariatePolynomial category: 'Algebra-Algebras-Affine'!
 Polynomial subclass: #MultivariatePolynomial
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'MultivariatePolynomial class' category: #'Algebra-Algebras-Affine'!
+!classDefinition: 'MultivariatePolynomial class' category: 'Algebra-Algebras-Affine'!
 MultivariatePolynomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #UnivariatePolynomial category: #'Algebra-Algebras-Affine'!
+!classDefinition: #UnivariatePolynomial category: 'Algebra-Algebras-Affine'!
 Polynomial subclass: #UnivariatePolynomial
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'UnivariatePolynomial class' category: #'Algebra-Algebras-Affine'!
+!classDefinition: 'UnivariatePolynomial class' category: 'Algebra-Algebras-Affine'!
 UnivariatePolynomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #FiniteAlgebraElement category: #'Algebra-Algebras-Finite'!
+!classDefinition: #FiniteAlgebraElement category: 'Algebra-Algebras-Finite'!
 RingElement subclass: #FiniteAlgebraElement
 	instanceVariableNames: 'parent moduleElement representation'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'FiniteAlgebraElement class' category: #'Algebra-Algebras-Finite'!
+!classDefinition: 'FiniteAlgebraElement class' category: 'Algebra-Algebras-Finite'!
 FiniteAlgebraElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicInteger category: #'Algebra-Fields-Global'!
+!classDefinition: #AlgebraicInteger category: 'Algebra-Fields-Global'!
 FiniteAlgebraElement subclass: #AlgebraicInteger
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global'!
-!classDefinition: 'AlgebraicInteger class' category: #'Algebra-Fields-Global'!
+!classDefinition: 'AlgebraicInteger class' category: 'Algebra-Fields-Global'!
 AlgebraicInteger class
 	instanceVariableNames: ''!
 
-!classDefinition: #EisensteinInteger category: #'Algebra-Fields-Global-Cyclotomic'!
+!classDefinition: #EisensteinInteger category: 'Algebra-Fields-Global-Cyclotomic'!
 AlgebraicInteger subclass: #EisensteinInteger
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Cyclotomic'!
-!classDefinition: 'EisensteinInteger class' category: #'Algebra-Fields-Global-Cyclotomic'!
+!classDefinition: 'EisensteinInteger class' category: 'Algebra-Fields-Global-Cyclotomic'!
 EisensteinInteger class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuadraticInteger category: #'Algebra-Fields-Global-Quadratic'!
+!classDefinition: #QuadraticInteger category: 'Algebra-Fields-Global-Quadratic'!
 AlgebraicInteger subclass: #QuadraticInteger
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Quadratic'!
-!classDefinition: 'QuadraticInteger class' category: #'Algebra-Fields-Global-Quadratic'!
+!classDefinition: 'QuadraticInteger class' category: 'Algebra-Fields-Global-Quadratic'!
 QuadraticInteger class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianInteger category: #'Algebra-Fields-Global-Quadratic'!
+!classDefinition: #GaussianInteger category: 'Algebra-Fields-Global-Quadratic'!
 QuadraticInteger subclass: #GaussianInteger
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Quadratic'!
-!classDefinition: 'GaussianInteger class' category: #'Algebra-Fields-Global-Quadratic'!
+!classDefinition: 'GaussianInteger class' category: 'Algebra-Fields-Global-Quadratic'!
 GaussianInteger class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupAlgebraElement category: #'Algebra-Algebras-Finite'!
+!classDefinition: #GroupAlgebraElement category: 'Algebra-Algebras-Finite'!
 FiniteAlgebraElement subclass: #GroupAlgebraElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'GroupAlgebraElement class' category: #'Algebra-Algebras-Finite'!
+!classDefinition: 'GroupAlgebraElement class' category: 'Algebra-Algebras-Finite'!
 GroupAlgebraElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #Multivector category: #'Algebra-Algebras-Finite'!
+!classDefinition: #Multivector category: 'Algebra-Algebras-Finite'!
 FiniteAlgebraElement subclass: #Multivector
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'Multivector class' category: #'Algebra-Algebras-Finite'!
+!classDefinition: 'Multivector class' category: 'Algebra-Algebras-Finite'!
 Multivector class
 	instanceVariableNames: ''!
 
-!classDefinition: #Quaternion category: #'Algebra-Algebras-Finite'!
+!classDefinition: #Quaternion category: 'Algebra-Algebras-Finite'!
 FiniteAlgebraElement subclass: #Quaternion
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'Quaternion class' category: #'Algebra-Algebras-Finite'!
+!classDefinition: 'Quaternion class' category: 'Algebra-Algebras-Finite'!
 Quaternion class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreePolynomial category: #'Algebra-Algebras-Free'!
+!classDefinition: #FreePolynomial category: 'Algebra-Algebras-Free'!
 RingElement subclass: #FreePolynomial
 	instanceVariableNames: 'coefficients parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Free'!
-!classDefinition: 'FreePolynomial class' category: #'Algebra-Algebras-Free'!
+!classDefinition: 'FreePolynomial class' category: 'Algebra-Algebras-Free'!
 FreePolynomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModuleElement category: #'Algebra-Modules'!
+!classDefinition: #ModuleElement category: 'Algebra-Modules'!
 Object subclass: #ModuleElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'ModuleElement class' category: #'Algebra-Modules'!
+!classDefinition: 'ModuleElement class' category: 'Algebra-Modules'!
 ModuleElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModuleCoset category: #'Algebra-Modules'!
+!classDefinition: #ModuleCoset category: 'Algebra-Modules'!
 ModuleElement subclass: #ModuleCoset
 	instanceVariableNames: 'representative parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'ModuleCoset class' category: #'Algebra-Modules'!
+!classDefinition: 'ModuleCoset class' category: 'Algebra-Modules'!
 ModuleCoset class
 	instanceVariableNames: ''!
 
-!classDefinition: #Tuple category: #'Algebra-Modules'!
+!classDefinition: #Tuple category: 'Algebra-Modules'!
 ModuleElement subclass: #Tuple
 	instanceVariableNames: 'coefficients parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'Tuple class' category: #'Algebra-Modules'!
+!classDefinition: 'Tuple class' category: 'Algebra-Modules'!
 Tuple class
 	instanceVariableNames: ''!
 
-!classDefinition: #MultivariateTuple category: #'Algebra-Modules'!
+!classDefinition: #MultivariateTuple category: 'Algebra-Modules'!
 Tuple subclass: #MultivariateTuple
 	instanceVariableNames: 'leadingMonomial'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'MultivariateTuple class' category: #'Algebra-Modules'!
+!classDefinition: 'MultivariateTuple class' category: 'Algebra-Modules'!
 MultivariateTuple class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModuleMonomial category: #'Algebra-Modules-Orderings'!
+!classDefinition: #ModuleMonomial category: 'Algebra-Modules-Orderings'!
 Object subclass: #ModuleMonomial
 	instanceVariableNames: 'ordering monomial position'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules-Orderings'!
-!classDefinition: 'ModuleMonomial class' category: #'Algebra-Modules-Orderings'!
+!classDefinition: 'ModuleMonomial class' category: 'Algebra-Modules-Orderings'!
 ModuleMonomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModuleMonomialOrdering category: #'Algebra-Modules-Orderings'!
+!classDefinition: #ModuleMonomialOrdering category: 'Algebra-Modules-Orderings'!
 Object subclass: #ModuleMonomialOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules-Orderings'!
-!classDefinition: 'ModuleMonomialOrdering class' category: #'Algebra-Modules-Orderings'!
+!classDefinition: 'ModuleMonomialOrdering class' category: 'Algebra-Modules-Orderings'!
 ModuleMonomialOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #POTMonomialOrdering category: #'Algebra-Modules-Orderings'!
+!classDefinition: #POTMonomialOrdering category: 'Algebra-Modules-Orderings'!
 ModuleMonomialOrdering subclass: #POTMonomialOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules-Orderings'!
-!classDefinition: 'POTMonomialOrdering class' category: #'Algebra-Modules-Orderings'!
+!classDefinition: 'POTMonomialOrdering class' category: 'Algebra-Modules-Orderings'!
 POTMonomialOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #SchreyerMonomialOrdering category: #'Algebra-Modules-Orderings'!
+!classDefinition: #SchreyerMonomialOrdering category: 'Algebra-Modules-Orderings'!
 ModuleMonomialOrdering subclass: #SchreyerMonomialOrdering
 	instanceVariableNames: 'weights'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules-Orderings'!
-!classDefinition: 'SchreyerMonomialOrdering class' category: #'Algebra-Modules-Orderings'!
+!classDefinition: 'SchreyerMonomialOrdering class' category: 'Algebra-Modules-Orderings'!
 SchreyerMonomialOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #TOPMonomialOrdering category: #'Algebra-Modules-Orderings'!
+!classDefinition: #TOPMonomialOrdering category: 'Algebra-Modules-Orderings'!
 ModuleMonomialOrdering subclass: #TOPMonomialOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules-Orderings'!
-!classDefinition: 'TOPMonomialOrdering class' category: #'Algebra-Modules-Orderings'!
+!classDefinition: 'TOPMonomialOrdering class' category: 'Algebra-Modules-Orderings'!
 TOPMonomialOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #TOPWMonomialOrdering category: #'Algebra-Modules-Orderings'!
+!classDefinition: #TOPWMonomialOrdering category: 'Algebra-Modules-Orderings'!
 TOPMonomialOrdering subclass: #TOPWMonomialOrdering
 	instanceVariableNames: 'weights'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules-Orderings'!
-!classDefinition: 'TOPWMonomialOrdering class' category: #'Algebra-Modules-Orderings'!
+!classDefinition: 'TOPWMonomialOrdering class' category: 'Algebra-Modules-Orderings'!
 TOPWMonomialOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #CochainComplex category: #'Algebra-Complexes'!
+!classDefinition: #CochainComplex category: 'Algebra-Complexes'!
 Object subclass: #CochainComplex
 	instanceVariableNames: 'opposite'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Complexes'!
-!classDefinition: 'CochainComplex class' category: #'Algebra-Complexes'!
+!classDefinition: 'CochainComplex class' category: 'Algebra-Complexes'!
 CochainComplex class
 	instanceVariableNames: ''!
 
-!classDefinition: #DistributiveAlgebraElement category: #'Algebra-Algebras-Distributive'!
+!classDefinition: #DistributiveAlgebraElement category: 'Algebra-Algebras-Distributive'!
 Object subclass: #DistributiveAlgebraElement
 	instanceVariableNames: 'parent moduleElement representation'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Distributive'!
-!classDefinition: 'DistributiveAlgebraElement class' category: #'Algebra-Algebras-Distributive'!
+!classDefinition: 'DistributiveAlgebraElement class' category: 'Algebra-Algebras-Distributive'!
 DistributiveAlgebraElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #Octonion category: #'Algebra-Algebras-Distributive'!
+!classDefinition: #Octonion category: 'Algebra-Algebras-Distributive'!
 DistributiveAlgebraElement subclass: #Octonion
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Distributive'!
-!classDefinition: 'Octonion class' category: #'Algebra-Algebras-Distributive'!
+!classDefinition: 'Octonion class' category: 'Algebra-Algebras-Distributive'!
 Octonion class
 	instanceVariableNames: ''!
 
-!classDefinition: #DirichletSeries category: #'Algebra-Sequences'!
+!classDefinition: #DirichletSeries category: 'Algebra-Sequences'!
 Object subclass: #DirichletSeries
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Sequences'!
-!classDefinition: 'DirichletSeries class' category: #'Algebra-Sequences'!
+!classDefinition: 'DirichletSeries class' category: 'Algebra-Sequences'!
 DirichletSeries class
 	instanceVariableNames: ''!
 
-!classDefinition: #AdditionChain category: #'Algebra-Algorithms'!
+!classDefinition: #AdditionChain category: 'Algebra-Algorithms'!
 Object subclass: #AdditionChain
 	instanceVariableNames: 'values firstIndices secondIndices'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'AdditionChain class' category: #'Algebra-Algorithms'!
+!classDefinition: 'AdditionChain class' category: 'Algebra-Algorithms'!
 AdditionChain class
 	instanceVariableNames: ''!
 
-!classDefinition: #BabyStepGiantStep category: #'Algebra-Algorithms'!
+!classDefinition: #BabyStepGiantStep category: 'Algebra-Algorithms'!
 Object subclass: #BabyStepGiantStep
 	instanceVariableNames: 'group table δ'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'BabyStepGiantStep class' category: #'Algebra-Algorithms'!
+!classDefinition: 'BabyStepGiantStep class' category: 'Algebra-Algorithms'!
 BabyStepGiantStep class
 	instanceVariableNames: ''!
 
-!classDefinition: #BrentKung category: #'Algebra-Algorithms'!
+!classDefinition: #BrentKung category: 'Algebra-Algorithms'!
 Object subclass: #BrentKung
 	instanceVariableNames: 'modulus G P'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'BrentKung class' category: #'Algebra-Algorithms'!
+!classDefinition: 'BrentKung class' category: 'Algebra-Algorithms'!
 BrentKung class
 	instanceVariableNames: ''!
 
-!classDefinition: #CRT category: #'Algebra-Algorithms'!
+!classDefinition: #CRT category: 'Algebra-Algorithms'!
 Object subclass: #CRT
 	instanceVariableNames: 'moduli inverses'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'CRT class' category: #'Algebra-Algorithms'!
+!classDefinition: 'CRT class' category: 'Algebra-Algorithms'!
 CRT class
 	instanceVariableNames: ''!
 
-!classDefinition: #Division category: #'Algebra-Algorithms'!
+!classDefinition: #Division category: 'Algebra-Algorithms'!
 Object subclass: #Division
 	instanceVariableNames: 'divisor dividend quotient remainder'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'Division class' category: #'Algebra-Algorithms'!
+!classDefinition: 'Division class' category: 'Algebra-Algorithms'!
 Division class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtendedEuclid category: #'Algebra-Algorithms'!
+!classDefinition: #ExtendedEuclid category: 'Algebra-Algorithms'!
 Object subclass: #ExtendedEuclid
 	instanceVariableNames: 'elements gcd bezout'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'ExtendedEuclid class' category: #'Algebra-Algorithms'!
+!classDefinition: 'ExtendedEuclid class' category: 'Algebra-Algorithms'!
 ExtendedEuclid class
 	instanceVariableNames: ''!
 
-!classDefinition: #FFT category: #'Algebra-Algorithms'!
+!classDefinition: #FFT category: 'Algebra-Algorithms'!
 Object subclass: #FFT
 	instanceVariableNames: 'modulus powers inversePowers inverseN'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'FFT class' category: #'Algebra-Algorithms'!
+!classDefinition: 'FFT class' category: 'Algebra-Algorithms'!
 FFT class
 	instanceVariableNames: ''!
 
-!classDefinition: #GrayCode category: #'Algebra-Algorithms'!
+!classDefinition: #GrayCode category: 'Algebra-Algorithms'!
 Object subclass: #GrayCode
 	instanceVariableNames: 'indices increments'
 	classVariableNames: 'Cache'
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'GrayCode class' category: #'Algebra-Algorithms'!
+!classDefinition: 'GrayCode class' category: 'Algebra-Algorithms'!
 GrayCode class
 	instanceVariableNames: ''!
 
-!classDefinition: #LagrangeGaussReduction category: #'Algebra-Algorithms'!
+!classDefinition: #LagrangeGaussReduction category: 'Algebra-Algorithms'!
 Object subclass: #LagrangeGaussReduction
 	instanceVariableNames: 'vectorSpace v1 v2 shortVector'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'LagrangeGaussReduction class' category: #'Algebra-Algorithms'!
+!classDefinition: 'LagrangeGaussReduction class' category: 'Algebra-Algorithms'!
 LagrangeGaussReduction class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModifiedBerlekampMassey category: #'Algebra-Algorithms'!
+!classDefinition: #ModifiedBerlekampMassey category: 'Algebra-Algorithms'!
 Object subclass: #ModifiedBerlekampMassey
 	instanceVariableNames: 'input field minimalPolynomial'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'ModifiedBerlekampMassey class' category: #'Algebra-Algorithms'!
+!classDefinition: 'ModifiedBerlekampMassey class' category: 'Algebra-Algorithms'!
 ModifiedBerlekampMassey class
 	instanceVariableNames: ''!
 
-!classDefinition: #NewtonInterpolation category: #'Algebra-Algorithms'!
+!classDefinition: #NewtonInterpolation category: 'Algebra-Algorithms'!
 Object subclass: #NewtonInterpolation
 	instanceVariableNames: 'points inverses'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'NewtonInterpolation class' category: #'Algebra-Algorithms'!
+!classDefinition: 'NewtonInterpolation class' category: 'Algebra-Algorithms'!
 NewtonInterpolation class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProductReplacementRandomGenerator category: #'Algebra-Algorithms'!
+!classDefinition: #ProductReplacementRandomGenerator category: 'Algebra-Algorithms'!
 Object subclass: #ProductReplacementRandomGenerator
 	instanceVariableNames: 'generators state'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'ProductReplacementRandomGenerator class' category: #'Algebra-Algorithms'!
+!classDefinition: 'ProductReplacementRandomGenerator class' category: 'Algebra-Algorithms'!
 ProductReplacementRandomGenerator class
 	instanceVariableNames: ''!
 
-!classDefinition: #PseudoDivision category: #'Algebra-Algorithms'!
+!classDefinition: #PseudoDivision category: 'Algebra-Algorithms'!
 Object subclass: #PseudoDivision
 	instanceVariableNames: 'dividend divisor quotient remainder'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'PseudoDivision class' category: #'Algebra-Algorithms'!
+!classDefinition: 'PseudoDivision class' category: 'Algebra-Algorithms'!
 PseudoDivision class
 	instanceVariableNames: ''!
 
-!classDefinition: #SchreierSims category: #'Algebra-Algorithms'!
+!classDefinition: #SchreierSims category: 'Algebra-Algorithms'!
 Object subclass: #SchreierSims
 	instanceVariableNames: 'action generators base strongGeneratingSet trees order'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'SchreierSims class' category: #'Algebra-Algorithms'!
+!classDefinition: 'SchreierSims class' category: 'Algebra-Algorithms'!
 SchreierSims class
 	instanceVariableNames: ''!
 
-!classDefinition: #SchreierTree category: #'Algebra-Algorithms'!
+!classDefinition: #SchreierTree category: 'Algebra-Algorithms'!
 Object subclass: #SchreierTree
 	instanceVariableNames: 'root generators action v inverses w orbit'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'SchreierTree class' category: #'Algebra-Algorithms'!
+!classDefinition: 'SchreierTree class' category: 'Algebra-Algorithms'!
 SchreierTree class
 	instanceVariableNames: ''!
 
-!classDefinition: #TonelliShanks category: #'Algebra-Algorithms'!
+!classDefinition: #TonelliShanks category: 'Algebra-Algorithms'!
 Object subclass: #TonelliShanks
 	instanceVariableNames: 'p q e z'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'TonelliShanks class' category: #'Algebra-Algorithms'!
+!classDefinition: 'TonelliShanks class' category: 'Algebra-Algorithms'!
 TonelliShanks class
 	instanceVariableNames: ''!
 
-!classDefinition: #Echelonization category: #'Algebra-Algorithms-Echelonization'!
+!classDefinition: #Echelonization category: 'Algebra-Algorithms-Echelonization'!
 Object subclass: #Echelonization
 	instanceVariableNames: 'matrix echelon transformation'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Echelonization'!
-!classDefinition: 'Echelonization class' category: #'Algebra-Algorithms-Echelonization'!
+!classDefinition: 'Echelonization class' category: 'Algebra-Algorithms-Echelonization'!
 Echelonization class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussJordanEchelonization category: #'Algebra-Algorithms-Echelonization'!
+!classDefinition: #GaussJordanEchelonization category: 'Algebra-Algorithms-Echelonization'!
 Echelonization subclass: #GaussJordanEchelonization
 	instanceVariableNames: 'determinantFactor'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Echelonization'!
-!classDefinition: 'GaussJordanEchelonization class' category: #'Algebra-Algorithms-Echelonization'!
+!classDefinition: 'GaussJordanEchelonization class' category: 'Algebra-Algorithms-Echelonization'!
 GaussJordanEchelonization class
 	instanceVariableNames: ''!
 
-!classDefinition: #HermiteEchelonization category: #'Algebra-Algorithms-Echelonization'!
+!classDefinition: #HermiteEchelonization category: 'Algebra-Algorithms-Echelonization'!
 Echelonization subclass: #HermiteEchelonization
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Echelonization'!
-!classDefinition: 'HermiteEchelonization class' category: #'Algebra-Algorithms-Echelonization'!
+!classDefinition: 'HermiteEchelonization class' category: 'Algebra-Algorithms-Echelonization'!
 HermiteEchelonization class
 	instanceVariableNames: ''!
 
-!classDefinition: #HowellEchelonization category: #'Algebra-Algorithms-Echelonization'!
+!classDefinition: #HowellEchelonization category: 'Algebra-Algorithms-Echelonization'!
 Echelonization subclass: #HowellEchelonization
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Echelonization'!
-!classDefinition: 'HowellEchelonization class' category: #'Algebra-Algorithms-Echelonization'!
+!classDefinition: 'HowellEchelonization class' category: 'Algebra-Algorithms-Echelonization'!
 HowellEchelonization class
 	instanceVariableNames: ''!
 
-!classDefinition: #MultivariateDivision category: #'Algebra-Algorithms-Standard Bases'!
+!classDefinition: #MultivariateDivision category: 'Algebra-Algorithms-Standard Bases'!
 Object subclass: #MultivariateDivision
 	instanceVariableNames: 'dividend divisors quotients remainder'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Standard Bases'!
-!classDefinition: 'MultivariateDivision class' category: #'Algebra-Algorithms-Standard Bases'!
+!classDefinition: 'MultivariateDivision class' category: 'Algebra-Algorithms-Standard Bases'!
 MultivariateDivision class
 	instanceVariableNames: ''!
 
-!classDefinition: #StrongBuchberger category: #'Algebra-Algorithms-Standard Bases'!
+!classDefinition: #StrongBuchberger category: 'Algebra-Algorithms-Standard Bases'!
 Object subclass: #StrongBuchberger
 	instanceVariableNames: 'matrix generators'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Standard Bases'!
-!classDefinition: 'StrongBuchberger class' category: #'Algebra-Algorithms-Standard Bases'!
+!classDefinition: 'StrongBuchberger class' category: 'Algebra-Algorithms-Standard Bases'!
 StrongBuchberger class
 	instanceVariableNames: ''!
 
-!classDefinition: #Buchberger category: #'Algebra-Algorithms-Standard Bases'!
+!classDefinition: #Buchberger category: 'Algebra-Algorithms-Standard Bases'!
 StrongBuchberger subclass: #Buchberger
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Standard Bases'!
-!classDefinition: 'Buchberger class' category: #'Algebra-Algorithms-Standard Bases'!
+!classDefinition: 'Buchberger class' category: 'Algebra-Algorithms-Standard Bases'!
 Buchberger class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtendedStrongBuchberger category: #'Algebra-Algorithms-Standard Bases'!
+!classDefinition: #ExtendedStrongBuchberger category: 'Algebra-Algorithms-Standard Bases'!
 StrongBuchberger subclass: #ExtendedStrongBuchberger
 	instanceVariableNames: 'combinations'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Standard Bases'!
-!classDefinition: 'ExtendedStrongBuchberger class' category: #'Algebra-Algorithms-Standard Bases'!
+!classDefinition: 'ExtendedStrongBuchberger class' category: 'Algebra-Algorithms-Standard Bases'!
 ExtendedStrongBuchberger class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtendedBuchberger category: #'Algebra-Algorithms-Standard Bases'!
+!classDefinition: #ExtendedBuchberger category: 'Algebra-Algorithms-Standard Bases'!
 ExtendedStrongBuchberger subclass: #ExtendedBuchberger
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Standard Bases'!
-!classDefinition: 'ExtendedBuchberger class' category: #'Algebra-Algorithms-Standard Bases'!
+!classDefinition: 'ExtendedBuchberger class' category: 'Algebra-Algorithms-Standard Bases'!
 ExtendedBuchberger class
 	instanceVariableNames: ''!
 
@@ -27757,11 +27757,11 @@ dehomogenizedIn: anInteger
 		(self scalars^(coordinates size - 1)
 			fill: [:i| (i < anInteger ifTrue: [coordinates at: i] ifFalse: [coordinates at: i + 1]) / scalar])! !
 
-!ProjectivePoint methodsFor: 'printing' stamp: 'len 5/8/2023 23:29:12'!
+!ProjectivePoint methodsFor: 'printing' stamp: 'len 6/14/2023 17:09:27'!
 printInsidesOn: aStream
 	| separator |
-	separator _ (coordinates anySatisfy: [:any| any printString isAlphaNumeric not]) ifTrue: [' : '] ifFalse: [':'].
-	coordinates do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: separator].
+	separator := (coordinates anySatisfy: [:any| any printString isAlphaNumeric not]) ifTrue: [' : '] ifFalse: [':'].
+	coordinates asArray do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: separator].
 ! !
 
 !ProjectivePoint methodsFor: 'printing' stamp: 'len 2/10/2017 09:55:27'!
@@ -31871,9 +31871,11 @@ xgcd: anElement
 		t at: i put: (xgcd at: 3)].
 	^ {parent compose: g. parent compose: s. parent compose: t}! !
 
-!RingTuple methodsFor: 'printing' stamp: 'len 4/23/2020 01:41:46'!
+!RingTuple methodsFor: 'printing' stamp: 'len 6/14/2023 17:13:03'!
 printOn: aStream
-	aStream print: components! !
+	(parent components allSatisfy: [:each| (each isKindOf: ModularIntegerRing) and: [each modulus <= 16]])
+		ifTrue: [components do: [:each| each representative printOn: aStream base: 16]]
+		ifFalse: [aStream print: components]! !
 
 !RingTuple methodsFor: 'testing' stamp: 'len 4/25/2022 18:03:02'!
 isMinusOne
