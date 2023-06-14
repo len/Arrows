@@ -1,5 +1,5 @@
 # Arrows: a Computer Algebra System in Smalltalk
-Arrows is a very general, extensible and mathematically rigorous environment where one can construct mathematical objects (such as groups, rings, modules, etc) and operare with them, their morphisms and their elements.
+Arrows is a very general, extensible and mathematically rigorous environment where one can construct mathematical objects (such as groups, rings, modules, etc) and operate with them, their morphisms and their elements.
 
 For an introduction to the system see [Arrows: a Computer Algebra System in Smalltalk](https://len.github.io/Arrows.pdf), published in November 2022 in FAST Workshop on Smalltalk Related Technologies.
 
