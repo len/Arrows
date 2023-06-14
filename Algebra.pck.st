@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5852] on 14 June 2023 at 5:15:14 pm'!
+'From Cuis 6.0 [latest update: #5852] on 14 June 2023 at 10:56:33 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -75,7 +75,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 105!
+!provides: 'Algebra' 1 106!
 !requires: 'Transfinites' 1 2 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -11260,15 +11260,15 @@ do: aBlock
 			x _ (self !! each first) / (self !! each second).
 			visited add: x ifAbsent: [aBlock value: x]]]! !
 
-!LocalRing methodsFor: 'enumerating' stamp: 'len 11/20/2022 11:30:02'!
+!LocalRing methodsFor: 'enumerating' stamp: 'len 6/14/2023 22:24:07'!
 primeIdealsDo: aBlock
-	| embedding P |
+	| ι P |
 	self isField ifTrue: [aBlock value: self asIdeal null. ^ self].
 	self isDVR ifTrue: [aBlock value: self asIdeal null; value: self maximalIdeal. ^ self].
 	"The prime ideals of the localization of R at a prime ideal P are in one-to-one correspondence with the prime ideals I of R that satisfy I <= P:"
-	embedding _ self numerators → self.
-	P _ self localizationIdeal.
-	self numerators primeIdealsDo: [:each| each <= P ifTrue: [aBlock value: (each apply: embedding)]]! !
+	ι := self numerators → self.
+	P := self localizationIdeal.
+	self numerators primeIdealsDo: [:each| each <= P ifTrue: [aBlock value: (each apply: ι)]]! !
 
 !LocalRing methodsFor: 'morphisms' stamp: 'len 11/20/2022 11:27:40'!
 embed: anObject
@@ -16926,10 +16926,10 @@ asRepresentation
 	"If this is a module over a finite algebra, answer the equivalent representation."
 	^ self notYetImplemented! !
 
-!Module methodsFor: 'converting' stamp: 'len 12/18/2016 12:41:32'!
+!Module methodsFor: 'converting' stamp: 'len 6/14/2023 22:44:02'!
 over: aRing
-	"Answer the change of base ring of the receiver."
-	self notYetImplemented! !
+	"If the receiver is an ambient module, answer the change of base ring of the receiver."
+	self subclassResponsibility! !
 
 !Module methodsFor: 'elements' stamp: 'len 6/10/2022 11:13:38'!
 \ anElement
@@ -16997,12 +16997,16 @@ do: aBlock
 		each with: self generators do: [:ai :xi| x _ xi * ai + x].
 		visited add: x ifAbsent: [aBlock value: x]]! !
 
-!Module methodsFor: 'morphisms' stamp: 'len 6/14/2023 13:17:54'!
+!Module methodsFor: 'morphisms' stamp: 'len 6/14/2023 22:53:12'!
 apply: aMorphism
-	aMorphism isBlock ifTrue: [^ self ambient span: (self generators apply: aMorphism)].
-	aMorphism domain == self ifTrue: [^ aMorphism image].
+	aMorphism isBlock
+		ifTrue: [^ self ambient span: (self generators collect: aMorphism)].
+	aMorphism domain = self scalars
+		ifTrue: [^ (self ambient over: aMorphism codomain) span: (self generatorMatrix apply: aMorphism)].
+	aMorphism domain == self
+		ifTrue: [^ aMorphism image].
 "	aMorphism domain == self ambient ifTrue: [^ (self → self ambient → aMorphism) image]."
-	^ aMorphism codomain ambient span: (self generators apply: aMorphism)! !
+	^ aMorphism codomain span: (self generators collect: aMorphism)! !
 
 !Module methodsFor: 'morphisms' stamp: 'len 10/5/2022 18:38:00'!
 from: aDomain
@@ -17201,19 +17205,20 @@ to: aModule validMatrix: aMatrix
 		addProjections: (R codomain ⇉ {self cover. aModule cover} with: {self. aModule} collect: [:π :Y| answer to: Y validMatrix: π]).
 	^ answer! !
 
-!Module methodsFor: 'operations' stamp: 'len 10/5/2022 17:19:53'!
+!Module methodsFor: 'operations' stamp: 'len 6/14/2023 22:52:15'!
 ⊗ aModule
 	"Answer the tensor product of the receiver with the argument."
 	| answer M N |
+	aModule isRing ifTrue: [^ self apply: (self scalars → aModule ifNil: [^ self error: 'coercion failed'])].
 	self checkSameCategory: aModule.
 	self scalars isCommutative ifFalse: [^ self notYetImplemented].
 "	(self isProjective and: [aModule isProjective]) ifTrue:"
 	(self isFreelyGenerated and: [aModule isFreelyGenerated]) ifTrue:
-		[answer _ aModule dual ⇒ self.
+		[answer := aModule dual ⇒ self.
 		answer addCoercionFrom: self, aModule mapWithArguments: [:f :g| answer map: [:h| f * (h value: g)]].
 		^ answer].
-	M _ self relationsMatrix.
-	N _ aModule relationsMatrix.
+	M := self relationsMatrix.
+	N := aModule relationsMatrix.
 	"TODO: add composition"
 	^ (M ⊗ N codomain id ⊔ (M codomain id ⊗ N)) cokernel! !
 
@@ -17723,9 +17728,9 @@ asIdeal
 orderedBy: aMonomialOrdering
 	^ (self scalars orderedBy: aMonomialOrdering) !! self! !
 
-!Ideal methodsFor: 'converting' stamp: 'len 10/5/2022 18:38:44'!
+!Ideal methodsFor: 'converting' stamp: 'len 6/14/2023 22:44:36'!
 over: aRing
-	^ self apply: (self scalars → aRing ifNil: [^ self error: 'coercion failed'])! !
+	^ aRing * (self generators collect: [:each| aRing !! each])! !
 
 !Ideal methodsFor: 'elements' stamp: 'len 6/10/2022 11:16:42'!
 \ anElement
@@ -17737,14 +17742,12 @@ over: aRing
 adapt: anElement
 	^ (super adapt: anElement) ifNil: [self scalars adapt: anElement]! !
 
-!Ideal methodsFor: 'morphisms' stamp: 'len 6/14/2023 13:17:50'!
+!Ideal methodsFor: 'morphisms' stamp: 'len 6/14/2023 22:48:31'!
 apply: aMorphism
 	aMorphism isBlock
 		ifTrue: [^ self scalars * (self generators collect: aMorphism)].
 	aMorphism domain = self scalars
 		ifTrue: [^ aMorphism codomain * (self generators collect: aMorphism)].
-	aMorphism domain = self ambient
-		ifTrue: [^ aMorphism codomain span: (self generators collect: aMorphism)].
 	^ super apply: aMorphism! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 8/12/2022 13:37:05'!
