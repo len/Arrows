@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5852] on 15 June 2023 at 1:24:55 pm'!
+'From Cuis 6.0 [latest update: #5852] on 15 June 2023 at 2:28:03 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -75,7 +75,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 107!
+!provides: 'Algebra' 1 108!
 !requires: 'Transfinites' 1 2 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -16911,6 +16911,10 @@ asFPGroup
 		addMap: (self to: answer images: answer generators);
 		addMap: (answer to: self images: self generators);
 		yourself! !
+
+!Module methodsFor: 'converting' stamp: 'len 6/15/2023 13:36:01'!
+asModule
+	^ self! !
 
 !Module methodsFor: 'converting' stamp: 'len 10/20/2020 18:32:27'!
 asPermutationGroup
@@ -38665,6 +38669,10 @@ annihilator
 annihilatorIdeal
 	"Answer the ideal of all elements that multiplied by the receiver are zero."
 	^ ℤ * self annihilator! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 6/15/2023 14:26:28'!
+asIdeal
+	^ ℤ * self! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 12/28/2021 18:49:57'!
 asOrdinal

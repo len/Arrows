@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5852] on 15 June 2023 at 1:25:04 pm'!
+'From Cuis 6.0 [latest update: #5852] on 15 June 2023 at 2:28:11 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 68!
+!provides: 'Tests-Algebra' 1 69!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -11667,6 +11667,29 @@ testMapDirectSumAndTensorProductBug
 	"doing it twice should give the same thing:"
 	self assert: (f⊗g) domain = (f⊗g) domain.
 	self assert: (f⊕g) domain = (f⊕g) domain! !
+
+!AbstractCommutativeRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/15/2023 14:22:52'!
+testFittingIdealsAndAnnihilator
+	| M A i |
+	M :=self newModule.
+	A := M annihilator.
+	self assert: (M fittingIdeal: 0) <= A.
+	i := 3 atRandom: random.
+	A * (M fittingIdeal: i) <= (M fittingIdeal: i-1)! !
+
+!AbstractCommutativeRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/15/2023 13:39:13'!
+testFittingIdealsIncreasing
+	| M |
+	M := self newModule.
+	0 to: 2 do: [:i| self assert: (M fittingIdeal: i) <= (M fittingIdeal: i+1)]! !
+
+!AbstractCommutativeRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/15/2023 14:20:53'!
+testFittingIdealsOfFreeModule
+	| M |
+	M := scalars^(5 atRandom: random).
+	"Fittᵢ(Rⁿ) must be 0 for i < n and R for i >= n:"
+	(0 to: M rank - 1) do: [:i| self assert: (M fittingIdeal: i) isTrivial].
+	(M rank to: M rank + 2) do: [:i| self assert: (M fittingIdeal: i) = scalars asIdeal].! !
 
 !AbstractVectorSpaceTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:02:36'!
 testInverse
