@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5852] on 14 June 2023 at 10:56:33 pm'!
+'From Cuis 6.0 [latest update: #5852] on 15 June 2023 at 1:24:55 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -75,7 +75,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 106!
+!provides: 'Algebra' 1 107!
 !requires: 'Transfinites' 1 2 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -16926,10 +16926,10 @@ asRepresentation
 	"If this is a module over a finite algebra, answer the equivalent representation."
 	^ self notYetImplemented! !
 
-!Module methodsFor: 'converting' stamp: 'len 6/14/2023 22:44:02'!
+!Module methodsFor: 'converting' stamp: 'len 6/15/2023 11:18:30'!
 over: aRing
-	"If the receiver is an ambient module, answer the change of base ring of the receiver."
-	self subclassResponsibility! !
+	"Answer the change of base ring of the receiver."
+	^ self apply: (self scalars → aRing ifNil: [^ self error: 'coercion failed'])! !
 
 !Module methodsFor: 'elements' stamp: 'len 6/10/2022 11:13:38'!
 \ anElement
@@ -16997,12 +16997,12 @@ do: aBlock
 		each with: self generators do: [:ai :xi| x _ xi * ai + x].
 		visited add: x ifAbsent: [aBlock value: x]]! !
 
-!Module methodsFor: 'morphisms' stamp: 'len 6/14/2023 22:53:12'!
+!Module methodsFor: 'morphisms' stamp: 'len 6/15/2023 11:25:34'!
 apply: aMorphism
 	aMorphism isBlock
 		ifTrue: [^ self ambient span: (self generators collect: aMorphism)].
-	aMorphism domain = self scalars
-		ifTrue: [^ (self ambient over: aMorphism codomain) span: (self generatorMatrix apply: aMorphism)].
+	(aMorphism domain = self scalars and: [self isAmbient not])
+		ifTrue: [^ (self ambient apply: aMorphism) span: (self generatorMatrix apply: aMorphism)].
 	aMorphism domain == self
 		ifTrue: [^ aMorphism image].
 "	aMorphism domain == self ambient ifTrue: [^ (self → self ambient → aMorphism) image]."
@@ -17232,14 +17232,19 @@ to: aModule validMatrix: aMatrix
 	"The coproduct in the category of R-modules is the direct sum."
 	^ self ⊕ aModule! !
 
-!Module methodsFor: 'operations' stamp: 'len 4/12/2021 14:32:35'!
+!Module methodsFor: 'operations' stamp: 'len 6/15/2023 13:12:53'!
 annihilator
 	"Answer the ideal of elements of the scalar ring that annihilate all the elements in the receiver.
 	For an R-module M, Ann(M) is the kernel of the natural map R -> End(M), and can also be computed as the colon quotient {0} : M."
 	self scalars isPID ifTrue:
 		[self isFinite ifFalse: [^ self scalars asIdeal null].
 		^ self scalars * (self invariants inject: self scalars one into: [:result :each| result lcm: each])].
-	^ self null : self! !
+	^ (self scalars asIdeal → self endomorphisms asModule) kernel
+
+"alternative:
+	^ self null : self
+"
+! !
 
 !Module methodsFor: 'operations' stamp: 'len 10/5/2022 18:37:33'!
 annihilatorSpace
@@ -18564,6 +18569,11 @@ torsion
 = anObject
 	^ self == anObject or: [self class = anObject class and: [scalars = anObject scalars and: [rank = anObject rank and: [scalars isMultivariate not or: [self ordering = anObject ordering]]]]]! !
 
+!FreeModule methodsFor: 'converting' stamp: 'len 6/15/2023 11:24:28'!
+apply: aMorphism
+	(aMorphism isBlock not and: [aMorphism domain = self scalars]) ifTrue: [^ self over: aMorphism codomain].
+	^ super apply: aMorphism! !
+
 !FreeModule methodsFor: 'converting' stamp: 'len 3/1/2017 08:53:02'!
 asVectorSpace
 	self scalars isField ifTrue: [^ self].
@@ -18889,12 +18899,12 @@ over: aRing
 	self isTrivial ifTrue: [^ anElement isZero ifTrue: [self cover zero]].
 	^ anElement asMatrix asTuple! !
 
-!HomModule methodsFor: 'elements' stamp: 'len 9/16/2022 07:45:58'!
+!HomModule methodsFor: 'elements' stamp: 'len 6/15/2023 11:47:42'!
 adapt: anElement
 	(self scalars includes: anElement) ifTrue: [^ self scalar: anElement].
 	anElement isInteger ifTrue: [^ self scalar: self scalars !! anElement].
 	(self isDual and: [anElement isKindOf: Polynomial]) ifTrue: [^ self map: [:x| anElement value: (self domain \ x)]].
-	^ super adapt: anElement! !
+	^ (super adapt: anElement) ifNil: [	self domain to: self codomain adapting: anElement]! !
 
 !HomModule methodsFor: 'elements' stamp: 'len 9/16/2022 08:58:12'!
 images: aList
@@ -18912,9 +18922,8 @@ mapWithArguments: aBlock
 matrix: aMatrix
 	^ domain to: codomain matrix: aMatrix! !
 
-!HomModule methodsFor: 'elements' stamp: 'len 9/16/2022 07:46:04'!
+!HomModule methodsFor: 'elements' stamp: 'len 6/15/2023 11:46:18'!
 newFrom: anObject
-	anObject isMatrix ifTrue: [^ self matrix: anObject].
 	anObject isEvaluable ifTrue: [^ self map: anObject].
 	^ super newFrom: anObject! !
 
@@ -18925,6 +18934,11 @@ scalar: anElement
 !HomModule methodsFor: 'elements' stamp: 'len 9/16/2022 07:46:14'!
 zero
 	^ self map: [:x| codomain zero]! !
+
+!HomModule methodsFor: 'morphisms' stamp: 'len 6/15/2023 11:24:42'!
+apply: aMorphism
+	(aMorphism isBlock not and: [aMorphism domain = self scalars]) ifTrue: [^ self over: aMorphism codomain].
+	^ super apply: aMorphism! !
 
 !HomModule methodsFor: 'morphisms' stamp: 'len 12/9/2022 06:51:04'!
 from: aDomain
@@ -19168,6 +19182,12 @@ representative: anElement
 !QuotientModule methodsFor: 'elements' stamp: 'len 6/10/2022 11:33:05'!
 zero
 	^ self representative: self cover zero! !
+
+!QuotientModule methodsFor: 'morphisms' stamp: 'len 6/15/2023 11:16:10'!
+apply: aMorphism
+	aMorphism isBlock ifTrue: [^ super apply: aMorphism].
+	aMorphism domain = self scalars ifTrue: [^ (self relationsMatrix apply: aMorphism) cokernel].
+	^ super apply: aMorphism! !
 
 !QuotientModule methodsFor: 'morphisms' stamp: 'len 9/16/2022 07:58:12'!
 from: aDomain
@@ -24814,17 +24834,17 @@ isLowerTriangular
 isMatrix
 	^ true! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 1/12/2022 14:21:22'!
+!Matrix methodsFor: 'testing' stamp: 'len 6/15/2023 12:50:38'!
 isMinimalStandardBasis
 	"A Groebner basis G of an ideal I is called 'minimal' if the lead terms of the elements in G minimally generate in(I); or equivalently, if for all p in G:
-	- LC(p) = 1, and
-	- LT(p) is not in <G-{p}> (i.e., leading-term-minimal).
+	- LC(p) is normalized (over fields p is monic), and
+	- LT(p) is not in ⟨G-{p}⟩ (i.e., leading-term-minimal).
 	Note that any leading-term-minimal Groebner basis is also cardinality-minimal."
 	self isStandardBasis ifFalse: [^ false].
-	self columnsDo: [:g| g leadingCoefficient isOne ifFalse: [^ false]].
+	self columnsDo: [:g| g leadingCoefficient normalization isOne ifFalse: [^ false]].
 	1 to: self width do: [:i|
 		| m |
-		m _ (self columnAt: i) leadingMonomial.
+		m := (self columnAt: i) leadingMonomial.
 		1 to: self width do: [:j|
 			(i ~~ j and: [(self columnAt: j) leadingMonomial | m]) ifTrue: [^ false]]].
 	^ true! !
@@ -24895,19 +24915,19 @@ isReducedEchelon
 		lastPivot _ each].
 	^ true! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 5/24/2022 14:09:56'!
+!Matrix methodsFor: 'testing' stamp: 'len 6/15/2023 12:59:04'!
 isReducedStandardBasis
 	"A strong Groebner basis G is called 'reduced' (or 'auto-reduced') if for all p in G:
-	- LC(p) is normalized (canonical associate), and
-	- no term of p is in <G-{p}>.
+	- LC(p) is normalized (over fields p is monic), and
+	- no term of p is in ⟨G-{p}⟩.
 	In particular, a reduced Groebner basis is leading-term-minimal (no leading term of any generator divides any other generator's leading term), and a leading-term-minimal basis is also cardinality-minimal."
 	self isStandardBasis ifFalse: [^ false].
-	self columnsDo: [:g| g leadingCoefficient normalized = g leadingCoefficient ifFalse: [^ false halt]].
+	self columnsDo: [:g| g leadingCoefficient normalization isOne ifFalse: [^ false]].
 	1 to: self width do: [:i|
 		(self columnAt: i) associationsDo: [:each|
 			1 to: self width do: [:j|
 				(i ~~ j and: [(self columnAt: j) leadingMonomial | each key and: [(each value // (self columnAt: j) leadingCoefficient) isZero not]])
-					ifTrue: [^ false halt]]]].
+					ifTrue: [^ false]]]].
 	^ true! !
 
 !Matrix methodsFor: 'testing' stamp: 'len 4/5/2018 15:42:21'!
@@ -32209,14 +32229,14 @@ isWeaklyEqualTo: anElement
 	N _ precision min: anElement precision.
 	^ parent representative: (representative truncatedTo: N) + (anElement representative truncatedTo: N) precision: N! !
 
-!PowerSeries methodsFor: 'operations' stamp: 'len 5/24/2022 12:12:24'!
+!PowerSeries methodsFor: 'operations' stamp: 'len 6/15/2023 13:19:13'!
 annihilator
 	"Answer a generator of the ideal of all elements that multiplied by the receiver are zero.
 	A power series f in R[[X]] is a zero divisor iff there is nonzero r in R with fr = 0 (see [Fie71])."
 	| r |
 	self parent scalars isPIR ifFalse: [^ self annihilatorIdeal generator].
-	r _ self parent scalars one.
-	self coefficients do: [:each| r _ r lcm: each].
+	r := self parent scalars one.
+	self coefficients do: [:each| r := r lcm: each annihilator].
 	^ self parent constant: r! !
 
 !PowerSeries methodsFor: 'operations' stamp: 'len 10/5/2022 18:45:16'!
@@ -36161,19 +36181,19 @@ tail
 termAt: aModuleMonomial
 	^ (self parent x: aModuleMonomial position) * ((self at: aModuleMonomial position) termAt: aModuleMonomial monomial)! !
 
-!MultivariateTuple methodsFor: 'enumerating' stamp: 'len 5/5/2023 00:52:13'!
+!MultivariateTuple methodsFor: 'enumerating' stamp: 'len 6/15/2023 12:18:48'!
 associationsDo: aBlock
 	| ordering |
-	ordering _ self ordering.
+	ordering := self ordering.
 	self withIndexDo: [:fi :i|
-		fi associationsDo: [:each| aBlock value: (Association key: (ModuleMonomial new ordering: ordering; position: i; monomial: each key) value: each value)]]! !
+		fi associationsDo: [:each| aBlock value: (Association key: (ModuleMonomial monomial: each key position: i ordering: ordering) value: each value)]]! !
 
-!MultivariateTuple methodsFor: 'enumerating' stamp: 'len 5/5/2023 00:52:13'!
+!MultivariateTuple methodsFor: 'enumerating' stamp: 'len 6/15/2023 12:19:43'!
 monomialsDo: aBlock
 	| ordering |
-	ordering _ self ordering.
+	ordering := self ordering.
 	self withIndexDo: [:fi :i|
-		fi monomialsDo: [:m| aBlock value: (ModuleMonomial new ordering: ordering; position: i; monomial: m)]]! !
+		fi monomialsDo: [:each| aBlock value: (ModuleMonomial monomial: each position: i ordering: ordering)]]! !
 
 !MultivariateTuple methodsFor: 'operations' stamp: 'len 5/5/2023 00:52:13'!
 * anObject
@@ -36321,19 +36341,19 @@ compare: aModuleMonomial
 hash
 	^ monomial hash + position hash hashMultiply! !
 
-!ModuleMonomial methodsFor: 'operations' stamp: 'len 5/5/2023 01:00:34'!
+!ModuleMonomial methodsFor: 'operations' stamp: 'len 6/15/2023 12:20:26'!
 * aModuleMonomial
 	self assert: position = aModuleMonomial position.
-	^ self class new ordering: ordering; position: position; monomial: monomial * aModuleMonomial monomial! !
+	^ self class monomial: monomial * aModuleMonomial monomial position: position ordering: ordering! !
 
 !ModuleMonomial methodsFor: 'operations' stamp: 'len 5/5/2023 01:00:48'!
 / aModuleMonomial
 	self assert: position = aModuleMonomial position.
 	^ monomial / aModuleMonomial monomial! !
 
-!ModuleMonomial methodsFor: 'operations' stamp: 'len 5/5/2023 01:02:30'!
+!ModuleMonomial methodsFor: 'operations' stamp: 'len 6/15/2023 12:20:52'!
 lcm: aModuleMonomial
-	^ position = aModuleMonomial position ifTrue: [self class new ordering: ordering; position: position; monomial: (monomial lcm: aModuleMonomial monomial)]! !
+	^ position = aModuleMonomial position ifTrue: [self class monomial: (monomial lcm: aModuleMonomial monomial) position: position ordering: ordering]! !
 
 !ModuleMonomial methodsFor: 'printing' stamp: 'len 5/6/2023 15:21:39'!
 printOn: aStream
@@ -36345,17 +36365,15 @@ printOn: aStream
 	"Answer true if the receiver divides the argument."
 	^ position = aModuleMonomial position and: [monomial | aModuleMonomial monomial]! !
 
-!ModuleMonomial methodsFor: 'private' stamp: 'len 1/14/2017 20:20:31'!
-monomial: aMonomial
-	monomial _ aMonomial! !
+!ModuleMonomial methodsFor: 'private' stamp: 'len 6/15/2023 12:14:49'!
+monomial: aMonomial position: anInteger ordering: aModuleMonomialOrdering
+	monomial := aMonomial.
+	position := anInteger.
+	ordering := aModuleMonomialOrdering! !
 
-!ModuleMonomial methodsFor: 'private' stamp: 'len 5/5/2023 01:02:47'!
-ordering: aModuleMonomialOrdering
-	ordering _ aModuleMonomialOrdering! !
-
-!ModuleMonomial methodsFor: 'private' stamp: 'len 1/14/2017 20:20:41'!
-position: anInteger
-	position _ anInteger! !
+!ModuleMonomial class methodsFor: 'instance creation' stamp: 'len 6/15/2023 12:16:34'!
+monomial: aMonomial position: anInteger ordering: aModuleMonomialOrdering
+	^ self new monomial: aMonomial position: anInteger ordering: aModuleMonomialOrdering! !
 
 !ModuleMonomialOrdering methodsFor: 'ordering' stamp: 'len 5/5/2023 01:02:59'!
 compare: aModuleMonomial with: anotherModuleMonomial
@@ -36398,10 +36416,10 @@ compare: aModuleMonomial with: anotherModuleMonomial
 	(result _ (aModuleMonomial position - anotherModuleMonomial position) sign) == 0 ifFalse: [^ result].
 	^ aModuleMonomial monomial compare: anotherModuleMonomial monomial! !
 
-!POTMonomialOrdering methodsFor: 'ordering' stamp: 'len 5/5/2023 00:38:36'!
+!POTMonomialOrdering methodsFor: 'ordering' stamp: 'len 6/15/2023 12:21:20'!
 leadingMonomialOf: aTuple
 	aTuple size to: 1 by: -1 do: [:i| | f |
-		(f _ aTuple at: i) isZero ifFalse: [^ ModuleMonomial new ordering: self; monomial: f leadingMonomial; position: i]].
+		(f := aTuple at: i) isZero ifFalse: [^ ModuleMonomial monomial: f leadingMonomial position: i ordering: self]].
 	^ nil! !
 
 !POTMonomialOrdering methodsFor: 'printing' stamp: 'len 7/28/2021 11:54:21'!
@@ -36452,16 +36470,16 @@ compare: aModuleMonomial with: anotherModuleMonomial
 	(result _ aModuleMonomial monomial compare: anotherModuleMonomial monomial) == 0 ifFalse: [^ result].
 	^ (aModuleMonomial position - anotherModuleMonomial position) sign! !
 
-!TOPMonomialOrdering methodsFor: 'ordering' stamp: 'len 5/5/2023 00:38:36'!
+!TOPMonomialOrdering methodsFor: 'ordering' stamp: 'len 6/15/2023 12:21:39'!
 leadingMonomialOf: aTuple
 	| monomial position |
-	monomial _ nil.
+	monomial := nil.
 	1 to: aTuple size do: [:i|
 		(aTuple at: i) leadingMonomial
 			ifNotNil: [:aMonomial|
 				(monomial isNil or: [aMonomial > monomial])
-					ifTrue: [monomial _ aMonomial. position _ i]]].
-	^ monomial ifNotNil: [ModuleMonomial new ordering: self; monomial: monomial; position: position]! !
+					ifTrue: [monomial := aMonomial. position := i]]].
+	^ monomial ifNotNil: [ModuleMonomial monomial: monomial position: position ordering: self]! !
 
 !TOPWMonomialOrdering methodsFor: 'accessing' stamp: 'len 5/7/2023 01:43:57'!
 weights
