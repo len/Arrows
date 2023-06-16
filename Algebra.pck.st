@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5852] on 15 June 2023 at 8:36:16 pm'!
+'From Cuis 6.0 [latest update: #5866] on 16 June 2023 at 8:13:06 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -75,12 +75,12 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 109!
-!requires: 'Transfinites' 1 2 nil!
+!provides: 'Algebra' 1 110!
+!requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
+!requires: 'Transfinites' 1 2 nil!
 !requires: 'Complex' 1 7 nil!
-!requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 SystemOrganization addCategory: 'Algebra-Categories'!
 SystemOrganization addCategory: 'Algebra-Monoids'!
 SystemOrganization addCategory: 'Algebra-Monoids-Orderings'!
@@ -645,7 +645,7 @@ ModularIntegerRing class
 
 !classDefinition: #PrimePowerRing category: 'Algebra-Rings-Finite'!
 ModularIntegerRing subclass: #PrimePowerRing
-	instanceVariableNames: ''
+	instanceVariableNames: 'p'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
@@ -5004,9 +5004,11 @@ replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
 		withNegated: anArray representatives startingAt: srcStart
 		modulo: scalars modulus! !
 
-!ModularArray methodsFor: 'operations-low level' stamp: 'len 5/25/2023 18:08:08'!
+!ModularArray methodsFor: 'operations-low level' stamp: 'len 6/16/2023 18:53:25'!
 replaceFrom: start with: anArray1 from: start1 to: stop1 convolution: anArray2 from: start2 to: stop2
-	representatives replaceFrom: start with: anArray1 representatives from: start1 to: stop1 convolutionKronecker: anArray2 representatives from: start2 to: stop2 modulo: scalars modulus! !
+	self flag: #fixme. "see when it is faster to use kronecker substitution"
+	super replaceFrom: start with: anArray1 from: start1 to: stop1 convolution: anArray2 from: start2 to: stop2
+"	representatives replaceFrom: start with: anArray1 representatives from: start1 to: stop1 convolutionKronecker: anArray2 representatives from: start2 to: stop2 modulo: scalars modulus"! !
 
 !ModularArray methodsFor: 'operations-low level' stamp: 'len 5/25/2023 18:13:03'!
 replaceFrom: start withAutoconvolution: anArray1 from: start1 to: stop1
@@ -11806,10 +11808,10 @@ over: aRing
 	R _ self cover over: aRing.
 	^ R / (self relations over: R)! !
 
-!QuotientRing methodsFor: 'elements' stamp: 'len 6/8/2019 12:07:39'!
+!QuotientRing methodsFor: 'elements' stamp: 'len 6/16/2023 18:21:32'!
 representative: anElement
 	"Answer the residue class corresponding to the given representative (which is already reduced)."
-	^ self elementClass new parent: self; representative: anElement! !
+	^ self elementClass representative: anElement parent: self! !
 
 !QuotientRing methodsFor: 'enumerating' stamp: 'len 5/27/2023 15:46:34'!
 do: aBlock
@@ -12287,9 +12289,9 @@ exponent
 maximalIdeal
 	^ self * self p! !
 
-!PrimePowerRing methodsFor: 'accessing' stamp: 'len 5/21/2018 04:18:30'!
+!PrimePowerRing methodsFor: 'accessing' stamp: 'len 6/16/2023 18:37:54'!
 p
-	^ self propertyAt: #p ifAbsentPut: [self modulusFactors anyOne]! !
+	^ p ifNil: [p := self modulusFactors anyOne]! !
 
 !PrimePowerRing methodsFor: 'accessing' stamp: 'len 6/25/2019 03:57:04'!
 primeSubfield
@@ -12328,13 +12330,13 @@ from: aDomain
 		ifTrue: [^ aDomain onto: self map: [:x| self project: x lift]]. 
 	^ super from: aDomain! !
 
-!PrimePowerRing methodsFor: 'morphisms' stamp: 'len 8/9/2019 04:42:39'!
+!PrimePowerRing methodsFor: 'morphisms' stamp: 'len 6/16/2023 18:37:32'!
 projectAdicInteger: anAdicInteger
-	| p x digits |
-	p _ self p.
-	digits _ anAdicInteger coefficients.
-	x _ 0.
-	self exponent to: 1 by: -1 do: [:i| x _ x*p + (digits at: i)].
+	| base x digits |
+	base := self p.
+	digits := anAdicInteger coefficients.
+	x := 0.
+	self exponent to: 1 by: -1 do: [:i| x := x*base + (digits at: i)].
 	^ self project: x! !
 
 !PrimePowerRing methodsFor: 'morphisms' stamp: 'len 9/16/2022 07:55:38'!
@@ -14748,7 +14750,7 @@ slice: anArray
 	"Given a subset Y of the indeterminates of the receiver R[X], answer the subring R[Y] equipped with the embedding map."
 	^ self class monomials: (monomials slice: anArray) over: self scalars! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 6/10/2023 16:12:52'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 6/16/2023 19:23:16'!
 adapt: anElement
 	(anElement isInteger or: [anElement isFraction])
 		ifTrue: [^ self constant: scalars !! anElement].
@@ -14756,14 +14758,10 @@ adapt: anElement
 		ifTrue: [^ self constant: anElement].
 	(monomials includes: anElement)
 		ifTrue: [^ self monomial: anElement].
-	"(super adapt: anElement) ifNotNil: [:aPolynomial| ^ aPolynomial]."
-	self flag: #fixme. "this is broken"
-	(anElement parent class = self class and: [anElement parent monomials = monomials]) ifFalse:
-			[(scalars adapt: anElement) ifNotNil: [:aScalar| ^ self constant: aScalar].
-			(super adapt: anElement) ifNotNil: [:aPolynomial| ^ aPolynomial]].
-	(anElement parent class = self class) ifFalse: [^ nil].
-	(self isUnivariate and: [anElement parent isUnivariate])
+	(anElement parent class = self class and: [self isUnivariate and: [anElement parent isUnivariate]])
 		ifTrue: [^ self newFrom: anElement coefficients].
+	(super adapt: anElement) ifNotNil: [:aPolynomial| ^ aPolynomial].
+	(anElement parent class = self class) ifFalse: [^ nil].
 	(anElement indeterminates allSatisfy: [:each| each <= self rank]) ifFalse: [^ nil]. "unknown indeterminates present"
 	^ self associations: anElement associations! !
 
@@ -15025,17 +15023,17 @@ symmetric: r
 embed: aScalar
 	^ self constant: aScalar! !
 
-!PolynomialRing methodsFor: 'morphisms' stamp: 'len 10/6/2022 11:37:39'!
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 6/16/2023 13:15:56'!
 from: aDomain
 	aDomain = self scalars ifTrue: [^ self addMap: ((self scalars to: self map: [:x| self constant: x]) name: 'ι')].
-	aDomain → self scalars ifNotNil: [:aMorphism| ^ aMorphism → self].
+	aDomain → self scalars ifNotNil: [:aMorphism| ^ aDomain to: self map: [:x| self constant: (aMorphism value: x)]].
 	(aDomain isKindOf: PolynomialRing)
 		ifTrue: [aDomain scalars → self scalars ifNotNil: [:aRingMap|
 				aDomain monomials → self monomials ifNotNil: [:aMonoidMap|
 					^ aDomain to: self map: [:f|
 						| answer |
-						answer _ self zero.
-						f associationsDo: [:each| answer _ answer + (self coefficient: (aRingMap value: each value) monomial: (aMonoidMap value: each key))].
+						answer := self zero.
+						f associationsDo: [:each| answer := answer + (self coefficient: (aRingMap value: each value) monomial: (aMonoidMap value: each key))].
 						answer]]]].
 	^ super from: aDomain! !
 
@@ -17236,11 +17234,11 @@ to: aModule validMatrix: aMatrix
 	"The coproduct in the category of R-modules is the direct sum."
 	^ self ⊕ aModule! !
 
-!Module methodsFor: 'operations' stamp: 'len 6/15/2023 13:12:53'!
+!Module methodsFor: 'operations' stamp: 'len 6/16/2023 20:03:08'!
 annihilator
 	"Answer the ideal of elements of the scalar ring that annihilate all the elements in the receiver.
 	For an R-module M, Ann(M) is the kernel of the natural map R -> End(M), and can also be computed as the colon quotient {0} : M."
-	self scalars isPID ifTrue:
+	self scalars isEuclideanDomain ifTrue:
 		[self isFinite ifFalse: [^ self scalars asIdeal null].
 		^ self scalars * (self invariants inject: self scalars one into: [:result :each| result lcm: each])].
 	^ (self scalars asIdeal → self endomorphisms asModule) kernel
@@ -19171,10 +19169,10 @@ relationsMatrix
 	"Answer coordinates of anElement expressed as a linear combination of the elements of the distinguished generating set of the receiver. Answer nil if anElement is not in the receiver."
 	^ anElement representative! !
 
-!QuotientModule methodsFor: 'elements' stamp: 'len 5/5/2023 00:54:16'!
+!QuotientModule methodsFor: 'elements' stamp: 'len 6/16/2023 18:20:36'!
 representative: anElement
 	"Answer the coset corresponding to the given representative (which is already reduced)."
-	^ ModuleCoset new parent: self; representative: anElement! !
+	^ ModuleCoset representative: anElement parent: self! !
 
 !QuotientModule methodsFor: 'elements' stamp: 'len 6/10/2022 11:33:05'!
 zero
@@ -30927,13 +30925,14 @@ isUnit
 isZero
 	^ representative isZero "the representative of 0 is ensured to be 0"! !
 
-!Residue methodsFor: 'private' stamp: 'len 10/16/2016 16:01'!
-parent: aQuotientRing
-	parent _ aQuotientRing! !
+!Residue methodsFor: 'private' stamp: 'len 6/16/2023 18:23:54'!
+representative: anElement parent: aQuotientRing
+	representative := anElement.
+	parent := aQuotientRing! !
 
-!Residue methodsFor: 'private' stamp: 'len 11/25/2015 03:12'!
-representative: anObject
-	representative _ anObject! !
+!Residue class methodsFor: 'instance creation' stamp: 'len 6/16/2023 18:24:32'!
+representative: anElement parent: aQuotientRing
+	^ self new representative: anElement parent: aQuotientRing! !
 
 !ModularInteger methodsFor: 'accessing' stamp: 'len 4/21/2016 05:55'!
 bitSize
@@ -31220,6 +31219,11 @@ unitPart
 	q := representative.
 	[p | q] whileTrue: [q := q // p].
 	^ parent representative: q! !
+
+!PrimePowerResidue methodsFor: 'comparing' stamp: 'len 6/16/2023 18:17:49'!
+| anElement
+	"Answer true if the receiver divides the argument."
+	^ anElement isZero or: [self isZero not and: [self valuation <= anElement valuation]]! !
 
 !PrimePowerResidue methodsFor: 'operations' stamp: 'len 5/26/2022 12:58:06'!
 // anElement
@@ -32547,11 +32551,11 @@ formAt: anInteger
 	self terms do: [:each| each degree = anInteger ifTrue: [answer _ answer + each]].
 	^ answer! !
 
-!Polynomial methodsFor: 'accessing-terms' stamp: 'len 6/12/2023 16:17:46'!
+!Polynomial methodsFor: 'accessing-terms' stamp: 'len 6/16/2023 20:11:10'!
 initialForm
 	"Answer the homogeneous component of the lowest degree.
 	This makes sense for a local ordering."
-	self ordering isLocal ifFalse: [self error: 'not a local ordering'].
+	self parent isLocal ifFalse: [self error: 'not a local ordering'].
 	^ self isZero ifTrue: [self] ifFalse: [self formAt: self order]! !
 
 !Polynomial methodsFor: 'accessing-terms' stamp: 'len 6/7/2020 14:31:24'!
@@ -32715,7 +32719,7 @@ sign
 	"Answer the sign of the receiver, i.e. the sign if its leading coefficient."
 	^ self leadingCoefficient sign! !
 
-!Polynomial methodsFor: 'gcd' stamp: 'len 6/10/2023 17:54:49'!
+!Polynomial methodsFor: 'gcd' stamp: 'len 6/16/2023 17:36:33'!
 gcd: aPolynomial
 	| f₁ f₂ m₁ m₂ c₁ c₂ |
 	self isZero ifTrue: [^ aPolynomial normalized].
@@ -32736,26 +32740,28 @@ gcd: aPolynomial
 	c₂ := f₂ content.
 	^ ((self parent !! ((f₁ / c₁ ugcd: f₂ / c₂) * (c₁ gcd: c₂)) asMultivariate) * (m₁ gcd: m₂)) normalized! !
 
-!Polynomial methodsFor: 'gcd' stamp: 'len 6/7/2023 00:35:55'!
+!Polynomial methodsFor: 'gcd' stamp: 'len 6/16/2023 17:31:39'!
 gcdheu: aPolynomial
-	"GCD Heuristic Algorithm. See [GCL92, Algorithm 7.4]."
-	| ξ i point γ G j g |
+	"GCD Heuristic Algorithm. See [GCL92, Algorithm 7.4].
+	Answer the GCD of the two multivariate polynomials over the integers, or nil."
+	| R ξ i point γ G j g |
 	self isZero ifTrue: [^ aPolynomial normalized].
 	aPolynomial isZero ifTrue: [^ self normalized].
-	self assert: self scalars = ℤ.
+	R := self parent.
+	self assert: R scalars = ℤ.
 	ξ := (self normMax min: aPolynomial normMax)*2 + 2.
-	i := (1 to: self parent rank)
+	i := (1 to: R rank)
 		detect: [:k| (self has: k) and: [aPolynomial has: k]]
-		ifNone: [^ self parent constant: (self content gcd: aPolynomial content)].
+		ifNone: [^ R constant: (self content gcd: aPolynomial content)].
 	6 timesRepeat:
 		[ξ highBit * ((self degreeIn: i) max: (aPolynomial degreeIn: i)) > 5000 ifTrue: [^ nil].
-		point := (1 to: self parent rank) collect: [:k| k = i ifTrue: [self parent constant: ξ] ifFalse: [self parent x: k]].
+		point := (1 to: R rank) collect: [:k| k = i ifTrue: [R constant: ξ] ifFalse: [R x: k]].
 		(γ := (self value: point) gcdheu: (aPolynomial value: point)) ifNotNil:
-			[G := self parent zero.
+			[G := R zero.
 			j := 0.
 			[γ isZero] whileFalse:
 				[g := γ apply: [:a| a \\ ξ].
-				G := (self parent x: i to: j) * g + G.
+				G := (R x: i to: j) * g + G.
 				γ := (γ - g) // ξ.
 				j := j + 1].
 			(G | self and: [G | aPolynomial]) ifTrue: [^ G]].
@@ -33532,7 +33538,7 @@ sprs: aPolynomial
 			f2 _ f1. f1 _ r].
 	^ answer! !
 
-!Polynomial methodsFor: 'testing' stamp: 'len 6/12/2023 16:32:38'!
+!Polynomial methodsFor: 'testing' stamp: 'len 6/16/2023 17:31:20'!
 | aPolynomial
 	"Answer true if the receiver divides the argument."
 	aPolynomial isZero ifTrue: [^ true].
@@ -33541,8 +33547,9 @@ sprs: aPolynomial
 	self scalars isField ifTrue: [^ (aPolynomial \\ self) isZero].
 	self independentCoefficient | aPolynomial independentCoefficient ifFalse: [^ false].
 	self coefficients sum | aPolynomial coefficients sum ifFalse: [^ false].
+	"self content | aPolynomial content ifFalse: [^ false]."
 	self isUnit ifTrue: [^ true].
-	self scalars isIntegralDomain ifTrue: [^ (aPolynomial pseudoRem: self) isZero].
+	(self scalars isIntegralDomain and: [self leadingCoefficient isUnit]) ifTrue: [^ (aPolynomial pseudoRem: self) isZero].
 	^ (self lift: aPolynomial) notNil! !
 
 !Polynomial methodsFor: 'testing' stamp: 'len 12/30/2016 20:10:56'!
@@ -33799,35 +33806,30 @@ representative
 	parent scalars cover = ℤ ifTrue: [^ (parent over: ℤ) coefficients: coefficients representative].
 	^ super representative! !
 
-!UnivariatePolynomial methodsFor: 'accessing-coefficients' stamp: 'len 1/1/2022 09:30:45'!
+!UnivariatePolynomial methodsFor: 'accessing-coefficients' stamp: 'len 6/16/2023 18:59:26'!
 at: aMonomial
-	| i |
-	i _ aMonomial isInteger ifTrue: [aMonomial] ifFalse: [aMonomial degree].
-	^ coefficients at: i+1 ifAbsent: [self scalars zero]! !
+	^ coefficients at: (aMonomial isInteger ifTrue: [aMonomial] ifFalse: [aMonomial degree])+1 ifAbsent: [self scalars zero]! !
 
 !UnivariatePolynomial methodsFor: 'accessing-coefficients' stamp: 'len 1/1/2022 09:31:08'!
 independentCoefficient
 	^ coefficients at: 1 ifAbsent: [self scalars zero]! !
 
-!UnivariatePolynomial methodsFor: 'accessing-coefficients' stamp: 'len 1/1/2022 09:31:29'!
+!UnivariatePolynomial methodsFor: 'accessing-coefficients' stamp: 'len 6/16/2023 19:00:27'!
 initialCoefficient
-	^ coefficients detect: [:one| one isZero not] ifNone: [self scalars zero]! !
+	^ coefficients at: (coefficients firstNonzeroIndex ifNil: [^ self scalars zero])! !
 
-!UnivariatePolynomial methodsFor: 'accessing-coefficients' stamp: 'len 1/1/2022 11:24:04'!
+!UnivariatePolynomial methodsFor: 'accessing-coefficients' stamp: 'len 6/16/2023 19:01:51'!
 leadingCoefficient
-	parent isLocal ifTrue: [^ self coefficients detect: [:one| one isZero not] ifNone: [self scalars zero]].
+	parent isLocal ifTrue: [^ self initialCoefficient].
 	self isZero ifTrue: [^ self scalars zero].
-	^ self at: self degree! !
+	^ coefficients last! !
 
-!UnivariatePolynomial methodsFor: 'accessing-monomials' stamp: 'len 2/6/2017 05:53:46'!
+!UnivariatePolynomial methodsFor: 'accessing-monomials' stamp: 'len 6/16/2023 20:11:40'!
 leadingMonomial
 	| answer |
-	self monomialsDo: [:each| (answer isNil or: [each > answer]) ifTrue: [answer _ each]].
-	^ answer
-
-"this could be faster, but it fails with local orderings for example:
-	^ self isZero ifFalse: [self parent monomials x: self parent indeterminate to: self degree]
-"! !
+	self parent isLocal ifFalse: [^ self isZero ifFalse: [self parent monomials x: 1 to: self degree]].
+	self monomialsDo: [:each| (answer isNil or: [each > answer]) ifTrue: [answer := each]].
+	^ answer! !
 
 !UnivariatePolynomial methodsFor: 'accessing-monomials' stamp: 'len 6/12/2023 16:19:52'!
 order
@@ -33855,12 +33857,10 @@ applyToMonomials: aBlock
 associationsDo: aBlock
 	coefficients withIndexDo: [:value :index| value isZero ifFalse: [aBlock value: (parent monomials x: 1 to: index-1) -> value]]! !
 
-!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 1/2/2022 10:10:42'!
+!UnivariatePolynomial methodsFor: 'enumerating' stamp: 'len 6/16/2023 18:39:19'!
 monomialsDo: aBlock
 	"Iterate over the support of the receiver, i.e. the monomials with nonzero coefficient."
-	1 to: coefficients size do: [:i|
-		(coefficients at: i) isZero
-			ifFalse: [aBlock value: (self parent monomials x: 1 to: i-1)]]! !
+	coefficients supportDo: [:i| aBlock value: (self parent monomials x: 1 to: i-1)]! !
 
 !UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 1/9/2022 21:02:26'!
 distinctDegreeFactorization
@@ -34333,22 +34333,23 @@ shoupRaisedTo: anInteger modulo: aPolynomial
 		n := n₂].
 	^ y! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 5/8/2023 11:34:57'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 6/16/2023 13:39:19'!
 splittingField
 	"The splitting field of a polynomial with coefficients in a field is the smallest field extension of that field over which the polynomial splits, i.e. decomposes into linear factors.
 	Note: this answers a relative field extension, not the absolute splitting field."
 	| answer f i factors p |
-	answer _ self parent scalars.
-	f _ self.
-	answer isField ifFalse: [answer _ answer fractions].
-	i _ 1.
-	[f _ (answer polynomialsIn: {'x', i printString sub}) !! f.
-	factors _ f factorization asSet select: [:each| each degree > 1].
+	answer := self parent scalars.
+	f := self.
+	answer isField ifFalse: [answer := answer fractions].
+	i := 1.
+	[f := (answer polynomialsIn: {'x', i printString sub}) !! f.
+	f isZero ifTrue: [^ answer].
+	factors := f factorization asSet select: [:each| each degree > 1].
 	factors isEmpty ifTrue: [^ answer].
-	p _ factors anyOne.
-	answer _ answer extension: p.
-	f _ factors product.
-	i _ i + 1] repeat
+	p := factors anyOne.
+	answer := answer extension: p.
+	f := factors product.
+	i := i + 1] repeat
 
 "	i _ 1.
 	[i >= f degree ifTrue: [^ answer].
@@ -35658,13 +35659,14 @@ includes: anObject
 isZero
 	^ representative isZero! !
 
-!ModuleCoset methodsFor: 'private' stamp: 'len 3/18/2020 17:17:12'!
-parent: aQuotientModule
-	parent _ aQuotientModule! !
+!ModuleCoset methodsFor: 'private' stamp: 'len 6/16/2023 18:19:52'!
+representative: aTuple parent: aQuotientModule
+	representative := aTuple.
+	parent := aQuotientModule! !
 
-!ModuleCoset methodsFor: 'private' stamp: 'len 6/4/2016 04:30'!
-representative: aPoint
-	representative _ aPoint! !
+!ModuleCoset class methodsFor: 'instance creation' stamp: 'len 6/16/2023 18:20:10'!
+representative: aTuple parent: aQuotientModule
+	^ self new representative: aTuple parent: aQuotientModule! !
 
 !Tuple methodsFor: 'accessing' stamp: 'len 5/5/2023 00:12:55'!
 at: anInteger
@@ -37463,21 +37465,6 @@ atRandom: aRandom
 	state size < 10 ifTrue: [state add: h] ifFalse: [state at: i put: h].
 	^ h! !
 
-!PseudoDivision methodsFor: 'printing' stamp: 'len 7/8/2016 05:47'!
-printOn: aStream
-	"Print a representation of the receiver on the stream aStream."
-
-	aStream
-		print: (self divisor leadingCoefficient ^ self delta);
-		nextPut: $(;
-		print: self dividend;
-		nextPutAll: ') = (';
-		print: self quotient;
-		nextPutAll: ')(';
-		print: self divisor;
-		nextPutAll: ') + ';
-		print: self remainder! !
-
 !PseudoDivision methodsFor: 'accessing' stamp: 'len 3/8/2016 22:39'!
 delta
 	"Answer an integer delta such that the dividend multiplied by the divisor's leading coeficient raised to the delta equals the product of the quotient by the divisor plus the remainder (the pseudo-division relation)."
@@ -37511,7 +37498,22 @@ remainder
 remainderAlone
 	^ self remainder! !
 
-!PseudoDivision methodsFor: 'initialization' stamp: 'len 12/11/2015 06:56'!
+!PseudoDivision methodsFor: 'printing' stamp: 'len 7/8/2016 05:47'!
+printOn: aStream
+	"Print a representation of the receiver on the stream aStream."
+
+	aStream
+		print: (self divisor leadingCoefficient ^ self delta);
+		nextPut: $(;
+		print: self dividend;
+		nextPutAll: ') = (';
+		print: self quotient;
+		nextPutAll: ')(';
+		print: self divisor;
+		nextPutAll: ') + ';
+		print: self remainder! !
+
+!PseudoDivision methodsFor: 'private' stamp: 'len 12/11/2015 06:56'!
 divide: aPolynomial by: anotherPolynomial
 	dividend _ aPolynomial.
 	divisor _ anotherPolynomial! !
@@ -38019,29 +38021,29 @@ divide: aPolynomial by: anArrayOfPolynomials
 	dividend _ aPolynomial.
 	divisors _ anArrayOfPolynomials! !
 
-!MultivariateDivision methodsFor: 'private' stamp: 'len 5/22/2022 11:06:42'!
+!MultivariateDivision methodsFor: 'private' stamp: 'len 6/16/2023 18:27:32'!
 run
 	"Perform the division algorithm computing quotients and remainder."
-	| R p s fi q m c i |
-	R _ dividend isTuple ifTrue: [dividend scalars] ifFalse: [dividend parent].
-	quotients _ Array new: divisors size withAll: R zero.
-	divisors isEmpty ifTrue: [remainder _ dividend. ^ self].
-	remainder _ dividend zero.
-	s _ divisors size.
-	p _ dividend.
+	| R p s fᵢ q m c i |
+	R := dividend isTuple ifTrue: [dividend scalars] ifFalse: [dividend parent].
+	quotients := Array new: divisors size withAll: R zero.
+	divisors isEmpty ifTrue: [remainder := dividend. ^ self].
+	remainder := dividend zero.
+	s := divisors size.
+	p := dividend.
 	[p isZero] whileFalse:
-		[m _ p leadingMonomial.
-		c _ p leadingCoefficient.
-		i _ 1.
-		[((fi _ divisors at: i) leadingMonomial | m and: [fi leadingCoefficient | c]) or: [(i _ i + 1) > s]] whileFalse.
+		[m := p leadingMonomial.
+		c := p leadingCoefficient.
+		i := 1.
+		[((fᵢ := divisors at: i) leadingMonomial | m and: [fᵢ leadingCoefficient | c]) or: [(i := i + 1) > s]] whileFalse.
 		i <= s "i.e. found fi"
 			ifTrue:
-				[q _ R coefficient: c / fi leadingCoefficient monomial: m / fi leadingMonomial.
+				[q := R coefficient: c / fᵢ leadingCoefficient monomial: m / fᵢ leadingMonomial.
 				quotients at: i put: (quotients at: i) + q.
-				p _ p + (fi * q negated)]
+				p := p + (fᵢ * q negated)]
 			ifFalse:
-				[remainder _ remainder + p leadingTerm.
-				p _ p tail]]! !
+				[remainder := remainder + p leadingTerm.
+				p := p tail]]! !
 
 !MultivariateDivision methodsFor: 'private' stamp: 'len 7/8/2022 11:19:06'!
 validate
@@ -39268,15 +39270,16 @@ valuation
 	"Answer the Euclidean function at the receiver."
 	^ self abs! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 8/7/2019 09:10:47'!
+!Integer methodsFor: '*algebra' stamp: 'len 6/16/2023 18:30:51'!
 valuation: p
 	"Answer the p-adic valuation of the receiver.
 	This is the exponent of the highest power of p that divides the receiver."
 	| answer q |
 	self = 0 ifTrue: [^ Infinity positive].
-	q _ self abs.
-	answer _ 0.
-	[p | q] whileTrue: [answer _ answer + 1. q _ q // p].
+	p = 2 ifTrue: [^ self lowBit - 1].
+	q := self abs.
+	answer := 0.
+	[p | q] whileTrue: [answer := answer + 1. q := q // p].
 	^ answer! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 6/9/2023 09:59:10'!
@@ -40275,12 +40278,12 @@ reduceBy: g leadingInverse: u quotient: q modulo: modulus
 				[q ifNotNil: [q at: i put: (q at: i) - c \\ modulus].
 				self replaceFrom: i to: i+m-1 with: self startingAt: i plus: g startingAt: 1 timesScalar: c modulo: modulus]]! !
 
-!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 6/2/2023 18:57:14'!
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 6/16/2023 19:57:53'!
 reduceBy: g quotient: q
 	| n m minusU |
 	m := g size "lastNonzeroIndex".
 	minusU := (g at: m) inverse negated.
-	[(n := self lastNonzeroIndex ifNil: [0]) >= m]
+	[(n := self findLastNonzeroFrom: m to: self size) notNil]
 		whileTrue:
 			[| i c |
 			i := n-m+1.
@@ -41032,6 +41035,12 @@ convolution: aSortedDictionary
 	dictionary associationsDo: [:each| each value isZero ifFalse: [newAssociations add: each]].
 	newAssociations sort.
 	^ self class associations: newAssociations! !
+
+!SortedDictionary methodsFor: '*algebra' stamp: 'len 6/16/2023 14:29:40'!
+printOn: aStream
+	aStream nextPut: ${.
+	associations do: [:each | aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $}! !
 
 !SortedDictionary methodsFor: '*algebra' stamp: 'len 4/27/2022 13:39:29'!
 selectByKey: aBlock

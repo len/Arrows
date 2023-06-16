@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5852] on 15 June 2023 at 8:36:29 pm'!
+'From Cuis 6.0 [latest update: #5866] on 16 June 2023 at 8:13:12 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 70!
+!provides: 'Tests-Algebra' 1 71!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -4975,6 +4975,33 @@ testRadicalAndIsSquarefree
 	n _ (-1000 to: 1000) atRandom.
 	self assert: n isSquarefree = (n radical = n)! !
 
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2023 13:35:33'!
+testSplittingField1
+	| f K |
+	f := (ℤ/7) polynomials !! [:x| x^2 + 1].
+	K := f splittingField.
+	self assert: K isFiniteField.
+	self assert: K size = 49! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2023 13:35:37'!
+testSplittingField2
+	| f K |
+	f := (ℤ/7) polynomials !! [:x| x^2 - 1].
+	K := f splittingField.
+	self assert: K isFiniteField.
+	self assert: K size = 7! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2023 19:48:58'!
+testSplittingField3
+	| p r f K |
+	p := 5 atRandom nextPrime.
+	r := 3 atRandom.
+	f := (ℤ/p) polynomials !! [:x| x^(p^r) - x].
+	K := f splittingField.
+	self assert: K isFiniteField.
+	self assert: K characteristic = p.
+	self assert: K degree = r! !
+
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 3/3/2016 23:22'!
 testWord
 	| x y |
@@ -5289,33 +5316,6 @@ testSignature
 	self assert: F signature = #(0 3).
 	F _ NumberField modulus: x^3 + (x^2) - (x*5) - 1.
 	self assert: F signature = #(3 0)! !
-
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/8/2023 18:24:20'!
-testSplittingField1
-	| p r f K |
-	p _ (4 atRandom + 1) nextPrime.
-	r _ 3 atRandom.
-	f _ (ℤ/p) polynomials !! [:x| x^(p^r) - x].
-	K _ f splittingField.
-	self assert: K isFiniteField.
-	self assert: K characteristic = p.
-	self assert: K degree = r! !
-
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/8/2023 01:01:17'!
-testSplittingField2
-	| f K |
-	f _ (ℤ/7) polynomials !! [:x| x^2 + 1].
-	K _ f splittingField.
-	self assert: K isFiniteField.
-	self assert: K size = 49! !
-
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/8/2023 01:03:37'!
-testSplittingField3
-	| f K |
-	f _ (ℤ/7) polynomials !! [:x| x^2 - 1].
-	K _ f splittingField.
-	self assert: K isFiniteField.
-	self assert: K size = 7! !
 
 !NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 7/16/2021 10:26:32'!
 testTotallyImaginary
@@ -8459,10 +8459,18 @@ setUp
 	k := 10 atRandom: random.
 	R := (PrimePowerRing new: p to: k) polynomials! !
 
-!BinaryPowerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2023 17:31:33'!
+!BinaryPowerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2023 19:02:55'!
 setUp
 	super setUp.
 	R := (PrimePowerRing new: 2 to: ((2 to: 64) atRandom: random)) polynomials! !
+
+!BinaryPowerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2023 19:11:38'!
+setUpTemp
+	self flag: #fixme. "remove this method"
+	self setUp.
+	R := (PrimePowerRing new: 2 to: 64) polynomials.
+	seed := 12345.
+	random := Random seed: seed! !
 
 !ModularIntegerMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:40:33'!
 setUp
@@ -11399,6 +11407,13 @@ testPushoutFree
 	coprojections _ P ⇇ (X, Y).
 	self assert: f → coprojections first = (g → coprojections second)! !
 
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 6/16/2023 13:43:41'!
+testAnnihilator
+	| M A |
+	M := self newModule.
+	A := M annihilator.
+	self assert: (M * (A atRandom: random)) isTrivial! !
+
 !AbstractModuleTest methodsFor: 'other' stamp: 'len 10/5/2022 17:36:42'!
 testCanonicalMorphisms
 	| V v W w |
@@ -11440,13 +11455,6 @@ testFreeModule: M
 	v _ x * c + y.
 	t _ (M \ x) * c + (M \ y).
 	self assert: v = (M elementAt: t)! !
-
-!AbstractModuleTest methodsFor: 'other' stamp: 'len 6/15/2023 13:22:33'!
-testModuleAnnihilator
-	| M A |
-	M := self newModule.
-	A := M annihilator.
-	self assert: (M * (A atRandom: random)) isTrivial! !
 
 !AbstractModuleTest methodsFor: 'other' stamp: 'len 3/24/2021 08:32:58'!
 testSubmoduleInclusion
@@ -11719,36 +11727,36 @@ testSection
 	self assert: s isInjective.
 	self assert: f · s = W id! !
 
-!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 10/5/2022 17:14:39'!
-testAdjointAndAnnihilator
+!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 6/16/2023 13:43:12'!
+testAdjointAndAnnihilatorSpace
 	| V W f a |
-	V _ scalars ^ (3 atRandom: random).
-	W _ scalars ^ (5 atRandom: random).
-	f _ V ⇒ W atRandom: random bits: 100.
-	a _ f adjoint.
+	V := scalars ^ (3 atRandom: random).
+	W := scalars ^ (5 atRandom: random).
+	f := V ⇒ W atRandom: random bits: 100.
+	a := f adjoint.
 	self assert: a kernel = f image annihilatorSpace.
 	self assert: a image = f kernel annihilatorSpace.
 	self assert: f isSurjective = a isInjective.
 	self assert: f isInjective = a isSurjective! !
 
-!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 3/24/2021 08:23:12'!
-testAnnihilator
+!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 6/16/2023 13:42:58'!
+testAnnihilatorSpace
 	| V v S S0 |
-	[(V _ self newVectorSpace) isTrivial] whileTrue.
-	[(v _ V atRandom: random bits: 100) isZero] whileTrue.
-	S _ V span: {v}.
-	S0 _ S annihilatorSpace.
+	[(V := self newVectorSpace) isTrivial] whileTrue.
+	[(v := V atRandom: random bits: 100) isZero] whileTrue.
+	S := V span: {v}.
+	S0 := S annihilatorSpace.
 	self assert: S0 rank = S corank.
 	S0 generators do: [:f| self assert: (f value: v) isZero]! !
 
-!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 8/12/2022 13:13:38'!
-testAnnihilatorProperties
+!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 6/16/2023 13:43:20'!
+testAnnihilatorSpaceProperties
 	| V n m S T |
-	V _ self newVectorSpace.
-	n _ (0 to: V rank) atRandom: random.
-	S _ (V grassmannian: n) atRandom: random bits: (100 atRandom: random).
-	m _ (0 to: n) atRandom: random.
-	T _ (S grassmannian: m) atRandom: random bits: (100 atRandom: random).
+	V := self newVectorSpace.
+	n := (0 to: V rank) atRandom: random.
+	S := (V grassmannian: n) atRandom: random bits: (100 atRandom: random).
+	m := (0 to: n) atRandom: random.
+	T := (S grassmannian: m) atRandom: random bits: (100 atRandom: random).
 	self assert: T <= S.
 	self assert: T annihilatorSpace >= S annihilatorSpace. "reverses inclusions"
 	self assert: (S + T) annihilatorSpace = (S annihilatorSpace ∩ T annihilatorSpace).
