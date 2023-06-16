@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5852] on 15 June 2023 at 2:28:03 pm'!
+'From Cuis 6.0 [latest update: #5852] on 15 June 2023 at 8:36:16 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -75,7 +75,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 108!
+!provides: 'Algebra' 1 109!
 !requires: 'Transfinites' 1 2 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -17094,16 +17094,16 @@ to: aCodomain map: aBlock
 to: aModule matrix: aMatrix
 	^ self to: aModule matrix: aMatrix ifInvalid: [DomainError signal: 'invalid morphism']! !
 
-!Module methodsFor: 'morphisms' stamp: 'len 6/10/2022 11:06:42'!
+!Module methodsFor: 'morphisms' stamp: 'len 6/15/2023 16:21:46'!
 to: aModule matrix: aMatrix ifInvalid: exceptionBlock
-	self checkSameCategory: aModule.
 	"A matrix induces a valid module homomorphism iff it sends syzygies to syzygies:"
-"	(self syzygies generators allSatisfy: [:each| (aModule elementAt: aMatrix * each) isZero]) ifFalse: [^ exceptionBlock value]."
 	(aMatrix * self relationsMatrix) image <= aModule relationsMatrix image ifFalse: [^ exceptionBlock value].
 	^ self to: aModule validMatrix: aMatrix! !
 
-!Module methodsFor: 'morphisms' stamp: 'len 4/6/2021 14:27:23'!
+!Module methodsFor: 'morphisms' stamp: 'len 6/15/2023 16:16:40'!
 to: aModule validMatrix: aMatrix
+	self assert: aMatrix domain = self cover.
+	self assert: aMatrix codomain = aModule cover.
 	^ ModuleMap from: self to: aModule matrix: aMatrix! !
 
 !Module methodsFor: 'operations' stamp: 'len 6/9/2022 07:00:43'!
@@ -17197,24 +17197,24 @@ to: aModule validMatrix: aMatrix
 	"Answer the categorical product, i.e. direct sum of the receiver and the argument."
 	^ self ⊕ aModule! !
 
-!Module methodsFor: 'operations' stamp: 'len 10/5/2022 16:59:54'!
+!Module methodsFor: 'operations' stamp: 'len 6/15/2023 16:19:49'!
 ⊕ aModule
 	"Answer the direct sum of the receiver and the argument."
 	| R answer |
-	self checkSameCategory: aModule.
-	R _ self relationsMatrix ⊕ aModule relationsMatrix.
-	answer _ R cokernel.
+	R := self relationsMatrix ⊕ aModule relationsMatrix.
+	answer := R cokernel.
 	answer
 		addCoprojections: (R codomain ⇇ {self cover. aModule cover} with: {self. aModule} collect: [:i :X| X to: answer validMatrix: i]);
 		addProjections: (R codomain ⇉ {self cover. aModule cover} with: {self. aModule} collect: [:π :Y| answer to: Y validMatrix: π]).
 	^ answer! !
 
-!Module methodsFor: 'operations' stamp: 'len 6/14/2023 22:52:15'!
+!Module methodsFor: 'operations' stamp: 'len 6/15/2023 16:23:08'!
 ⊗ aModule
 	"Answer the tensor product of the receiver with the argument."
 	| answer M N |
+	"Use tensor product notation for extension of scalars too:"
 	aModule isRing ifTrue: [^ self apply: (self scalars → aModule ifNil: [^ self error: 'coercion failed'])].
-	self checkSameCategory: aModule.
+	self assert: self scalars = aModule scalars. "maybe could aloow modules with different scalars and do extension of scalars"
 	self scalars isCommutative ifFalse: [^ self notYetImplemented].
 "	(self isProjective and: [aModule isProjective]) ifTrue:"
 	(self isFreelyGenerated and: [aModule isFreelyGenerated]) ifTrue:
@@ -17326,7 +17326,7 @@ exteriorAlgebra
 	T _ self tensorAlgebra.
 	^ T / (T generators collect: [:each| each squared])! !
 
-!Module methodsFor: 'operations' stamp: 'len 5/31/2023 14:42:41'!
+!Module methodsFor: 'operations' stamp: 'len 6/15/2023 16:46:38'!
 fittingIdeal: anInteger
 	"Answer the i-th Fitting ideal of the receiver.
 	See [GP08, 7.2 Fitting Ideals]."
@@ -17334,7 +17334,7 @@ fittingIdeal: anInteger
 	M := self relationsMatrix.
 	(n := M height - anInteger) <= 0 ifTrue: [^ self scalars asIdeal].
 	(n > M height or: [n > M width]) ifTrue: [^ self scalars zero asIdeal].
-	^ self scalars * (M minor: n@n)! !
+	^ self scalars * (M minors: n)! !
 
 !Module methodsFor: 'operations' stamp: 'len 3/15/2020 16:57:32'!
 grassmannian: r
@@ -17501,10 +17501,11 @@ isFaithful
 	"A module is called 'faithful' if its annihilator is trivial."
 	^ self annihilator isTrivial! !
 
-!Module methodsFor: 'testing' stamp: 'len 7/12/2022 06:23:34'!
+!Module methodsFor: 'testing' stamp: 'len 6/15/2023 16:41:33'!
 isFinite
-	self isGroup ifTrue: [^ (self invariants includes: 0) not].
-	self isFreelyGenerated ifTrue: [^ self generators isEmpty or: [self scalars isFinite]].
+	self scalars isFinite ifTrue: [^ true].
+	self scalars isPID ifTrue: [^ self invariants noneSatisfy: [:any| any isZero]].
+	self isFreelyGenerated ifTrue: [^ self generators isEmpty].
 	^ self notYetImplemented! !
 
 !Module methodsFor: 'testing' stamp: 'len 7/8/2022 10:25:13'!
@@ -17632,10 +17633,6 @@ isModule
 !Module methodsFor: 'testing-categories' stamp: 'len 3/5/2020 17:45:29'!
 isVectorSpace
 	^ self scalars isField or: [self isTrivial]! !
-
-!Module methodsFor: 'private' stamp: 'len 6/9/2022 06:59:19'!
-checkSameCategory: aModule
-	(aModule isModule and: [aModule scalars = self scalars]) ifFalse: [^ DomainError signal: 'not a module in the same category']! !
 
 !Module methodsFor: 'private' stamp: 'len 6/9/2022 07:01:10'!
 checkScalarsMatch: aModule
@@ -19149,13 +19146,9 @@ isTrivial
 ambient
 	^ self! !
 
-!QuotientModule methodsFor: 'accessing' stamp: 'len 6/10/2022 11:33:26'!
-cover
-	^ relationsMatrix codomain! !
-
-!QuotientModule methodsFor: 'accessing' stamp: 'len 6/10/2022 11:34:33'!
+!QuotientModule methodsFor: 'accessing' stamp: 'len 6/15/2023 16:14:00'!
 generatorMatrix
-	^ self cover id! !
+	^ self relationsMatrix codomain id! !
 
 !QuotientModule methodsFor: 'accessing' stamp: 'len 6/10/2022 11:44:42'!
 generators
@@ -23074,16 +23067,14 @@ asSingletonMatrix
 	"Answer the localization of the receiver at aPrimeIdeal."
 	^ self domain @ aPrimeIdeal to: self codomain @ aPrimeIdeal matrix: self matrix @ aPrimeIdeal! !
 
-!ModuleMap methodsFor: 'operations' stamp: 'len 6/10/2022 11:07:51'!
+!ModuleMap methodsFor: 'operations' stamp: 'len 6/15/2023 16:38:10'!
 \ aModuleMap
 	"If the receiver is an epimorphism p:X->B, and the argument is f:Y->B, answer f':Y->X such that the diagram commutes. This is a 'lift of f along p', noted p \ f."
-	| M |
 	self checkCodomainsMatch: aModuleMap.
 	self codomain relationsMatrix = aModuleMap codomain relationsMatrix ifFalse: [^ self notYetImplemented].
-	M _ self codomain isFreelyGenerated
+	^ (self codomain isFreelyGenerated
 		ifTrue: [self asMatrix \ aModuleMap asMatrix]
-		ifFalse: [self asMatrix lift: aModuleMap asMatrix modulo: self codomain relationsMatrix].
-	^ M ifNotNil: [aModuleMap domain to: domain matrix: M]! !
+		ifFalse: [self asMatrix lift: aModuleMap asMatrix modulo: self codomain relationsMatrix]) ifNotNil: [:aMatrix| aModuleMap domain to: domain matrix: aMatrix]! !
 
 !ModuleMap methodsFor: 'operations' stamp: 'len 5/14/2023 18:21:10'!
 ÷ anElement
@@ -24399,9 +24390,9 @@ minimalPolynomial
 		answer degree = n ifTrue: [^ answer]].
 	^ answer! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 12/24/2022 17:16:37'!
+!Matrix methodsFor: 'operations' stamp: 'len 6/15/2023 16:43:59'!
 minor: aPoint
-	"Answer the i@j-minor, i.e. the determinant of the matrix obtained by removing row i and column j from the receiver."
+	"Answer the (i,j)-minor, i.e. the determinant of the matrix obtained by removing row i and column j from the receiver."
 	^ (self copyWithoutRowAndColumn: aPoint) determinant! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 11/23/2022 21:39:32'!

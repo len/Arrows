@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5852] on 15 June 2023 at 2:28:11 pm'!
+'From Cuis 6.0 [latest update: #5852] on 15 June 2023 at 8:36:29 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 69!
+!provides: 'Tests-Algebra' 1 70!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -11668,7 +11668,7 @@ testMapDirectSumAndTensorProductBug
 	self assert: (f⊗g) domain = (f⊗g) domain.
 	self assert: (f⊕g) domain = (f⊕g) domain! !
 
-!AbstractCommutativeRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/15/2023 14:22:52'!
+!AbstractCommutativeRingModuleTest methodsFor: 'other' stamp: 'len 6/15/2023 14:22:52'!
 testFittingIdealsAndAnnihilator
 	| M A i |
 	M :=self newModule.
@@ -11677,13 +11677,13 @@ testFittingIdealsAndAnnihilator
 	i := 3 atRandom: random.
 	A * (M fittingIdeal: i) <= (M fittingIdeal: i-1)! !
 
-!AbstractCommutativeRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/15/2023 13:39:13'!
+!AbstractCommutativeRingModuleTest methodsFor: 'other' stamp: 'len 6/15/2023 13:39:13'!
 testFittingIdealsIncreasing
 	| M |
 	M := self newModule.
 	0 to: 2 do: [:i| self assert: (M fittingIdeal: i) <= (M fittingIdeal: i+1)]! !
 
-!AbstractCommutativeRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/15/2023 14:20:53'!
+!AbstractCommutativeRingModuleTest methodsFor: 'other' stamp: 'len 6/15/2023 14:20:53'!
 testFittingIdealsOfFreeModule
 	| M |
 	M := scalars^(5 atRandom: random).
