@@ -1,26 +1,26 @@
-'From Cuis 6.0 [latest update: #5597] on 18 May 2023 at 2:56:04 pm'!
+'From Cuis 6.0 [latest update: #5866] on 16 June 2023 at 8:12:21 pm'!
 'Description This package includes some extra methods for Collection and subclasses and some new collection classes.'!
-!provides: 'Collections-Extras' 1 9!
-SystemOrganization addCategory: #'Collections-Extras'!
+!provides: 'Collections-Extras' 1 10!
+SystemOrganization addCategory: 'Collections-Extras'!
 
 
-!classDefinition: #Iterator category: #'Collections-Extras'!
+!classDefinition: #Iterator category: 'Collections-Extras'!
 Collection subclass: #Iterator
 	instanceVariableNames: 'block'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Collections-Extras'!
-!classDefinition: 'Iterator class' category: #'Collections-Extras'!
+!classDefinition: 'Iterator class' category: 'Collections-Extras'!
 Iterator class
 	instanceVariableNames: ''!
 
-!classDefinition: #SortedDictionary category: #'Collections-Extras'!
+!classDefinition: #SortedDictionary category: 'Collections-Extras'!
 Collection subclass: #SortedDictionary
 	instanceVariableNames: 'associations'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Collections-Extras'!
-!classDefinition: 'SortedDictionary class' category: #'Collections-Extras'!
+!classDefinition: 'SortedDictionary class' category: 'Collections-Extras'!
 SortedDictionary class
 	instanceVariableNames: ''!
 
