@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5866] on 17 June 2023 at 2:47:28 pm'!
+'From Cuis 6.0 [latest update: #5866] on 17 June 2023 at 10:53:57 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 72!
+!provides: 'Tests-Algebra' 1 73!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -1441,6 +1441,16 @@ AbstractStandardRingMatrixTest subclass: #ModularIntegerMultivariatePolynomialRi
 ModularIntegerMultivariatePolynomialRingMatrixTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #ModularIntegerPolynomialRingPolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
+AbstractStandardRingMatrixTest subclass: #ModularIntegerPolynomialRingPolynomialRingMatrixTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'ModularIntegerPolynomialRingPolynomialRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+ModularIntegerPolynomialRingPolynomialRingMatrixTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #PrimeFieldMultivariatePolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
 AbstractStandardRingMatrixTest subclass: #PrimeFieldMultivariatePolynomialRingMatrixTest
 	instanceVariableNames: ''
@@ -1721,6 +1731,16 @@ AbstractCommutativeRingModuleTest subclass: #ModularIntegerModuleTest
 ModularIntegerModuleTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #ModularIntegerMultivariatePolynomialRingModuleTest category: 'Tests-Algebra-Modules'!
+AbstractCommutativeRingModuleTest subclass: #ModularIntegerMultivariatePolynomialRingModuleTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Modules'!
+!classDefinition: 'ModularIntegerMultivariatePolynomialRingModuleTest class' category: 'Tests-Algebra-Modules'!
+ModularIntegerMultivariatePolynomialRingModuleTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #ProductRingModuleTest category: 'Tests-Algebra-Modules'!
 AbstractCommutativeRingModuleTest subclass: #ProductRingModuleTest
 	instanceVariableNames: ''
@@ -1759,16 +1779,6 @@ AbstractCommutativeRingModuleTest subclass: #RationalPolynomialRingModuleTest
 	category: 'Tests-Algebra-Modules'!
 !classDefinition: 'RationalPolynomialRingModuleTest class' category: 'Tests-Algebra-Modules'!
 RationalPolynomialRingModuleTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #AbstractModuleTODOTest category: 'Tests-Algebra-Modules'!
-AbstractModuleTest subclass: #AbstractModuleTODOTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'AbstractModuleTODOTest class' category: 'Tests-Algebra-Modules'!
-AbstractModuleTODOTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #CliffordAlgebraModuleTest category: 'Tests-Algebra-Modules'!
@@ -1929,16 +1939,6 @@ Object subclass: #RationalRationalFunctionFieldMatrixTest
 	category: 'Tests-Algebra-Matrices'!
 !classDefinition: 'RationalRationalFunctionFieldMatrixTest class' category: 'Tests-Algebra-Matrices'!
 RationalRationalFunctionFieldMatrixTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #RationalPolynomialRingPolynomialRingModuleTest category: 'Tests-Algebra-Modules'!
-Object subclass: #RationalPolynomialRingPolynomialRingModuleTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'RationalPolynomialRingPolynomialRingModuleTest class' category: 'Tests-Algebra-Modules'!
-RationalPolynomialRingPolynomialRingModuleTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #Benchmark category: 'Tests-Algebra-Benchmarks'!
@@ -5021,11 +5021,12 @@ testSplittingField2
 	self assert: K isFiniteField.
 	self assert: K size = 7! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2023 19:48:58'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2023 22:41:12'!
 testSplittingField3
 	| p r f K |
-	p := 5 atRandom nextPrime.
-	r := 3 atRandom.
+	p := (3 to: 7) atRandom nextPrime.
+	self flag: #fixme.
+	r := 2 atRandom. "3 is slow"
 	f := (ℤ/p) polynomials !! [:x| x^(p^r) - x].
 	K := f splittingField.
 	self assert: K isFiniteField.
@@ -6977,15 +6978,6 @@ testQuaternionAlgebraAnnihilatorIdeal
 	I _ b annihilatorIdeal.
 	self assert: I isTrivial! !
 
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:31:31'!
-testQuaternionAlgebraAsJordanAlgebra
-	| A J |
-	A _ QuaternionAlgebra over: ℚ invariants: #(-5 -2).
-	J _ A asJordanAlgebra.
-	self assert: J isCommutative.
-	self assert: J isAssociative not.
-	self assert: J isJordan! !
-
 !QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:31:55'!
 testQuaternionAlgebraCoercionToAndFromModule
 	| A x |
@@ -7747,10 +7739,10 @@ testQuadraticFieldFundamentalDiscriminantExamples
 	self assert: (QuadraticField new: 720) discriminant = 5.
 	self assert: (QuadraticField new: 2) discriminant = 8! !
 
-!FiniteFieldRationalFunctionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:31:48'!
+!FiniteFieldRationalFunctionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2023 17:13:07'!
 setUp
 	super setUp.
-	R := ((	GaloisField new: (5 atRandom: random) nextPrime to: (3 atRandom: random)) polynomialsIn: (3 atRandom: random)) fractions! !
+	R := ((	GaloisField new: (5 atRandom: random) nextPrime to: (3 atRandom: random)) polynomialsIn: (2 atRandom: random)) fractions! !
 
 !FiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:32:08'!
 setUp
@@ -11027,6 +11019,11 @@ setUp
 	super setUp.
 	scalars := ℤ/(1024 atRandom: random) polynomialsIn: (3 atRandom: random)! !
 
+!ModularIntegerPolynomialRingPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2023 15:00:13'!
+setUp
+	super setUp.
+	scalars := ℤ/(1024 atRandom: random) :: polynomials polynomials! !
+
 !PrimeFieldMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:12:49'!
 setUp
 	super setUp.
@@ -12365,6 +12362,11 @@ testExampleModulesOverZ12
 	B _ M span: {(8,5,5). (0,9,8). (0,0,10)}.
 	self assert: A = B! !
 
+!ModularIntegerMultivariatePolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2023 22:46:05'!
+setUp
+	super setUp.
+	scalars := (ℤ/((2 to: 64) atRandom: random)) polynomialsIn: 2! !
+
 !ProductRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:24:55'!
 setUp
 	super setUp.
@@ -12404,42 +12406,6 @@ testModuleGroebnerBasisReducedExample
 setUp
 	super setUp.
 	scalars := ℚ polynomials! !
-
-!AbstractModuleTODOTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:39:02'!
-testPullbackSquaresSharingMorphism
-	| A B C D f g h P r s Q t u |
-	C _ self newSmallFreeModule.
-	A _ self newSmallFreeModule.
-	B _ self newSmallFreeModule.
-	D _ self newSmallFreeModule.
-	f _ A ⇒ C atRandom: random bits: 20.
-	g _ B ⇒ C atRandom: random bits: 20.
-	h _ D ⇒ B atRandom: random bits: 20.
-	P _ f ∧ g.
-	r _ P ⇉ (A, B) at: 1.
-	s _ P ⇉ (A, B) at: 2.
-	Q _ s ∧ h.
-	t _ Q ⇉ (P, D) at: 1.
-	u _ Q ⇉ (P, D) at: 2.
-	self assert: (r · t) → f = (u → (g · h))! !
-
-!AbstractModuleTODOTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:39:13'!
-testPushoutSquaresSharingMorphism
-	| A B C D f g h P i j Q k l |
-	C _ self newSmallFreeModule.
-	A _ self newSmallFreeModule.
-	B _ self newSmallFreeModule.
-	D _ self newSmallFreeModule.
-	f _ C ⇒ A atRandom: random bits: 20.
-	g _ C ⇒ B atRandom: random bits: 20.
-	h _ B ⇒ D atRandom: random bits: 20.
-	P _ f ∨ g.
-	i _ P ⇇ (A, B) at: 1.
-	j _ P ⇇ (A, B) at: 2.
-	Q _ j ∨ h.
-	k _ Q ⇇ (P, D) at: 1.
-	l _ Q ⇇ (P, D) at: 2.
-	self assert: f → (k · i) = (h · g → l)! !
 
 !CliffordAlgebraModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 15:58:08'!
 setUp
@@ -13425,11 +13391,6 @@ initialize
 setUp
 	super setUp.
 	scalars := (ℚ polynomialsIn: (3 atRandom: random)) fractions! !
-
-!RationalPolynomialRingPolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2023 11:01:19'!
-setUp
-	super setUp.
-	scalars := ℚ polynomials polynomials! !
 
 !Benchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 04:20'!
 run

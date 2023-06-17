@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5866] on 17 June 2023 at 2:47:19 pm'!
+'From Cuis 6.0 [latest update: #5866] on 17 June 2023 at 10:53:51 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -75,7 +75,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 111!
+!provides: 'Algebra' 1 112!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -15250,10 +15250,10 @@ has: anIndeterminate
 hasCanonicalAssociates
 	^ self scalars isIntegralDomain and: [self scalars hasCanonicalAssociates]! !
 
-!PolynomialRing methodsFor: 'testing' stamp: 'len 6/7/2022 12:31:37'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 6/17/2023 17:09:29'!
 hasCanonicalBases
 	"Answer true if there's an algorithm to compute canonical bases for modules over the receiver."
-	^ self scalars isEuclidean and: [self ordering isGlobal]! !
+	^ (self scalars isEuclidean or: [(self scalars isKindOf: PolynomialRing) and: [self scalars hasCanonicalBases]]) and: [self ordering isGlobal]! !
 
 !PolynomialRing methodsFor: 'testing' stamp: 'len 6/3/2022 20:41:51'!
 hasCanonicalReduction
@@ -19004,10 +19004,6 @@ isTrivial
 	"Answer true if the receiver is the trivial submodule {0}."
 	^ domain isTrivial or: [codomain isTrivial or: [super isTrivial]]! !
 
-!HomModule methodsFor: 'private' stamp: 'len 10/2/2018 01:16:42'!
-codomain: aModule
-	codomain _ aModule! !
-
 !HomModule methodsFor: 'private' stamp: 'len 10/5/2022 17:20:37'!
 computeFreeGenerators
 	self propertyAt: #generators put: ((domain cover ⇒ codomain cover) generators collect: [:each| domain to: codomain matrix: each])! !
@@ -19018,39 +19014,37 @@ computeGeneratorsFromMatrixCoordinates: anArray
 	H _ domain cover ⇒ codomain cover.
 	self propertyAt: #generators ifAbsentPut: [(anArray collect: [:x| domain to: codomain matrix: (H elementAt: x)])]! !
 
-!HomModule methodsFor: 'private' stamp: 'len 10/5/2022 18:39:00'!
+!HomModule methodsFor: 'private' stamp: 'len 6/17/2023 17:47:28'!
 computePresentation
 	"From 'A Singular Introduction to Commutative Algebra', pag 124, example 2.1.26 (computation of Hom)."
 	| M N B C D E F |
-	(self domain isFreelyGenerated and: [self codomain isFreelyGenerated])
-		ifTrue:
-			[self computeFreeGenerators.
-			self propertyAt: #relationsMatrix put: self scalars^0 → (self scalars^(self domain rank * self codomain rank)).
-			^ self].
-	M _ self domain relationsMatrix.
-	N _ self codomain relationsMatrix.
-	C _ (M codomain ⇒ N) asMatrix.
-	self domain isFreelyGenerated
-		ifTrue:
-			[self computeFreeGenerators.
-			self propertyAt: #relationsMatrix put: C syzygies.
-			^ self].
-	B _ (M domain ⇒ N) asMatrix.
-	F _ (M ⇒ N codomain) asMatrix.
-	D _ F syzygiesModulo: B.
+	(self domain isFreelyGenerated and: [self codomain isFreelyGenerated]) ifTrue:
+		[self computeFreeGenerators.
+		self propertyAt: #relationsMatrix put: self scalars^0 → (self scalars^(self domain rank * self codomain rank)).
+		^ self].
+	M := self domain relationsMatrix.
+	N := self codomain relationsMatrix.
+	C := (M codomain ⇒ N) asMatrix.
+"	self domain isFreelyGenerated ifTrue:
+		[self computeFreeGenerators.
+		self propertyAt: #relationsMatrix put: C syzygies.
+		^ self]."
+	B := (M domain ⇒ N) asMatrix.
+	F := (M ⇒ N codomain) asMatrix.
+	D := F syzygiesModulo: B.
 	self computeGeneratorsFromMatrixCoordinates: D columns.
-	E _ D syzygiesModulo: C.
+	E := D syzygiesModulo: C.
+	self assert: E codomain rank = D width.
 	self propertyAt: #relationsMatrix put: E! !
 
-!HomModule methodsFor: 'private' stamp: 'len 10/2/2018 01:16:14'!
-domain: aModule
-	domain _ aModule! !
+!HomModule methodsFor: 'private' stamp: 'len 6/17/2023 17:48:25'!
+domain: aModule codomain: anotherModule
+	domain := aModule.
+	codomain := anotherModule! !
 
-!HomModule class methodsFor: 'instance creation' stamp: 'len 10/2/2018 01:14:35'!
+!HomModule class methodsFor: 'instance creation' stamp: 'len 6/17/2023 17:48:41'!
 from: aModule to: anotherModule
-	^ self new
-		domain: aModule;
-		codomain: anotherModule! !
+	^ self new domain: aModule codomain: anotherModule! !
 
 !MatrixModule methodsFor: 'accessing' stamp: 'len 11/23/2022 21:26:05'!
 generators
@@ -24786,27 +24780,27 @@ isEndomorphism
 isFullRank
 	^ self rank = (self width min: self height)! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 12/20/2022 15:01:18'!
+!Matrix methodsFor: 'testing' stamp: 'len 6/17/2023 22:08:02'!
 isHermiteNormalForm
-	"Answer true if the receiver is in row Hermite normal form.
+	"Answer true if the receiver is in row Hermite normal form over ℤ.
 	It must satisfy the following conditions:
 	1. It is upper triangular;
 	2. The leading coefficient (or pivot) of a nonzero row is always strictly to the right of the leading coefficient of the row above it, and it is positive;
 	3. And the elements below pivots are zero and elements above pivots are nonnegative and strictly smaller than the pivot."
 	| lastPivot |
-	lastPivot _ 0@0.
+	lastPivot := 0@0.
 	self pivotsDo: [:each| | coefficient |
 		(each x <= each y and: [each y > lastPivot y and: [each x - lastPivot x = 1]])
 			ifFalse: [^ false].
-		coefficient _ self at: each.
+		coefficient := self at: each.
 		coefficient > 0 ifFalse: [^ false].
 		1 to: each x - 1 do: [:i| | v |
-			((v _ self at: i@each y) >= 0 and: [v < coefficient])
+			((v := self at: i@each y) >= 0 and: [v < coefficient])
 				ifFalse: [^ false]].
 		each x + 1 to: self height do: [:i|
 			(self at: i@each y) = 0
 				ifFalse: [^ false]].
-		lastPivot _ each].
+		lastPivot := each].
 	^ true! !
 
 !Matrix methodsFor: 'testing' stamp: 'len 7/22/2021 18:53:41'!
@@ -37801,94 +37795,87 @@ determinant
 	self echelon diagonalDo: [:each| determinant _ determinant * each].
 	^ determinant / determinantFactor! !
 
-!GaussJordanEchelonization methodsFor: 'accessing' stamp: 'len 12/29/2022 10:34:48'!
-swapRow: i with: j
-	i = j ifTrue: [^ self].
-	super swapRow: i with: j.
-	determinantFactor _ determinantFactor negated! !
-
-!GaussJordanEchelonization methodsFor: 'computing' stamp: 'len 12/29/2022 16:33:58'!
+!GaussJordanEchelonization methodsFor: 'computing' stamp: 'len 6/17/2023 22:26:08'!
 reduceStep: pivot
 	"Perform the reduction step on row i and column j."
 	| i j i₀ |
-	i _ pivot x.
-	j _ pivot y.
+	i := pivot x.
+	j := pivot y.
 	"2. Column finished?"
-	[i₀ _ (echelon height to: i+1 by: -1)
+	[i₀ := (echelon height to: i+1 by: -1)
 		detect: [:k| (echelon isZeroAt: k@j) not]
-		ifNone: [^ self multiplyRow: i by: (echelon at: pivot) normalization "go to step 5"].
+		ifNone: [^ self multiplyRow: i by: (echelon at: pivot) normalization startingAt: j "and go to step 5"].
 	i₀ > i ifTrue: [self swapRow: i₀ with: i].
-	self multiplyRow: i by: (echelon at: pivot) inverse.
+	self multiplyRow: i by: (echelon at: pivot) inverse startingAt: j.
 	"4. Reduce:"
-	echelon height to: i+1 by: -1 do: [:k|
-		self addRow: i times: (echelon at: k@j) negated to: k]] repeat! !
+	echelon height to: i+1 by: -1 do: [:k| self addRow: i times: (echelon at: k@j) negated to: k startingAt: j]] repeat! !
 
-!GaussJordanEchelonization methodsFor: 'computing' stamp: 'len 12/29/2022 10:34:27'!
+!GaussJordanEchelonization methodsFor: 'computing' stamp: 'len 6/17/2023 22:27:11'!
 run
 	| n m i j b |
-	determinantFactor _ matrix scalars one.
-	m _ echelon height.
-	n _ echelon width.
+	determinantFactor := matrix scalars one.
+	m := echelon height.
+	n := echelon width.
 	(m = 0 or: [n = 0]) ifTrue: [^ self]. "nothing to do"
-	i _ 1.
-	j _ 1.
+	i := 1.
+	j := 1.
 	[self reduceStep: i@j.
-	b _ echelon at: i@j.
-	b isZero
+	(echelon isZeroAt: i@j)
 		ifTrue:
-			[i _ i - 1]
+			[i := i - 1]
 		ifFalse:
-			[1 to: i-1 do: [:k| | q |
-				q _ (echelon at: k@j) / b.
-				self addRow: i times: q negated to: k]].
-	j = n or: [i = m]] whileFalse: [i _ i + 1. j _ j + 1]! !
+			[b := echelon at: i@j.
+			1 to: i-1 do: [:k| self addRow: i times: ((echelon at: k@j) / b) negated to: k startingAt: j]].
+	j = n or: [i = m]] whileFalse: [i := i + 1. j := j + 1]! !
 
 !GaussJordanEchelonization methodsFor: 'row operations' stamp: 'len 12/29/2022 10:29:39'!
 multiplyRow: i by: anElement startingAt: startColumn
 	super multiplyRow: i by: anElement startingAt: startColumn.
 	determinantFactor _ determinantFactor * anElement! !
 
-!HermiteEchelonization methodsFor: 'computing' stamp: 'len 12/29/2022 10:38:12'!
+!GaussJordanEchelonization methodsFor: 'row operations' stamp: 'len 12/29/2022 10:34:48'!
+swapRow: i with: j
+	i = j ifTrue: [^ self].
+	super swapRow: i with: j.
+	determinantFactor _ determinantFactor negated! !
+
+!HermiteEchelonization methodsFor: 'computing' stamp: 'len 6/17/2023 22:25:50'!
 reduceStep: pivot
 	"Perform the reduction step on row i and column j."
 	| i j i₀ b |
-	i _ pivot x.
-	j _ pivot y.
+	i := pivot x.
+	j := pivot y.
 	"2. Column finished?"
-	[i₀ _ (echelon height to: i+1 by: -1)
+	[i₀ := (echelon height to: i+1 by: -1)
 		detect: [:k| (echelon isZeroAt: k@j) not]
-		ifNone: [self multiplyRow: i by: (echelon at: pivot) normalization. ^ self "go to step 5"].
+		ifNone: [^ self multiplyRow: i by: (echelon at: pivot) normalization startingAt: j "and go to step 5"].
 	"3. Choose nonzero entry with smallest Euclidean valuation:"
-	i₀ _ ((i to: i₀) select: [:k| (echelon isZeroAt: k@j) not]) detectMin: [:k| (echelon at: k@j) gauge].
+	i₀ := ((i to: i₀) select: [:k| (echelon isZeroAt: k@j) not]) detectMin: [:k| (echelon at: k@j) gauge].
 	i₀ > i ifTrue: [self swapRow: i₀ with: i].
-	self multiplyRow: i by: (echelon at: pivot) normalization.
-	b _ echelon at: pivot.
+	self multiplyRow: i by: (echelon at: pivot) normalization startingAt: j.
+	b := echelon at: pivot.
 	"4. Reduce:"
-	echelon height to: i+1 by: -1 do: [:k| | q |
-		q _ (echelon at: k@j) // b.
-		self addRow: i times: q negated to: k]] repeat! !
+	echelon height to: i+1 by: -1 do: [:k| self addRow: i times: ((echelon at: k@j) // b) negated to: k startingAt: j]] repeat! !
 
-!HermiteEchelonization methodsFor: 'computing' stamp: 'len 12/29/2022 10:39:20'!
+!HermiteEchelonization methodsFor: 'computing' stamp: 'len 6/17/2023 22:25:39'!
 run
 	| n m i j b |
-	m _ echelon height.
-	n _ echelon width.
+	m := echelon height.
+	n := echelon width.
 	(m = 0 or: [n = 0]) ifTrue: [^ self]. "nothing to do"
 	"1. Initialize:"
-	i _ 1.
-	j _ 1.
+	i := 1.
+	j := 1.
 	[self reduceStep: i@j.
 	"5. Final reductions:"
-	b _ echelon at: i@j.
-	b isZero
+	(echelon isZeroAt: i@j)
 		ifTrue:
-			[i _ i - 1]
+			[i := i - 1]
 		ifFalse:
-			[1 to: i-1 do: [:k| | q |
-				q _ (echelon at: k@j) // b.
-				self addRow: i times: q negated to: k]].
+			[b := echelon at: i@j.
+			1 to: i-1 do: [:k| self addRow: i times: ((echelon at: k@j) // b) negated to: k startingAt: j]].
 	"6. Finished?"
-	j = n or: [i = m]] whileFalse: [i _ i + 1. j _ j + 1]! !
+	j = n or: [i = m]] whileFalse: [i := i + 1. j := j + 1]! !
 
 !HowellEchelonization methodsFor: 'computing' stamp: 'len 6/12/2023 16:54:13'!
 run
@@ -38291,7 +38278,7 @@ process: anArray
 						[queue add: (Association key: division remainder value: ((ai * (matrix scalars one * (m / hi) * (xgcd at: 2)) + (ak * (matrix scalars one * (m / hk) * (xgcd at: 3)))) - (combinations * division quotients) sum))]]]]].
 	^ queue! !
 
-!ExtendedStrongBuchberger methodsFor: 'computing' stamp: 'len 6/17/2023 12:37:09'!
+!ExtendedStrongBuchberger methodsFor: 'computing' stamp: 'len 6/17/2023 14:51:10'!
 run
 	| queue |
 	self ordering isGlobal ifFalse: [^ self notYetImplemented].
@@ -38302,8 +38289,8 @@ run
 		withIndexDo: [:each :i| each isZero ifFalse: [queue add: (Association key: each value: (matrix domain x: i))]].
 	[(queue := self process: (queue asSortedCollection: [:a :b| a key leadingMonomial <= b key leadingMonomial])) isEmpty] whileFalse.
 	self autoreduce.
-	self sort.
-	self validate! !
+	self sort
+"	self validate"! !
 
 !ExtendedStrongBuchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
 sort
