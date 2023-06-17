@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5866] on 16 June 2023 at 8:13:12 pm'!
+'From Cuis 6.0 [latest update: #5866] on 17 June 2023 at 2:47:28 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 71!
+!provides: 'Tests-Algebra' 1 72!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -741,14 +741,14 @@ GaloisRingPolynomialRingTest subclass: #PrimePowerRingPolynomialRingTest
 PrimePowerRingPolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryPowerPolynomialRingTest category: 'Tests-Algebra-Rings'!
-PrimePowerRingPolynomialRingTest subclass: #BinaryPowerPolynomialRingTest
+!classDefinition: #BinaryPowerRingPolynomialRingTest category: 'Tests-Algebra-Rings'!
+PrimePowerRingPolynomialRingTest subclass: #BinaryPowerRingPolynomialRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'BinaryPowerPolynomialRingTest class' category: 'Tests-Algebra-Rings'!
-BinaryPowerPolynomialRingTest class
+!classDefinition: 'BinaryPowerRingPolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+BinaryPowerRingPolynomialRingTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModularIntegerMultivariatePolynomialRingTest category: 'Tests-Algebra-Rings'!
@@ -1161,8 +1161,58 @@ AbstractCommutativeRingMatrixTest subclass: #AbstractIntegralDomainMatrixTest
 AbstractIntegralDomainMatrixTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #CyclotomicIntegerMatrixTest category: 'Tests-Algebra-Matrices'!
+AbstractIntegralDomainMatrixTest subclass: #CyclotomicIntegerMatrixTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'CyclotomicIntegerMatrixTest class' category: 'Tests-Algebra-Matrices'!
+CyclotomicIntegerMatrixTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #QuadraticRingMatrixTest category: 'Tests-Algebra-Matrices'!
+AbstractIntegralDomainMatrixTest subclass: #QuadraticRingMatrixTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'QuadraticRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+QuadraticRingMatrixTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #AbstractStandardRingMatrixTest category: 'Tests-Algebra-Matrices'!
+AbstractCommutativeRingMatrixTest subclass: #AbstractStandardRingMatrixTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'AbstractStandardRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+AbstractStandardRingMatrixTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #AbstractEuclideanRingMatrixTest category: 'Tests-Algebra-Matrices'!
+AbstractStandardRingMatrixTest subclass: #AbstractEuclideanRingMatrixTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'AbstractEuclideanRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+AbstractEuclideanRingMatrixTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #AbstractEuclideanDomainMatrixTest category: 'Tests-Algebra-Matrices'!
+AbstractEuclideanRingMatrixTest subclass: #AbstractEuclideanDomainMatrixTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'AbstractEuclideanDomainMatrixTest class' category: 'Tests-Algebra-Matrices'!
+AbstractEuclideanDomainMatrixTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #AbstractFieldMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractIntegralDomainMatrixTest subclass: #AbstractFieldMatrixTest
+AbstractEuclideanDomainMatrixTest subclass: #AbstractFieldMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1271,18 +1321,8 @@ AbstractFieldMatrixTest subclass: #TernaryMatrixTest
 TernaryMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #CyclotomicIntegerMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractIntegralDomainMatrixTest subclass: #CyclotomicIntegerMatrixTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'CyclotomicIntegerMatrixTest class' category: 'Tests-Algebra-Matrices'!
-CyclotomicIntegerMatrixTest class
-	instanceVariableNames: ''!
-
 !classDefinition: #EisensteinIntegerMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractIntegralDomainMatrixTest subclass: #EisensteinIntegerMatrixTest
+AbstractEuclideanDomainMatrixTest subclass: #EisensteinIntegerMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1292,7 +1332,7 @@ EisensteinIntegerMatrixTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #GaussianIntegerMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractIntegralDomainMatrixTest subclass: #GaussianIntegerMatrixTest
+AbstractEuclideanDomainMatrixTest subclass: #GaussianIntegerMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1302,7 +1342,7 @@ GaussianIntegerMatrixTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #IntegerMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractIntegralDomainMatrixTest subclass: #IntegerMatrixTest
+AbstractEuclideanDomainMatrixTest subclass: #IntegerMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1311,28 +1351,8 @@ AbstractIntegralDomainMatrixTest subclass: #IntegerMatrixTest
 IntegerMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #LocalIntegerRingMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractIntegralDomainMatrixTest subclass: #LocalIntegerRingMatrixTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'LocalIntegerRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
-LocalIntegerRingMatrixTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #PrimeFieldMultivariatePolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractIntegralDomainMatrixTest subclass: #PrimeFieldMultivariatePolynomialRingMatrixTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'PrimeFieldMultivariatePolynomialRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
-PrimeFieldMultivariatePolynomialRingMatrixTest class
-	instanceVariableNames: ''!
-
 !classDefinition: #PrimeFieldPolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractIntegralDomainMatrixTest subclass: #PrimeFieldPolynomialRingMatrixTest
+AbstractEuclideanDomainMatrixTest subclass: #PrimeFieldPolynomialRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1341,28 +1361,8 @@ AbstractIntegralDomainMatrixTest subclass: #PrimeFieldPolynomialRingMatrixTest
 PrimeFieldPolynomialRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuadraticRingMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractIntegralDomainMatrixTest subclass: #QuadraticRingMatrixTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'QuadraticRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
-QuadraticRingMatrixTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #RationalMultivariatePolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractIntegralDomainMatrixTest subclass: #RationalMultivariatePolynomialRingMatrixTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'RationalMultivariatePolynomialRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
-RationalMultivariatePolynomialRingMatrixTest class
-	instanceVariableNames: ''!
-
 !classDefinition: #RationalPolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractIntegralDomainMatrixTest subclass: #RationalPolynomialRingMatrixTest
+AbstractEuclideanDomainMatrixTest subclass: #RationalPolynomialRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1371,28 +1371,18 @@ AbstractIntegralDomainMatrixTest subclass: #RationalPolynomialRingMatrixTest
 RationalPolynomialRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalPolynomialRingPolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractIntegralDomainMatrixTest subclass: #RationalPolynomialRingPolynomialRingMatrixTest
+!classDefinition: #BinaryPowerRingMatrixTest category: 'Tests-Algebra-Matrices'!
+AbstractEuclideanRingMatrixTest subclass: #BinaryPowerRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'RationalPolynomialRingPolynomialRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
-RationalPolynomialRingPolynomialRingMatrixTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #BinaryPowerMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractCommutativeRingMatrixTest subclass: #BinaryPowerMatrixTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'BinaryPowerMatrixTest class' category: 'Tests-Algebra-Matrices'!
-BinaryPowerMatrixTest class
+!classDefinition: 'BinaryPowerRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+BinaryPowerRingMatrixTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #GaloisRingMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractCommutativeRingMatrixTest subclass: #GaloisRingMatrixTest
+AbstractEuclideanRingMatrixTest subclass: #GaloisRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1401,18 +1391,18 @@ AbstractCommutativeRingMatrixTest subclass: #GaloisRingMatrixTest
 GaloisRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisRingMultivariatePolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractCommutativeRingMatrixTest subclass: #GaloisRingMultivariatePolynomialRingMatrixTest
+!classDefinition: #LocalIntegerRingMatrixTest category: 'Tests-Algebra-Matrices'!
+AbstractEuclideanRingMatrixTest subclass: #LocalIntegerRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'GaloisRingMultivariatePolynomialRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
-GaloisRingMultivariatePolynomialRingMatrixTest class
+!classDefinition: 'LocalIntegerRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+LocalIntegerRingMatrixTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModularIntegerMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractCommutativeRingMatrixTest subclass: #ModularIntegerMatrixTest
+AbstractEuclideanRingMatrixTest subclass: #ModularIntegerMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1421,14 +1411,64 @@ AbstractCommutativeRingMatrixTest subclass: #ModularIntegerMatrixTest
 ModularIntegerMatrixTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #PrimePowerRingMatrixTest category: 'Tests-Algebra-Matrices'!
+AbstractEuclideanRingMatrixTest subclass: #PrimePowerRingMatrixTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'PrimePowerRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+PrimePowerRingMatrixTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #GaloisRingMultivariatePolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
+AbstractStandardRingMatrixTest subclass: #GaloisRingMultivariatePolynomialRingMatrixTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'GaloisRingMultivariatePolynomialRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+GaloisRingMultivariatePolynomialRingMatrixTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #ModularIntegerMultivariatePolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractCommutativeRingMatrixTest subclass: #ModularIntegerMultivariatePolynomialRingMatrixTest
+AbstractStandardRingMatrixTest subclass: #ModularIntegerMultivariatePolynomialRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
 !classDefinition: 'ModularIntegerMultivariatePolynomialRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
 ModularIntegerMultivariatePolynomialRingMatrixTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #PrimeFieldMultivariatePolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
+AbstractStandardRingMatrixTest subclass: #PrimeFieldMultivariatePolynomialRingMatrixTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'PrimeFieldMultivariatePolynomialRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+PrimeFieldMultivariatePolynomialRingMatrixTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #RationalMultivariatePolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
+AbstractStandardRingMatrixTest subclass: #RationalMultivariatePolynomialRingMatrixTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'RationalMultivariatePolynomialRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+RationalMultivariatePolynomialRingMatrixTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #RationalPolynomialRingPolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
+AbstractStandardRingMatrixTest subclass: #RationalPolynomialRingPolynomialRingMatrixTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'RationalPolynomialRingPolynomialRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+RationalPolynomialRingPolynomialRingMatrixTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #PrimeFieldAffineAlgebraMatrixTest category: 'Tests-Algebra-Matrices'!
@@ -1439,16 +1479,6 @@ AbstractCommutativeRingMatrixTest subclass: #PrimeFieldAffineAlgebraMatrixTest
 	category: 'Tests-Algebra-Matrices'!
 !classDefinition: 'PrimeFieldAffineAlgebraMatrixTest class' category: 'Tests-Algebra-Matrices'!
 PrimeFieldAffineAlgebraMatrixTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #PrimePowerRingMatrixTest category: 'Tests-Algebra-Matrices'!
-AbstractCommutativeRingMatrixTest subclass: #PrimePowerRingMatrixTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'PrimePowerRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
-PrimePowerRingMatrixTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #ProductRingMatrixTest category: 'Tests-Algebra-Matrices'!
@@ -8459,12 +8489,12 @@ setUp
 	k := 10 atRandom: random.
 	R := (PrimePowerRing new: p to: k) polynomials! !
 
-!BinaryPowerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2023 19:02:55'!
+!BinaryPowerRingPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2023 19:02:55'!
 setUp
 	super setUp.
 	R := (PrimePowerRing new: 2 to: ((2 to: 64) atRandom: random)) polynomials! !
 
-!BinaryPowerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2023 19:11:38'!
+!BinaryPowerRingPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2023 19:11:38'!
 setUpTemp
 	self flag: #fixme. "remove this method"
 	self setUp.
@@ -9948,20 +9978,6 @@ testAdjugateCramerRule
 	I _ A identity.
 	self assert: A * A adjugate = (I * A determinant)! !
 
-!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/14/2023 13:54:18'!
-testCanonicalBases
-	| basisAndTransformation A G T U |
-	self flag: #fixme. "should move this to a test case for matrices over rings with canonical bases"
-	scalars hasCanonicalBases ifFalse: [^ self].
-	A := self newMatrix: (6 atRandom: random) @ (6 atRandom: random).
-	basisAndTransformation := A basisAndTransformation.
-	G := basisAndTransformation first.
-	T := basisAndTransformation second.
-"	self assert: G isStandardBasis."
-	self assert: A * T = G.
-	U := A domain automorphisms atRandom: random.
-	self assert: (A * U) basis = G! !
-
 !AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 13:03:14'!
 testCayleyHamiltonTheorem
 	| A |
@@ -10000,24 +10016,52 @@ testDeterminant
 	self assert: (A * c) determinant = (c^n * A determinant).
 	self assert: A transpose determinant = A determinant! !
 
-!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/22/2022 18:41:25'!
+!CyclotomicIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:11:32'!
+setUp
+	super setUp.
+	scalars := (CyclotomicField new: (3 atRandom: random) + 2) integers! !
+
+!QuadraticRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 11:23:23'!
+setUp
+	| n |
+	super setUp.
+	[(n := ((2 to: 100) atRandom: random) squarefreePart) > 1] whileFalse.
+	random nextBoolean ifTrue: [n := n negated].
+	scalars := (QuadraticField new: n) integers! !
+
+!AbstractStandardRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2023 13:04:46'!
+testCanonicalBases
+	| basisAndTransformation A G T U |
+	A := self newMatrix: (6 atRandom: random) @ (6 atRandom: random).
+	basisAndTransformation := A basisAndTransformation.
+	G := basisAndTransformation first.
+	T := basisAndTransformation second.
+"	self assert: G isStandardBasis."
+	self assert: A * T = G.
+	U := A domain automorphisms atRandom: random.
+	self assert: (A * U) basis = G! !
+
+!AbstractStandardRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2023 13:04:55'!
+testHasCanonicalBases
+	self assert: scalars hasCanonicalBases! !
+
+!AbstractEuclideanRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2023 12:54:28'!
 testEchelonization
 	| A E T U |
-	scalars isEuclidean ifFalse: [^ self].
-	A _ self newMatrix: (6 atRandom: random) @ (6 atRandom: random).
-	T _ A echelonTransformation.
-	E _ A echelon.
+	A := self newMatrix: (6 atRandom: random) @ (6 atRandom: random).
+	T := A echelonTransformation.
+	E := A echelon.
 	self assert: E isEchelon.
 "	self assert: E isReducedEchelon."
 	self assert: T * A = E.
-	U _ A codomain automorphisms atRandom: random.
+	U := A codomain automorphisms atRandom: random.
 	self assert: (U * A) echelon = E.
-	T _ A coechelonTransformation.
-	E _ A coechelon.
+	T := A coechelonTransformation.
+	E := A coechelon.
 	self assert: E transpose isEchelon.
 "	self assert: E transpose isReducedEchelon."
 	self assert: A * T = E.
-	U _ A domain automorphisms atRandom: random.
+	U := A domain automorphisms atRandom: random.
 	self assert: (A * U) coechelon = E! !
 
 !AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:09:14'!
@@ -10452,11 +10496,6 @@ setUp
 	super setUp.
 	scalars := ℤ/3! !
 
-!CyclotomicIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:11:32'!
-setUp
-	super setUp.
-	scalars := (CyclotomicField new: (3 atRandom: random) + 2) integers! !
-
 !EisensteinIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:11:46'!
 setUp
 	super setUp.
@@ -10849,16 +10888,6 @@ testSmithNormalFormExampleDiagonal
 	A _ ℤ !!!!!! #((5 0 0) (0 2 0) (0 0 0)).
 	self assert: A SNF = ((ℤ^3) endomorphisms diagonal: #(1 10 0))! !
 
-!LocalIntegerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:12:37'!
-setUp
-	super setUp.
-	scalars := ℤ @ (ℤ * (64 atRandom: random) nextPrime)! !
-
-!PrimeFieldMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:12:49'!
-setUp
-	super setUp.
-	scalars := ℤ/5 polynomialsIn: #(x y z)! !
-
 !PrimeFieldPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:12:59'!
 setUp
 	super setUp.
@@ -10897,19 +10926,6 @@ testSmithNormalFormOverPolynomialsOverPrimeField2
 	self assert: ax SNF = ((P^5) endomorphisms diagonal: {P one. P one. x - 1. x^2 - 1. x^2 - 1}).
 	self assert: ax elementaryDivisors = {P one. P one. x - 1. x^2 - 1. x^2 - 1}! !
 
-!QuadraticRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 11:23:23'!
-setUp
-	| n |
-	super setUp.
-	[(n := ((2 to: 100) atRandom: random) squarefreePart) > 1] whileFalse.
-	random nextBoolean ifTrue: [n := n negated].
-	scalars := (QuadraticField new: n) integers! !
-
-!RationalMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:13:46'!
-setUp
-	super setUp.
-	scalars := ℚ polynomialsIn: #(x y z)! !
-
 !RationalPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:13:57'!
 setUp
 	super setUp.
@@ -10934,12 +10950,7 @@ testSmithNormalFormOverExample1
 	A _ (R^2) id * x - (R !!!!!! #((3 -4) (1 -1))).
 	self assert: A SNF = ((R^2) endomorphisms diagonal: {R one. x^2 - (x*2) + 1})! !
 
-!RationalPolynomialRingPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2023 11:00:12'!
-setUp
-	super setUp.
-	scalars := ℚ polynomials polynomials! !
-
-!BinaryPowerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2023 17:29:05'!
+!BinaryPowerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2023 17:29:05'!
 setUp
 	super setUp.
 	scalars := PrimePowerRing new: 2 to: ((2 to: 64) atRandom: random)! !
@@ -10949,10 +10960,10 @@ setUp
 	super setUp.
 	scalars := GaloisRing new: (3 atRandom: random) nextPrime to: (2 atRandom: random) to: (2 atRandom: random)! !
 
-!GaloisRingMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:15:14'!
+!LocalIntegerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:12:37'!
 setUp
 	super setUp.
-	scalars := (GaloisRing new: (3 atRandom: random) nextPrime to: (2 atRandom: random) to: (2 atRandom: random)) polynomialsIn: (3 atRandom: random)! !
+	scalars := ℤ @ (ℤ * (64 atRandom: random) nextPrime)! !
 
 !ModularIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:15:33'!
 setUp
@@ -10993,19 +11004,6 @@ testHowellNormalForm3
 	H _ R !!!!!! #((2 1) (0 3)).
 	self assert: A echelon = H! !
 
-!ModularIntegerMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:16:01'!
-setUp
-	super setUp.
-	scalars := ℤ/(1024 atRandom: random) polynomialsIn: (3 atRandom: random)! !
-
-!PrimeFieldAffineAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:16:59'!
-setUp
-	| P |
-	super setUp.
-	P := ℤ/(64 atRandom: random) nextPrime polynomialsIn: (3 atRandom: random).
-	[scalars := P / ((1 to: (4 atRandom: random) - 1) collect: [:i| P atRandom: random bits: 20]).
-	scalars isTrivial] whileTrue! !
-
 !PrimePowerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:17:24'!
 setUp
 	super setUp.
@@ -11018,6 +11016,39 @@ testSyzygiesBug
 	A _ R !!!!!! #((15 48 278 40)).
 	X _ A syzygies.
 	self assert: (A*X) isZero! !
+
+!GaloisRingMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:15:14'!
+setUp
+	super setUp.
+	scalars := (GaloisRing new: (3 atRandom: random) nextPrime to: (2 atRandom: random) to: (2 atRandom: random)) polynomialsIn: (3 atRandom: random)! !
+
+!ModularIntegerMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:16:01'!
+setUp
+	super setUp.
+	scalars := ℤ/(1024 atRandom: random) polynomialsIn: (3 atRandom: random)! !
+
+!PrimeFieldMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:12:49'!
+setUp
+	super setUp.
+	scalars := ℤ/5 polynomialsIn: #(x y z)! !
+
+!RationalMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:13:46'!
+setUp
+	super setUp.
+	scalars := ℚ polynomialsIn: #(x y z)! !
+
+!RationalPolynomialRingPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2023 11:00:12'!
+setUp
+	super setUp.
+	scalars := ℚ polynomials polynomials! !
+
+!PrimeFieldAffineAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:16:59'!
+setUp
+	| P |
+	super setUp.
+	P := ℤ/(64 atRandom: random) nextPrime polynomialsIn: (3 atRandom: random).
+	[scalars := P / ((1 to: (4 atRandom: random) - 1) collect: [:i| P atRandom: random bits: 20]).
+	scalars isTrivial] whileTrue! !
 
 !ProductRingMatrixTest methodsFor: 'initialization' stamp: 'len 5/26/2023 00:17:47'!
 setUp
@@ -12426,23 +12457,24 @@ setUp
 	super setUp.
 	scalars := QuaternionAlgebra over: ℚ invariants: #(1 1)! !
 
-!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2022 14:43:41'!
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2023 12:13:56'!
 testExtendedBuchbergerWithCyclic3
 	| R I A basisAndTransformation G T |
-	R _ scalars polynomialsIn: 3.
-	I _ R cyclicIdeal.
-	I _ I orderedBy: #grevlex.
-	A _ I generatorMatrix.
-	basisAndTransformation _ A basisAndTransformation.
-	G _ basisAndTransformation first.
-	T _ basisAndTransformation second.
-	self assert: A * T = G! !
+	R := scalars polynomialsIn: 3.
+	I := R cyclicIdeal.
+	I := I orderedBy: #grevlex.
+	A := I generatorMatrix.
+	basisAndTransformation := A basisAndTransformation.
+	G := basisAndTransformation first.
+	T := basisAndTransformation second.
+	self assert: A * T = G.
+	self assert: G isMinimalStandardBasis.
+	self assert: G isReducedStandardBasis! !
 
-!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:15:37'!
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2023 12:15:23'!
 testGroebnerBasis: G ideal: I
 	"Test G is a Groebner basis of the ideal I."
 	| g division |
-"	self assert: G verify."
 	I isTrivial ifTrue: [^ self assert: G isEmpty].
 	I generators do: [:each| self assert: (each reductionBy: G) isZero].
 	G do: [:each| self assert: (I includes: each)]. "but this will use Groebner bases.."
@@ -12454,8 +12486,8 @@ testGroebnerBasis: G ideal: I
 	division := g divisionBy: G.
 	self assert: division remainder isZero.
 	division validate.
-"	self assert: G reduced isReduced.
-	self assert: G minimal isMinimal"! !
+"	self assert: G isMinimalStandardBasis.
+	self assert: G isReducedStandardBasis"! !
 
 !AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:06:13'!
 testGroebnerCyclic3

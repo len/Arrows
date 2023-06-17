@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5866] on 16 June 2023 at 8:13:06 pm'!
+'From Cuis 6.0 [latest update: #5866] on 17 June 2023 at 2:47:19 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -75,7 +75,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 110!
+!provides: 'Algebra' 1 111!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -17195,12 +17195,13 @@ to: aModule validMatrix: aMatrix
 	"Answer the categorical product, i.e. direct sum of the receiver and the argument."
 	^ self ⊕ aModule! !
 
-!Module methodsFor: 'operations' stamp: 'len 6/15/2023 16:19:49'!
+!Module methodsFor: 'operations' stamp: 'len 6/17/2023 11:18:36'!
 ⊕ aModule
 	"Answer the direct sum of the receiver and the argument."
 	| R answer |
 	R := self relationsMatrix ⊕ aModule relationsMatrix.
 	answer := R cokernel.
+	self flag: #fixme. "the projections and coprojections are wrong"
 	answer
 		addCoprojections: (R codomain ⇇ {self cover. aModule cover} with: {self. aModule} collect: [:i :X| X to: answer validMatrix: i]);
 		addProjections: (R codomain ⇉ {self cover. aModule cover} with: {self. aModule} collect: [:π :Y| answer to: Y validMatrix: π]).
@@ -24365,6 +24366,11 @@ index
 	This is precisely the Euler characteristic of the 2-term complex 0 -> domain -> codomain -> 0."
 	^ self kernel rank - self cokernel rank! !
 
+!Matrix methodsFor: 'operations' stamp: 'len 6/17/2023 11:04:27'!
+lcm: aMatrix
+	"The LCM is well defined for scalar matrices over a ring with GCD."
+	^ self parent scalar: (self asScalar lcm: aMatrix asScalar)! !
+
 !Matrix methodsFor: 'operations' stamp: 'len 5/5/2023 18:30:21'!
 minimalPolynomial
 	| P n answer |
@@ -24827,19 +24833,24 @@ isLowerTriangular
 isMatrix
 	^ true! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 6/15/2023 12:50:38'!
+!Matrix methodsFor: 'testing' stamp: 'len 6/17/2023 12:00:10'!
 isMinimalStandardBasis
-	"A Groebner basis G of an ideal I is called 'minimal' if the lead terms of the elements in G minimally generate in(I); or equivalently, if for all p in G:
-	- LC(p) is normalized (over fields p is monic), and
-	- LT(p) is not in ⟨G-{p}⟩ (i.e., leading-term-minimal).
+	"A Groebner basis G of an ideal I is called 'minimal' if the leading terms of the elements in G minimally generate in(I); or equivalently, if for all g in G:
+	- LC(g) is normalized (over fields g is monic), and
+	- LT(g) is not in ⟨G-{g}⟩ (i.e., leading-term-minimal, no leading term of any generator divides any other generator's leading term).
 	Note that any leading-term-minimal Groebner basis is also cardinality-minimal."
 	self isStandardBasis ifFalse: [^ false].
 	self columnsDo: [:g| g leadingCoefficient normalization isOne ifFalse: [^ false]].
 	1 to: self width do: [:i|
-		| m |
-		m := (self columnAt: i) leadingMonomial.
+		| Cᵢ m c |
+		Cᵢ := self columnAt: i.
+		m := Cᵢ leadingMonomial.
+		c := Cᵢ leadingCoefficient.
 		1 to: self width do: [:j|
-			(i ~~ j and: [(self columnAt: j) leadingMonomial | m]) ifTrue: [^ false]]].
+			i ~= j ifTrue:
+				[| Cⱼ |
+				Cⱼ := self columnAt: j.
+				(Cⱼ leadingMonomial | m and: [Cⱼ leadingCoefficient | c]) ifTrue: [^ false]]]].
 	^ true! !
 
 !Matrix methodsFor: 'testing' stamp: 'len 1/2/2022 10:01:23'!
@@ -24908,19 +24919,21 @@ isReducedEchelon
 		lastPivot _ each].
 	^ true! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 6/15/2023 12:59:04'!
+!Matrix methodsFor: 'testing' stamp: 'len 6/17/2023 14:22:09'!
 isReducedStandardBasis
-	"A strong Groebner basis G is called 'reduced' (or 'auto-reduced') if for all p in G:
-	- LC(p) is normalized (over fields p is monic), and
-	- no term of p is in ⟨G-{p}⟩.
+	"A strong Groebner basis G is called 'reduced' (or 'auto-reduced') if for all g in G:
+	- LC(g) is normalized (over fields g is monic), and
+	- if the monomial m of any term c*m of g can be divided by the leading monomial LM(f) of any other element f of G, the Euclidean quotient of the division c by LC(f) is zero.
 	In particular, a reduced Groebner basis is leading-term-minimal (no leading term of any generator divides any other generator's leading term), and a leading-term-minimal basis is also cardinality-minimal."
 	self isStandardBasis ifFalse: [^ false].
 	self columnsDo: [:g| g leadingCoefficient normalization isOne ifFalse: [^ false]].
 	1 to: self width do: [:i|
 		(self columnAt: i) associationsDo: [:each|
 			1 to: self width do: [:j|
-				(i ~~ j and: [(self columnAt: j) leadingMonomial | each key and: [(each value // (self columnAt: j) leadingCoefficient) isZero not]])
-					ifTrue: [^ false]]]].
+				i ~= j ifTrue:
+					[| Cⱼ |
+					Cⱼ := self columnAt: j.
+					(Cⱼ leadingMonomial | each key and: [(each value // Cⱼ leadingCoefficient) isZero not]) ifTrue: [^ false]]]]].
 	^ true! !
 
 !Matrix methodsFor: 'testing' stamp: 'len 4/5/2018 15:42:21'!
@@ -33408,18 +33421,18 @@ reductionFullBy: anArray
 			g isZero ifFalse: [h _ h + g leadingTerm. g _ g tail]].
 	^ h! !
 
-!Polynomial methodsFor: 'reduction' stamp: 'len 5/22/2022 11:19:19'!
+!Polynomial methodsFor: 'reduction' stamp: 'len 6/17/2023 14:32:54'!
 reductionGlobalBy: anArray
 	"Answer a top-reduction of the receiver with respect to the argument (without doing tail reduction)."
 	| h |
-	h _ self.
+	h := self.
 	[h isZero]
 		whileFalse:
-			[| m c g |
-			m _ h leadingMonomial.
-			c _ h leadingCoefficient.
-			g _ anArray detect: [:one| one leadingMonomial | m and: [one leadingCoefficient | c]] ifNone: [^ h].
-			h _ h + (g * (m / g leadingMonomial) * (c negated / g leadingCoefficient))].
+			[| m c g q |
+			m := h leadingMonomial.
+			c := h leadingCoefficient.
+			g := anArray detect: [:one| one leadingMonomial | m and: [(q := c // one leadingCoefficient) isZero not]] ifNone: [^ h].
+			h := h + (g * (m / g leadingMonomial) * q negated)].
 	^ h! !
 
 !Polynomial methodsFor: 'reduction' stamp: 'len 6/7/2022 12:30:37'!
@@ -36021,11 +36034,6 @@ normalization
 	NOTE: when the coefficients ring is not an integral domain this choice of unit might not be unique."
 	^ (self at: (self lastNonzeroIndex ifNil: [^ self scalars one])) normalization! !
 
-!Tuple methodsFor: 'operations' stamp: 'len 5/5/2023 00:11:07'!
-normalized
-	"Answer a unique choice of associate. See >>normalization."
-	^ self * self normalization! !
-
 !Tuple methodsFor: 'operations' stamp: 'len 5/14/2023 15:06:41'!
 primitivePart
 	"Answer the primitive part of the receiver."
@@ -36148,11 +36156,11 @@ degree
 	coefficients withIndexDo: [:each :i| answer _ answer max: each degree + (self ordering degreeAt: i)].
 	^ answer! !
 
-!MultivariateTuple methodsFor: 'accessing' stamp: 'len 5/5/2023 00:52:13'!
+!MultivariateTuple methodsFor: 'accessing' stamp: 'len 6/17/2023 12:42:02'!
 ecart
 	"Answer the ecart of the receiver. This is a measure of how far a tuple is from being homogeneous."
 	self isZero ifTrue: [^ Infinity negative].
-	^ (self max: [:each| each degree]) - self leadingMonomial degree! !
+	^ (coefficients max: [:each| each degree]) - self leadingMonomial degree! !
 
 !MultivariateTuple methodsFor: 'accessing' stamp: 'len 5/5/2023 00:52:13'!
 leadingCoefficient
@@ -36249,18 +36257,18 @@ reductionFullBy: anArray
 			g isZero ifFalse: [h _ h + g leadingTerm. g _ g tail]].
 	^ h! !
 
-!MultivariateTuple methodsFor: 'operations' stamp: 'len 5/5/2023 00:52:13'!
+!MultivariateTuple methodsFor: 'operations' stamp: 'len 6/17/2023 14:33:08'!
 reductionGlobalBy: anArray
 	"Answer a top-reduction of the receiver with respect to the argument (without doing tail reduction)."
 	| h |
-	h _ self.
+	h := self.
 	[h isZero]
 		whileFalse:
-			[| m c g |
-			m _ h leadingMonomial.
-			c _ h leadingCoefficient.
-			g _ anArray detect: [:one| one leadingMonomial | m and: [one leadingCoefficient | c]] ifNone: [^ h].
-			h _ h + (g * (m / g leadingMonomial) * (c negated / g leadingCoefficient))].
+			[| m c g q |
+			m := h leadingMonomial.
+			c := h leadingCoefficient.
+			g := anArray detect: [:one| one leadingMonomial | m and: [(q := c // one leadingCoefficient) isZero not]] ifNone: [^ h].
+			h := h + (g * (m / g leadingMonomial) * q negated)].
 	^ h! !
 
 !MultivariateTuple methodsFor: 'operations' stamp: 'len 5/5/2023 00:52:13'!
@@ -38021,10 +38029,10 @@ divide: aPolynomial by: anArrayOfPolynomials
 	dividend _ aPolynomial.
 	divisors _ anArrayOfPolynomials! !
 
-!MultivariateDivision methodsFor: 'private' stamp: 'len 6/16/2023 18:27:32'!
+!MultivariateDivision methodsFor: 'private' stamp: 'len 6/17/2023 14:42:37'!
 run
 	"Perform the division algorithm computing quotients and remainder."
-	| R p s fᵢ q m c i |
+	| R p s fᵢ qᵢ q m c i |
 	R := dividend isTuple ifTrue: [dividend scalars] ifFalse: [dividend parent].
 	quotients := Array new: divisors size withAll: R zero.
 	divisors isEmpty ifTrue: [remainder := dividend. ^ self].
@@ -38035,10 +38043,10 @@ run
 		[m := p leadingMonomial.
 		c := p leadingCoefficient.
 		i := 1.
-		[((fᵢ := divisors at: i) leadingMonomial | m and: [fᵢ leadingCoefficient | c]) or: [(i := i + 1) > s]] whileFalse.
+		[((fᵢ := divisors at: i) leadingMonomial | m and: [(qᵢ := c // fᵢ leadingCoefficient) isZero not]) or: [(i := i + 1) > s]] whileFalse.
 		i <= s "i.e. found fi"
 			ifTrue:
-				[q := R coefficient: c / fᵢ leadingCoefficient monomial: m / fᵢ leadingMonomial.
+				[q := R coefficient: qᵢ monomial: m / fᵢ leadingMonomial.
 				quotients at: i put: (quotients at: i) + q.
 				p := p + (fᵢ * q negated)]
 			ifFalse:
@@ -38077,24 +38085,23 @@ ordering
 scalars
 	^ matrix scalars scalars! !
 
-!StrongBuchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
+!StrongBuchberger methodsFor: 'computing' stamp: 'len 6/17/2023 14:39:17'!
 autoreduce
 	"Make the basis a reduced basis.
 	Based on [BW93], algorithm REDGROEBNER (p. 216) and REDUCTION (p. 203)."
 	| H |
-	H _ OrderedCollection new.
+	H := OrderedCollection new.
 	1 to: generators size do: [:i| | f m c |
-		f _ generators at: i.
-		m _ f leadingMonomial.
-		c _ f leadingCoefficient.
-		(((i+1 to: generators size) noneSatisfy: [:j| (generators at: j) leadingMonomial | m and: [(generators at: j) leadingCoefficient | c]])
-			and: [H noneSatisfy: [:h| h leadingMonomial | m and: [h leadingCoefficient | c]]])
+		f := generators at: i.
+		m := f leadingMonomial.
+		c := f leadingCoefficient.
+		(((i+1 to: generators size) noneSatisfy: [:j| (generators at: j) leadingMonomial | m and: [(c // (generators at: j) leadingCoefficient) isZero not]])
+			and: [H noneSatisfy: [:h| h leadingMonomial | m and: [(c // h leadingCoefficient) isZero not]]])
 				ifTrue: [H add: f]].
-	H _ H asArray.
-	generators _ OrderedCollection new.
-	1 to: H size do: [:i| | h r |
-		h _ H at: i.
-		(r _ h reductionFullBy: (H copyWithoutIndex: i)) isZero ifFalse: [generators add: r normalized]]! !
+	H := H asArray.
+	generators := OrderedCollection new.
+	H withIndexDo: [:h :i| | r |
+		(r := h reductionFullBy: (H copyWithoutIndex: i)) isZero ifFalse: [generators add: r normalized]]! !
 
 !StrongBuchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
 process: anArray
@@ -38125,18 +38132,18 @@ process: anArray
 					(r _ g reductionBy: generators) isZero ifFalse: [queue add: r]]]]].
 	^ queue! !
 
-!StrongBuchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
+!StrongBuchberger methodsFor: 'computing' stamp: 'len 6/17/2023 14:46:51'!
 run
 	| queue |
-	generators _ OrderedCollection new.
-	queue _ OrderedCollection new.
+	generators := OrderedCollection new.
+	queue := OrderedCollection new.
 	(self isRankOne ifTrue: [matrix asTuple asArray] ifFalse: [matrix columns])
 		withIndexDo: [:each :i| each isZero ifFalse: [queue add: each]].
 	[queue isEmpty] whileFalse:
-		[queue _ self process: (queue asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial])].
+		[queue := self process: (queue asSortedCollection: [:a :b| a leadingMonomial <= b leadingMonomial])].
 	"This adds about 50% time in some cases:"
 	self autoreduce.
-	self sort.
+	self sort
 "	self validate"! !
 
 !StrongBuchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
@@ -38156,12 +38163,12 @@ compare: a with: b
 matrix: aMatrix
 	matrix _ aMatrix! !
 
-!StrongBuchberger methodsFor: 'private' stamp: 'len 12/17/2022 10:03:07'!
+!StrongBuchberger methodsFor: 'private' stamp: 'len 6/17/2023 12:41:14'!
 validate
 	self basis isStandardBasis ifFalse: [^ self error: 'not standard basis'].
-"	self assert: self basisMatrix isReducedStandardBasis.
-	self assert: self basisMatrix isMinimalStandardBasis."
-	(generators sorted: [:a :b| a leadingMonomial >= b leadingMonomial]) = generators asArray ifFalse: [^ self error: 'not sorted']! !
+	self assert: self basis isReducedStandardBasis.
+	self assert: self basis isMinimalStandardBasis.
+	(generators asArray sorted: [:a :b| self compare: a with: b]) = generators asArray ifFalse: [^ self error: 'not sorted']! !
 
 !StrongBuchberger class methodsFor: 'instance creation' stamp: 'len 12/22/2022 19:12:29'!
 on: aMatrix
@@ -38216,30 +38223,30 @@ transformation
 	combinations isNil ifTrue: [self run].
 	^ matrix scalars^combinations size to: matrix domain fill: [:i :j| (combinations at: j) at: i]! !
 
-!ExtendedStrongBuchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
+!ExtendedStrongBuchberger methodsFor: 'computing' stamp: 'len 6/17/2023 14:40:16'!
 autoreduce
 	"Make the basis a reduced basis.
 	Based on [BW93], algorithm REDGROEBNER (p. 216) and REDUCTION (p. 203)."
 	| H T |
-	H _ OrderedCollection new.
-	T _ OrderedCollection new.
+	H := OrderedCollection new.
+	T := OrderedCollection new.
 	1 to: generators size do: [:i| | f m c |
-		f _ generators at: i.
-		m _ f leadingMonomial.
-		c _ f leadingCoefficient.
-		(((i+1 to: generators size) noneSatisfy: [:j| (generators at: j) leadingMonomial | m and: [(generators at: j) leadingCoefficient | c]])
-			and: [H noneSatisfy: [:h| h leadingMonomial | m and: [h leadingCoefficient | c]]])
+		f := generators at: i.
+		m := f leadingMonomial.
+		c := f leadingCoefficient.
+		(((i+1 to: generators size) noneSatisfy: [:j| (generators at: j) leadingMonomial | m and: [(c // (generators at: j) leadingCoefficient) isZero not]])
+			and: [H noneSatisfy: [:h| h leadingMonomial | m and: [(c // h leadingCoefficient) isZero not]]])
 				ifTrue: [H add: f. T add: (combinations at: i)]].
-	H _ H asArray.
-	T _ T asArray.
-	H size > 1 ifFalse: [generators _ H. combinations _ T. ^ self].
-	generators _ OrderedCollection new.
-	combinations _ OrderedCollection new.
+	H := H asArray.
+	T := T asArray.
+	H size > 1 ifFalse: [generators := H. combinations := T. ^ self].
+	generators := OrderedCollection new.
+	combinations := OrderedCollection new.
 	1 to: H size do: [:i| | h division r u |
-		h _ H at: i.
-		division _ h divisionBy: (H copyWithoutIndex: i).
-		(r _ division remainder) isZero ifFalse:
-			[u _ r normalization.
+		h := H at: i.
+		division := h divisionBy: (H copyWithoutIndex: i).
+		(r := division remainder) isZero ifFalse:
+			[u := r normalization.
 			generators add: r*u.
 			combinations add: (T at: i) - ((T copyWithoutIndex: i) * division quotients) sum * u]]! !
 
@@ -38284,19 +38291,19 @@ process: anArray
 						[queue add: (Association key: division remainder value: ((ai * (matrix scalars one * (m / hi) * (xgcd at: 2)) + (ak * (matrix scalars one * (m / hk) * (xgcd at: 3)))) - (combinations * division quotients) sum))]]]]].
 	^ queue! !
 
-!ExtendedStrongBuchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
+!ExtendedStrongBuchberger methodsFor: 'computing' stamp: 'len 6/17/2023 12:37:09'!
 run
 	| queue |
 	self ordering isGlobal ifFalse: [^ self notYetImplemented].
-	generators _ OrderedCollection new.
-	combinations _ OrderedCollection new.
-	queue _ OrderedCollection new.
+	generators := OrderedCollection new.
+	combinations := OrderedCollection new.
+	queue := OrderedCollection new.
 	(self isRankOne ifTrue: [matrix asTuple asArray] ifFalse: [matrix columns])
 		withIndexDo: [:each :i| each isZero ifFalse: [queue add: (Association key: each value: (matrix domain x: i))]].
-	[(queue _ self process: (queue asSortedCollection: [:a :b| a key leadingMonomial <= b key leadingMonomial])) isEmpty] whileFalse.
+	[(queue := self process: (queue asSortedCollection: [:a :b| a key leadingMonomial <= b key leadingMonomial])) isEmpty] whileFalse.
 	self autoreduce.
 	self sort.
-"	self validate"! !
+	self validate! !
 
 !ExtendedStrongBuchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
 sort
