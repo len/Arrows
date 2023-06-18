@@ -1,66 +1,68 @@
-'From Cuis 6.0 [latest update: #5597] on 8 May 2023 at 11:43:08 pm'!
+'From Cuis 6.0 [latest update: #5866] on 18 June 2023 at 2:40:13 pm'!
 'Description '!
-!provides: 'Elliptic Curves' 1 10!
+!provides: 'Elliptic Curves' 1 11!
 !requires: 'Algebra' 1 0 nil!
-SystemOrganization addCategory: #'Elliptic Curves'!
+SystemOrganization addCategory: 'Elliptic Curves'!
 
 
-!classDefinition: #EllipticCurveGroup category: #'Elliptic Curves'!
+!classDefinition: #EllipticCurveGroup category: 'Elliptic Curves'!
 Group subclass: #EllipticCurveGroup
 	instanceVariableNames: 'curve scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveGroup class' category: #'Elliptic Curves'!
+!classDefinition: 'EllipticCurveGroup class' category: 'Elliptic Curves'!
 EllipticCurveGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurve category: #'Elliptic Curves'!
+!classDefinition: #EllipticCurve category: 'Elliptic Curves'!
 ProjectivePlaneCurve subclass: #EllipticCurve
-	instanceVariableNames: 'equation'
+	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurve class' category: #'Elliptic Curves'!
+!classDefinition: 'EllipticCurve class' category: 'Elliptic Curves'!
 EllipticCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurveIsogeny category: #'Elliptic Curves'!
+!classDefinition: #ShortWeierstrassCurve category: 'Elliptic Curves'!
+EllipticCurve subclass: #ShortWeierstrassCurve
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Elliptic Curves'!
+!classDefinition: 'ShortWeierstrassCurve class' category: 'Elliptic Curves'!
+ShortWeierstrassCurve class
+	instanceVariableNames: ''!
+
+!classDefinition: #EllipticCurveIsogeny category: 'Elliptic Curves'!
 RationalMap subclass: #EllipticCurveIsogeny
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveIsogeny class' category: #'Elliptic Curves'!
+!classDefinition: 'EllipticCurveIsogeny class' category: 'Elliptic Curves'!
 EllipticCurveIsogeny class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurvePoint category: #'Elliptic Curves'!
+!classDefinition: #EllipticCurvePoint category: 'Elliptic Curves'!
 ProjectivePoint subclass: #EllipticCurvePoint
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurvePoint class' category: #'Elliptic Curves'!
+!classDefinition: 'EllipticCurvePoint class' category: 'Elliptic Curves'!
 EllipticCurvePoint class
-	instanceVariableNames: ''!
-
-!classDefinition: #WeierstrassEquation category: #'Elliptic Curves'!
-Object subclass: #WeierstrassEquation
-	instanceVariableNames: 'coefficients'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Elliptic Curves'!
-!classDefinition: 'WeierstrassEquation class' category: #'Elliptic Curves'!
-WeierstrassEquation class
 	instanceVariableNames: ''!
 
 
 !EllipticCurveGroup commentStamp: '<historical>' prior: 0!
-Abelian groups E(K) consisting of the K-rational points of an elliptic curve E.!
+Abelian group E(K) consisting of the K-rational points of an elliptic curve E.!
 
 !EllipticCurve commentStamp: '<historical>' prior: 0!
-Elliptic curves are the projective plane curves of genus 1. They can be defined by a Weierstrass equation (see WeierstrassEquation).
+Elliptic curves are the projective plane curves of genus 1. They can be defined by a Weierstrass equation of the form
+	y² + a₁xy + a₃y = x³ + a₂x² + a₄x + a₀
+with coefficients (a₁,a₂,a₃,a₄,a₆) in some field.
 
 Elliptic curves are abelian varieties, i.e. the sets E(K) of K-rational points are abelian groups. See EllipticCurvePoint and EllipticCurveGroup.
 !
@@ -74,13 +76,6 @@ K-rational points on an elliptic curve E, seen as morphisms Spec(K) -> E. These 
 Following conventions, a point [a:b:1] is printed '(a,b)', and the point at infinity [0:1:0] is printed 'O'.
 
 See also EllipticCurve.!
-
-!WeierstrassEquation commentStamp: '<historical>' prior: 0!
-Weierstrass equations are equations of the form
-	y^2 + a1 xy + a3 y = x^3 + a2 x^2 + a4 x + a0
-with coefficients (a1,a2,a3,a4,a6) in some field.
-
-When the discriminant is not zero, they define an elliptic curve. See EllipticCurve.!
 
 !EllipticCurveGroup methodsFor: 'accessing' stamp: 'len 9/28/2018 06:40:54'!
 ambient
@@ -115,9 +110,9 @@ identity
 	This is the point at infinity."
 	^ curve pointAt: scalars !!!! {scalars zero. scalars one. scalars zero}! !
 
-!EllipticCurveGroup methodsFor: 'enumerating' stamp: 'len 11/10/2016 08:10'!
+!EllipticCurveGroup methodsFor: 'enumerating' stamp: 'len 6/17/2023 23:18:20'!
 do: aBlock
-	self curve pointsOver: self scalars do: aBlock! !
+	curve pointsOver: self scalars do: aBlock! !
 
 !EllipticCurveGroup methodsFor: 'printing' stamp: 'len 11/10/2016 08:13'!
 printOn: aStream
@@ -143,14 +138,100 @@ scalars: aField
 on: anEllipticCurve over: aField
 	^ self new curve: anEllipticCurve; scalars: aField! !
 
-!EllipticCurve methodsFor: 'accessing' stamp: 'len 11/9/2016 13:11'!
-equation
-	^ equation! !
+!EllipticCurve methodsFor: 'accessing' stamp: 'len 6/18/2023 10:59:59'!
+a₁
+	^ coefficients at: 1! !
+
+!EllipticCurve methodsFor: 'accessing' stamp: 'len 6/18/2023 11:00:09'!
+a₂
+	^ coefficients at: 2! !
+
+!EllipticCurve methodsFor: 'accessing' stamp: 'len 6/18/2023 11:00:19'!
+a₃
+	^ coefficients at: 3! !
+
+!EllipticCurve methodsFor: 'accessing' stamp: 'len 6/18/2023 11:00:29'!
+a₄
+	^ coefficients at: 4! !
+
+!EllipticCurve methodsFor: 'accessing' stamp: 'len 6/18/2023 11:00:37'!
+a₆
+	^ coefficients at: 5! !
+
+!EllipticCurve methodsFor: 'accessing' stamp: 'len 6/18/2023 11:01:18'!
+b₂
+	^ self a₁ squared + (self a₂ * 4) "NOTE: this is misprinted in Silverman's 'The Arithmetic Of Elliptic Curves'"! !
+
+!EllipticCurve methodsFor: 'accessing' stamp: 'len 6/18/2023 11:01:40'!
+b₄
+	^ self a₄ * 2 + (self a₁ * self a₃)! !
+
+!EllipticCurve methodsFor: 'accessing' stamp: 'len 6/18/2023 11:02:08'!
+b₆
+	^ self a₃ squared + (self a₆ * 4)! !
+
+!EllipticCurve methodsFor: 'accessing' stamp: 'len 6/18/2023 11:03:10'!
+b₈
+	^ self a₁ squared * self a₆ + (self a₂ * self a₆ * 4) - (self a₁ * self a₃ * self a₄) + (self a₂ * self a₃ squared) - self a₄ squared! !
+
+!EllipticCurve methodsFor: 'accessing' stamp: 'len 6/18/2023 11:03:36'!
+c₄
+	^ self b₂ squared - (self b₄ * 24)! !
+
+!EllipticCurve methodsFor: 'accessing' stamp: 'len 6/18/2023 11:04:04'!
+c₆
+	^ (self b₂ ^ 3) negated + (self b₂ * self b₄ * 36) - (self b₆ * 216)! !
+
+!EllipticCurve methodsFor: 'accessing' stamp: 'len 6/18/2023 11:04:58'!
+discriminant
+	^ (self b₂ squared * self b₈) negated - (self b₄ ^ 3 * 8) - (self b₆ squared * 27) + (self b₂ * self b₄ * self b₆ * 9)! !
 
 !EllipticCurve methodsFor: 'accessing' stamp: 'len 11/10/2016 08:03'!
 genus
 	"Answer the geometric genus of the receiver."
 	^ 1! !
+
+!EllipticCurve methodsFor: 'accessing' stamp: 'len 6/18/2023 11:05:11'!
+j
+	^ self c₄ ^ 3 / self discriminant! !
+
+!EllipticCurve methodsFor: 'arithmetic' stamp: 'len 6/18/2023 12:34:07'!
+point: P plus: Q
+	"Addition of two points [Coh96, Proposition 7.1.7]."
+	| x₁ y₁ x₂ y₂ λ x₃ y₃ | 
+	P isZero ifTrue: [^ Q].
+	Q isZero ifTrue: [^ P].
+	x₁ := P x. y₁ := P y.
+	x₂ := Q x. y₂ := Q y.
+	x₁ = x₂
+		ifTrue:
+			[y₁ = (y₂ negated - (self a₁ * x₂) - self a₃) "P = -Q?"
+				ifTrue: [^ P zero].
+			y₁ = y₂ "P = Q?"
+				ifTrue: [λ := x₁ squared * 3 + (self a₂ * x₁ * 2) + self a₄ - (self a₁ * y₁) / (y₁ * 2 + (self a₁ * x₁) + self a₃)]]
+		ifFalse:
+			[λ := y₁ - y₂ / (x₁ - x₂)].
+	x₃ := x₁ negated - x₂ - self a₂ + (λ*(λ + self a₁)).
+	y₃ := y₁ negated - self a₃ - (self a₁ * x₃) + (λ*(x₁ - x₃)).
+	^ P shallowCopy x: x₃ y: y₃! !
+
+!EllipticCurve methodsFor: 'arithmetic' stamp: 'len 6/18/2023 12:43:15'!
+pointDouble: P
+	"Point doubling [Coh96, Proposition 7.1.7]."
+	| x₁ y₁ λ x₃ y₃ |
+	P isZero ifTrue: [^ P].
+	x₁ := P x. y₁ := P y.
+	λ := x₁ squared * 3 + (self a₂ * x₁ * 2) + self a₄ - (self a₁ * y₁) / (y₁ * 2 + (self a₁ * x₁) + self a₃).
+	x₃ := x₁*(-2) - self a₂ + (λ*(λ + self a₁)).
+	y₃ := y₁ negated - self a₃ - (self a₁ * x₃) + (λ*(x₁ - x₃)).
+	^ P shallowCopy x: x₃ y: y₃! !
+
+!EllipticCurve methodsFor: 'arithmetic' stamp: 'len 6/18/2023 12:19:35'!
+pointNegate: P
+	| x |
+	P isZero ifTrue: [^ P].
+	x := P x.
+	^ P shallowCopy x: x y: P y negated + (self a₁ * x) - (self a₃)! !
 
 !EllipticCurve methodsFor: 'converting' stamp: 'len 5/2/2021 11:19:44'!
 % anInteger
@@ -158,18 +239,14 @@ genus
 	self scalars = ℚ ifFalse: [^ DomainError signal: 'not over the rationals'].
 	^ self over: ℤ / anInteger! !
 
-!EllipticCurve methodsFor: 'converting' stamp: 'len 1/20/2017 09:37:28'!
+!EllipticCurve methodsFor: 'converting' stamp: 'len 6/18/2023 11:10:36'!
 over: aRing
-	^ self class equation: (self equation over: aRing)! !
+	^ self class coefficients: (coefficients over: aRing)! !
 
 !EllipticCurve methodsFor: 'operations' stamp: 'len 8/5/2021 08:38:35'!
 badPrimes
 	"Answer the set of primes for which the receiver doesn't have 'good reduction'."
 	^ self discriminant factorization asSet! !
-
-!EllipticCurve methodsFor: 'operations' stamp: 'len 11/11/2016 10:02'!
-discriminant
-	^ self equation discriminant! !
 
 !EllipticCurve methodsFor: 'operations' stamp: 'len 11/10/2016 09:43'!
 divisionPolynomial: n
@@ -181,47 +258,46 @@ divisionPolynomial: n at: x
 	"Answer the n-th division polynomial of the receiver evaluated at x."
 	^ self notYetImplemented! !
 
-!EllipticCurve methodsFor: 'operations' stamp: 'len 5/23/2020 09:13:12'!
+!EllipticCurve methodsFor: 'operations' stamp: 'len 6/18/2023 11:14:24'!
 divisionPolynomialNew: n
 	"Answer the n-th division polynomial."
-	| R w x y |
-	R _ ℤ polynomialsIn: #(x y).
+	| R x y |
+	R := ℤ polynomialsIn: #(x y).
 	n == 1 ifTrue: [^ R one].
-	w _ self equation.
-	x _ R x.
-	y _ R y.
-	n == 2 ifTrue: [^ y*2 + (w a1 * x) + w a3].
-	n == 3 ifTrue: [^ x^4 * 3 + (x^3 * w b2) + (x^2 * 3 * w b4) + (x * 3 * w b6) + w b8].
-	n == 4 ifTrue: [^ (self divisionPolynomial: 2) * (x^6 * 2 + (x^5 * w b2) + (x^4 * w b4 * 5) + (x^3 * 10 * w b6) + (x^2 * 10 * w b8) + (x * (w b2 * w b8 - (w b4 * w b6))) + (w b4 * w b8 - w b6 squared))].
+	x := R x.
+	y := R y.
+	n == 2 ifTrue: [^ y*2 + (self a₁ * x) + self a₃].
+	n == 3 ifTrue: [^ x^4 * 3 + (x^3 * self b₂) + (x^2 * 3 * self b₄) + (x * 3 * self b₆) + self b₈].
+	n == 4 ifTrue: [^ (self divisionPolynomial: 2) * (x^6 * 2 + (x^5 * self b₂) + (x^4 * self b₄ * 5) + (x^3 * 10 * self b₆) + (x^2 * 10 * self b₈) + (x * (self b₂ * self b₈ - (self b₄ * self b₆))) + (self b₄ * self b₈ - self b₆ squared))].
 "	n odd ifTrue: [
 		m _ n - 1 // 2.
 		^ (self divisionPolynomial: m+2) * ((self divisionPolynomial: m) ^ 3) - (self divisionPolynomial"! !
 
-!EllipticCurve methodsFor: 'operations' stamp: 'len 1/8/2017 20:55:09'!
+!EllipticCurve methodsFor: 'operations' stamp: 'len 6/18/2023 11:19:42'!
 divisionPolynomials
 	"Answer the sequence of division polynomials.
 	Reference: Silverman, 'The Arithmetic of Elliptic Curves', Exercise 3.7, pag. 105."
-	| R x y phi1 phi2 phi3 phi4 a1 a3 b2 b4 b6 b8 |
-	R _ self scalars polynomialsIn: #(x y). x _ R x. y _ R y.
-	a1 _ self equation a1.
-	a3 _ self equation a3.
-	b2 _ self equation b2.
-	b4 _ self equation b4.
-	b6 _ self equation b6.
-	b8 _ self equation b8.
-	phi1 _ R one.
-	phi2 _ y*2 + (a1 * x) + a3.
-	phi3 _ x^4 * 3 + (x^3 * b2) + (x^2 * 3 * b4) + (x * 3 * b6) + b8.
-	phi4 _ phi2 * (x^6 * 2 + (x^5 * b2) + (x^4 * b4 * 5) + (x^3 * 10 * b6) + (x^2 * 10 * b8) + (x * (b2 * b8 - (b4 * b6))) + (b4 * b8 - b6 squared)).
-	^ Sequence to: R initialValues: {phi1. phi2. phi3. phi4} recurrence: [:phi :n|
+	| R x y φ₁ φ₂ φ₃ φ₄ a₁ a₃ b₂ b₄ b₆ b₈ |
+	R := self scalars polynomialsIn: #(x y). x := R x. y := R y.
+	a₁ := self a₁.
+	a₃ := self a₃.
+	b₂ := self b₂.
+	b₄ := self b₄.
+	b₆ := self b₆.
+	b₈ := self b₈.
+	φ₁ := R one.
+	φ₂ := y*2 + (a₁ * x) + a₃.
+	φ₃ := x^4 * 3 + (x^3 * b₂) + (x^2 * 3 * b₄) + (x * 3 * b₆) + b₈.
+	φ₄ := φ₂ * (x^6 * 2 + (x^5 * b₂) + (x^4 * b₄ * 5) + (x^3 * 10 * b₆) + (x^2 * 10 * b₈) + (x * (b₂ * b₈ - (b₄ * b₆))) + (b₄ * b₈ - b₆ squared)).
+	^ Sequence to: R initialValues: {φ₁. φ₂. φ₃. φ₄} recurrence: [:phi :n|
 		| m |
 		n odd
 			ifTrue:
-				[m _ n - 1 // 2.
+				[m := n - 1 // 2.
 				(phi at: m+2) * ((phi at: m) ^ 3) - ((phi at: m - 1) * ((phi at: m + 1) ^ 3))]
 			ifFalse:
-				[m _ n // 2.
-				(phi at: m-1) squared * (phi at: m) * (phi at: m+2) - ((phi at: m-2) * (phi at: m) * (phi at: m+1) squared // phi2)]]! !
+				[m := n // 2.
+				(phi at: m-1) squared * (phi at: m) * (phi at: m+2) - ((phi at: m-2) * (phi at: m) * (phi at: m+1) squared // φ₂)]]! !
 
 !EllipticCurve methodsFor: 'operations' stamp: 'len 10/14/2022 08:45:21'!
 multiplicationBy: m
@@ -238,10 +314,10 @@ multiplicationBy: m
 	φ _ φ value: {F x. F y}.
 	^ "self from: self to: self representatives:" {φ / f squared. omega / (f^3). F z}! !
 
-!EllipticCurve methodsFor: 'points' stamp: 'len 5/6/2023 19:10:43'!
+!EllipticCurve methodsFor: 'points' stamp: 'len 6/18/2023 12:05:20'!
 pointAt: aTuple
-	aTuple size = 2 ifTrue: [^ EllipticCurvePoint on: self coordinates: aTuple, aTuple scalars one].
-	^ EllipticCurvePoint on: self coordinates: aTuple! !
+	aTuple size = 2 ifTrue: [^ self pointClass on: self coordinates: aTuple, aTuple scalars one].
+	^ self pointClass on: self coordinates: aTuple! !
 
 !EllipticCurve methodsFor: 'points' stamp: 'len 8/27/2018 22:25:47'!
 pointAtRandom: aRandom
@@ -262,43 +338,57 @@ pointsOver: aField
 	"Answer the group of K-rational points on the receiver."
 	^ EllipticCurveGroup on: self over: aField! !
 
-!EllipticCurve methodsFor: 'printing' stamp: 'len 12/11/2016 20:43:15'!
+!EllipticCurve methodsFor: 'printing' stamp: 'len 6/18/2023 11:09:27'!
 printOn: aStream
-	aStream "nextPutAll: 'E : ';" print: self equation! !
+	| P x y |
+	P := self scalars polynomialsIn: #(x y) ordering: (MonomialOrdering glex: #(2 1)).
+	x := P x.
+	y := P y.
+	aStream print: y^2 + (x*y * self a₁) + (y * self a₃).
+	aStream
+		nextPutAll: ' = ';
+		print: (x^3) + (x^2 * self a₂) + (x * self a₄) + self a₆! !
 
 !EllipticCurve methodsFor: 'testing' stamp: 'len 10/25/2016 14:11'!
 isSmooth
 	^ self discriminant isZero not! !
 
-!EllipticCurve methodsFor: 'private' stamp: 'len 11/10/2016 09:45'!
+!EllipticCurve methodsFor: 'private' stamp: 'len 6/18/2023 11:08:14'!
+coefficients: aTuple
+	| f |
+	self assert: aTuple size = 5.
+	coefficients := aTuple.
+	f := (aTuple scalars polynomialsIn: #(x y z))
+		!! [:x :y :z| y^2 + (x*y * self a₁) + (y * self a₃) - (x^3) - (x^2 * self a₂) - (x * self a₄) - self a₆].
+	f := f homogenizedIn: 3.
+	self coordinateRing: f parent / f! !
+
+!EllipticCurve methodsFor: 'private' stamp: 'len 6/18/2023 11:12:26'!
 divisionPolynomial0: n at: x
 	"Answer the n-th division polynomial, without the 2-torsion factor if n is even, evaluated at x."
 	n = -2 ifTrue: [^ (self divisionPolynomial: -1 at: x) squared].
-	n = -1 ifTrue: [^ x^3 * 4 + (x^2 * equation b2) + (x * equation b4 * 2) + equation b6].
+	n = -1 ifTrue: [^ x^3 * 4 + (x^2 * self b₂) + (x * self b₄ * 2) + self b₆].
 	n <= 0 ifTrue: [DomainError signal].
 	(n = 1 or: [n = 2]) ifTrue: [^ x one].
-	n = 3 ifTrue: [^ x^4 + (x^3 * equation b2) + (x^2 * equation b4 * 3) + (x * equation b6 * 3) + equation b8].
-	n = 4 ifTrue: [^ (x^2 * 6 + (x * equation b2) + equation b4) * (self divisionPolynomial: 3 at: x) + (self divisionPolynomial: -2 at: x)].
+	n = 3 ifTrue: [^ x^4 + (x^3 * self b₂) + (x^2 * self b₄ * 3) + (x * self b₆ * 3) + self b₈].
+	n = 4 ifTrue: [^ (x^2 * 6 + (x * self b₂) + self b₄) * (self divisionPolynomial: 3 at: x) + (self divisionPolynomial: -2 at: x)].
 	^ n even
 		ifTrue:
 			[| m |
-			m _ n - 2 // 2.
+			m := n - 2 // 2.
 			(self divisionPolynomial: m+1 at: x) *
 			((self divisionPolynomial: m at: x)^2 * (self divisionPolynomial: m+3 at: x) -
 			((self divisionPolynomial: m+2 at: x)^2 * (self divisionPolynomial: m-1 at: x)))]
 		ifFalse:
 			[| m |
-			m _ n - 1 // 2.
+			m := n - 1 // 2.
 			m even
 				ifTrue: [(self divisionPolynomial: m at: x)^3 * (self divisionPolynomial: -2 at: x) * (self divisionPolynomial: m+2 at: x) - ((self divisionPolynomial: m+1 at: x)^3 * (self divisionPolynomial: m-1 at: x))]
 				ifFalse: [(self divisionPolynomial: m at: x)^3 * (self divisionPolynomial: m+2 at: x) - ((self divisionPolynomial: m+1 at: x)^3 * (self divisionPolynomial: m-1 at: x) * (self divisionPolynomial: -2 at: x))]]! !
 
-!EllipticCurve methodsFor: 'private' stamp: 'len 7/31/2020 10:24:36'!
-equation: aWeierstrassEquation
-	| f |
-	equation _ aWeierstrassEquation.
-	f _ equation homogeneousPolynomial.
-	self coordinateRing: f parent / f! !
+!EllipticCurve methodsFor: 'private' stamp: 'len 6/18/2023 11:42:02'!
+pointClass
+	^ EllipticCurvePoint! !
 
 !EllipticCurve class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
 cremona11a1
@@ -334,13 +424,49 @@ secp256k1
 	F _ PrimeField new: 16rFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F.
 	^ self coefficients: ((0,0,0,0,7) over: F)! !
 
-!EllipticCurve class methodsFor: 'instance creation' stamp: 'len 11/9/2016 15:12'!
+!EllipticCurve class methodsFor: 'instance creation' stamp: 'len 6/18/2023 14:11:01'!
 coefficients: aTuple
-	^ self equation: (WeierstrassEquation coefficients: aTuple)! !
+	(aTuple size = 2 or: [(1 to: 3) allSatisfy: [:i| aTuple isZeroAt: i]]) ifTrue: [^ ShortWeierstrassCurve coefficients: aTuple].
+	^ self new coefficients: aTuple! !
 
-!EllipticCurve class methodsFor: 'instance creation' stamp: 'len 11/9/2016 13:10'!
-equation: aWeierstrassEquation
-	^ self new equation: aWeierstrassEquation! !
+!ShortWeierstrassCurve methodsFor: 'arithmetic' stamp: 'len 6/18/2023 13:59:39'!
+point: P plus: Q
+	| x₁ y₁ x₂ y₂ λ x₃ y₃ | 
+	P isZero ifTrue: [^ Q].
+	Q isZero ifTrue: [^ P].
+	x₁ := P x. y₁ := P y.
+	x₂ := Q x. y₂ := Q y.
+	x₁ = x₂
+		ifTrue:
+			[y₁ = y₂ negated "P = -Q?"
+				ifTrue: [^ P zero].
+			y₁ = y₂ "P = Q?"
+				ifTrue: [λ := x₁ squared * 3 + self a₄ / (y₁ * 2)]]
+		ifFalse:
+			[λ := y₁ - y₂ / (x₁ - x₂)].
+	x₃ := λ squared - x₁ - x₂.
+	y₃ := λ * (x₁ - x₃) - y₁.
+	^ P shallowCopy x: x₃ y: y₃! !
+
+!ShortWeierstrassCurve methodsFor: 'arithmetic' stamp: 'len 6/18/2023 13:59:45'!
+pointDouble: P
+	| x₁ y₁ λ x₃ y₃ | 
+	P isZero ifTrue: [^ P].
+	x₁ := P x. y₁ := P y.
+	λ := x₁ squared * 3 + self a₄ / (y₁ * 2).
+	x₃ := λ squared - (x₁*2).
+	y₃ := λ * (x₁ - x₃) - y₁.
+	^ P shallowCopy x: x₃ y: y₃! !
+
+!ShortWeierstrassCurve methodsFor: 'arithmetic' stamp: 'len 6/18/2023 12:43:59'!
+pointNegate: P
+	^ P isZero ifTrue: [P] ifFalse: [P shallowCopy x: P x y: P y negated]! !
+
+!ShortWeierstrassCurve class methodsFor: 'instance creation' stamp: 'len 6/18/2023 14:09:15'!
+coefficients: aTuple
+	aTuple size = 2 ifTrue: [^ self new coefficients: aTuple scalars !!!! {0. 0. 0} , aTuple].
+	self assert: ((1 to: 3) allSatisfy: [:i| aTuple isZeroAt: i]).
+	^ self new coefficients: aTuple! !
 
 !EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 3/6/2017 16:48:06'!
 dual
@@ -377,55 +503,25 @@ y
 		ifTrue: [self doubled * (anInteger // 2)]
 		ifFalse: [self doubled * (anInteger // 2) + self]! !
 
-!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 11/23/2022 17:13:14'!
+!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 6/18/2023 11:34:42'!
 + aPoint
-	"Answer the sum of the receiver and the argument.
-	[Coh96] Proposition 7.1.7."
-	| W x1 y1 x2 y2 m x3 y3 |
-	aPoint isZero ifTrue: [^ self].
-	self isZero ifTrue: [^ aPoint].
-	W _ self codomain equation.
-	x1 _ self x. y1 _ self y.
-	x2 _ aPoint x. y2 _ aPoint y.
-	(x1 = x2 and: [y1 = (y2 negated - (W a1 * x2) - W a3)]) "self = aPoint negated"
-		ifTrue: [^ self zero].
-	m _ (x1 = x2 and: [y1 = y2]) "self = aPoint"
-		ifTrue: [x1 squared * 3 + (W a2 * x1 * 2) + W a4 - (W a1 * y1) / (y1 * 2 + (W a1 * x1) + W a3)]
-		ifFalse: [y1 - y2 / (x1 - x2)].
-	x3 _ x1 negated - x2 - W a2 + (m*(m + W a1)).
-	y3 _ y1 negated - W a3 - (W a1 * x3) + (m*(x1 - x3)).
-	^ self shallowCopy coordinates: self scalars !!!! {x3. y3. self scalars one}! !
+	^ codomain point: self plus: aPoint! !
 
 !EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 11/9/2016 08:28'!
 - aPoint
 	^ self + aPoint negated! !
 
-!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 11/23/2022 17:13:24'!
+!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 6/18/2023 11:38:50'!
 doubled
-	"Answer the receiver times 2, i.e. self + self.
-	[Coh96] Proposition 7.1.7."
-	| W x1 y1 m x3 y3 |
-	self isZero ifTrue: [^ self].
-	W _ self codomain equation.
-	x1 _ self x. y1 _ self y.
-	m _ x1 squared * 3 + (W a2 * x1 * 2) + W a4 - (W a1 * y1) / (y1 * 2 + (W a1 * x1) + W a3).
-	x3 _ x1*(-2) - W a2 + (m*(m + W a1)).
-	y3 _ y1 negated - W a3 - (W a1 * x3) + (m*(x1 - x3)).
-	^ self shallowCopy coordinates: self scalars !!!! {x3. y3. self scalars one}! !
+	^ codomain pointDouble: self! !
 
-!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 11/23/2022 17:13:32'!
+!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 6/18/2023 11:40:49'!
 negated
-	| W x |
-	self isZero ifTrue: [^ self].
-	W _ self codomain equation.
-	x _ self x.
-	^ self shallowCopy coordinates: self scalars !!!! {x. self y negated + (W a1 * x) - W a3. self scalars one}! !
+	^ codomain pointNegate: self! !
 
-!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 11/23/2022 17:13:43'!
+!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 6/18/2023 12:14:33'!
 zero
-	| R |
-	R _ self scalars.
-	^ self shallowCopy coordinates: R !!!! {R zero. R one. R zero}! !
+	^ self shallowCopy coordinates: (coordinates zero at: 2 put: self scalars one; yourself)! !
 
 !EllipticCurvePoint methodsFor: 'converting' stamp: 'len 11/11/2016 08:24'!
 adaptToInteger: anInteger andSend: selector
@@ -438,98 +534,10 @@ printOn: aStream
 		ifTrue: [aStream nextPutAll: 'O' italic]
 		ifFalse: [aStream nextPut: $(; print: self x; nextPut: $,; print: self y; nextPut: $)]! !
 
-!EllipticCurvePoint methodsFor: 'testing' stamp: 'len 5/8/2023 23:30:06'!
+!EllipticCurvePoint methodsFor: 'testing' stamp: 'len 6/18/2023 12:26:49'!
 isZero
-	^ (coordinates at: 1) isZero and: [(coordinates at: 3) isZero]! !
+	^ (coordinates isZeroAt: 1) and: [coordinates isZeroAt: 3]! !
 
-!WeierstrassEquation methodsFor: 'printing' stamp: 'len 2/12/2017 06:05:00'!
-printOn: aStream
-	| P x y |
-	P _ self scalars polynomialsIn: #(x y) ordering: (MonomialOrdering glex: #(2 1)).
-	x _ P x.
-	y _ P y.
-	aStream print: y^2 + (x*y * self a1) + (y * self a3).
-	aStream
-		nextPutAll: ' = ';
-		print: (x^3) + (x^2 * self a2) + (x * self a4) + self a6! !
-
-!WeierstrassEquation methodsFor: 'accessing' stamp: 'len 11/9/2016 13:01'!
-curve
-	^ EllipticCurve equation: self! !
-
-!WeierstrassEquation methodsFor: 'accessing' stamp: 'len 5/23/2018 22:35:52'!
-homogeneousPolynomial
-	^ (self scalars polynomialsIn: #(x y z)) !! self polynomial homogenizedIn: 3! !
-
-!WeierstrassEquation methodsFor: 'accessing' stamp: 'len 8/8/2019 05:00:57'!
-polynomial
-	^ (self scalars polynomialsIn: #(x y))
-		!! [:x :y| y^2 + (x*y * self a1) + (y * self a3) - (x^3) - (x^2 * self a2) - (x * self a4) - self a6]! !
-
-!WeierstrassEquation methodsFor: 'accessing' stamp: 'len 11/9/2016 07:16'!
-scalars
-	^ coefficients scalars! !
-
-!WeierstrassEquation methodsFor: 'accessing-private' stamp: 'len 11/9/2016 07:08'!
-coefficients: aTuple
-	coefficients _ aTuple! !
-
-!WeierstrassEquation methodsFor: 'converting' stamp: 'len 1/20/2017 09:36:51'!
-over: aRing
-	^ self class coefficients: (coefficients over: aRing)! !
-
-!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:08'!
-a1
-	^ coefficients at: 1! !
-
-!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:08'!
-a2
-	^ coefficients at: 2! !
-
-!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:08'!
-a3
-	^ coefficients at: 3! !
-
-!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:08'!
-a4
-	^ coefficients at: 4! !
-
-!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:08'!
-a6
-	^ coefficients at: 5! !
-
-!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/11/2016 10:16'!
-b2
-	^ self a1 squared + (self a2 * 4) "NOTE: this is wrong in Silverman 'The Arithmetic Of Elliptic Curves'"! !
-
-!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:23'!
-b4
-	^ self a4 * 2 + (self a1 * self a3)! !
-
-!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:23'!
-b6
-	^ self a3 squared + (self a6 * 4)! !
-
-!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:24'!
-b8
-	^ self a1 squared * self a6 + (self a2 * self a6 * 4) - (self a1 * self a3 * self a4) + (self a2 * self a3 squared) - self a4 squared! !
-
-!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:25'!
-c4
-	^ self b2 squared - (self b4 * 24)! !
-
-!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:26'!
-c6
-	^ (self b2 ^ 3) negated + (self b2 * self b4 * 36) - (self b6 * 216)! !
-
-!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:27'!
-discriminant
-	^ (self b2 squared * self b8) negated - (self b4 ^ 3 * 8) - (self b6 squared * 27) + (self b2 * self b4 * self b6 * 9)! !
-
-!WeierstrassEquation methodsFor: 'invariants' stamp: 'len 11/9/2016 07:28'!
-j
-	^ self c4 ^ 3 / self discriminant! !
-
-!WeierstrassEquation class methodsFor: 'instance creation' stamp: 'len 11/9/2016 07:08'!
-coefficients: aTuple
-	^ self new coefficients: aTuple! !
+!EllipticCurvePoint methodsFor: 'private' stamp: 'len 6/18/2023 12:10:17'!
+x: x y: y
+	coordinates := coordinates copy at: 1 put: x; at: 2 put: y; yourself! !
