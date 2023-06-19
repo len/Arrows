@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5866] on 17 June 2023 at 10:53:57 pm'!
+'From Cuis 6.0 [latest update: #5866] on 19 June 2023 at 3:18:48 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 73!
+!provides: 'Tests-Algebra' 1 74!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -6194,18 +6194,6 @@ testD3
 	A _ AlternatingGroup new: 3.
 	self assert: D commutator = A.
 	self assert: D center isTrivial! !
-
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:12:39'!
-testDirectProduct
-	| S A G g |
-	S := self smallGroupAtRandom.
-	A := self smallGroupAtRandom.
-	G := S × A.
-	g := G atRandom: random.
-	self assert: g · g inverse = G identity.
-	self testGroup: G.
-	G ⇇ (S, A) do: [:each| self testGroupHomomorphism: each].
-	G ⇉ (S, A) do: [:each| self testGroupHomomorphism: each]! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:13:01'!
 testGroup: G

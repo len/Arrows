@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5866] on 17 June 2023 at 10:53:51 pm'!
+'From Cuis 6.0 [latest update: #5866] on 19 June 2023 at 3:18:36 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -75,7 +75,7 @@ References:
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 [] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 112!
+!provides: 'Algebra' 1 113!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -373,16 +373,6 @@ Group subclass: #FreeGroup
 FreeGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProductGroup category: 'Algebra-Groups'!
-Group subclass: #ProductGroup
-	instanceVariableNames: 'components'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Groups'!
-!classDefinition: 'ProductGroup class' category: 'Algebra-Groups'!
-ProductGroup class
-	instanceVariableNames: ''!
-
 !classDefinition: #QuotientGroup category: 'Algebra-Groups'!
 Group subclass: #QuotientGroup
 	instanceVariableNames: ''
@@ -511,6 +501,16 @@ UnitsGroup subclass: #ModularUnitsGroup
 	category: 'Algebra-Rings-Finite'!
 !classDefinition: 'ModularUnitsGroup class' category: 'Algebra-Rings-Finite'!
 ModularUnitsGroup class
+	instanceVariableNames: ''!
+
+!classDefinition: #DivisorGroup category: 'Algebra-Schemes'!
+Group subclass: #DivisorGroup
+	instanceVariableNames: 'scalars space'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Schemes'!
+!classDefinition: 'DivisorGroup class' category: 'Algebra-Schemes'!
+DivisorGroup class
 	instanceVariableNames: ''!
 
 !classDefinition: #Ring category: 'Algebra-Rings'!
@@ -1633,6 +1633,16 @@ Morphism subclass: #SheafMap
 SheafMap class
 	instanceVariableNames: ''!
 
+!classDefinition: #Monomial category: 'Algebra-Monoids'!
+Object subclass: #Monomial
+	instanceVariableNames: 'exponents parent degree'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Monoids'!
+!classDefinition: 'Monomial class' category: 'Algebra-Monoids'!
+Monomial class
+	instanceVariableNames: ''!
+
 !classDefinition: #MonomialOrdering category: 'Algebra-Monoids-Orderings'!
 Object subclass: #MonomialOrdering
 	instanceVariableNames: 'indeterminates'
@@ -1733,26 +1743,6 @@ Object subclass: #GroupElement
 GroupElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #Monomial category: 'Algebra-Monoids'!
-GroupElement subclass: #Monomial
-	instanceVariableNames: 'exponents parent degree'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Monoids'!
-!classDefinition: 'Monomial class' category: 'Algebra-Monoids'!
-Monomial class
-	instanceVariableNames: ''!
-
-!classDefinition: #Word category: 'Algebra-Monoids'!
-GroupElement subclass: #Word
-	instanceVariableNames: 'syllables parent'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Monoids'!
-!classDefinition: 'Word class' category: 'Algebra-Monoids'!
-Word class
-	instanceVariableNames: ''!
-
 !classDefinition: #Coset category: 'Algebra-Groups'!
 GroupElement subclass: #Coset
 	instanceVariableNames: 'representative parent'
@@ -1763,14 +1753,14 @@ GroupElement subclass: #Coset
 Coset class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupTuple category: 'Algebra-Groups'!
-GroupElement subclass: #GroupTuple
-	instanceVariableNames: 'parent components'
+!classDefinition: #Word category: 'Algebra-Groups'!
+GroupElement subclass: #Word
+	instanceVariableNames: 'syllables parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups'!
-!classDefinition: 'GroupTuple class' category: 'Algebra-Groups'!
-GroupTuple class
+!classDefinition: 'Word class' category: 'Algebra-Groups'!
+Word class
 	instanceVariableNames: ''!
 
 !classDefinition: #Permutation category: 'Algebra-Groups-Permutations'!
@@ -1811,6 +1801,16 @@ RingElement subclass: #Opposite
 	category: 'Algebra-Rings'!
 !classDefinition: 'Opposite class' category: 'Algebra-Rings'!
 Opposite class
+	instanceVariableNames: ''!
+
+!classDefinition: #Product category: 'Algebra-Rings'!
+RingElement subclass: #Product
+	instanceVariableNames: 'parent components'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Rings'!
+!classDefinition: 'Product class' category: 'Algebra-Rings'!
+Product class
 	instanceVariableNames: ''!
 
 !classDefinition: #Ratio category: 'Algebra-Rings'!
@@ -1951,16 +1951,6 @@ RegularFunction subclass: #LaurentPolynomial
 	category: 'Algebra-Algebras-Affine'!
 !classDefinition: 'LaurentPolynomial class' category: 'Algebra-Algebras-Affine'!
 LaurentPolynomial class
-	instanceVariableNames: ''!
-
-!classDefinition: #RingTuple category: 'Algebra-Rings'!
-RingElement subclass: #RingTuple
-	instanceVariableNames: 'parent components'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Rings'!
-!classDefinition: 'RingTuple class' category: 'Algebra-Rings'!
-RingTuple class
 	instanceVariableNames: ''!
 
 !classDefinition: #Adic category: 'Algebra-Fields-Local'!
@@ -2251,6 +2241,16 @@ DistributiveAlgebraElement subclass: #Octonion
 	category: 'Algebra-Algebras-Distributive'!
 !classDefinition: 'Octonion class' category: 'Algebra-Algebras-Distributive'!
 Octonion class
+	instanceVariableNames: ''!
+
+!classDefinition: #Divisor category: 'Algebra-Schemes'!
+Object subclass: #Divisor
+	instanceVariableNames: 'coefficients parent'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Schemes'!
+!classDefinition: 'Divisor class' category: 'Algebra-Schemes'!
+Divisor class
 	instanceVariableNames: ''!
 
 !classDefinition: #DirichletSeries category: 'Algebra-Sequences'!
@@ -2611,7 +2611,7 @@ Set of K-rational points on a variety X, seen as Hom(Spec(K), X).!
 The singleton global instance ℕ is the set of natural numbers 1, 2, 3, ...!
 
 !Monoid commentStamp: '<historical>' prior: 0!
-Monoids consist of a set, an associative binary operation and an identity element. They are objects in the category of monoids, with MonoidMaps as their morphisms.
+Monoids consist of a set, an associative binary operation (that we implement with multiplicative notation) and an identity element. They are objects in the category of monoids, with MonoidMaps as their morphisms.
 !
 
 !FreeAbelianMonoid commentStamp: '<historical>' prior: 0!
@@ -2631,12 +2631,10 @@ See FreeAbelianMonoid for the commutative analog.
 !
 
 !Group commentStamp: '<historical>' prior: 0!
-Groups consist of a set with an associative binary operation, an inverse map (every element has an inverse), and an identity element. They are objects in the category of groups, with GroupMaps as their morphisms.
+Groups consist of a set with an associative binary operation (that we implement either in multiplicative or additive notation), an inverse map (every element has an inverse), and an identity element. They are objects in the category of groups, with GroupMaps as their morphisms.
 
-Some specific groups (such as permutation groups and matrix groups) can be represented in more efficient ways, and operate with more efficient algorithms. See subclasses.!
-
-!ProductGroup commentStamp: '<historical>' prior: 0!
-Direct products of groups. Elements are tuples (see ProductGroupElement), and the group composition law is defined component-wise.!
+Subclasses implement specific types of groups, such as permutation groups and matrix groups.
+!
 
 !QuotientGroup commentStamp: '<historical>' prior: 0!
 Quotient groups (or factor groups) G/N (read "G mod N"), i.e. the quotient of a group G by a normal subgroup N. The elements are the cosets of N (see Coset).!
@@ -2674,6 +2672,9 @@ Categorically, this construction is a functor from the cateogory of rings to the
 
 !ModularUnitsGroup commentStamp: '<historical>' prior: 0!
 The group of units of ℤ/nℤ, i.e. the multiplicative group of units modulo n. This group is cyclic for n = 2, 4, p^k or 2p^k where p is an odd prime number. When the group is cyclic, a generator is called a 'primitive root modulo n'.!
+
+!DivisorGroup commentStamp: '<historical>' prior: 0!
+Group of divisors with rational or integer coefficients of an integral locally Noetherian scheme. See Divisor.!
 
 !Ring commentStamp: 'len 5/16/2023 22:04:47' prior: 0!
 Rings with identity (unital rings). They are associative and contain a multiplicative identity, but they are not necessarily commutative. The initial object is the ring of rational integers ℤ and the terminal object is the trivial ring with 1 = 0.
@@ -2718,7 +2719,7 @@ The localization of R at the prime ideal p is a local ring, with maximal ideal e
 The opposite ring of a given noncommutative ring.!
 
 !ProductRing commentStamp: '<historical>' prior: 0!
-Direct products of rings. Elements are tuples (see RingTuple) where the i-th component corresponds to an element in the i-th ring of the direct product, and multiplication and addition are defined component-wise.
+Direct products of rings. Elements are tuples (see Product) where the i-th component corresponds to an element in the i-th ring of the direct product, and multiplication and addition are defined component-wise.
 !
 
 !QuotientRing commentStamp: '<historical>' prior: 0!
@@ -3189,6 +3190,11 @@ Points on the projective line P^1(R) for some ring R. See also ProjectiveLine.!
 !SheafMap commentStamp: '<historical>' prior: 0!
 Morphisms of coherent sheaves. See Sheaf.!
 
+!Monomial commentStamp: '<historical>' prior: 0!
+Commutative power products of one or many indeterminates. They form a monoid (see FreeAbelianMonoid). Their formal linear combinations over a ring are Polynomials (see also PolynomialRing).
+
+See also Word for the noncommutative analog.!
+
 !MonomialOrdering commentStamp: '<historical>' prior: 0!
 A monomial ordering is a total order on the set of all monomials in n indeterminates, satisfying the properties:
 - respects multiplication: if u <= v, then u*w <= v*w for any other monomial w;
@@ -3238,21 +3244,13 @@ This is the order called 'llex' in Magma. What Singular calls 'ls', on the other
 !GroupElement commentStamp: '<historical>' prior: 0!
 Elements of a Group.!
 
-!Monomial commentStamp: '<historical>' prior: 0!
-Commutative power products of one or many indeterminates. They form a monoid (see FreeAbelianMonoid). Their formal linear combinations over a ring are Polynomials (see also PolynomialRing).
-
-See also Word for the noncommutative analog.!
+!Coset commentStamp: '<historical>' prior: 0!
+Elements of a QuotientGroup.!
 
 !Word commentStamp: '<historical>' prior: 0!
 Words are noncommutative formal products on a finite ordered list of indeterminates. They are elements of the FreeMonoid, or the FreeGroup when negative exponents are allowed.
 
 See also Monomial for the commutative analog.!
-
-!Coset commentStamp: '<historical>' prior: 0!
-Elements of a QuotientGroup.!
-
-!GroupTuple commentStamp: '<historical>' prior: 0!
-Elements of group direct products, i.e. tuples of group elements. See ProductGroup.!
 
 !Permutation commentStamp: '<historical>' prior: 0!
 Permutations can be thought as bijective functions on a finite set. Permutations under composition form groups (see SymmetricGroup and PermutationGroup).!
@@ -3267,6 +3265,9 @@ Elements of a Ring.!
 
 !Opposite commentStamp: '<historical>' prior: 0!
 Elements of the opposite ring of a given noncommutative ring. See OppositeRing.!
+
+!Product commentStamp: '<historical>' prior: 0!
+Elements of product rings, i.e. tuples of ring elements. See ProductRing.!
 
 !Ratio commentStamp: '<historical>' prior: 0!
 Ordered pairs written a/b, with a and b in a commutative ring R, and satisfying the equivalence relation: a/b = c/d iff a*d = c*b.
@@ -3299,9 +3300,6 @@ Elements of Galois fields. See GaloisField.!
 
 !GaussianRational commentStamp: '<historical>' prior: 0!
 Elements of the field of Gaussian numbers ℚ[i]. See GaussianField.!
-
-!RingTuple commentStamp: '<historical>' prior: 0!
-Elements of product rings, i.e. tuples of ring elements. See ProductRing.!
 
 !Adic commentStamp: '<historical>' prior: 0!
 Elements of the formal (or adic) completion of a commutative ring at a maximal ideal. See AdicRing.!
@@ -3409,6 +3407,9 @@ A bounded cochain complex is one where only a finite number of C(k) are not 0.
 Cochain complexes form an abelian cateogory with cochain maps as morphisms. See CochainMap.
 
 See also ChainComplex for the dual notion.!
+
+!Divisor commentStamp: '<historical>' prior: 0!
+Formal sums with integer or rational coefficients of prime divisors (integral closed subschemes of codimension 1, or rational points in the case of curves) of an integral locally Noetherian scheme. See DivisorGroup.!
 
 !DirichletSeries commentStamp: '<historical>' prior: 0!
 Formal Dirichlet series, i.e. formal series in an indeterminate x of the form: sum a(n) * n^{-x} for n >= 1.
@@ -3791,10 +3792,13 @@ indexOf: anElement ifAbsent: exceptionBlock
 	self flag: #fixme. "TODO"
 	^ super indexOf: anElement ifAbsent: exceptionBlock! !
 
-!BinaryArray methodsFor: 'enumerating' stamp: 'len 5/10/2023 10:31:30'!
+!BinaryArray methodsFor: 'enumerating' stamp: 'len 6/19/2023 01:08:05'!
 product: aBlock
 	| h |
-	h _ self weight.
+	h := self weight.
+	self isEmpty ifTrue: [^ self errorEmptyCollection].
+	h = size ifTrue: [^ (aBlock value: One) ^ h].
+	h = 0 ifTrue: [^ (aBlock value: Zero) ^ size].
 	^ (aBlock value: One) ^ h * ((aBlock value: Zero) ^ (size - h))! !
 
 !BinaryArray methodsFor: 'enumerating' stamp: 'len 5/10/2023 11:00:42'!
@@ -6097,9 +6101,9 @@ isAgebra
 isCategory
 	^ false! !
 
-!Domain methodsFor: 'testing-categories' stamp: 'len 7/12/2022 06:32:42'!
+!Domain methodsFor: 'testing-categories' stamp: 'len 6/18/2023 23:11:42'!
 isGroup
-	^ self isAdditiveGroup! !
+	^ false! !
 
 !Domain methodsFor: 'testing-categories' stamp: 'len 5/2/2020 21:32:53'!
 isModule
@@ -7173,6 +7177,10 @@ newFrom: anObject
 do: aBlock
 	self codomain pointsOver: self scalars do: aBlock! !
 
+!RationalPointSet class methodsFor: 'instance creation' stamp: 'len 6/19/2023 13:01:01'!
+on: aScheme over: aRing
+	^ self from: aRing spec to: aScheme! !
+
 !Naturals methodsFor: 'accessing' stamp: 'len 2/13/2016 20:41'!
 identity
 	^ 1! !
@@ -7686,14 +7694,14 @@ cycleGraph
 			(g := g2) = id] whileFalse: [elements remove: g ifAbsent: []]].
 	^ G! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 6/4/2023 01:40:07'!
+!Group methodsFor: 'morphisms' stamp: 'len 6/18/2023 23:18:58'!
 adjointAction
-	self isAdditiveGroup ifTrue: [^ GroupAction from: (self, self) to: self mapWithArguments: [:g :x| x]].
+	self isCommutative ifTrue: [^ self trivialAction].
 	^ GroupAction from: (self, self) to: self mapWithArguments: [:g :x| g inverse · x · g]! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 6/4/2023 01:40:51'!
+!Group methodsFor: 'morphisms' stamp: 'len 6/18/2023 23:18:18'!
 conjugation
-	self isAdditiveGroup ifTrue: [^ GroupAction from: (self, self) to: self mapWithArguments: [:g :x| x]].
+	self isCommutative ifTrue: [^ self trivialAction].
 	^ GroupAction from: (self, self) to: self mapWithArguments: [:g :x| g · x · g inverse]! !
 
 !Group methodsFor: 'morphisms' stamp: 'len 10/5/2022 17:28:17'!
@@ -7719,6 +7727,10 @@ to: aGroup map: aBlock
 	aGroup isGroup ifFalse: [^ DomainError signal].
 	^ GroupMap from: self to: aGroup map: aBlock! !
 
+!Group methodsFor: 'morphisms' stamp: 'len 6/18/2023 23:09:27'!
+trivialAction
+	^ GroupAction from: (self, self) to: self mapWithArguments: [:g :x| x]! !
+
 !Group methodsFor: 'operations' stamp: 'len 6/14/2022 12:52:34'!
 * aGroup
 	"Answer the free product of the receiver with the argument.
@@ -7735,17 +7747,10 @@ to: aGroup map: aBlock
 	If aSubgroup is not normal in the receiver, this is just the set of left cosets."
 "	^ self collect: [:each| LeftCoset on: aSubgroup representative: each]"! !
 
-!Group methodsFor: 'operations' stamp: 'len 6/15/2022 10:47:47'!
+!Group methodsFor: 'operations' stamp: 'len 6/19/2023 01:33:41'!
 × aGroup
-	(aGroup isKindOf: Group) ifFalse: [^ super × aGroup].
-	^ ProductGroup components: {self. aGroup}
-
-"× aGroupOrAction
-	(aGroupOrAction isKindOf: GroupAction)
-		ifTrue: [^ SemidirectProductGroup left: self right: aGroupOrAction group action: aGroupOrAction].
-	^ DirectProductGroup components: {self. aGroupOrAction}
-"
-! !
+	aGroup isGroup ifFalse: [^ super × aGroup].
+	^ self notYetImplemented! !
 
 !Group methodsFor: 'operations' stamp: 'len 2/20/2017 22:13:29'!
 ⊕ aGroup
@@ -7762,9 +7767,10 @@ to: aGroup map: aBlock
 	"The coproduct in the category of groups is the free product of groups."
 	^ self * aGroup! !
 
-!Group methodsFor: 'operations' stamp: 'len 12/28/2016 12:19:53'!
+!Group methodsFor: 'operations' stamp: 'len 6/18/2023 23:19:19'!
 abelianization
 	"Answer the receiver 'made abelian'."
+	self isCommutative ifTrue: [^ self].
 	^ (self / self commutator)
 		propertyAt: #isCommutative put: true;
 		yourself! !
@@ -7774,9 +7780,9 @@ center
 	"Answer the subgroup whose memebers are the elements that commute with all the other elements."
 	^ self centralizerOf: self! !
 
-!Group methodsFor: 'operations' stamp: 'len 6/4/2023 01:51:29'!
+!Group methodsFor: 'operations' stamp: 'len 6/18/2023 23:18:47'!
 centralizerOf: aCollection
-	self isAdditiveGroup ifTrue: [^ self].
+	self isCommutative ifTrue: [^ self].
 	^ self span: (self select: [:x| aCollection allSatisfy: [:y| x · y = (y · x)]])! !
 
 !Group methodsFor: 'operations' stamp: 'len 3/6/2017 16:33:57'!
@@ -7785,11 +7791,11 @@ commutator
 	This is the smallest normal subgroup of G such that the quotient G / [G,G] is commutative."
 	^ self commutator: self! !
 
-!Group methodsFor: 'operations' stamp: 'len 6/4/2023 01:52:10'!
+!Group methodsFor: 'operations' stamp: 'len 6/18/2023 23:18:36'!
 commutator: aGroup
 	"Answer the commutator group [G,H] of the receiver G with the argument H."
 	| generators |
-	self isAdditiveGroup ifTrue: [^ self null].
+	self isCommutative ifTrue: [^ self null].
 	generators := Set new.
 	self generators do: [:x|
 		| xInv |
@@ -7826,13 +7832,13 @@ index
 indexOf: aSubgroup
 	^ (self / aSubgroup) size! !
 
-!Group methodsFor: 'operations' stamp: 'len 6/4/2023 01:53:28'!
+!Group methodsFor: 'operations' stamp: 'len 6/18/2023 23:17:40'!
 normalClosureOf: aSubset
 	"From Handbook of Computational Group Theory (Holt) 74p.
 	The normal closure of A <= G in G (denoted A^G) is the smallest normal subgroup of G that contains A, i.e. the intersection of all normal subgroups that contain A. Equivalently, it is the set A^G := {g^-1 * a * g | g in G, a in A}."
 	| X Y Z random N |
 	self flag: #fix. "test and fix"
-	self isAdditiveGroup ifTrue: [^ self span: aSubset].
+	self isCommutative ifTrue: [^ self span: aSubset].
 	X := self generators.
 	Y := aSubset.
 	Z := Y.
@@ -7985,11 +7991,11 @@ isNormal
 	"Answer true if the receiver is normal in its ambient overgroup."
 	^ self isNormalIn: self ambient! !
 
-!Group methodsFor: 'testing' stamp: 'len 6/4/2023 01:57:10'!
+!Group methodsFor: 'testing' stamp: 'len 6/18/2023 23:17:22'!
 isNormalIn: anOvergroup
 	"Answer true if the receiver is normal as subgroup of aGroup, i.e. if it is a subgroup invariant under conjugation."
 	| X Y |
-	self isAdditiveGroup ifTrue: [^ true].
+	anOvergroup isCommutative ifTrue: [^ true].
 	X := self generators ifNil: [self].
 	Y := anOvergroup generators ifNil: [anOvergroup].
 	X do: [:x|
@@ -8390,89 +8396,6 @@ new: anIntegerOrCollection
 	^ anIntegerOrCollection isInteger
 		ifTrue: [self new rank: anIntegerOrCollection] 
 		ifFalse: [self new rank: anIntegerOrCollection size; names: anIntegerOrCollection asArray]! !
-
-!ProductGroup methodsFor: 'accessing' stamp: 'len 4/19/2019 07:14:28'!
-ambient
-	^ self propertyAt: #ambient ifAbsentPut: [(components allSatisfy: [:each| each isAmbient]) ifTrue: [self] ifFalse: [self class components: (components collect: [:each| each ambient])]]! !
-
-!ProductGroup methodsFor: 'accessing' stamp: 'len 2/12/2016 20:00'!
-components
-	^ components! !
-
-!ProductGroup methodsFor: 'accessing' stamp: 'len 2/12/2016 20:10'!
-size
-	^ components product: [:each| each size]! !
-
-!ProductGroup methodsFor: 'comparing' stamp: 'len 6/15/2022 10:47:47'!
-= anObject
-	^ (anObject isKindOf: ProductGroup) and: [anObject components = components]! !
-
-!ProductGroup methodsFor: 'comparing' stamp: 'len 2/12/2016 20:05'!
-hash
-	^ components hash! !
-
-!ProductGroup methodsFor: 'elements' stamp: 'len 5/7/2023 17:24:34'!
-compose: anArray
-	^ GroupTuple components: anArray asArray parent: self! !
-
-!ProductGroup methodsFor: 'elements' stamp: 'len 6/19/2022 12:29:14'!
-identity
-	"Answer the identity element of the receiver."
-	^ self compose: (components collect: [:each| each identity])! !
-
-!ProductGroup methodsFor: 'enumerating' stamp: 'len 10/17/2020 19:59:54'!
-do: aBlock
-	self asCartesianProduct do: [:each| aBlock value: (self compose: each)]! !
-
-!ProductGroup methodsFor: 'morphisms' stamp: 'len 10/6/2022 11:36:47'!
-coprojection: i
-	^ ((self at: i) to: self map: [:x| self compose: (components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each identity]])]) name: 'ι', i printString sub! !
-
-!ProductGroup methodsFor: 'morphisms' stamp: 'len 9/16/2022 07:54:00'!
-projection: i
-	^ (self to: (self at: i) map: [:x| x at: i]) name: 'π', i printString sub! !
-
-!ProductGroup methodsFor: 'printing' stamp: 'len 5/23/2020 07:19:05'!
-printOn: aStream
-	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: $×]! !
-
-!ProductGroup methodsFor: 'random' stamp: 'len 10/17/2020 19:59:29'!
-atRandom: aRandom
-	^ self compose: (self asCartesianProduct atRandom: aRandom)! !
-
-!ProductGroup methodsFor: 'random' stamp: 'len 10/17/2020 19:59:42'!
-atRandom: aRandom bits: bits
-	^ self compose: (self asCartesianProduct atRandom: aRandom bits: bits)! !
-
-!ProductGroup methodsFor: 'testing' stamp: 'len 4/25/2020 06:54:01'!
-includes: anObject
-	^ anObject parent = self! !
-
-!ProductGroup methodsFor: 'testing' stamp: 'len 4/14/2020 21:09:53'!
-isCoproduct
-	^ true! !
-
-!ProductGroup methodsFor: 'testing' stamp: 'len 4/14/2020 21:09:49'!
-isProduct
-	^ true! !
-
-!ProductGroup methodsFor: 'private' stamp: 'len 11/5/2016 06:40'!
-components: anArray
-	components _ anArray! !
-
-!ProductGroup methodsFor: 'private' stamp: 'len 12/30/2017 15:11:22'!
-computeGenerators
-	| answer |
-	answer _ OrderedCollection new.
-	1 to: self arity do: [:i|
-		| p |
-		p _ self projection: i.
-		(self at: i) generators do: [:each| answer add: (p value: each)]].
-	^ answer! !
-
-!ProductGroup class methodsFor: 'instance creation' stamp: 'len 2/12/2016 20:02'!
-components: anArray
-	^ self new components: anArray! !
 
 !QuotientGroup methodsFor: 'accessing' stamp: 'len 6/10/2022 11:37:26'!
 cover
@@ -9610,6 +9533,50 @@ isCyclic
 	factors _ self space modulusFactors.
 	(factors occurrencesOf: 2) > 1 ifTrue: [^ false].
 	^ (factors asSet copyWithout: 2) size = 1! !
+
+!DivisorGroup methodsFor: 'accessing' stamp: 'len 7/25/2022 11:57:29'!
+scalars
+	^ scalars! !
+
+!DivisorGroup methodsFor: 'accessing' stamp: 'len 7/25/2022 11:57:21'!
+space
+	^ space! !
+
+!DivisorGroup methodsFor: 'elements' stamp: 'len 6/18/2023 18:43:23'!
+adapt: anElement
+	(anElement isKindOf: ProjectivePoint) ifTrue: [^ Divisor coefficients: (Dictionary new at: anElement put: scalars one; yourself) parent: self].
+	^ super adapt: anElement! !
+
+!DivisorGroup methodsFor: 'elements' stamp: 'len 6/18/2023 18:38:57'!
+identity
+	^ Divisor coefficients: Dictionary new parent: self! !
+
+!DivisorGroup methodsFor: 'printing' stamp: 'len 7/25/2022 11:58:39'!
+printOn: aStream
+	aStream nextPutAll: 'Div'.
+	scalars = ℤ ifFalse: [aStream nextPutAll: scalars printString sub].
+	aStream nextPut: $(; print: space; nextPut: $)! !
+
+!DivisorGroup methodsFor: 'testing' stamp: 'len 6/18/2023 18:37:36'!
+includes: anObject
+	^ anObject parent = self! !
+
+!DivisorGroup methodsFor: 'testing-categories' stamp: 'len 7/15/2022 11:43:09'!
+isAdditiveGroup
+	^ true! !
+
+!DivisorGroup methodsFor: 'private' stamp: 'len 7/25/2022 12:00:07'!
+space: aScheme scalars: aRing
+	scalars _ aRing.
+	space _ aScheme! !
+
+!DivisorGroup class methodsFor: 'as yet unclassified' stamp: 'len 7/25/2022 11:59:50'!
+on: aScheme
+	^ self on: aScheme over: ℤ! !
+
+!DivisorGroup class methodsFor: 'as yet unclassified' stamp: 'len 7/25/2022 11:59:31'!
+on: aScheme over: aRing
+	^ self new space: aScheme scalars: aRing! !
 
 !Ring methodsFor: 'accessing' stamp: 'len 7/26/2021 18:16:20'!
 category
@@ -11568,9 +11535,9 @@ asModule
 	ℤ × (ℤ/3) × (ℤ/4) :: asAbelianGroup
 "! !
 
-!ProductRing methodsFor: 'elements' stamp: 'len 5/7/2023 17:23:07'!
+!ProductRing methodsFor: 'elements' stamp: 'len 6/19/2023 12:12:14'!
 compose: anArray
-	^ RingTuple components: anArray asArray parent: self! !
+	^ Product components: anArray asArray parent: self! !
 
 !ProductRing methodsFor: 'elements' stamp: 'len 5/5/2023 13:00:33'!
 new: anInteger
@@ -17625,6 +17592,10 @@ isTrivial
 isAdditiveGroup
 	^ self scalars = ℤ! !
 
+!Module methodsFor: 'testing-categories' stamp: 'len 6/18/2023 23:11:32'!
+isGroup
+	^ self isAdditiveGroup! !
+
 !Module methodsFor: 'testing-categories' stamp: 'len 1/11/2018 18:43:33'!
 isModule
 	^ true! !
@@ -19499,6 +19470,10 @@ dimension
 	"Answer the dimension of the highest dimensional component of the receiver."
 	^ self decomposition max: [:each| each dimension]! !
 
+!Scheme methodsFor: 'accessing' stamp: 'len 6/18/2023 18:36:12'!
+divisors
+	^ DivisorGroup on: self over: ℤ! !
+
 !Scheme methodsFor: 'accessing' stamp: 'len 12/21/2021 20:05:04'!
 functionField
 	"Answer the function field (or field of rational functions) of the receiver.
@@ -19535,6 +19510,24 @@ subscheme: anObject
 	This makes sense, for example, for closed subschemes of affine or projective space, and anObject can be an element or an ideal of the coordinate ring."
 	self isAmbient ifTrue: [^ self subclassResponsibility].
 	^ self ∩ (self ambient subscheme: anObject)! !
+
+!Scheme methodsFor: 'points' stamp: 'len 6/19/2023 12:39:21'!
+points
+	"Answer the rational points of the receiver."
+	^ self pointsOver: self scalars! !
+
+!Scheme methodsFor: 'points' stamp: 'len 6/19/2023 12:39:13'!
+pointsCountOver: aRing
+	"Naive count of rational points on the receiver."
+	| answer |
+	answer := 0.
+	self pointsOver: aRing do: [:each| answer := answer + 1].
+	^ answer! !
+
+!Scheme methodsFor: 'points' stamp: 'len 6/19/2023 13:02:56'!
+pointsOver: aRing
+	"Answer the K-rational points on the receiver, where K is aRing."
+	^ RationalPointSet on: self over: aRing! !
 
 !Scheme methodsFor: 'testing' stamp: 'len 7/11/2022 12:48:51'!
 isAffine
@@ -19793,6 +19786,11 @@ fromAll: anArray
 		[(self coordinateRing ⇉ (anArray collect: [:each| each coordinateRing])) ifNotNil: [:anArrayOfMorphisms| ^ anArrayOfMorphisms collect: [:each| each spec]]].
 	^ super fromAll: anArray! !
 
+!AffineScheme methodsFor: 'morphisms' stamp: 'len 6/19/2023 12:43:28'!
+hom: aCodomain
+	aCodomain scalars = self coordinateRing ifTrue: [^ aCodomain pointsOver: self coordinateRing].
+	^ super hom: aCodomain! !
+
 !AffineScheme methodsFor: 'morphisms' stamp: 'len 7/30/2022 12:12:09'!
 id
 	^ self coordinateRing id spec! !
@@ -20043,24 +20041,6 @@ tangentSpaceAt: aTuple
 !AffineVariety methodsFor: 'points' stamp: 'len 7/27/2022 09:44:52'!
 pointAt: aTuple
 	^ AffinePoint on: self coordinates: aTuple! !
-
-!AffineVariety methodsFor: 'points' stamp: 'len 12/13/2021 17:11:35'!
-points
-	"Answer the rational points of the receiver."
-	^ self pointsOver: self scalars! !
-
-!AffineVariety methodsFor: 'points' stamp: 'len 12/13/2021 17:15:58'!
-pointsCountOver: aRing
-	"Naive count of rational points on the receiver."
-	| answer |
-	answer _ 0.
-	self pointsOver: aRing do: [:each| answer _ answer + 1].
-	^ answer! !
-
-!AffineVariety methodsFor: 'points' stamp: 'len 12/13/2021 17:14:43'!
-pointsOver: aRing
-	"Answer the K-rational points on the receiver, where K is aRing."
-	^ RationalPointSet from: aRing spec to: self! !
 
 !AffineVariety methodsFor: 'points' stamp: 'len 12/13/2021 17:15:04'!
 pointsOver: aRing do: aBlock
@@ -20537,24 +20517,6 @@ tangentSpaceAt: aTuple
 !ProjectiveVariety methodsFor: 'points' stamp: 'len 7/27/2022 09:44:24'!
 pointAt: aTuple
 	^ ProjectivePoint on: self coordinates: aTuple! !
-
-!ProjectiveVariety methodsFor: 'points' stamp: 'len 12/13/2021 17:13:11'!
-points
-	"Answer the rational points of the receiver."
-	^ self pointsOver: self scalars! !
-
-!ProjectiveVariety methodsFor: 'points' stamp: 'len 12/13/2021 17:15:48'!
-pointsCountOver: aRing
-	"Naive count of rational points on the receiver."
-	| answer |
-	answer _ 0.
-	self pointsOver: aRing do: [:each| answer _ answer + 1].
-	^ answer! !
-
-!ProjectiveVariety methodsFor: 'points' stamp: 'len 12/13/2021 17:14:32'!
-pointsOver: aRing
-	"Answer the K-rational points on the receiver, where K is aRing."
-	^ RationalPointSet from: aRing spec to: self! !
 
 !ProjectiveVariety methodsFor: 'points' stamp: 'len 12/13/2021 17:15:11'!
 pointsOver: aRing do: aBlock
@@ -27962,6 +27924,325 @@ from: aDomain to: aCodomain moduleMap: aModuleMap
 	self assert: (aModuleMap domain = self asModule and: [aModuleMap codomain = aCodomain asModule]).
 	^ self new domain: aDomain; codomain: aCodomain; moduleMap: aModuleMap! !
 
+!Monomial methodsFor: 'accessing' stamp: 'len 11/21/2016 15:56:16'!
+at: anIndeterminate
+	^ exponents at: anIndeterminate! !
+
+!Monomial methodsFor: 'accessing' stamp: 'len 3/16/2016 20:03'!
+bitSize
+	^ exponents inject: 0 into: [:x :each| x + each bitSize]! !
+
+!Monomial methodsFor: 'accessing' stamp: 'len 3/16/2016 20:05'!
+exponents
+	^ exponents! !
+
+!Monomial methodsFor: 'accessing' stamp: 'len 7/1/2022 10:59:09'!
+firstIndeterminate
+	"Answer the first indeterminate effectively present."
+	^ exponents findFirst: [:one| one ~= 0]! !
+
+!Monomial methodsFor: 'accessing' stamp: 'len 6/19/2023 01:51:19'!
+identity
+	^ parent identity! !
+
+!Monomial methodsFor: 'accessing' stamp: 'len 1/2/2022 10:04:35'!
+indeterminates
+	"Answer the list of indeterminates effectively present in this monomial (with nonzero exponent). This is called the 'support' of a monomial."
+	^ (1 to: exponents size) select: [:i| (exponents at: i) ~= 0]! !
+
+!Monomial methodsFor: 'accessing' stamp: 'len 7/1/2022 10:59:29'!
+lastIndeterminate
+	"Answer the last indeterminate effectively present."
+	^ exponents findLast: [:one| one ~= 0]! !
+
+!Monomial methodsFor: 'accessing' stamp: 'len 11/20/2016 11:56:47'!
+ordering
+	^ parent ordering! !
+
+!Monomial methodsFor: 'accessing' stamp: 'len 1/23/2017 11:35:28'!
+parent
+	^ parent! !
+
+!Monomial methodsFor: 'accessing' stamp: 'len 1/2/2022 10:04:42'!
+support
+	"Answer the list of indeterminates effectively present in this monomial (with nonzero exponent)."
+	^ self indeterminates! !
+
+!Monomial methodsFor: 'comparing' stamp: 'len 11/20/2016 16:44:54'!
+< aMonomial
+	^ (self >= aMonomial) not! !
+
+!Monomial methodsFor: 'comparing' stamp: 'len 11/20/2016 16:44:09'!
+<= aMonomial
+	self == aMonomial ifTrue: [^ true].
+	^ (self > aMonomial) not! !
+
+!Monomial methodsFor: 'comparing' stamp: 'len 11/21/2016 19:44:36'!
+= aMonomial
+	| b |
+	self == aMonomial ifTrue: [^ true].
+	aMonomial isInteger ifTrue: [^ self degree = aMonomial].
+"	^ exponents = aMonomial exponents"
+	b _ aMonomial exponents.
+	exponents size = b size ifFalse: [^ false].
+	1 to: exponents size do: [:i| (exponents at: i) = (b at: i) ifFalse: [^ false]].
+	^ true! !
+
+!Monomial methodsFor: 'comparing' stamp: 'len 11/21/2016 08:36:58'!
+> aMonomial
+	^ (self compare: aMonomial) > 0! !
+
+!Monomial methodsFor: 'comparing' stamp: 'len 11/21/2016 11:19:23'!
+>= aMonomial
+	self == aMonomial ifTrue: [^ true].
+	^ (self compare: aMonomial) >= 0! !
+
+!Monomial methodsFor: 'comparing' stamp: 'len 5/23/2022 11:59:12'!
+| aMonomial
+	"Answer true if the receiver divides the argument."
+"	self degree > aMonomial degree ifTrue: [^ false]. <- this doesn't seem to help"
+	1 to: exponents size do: [:i| (exponents at: i) > (aMonomial at: i) ifTrue: [^ false]].
+	^ true! !
+
+!Monomial methodsFor: 'comparing' stamp: 'len 5/22/2022 20:07:38'!
+⊥ anElement
+	"Answer true if the receiver and the argument are coprime."
+	^ (self gcd: anElement) isIdentity! !
+
+!Monomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:12:42'!
+compare: aMonomial
+	"Answer -1 if the receiver is < than the argument, 0 if they are equal, 1 if it is > than the argument."
+	^ self ordering compare: self with: aMonomial! !
+
+!Monomial methodsFor: 'comparing' stamp: 'len 11/30/2016 21:59:33'!
+hash
+	| answer |
+	answer _ self lastIndeterminate.
+	1 to: exponents size do: [:i|
+		| e |
+		(e _ exponents at: i) = 0
+			ifFalse: [answer _ answer hashMultiply + e hash]].
+	^ answer! !
+
+!Monomial methodsFor: 'converting' stamp: 'len 5/23/2018 22:18:46'!
+orderedBy: aMonomialOrdering
+	^ (self parent orderedBy: aMonomialOrdering) !! self! !
+
+!Monomial methodsFor: 'copying' stamp: 'len 5/14/2019 03:30:59'!
+copyWith: anIndeterminate to: anInteger
+	^ parent exponents: (exponents copy at: anIndeterminate put: anInteger; yourself)! !
+
+!Monomial methodsFor: 'copying' stamp: 'len 5/14/2019 03:31:04'!
+copyWithout: anIndeterminate
+	"Answer a copy of the receiver with the given indeterminate removed."
+	^ parent exponents: (exponents copy at: anIndeterminate put: 0; yourself)! !
+
+!Monomial methodsFor: 'copying' stamp: 'len 12/20/2022 09:32:35'!
+postCopy
+	super postCopy.
+	exponents _ exponents copy.
+	degree _ nil! !
+
+!Monomial methodsFor: 'enumerating' stamp: 'len 5/14/2019 04:00:53'!
+do: aBinaryBlock
+	exponents withIndexDo: [:each :i| aBinaryBlock value: i value: each]! !
+
+!Monomial methodsFor: 'enumerating' stamp: 'len 6/3/2023 20:20:25'!
+keysAndValuesDo: aBinaryBlock
+	"Iterate over each indeterminate and exponent. For compatibility with Word and Tuple."
+	exponents withIndexDo: [:each :i| aBinaryBlock value: i value: each]! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 6/19/2023 01:50:03'!
+* aMonomial
+	^ self · aMonomial! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 5/14/2019 03:30:33'!
+/ aMonomial
+	"Answer the exact division of the receiver by the argument."
+	| b bn c |
+	b _ aMonomial exponents.
+	bn _ aMonomial exponents size.
+	exponents size = bn ifFalse: [^ self error: 'not same size'].
+	c _ Array new: bn.
+	1 to: bn do: [:i| c at: i put: (exponents at: i) - (b at: i)].
+	^ parent exponents: c! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 5/14/2019 03:30:39'!
+^ anInteger
+	^ parent exponents: exponents * anInteger! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 5/14/2019 03:30:44'!
+· aMonomial
+	| b bn c |
+	b _ aMonomial exponents.
+	bn _ aMonomial exponents size.
+	exponents size = bn ifFalse: [^ self error: 'not same size'].
+	c _ Array new: bn.
+	1 to: bn do: [:i| c at: i put: (exponents at: i) + (b at: i)].
+	^ parent exponents: c! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 7/6/2022 06:16:35'!
+complete: anInteger in: anIndeterminate
+	"Answer a copy of the receiver of degree anInteger completing with a power of the indeterminate anotherInteger."
+	| n d w |
+	(n _ self degree) = anInteger ifTrue: [^ self].
+	d _ anInteger - n.
+	w _ parent ordering weightOf: anIndeterminate.
+	w | d ifFalse: [^ self error: 'fractional exponent'].
+	^ parent exponents: (exponents copy at: anIndeterminate put: d // w + (exponents at: anIndeterminate); yourself)! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 7/6/2022 05:39:27'!
+degree
+	"Answer the total degree of the receiver."
+	^ degree ifNil: [degree _ parent ordering degreeOf: exponents]! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 5/6/2023 18:51:34'!
+degreeIn: anIndeterminate
+	"Answer the degree of the receiver in the given indeterminate, i.e. the power to which the indeterminate appears in the receiver (times the indeterminate's weight, if the grading is nontrivial)."
+	^ parent ordering degreeOf: exponents in: anIndeterminate! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 5/14/2019 03:31:08'!
+dehomogenizedIn: anIndeterminate
+	| newExponents |
+	newExponents _ Array new: exponents size.
+	newExponents replaceFrom: 1 to: anIndeterminate - 1 with: exponents startingAt: 1.
+	newExponents replaceFrom: anIndeterminate to: exponents size - 1 with: exponents startingAt: anIndeterminate + 1.
+	newExponents at: exponents size put: 0.
+	^ parent exponents: newExponents! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 5/14/2019 03:31:12'!
+gcd: aMonomial
+	"Answer the greatest common divisor of the receiver and the argument."
+	exponents size <= aMonomial exponents size ifFalse: [^ aMonomial gcd: self].
+	^ parent exponents: (exponents withIndexCollect: [:each :i| each min: (aMonomial at: i)])! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 5/14/2019 03:31:26'!
+lcm: aMonomial
+	"Answer the least common multiple of the receiver and the argument."
+	exponents size >= aMonomial exponents size ifFalse: [^ aMonomial lcm: self].
+	^ parent exponents: (exponents withIndexCollect: [:each :i| each max: (aMonomial at: i)])! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 5/15/2019 04:32:30'!
+log: b
+	"Answer the discrete logarithm of the receiver in base b. This is, answer an integer k such that b^k equals the receiver."
+	self notYetImplemented! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:36:23'!
+permutedBy: aPermutation
+	"Permute the variables of the receiver. The argument can be an Array (permutation in 'image format'). For example given a monomial in x,z,y, #(1 2 3) doesn't change anything, #(2 1 3) exchanges variables x and y."
+	| answer |
+	answer _ self parent identity.
+	exponents withIndexDo: [:exp :i|
+		exp = 0 ifFalse: [answer _ answer * (self parent x: (aPermutation at: i) to: exp)]].
+	^ answer! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 5/14/2019 03:31:39'!
+root: anInteger
+	^ parent exponents: exponents / anInteger! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 5/14/2019 03:31:46'!
+root: anInteger in: anIndeterminate
+	^ parent exponents: (exponents copy at: anIndeterminate put: (self at: anIndeterminate) / anInteger; yourself)! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 6/19/2023 01:52:01'!
+squared
+	^ self ^ 2! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 2/9/2017 03:20:49'!
+substitute: aBlock
+	"Answer the receiver after substituting indeterminates by aBlock."
+	| answer |
+	answer _ self parent identity.
+	exponents withIndexDo: [:exp :i|
+		exp = 0 ifFalse: [answer _ answer * (self parent x: (aBlock value: i) to: exp)]].
+	^ answer! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 1/21/2017 20:16:54'!
+value: anObject
+	| answer next |
+	1 to: exponents size do: [:i|
+		next _ (anObject at: i) ^ (exponents at: i).
+		answer _ answer ifNil: [next] ifNotNil: [next * answer]].
+	^ answer! !
+
+!Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 04:45'!
+without: anIndeterminate
+	^ (self has: anIndeterminate) ifFalse: [self] ifTrue: [self copyWithout: anIndeterminate]! !
+
+!Monomial methodsFor: 'printing' stamp: 'len 5/6/2023 15:58:58'!
+printExponent: anInteger on: aStream
+	| s |
+	anInteger = 1 ifTrue: [^ self].
+	aStream isText ifTrue: [aStream nextPutAll: anInteger printString super. ^ self].
+	s _ anInteger printString.
+	s size > 1 ifTrue: [s _ '{', s, '}'].
+	aStream nextPutAll: '^', s! !
+
+!Monomial methodsFor: 'printing' stamp: 'len 5/6/2023 15:30:26'!
+printIndeterminate: anInteger on: aStream
+	(self parent names ifNotNil: [:names| names at: anInteger ifAbsent: []])
+		ifNotNil: [:name| aStream nextPutAll: name displayStringOrText. ^ self].
+	aStream nextPutAll: 'x', anInteger printString sub! !
+
+!Monomial methodsFor: 'printing' stamp: 'len 5/6/2023 15:56:50'!
+printOn: aStream
+	self degree = 0 ifTrue: [aStream print: 1. ^ self].
+	self ordering indeterminates do: [:i| | r |
+		(r _ self at: i) = 0 ifFalse:
+			[self printIndeterminate: i on: aStream.
+			self printExponent: r on: aStream]]! !
+
+!Monomial methodsFor: 'printing' stamp: 'len 6/1/2023 14:07:03'!
+printOn: aStream shifted: anArray
+	| shiftedExponents |
+	shiftedExponents := exponents + anArray.
+	shiftedExponents sum = 0 ifTrue: [aStream print: 1. ^ self].
+	self ordering indeterminates do: [:i| | r |
+		(r := shiftedExponents at: i) = 0 ifFalse:
+			[self printIndeterminate: i on: aStream.
+			self printExponent: r on: aStream]]! !
+
+!Monomial methodsFor: 'testing' stamp: 'len 12/5/2015 22:34'!
+has: anIndeterminate
+	^ (self at: anIndeterminate) ~= 0! !
+
+!Monomial methodsFor: 'testing' stamp: 'len 6/6/2016 02:50'!
+isIdentity
+	^ exponents allSatisfy: [:each| each = 0]! !
+
+!Monomial methodsFor: 'testing' stamp: 'len 2/14/2017 10:38:05'!
+isPurePower
+	"Answer true if the receiver is a power of a single indeterminate."
+	| count |
+	count _ 0.
+	exponents do: [:each| each == 0 ifFalse: [count _ count + 1]. count > 1 ifTrue: [^ false]].
+	^ count = 1! !
+
+!Monomial methodsFor: 'testing' stamp: 'len 1/9/2022 08:30:18'!
+isSquarefree
+	^ exponents allSatisfy: [:each| each == 0 or: [each == 1]]! !
+
+!Monomial methodsFor: 'testing' stamp: 'len 6/6/2016 05:03'!
+isUnivariateIn: anIndeterminate
+	^ exponents isEmpty or: [(self at: anIndeterminate) = self degree]! !
+
+!Monomial methodsFor: 'private' stamp: 'len 7/4/2022 12:28:56'!
+exponents: anArray parent: aFreeAbelianMonoid
+	exponents _ anArray.
+	parent _ aFreeAbelianMonoid! !
+
+!Monomial methodsFor: 'private' stamp: 'len 2/26/2017 10:37:42'!
+parent: aFreeAbelianMonoid
+	parent _ aFreeAbelianMonoid! !
+
+!Monomial class methodsFor: 'instance creation' stamp: 'len 7/4/2022 12:30:24'!
+exponents: anArray parent: aFreeAbelianMonoid
+	^ self basicNew exponents: anArray parent: aFreeAbelianMonoid! !
+
+!Monomial class methodsFor: 'instance creation' stamp: 'len 11/24/2016 10:58:05'!
+new
+	^ self shouldNotImplement! !
+
 !MonomialOrdering methodsFor: 'accessing' stamp: 'len 7/4/2016 00:40'!
 indeterminates
 	^ indeterminates! !
@@ -28615,10 +28896,6 @@ commutator: anElement
 inverse
 	^ self subclassResponsibility! !
 
-!GroupElement methodsFor: 'operations' stamp: 'len 7/15/2022 11:36:02'!
-negated
-	^ self subclassResponsibility! !
-
 !GroupElement methodsFor: 'operations' stamp: 'len 12/6/2021 08:01:06'!
 reciprocal
 	^ self inverse! !
@@ -28631,317 +28908,69 @@ squared
 isIdentity
 	^ self = self identity! !
 
-!Monomial methodsFor: 'accessing' stamp: 'len 11/21/2016 15:56:16'!
-at: anIndeterminate
-	^ exponents at: anIndeterminate! !
-
-!Monomial methodsFor: 'accessing' stamp: 'len 3/16/2016 20:03'!
-bitSize
-	^ exponents inject: 0 into: [:x :each| x + each bitSize]! !
-
-!Monomial methodsFor: 'accessing' stamp: 'len 3/16/2016 20:05'!
-exponents
-	^ exponents! !
-
-!Monomial methodsFor: 'accessing' stamp: 'len 7/1/2022 10:59:09'!
-firstIndeterminate
-	"Answer the first indeterminate effectively present."
-	^ exponents findFirst: [:one| one ~= 0]! !
-
-!Monomial methodsFor: 'accessing' stamp: 'len 1/2/2022 10:04:35'!
-indeterminates
-	"Answer the list of indeterminates effectively present in this monomial (with nonzero exponent). This is called the 'support' of a monomial."
-	^ (1 to: exponents size) select: [:i| (exponents at: i) ~= 0]! !
-
-!Monomial methodsFor: 'accessing' stamp: 'len 7/1/2022 10:59:29'!
-lastIndeterminate
-	"Answer the last indeterminate effectively present."
-	^ exponents findLast: [:one| one ~= 0]! !
-
-!Monomial methodsFor: 'accessing' stamp: 'len 11/20/2016 11:56:47'!
-ordering
-	^ parent ordering! !
-
-!Monomial methodsFor: 'accessing' stamp: 'len 1/23/2017 11:35:28'!
+!Coset methodsFor: 'accessing' stamp: 'len 6/14/2022 12:47:00'!
 parent
 	^ parent! !
 
-!Monomial methodsFor: 'accessing' stamp: 'len 1/2/2022 10:04:42'!
-support
-	"Answer the list of indeterminates effectively present in this monomial (with nonzero exponent)."
-	^ self indeterminates! !
+!Coset methodsFor: 'accessing' stamp: 'len 11/25/2015 02:29'!
+representative
+	^ representative! !
 
-!Monomial methodsFor: 'comparing' stamp: 'len 11/20/2016 16:44:54'!
-< aMonomial
-	^ (self >= aMonomial) not! !
+!Coset methodsFor: 'comparing' stamp: 'len 6/14/2022 12:44:13'!
+= anObject
+	(self class = anObject class and: [parent = anObject parent]) ifFalse: [^ false].
+	^ self contains: anObject representative! !
 
-!Monomial methodsFor: 'comparing' stamp: 'len 11/20/2016 16:44:09'!
-<= aMonomial
-	self == aMonomial ifTrue: [^ true].
-	^ (self > aMonomial) not! !
-
-!Monomial methodsFor: 'comparing' stamp: 'len 11/21/2016 19:44:36'!
-= aMonomial
-	| b |
-	self == aMonomial ifTrue: [^ true].
-	aMonomial isInteger ifTrue: [^ self degree = aMonomial].
-"	^ exponents = aMonomial exponents"
-	b _ aMonomial exponents.
-	exponents size = b size ifFalse: [^ false].
-	1 to: exponents size do: [:i| (exponents at: i) = (b at: i) ifFalse: [^ false]].
-	^ true! !
-
-!Monomial methodsFor: 'comparing' stamp: 'len 11/21/2016 08:36:58'!
-> aMonomial
-	^ (self compare: aMonomial) > 0! !
-
-!Monomial methodsFor: 'comparing' stamp: 'len 11/21/2016 11:19:23'!
->= aMonomial
-	self == aMonomial ifTrue: [^ true].
-	^ (self compare: aMonomial) >= 0! !
-
-!Monomial methodsFor: 'comparing' stamp: 'len 5/23/2022 11:59:12'!
-| aMonomial
-	"Answer true if the receiver divides the argument."
-"	self degree > aMonomial degree ifTrue: [^ false]. <- this doesn't seem to help"
-	1 to: exponents size do: [:i| (exponents at: i) > (aMonomial at: i) ifTrue: [^ false]].
-	^ true! !
-
-!Monomial methodsFor: 'comparing' stamp: 'len 5/22/2022 20:07:38'!
-⊥ anElement
-	"Answer true if the receiver and the argument are coprime."
-	^ (self gcd: anElement) isIdentity! !
-
-!Monomial methodsFor: 'comparing' stamp: 'len 1/5/2018 11:12:42'!
-compare: aMonomial
-	"Answer -1 if the receiver is < than the argument, 0 if they are equal, 1 if it is > than the argument."
-	^ self ordering compare: self with: aMonomial! !
-
-!Monomial methodsFor: 'comparing' stamp: 'len 11/30/2016 21:59:33'!
+!Coset methodsFor: 'comparing' stamp: 'len 6/14/2022 12:44:24'!
 hash
-	| answer |
-	answer _ self lastIndeterminate.
-	1 to: exponents size do: [:i|
-		| e |
-		(e _ exponents at: i) = 0
-			ifFalse: [answer _ answer hashMultiply + e hash]].
-	^ answer! !
+	^ parent hash! !
 
-!Monomial methodsFor: 'converting' stamp: 'len 5/23/2018 22:18:46'!
-orderedBy: aMonomialOrdering
-	^ (self parent orderedBy: aMonomialOrdering) !! self! !
+!Coset methodsFor: 'enumerating' stamp: 'len 6/4/2023 17:40:21'!
+do: aBlock
+	parent cover isAdditiveGroup
+		ifTrue: [parent relations do: [:each| aBlock value: each + representative]]
+		ifFalse: [parent relations do: [:each| aBlock value: each · representative]]! !
 
-!Monomial methodsFor: 'copying' stamp: 'len 5/14/2019 03:30:59'!
-copyWith: anIndeterminate to: anInteger
-	^ parent exponents: (exponents copy at: anIndeterminate put: anInteger; yourself)! !
+!Coset methodsFor: 'operations' stamp: 'len 6/4/2023 17:39:11'!
+· aCoset
+	^ self class new
+		representative:
+			(parent cover isAdditiveGroup
+				ifTrue: [representative + aCoset representative]
+				ifFalse: [representative · aCoset representative]);
+		parent: parent! !
 
-!Monomial methodsFor: 'copying' stamp: 'len 5/14/2019 03:31:04'!
-copyWithout: anIndeterminate
-	"Answer a copy of the receiver with the given indeterminate removed."
-	^ parent exponents: (exponents copy at: anIndeterminate put: 0; yourself)! !
+!Coset methodsFor: 'operations' stamp: 'len 6/4/2023 17:40:45'!
+inverse
+	^ self class new
+		representative:
+			(parent cover isAdditiveGroup
+				ifTrue: [representative negated]
+				ifFalse: [representative inverse]);
+		parent: parent! !
 
-!Monomial methodsFor: 'copying' stamp: 'len 12/20/2022 09:32:35'!
-postCopy
-	super postCopy.
-	exponents _ exponents copy.
-	degree _ nil! !
-
-!Monomial methodsFor: 'enumerating' stamp: 'len 5/14/2019 04:00:53'!
-do: aBinaryBlock
-	exponents withIndexDo: [:each :i| aBinaryBlock value: i value: each]! !
-
-!Monomial methodsFor: 'enumerating' stamp: 'len 6/3/2023 20:20:25'!
-keysAndValuesDo: aBinaryBlock
-	"Iterate over each indeterminate and exponent. For compatibility with Word and Tuple."
-	exponents withIndexDo: [:each :i| aBinaryBlock value: i value: each]! !
-
-!Monomial methodsFor: 'operations' stamp: 'len 5/14/2019 03:30:33'!
-/ aMonomial
-	"Answer the exact division of the receiver by the argument."
-	| b bn c |
-	b _ aMonomial exponents.
-	bn _ aMonomial exponents size.
-	exponents size = bn ifFalse: [^ self error: 'not same size'].
-	c _ Array new: bn.
-	1 to: bn do: [:i| c at: i put: (exponents at: i) - (b at: i)].
-	^ parent exponents: c! !
-
-!Monomial methodsFor: 'operations' stamp: 'len 5/14/2019 03:30:39'!
-^ anInteger
-	^ parent exponents: exponents * anInteger! !
-
-!Monomial methodsFor: 'operations' stamp: 'len 5/14/2019 03:30:44'!
-· aMonomial
-	| b bn c |
-	b _ aMonomial exponents.
-	bn _ aMonomial exponents size.
-	exponents size = bn ifFalse: [^ self error: 'not same size'].
-	c _ Array new: bn.
-	1 to: bn do: [:i| c at: i put: (exponents at: i) + (b at: i)].
-	^ parent exponents: c! !
-
-!Monomial methodsFor: 'operations' stamp: 'len 7/6/2022 06:16:35'!
-complete: anInteger in: anIndeterminate
-	"Answer a copy of the receiver of degree anInteger completing with a power of the indeterminate anotherInteger."
-	| n d w |
-	(n _ self degree) = anInteger ifTrue: [^ self].
-	d _ anInteger - n.
-	w _ parent ordering weightOf: anIndeterminate.
-	w | d ifFalse: [^ self error: 'fractional exponent'].
-	^ parent exponents: (exponents copy at: anIndeterminate put: d // w + (exponents at: anIndeterminate); yourself)! !
-
-!Monomial methodsFor: 'operations' stamp: 'len 7/6/2022 05:39:27'!
-degree
-	"Answer the total degree of the receiver."
-	^ degree ifNil: [degree _ parent ordering degreeOf: exponents]! !
-
-!Monomial methodsFor: 'operations' stamp: 'len 5/6/2023 18:51:34'!
-degreeIn: anIndeterminate
-	"Answer the degree of the receiver in the given indeterminate, i.e. the power to which the indeterminate appears in the receiver (times the indeterminate's weight, if the grading is nontrivial)."
-	^ parent ordering degreeOf: exponents in: anIndeterminate! !
-
-!Monomial methodsFor: 'operations' stamp: 'len 5/14/2019 03:31:08'!
-dehomogenizedIn: anIndeterminate
-	| newExponents |
-	newExponents _ Array new: exponents size.
-	newExponents replaceFrom: 1 to: anIndeterminate - 1 with: exponents startingAt: 1.
-	newExponents replaceFrom: anIndeterminate to: exponents size - 1 with: exponents startingAt: anIndeterminate + 1.
-	newExponents at: exponents size put: 0.
-	^ parent exponents: newExponents! !
-
-!Monomial methodsFor: 'operations' stamp: 'len 5/15/2019 03:14:30'!
-eq: aMonomial
-	"Answer the relator for the relation that equates the receiver to the argument."
-	^ self · aMonomial inverse! !
-
-!Monomial methodsFor: 'operations' stamp: 'len 5/14/2019 03:31:12'!
-gcd: aMonomial
-	"Answer the greatest common divisor of the receiver and the argument."
-	exponents size <= aMonomial exponents size ifFalse: [^ aMonomial gcd: self].
-	^ parent exponents: (exponents withIndexCollect: [:each :i| each min: (aMonomial at: i)])! !
-
-!Monomial methodsFor: 'operations' stamp: 'len 5/14/2019 03:31:26'!
-lcm: aMonomial
-	"Answer the least common multiple of the receiver and the argument."
-	exponents size >= aMonomial exponents size ifFalse: [^ aMonomial lcm: self].
-	^ parent exponents: (exponents withIndexCollect: [:each :i| each max: (aMonomial at: i)])! !
-
-!Monomial methodsFor: 'operations' stamp: 'len 5/15/2019 04:32:30'!
-log: b
-	"Answer the discrete logarithm of the receiver in base b. This is, answer an integer k such that b^k equals the receiver."
-	self notYetImplemented! !
-
-!Monomial methodsFor: 'operations' stamp: 'len 1/23/2017 11:36:23'!
-permutedBy: aPermutation
-	"Permute the variables of the receiver. The argument can be an Array (permutation in 'image format'). For example given a monomial in x,z,y, #(1 2 3) doesn't change anything, #(2 1 3) exchanges variables x and y."
-	| answer |
-	answer _ self parent identity.
-	exponents withIndexDo: [:exp :i|
-		exp = 0 ifFalse: [answer _ answer * (self parent x: (aPermutation at: i) to: exp)]].
-	^ answer! !
-
-!Monomial methodsFor: 'operations' stamp: 'len 5/14/2019 03:31:39'!
-root: anInteger
-	^ parent exponents: exponents / anInteger! !
-
-!Monomial methodsFor: 'operations' stamp: 'len 5/14/2019 03:31:46'!
-root: anInteger in: anIndeterminate
-	^ parent exponents: (exponents copy at: anIndeterminate put: (self at: anIndeterminate) / anInteger; yourself)! !
-
-!Monomial methodsFor: 'operations' stamp: 'len 2/9/2017 03:20:49'!
-substitute: aBlock
-	"Answer the receiver after substituting indeterminates by aBlock."
-	| answer |
-	answer _ self parent identity.
-	exponents withIndexDo: [:exp :i|
-		exp = 0 ifFalse: [answer _ answer * (self parent x: (aBlock value: i) to: exp)]].
-	^ answer! !
-
-!Monomial methodsFor: 'operations' stamp: 'len 1/21/2017 20:16:54'!
-value: anObject
-	| answer next |
-	1 to: exponents size do: [:i|
-		next _ (anObject at: i) ^ (exponents at: i).
-		answer _ answer ifNil: [next] ifNotNil: [next * answer]].
-	^ answer! !
-
-!Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 04:45'!
-without: anIndeterminate
-	^ (self has: anIndeterminate) ifFalse: [self] ifTrue: [self copyWithout: anIndeterminate]! !
-
-!Monomial methodsFor: 'printing' stamp: 'len 5/6/2023 15:58:58'!
-printExponent: anInteger on: aStream
-	| s |
-	anInteger = 1 ifTrue: [^ self].
-	aStream isText ifTrue: [aStream nextPutAll: anInteger printString super. ^ self].
-	s _ anInteger printString.
-	s size > 1 ifTrue: [s _ '{', s, '}'].
-	aStream nextPutAll: '^', s! !
-
-!Monomial methodsFor: 'printing' stamp: 'len 5/6/2023 15:30:26'!
-printIndeterminate: anInteger on: aStream
-	(self parent names ifNotNil: [:names| names at: anInteger ifAbsent: []])
-		ifNotNil: [:name| aStream nextPutAll: name displayStringOrText. ^ self].
-	aStream nextPutAll: 'x', anInteger printString sub! !
-
-!Monomial methodsFor: 'printing' stamp: 'len 5/6/2023 15:56:50'!
+!Coset methodsFor: 'printing' stamp: 'len 6/14/2022 12:47:38'!
 printOn: aStream
-	self degree = 0 ifTrue: [aStream print: 1. ^ self].
-	self ordering indeterminates do: [:i| | r |
-		(r _ self at: i) = 0 ifFalse:
-			[self printIndeterminate: i on: aStream.
-			self printExponent: r on: aStream]]! !
+	aStream print: representative! !
 
-!Monomial methodsFor: 'printing' stamp: 'len 6/1/2023 14:07:03'!
-printOn: aStream shifted: anArray
-	| shiftedExponents |
-	shiftedExponents := exponents + anArray.
-	shiftedExponents sum = 0 ifTrue: [aStream print: 1. ^ self].
-	self ordering indeterminates do: [:i| | r |
-		(r := shiftedExponents at: i) = 0 ifFalse:
-			[self printIndeterminate: i on: aStream.
-			self printExponent: r on: aStream]]! !
+!Coset methodsFor: 'testing' stamp: 'len 6/4/2023 17:37:56'!
+contains: anElement
+	^ parent relations contains:
+		(parent cover isAdditiveGroup
+			ifTrue: [anElement - representative]
+			ifFalse: [anElement · representative inverse])! !
 
-!Monomial methodsFor: 'testing' stamp: 'len 12/5/2015 22:34'!
-has: anIndeterminate
-	^ (self at: anIndeterminate) ~= 0! !
+!Coset methodsFor: 'testing' stamp: 'len 6/14/2022 12:49:11'!
+includes: anObject
+	^ (parent cover includes: anObject) and: [self contains: anObject]! !
 
-!Monomial methodsFor: 'testing' stamp: 'len 6/6/2016 02:50'!
-isIdentity
-	^ exponents allSatisfy: [:each| each = 0]! !
+!Coset methodsFor: 'private' stamp: 'len 6/14/2022 12:45:40'!
+parent: aQuotientGroup
+	parent _ aQuotientGroup! !
 
-!Monomial methodsFor: 'testing' stamp: 'len 2/14/2017 10:38:05'!
-isPurePower
-	"Answer true if the receiver is a power of a single indeterminate."
-	| count |
-	count _ 0.
-	exponents do: [:each| each == 0 ifFalse: [count _ count + 1]. count > 1 ifTrue: [^ false]].
-	^ count = 1! !
-
-!Monomial methodsFor: 'testing' stamp: 'len 1/9/2022 08:30:18'!
-isSquarefree
-	^ exponents allSatisfy: [:each| each == 0 or: [each == 1]]! !
-
-!Monomial methodsFor: 'testing' stamp: 'len 6/6/2016 05:03'!
-isUnivariateIn: anIndeterminate
-	^ exponents isEmpty or: [(self at: anIndeterminate) = self degree]! !
-
-!Monomial methodsFor: 'private' stamp: 'len 7/4/2022 12:28:56'!
-exponents: anArray parent: aFreeAbelianMonoid
-	exponents _ anArray.
-	parent _ aFreeAbelianMonoid! !
-
-!Monomial methodsFor: 'private' stamp: 'len 2/26/2017 10:37:42'!
-parent: aFreeAbelianMonoid
-	parent _ aFreeAbelianMonoid! !
-
-!Monomial class methodsFor: 'instance creation' stamp: 'len 7/4/2022 12:30:24'!
-exponents: anArray parent: aFreeAbelianMonoid
-	^ self basicNew exponents: anArray parent: aFreeAbelianMonoid! !
-
-!Monomial class methodsFor: 'instance creation' stamp: 'len 11/24/2016 10:58:05'!
-new
-	^ self shouldNotImplement! !
+!Coset methodsFor: 'private' stamp: 'len 6/4/2023 17:41:16'!
+representative: anElement
+	representative := anElement! !
 
 !Word methodsFor: 'accessing' stamp: 'len 1/10/2018 11:28:25'!
 length
@@ -29112,116 +29141,6 @@ x: i to: k
 	"Answer a new instance of the receiver with only one indeterminate, xi, raised to n."
 	k = 0 ifTrue: [^ self empty].
 	^ self syllables: {i -> k}! !
-
-!Coset methodsFor: 'accessing' stamp: 'len 6/14/2022 12:47:00'!
-parent
-	^ parent! !
-
-!Coset methodsFor: 'accessing' stamp: 'len 11/25/2015 02:29'!
-representative
-	^ representative! !
-
-!Coset methodsFor: 'comparing' stamp: 'len 6/14/2022 12:44:13'!
-= anObject
-	(self class = anObject class and: [parent = anObject parent]) ifFalse: [^ false].
-	^ self contains: anObject representative! !
-
-!Coset methodsFor: 'comparing' stamp: 'len 6/14/2022 12:44:24'!
-hash
-	^ parent hash! !
-
-!Coset methodsFor: 'enumerating' stamp: 'len 6/4/2023 17:40:21'!
-do: aBlock
-	parent cover isAdditiveGroup
-		ifTrue: [parent relations do: [:each| aBlock value: each + representative]]
-		ifFalse: [parent relations do: [:each| aBlock value: each · representative]]! !
-
-!Coset methodsFor: 'operations' stamp: 'len 6/4/2023 17:39:11'!
-· aCoset
-	^ self class new
-		representative:
-			(parent cover isAdditiveGroup
-				ifTrue: [representative + aCoset representative]
-				ifFalse: [representative · aCoset representative]);
-		parent: parent! !
-
-!Coset methodsFor: 'operations' stamp: 'len 6/4/2023 17:40:45'!
-inverse
-	^ self class new
-		representative:
-			(parent cover isAdditiveGroup
-				ifTrue: [representative negated]
-				ifFalse: [representative inverse]);
-		parent: parent! !
-
-!Coset methodsFor: 'printing' stamp: 'len 6/14/2022 12:47:38'!
-printOn: aStream
-	aStream print: representative! !
-
-!Coset methodsFor: 'testing' stamp: 'len 6/4/2023 17:37:56'!
-contains: anElement
-	^ parent relations contains:
-		(parent cover isAdditiveGroup
-			ifTrue: [anElement - representative]
-			ifFalse: [anElement · representative inverse])! !
-
-!Coset methodsFor: 'testing' stamp: 'len 6/14/2022 12:49:11'!
-includes: anObject
-	^ (parent cover includes: anObject) and: [self contains: anObject]! !
-
-!Coset methodsFor: 'private' stamp: 'len 6/14/2022 12:45:40'!
-parent: aQuotientGroup
-	parent _ aQuotientGroup! !
-
-!Coset methodsFor: 'private' stamp: 'len 6/4/2023 17:41:16'!
-representative: anElement
-	representative := anElement! !
-
-!GroupTuple methodsFor: 'accessing' stamp: 'len 4/25/2020 06:38:06'!
-at: anInteger
-	^ components at: anInteger! !
-
-!GroupTuple methodsFor: 'accessing' stamp: 'len 4/25/2020 06:38:11'!
-parent
-	^ parent! !
-
-!GroupTuple methodsFor: 'accessing' stamp: 'len 4/25/2020 06:38:16'!
-size
-	^ components size! !
-
-!GroupTuple methodsFor: 'comparing' stamp: 'len 4/25/2020 06:38:33'!
-= anObject
-	^ self class = anObject class and: [components = anObject components]! !
-
-!GroupTuple methodsFor: 'comparing' stamp: 'len 4/25/2020 06:38:37'!
-hash
-	^ components hash! !
-
-!GroupTuple methodsFor: 'operations' stamp: 'len 11/24/2022 17:50:13'!
-· anElement
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #·].
-	^ self class components: (components withIndexCollect: [:each :i| (parent at: i) isAdditiveGroup ifTrue: [each + (anElement at: i)] ifFalse: [each · (anElement at: i)]]) parent: parent! !
-
-!GroupTuple methodsFor: 'operations' stamp: 'len 11/24/2022 17:49:59'!
-inverse
-	^ self class components: (components with: parent components collect: [:g :G| G isAdditiveGroup ifTrue: [g negated] ifFalse: [g inverse]]) parent: parent! !
-
-!GroupTuple methodsFor: 'printing' stamp: 'len 4/25/2020 06:38:47'!
-printOn: aStream
-	aStream print: components! !
-
-!GroupTuple methodsFor: 'private' stamp: 'len 4/25/2020 06:39:26'!
-components
-	^ components! !
-
-!GroupTuple methodsFor: 'private' stamp: 'len 11/24/2022 17:49:10'!
-components: anArray parent: aDirectProductGroup
-	components _ anArray.
-	parent _ aDirectProductGroup! !
-
-!GroupTuple class methodsFor: 'instance creation' stamp: 'len 5/7/2023 17:24:17'!
-components: anArray parent: aGroup
-	^ self new components: anArray parent: aGroup! !
 
 !Permutation methodsFor: 'accessing' stamp: 'len 5/25/2019 05:27:21'!
 aChange
@@ -30101,6 +30020,186 @@ parent
 !Opposite class methodsFor: 'instance creation' stamp: 'len 4/26/2021 11:22:25'!
 opposite: anElement
 	^ self new opposite: anElement! !
+
+!Product methodsFor: 'accessing' stamp: 'len 4/23/2020 01:42:02'!
+at: anInteger
+	^ components at: anInteger! !
+
+!Product methodsFor: 'accessing' stamp: 'len 4/23/2020 01:37:47'!
+parent
+	^ parent! !
+
+!Product methodsFor: 'accessing' stamp: 'len 4/23/2020 01:41:55'!
+size
+	^ components size! !
+
+!Product methodsFor: 'comparing' stamp: 'len 4/23/2020 01:40:33'!
+= anObject
+	^ self class = anObject class and: [components = anObject components]! !
+
+!Product methodsFor: 'comparing' stamp: 'len 5/31/2022 11:39:51'!
+| anElement
+	"Answer true if the receiver is a left divisor of the argument
+	(or equivalently, the argument is a right multiple of the receiver),
+	i.e. if the receiver is a and the argument is b, there exists x with ax = b."
+	1 to: self size do: [:i| (self at: i) | (anElement at: i) ifFalse: [^ false]].
+	^ true! !
+
+!Product methodsFor: 'comparing' stamp: 'len 4/23/2020 01:41:03'!
+hash
+	^ components hash! !
+
+!Product methodsFor: 'operations' stamp: 'len 10/8/2022 19:35:29'!
+* anElement
+	anElement isInteger ifTrue: [^ self class components: components * anElement parent: parent].
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #*].
+	^ self class components: components * anElement components parent: parent! !
+
+!Product methodsFor: 'operations' stamp: 'len 5/31/2022 11:44:21'!
++ anElement
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #+].
+	^ self class components: components + anElement components parent: parent! !
+
+!Product methodsFor: 'operations' stamp: 'len 5/29/2022 19:39:19'!
+// anElement
+	| a1 a2 b1 b2 |
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #//].
+	anElement isZero ifTrue: [^ DivisibilityError new signalReceiver: self selector: #// argument: anElement].
+	components size = 2 ifFalse: [^ self notYetImplemented].
+	a1 _ self at: 1.
+	a2 _ self at: 2.
+	b1 _ anElement at: 1.
+	b2 _ anElement at: 2.
+	(b1 isZero not and: [b2 isZero not]) ifTrue:
+		[ | q1 q2 r1 r2 |
+		q1 _ a1 // b1.
+		q2 _ a2 // b2.
+		r1 _ a1 - (b1*q1).
+		r2 _ a2 - (b2*q2).
+		r1 isZero = r2 isZero ifTrue: [^ parent compose: {q1. q2}].
+		r1 isZero ifTrue: [^ parent compose: {q1 - 1. q2}].
+		^ parent compose: {q1. q2 - 1}].
+	self notYetImplemented.
+	^ parent compose: (components with: anElement components collect: [:a :b| b isZero ifTrue: [b] ifFalse: [a // b]])! !
+
+!Product methodsFor: 'operations' stamp: 'len 5/21/2022 16:14:46'!
+annihilator
+	^ parent compose: (components collect: [:each| each annihilator])! !
+
+!Product methodsFor: 'operations' stamp: 'len 10/8/2022 19:38:22'!
+colift: anElement
+	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
+	This is the right division of b by a, written b / a."
+	^ parent compose: ((1 to: self size) collect: [:i| ((self at: i) colift: (anElement at: i)) ifNil: [^ nil]])! !
+
+!Product methodsFor: 'operations' stamp: 'len 6/19/2022 07:12:06'!
+factorization
+	"Answer a collection with the irreducible factors of the receiver (with multiplicity)."
+	| answer one |
+	answer _ Bag new.
+	one _ components collect: [:each| each isZero ifTrue: [each] ifFalse: [each one]].
+	components withIndexDo: [:each :i|
+		each factorization withOccurrencesDo: [:factor :times|
+			answer add: (parent compose: (one copy at: i put: factor; yourself)) withOccurrences: times]].
+	^ answer! !
+
+!Product methodsFor: 'operations' stamp: 'len 10/16/2022 10:41:00'!
+gauge
+	"Answer the value of the Euclidean function at the receiver."
+	^ components inject: 0 asOrdinal into: [:answer :each|  ω * answer + each gauge asOrdinal]! !
+
+!Product methodsFor: 'operations' stamp: 'len 6/1/2022 18:05:57'!
+gcd: anElement
+	^ parent compose: (components with: anElement components collect: [:a :b| a gcd: b])! !
+
+!Product methodsFor: 'operations' stamp: 'len 10/8/2022 19:40:07'!
+inverse
+	^ self class components: components inverse parent: parent! !
+
+!Product methodsFor: 'operations' stamp: 'len 6/1/2022 18:08:15'!
+lcm: anElement
+	^ parent compose: (components with: anElement components collect: [:a :b| a lcm: b])! !
+
+!Product methodsFor: 'operations' stamp: 'len 10/8/2022 19:38:53'!
+lift: anElement
+	"Answer x such that ax = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
+	This is the left division of b by a, written a \ b."
+	^ parent compose: ((1 to: self size) collect: [:i| ((self at: i) lift: (anElement at: i)) ifNil: [^ nil]])! !
+
+!Product methodsFor: 'operations' stamp: 'len 10/8/2022 19:39:08'!
+negated
+	^ self class components: components negated parent: parent! !
+
+!Product methodsFor: 'operations' stamp: 'len 12/10/2021 19:20:25'!
+normalization
+	"Answer a unit u such that 'self * u' is a unique choice of associate. See >>normalized."
+	^ parent compose: (components collect: [:each| each normalization])! !
+
+!Product methodsFor: 'operations' stamp: 'len 5/30/2023 13:44:46'!
+squared
+	^ self class components: components squared parent: parent! !
+
+!Product methodsFor: 'operations' stamp: 'len 12/21/2022 13:28:24'!
+xgcd: anElement
+	"Answer the GCD of the receiver and the argument and the Bézout coefficients.
+	If the receiver is 'a', the argument is 'b' and their GCD is 'g', answer an array {g. s. t} where as + bt = g."
+	| g s t |
+	g _ Array new: components size.
+	s _ Array new: components size.
+	t _ Array new: components size.
+	components withIndexDo: [:each :i|
+		| xgcd |
+		xgcd _ each xgcd: (anElement at: i).
+		g at: i put: (xgcd at: 1).
+		s at: i put: (xgcd at: 2).
+		t at: i put: (xgcd at: 3)].
+	^ {parent compose: g. parent compose: s. parent compose: t}! !
+
+!Product methodsFor: 'printing' stamp: 'len 6/14/2023 17:13:03'!
+printOn: aStream
+	(parent components allSatisfy: [:each| (each isKindOf: ModularIntegerRing) and: [each modulus <= 16]])
+		ifTrue: [components do: [:each| each representative printOn: aStream base: 16]]
+		ifFalse: [aStream print: components]! !
+
+!Product methodsFor: 'testing' stamp: 'len 4/25/2022 18:03:02'!
+isMinusOne
+	^ components allSatisfy: [:each| each isMinusOne]! !
+
+!Product methodsFor: 'testing' stamp: 'len 6/19/2022 12:18:00'!
+isNilpotent
+	"Answer true if self^n = 0 for some integer n >= 1."
+	^ components allSatisfy: [:each| each isNilpotent]! !
+
+!Product methodsFor: 'testing' stamp: 'len 1/4/2022 11:02:15'!
+isOne
+	^ components allSatisfy: [:each| each isOne]! !
+
+!Product methodsFor: 'testing' stamp: 'len 5/4/2020 09:36:53'!
+isUnit
+	"Answer true if the receiver is invertible."
+	^ components allSatisfy: [:each| each isUnit]! !
+
+!Product methodsFor: 'testing' stamp: 'len 11/24/2022 11:04:29'!
+isZero
+	^ components isZero! !
+
+!Product methodsFor: 'testing' stamp: 'len 5/7/2022 07:30:40'!
+isZeroDivisor
+	"Answer true if there exists a nonzero element that multiplied by the receiver is zero."
+	^ components anySatisfy: [:any| any isZeroDivisor]! !
+
+!Product methodsFor: 'private' stamp: 'len 4/23/2020 01:37:55'!
+components
+	^ components! !
+
+!Product methodsFor: 'private' stamp: 'len 11/24/2022 17:47:07'!
+components: anArray parent: aProductRing
+	components _ anArray.
+	parent _ aProductRing! !
+
+!Product class methodsFor: 'instance creation' stamp: 'len 11/24/2022 17:46:40'!
+components: anArray parent: aProductRing
+	^ self new components: anArray parent: aProductRing! !
 
 !Ratio methodsFor: 'accessing' stamp: 'len 12/28/2015 20:31'!
 bitSize
@@ -31765,186 +31864,6 @@ printOn: aStream
 			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
 			ifFalse: [aStream nextPutAll: ' + '].
 		self printCoefficient: c monomial: m on: aStream]! !
-
-!RingTuple methodsFor: 'accessing' stamp: 'len 4/23/2020 01:42:02'!
-at: anInteger
-	^ components at: anInteger! !
-
-!RingTuple methodsFor: 'accessing' stamp: 'len 4/23/2020 01:37:47'!
-parent
-	^ parent! !
-
-!RingTuple methodsFor: 'accessing' stamp: 'len 4/23/2020 01:41:55'!
-size
-	^ components size! !
-
-!RingTuple methodsFor: 'comparing' stamp: 'len 4/23/2020 01:40:33'!
-= anObject
-	^ self class = anObject class and: [components = anObject components]! !
-
-!RingTuple methodsFor: 'comparing' stamp: 'len 5/31/2022 11:39:51'!
-| anElement
-	"Answer true if the receiver is a left divisor of the argument
-	(or equivalently, the argument is a right multiple of the receiver),
-	i.e. if the receiver is a and the argument is b, there exists x with ax = b."
-	1 to: self size do: [:i| (self at: i) | (anElement at: i) ifFalse: [^ false]].
-	^ true! !
-
-!RingTuple methodsFor: 'comparing' stamp: 'len 4/23/2020 01:41:03'!
-hash
-	^ components hash! !
-
-!RingTuple methodsFor: 'operations' stamp: 'len 10/8/2022 19:35:29'!
-* anElement
-	anElement isInteger ifTrue: [^ self class components: components * anElement parent: parent].
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #*].
-	^ self class components: components * anElement components parent: parent! !
-
-!RingTuple methodsFor: 'operations' stamp: 'len 5/31/2022 11:44:21'!
-+ anElement
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #+].
-	^ self class components: components + anElement components parent: parent! !
-
-!RingTuple methodsFor: 'operations' stamp: 'len 5/29/2022 19:39:19'!
-// anElement
-	| a1 a2 b1 b2 |
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #//].
-	anElement isZero ifTrue: [^ DivisibilityError new signalReceiver: self selector: #// argument: anElement].
-	components size = 2 ifFalse: [^ self notYetImplemented].
-	a1 _ self at: 1.
-	a2 _ self at: 2.
-	b1 _ anElement at: 1.
-	b2 _ anElement at: 2.
-	(b1 isZero not and: [b2 isZero not]) ifTrue:
-		[ | q1 q2 r1 r2 |
-		q1 _ a1 // b1.
-		q2 _ a2 // b2.
-		r1 _ a1 - (b1*q1).
-		r2 _ a2 - (b2*q2).
-		r1 isZero = r2 isZero ifTrue: [^ parent compose: {q1. q2}].
-		r1 isZero ifTrue: [^ parent compose: {q1 - 1. q2}].
-		^ parent compose: {q1. q2 - 1}].
-	self notYetImplemented.
-	^ parent compose: (components with: anElement components collect: [:a :b| b isZero ifTrue: [b] ifFalse: [a // b]])! !
-
-!RingTuple methodsFor: 'operations' stamp: 'len 5/21/2022 16:14:46'!
-annihilator
-	^ parent compose: (components collect: [:each| each annihilator])! !
-
-!RingTuple methodsFor: 'operations' stamp: 'len 10/8/2022 19:38:22'!
-colift: anElement
-	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
-	This is the right division of b by a, written b / a."
-	^ parent compose: ((1 to: self size) collect: [:i| ((self at: i) colift: (anElement at: i)) ifNil: [^ nil]])! !
-
-!RingTuple methodsFor: 'operations' stamp: 'len 6/19/2022 07:12:06'!
-factorization
-	"Answer a collection with the irreducible factors of the receiver (with multiplicity)."
-	| answer one |
-	answer _ Bag new.
-	one _ components collect: [:each| each isZero ifTrue: [each] ifFalse: [each one]].
-	components withIndexDo: [:each :i|
-		each factorization withOccurrencesDo: [:factor :times|
-			answer add: (parent compose: (one copy at: i put: factor; yourself)) withOccurrences: times]].
-	^ answer! !
-
-!RingTuple methodsFor: 'operations' stamp: 'len 10/16/2022 10:41:00'!
-gauge
-	"Answer the value of the Euclidean function at the receiver."
-	^ components inject: 0 asOrdinal into: [:answer :each|  ω * answer + each gauge asOrdinal]! !
-
-!RingTuple methodsFor: 'operations' stamp: 'len 6/1/2022 18:05:57'!
-gcd: anElement
-	^ parent compose: (components with: anElement components collect: [:a :b| a gcd: b])! !
-
-!RingTuple methodsFor: 'operations' stamp: 'len 10/8/2022 19:40:07'!
-inverse
-	^ self class components: components inverse parent: parent! !
-
-!RingTuple methodsFor: 'operations' stamp: 'len 6/1/2022 18:08:15'!
-lcm: anElement
-	^ parent compose: (components with: anElement components collect: [:a :b| a lcm: b])! !
-
-!RingTuple methodsFor: 'operations' stamp: 'len 10/8/2022 19:38:53'!
-lift: anElement
-	"Answer x such that ax = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
-	This is the left division of b by a, written a \ b."
-	^ parent compose: ((1 to: self size) collect: [:i| ((self at: i) lift: (anElement at: i)) ifNil: [^ nil]])! !
-
-!RingTuple methodsFor: 'operations' stamp: 'len 10/8/2022 19:39:08'!
-negated
-	^ self class components: components negated parent: parent! !
-
-!RingTuple methodsFor: 'operations' stamp: 'len 12/10/2021 19:20:25'!
-normalization
-	"Answer a unit u such that 'self * u' is a unique choice of associate. See >>normalized."
-	^ parent compose: (components collect: [:each| each normalization])! !
-
-!RingTuple methodsFor: 'operations' stamp: 'len 5/30/2023 13:44:46'!
-squared
-	^ self class components: components squared parent: parent! !
-
-!RingTuple methodsFor: 'operations' stamp: 'len 12/21/2022 13:28:24'!
-xgcd: anElement
-	"Answer the GCD of the receiver and the argument and the Bézout coefficients.
-	If the receiver is 'a', the argument is 'b' and their GCD is 'g', answer an array {g. s. t} where as + bt = g."
-	| g s t |
-	g _ Array new: components size.
-	s _ Array new: components size.
-	t _ Array new: components size.
-	components withIndexDo: [:each :i|
-		| xgcd |
-		xgcd _ each xgcd: (anElement at: i).
-		g at: i put: (xgcd at: 1).
-		s at: i put: (xgcd at: 2).
-		t at: i put: (xgcd at: 3)].
-	^ {parent compose: g. parent compose: s. parent compose: t}! !
-
-!RingTuple methodsFor: 'printing' stamp: 'len 6/14/2023 17:13:03'!
-printOn: aStream
-	(parent components allSatisfy: [:each| (each isKindOf: ModularIntegerRing) and: [each modulus <= 16]])
-		ifTrue: [components do: [:each| each representative printOn: aStream base: 16]]
-		ifFalse: [aStream print: components]! !
-
-!RingTuple methodsFor: 'testing' stamp: 'len 4/25/2022 18:03:02'!
-isMinusOne
-	^ components allSatisfy: [:each| each isMinusOne]! !
-
-!RingTuple methodsFor: 'testing' stamp: 'len 6/19/2022 12:18:00'!
-isNilpotent
-	"Answer true if self^n = 0 for some integer n >= 1."
-	^ components allSatisfy: [:each| each isNilpotent]! !
-
-!RingTuple methodsFor: 'testing' stamp: 'len 1/4/2022 11:02:15'!
-isOne
-	^ components allSatisfy: [:each| each isOne]! !
-
-!RingTuple methodsFor: 'testing' stamp: 'len 5/4/2020 09:36:53'!
-isUnit
-	"Answer true if the receiver is invertible."
-	^ components allSatisfy: [:each| each isUnit]! !
-
-!RingTuple methodsFor: 'testing' stamp: 'len 11/24/2022 11:04:29'!
-isZero
-	^ components isZero! !
-
-!RingTuple methodsFor: 'testing' stamp: 'len 5/7/2022 07:30:40'!
-isZeroDivisor
-	"Answer true if there exists a nonzero element that multiplied by the receiver is zero."
-	^ components anySatisfy: [:any| any isZeroDivisor]! !
-
-!RingTuple methodsFor: 'private' stamp: 'len 4/23/2020 01:37:55'!
-components
-	^ components! !
-
-!RingTuple methodsFor: 'private' stamp: 'len 11/24/2022 17:47:07'!
-components: anArray parent: aProductRing
-	components _ anArray.
-	parent _ aProductRing! !
-
-!RingTuple class methodsFor: 'instance creation' stamp: 'len 11/24/2022 17:46:40'!
-components: anArray parent: aProductRing
-	^ self new components: anArray parent: aProductRing! !
 
 !Adic methodsFor: 'accessing' stamp: 'len 5/9/2023 15:03:32'!
 absolutePrecision
@@ -36755,6 +36674,109 @@ real
 	"Answer the real part of the receiver."
 	^ self parent one * (moduleElement at: 1)! !
 
+!Divisor methodsFor: 'accessing' stamp: 'len 6/19/2023 14:33:59'!
+coefficients
+	^ coefficients! !
+
+!Divisor methodsFor: 'accessing' stamp: 'len 7/18/2022 06:23:40'!
+degree
+	coefficients isEmpty ifTrue: [^ self scalars zero].
+	^ coefficients sum! !
+
+!Divisor methodsFor: 'accessing' stamp: 'len 7/18/2022 06:22:38'!
+scalars
+	^ parent scalars! !
+
+!Divisor methodsFor: 'accessing' stamp: 'len 8/12/2022 13:18:46'!
+support
+	| answer |
+	answer _ nil. "should start from the empty variety"
+	coefficients keysDo: [:each| answer _ answer ifNil: [each] ifNotNil: [answer ∪ each]].
+	^ answer! !
+
+!Divisor methodsFor: 'comparing' stamp: 'len 1/11/2017 16:34:02'!
+<= aDivisor
+	^ (aDivisor - self) isEffective! !
+
+!Divisor methodsFor: 'comparing' stamp: 'len 6/19/2023 15:15:26'!
+= anObject
+	^ (anObject isKindOf: Divisor) and: [coefficients = anObject coefficients]! !
+
+!Divisor methodsFor: 'comparing' stamp: 'len 10/27/2016 10:26'!
+>= aDivisor
+	^ (self - aDivisor) isEffective! !
+
+!Divisor methodsFor: 'comparing' stamp: 'len 1/2/2017 15:43:29'!
+~ aDivisor
+	"Answer true if the receiver and the argument are linearly equivalent."
+	^ (self - aDivisor) isPrincipal! !
+
+!Divisor methodsFor: 'comparing' stamp: 'len 7/25/2022 11:56:06'!
+hash
+	^ 0! !
+
+!Divisor methodsFor: 'operations' stamp: 'len 7/18/2022 06:22:17'!
+* anElement
+	(anElement isInteger or: [self scalars includes: anElement])
+		ifTrue: [^ self class coefficients: coefficients * anElement parent: parent].
+	^ self error: 'not a scalar'! !
+
+!Divisor methodsFor: 'operations' stamp: 'len 7/18/2022 06:21:07'!
++ aDivisor
+	(parent includes: aDivisor) ifFalse: [^ self adapt: aDivisor andSend: #+].
+	^ self class coefficients: coefficients + aDivisor coefficients parent: parent! !
+
+!Divisor methodsFor: 'operations' stamp: 'len 7/18/2022 06:21:26'!
+- aDivisor
+	(parent includes: aDivisor) ifFalse: [^ self adapt: aDivisor andSend: #-].
+	^ self class coefficients: coefficients - aDivisor coefficients parent: parent! !
+
+!Divisor methodsFor: 'operations' stamp: 'len 6/19/2023 01:10:01'!
+gcd: aDivisor
+	| newCoefficients |
+	newCoefficients := Dictionary new.
+	coefficients keysAndValuesDo: [:key :value|
+		aDivisor coefficients at: key ifPresent: [:value2| newCoefficients at: key put: (value min: value2)]].
+	^ self class coefficients: newCoefficients parent: parent! !
+
+!Divisor methodsFor: 'operations' stamp: 'len 7/18/2022 06:19:06'!
+lcm: aDivisor
+	| newCoefficients |
+	newCoefficients _ coefficients copy.
+	aDivisor coefficients keysAndValuesDo: [:key :value|
+		newCoefficients at: key put: ((coefficients at: key) max: value)].
+	^ self class coefficients: newCoefficients parent: parent! !
+
+!Divisor methodsFor: 'operations' stamp: 'len 7/18/2022 06:21:39'!
+negated
+	^ self class coefficients: coefficients negated parent: parent! !
+
+!Divisor methodsFor: 'printing' stamp: 'len 6/19/2023 14:29:10'!
+printOn: aStream
+	| keys R f |
+	keys := coefficients keys asArray sort: [:a :b| a printString <= b printString].
+	R := parent scalars polynomialsIn: (keys collect: [:each| each printText]).
+	f := R zero.
+	keys withIndexDo: [:each :i| f := (R x: i) * (coefficients at: each) + f].
+	aStream print: f! !
+
+!Divisor methodsFor: 'testing' stamp: 'len 2/25/2017 09:09:25'!
+isEffective
+	^ self allSatisfy: [:each| each positive]! !
+
+!Divisor methodsFor: 'private' stamp: 'len 7/18/2022 06:20:16'!
+coefficients: aDictionary parent: aDivisorGroup
+	coefficients _ aDictionary.
+	parent _ aDivisorGroup! !
+
+!Divisor methodsFor: 'private' stamp: 'len 6/19/2023 14:33:45'!
+parent
+	^ parent! !
+
+!Divisor class methodsFor: 'instance creation' stamp: 'len 7/18/2022 06:19:38'!
+coefficients: aDictionary parent: aDivisorGroup
+	^ self new coefficients: aDictionary parent: aDivisorGroup! !
+
 !DirichletSeries methodsFor: 'printing' stamp: 'len 6/4/2019 05:32:31'!
 printOn: aStream
 	| c n first |
@@ -40959,6 +40981,20 @@ printOn: aStream
 	aStream nextPut: ${.
 	self do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $}! !
+
+!Dictionary methodsFor: '*algebra' stamp: 'len 6/19/2023 15:14:17'!
++ aDictionary
+	| answer |
+	answer := self copy.
+	aDictionary keysAndValuesDo: [:key :value| answer at: key addAndRemoveIfZero: value].
+	^ answer! !
+
+!Dictionary methodsFor: '*algebra' stamp: 'len 6/19/2023 15:14:28'!
+- aDictionary
+	| answer |
+	answer := self copy.
+	aDictionary keysAndValuesDo: [:key :value| answer at: key addAndRemoveIfZero: value negated].
+	^ answer! !
 
 !Dictionary methodsFor: '*algebra' stamp: 'len 11/30/2016 14:47:44'!
 at: key add: value
