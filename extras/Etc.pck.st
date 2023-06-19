@@ -1,621 +1,621 @@
-'From Cuis 6.0 [latest update: #5801] on 14 June 2023 at 1:38:54 pm'!
+'From Cuis 6.0 [latest update: #5866] on 19 June 2023 at 3:18:56 pm'!
 'Description '!
-!provides: 'Etc' 1 29!
+!provides: 'Etc' 1 30!
 !requires: 'Algebra' 1 7 nil!
-SystemOrganization addCategory: #Etc!
-SystemOrganization addCategory: #'Etc-Matrices'!
-SystemOrganization addCategory: #'Etc-Algebras-Solvable'!
-SystemOrganization addCategory: #'Etc-Algebras-Path'!
-SystemOrganization addCategory: #'Etc-Lie'!
+SystemOrganization addCategory: 'Etc'!
+SystemOrganization addCategory: 'Etc-Matrices'!
+SystemOrganization addCategory: 'Etc-Algebras-Solvable'!
+SystemOrganization addCategory: 'Etc-Algebras-Path'!
+SystemOrganization addCategory: 'Etc-Lie'!
 
 
-!classDefinition: #IdentityArray category: #Etc!
+!classDefinition: #IdentityArray category: 'Etc'!
 Array variableSubclass: #IdentityArray
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'IdentityArray class' category: #Etc!
+!classDefinition: 'IdentityArray class' category: 'Etc'!
 IdentityArray class
 	instanceVariableNames: ''!
 
-!classDefinition: #ZechArray category: #Etc!
+!classDefinition: #ZechArray category: 'Etc'!
 ArrayedCollection subclass: #ZechArray
 	instanceVariableNames: 'logarithms table'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'ZechArray class' category: #Etc!
+!classDefinition: 'ZechArray class' category: 'Etc'!
 ZechArray class
 	instanceVariableNames: ''!
 
-!classDefinition: #StandardBasis category: #Etc!
+!classDefinition: #StandardBasis category: 'Etc'!
 SequenceableCollection subclass: #StandardBasis
 	instanceVariableNames: 'elements'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'StandardBasis class' category: #Etc!
+!classDefinition: 'StandardBasis class' category: 'Etc'!
 StandardBasis class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroebnerBasis category: #Etc!
+!classDefinition: #GroebnerBasis category: 'Etc'!
 StandardBasis subclass: #GroebnerBasis
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'GroebnerBasis class' category: #Etc!
+!classDefinition: 'GroebnerBasis class' category: 'Etc'!
 GroebnerBasis class
 	instanceVariableNames: ''!
 
-!classDefinition: #SmallPrimeFieldTest category: #Etc!
+!classDefinition: #SmallPrimeFieldTest category: 'Etc'!
 TestCase subclass: #SmallPrimeFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'SmallPrimeFieldTest class' category: #Etc!
+!classDefinition: 'SmallPrimeFieldTest class' category: 'Etc'!
 SmallPrimeFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #DivisorGroup category: #Etc!
-Group subclass: #DivisorGroup
-	instanceVariableNames: 'scalars space'
+!classDefinition: #ProductGroup category: 'Etc'!
+Group subclass: #ProductGroup
+	instanceVariableNames: 'components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'DivisorGroup class' category: #Etc!
-DivisorGroup class
+!classDefinition: 'ProductGroup class' category: 'Etc'!
+ProductGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #SemidirectProductGroup category: #Etc!
+!classDefinition: #SemidirectProductGroup category: 'Etc'!
 Group subclass: #SemidirectProductGroup
 	instanceVariableNames: 'left right action'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'SemidirectProductGroup class' category: #Etc!
+!classDefinition: 'SemidirectProductGroup class' category: 'Etc'!
 SemidirectProductGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #CoxeterGroup category: #'Etc-Lie'!
+!classDefinition: #CoxeterGroup category: 'Etc-Lie'!
 Group subclass: #CoxeterGroup
 	instanceVariableNames: 'diagram'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Lie'!
-!classDefinition: 'CoxeterGroup class' category: #'Etc-Lie'!
+!classDefinition: 'CoxeterGroup class' category: 'Etc-Lie'!
 CoxeterGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #SmallPrimeField category: #Etc!
+!classDefinition: #SmallPrimeField category: 'Etc'!
 PrimeField subclass: #SmallPrimeField
 	instanceVariableNames: 'expTable logTable'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'SmallPrimeField class' category: #Etc!
+!classDefinition: 'SmallPrimeField class' category: 'Etc'!
 SmallPrimeField class
 	instanceVariableNames: ''!
 
-!classDefinition: #GRAlgebra category: #'Etc-Algebras-Solvable'!
+!classDefinition: #GRAlgebra category: 'Etc-Algebras-Solvable'!
 QuotientRing subclass: #GRAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Algebras-Solvable'!
-!classDefinition: 'GRAlgebra class' category: #'Etc-Algebras-Solvable'!
+!classDefinition: 'GRAlgebra class' category: 'Etc-Algebras-Solvable'!
 GRAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #PowerAlgebra category: #Etc!
+!classDefinition: #PowerAlgebra category: 'Etc'!
 FiniteAlgebra subclass: #PowerAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'PowerAlgebra class' category: #Etc!
+!classDefinition: 'PowerAlgebra class' category: 'Etc'!
 PowerAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #GAlgebra category: #'Etc-Algebras-Solvable'!
+!classDefinition: #GAlgebra category: 'Etc-Algebras-Solvable'!
 Ring subclass: #GAlgebra
 	instanceVariableNames: 'representatives multiplicativeConstants additiveConstants'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Algebras-Solvable'!
-!classDefinition: 'GAlgebra class' category: #'Etc-Algebras-Solvable'!
+!classDefinition: 'GAlgebra class' category: 'Etc-Algebras-Solvable'!
 GAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #WeylAlgebra category: #'Etc-Algebras-Solvable'!
+!classDefinition: #WeylAlgebra category: 'Etc-Algebras-Solvable'!
 GAlgebra subclass: #WeylAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Algebras-Solvable'!
-!classDefinition: 'WeylAlgebra class' category: #'Etc-Algebras-Solvable'!
+!classDefinition: 'WeylAlgebra class' category: 'Etc-Algebras-Solvable'!
 WeylAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #PathAlgebra category: #'Etc-Algebras-Path'!
+!classDefinition: #PathAlgebra category: 'Etc-Algebras-Path'!
 Ring subclass: #PathAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Algebras-Path'!
-!classDefinition: 'PathAlgebra class' category: #'Etc-Algebras-Path'!
+!classDefinition: 'PathAlgebra class' category: 'Etc-Algebras-Path'!
 PathAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #CoxeterSystem category: #'Etc-Lie'!
+!classDefinition: #CoxeterSystem category: 'Etc-Lie'!
 Structure subclass: #CoxeterSystem
 	instanceVariableNames: 'group generators matrix diagram'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Lie'!
-!classDefinition: 'CoxeterSystem class' category: #'Etc-Lie'!
+!classDefinition: 'CoxeterSystem class' category: 'Etc-Lie'!
 CoxeterSystem class
 	instanceVariableNames: ''!
 
-!classDefinition: #Quiver category: #'Etc-Algebras-Path'!
+!classDefinition: #Quiver category: 'Etc-Algebras-Path'!
 Domain subclass: #Quiver
 	instanceVariableNames: 'edges'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Algebras-Path'!
-!classDefinition: 'Quiver class' category: #'Etc-Algebras-Path'!
+!classDefinition: 'Quiver class' category: 'Etc-Algebras-Path'!
 Quiver class
 	instanceVariableNames: ''!
 
-!classDefinition: #ColumnMajorMatrix category: #'Etc-Matrices'!
+!classDefinition: #ColumnMajorMatrix category: 'Etc-Matrices'!
 Matrix subclass: #ColumnMajorMatrix
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Matrices'!
-!classDefinition: 'ColumnMajorMatrix class' category: #'Etc-Matrices'!
+!classDefinition: 'ColumnMajorMatrix class' category: 'Etc-Matrices'!
 ColumnMajorMatrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #PermutationMatrix category: #'Etc-Matrices'!
+!classDefinition: #PermutationMatrix category: 'Etc-Matrices'!
 Matrix subclass: #PermutationMatrix
 	instanceVariableNames: 'permutation'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Matrices'!
-!classDefinition: 'PermutationMatrix class' category: #'Etc-Matrices'!
+!classDefinition: 'PermutationMatrix class' category: 'Etc-Matrices'!
 PermutationMatrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #TriangularMatrix category: #'Etc-Matrices'!
+!classDefinition: #TriangularMatrix category: 'Etc-Matrices'!
 Matrix subclass: #TriangularMatrix
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Matrices'!
-!classDefinition: 'TriangularMatrix class' category: #'Etc-Matrices'!
+!classDefinition: 'TriangularMatrix class' category: 'Etc-Matrices'!
 TriangularMatrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #DiagonalMatrix category: #'Etc-Matrices'!
+!classDefinition: #DiagonalMatrix category: 'Etc-Matrices'!
 TriangularMatrix subclass: #DiagonalMatrix
 	instanceVariableNames: 'diagonal'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Matrices'!
-!classDefinition: 'DiagonalMatrix class' category: #'Etc-Matrices'!
+!classDefinition: 'DiagonalMatrix class' category: 'Etc-Matrices'!
 DiagonalMatrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #LowerTriangularMatrix category: #'Etc-Matrices'!
+!classDefinition: #LowerTriangularMatrix category: 'Etc-Matrices'!
 TriangularMatrix subclass: #LowerTriangularMatrix
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Matrices'!
-!classDefinition: 'LowerTriangularMatrix class' category: #'Etc-Matrices'!
+!classDefinition: 'LowerTriangularMatrix class' category: 'Etc-Matrices'!
 LowerTriangularMatrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #ScalarMatrix category: #'Etc-Matrices'!
+!classDefinition: #ScalarMatrix category: 'Etc-Matrices'!
 TriangularMatrix subclass: #ScalarMatrix
 	instanceVariableNames: 'scalar'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Matrices'!
-!classDefinition: 'ScalarMatrix class' category: #'Etc-Matrices'!
+!classDefinition: 'ScalarMatrix class' category: 'Etc-Matrices'!
 ScalarMatrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #UpperTriangularMatrix category: #'Etc-Matrices'!
+!classDefinition: #UpperTriangularMatrix category: 'Etc-Matrices'!
 TriangularMatrix subclass: #UpperTriangularMatrix
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Matrices'!
-!classDefinition: 'UpperTriangularMatrix class' category: #'Etc-Matrices'!
+!classDefinition: 'UpperTriangularMatrix class' category: 'Etc-Matrices'!
 UpperTriangularMatrix class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuiverMorphism category: #'Etc-Algebras-Path'!
+!classDefinition: #QuiverMorphism category: 'Etc-Algebras-Path'!
 Morphism subclass: #QuiverMorphism
 	instanceVariableNames: 'domain codomain images'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Algebras-Path'!
-!classDefinition: 'QuiverMorphism class' category: #'Etc-Algebras-Path'!
+!classDefinition: 'QuiverMorphism class' category: 'Etc-Algebras-Path'!
 QuiverMorphism class
 	instanceVariableNames: ''!
 
-!classDefinition: #Divisor category: #Etc!
-GroupElement subclass: #Divisor
-	instanceVariableNames: 'coefficients parent'
+!classDefinition: #GroupTuple category: 'Etc'!
+GroupElement subclass: #GroupTuple
+	instanceVariableNames: 'parent components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'Divisor class' category: #Etc!
-Divisor class
+!classDefinition: 'GroupTuple class' category: 'Etc'!
+GroupTuple class
 	instanceVariableNames: ''!
 
-!classDefinition: #SemidirectProductElement category: #Etc!
+!classDefinition: #SemidirectProductElement category: 'Etc'!
 GroupElement subclass: #SemidirectProductElement
 	instanceVariableNames: 'parent left right'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'SemidirectProductElement class' category: #Etc!
+!classDefinition: 'SemidirectProductElement class' category: 'Etc'!
 SemidirectProductElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #SmallPrimeResidue category: #Etc!
+!classDefinition: #SmallPrimeResidue category: 'Etc'!
 PrimeResidue subclass: #SmallPrimeResidue
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'SmallPrimeResidue class' category: #Etc!
+!classDefinition: 'SmallPrimeResidue class' category: 'Etc'!
 SmallPrimeResidue class
 	instanceVariableNames: ''!
 
-!classDefinition: #RelaxedAdicInteger category: #Etc!
+!classDefinition: #RelaxedAdicInteger category: 'Etc'!
 RingElement subclass: #RelaxedAdicInteger
 	instanceVariableNames: 'parent digits'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'RelaxedAdicInteger class' category: #Etc!
+!classDefinition: 'RelaxedAdicInteger class' category: 'Etc'!
 RelaxedAdicInteger class
 	instanceVariableNames: ''!
 
-!classDefinition: #RelaxedAdicNumber category: #Etc!
+!classDefinition: #RelaxedAdicNumber category: 'Etc'!
 RingElement subclass: #RelaxedAdicNumber
 	instanceVariableNames: 'parent valuation unit precision'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'RelaxedAdicNumber class' category: #Etc!
+!classDefinition: 'RelaxedAdicNumber class' category: 'Etc'!
 RelaxedAdicNumber class
 	instanceVariableNames: ''!
 
-!classDefinition: #RelaxedPowerSeries category: #Etc!
+!classDefinition: #RelaxedPowerSeries category: 'Etc'!
 RingElement subclass: #RelaxedPowerSeries
 	instanceVariableNames: 'parent coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'RelaxedPowerSeries class' category: #Etc!
+!classDefinition: 'RelaxedPowerSeries class' category: 'Etc'!
 RelaxedPowerSeries class
 	instanceVariableNames: ''!
 
-!classDefinition: #GAlgebraElement category: #'Etc-Algebras-Solvable'!
+!classDefinition: #GAlgebraElement category: 'Etc-Algebras-Solvable'!
 RingElement subclass: #GAlgebraElement
 	instanceVariableNames: 'parent representative'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Algebras-Solvable'!
-!classDefinition: 'GAlgebraElement class' category: #'Etc-Algebras-Solvable'!
+!classDefinition: 'GAlgebraElement class' category: 'Etc-Algebras-Solvable'!
 GAlgebraElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #PathAlgebraElement category: #'Etc-Algebras-Path'!
+!classDefinition: #PathAlgebraElement category: 'Etc-Algebras-Path'!
 RingElement subclass: #PathAlgebraElement
 	instanceVariableNames: 'coefficients parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Algebras-Path'!
-!classDefinition: 'PathAlgebraElement class' category: #'Etc-Algebras-Path'!
+!classDefinition: 'PathAlgebraElement class' category: 'Etc-Algebras-Path'!
 PathAlgebraElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianElimination2 category: #Etc!
+!classDefinition: #GaussianElimination2 category: 'Etc'!
 Echelonization subclass: #GaussianElimination2
 	instanceVariableNames: 'pivots currentPivot determinantFactor'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'GaussianElimination2 class' category: #Etc!
+!classDefinition: 'GaussianElimination2 class' category: 'Etc'!
 GaussianElimination2 class
 	instanceVariableNames: ''!
 
-!classDefinition: #BerlekampMassey category: #Etc!
+!classDefinition: #BerlekampMassey category: 'Etc'!
 Object subclass: #BerlekampMassey
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'BerlekampMassey class' category: #Etc!
+!classDefinition: 'BerlekampMassey class' category: 'Etc'!
 BerlekampMassey class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtendedSmithReduction category: #Etc!
+!classDefinition: #ExtendedSmithReduction category: 'Etc'!
 Object subclass: #ExtendedSmithReduction
 	instanceVariableNames: 'matrix elementaryDivisors L S R'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'ExtendedSmithReduction class' category: #Etc!
+!classDefinition: 'ExtendedSmithReduction class' category: 'Etc'!
 ExtendedSmithReduction class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularHermiteReduction category: #Etc!
+!classDefinition: #ModularHermiteReduction category: 'Etc'!
 Object subclass: #ModularHermiteReduction
 	instanceVariableNames: 'matrix HNF'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'ModularHermiteReduction class' category: #Etc!
+!classDefinition: 'ModularHermiteReduction class' category: 'Etc'!
 ModularHermiteReduction class
 	instanceVariableNames: ''!
 
-!classDefinition: #MultivariateReducer category: #Etc!
+!classDefinition: #MultivariateReducer category: 'Etc'!
 Object subclass: #MultivariateReducer
 	instanceVariableNames: 'divisors'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'MultivariateReducer class' category: #Etc!
+!classDefinition: 'MultivariateReducer class' category: 'Etc'!
 MultivariateReducer class
 	instanceVariableNames: ''!
 
-!classDefinition: #GlobalMultivariateReducer category: #Etc!
+!classDefinition: #GlobalMultivariateReducer category: 'Etc'!
 MultivariateReducer subclass: #GlobalMultivariateReducer
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'GlobalMultivariateReducer class' category: #Etc!
+!classDefinition: 'GlobalMultivariateReducer class' category: 'Etc'!
 GlobalMultivariateReducer class
 	instanceVariableNames: ''!
 
-!classDefinition: #NTT category: #Etc!
+!classDefinition: #NTT category: 'Etc'!
 Object subclass: #NTT
 	instanceVariableNames: 'modulus primitiveRoot'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'NTT class' category: #Etc!
+!classDefinition: 'NTT class' category: 'Etc'!
 NTT class
 	instanceVariableNames: ''!
 
-!classDefinition: #OEIS category: #Etc!
+!classDefinition: #OEIS category: 'Etc'!
 Object subclass: #OEIS
 	instanceVariableNames: 'entries'
 	classVariableNames: 'Default'
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'OEIS class' category: #Etc!
+!classDefinition: 'OEIS class' category: 'Etc'!
 OEIS class
 	instanceVariableNames: ''!
 
-!classDefinition: #RealBox category: #Etc!
+!classDefinition: #RealBox category: 'Etc'!
 Object subclass: #RealBox
 	instanceVariableNames: 'components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'RealBox class' category: #Etc!
+!classDefinition: 'RealBox class' category: 'Etc'!
 RealBox class
 	instanceVariableNames: ''!
 
-!classDefinition: #SmallBitArray category: #Etc!
+!classDefinition: #SmallBitArray category: 'Etc'!
 Object subclass: #SmallBitArray
 	instanceVariableNames: 'bits size'
 	classVariableNames: 'One Zero'
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'SmallBitArray class' category: #Etc!
+!classDefinition: 'SmallBitArray class' category: 'Etc'!
 SmallBitArray class
 	instanceVariableNames: ''!
 
-!classDefinition: #SmithReduction category: #Etc!
+!classDefinition: #SmithReduction category: 'Etc'!
 Object subclass: #SmithReduction
 	instanceVariableNames: 'matrix invariants'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'SmithReduction class' category: #Etc!
+!classDefinition: 'SmithReduction class' category: 'Etc'!
 SmithReduction class
 	instanceVariableNames: ''!
 
-!classDefinition: #SparseTuple category: #Etc!
+!classDefinition: #SparseTuple category: 'Etc'!
 Object subclass: #SparseTuple
 	instanceVariableNames: 'components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'SparseTuple class' category: #Etc!
+!classDefinition: 'SparseTuple class' category: 'Etc'!
 SparseTuple class
 	instanceVariableNames: ''!
 
-!classDefinition: #SturmChain category: #Etc!
+!classDefinition: #SturmChain category: 'Etc'!
 Object subclass: #SturmChain
 	instanceVariableNames: 'chain'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'SturmChain class' category: #Etc!
+!classDefinition: 'SturmChain class' category: 'Etc'!
 SturmChain class
 	instanceVariableNames: ''!
 
-!classDefinition: #SubgroupSeries category: #Etc!
+!classDefinition: #SubgroupSeries category: 'Etc'!
 Object subclass: #SubgroupSeries
 	instanceVariableNames: 'subgroups'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'SubgroupSeries class' category: #Etc!
+!classDefinition: 'SubgroupSeries class' category: 'Etc'!
 SubgroupSeries class
 	instanceVariableNames: ''!
 
-!classDefinition: #ZechArrayTest category: #Etc!
+!classDefinition: #ZechArrayTest category: 'Etc'!
 Object subclass: #ZechArrayTest
 	instanceVariableNames: 'table'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'ZechArrayTest class' category: #Etc!
+!classDefinition: 'ZechArrayTest class' category: 'Etc'!
 ZechArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ZechTable category: #Etc!
+!classDefinition: #ZechTable category: 'Etc'!
 Object subclass: #ZechTable
 	instanceVariableNames: 'scalars base q q̄ minusOne successors'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'ZechTable class' category: #Etc!
+!classDefinition: 'ZechTable class' category: 'Etc'!
 ZechTable class
 	instanceVariableNames: ''!
 
-!classDefinition: #ZechTableTest category: #Etc!
+!classDefinition: #ZechTableTest category: 'Etc'!
 Object subclass: #ZechTableTest
 	instanceVariableNames: 'table'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'ZechTableTest class' category: #Etc!
+!classDefinition: 'ZechTableTest class' category: 'Etc'!
 ZechTableTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #Coechelonization category: #'Etc-Matrices'!
+!classDefinition: #Coechelonization category: 'Etc-Matrices'!
 Object subclass: #Coechelonization
 	instanceVariableNames: 'matrix echelon transformation'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Matrices'!
-!classDefinition: 'Coechelonization class' category: #'Etc-Matrices'!
+!classDefinition: 'Coechelonization class' category: 'Etc-Matrices'!
 Coechelonization class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussJordanCoechelonization category: #'Etc-Matrices'!
+!classDefinition: #GaussJordanCoechelonization category: 'Etc-Matrices'!
 Coechelonization subclass: #GaussJordanCoechelonization
 	instanceVariableNames: 'determinantFactor'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Matrices'!
-!classDefinition: 'GaussJordanCoechelonization class' category: #'Etc-Matrices'!
+!classDefinition: 'GaussJordanCoechelonization class' category: 'Etc-Matrices'!
 GaussJordanCoechelonization class
 	instanceVariableNames: ''!
 
-!classDefinition: #HermiteCoechelonization category: #'Etc-Matrices'!
+!classDefinition: #HermiteCoechelonization category: 'Etc-Matrices'!
 Coechelonization subclass: #HermiteCoechelonization
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Matrices'!
-!classDefinition: 'HermiteCoechelonization class' category: #'Etc-Matrices'!
+!classDefinition: 'HermiteCoechelonization class' category: 'Etc-Matrices'!
 HermiteCoechelonization class
 	instanceVariableNames: ''!
 
-!classDefinition: #HowellCoechelonization category: #'Etc-Matrices'!
+!classDefinition: #HowellCoechelonization category: 'Etc-Matrices'!
 Coechelonization subclass: #HowellCoechelonization
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Matrices'!
-!classDefinition: 'HowellCoechelonization class' category: #'Etc-Matrices'!
+!classDefinition: 'HowellCoechelonization class' category: 'Etc-Matrices'!
 HowellCoechelonization class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuiverPath category: #'Etc-Algebras-Path'!
+!classDefinition: #QuiverPath category: 'Etc-Algebras-Path'!
 Object subclass: #QuiverPath
 	instanceVariableNames: 'parent source walk'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Algebras-Path'!
-!classDefinition: 'QuiverPath class' category: #'Etc-Algebras-Path'!
+!classDefinition: 'QuiverPath class' category: 'Etc-Algebras-Path'!
 QuiverPath class
 	instanceVariableNames: ''!
 
-!classDefinition: #CoxeterDiagram category: #'Etc-Lie'!
+!classDefinition: #CoxeterDiagram category: 'Etc-Lie'!
 Object subclass: #CoxeterDiagram
 	instanceVariableNames: 'matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Lie'!
-!classDefinition: 'CoxeterDiagram class' category: #'Etc-Lie'!
+!classDefinition: 'CoxeterDiagram class' category: 'Etc-Lie'!
 CoxeterDiagram class
 	instanceVariableNames: ''!
 
-!classDefinition: #RootSystem category: #'Etc-Lie'!
+!classDefinition: #RootSystem category: 'Etc-Lie'!
 Object subclass: #RootSystem
 	instanceVariableNames: 'roots ambient'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Lie'!
-!classDefinition: 'RootSystem class' category: #'Etc-Lie'!
+!classDefinition: 'RootSystem class' category: 'Etc-Lie'!
 RootSystem class
 	instanceVariableNames: ''!
 
-!classDefinition: #RootSystemTest category: #'Etc-Lie'!
+!classDefinition: #RootSystemTest category: 'Etc-Lie'!
 Object subclass: #RootSystemTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc-Lie'!
-!classDefinition: 'RootSystemTest class' category: #'Etc-Lie'!
+!classDefinition: 'RootSystemTest class' category: 'Etc-Lie'!
 RootSystemTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #EuclideanGaussianElimination category: #Etc!
+!classDefinition: #EuclideanGaussianElimination category: 'Etc'!
 ProtoObject subclass: #EuclideanGaussianElimination
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'EuclideanGaussianElimination class' category: #Etc!
+!classDefinition: 'EuclideanGaussianElimination class' category: 'Etc'!
 EuclideanGaussianElimination class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussBareiss category: #Etc!
+!classDefinition: #GaussBareiss category: 'Etc'!
 ProtoObject subclass: #GaussBareiss
 	instanceVariableNames: 'currentPivot echelon'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'GaussBareiss class' category: #Etc!
+!classDefinition: 'GaussBareiss class' category: 'Etc'!
 GaussBareiss class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialCode category: #Etc!
+!classDefinition: #PolynomialCode category: 'Etc'!
 ProtoObject subclass: #PolynomialCode
 	instanceVariableNames: 'generator'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'PolynomialCode class' category: #Etc!
+!classDefinition: 'PolynomialCode class' category: 'Etc'!
 PolynomialCode class
 	instanceVariableNames: ''!
 
-!classDefinition: #CyclicCode category: #Etc!
+!classDefinition: #CyclicCode category: 'Etc'!
 PolynomialCode subclass: #CyclicCode
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Etc'!
-!classDefinition: 'CyclicCode class' category: #Etc!
+!classDefinition: 'CyclicCode class' category: 'Etc'!
 CyclicCode class
 	instanceVariableNames: ''!
 
@@ -639,6 +639,9 @@ When all generators {f1,...,fm} are linear, a Groebner basis corresponds to "row
 
 See also Buchberger and ExtendedBuchberger.!
 
+!ProductGroup commentStamp: '<historical>' prior: 0!
+Direct products of groups. Elements are tuples (see GroupTuple), and the group composition law is defined component-wise.!
+
 !SemidirectProductGroup commentStamp: '<historical>' prior: 0!
 Semidirect products of groups.!
 
@@ -651,8 +654,8 @@ The initialization of the tables is very fast. The main concern is memory usage.
 !ColumnMajorMatrix commentStamp: '<historical>' prior: 0!
 Matrices stored in column-major format. The coefficients are stored as the concatenation of the columns, starting with the first coefficient of the first column and ending with the last coefficient of the last column.!
 
-!Divisor commentStamp: '<historical>' prior: 0!
-Formal sums with integer or rational coefficients of prime divisors (integral closed subschemes of codimension 1) of an integral locally Noetherian scheme.!
+!GroupTuple commentStamp: '<historical>' prior: 0!
+Elements of group direct products, i.e. tuples of group elements. See ProductGroup.!
 
 !SemidirectProductElement commentStamp: '<historical>' prior: 0!
 Elements of a semidirect product of groups. See SemidirectProductGroup.!
@@ -1258,36 +1261,88 @@ testSmallPrimeFieldTables
 	1 to: p-1 do: [:n| self assert: (F expTable at: n) = (g^n) representative].
 	0 to: p-2 do: [:n| self assert: (F logTable at: (g^n) representative) = n]! !
 
-!DivisorGroup methodsFor: 'as yet unclassified' stamp: 'len 7/15/2022 11:43:09'!
-isAdditiveGroup
+!ProductGroup methodsFor: 'accessing' stamp: 'len 4/19/2019 07:14:28'!
+ambient
+	^ self propertyAt: #ambient ifAbsentPut: [(components allSatisfy: [:each| each isAmbient]) ifTrue: [self] ifFalse: [self class components: (components collect: [:each| each ambient])]]! !
+
+!ProductGroup methodsFor: 'accessing' stamp: 'len 2/12/2016 20:00'!
+components
+	^ components! !
+
+!ProductGroup methodsFor: 'accessing' stamp: 'len 2/12/2016 20:10'!
+size
+	^ components product: [:each| each size]! !
+
+!ProductGroup methodsFor: 'comparing' stamp: 'len 6/15/2022 10:47:47'!
+= anObject
+	^ (anObject isKindOf: ProductGroup) and: [anObject components = components]! !
+
+!ProductGroup methodsFor: 'comparing' stamp: 'len 2/12/2016 20:05'!
+hash
+	^ components hash! !
+
+!ProductGroup methodsFor: 'elements' stamp: 'len 5/7/2023 17:24:34'!
+compose: anArray
+	^ GroupTuple components: anArray asArray parent: self! !
+
+!ProductGroup methodsFor: 'elements' stamp: 'len 6/19/2022 12:29:14'!
+identity
+	"Answer the identity element of the receiver."
+	^ self compose: (components collect: [:each| each identity])! !
+
+!ProductGroup methodsFor: 'enumerating' stamp: 'len 10/17/2020 19:59:54'!
+do: aBlock
+	self asCartesianProduct do: [:each| aBlock value: (self compose: each)]! !
+
+!ProductGroup methodsFor: 'morphisms' stamp: 'len 10/6/2022 11:36:47'!
+coprojection: i
+	^ ((self at: i) to: self map: [:x| self compose: (components withIndexCollect: [:each :k| k = i ifTrue: [x] ifFalse: [each identity]])]) name: 'ι', i printString sub! !
+
+!ProductGroup methodsFor: 'morphisms' stamp: 'len 9/16/2022 07:54:00'!
+projection: i
+	^ (self to: (self at: i) map: [:x| x at: i]) name: 'π', i printString sub! !
+
+!ProductGroup methodsFor: 'printing' stamp: 'len 5/23/2020 07:19:05'!
+printOn: aStream
+	components do: [:each| aStream print: each] separatedBy: [aStream nextPut: $×]! !
+
+!ProductGroup methodsFor: 'random' stamp: 'len 10/17/2020 19:59:29'!
+atRandom: aRandom
+	^ self compose: (self asCartesianProduct atRandom: aRandom)! !
+
+!ProductGroup methodsFor: 'random' stamp: 'len 10/17/2020 19:59:42'!
+atRandom: aRandom bits: bits
+	^ self compose: (self asCartesianProduct atRandom: aRandom bits: bits)! !
+
+!ProductGroup methodsFor: 'testing' stamp: 'len 4/25/2020 06:54:01'!
+includes: anObject
+	^ anObject parent = self! !
+
+!ProductGroup methodsFor: 'testing' stamp: 'len 4/14/2020 21:09:53'!
+isCoproduct
 	^ true! !
 
-!DivisorGroup methodsFor: 'as yet unclassified' stamp: 'len 7/25/2022 11:58:39'!
-printOn: aStream
-	aStream nextPutAll: 'Div'.
-	scalars = ℤ ifFalse: [aStream nextPutAll: scalars printString sub].
-	aStream nextPut: $(; print: space; nextPut: $)! !
+!ProductGroup methodsFor: 'testing' stamp: 'len 4/14/2020 21:09:49'!
+isProduct
+	^ true! !
 
-!DivisorGroup methodsFor: 'as yet unclassified' stamp: 'len 7/25/2022 11:57:29'!
-scalars
-	^ scalars! !
+!ProductGroup methodsFor: 'private' stamp: 'len 11/5/2016 06:40'!
+components: anArray
+	components _ anArray! !
 
-!DivisorGroup methodsFor: 'as yet unclassified' stamp: 'len 7/25/2022 11:57:21'!
-space
-	^ space! !
+!ProductGroup methodsFor: 'private' stamp: 'len 12/30/2017 15:11:22'!
+computeGenerators
+	| answer |
+	answer _ OrderedCollection new.
+	1 to: self arity do: [:i|
+		| p |
+		p _ self projection: i.
+		(self at: i) generators do: [:each| answer add: (p value: each)]].
+	^ answer! !
 
-!DivisorGroup methodsFor: 'as yet unclassified' stamp: 'len 7/25/2022 12:00:07'!
-space: aScheme scalars: aRing
-	scalars _ aRing.
-	space _ aScheme! !
-
-!DivisorGroup class methodsFor: 'as yet unclassified' stamp: 'len 7/25/2022 11:59:50'!
-on: aScheme
-	^ self on: aScheme over: ℤ! !
-
-!DivisorGroup class methodsFor: 'as yet unclassified' stamp: 'len 7/25/2022 11:59:31'!
-on: aScheme over: aRing
-	^ self new space: aScheme scalars: aRing! !
+!ProductGroup class methodsFor: 'instance creation' stamp: 'len 2/12/2016 20:02'!
+components: anArray
+	^ self new components: anArray! !
 
 !SemidirectProductGroup methodsFor: 'accessing' stamp: 'len 2/12/2016 06:15'!
 action
@@ -1502,13 +1557,13 @@ asAbelianGroup
 	"Answer the receiver as a ℤ-module."
 	^ self scalars asAbelianGroup ^⊕ self rank! !
 
-!PowerAlgebra methodsFor: 'elements' stamp: 'len 5/7/2023 17:23:07'!
+!PowerAlgebra methodsFor: 'elements' stamp: 'len 6/19/2023 12:12:14'!
 compose: anArray
-	^ RingTuple components: self scalars !!!! anArray parent: self! !
+	^ Product components: self scalars !!!! anArray parent: self! !
 
-!PowerAlgebra methodsFor: 'elements' stamp: 'len 5/7/2023 17:23:07'!
+!PowerAlgebra methodsFor: 'elements' stamp: 'len 6/19/2023 12:12:14'!
 fromModuleElement: aTuple
-	^ RingTuple components: aTuple parent: self! !
+	^ Product components: aTuple parent: self! !
 
 !PowerAlgebra methodsFor: 'morphisms' stamp: 'len 10/13/2022 04:50:49'!
 projection: i
@@ -2324,91 +2379,51 @@ isUpperTriangular
 transpose
 	^ LowerTriangularMatrix from: codomain to: domain coefficients: coefficients! !
 
-!Divisor methodsFor: 'accessing' stamp: 'len 7/18/2022 06:23:40'!
-degree
-	coefficients isEmpty ifTrue: [^ self scalars zero].
-	^ coefficients sum! !
+!GroupTuple methodsFor: 'accessing' stamp: 'len 4/25/2020 06:38:06'!
+at: anInteger
+	^ components at: anInteger! !
 
-!Divisor methodsFor: 'accessing' stamp: 'len 7/18/2022 06:22:38'!
-scalars
-	^ parent scalars! !
+!GroupTuple methodsFor: 'accessing' stamp: 'len 4/25/2020 06:38:11'!
+parent
+	^ parent! !
 
-!Divisor methodsFor: 'accessing' stamp: 'len 8/12/2022 13:18:46'!
-support
-	| answer |
-	answer _ nil. "should start from the empty variety"
-	coefficients keysDo: [:each| answer _ answer ifNil: [each] ifNotNil: [answer ∪ each]].
-	^ answer! !
+!GroupTuple methodsFor: 'accessing' stamp: 'len 4/25/2020 06:38:16'!
+size
+	^ components size! !
 
-!Divisor methodsFor: 'comparing' stamp: 'len 1/11/2017 16:34:02'!
-<= aDivisor
-	^ (aDivisor - self) isEffective! !
-
-!Divisor methodsFor: 'comparing' stamp: 'len 1/2/2017 15:43:41'!
+!GroupTuple methodsFor: 'comparing' stamp: 'len 4/25/2020 06:38:33'!
 = anObject
-	^ (anObject isKindOf: Divisor) and: [self ~ anObject]! !
+	^ self class = anObject class and: [components = anObject components]! !
 
-!Divisor methodsFor: 'comparing' stamp: 'len 10/27/2016 10:26'!
->= aDivisor
-	^ (self - aDivisor) isEffective! !
-
-!Divisor methodsFor: 'comparing' stamp: 'len 1/2/2017 15:43:29'!
-~ aDivisor
-	"Answer true if the receiver and the argument are linearly equivalent."
-	^ (self - aDivisor) isPrincipal! !
-
-!Divisor methodsFor: 'comparing' stamp: 'len 7/25/2022 11:56:06'!
+!GroupTuple methodsFor: 'comparing' stamp: 'len 4/25/2020 06:38:37'!
 hash
-	^ 0! !
+	^ components hash! !
 
-!Divisor methodsFor: 'operations' stamp: 'len 7/18/2022 06:22:17'!
-* anElement
-	(anElement isInteger or: [self scalars includes: anElement])
-		ifTrue: [^ self class coefficients: coefficients * anElement parent: parent].
-	^ self error: 'not a scalar'! !
+!GroupTuple methodsFor: 'operations' stamp: 'len 11/24/2022 17:50:13'!
+· anElement
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #·].
+	^ self class components: (components withIndexCollect: [:each :i| (parent at: i) isAdditiveGroup ifTrue: [each + (anElement at: i)] ifFalse: [each · (anElement at: i)]]) parent: parent! !
 
-!Divisor methodsFor: 'operations' stamp: 'len 7/18/2022 06:21:07'!
-+ aDivisor
-	(parent includes: aDivisor) ifFalse: [^ self adapt: aDivisor andSend: #+].
-	^ self class coefficients: coefficients + aDivisor coefficients parent: parent! !
+!GroupTuple methodsFor: 'operations' stamp: 'len 11/24/2022 17:49:59'!
+inverse
+	^ self class components: (components with: parent components collect: [:g :G| G isAdditiveGroup ifTrue: [g negated] ifFalse: [g inverse]]) parent: parent! !
 
-!Divisor methodsFor: 'operations' stamp: 'len 7/18/2022 06:21:26'!
-- aDivisor
-	(parent includes: aDivisor) ifFalse: [^ self adapt: aDivisor andSend: #-].
-	^ self class coefficients: coefficients - aDivisor coefficients parent: parent! !
+!GroupTuple methodsFor: 'printing' stamp: 'len 4/25/2020 06:38:47'!
+printOn: aStream
+	aStream print: components! !
 
-!Divisor methodsFor: 'operations' stamp: 'len 8/21/2022 08:15:14'!
-gcd: aDivisor
-	| newCoefficients |
-	newCoefficients _ SortedDictionary new.
-	coefficients keysAndValuesDo: [:key :value|
-		aDivisor coefficients at: key ifPresent: [:value2| newCoefficients at: key put: (value min: value2)]].
-	^ self class coefficients: newCoefficients parent: parent! !
+!GroupTuple methodsFor: 'private' stamp: 'len 4/25/2020 06:39:26'!
+components
+	^ components! !
 
-!Divisor methodsFor: 'operations' stamp: 'len 7/18/2022 06:19:06'!
-lcm: aDivisor
-	| newCoefficients |
-	newCoefficients _ coefficients copy.
-	aDivisor coefficients keysAndValuesDo: [:key :value|
-		newCoefficients at: key put: ((coefficients at: key) max: value)].
-	^ self class coefficients: newCoefficients parent: parent! !
+!GroupTuple methodsFor: 'private' stamp: 'len 11/24/2022 17:49:10'!
+components: anArray parent: aDirectProductGroup
+	components _ anArray.
+	parent _ aDirectProductGroup! !
 
-!Divisor methodsFor: 'operations' stamp: 'len 7/18/2022 06:21:39'!
-negated
-	^ self class coefficients: coefficients negated parent: parent! !
-
-!Divisor methodsFor: 'testing' stamp: 'len 2/25/2017 09:09:25'!
-isEffective
-	^ self allSatisfy: [:each| each positive]! !
-
-!Divisor methodsFor: 'private' stamp: 'len 7/18/2022 06:20:16'!
-coefficients: aDictionary parent: aDivisorGroup
-	coefficients _ aDictionary.
-	parent _ aDivisorGroup! !
-
-!Divisor class methodsFor: 'instance creation' stamp: 'len 7/18/2022 06:19:38'!
-coefficients: aDictionary parent: aDivisorGroup
-	^ self new coefficients: aDictionary parent: aDivisorGroup! !
+!GroupTuple class methodsFor: 'instance creation' stamp: 'len 5/7/2023 17:24:17'!
+components: anArray parent: aGroup
+	^ self new components: anArray parent: aGroup! !
 
 !SemidirectProductElement methodsFor: 'accessing' stamp: 'len 5/5/98 00:18'!
 left
