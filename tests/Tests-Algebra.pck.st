@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5866] on 19 June 2023 at 3:18:48 pm'!
+'From Cuis 6.0 [latest update: #5866] on 20 June 2023 at 9:42:08 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 74!
+!provides: 'Tests-Algebra' 1 75!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -4544,6 +4544,19 @@ testIdealSaturation
 	S _ R * {y. x^5}.
 	self assert: (I saturation: J) = S! !
 
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 6/20/2023 21:02:43'!
+testIdealSaturation2
+	"Example from Macaulay2 documentation."
+	| R a b c d I S |
+	R := ℤ/32003 polynomialsIn: #(a b c d).
+	a := R x: 1.
+	b := R x: 2.
+	c := R x: 3.
+	d := R x: 4.
+	I := R * {a^3 - (b*(d^2)). a^4 - (c*(d^3))}.
+	S := R * {a*b - (c*d). a^2*c - (b^2*d). b^3 - (a*(c^2)). a^3 - (b*(d^2))}.
+	self assert: I saturation = S! !
+
 !CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 8/12/2022 13:07:34'!
 testLocalIdeals
 	"Magma handbook, example H104E4."
@@ -6086,10 +6099,10 @@ testCyclotomicFieldRoots
 debugInstance
 	^ super debugInstance setSeed: seed! !
 
-!RandomizedTestCase methodsFor: 'setUp/tearDown' stamp: 'len 5/26/2023 00:49:17'!
+!RandomizedTestCase methodsFor: 'setUp/tearDown' stamp: 'len 6/20/2023 20:50:50'!
 setUp
 	super setUp.
-	random := Random seed: (seed bitXor: testSelector hash)! !
+	random := Random seed: seed! !
 
 !RandomizedTestCase methodsFor: 'setUp/tearDown' stamp: 'len 4/20/2021 06:56:32'!
 tearDown
