@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5866] on 19 June 2023 at 3:18:36 pm'!
+'From Cuis 6.0 [latest update: #5866] on 20 June 2023 at 8:30:05 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -46,6 +46,7 @@ References:
 [Mat11] Keith Matthews, "Solving AX=B using the Hermite normal form" (2011)
 [McC42] N. H. McCoy; "Remarks on divisors of zero" (1942)
 [McD74] Bernard R. McDonald; "Finite Rings with Identity" (1974)
+[Mil04] Victor S. Miller; "The Weil Pairing, and Its Efficient Calculation" (2004)
 [Mis93] Mishra, B; "Algorithmic Algebra", Springer, Monographs in Computer Science, 1993
 [Mon04] Michael Monagan; "Maximal Quotient Rational Reconstruction: An Almost Optimal Algorithm for Rational Reconstructoin" (2004)
 [Mon05] Peter L. Montgomery; "Five, Six, and Seven-Term Karatsuba-Like Formulae" (2005)
@@ -57,6 +58,7 @@ References:
 [SOoS01] Richard Schroeppel; Hilarie Orman; Sean O''Malley; Oliver Spatscheck; "Fast Key Exchange with Elliptic Curve Systems" (2001)
 [Sha71] Daniel Shanks; "Class number, a theory of factorization and genera" (1971)
 [Sho09] Victor Shoup; "A Computational Introduction to Number Theory and Algebra" (2009)
+[Sil08] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"; 2nd Edition (2008)
 [Sim70] Charles C. Sims, "Computational methods in the study of permutation groups" (1970)
 [Sti06] Michael Stillman; "Computing with sheaves and sheaf cohomology in algebraic geometry" (2006)
 [SM98] Arne Storjohann, Thom Mulders, "Fast algorithms for linear algebra modulo N" (1998)
@@ -73,9 +75,8 @@ References:
 [] Henri Lombardi; Claude Quitte; "Commutative Algebra: Constructive Methods, Finite Projective Modules"
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
-[] Joseph. H. Silverman; "The Arithmetic of Elliptic Curves"
 '!
-!provides: 'Algebra' 1 113!
+!provides: 'Algebra' 1 114!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -9542,9 +9543,13 @@ scalars
 space
 	^ space! !
 
-!DivisorGroup methodsFor: 'elements' stamp: 'len 6/18/2023 18:43:23'!
+!DivisorGroup methodsFor: 'elements' stamp: 'len 6/19/2023 15:33:25'!
 adapt: anElement
-	(anElement isKindOf: ProjectivePoint) ifTrue: [^ Divisor coefficients: (Dictionary new at: anElement put: scalars one; yourself) parent: self].
+	(anElement isKindOf: ProjectivePoint)
+		ifTrue: [^ Divisor coefficients: (Dictionary new at: anElement put: scalars one; yourself) parent: self].
+	"The divisor associated to a rational function is the sum of the order of the rational function at each point:"
+	(space functionField includes: anElement)
+		ifTrue: [^ self notYetImplemented].
 	^ super adapt: anElement! !
 
 !DivisorGroup methodsFor: 'elements' stamp: 'len 6/18/2023 18:38:57'!
@@ -19511,10 +19516,10 @@ subscheme: anObject
 	self isAmbient ifTrue: [^ self subclassResponsibility].
 	^ self ∩ (self ambient subscheme: anObject)! !
 
-!Scheme methodsFor: 'points' stamp: 'len 6/19/2023 12:39:21'!
+!Scheme methodsFor: 'points' stamp: 'len 6/20/2023 11:40:08'!
 points
 	"Answer the rational points of the receiver."
-	^ self pointsOver: self scalars! !
+	^ self scalars spec ⇒ self! !
 
 !Scheme methodsFor: 'points' stamp: 'len 6/19/2023 12:39:13'!
 pointsCountOver: aRing
@@ -20306,9 +20311,9 @@ sections
 structureSheaf
 	^ Sheaf module: self coordinateRing asIdeal on: self! !
 
-!ProjectiveScheme methodsFor: 'comparing' stamp: 'len 12/20/2021 12:34:17'!
+!ProjectiveScheme methodsFor: 'comparing' stamp: 'len 6/20/2023 20:22:34'!
 = anObject
-	^ (anObject isKindOf: self species) and: [self saturated coordinateRing = anObject saturated coordinateRing]! !
+	^ (anObject isKindOf: self species) and: [self coordinateRing = anObject coordinateRing or: [self saturated coordinateRing = anObject saturated coordinateRing]]! !
 
 !ProjectiveScheme methodsFor: 'comparing' stamp: 'len 12/20/2021 12:38:27'!
 hash
@@ -30897,7 +30902,7 @@ annihilatorIdeal
 	parent cover isPIR ifFalse: [^ super annihilatorIdeal].
 	^ parent * self annihilator! !
 
-!Residue methodsFor: 'operations' stamp: 'len 6/4/2023 10:57:55'!
+!Residue methodsFor: 'operations' stamp: 'len 6/20/2023 19:19:21'!
 colift: anElement
 	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
 	This is the right division of b by a, written b / a."
@@ -31410,6 +31415,13 @@ isZeroDivisor
 	"Answer true if the receiver divides the argument."
 	^ anElement isZero or: [self isZero not]! !
 
+!PrimeResidue methodsFor: 'operations' stamp: 'len 6/20/2023 20:26:25'!
+colift: anElement
+	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
+	This is the right division of b by a, written b / a."
+	anElement isZero ifTrue: [^ anElement].
+	^ self isZero ifFalse: [anElement * self inverse]! !
+
 !PrimeResidue methodsFor: 'operations' stamp: 'len 6/1/2022 18:06:30'!
 gcd: anElement
 	representative = 0 ifTrue: [^ anElement normalized].
@@ -31849,19 +31861,19 @@ printMonomial: m on: aStream
 			i > h ifTrue: [r _ r negated].
 			r = 1 ifFalse: [aStream nextPutAll: r printString super]]! !
 
-!LaurentPolynomial methodsFor: 'as yet unclassified' stamp: 'len 1/15/2022 18:01:25'!
+!LaurentPolynomial methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 17:01:51'!
 printOn: aStream
 	| monomials leadingMonomial c |
 	representative isConstant ifTrue: [aStream print: representative leadingCoefficient. ^ self].
-	monomials _ representative monomials asSortedCollection reversed.
-	c _ representative at: (leadingMonomial _ monomials first).
+	monomials := representative monomials asSortedCollection reversed.
+	c := representative at: (leadingMonomial := monomials first).
 	(c printString first = $- or: [c isReal and: [c negative]])
-		ifTrue: [c _ c negated. aStream nextPut: $-].
+		ifTrue: [c := c negated. aStream nextPut: $-].
 	self printCoefficient: c monomial: leadingMonomial on: aStream.
-	monomials allButFirst do: [:m|
-		c _ representative at: m.
+	monomials allButFirstDo: [:m|
+		c := representative at: m.
 		(c printString first = $- or: [c isReal and: [c negative]])
-			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
+			ifTrue: [aStream nextPutAll: ' - '. c := c negated]
 			ifFalse: [aStream nextPutAll: ' + '].
 		self printCoefficient: c monomial: m on: aStream]! !
 
@@ -33262,25 +33274,25 @@ printCoefficient: coefficient monomial: m shifted: anArray on: aStream
 			ifFalse: [aStream nextPut: $(; print: c; nextPut: $)]].
 	degree = 0 ifFalse: [m printOn: aStream shifted: anArray]! !
 
-!Polynomial methodsFor: 'printing' stamp: 'len 1/2/2022 10:45:59'!
+!Polynomial methodsFor: 'printing' stamp: 'len 6/19/2023 17:01:03'!
 printOn: aStream
 	| monomials leadingMonomial c |
 	(self scalars isKindOf: ModularIntegerRing)
 		ifTrue: [aStream print: self lift. ^ self].
 	self isConstant ifTrue: [aStream print: self leadingCoefficient. ^ self].
-	monomials _ self monomials asSortedCollection reversed.
-	c _ self at: (leadingMonomial _ monomials first).
+	monomials := self monomials asSortedCollection reversed.
+	c := self at: (leadingMonomial := monomials first).
 	(c printString first = $- or: [c isReal and: [c negative]])
-		ifTrue: [c _ c negated. aStream nextPut: $-].
+		ifTrue: [c := c negated. aStream nextPut: $-].
 	self printCoefficient: c monomial: leadingMonomial on: aStream.
-	monomials allButFirst do: [:m|
-		c _ self at: m.
+	monomials allButFirstDo: [:m|
+		c := self at: m.
 		(c printString first = $- or: [c isReal and: [c negative]])
-			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
+			ifTrue: [aStream nextPutAll: ' - '. c := c negated]
 			ifFalse: [aStream nextPutAll: ' + '].
 		self printCoefficient: c monomial: m on: aStream]! !
 
-!Polynomial methodsFor: 'printing' stamp: 'len 6/1/2023 14:10:26'!
+!Polynomial methodsFor: 'printing' stamp: 'len 6/19/2023 17:01:35'!
 printOn: aStream shifted: anArray
 	| monomials leadingMonomial c |
 	(self scalars isKindOf: ModularIntegerRing)
@@ -33290,7 +33302,7 @@ printOn: aStream shifted: anArray
 	(c printString first = $- or: [c isReal and: [c negative]])
 		ifTrue: [c := c negated. aStream nextPut: $-].
 	self printCoefficient: c monomial: leadingMonomial shifted: anArray on: aStream.
-	monomials allButFirst do: [:m|
+	monomials allButFirstDo: [:m|
 		c := self at: m.
 		(c printString first = $- or: [c isReal and: [c negative]])
 			ifTrue: [aStream nextPutAll: ' - '. c := c negated]
@@ -35409,21 +35421,21 @@ printCoefficient: coefficient word: w on: aStream
 			ifFalse: [aStream nextPut: $(; print: c; nextPut: $)]].
 	w length = 0 ifFalse: [aStream print: w]! !
 
-!FreePolynomial methodsFor: 'printing' stamp: 'len 6/29/2022 06:36:37'!
+!FreePolynomial methodsFor: 'printing' stamp: 'len 6/19/2023 17:01:42'!
 printOn: aStream
 	| words leadingWord c |
 	(self scalars isKindOf: ModularIntegerRing)
 		ifTrue: [aStream print: self lift. ^ self].
 	self isConstant ifTrue: [aStream print: self leadingCoefficient. ^ self].
-	words _ self monomials asSortedCollection reversed.
-	c _ self at: (leadingWord _ words first).
+	words := self monomials asSortedCollection reversed.
+	c := self at: (leadingWord := words first).
 	(c printString first = $- or: [c isReal and: [c negative]])
-		ifTrue: [c _ c negated. aStream nextPut: $-].
+		ifTrue: [c := c negated. aStream nextPut: $-].
 	self printCoefficient: c word: leadingWord on: aStream.
-	words allButFirst do: [:w|
-		c _ self at: w.
+	words allButFirstDo: [:w|
+		c := self at: w.
 		(c printString first = $- or: [c isReal and: [c negative]])
-			ifTrue: [aStream nextPutAll: ' - '. c _ c negated]
+			ifTrue: [aStream nextPutAll: ' - '. c := c negated]
 			ifFalse: [aStream nextPutAll: ' + '].
 		self printCoefficient: c word: w on: aStream]! !
 
@@ -38822,6 +38834,22 @@ count: aBlock
 	answer _ 0.
 	self timesRepeat: [aBlock value ifTrue: [answer _ answer + 1]].
 	^ answer! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 6/20/2023 10:56:51'!
+decompositionWith: anInteger
+	"[Mil04, Algorithm 5].
+	If the receiver is n and anInteger is r, answer integers n₀, n₁ such that:
+		n = n₀ n₁
+		gcd(n₀, n₁) = 1
+		gcd(r, n₁) = 1
+		any prime divisor of n₀ divides r.
+	The algorithm works in time O(log max(r,n))."
+	| n₀ n₁ s |
+	n₀ := 1.
+	n₁ := self.
+	[(s := anInteger gcd: n₁) = 1 ifTrue: [^ {n₀. n₁}].
+	n₀ := n₀ * s.
+	n₁ := n₁ ÷ s] repeat! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 5/15/2020 06:15:20'!
 divisionBy: anElement

@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5866] on 16 June 2023 at 8:12:21 pm'!
+'From Cuis 6.0 [latest update: #5866] on 20 June 2023 at 8:30:11 pm'!
 'Description This package includes some extra methods for Collection and subclasses and some new collection classes.'!
-!provides: 'Collections-Extras' 1 10!
+!provides: 'Collections-Extras' 1 11!
 SystemOrganization addCategory: 'Collections-Extras'!
 
 
@@ -74,6 +74,15 @@ indexOf: anElement ifAbsent: exceptionBlock
 add: anObject
 	"Iterators are read-only"
 	self shouldNotImplement! !
+
+!Iterator methodsFor: 'converting' stamp: 'len 6/20/2023 11:13:17'!
+asOrderedCollection
+	"The default implementation sends size to the receiver, and that would make the iteration run twice.
+	In this way the new collection might have to grow during computation, but the iteration is performed only once."
+	| answer |
+	answer := OrderedCollection new.
+	self do: [:each| answer add: each].
+	^ answer! !
 
 !Iterator methodsFor: 'copying' stamp: 'len 10/27/2016 15:39'!
 first: n
