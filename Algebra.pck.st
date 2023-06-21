@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5866] on 20 June 2023 at 9:41:57 pm'!
+'From Cuis 6.0 [latest update: #5875] on 21 June 2023 at 11:27:26 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -76,12 +76,12 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 115!
-!requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
+!provides: 'Algebra' 1 116!
+!requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
+!requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Transfinites' 1 2 nil!
-!requires: 'Complex' 1 7 nil!
 SystemOrganization addCategory: 'Algebra-Categories'!
 SystemOrganization addCategory: 'Algebra-Monoids'!
 SystemOrganization addCategory: 'Algebra-Monoids-Orderings'!
@@ -2274,14 +2274,14 @@ Object subclass: #AdditionChain
 AdditionChain class
 	instanceVariableNames: ''!
 
-!classDefinition: #BabyStepGiantStep category: 'Algebra-Algorithms'!
-Object subclass: #BabyStepGiantStep
+!classDefinition: #BabystepGiantstep category: 'Algebra-Algorithms'!
+Object subclass: #BabystepGiantstep
 	instanceVariableNames: 'group table δ'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'BabyStepGiantStep class' category: 'Algebra-Algorithms'!
-BabyStepGiantStep class
+!classDefinition: 'BabystepGiantstep class' category: 'Algebra-Algorithms'!
+BabystepGiantstep class
 	instanceVariableNames: ''!
 
 !classDefinition: #BrentKung category: 'Algebra-Algorithms'!
@@ -3430,7 +3430,7 @@ An addition chain computing an integer n is given by a sequence v such that:
 
 Short addition chains are useful for implementing fast exponentiation with a fixed exponent. See [Coh+05, Section 9.2.1].!
 
-!BabyStepGiantStep commentStamp: 'len 6/4/2023 20:49:45' prior: 0!
+!BabystepGiantstep commentStamp: 'len 6/4/2023 20:49:45' prior: 0!
 This is Daniel Shanks' Baby-Step/Giant-Step algorithm for computing discrete logarithms (see [Sha71]). Given an element α in a group G, and a bound n for the order of α, the algorithm can compute the discrete logarithm of another element β with respect to α, that is it computes i such that (in multiplicative notation) β = αⁱ. The algorithm precomputes a hash table of size √n containing powers of α, that is then used for computing the discrete logarithm of any β.!
 
 !BrentKung commentStamp: 'len 6/10/2023 09:52:37' prior: 0!
@@ -4790,9 +4790,9 @@ replaceFrom: start to: stop with: anArray1 startingAt: start1 timesScalar: anEle
 			each second do: [:i| (tmp3 slice: i) += tmp1]]].
 	self replaceFrom: start to: stop with: tmp3 startingAt: 1! !
 
-!ModularArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:44:53'!
+!ModularArray methodsFor: 'accessing' stamp: 'len 6/21/2023 22:33:30'!
 at: anInteger
-	^ scalars representative: (representatives at: anInteger ifAbsent: [^ scalars zero])! !
+	^ scalars representative: (representatives at: anInteger)! !
 
 !ModularArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:44:53'!
 at: anInteger put: anElement
@@ -4929,6 +4929,10 @@ accumulateWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2
 		timesMatrix: anArray2 representatives width: width2
 		modulo: scalars modulus
 ! !
+
+!ModularArray methodsFor: 'operations-low level' stamp: 'len 6/21/2023 23:00:36'!
+exponentiate: anArray
+	^ scalars representative: (representatives exponentiate: anArray modulo: scalars modulus)! !
 
 !ModularArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:44:53'!
 findFirstNonzeroFrom: start to: stop
@@ -7613,7 +7617,7 @@ asMonoid
 	"Forgetful functor to the category of monoids."
 	^ self propertyAt: #asMonoid ifAbsentPut: [Monoid newFrom: (self propertyAt: #elements ifAbsent: [self])]! !
 
-!Group methodsFor: 'elements' stamp: 'len 6/4/2023 21:01:56'!
+!Group methodsFor: 'elements' stamp: 'len 6/21/2023 22:04:20'!
 \ anElement
 	"Answer anElement expressed as a word on the generators. Answer nil if anElement is not in the receiver."
 	| F bsgs |
@@ -7621,7 +7625,7 @@ asMonoid
 	anElement = self identity ifTrue: [^ F identity].
 	self generators indexOf: anElement ifPresent: [:i| F x: i].
 	self generators size = 1 ifFalse: [^ self notYetImplemented].
-	bsgs := self propertyAt: #bsgs ifAbsentPut: [BabyStepGiantStep on: self].
+	bsgs := self propertyAt: #bsgs ifAbsentPut: [BabystepGiantstep on: self].
 	^ F x: 1 to: ((bsgs logarithmOf: anElement) ifNil: [^ nil])! !
 
 !Group methodsFor: 'elements' stamp: 'len 6/4/2023 01:46:03'!
@@ -7857,11 +7861,12 @@ normalClosureOf: aSubset
 				(N includes: hg) ifFalse: [Z add: hg. N := self span: Z]]].
 	^ N! !
 
-!Group methodsFor: 'operations' stamp: 'len 6/10/2023 23:08:14'!
-orderOf: anElement
+!Group methodsFor: 'operations' stamp: 'len 6/21/2023 14:23:57'!
+orderOf2: anElement
 	"Answer the order of the argument in the receiver, i.e. the minimum e such that g^e = 1.
 	[Coh96] Algorithm 1.4.3 (Order of an Element)."
 	| h factors id e g1 |
+	self flag: #deprecated.
 	h := self size.
 	factors := self propertyAt: #sizeFactorization ifAbsentPut: [h factorization].
 	e := h.
@@ -7879,14 +7884,33 @@ orderOf: anElement
 				[g1 = id] whileFalse: [g1 := g1 ^ p. e := e * p]]].
 	^ e! !
 
-!Group methodsFor: 'operations' stamp: 'len 8/5/2021 08:39:38'!
-orderOf: anElement boundedBy: n
-	"Alternative to orderOf:, from Handbook of Computational Group Theory (Holt), 73p. Runs in time at most O(log(n)^3)."
-	| id |
-	n = 1 ifTrue: [^ 1].
-	id _ self identity.
-	n factorization asSet do: [:p| (self raise: anElement to: n/p) = id ifTrue: [^ self orderOf: anElement boundedBy: n/p]].
-	^ n! !
+!Group methodsFor: 'operations' stamp: 'len 6/21/2023 14:24:06'!
+orderOf: anElement
+	"Answer the order of the argument in the receiver, i.e. the minimum e such that g^e = 1 (or g*e = 0 in additive notation)."
+	| h factors |
+	h := self size.
+	factors := self propertyAt: #sizeFactorization ifAbsentPut: [h factorization].
+	^ self orderOf: anElement exponentBound: h factorization: factors! !
+
+!Group methodsFor: 'operations' stamp: 'len 6/21/2023 14:25:47'!
+orderOf: anElement exponentBound: anInteger factorization: factors
+	"Answer the order of anElement, i.e. the minimum e such that g^e = 1 (or g*e = 0 in additive notation).
+	The algorithm takes as argument a bound for the exponent of the group and its factorization,
+	and performs O(log³ n) group operations where n is the specified bound anInteger.
+	See [Mil04, Algorithm 4] and [HEO05, 73p]."
+	| answer id b |
+	answer := 1.
+	id := self identity.
+	self isAdditiveGroup
+		ifTrue:
+			[factors asSet do: [:p|
+				b := anElement * (anInteger / (p ^ (factors occurrencesOf: p))).
+				[b = id] whileFalse: [answer := answer * p. b := b * p]]]
+		ifFalse:
+			[factors asSet do: [:p|
+				b := anElement ^ (anInteger / (p ^ (factors occurrencesOf: p))).
+				[b = id] whileFalse: [answer := answer * p. b := b ^ p]]].
+	^ answer! !
 
 !Group methodsFor: 'operations' stamp: 'len 5/1/2016 22:59'!
 perfectCore
@@ -8629,6 +8653,11 @@ asLinearGroup
 			{answer onto: self images: self generators, ((1 to: m) collect: [:i| self identity]).
 			answer onto: aGroup images: ((1 to: n) collect: [:i| aGroup identity]), aGroup generators};
 		yourself! !
+
+!PermutationGroup methodsFor: 'operations' stamp: 'len 6/21/2023 14:57:01'!
+orderOf: aPermutation
+	aPermutation isIdentity ifTrue: [^ 1].
+	^ aPermutation cycles inject: 1 into: [:last :each| last lcm: each size]! !
 
 !PermutationGroup methodsFor: 'operations' stamp: 'len 5/26/2019 11:26:50'!
 reduced
@@ -12825,11 +12854,12 @@ degree
 	"If the receiver is a field extension, answer the degree [E:F] of the relative extension E/F."
 	^ self modulus degree! !
 
-!ExtensionRing methodsFor: 'accessing' stamp: 'len 5/12/2023 22:41:22'!
+!ExtensionRing methodsFor: 'accessing' stamp: 'len 6/21/2023 15:19:12'!
 degreeOver: aSubfield
 	"Answer the degree [E:F] of the relative extension E/F."
 	self = aSubfield ifTrue: [^ 1].
 	self scalars = aSubfield ifTrue: [^ self degree].
+	self flag: #fixme. "this is wrong:"
 	^ self degree * (self scalars degreeOver: aSubfield)! !
 
 !ExtensionRing methodsFor: 'accessing' stamp: 'len 5/12/2023 22:43:46'!
@@ -15132,38 +15162,38 @@ printOn: aStream
 atRandom: aRandom bits: bitSize
 	^ self atRandom: aRandom bits: bitSize maxDegree: ((bitSize raisedTo: 1/(self rank+1)) min: bitSize - 1) truncated! !
 
-!PolynomialRing methodsFor: 'random' stamp: 'len 8/10/2019 09:26:07'!
+!PolynomialRing methodsFor: 'random' stamp: 'len 6/21/2023 15:16:36'!
 atRandom: aRandom bits: bitSize maxDegree: d
+	self isUnivariate ifTrue: [^ self coefficients: (scalars new: d+1 atRandom: aRandom bits: bitSize)].
 	^ self atRandom: aRandom bits: bitSize maxDegree: d maxTerms: 2 ^ self rank! !
 
-!PolynomialRing methodsFor: 'random' stamp: 'len 5/8/2023 16:44:15'!
+!PolynomialRing methodsFor: 'random' stamp: 'len 6/21/2023 15:16:15'!
 atRandom: aRandom bits: bitSize maxDegree: d maxTerms: n
 	| answer term |
 	d = 0 ifTrue: [^ self constant: (scalars atRandom: aRandom bits: bitSize)].
-	self isUnivariate ifTrue: [^ self coefficients: (scalars^(d+1) atRandom: aRandom bits: bitSize) coefficients].
-	answer _ self zero.
+	answer := self zero.
 	(n atRandom: aRandom) timesRepeat:
-		[term _ self one.
-		((0 to: d) atRandom: aRandom) timesRepeat: [term _ term * (self generators atRandom: aRandom)].
-		term _ term * (scalars atRandom: aRandom bits: bitSize/(self rank*d)).
-		answer _ answer + term].
+		[term := self one.
+		((0 to: d) atRandom: aRandom) timesRepeat: [term := term * (self generators atRandom: aRandom)].
+		term := term * (scalars atRandom: aRandom bits: bitSize/(self rank*d)).
+		answer := answer + term].
 	^ answer! !
 
-!PolynomialRing methodsFor: 'random' stamp: 'len 6/9/2023 23:14:27'!
+!PolynomialRing methodsFor: 'random' stamp: 'len 6/21/2023 15:15:58'!
 atRandom: aRandom degree: anInteger
 	"Answer a monic polynomial of degree anInteger choosen at random."
 	self isUnivariate ifFalse: [^ self notYetImplemented].
-	^ self coefficients: ((self scalars^anInteger) atRandom: aRandom) coefficients, self scalars one! !
+	^ self coefficients: (scalars new: anInteger atRandom: aRandom), self scalars one! !
 
-!PolynomialRing methodsFor: 'random' stamp: 'len 6/10/2023 11:29:04'!
+!PolynomialRing methodsFor: 'random' stamp: 'len 6/21/2023 15:15:24'!
 atRandom: aRandom maxDegree: d
+	self isUnivariate ifTrue: [^ self coefficients: (scalars new: d+1 atRandom: aRandom)].
 	^ self atRandom: aRandom maxDegree: d maxTerms: 2 ^ self rank! !
 
-!PolynomialRing methodsFor: 'random' stamp: 'len 6/10/2023 11:28:10'!
+!PolynomialRing methodsFor: 'random' stamp: 'len 6/21/2023 15:15:18'!
 atRandom: aRandom maxDegree: d maxTerms: n
 	| answer term |
 	d = 0 ifTrue: [^ self constant: (scalars atRandom: aRandom)].
-	self isUnivariate ifTrue: [^ self coefficients: (scalars^(d+1) atRandom: aRandom) coefficients].
 	answer := self zero.
 	(n atRandom: aRandom) timesRepeat:
 		[term := self one.
@@ -15171,12 +15201,6 @@ atRandom: aRandom maxDegree: d maxTerms: n
 		term := term * (scalars atRandom: aRandom).
 		answer := answer + term].
 	^ answer! !
-
-!PolynomialRing methodsFor: 'random' stamp: 'len 5/8/2023 17:58:48'!
-atRandom: aRandom modulo: anIdeal
-	self flag: #deprecated.
-	(anIdeal isPrincipal and: [self isUnivariate]) ifFalse: [^ self notYetImplemented].
-	^ self coefficients: (scalars new: anIdeal generator degree fill: [:i| scalars atRandom: aRandom])! !
 
 !PolynomialRing methodsFor: 'random' stamp: 'len 6/10/2023 11:30:22'!
 atRandomBits: bitSize maxDegree: anInteger
@@ -20066,10 +20090,12 @@ tangentSpaceAt: aTuple
 pointAt: aTuple
 	^ AffinePoint on: self coordinates: aTuple! !
 
-!AffineVariety methodsFor: 'points' stamp: 'len 12/13/2021 17:15:04'!
+!AffineVariety methodsFor: 'points' stamp: 'len 6/21/2023 23:21:24'!
 pointsOver: aRing do: aBlock
 	"Naive enumeration of rational points on the receiver."
-	self ambient pointsOver: aRing do: [:each| (self satisfies: each coordinates) ifTrue: [aBlock value: (self pointAt: each coordinates)]]! !
+	| generators |
+	generators := self asIdeal generators.
+	self ambient pointsOver: aRing do: [:each| (generators allSatisfy: [:g| (g value: each coordinates) isZero]) ifTrue: [aBlock value: (self pointAt: each coordinates)]]! !
 
 !AffineVariety methodsFor: 'testing' stamp: 'len 1/9/2017 16:35:09'!
 isComplete
@@ -20542,10 +20568,12 @@ tangentSpaceAt: aTuple
 pointAt: aTuple
 	^ ProjectivePoint on: self coordinates: aTuple! !
 
-!ProjectiveVariety methodsFor: 'points' stamp: 'len 12/13/2021 17:15:11'!
+!ProjectiveVariety methodsFor: 'points' stamp: 'len 6/21/2023 23:21:30'!
 pointsOver: aRing do: aBlock
 	"Naive enumeration of rational points on the receiver."
-	self ambient pointsOver: aRing do: [:each| (self satisfies: each coordinates) ifTrue: [aBlock value: (self pointAt: each coordinates)]]! !
+	| generators |
+	generators := self asIdeal generators.
+	self ambient pointsOver: aRing do: [:each| (generators allSatisfy: [:g| (g value: each coordinates) isZero]) ifTrue: [aBlock value: (self pointAt: each coordinates)]]! !
 
 !ProjectiveVariety methodsFor: 'testing' stamp: 'len 1/9/2017 16:34:57'!
 isComplete
@@ -27669,6 +27697,11 @@ codomain: anAffineVariety
 coordinates: aTuple
 	coordinates _ aTuple! !
 
+!AffinePoint methodsFor: 'private' stamp: 'len 6/21/2023 16:09:36'!
+validate
+	super validate.
+	self assert: (codomain satisfies: coordinates)! !
+
 !AffinePoint class methodsFor: 'instance creation' stamp: 'len 2/13/2017 21:16:06'!
 on: anAffineVariety coordinates: aTuple
 	^ self new codomain: anAffineVariety; coordinates: aTuple! !
@@ -27799,6 +27832,11 @@ codomain: aProjectiveVariety
 !ProjectivePoint methodsFor: 'private' stamp: 'len 5/8/2023 23:02:46'!
 coordinates: aTuple
 	coordinates _ aTuple! !
+
+!ProjectivePoint methodsFor: 'private' stamp: 'len 6/21/2023 16:09:23'!
+validate
+	super validate.
+	self assert: (codomain satisfies: coordinates)! !
 
 !ProjectivePoint class methodsFor: 'instance creation' stamp: 'len 2/13/2017 21:15:36'!
 on: aProjectiveVariety coordinates: aTuple
@@ -28181,13 +28219,9 @@ substitute: aBlock
 		exp = 0 ifFalse: [answer _ answer * (self parent x: (aBlock value: i) to: exp)]].
 	^ answer! !
 
-!Monomial methodsFor: 'operations' stamp: 'len 1/21/2017 20:16:54'!
+!Monomial methodsFor: 'operations' stamp: 'len 6/21/2023 23:04:26'!
 value: anObject
-	| answer next |
-	1 to: exponents size do: [:i|
-		next _ (anObject at: i) ^ (exponents at: i).
-		answer _ answer ifNil: [next] ifNotNil: [next * answer]].
-	^ answer! !
+	^ anObject exponentiate: exponents! !
 
 !Monomial methodsFor: 'operations' stamp: 'len 6/6/2016 04:45'!
 without: anIndeterminate
@@ -29210,11 +29244,6 @@ identity
 one
 	^ self identity! !
 
-!Permutation methodsFor: 'accessing' stamp: 'len 2/8/2018 09:09:16'!
-order
-	self isIdentity ifTrue: [^ 1].
-	^ self cycles inject: 1 into: [:last :each| last lcm: each size]! !
-
 !Permutation methodsFor: 'accessing' stamp: 'len 2/8/2018 08:51:36'!
 order2
 	| answer next |
@@ -29749,9 +29778,10 @@ lift: anElement
 minimalPolynomial
 	^ self representation minimalPolynomial! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 5/12/2023 21:16:04'!
+!RingElement methodsFor: 'operations' stamp: 'len 6/21/2023 15:00:38'!
 multiplicativeOrder
-	"Answer the order of the receiver as an element of the group of units."
+	"Answer the order of the receiver as an element of the group of units.
+	Return 0 if the receiver is not a unit."
 	self isUnit ifFalse: [^ 0].
 	^ self parent units orderOf: self! !
 
@@ -33247,18 +33277,17 @@ valuation
 	self isZero ifTrue: [^ Infinity negative].
 	^ self leadingMonomial degree! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 4/27/2022 16:55:03'!
+!Polynomial methodsFor: 'operations' stamp: 'len 6/21/2023 22:28:42'!
 value: anObject
 	"Answer the value of the receiver at the argument. For multivariate polynomials, a Tuple or Array is expected."
-	| answer one |
+	| answer |
 	anObject size = parent rank
 		ifFalse: [self error: 'the arity of the argument should match the number of indeterminates'].
-	answer _ (anObject at: 1) zero.
-	one _ answer one.
+	answer := (anObject at: 1) zero.
 	self associationsDo: [:each|
 		| monomial |
-		monomial _ each key.
-		answer _ (monomial isIdentity ifTrue: [one * each value] ifFalse: [(monomial value: anObject) * each value]) + answer].
+		monomial := each key.
+		answer := (monomial value: anObject) * each value + answer].
 	^ answer! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 6/10/2023 11:37:43'!
@@ -35546,6 +35575,10 @@ normalized
 	"Answer a unique choice of associate. See >>normalization."
 	^ self * self normalization! !
 
+!ModuleElement methodsFor: 'operations' stamp: 'len 6/21/2023 14:55:22'!
+order
+	^ self parent orderOf: self! !
+
 !ModuleElement methodsFor: 'testing' stamp: 'len 3/13/2020 17:35:09'!
 isZero
 	^ self subclassResponsibility! !
@@ -35553,10 +35586,6 @@ isZero
 !ModuleCoset methodsFor: 'accessing' stamp: 'len 7/8/2022 08:18:58'!
 degree
 	^ representative degree! !
-
-!ModuleCoset methodsFor: 'accessing' stamp: 'len 6/4/2023 02:10:30'!
-order
-	^ self parent orderOf: self! !
 
 !ModuleCoset methodsFor: 'accessing' stamp: 'len 3/18/2020 17:40:47'!
 parent
@@ -35955,6 +35984,10 @@ content
 	answer _ self scalars zero.
 	self do: [:each| answer _ answer gcd: each. answer isOne ifTrue: [^ answer]].
 	^ answer! !
+
+!Tuple methodsFor: 'operations' stamp: 'len 6/21/2023 23:04:51'!
+exponentiate: anArray
+	^ coefficients exponentiate: anArray! !
 
 !Tuple methodsFor: 'operations' stamp: 'len 5/5/2023 00:11:07'!
 height
@@ -36976,7 +37009,7 @@ new: n split: k
 values: anArray
 	^ self new values: anArray! !
 
-!BabyStepGiantStep methodsFor: 'computing' stamp: 'len 6/4/2023 18:01:09'!
+!BabystepGiantstep methodsFor: 'computing' stamp: 'len 6/4/2023 18:01:09'!
 logarithmOf: anElement
 	| m γ |
 	γ := anElement.
@@ -36988,7 +37021,7 @@ logarithmOf: anElement
 			[0 to: m do: [:i| table at: γ ifPresent: [:j| ^ i*m + j]. γ := γ * δ]].
 	^ nil! !
 
-!BabyStepGiantStep methodsFor: 'private' stamp: 'len 6/4/2023 20:55:17'!
+!BabystepGiantstep methodsFor: 'private' stamp: 'len 6/4/2023 20:55:17'!
 group: aGroup base: α order: n
 	| m x |
 	group := aGroup.
@@ -37003,15 +37036,15 @@ group: aGroup base: α order: n
 			[0 to: m - 1 do: [:j| table at: x put: j. x := x * α].
 			δ := α ^ m negated]! !
 
-!BabyStepGiantStep class methodsFor: 'instance creation' stamp: 'len 6/4/2023 20:56:37'!
+!BabystepGiantstep class methodsFor: 'instance creation' stamp: 'len 6/4/2023 20:56:37'!
 on: aGroup
 	^ self new group: aGroup base: aGroup generator order: aGroup size! !
 
-!BabyStepGiantStep class methodsFor: 'instance creation' stamp: 'len 6/4/2023 20:56:12'!
+!BabystepGiantstep class methodsFor: 'instance creation' stamp: 'len 6/4/2023 20:56:12'!
 on: aGroup base: anElement
 	^ self new group: aGroup base: anElement order: (aGroup orderOf: anElement)! !
 
-!BabyStepGiantStep class methodsFor: 'instance creation' stamp: 'len 6/4/2023 20:55:52'!
+!BabystepGiantstep class methodsFor: 'instance creation' stamp: 'len 6/4/2023 20:55:52'!
 on: aGroup base: anElement order: anInteger
 	^ self new group: aGroup base: anElement order: anInteger! !
 
@@ -38858,10 +38891,10 @@ count: aBlock
 	self timesRepeat: [aBlock value ifTrue: [answer _ answer + 1]].
 	^ answer! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 6/20/2023 10:56:51'!
-decompositionWith: anInteger
+!Integer methodsFor: '*algebra' stamp: 'len 6/21/2023 15:09:40'!
+decompositionWith: anInteger into: aBlock
 	"[Mil04, Algorithm 5].
-	If the receiver is n and anInteger is r, answer integers n₀, n₁ such that:
+	If the receiver is n and anInteger is r, compute integers n₀, n₁ such that:
 		n = n₀ n₁
 		gcd(n₀, n₁) = 1
 		gcd(r, n₁) = 1
@@ -38870,7 +38903,7 @@ decompositionWith: anInteger
 	| n₀ n₁ s |
 	n₀ := 1.
 	n₁ := self.
-	[(s := anInteger gcd: n₁) = 1 ifTrue: [^ {n₀. n₁}].
+	[(s := anInteger gcd: n₁) = 1 ifTrue: [^ aBlock value: n₀ value: n₁].
 	n₀ := n₀ * s.
 	n₁ := n₁ ÷ s] repeat! !
 
@@ -39131,9 +39164,11 @@ multichoose: anInteger
 	"Answer 'd multichoose: n', the number of ways of counting n objects from a set of d elements where repetition is allowed and order does not matter."
 	^ self + anInteger - 1 choose: anInteger! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 12/14/2016 14:36:14'!
+!Integer methodsFor: '*algebra' stamp: 'len 6/21/2023 15:00:42'!
 multiplicativeOrder
-	^ self == 1 ifTrue: [1] ifFalse: [self == -1 ifTrue: [2] ifFalse: [Infinity positive]]! !
+	"Answer the order of the receiver as an element of the group of units.
+	Return 0 if the receiver is not a unit."
+	^ self == 1 ifTrue: [1] ifFalse: [self == -1 ifTrue: [2] ifFalse: [0]]! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 5/22/2023 18:35:52'!
 nextBitPermutation
@@ -40215,6 +40250,22 @@ evaluateFrom: start to: stop at: anInteger  modulo: modulus
 			[[i >= start] whileTrue:
 				[answer := anInteger * answer + (self at: i) \\ modulus.
 				i := i - 1]].
+	^ answer! !
+
+!ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 6/21/2023 23:03:56'!
+exponentiate: anArray
+	| answer next |
+	1 to: anArray size do: [:i|
+		next := (self at: i) ^ (anArray at: i).
+		answer := answer ifNil: [next] ifNotNil: [next * answer]].
+	^ answer! !
+
+!ArrayedCollection methodsFor: '*algebra-low level-modular' stamp: 'len 6/21/2023 23:05:51'!
+exponentiate: anArray modulo: modulus
+	| answer |
+	answer := 1.
+	1 to: anArray size do: [:i|
+		answer := answer * ((self at: i) raisedTo: (anArray at: i) modulo: modulus) \\ modulus].
 	^ answer! !
 
 !ArrayedCollection methodsFor: '*algebra-low level' stamp: 'len 5/20/2022 11:36:55'!
