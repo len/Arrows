@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5866] on 20 June 2023 at 8:31:18 pm'!
+'From Cuis 6.0 [latest update: #5875] on 21 June 2023 at 11:28:58 pm'!
 'Description '!
-!provides: 'Elliptic Curves' 1 12!
+!provides: 'Elliptic Curves' 1 14!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: 'Elliptic Curves'!
 
@@ -119,6 +119,10 @@ domain
 scalars
 	^ scalars! !
 
+!EllipticCurveGroup methodsFor: 'accessing' stamp: 'len 6/21/2023 16:40:37'!
+size
+	^ self propertyAt: #size ifAbsentPut: [codomain pointsCountOver: scalars]! !
+
 !EllipticCurveGroup methodsFor: 'accessing' stamp: 'len 5/22/2022 11:08:16'!
 torsion
 	"Answer the torsion subgroup of the receiver."
@@ -148,6 +152,11 @@ identity
 	This is the point at infinity."
 	^ codomain pointAt: scalars !!!! {scalars zero. scalars one. scalars zero}! !
 
+!EllipticCurveGroup methodsFor: 'elements' stamp: 'len 6/21/2023 16:07:31'!
+newFrom: anObject
+	(anObject isSequenceable and: [anObject size = 2]) ifTrue: [^ self codomain pointAt: self scalars !!!! anObject].
+	^ super newFrom: anObject! !
+
 !EllipticCurveGroup methodsFor: 'elements' stamp: 'len 6/19/2023 16:52:05'!
 pointsWithX: x₀
 	"Answer the points with x coordinate as given by the argument."
@@ -168,6 +177,40 @@ do: aBlock
 to: aCodomain adapting: anObject
 	((anObject isKindOf: EllipticCurveIsogeny) and: [anObject domain = codomain and: [anObject codomain = aCodomain codomain]]) ifTrue: [^ self to: aCodomain map: [:P| anObject value: P]].
 	^ super to: aCodomain adapting: anObject! !
+
+!EllipticCurveGroup methodsFor: 'operations' stamp: 'len 6/21/2023 15:09:55'!
+elementaryDivisors
+	"[Mil04, Algorithm 3]."
+	| K N r factors N₀ N₁ P Q P₁ Q₁ s t m ζ d |
+	K := self codomain scalars.
+	N := self size.
+	r := N gcd: K size - 1.
+	factors := r factorization.
+	N decompositionWith: r into: [:anInteger :anotherInteger| N₀ := anInteger. N₁ := anotherInteger].
+	[P := self atRandom.
+	Q := self atRandom.
+	P₁ := P * N₁.
+	Q₁ := Q * N₁.
+	s := self orderOf: P₁ exponentBound: r factorization: factors.
+	t := self orderOf: Q₁ exponentBound: r factorization: factors.
+	m := s lcm: t.
+	ζ := P₁ weilPairing: Q₁ torsion: m.
+	d := ζ multiplicativeOrder.
+	m*d = N₀ ifTrue: [^ {d. N / d squared}]] repeat! !
+
+!EllipticCurveGroup methodsFor: 'operations' stamp: 'len 6/21/2023 13:02:23'!
+elementaryDivisorsAndGenerators
+	"[Mil04, Algorithm 2]."
+	| N P Q s t m ζ d |
+	N := self size.
+	[P := self atRandom.
+	Q := self atRandom.
+	s := P order.
+	t := Q order.
+	m := s lcm: t.
+	ζ := P weilPairing: Q torsion: m.
+	d := ζ multiplicativeOrder.
+	m*d = N ifTrue: [^ {d. m. P. Q}]] repeat! !
 
 !EllipticCurveGroup methodsFor: 'printing' stamp: 'len 11/10/2016 08:13'!
 printOn: aStream
@@ -409,7 +452,7 @@ pointsOver: aField
 zero
 	^ self points identity! !
 
-!EllipticCurve methodsFor: 'points-arithmetic' stamp: 'len 6/18/2023 12:34:07'!
+!EllipticCurve methodsFor: 'points-arithmetic' stamp: 'len 6/21/2023 16:26:48'!
 point: P plus: Q
 	"Addition of two points [Coh96, Proposition 7.1.7]."
 	| x₁ y₁ x₂ y₂ λ x₃ y₃ | 
@@ -429,24 +472,24 @@ point: P plus: Q
 	y₃ := y₁ negated - self a₃ - (self a₁ * x₃) + (λ*(x₁ - x₃)).
 	^ P shallowCopy x: x₃ y: y₃! !
 
-!EllipticCurve methodsFor: 'points-arithmetic' stamp: 'len 6/20/2023 18:35:42'!
+!EllipticCurve methodsFor: 'points-arithmetic' stamp: 'len 6/21/2023 22:11:51'!
 pointDouble: P
 	"Point doubling [Coh96, Proposition 7.1.7]."
-	| x₁ y₁ λ x₃ y₃ |
+	| x₁ y₁ v λ x₃ y₃ |
 	P isZero ifTrue: [^ P].
 	x₁ := P x. y₁ := P y.
-	y₁ = (y₁ negated + (self a₁ * x₁) - self a₃) ifTrue: [^ P zero]. "P = -P"
-	λ := x₁ squared * 3 + (self a₂ * x₁ * 2) + self a₄ - (self a₁ * y₁) / (y₁ * 2 + (self a₁ * x₁) + self a₃).
+	(v := y₁ * 2 + (self a₁ * x₁) + self a₃) isZero ifTrue: [^ P zero].
+	λ := x₁ squared * 3 + (self a₂ * x₁ * 2) + self a₄ - (self a₁ * y₁) / v.
 	x₃ := x₁*(-2) - self a₂ + (λ*(λ + self a₁)).
 	y₃ := y₁ negated - self a₃ - (self a₁ * x₃) + (λ*(x₁ - x₃)).
 	^ P shallowCopy x: x₃ y: y₃! !
 
-!EllipticCurve methodsFor: 'points-arithmetic' stamp: 'len 6/18/2023 12:19:35'!
+!EllipticCurve methodsFor: 'points-arithmetic' stamp: 'len 6/21/2023 16:18:21'!
 pointNegate: P
 	| x |
 	P isZero ifTrue: [^ P].
 	x := P x.
-	^ P shallowCopy x: x y: P y negated + (self a₁ * x) - (self a₃)! !
+	^ P shallowCopy x: x y: P y negated - (self a₁ * x) - (self a₃)! !
 
 !EllipticCurve methodsFor: 'printing' stamp: 'len 6/18/2023 11:09:27'!
 printOn: aStream
@@ -464,11 +507,11 @@ isSmooth
 	self flag: #fixme. "assumes the curve is defined over a field, over a ring it should test isUnit"
 	^ self discriminant isZero not! !
 
-!EllipticCurve methodsFor: 'testing' stamp: 'len 6/19/2023 21:14:50'!
+!EllipticCurve methodsFor: 'testing' stamp: 'len 6/21/2023 16:49:48'!
 isSupersingular
 	(self scalars isKindOf: PrimeField) ifFalse: [^ self notYetImplemented].
 	self scalars characteristic <= 3 ifTrue: [^ self j isZero].
-	^ self points size = (self scalars characteristic + 1)! !
+	^ self scalars characteristic + 1 = self points size! !
 
 !EllipticCurve methodsFor: 'private' stamp: 'len 6/18/2023 11:08:14'!
 coefficients: aTuple
@@ -613,13 +656,14 @@ point: P plus: Q
 	y₃ := λ * (x₁ - x₃) - y₁.
 	^ P shallowCopy x: x₃ y: y₃! !
 
-!WeierstrassCurve methodsFor: 'points-arithmetic' stamp: 'len 6/20/2023 18:34:38'!
+!WeierstrassCurve methodsFor: 'points-arithmetic' stamp: 'len 6/21/2023 22:16:09'!
 pointDouble: P
-	| x₁ y₁ λ x₃ y₃ | 
+	| x₁ y₁ v λ x₃ y₃ | 
 	P isZero ifTrue: [^ P].
-	(y₁ := P y) = y₁ negated ifTrue: [^ P zero]. "P = -P"
+	y₁ := P y.
+	(v := y₁ * 2) isZero ifTrue: [^ P zero]. "P = -P"
 	x₁ := P x.
-	λ := x₁ squared * 3 + self a₄ / (y₁ * 2).
+	λ := x₁ squared * 3 + self a₄ / v.
 	x₃ := λ squared - (x₁*2).
 	y₃ := λ * (x₁ - x₃) - y₁.
 	^ P shallowCopy x: x₃ y: y₃! !
@@ -771,11 +815,12 @@ line: R at: Q
 			λ := (R y - P y) * (R x - P x) inverse].
 	^ Q y - P y - (Q x - P x * λ)! !
 
-!EllipticCurvePoint methodsFor: 'pairings-private' stamp: 'len 6/20/2023 20:24:50'!
+!EllipticCurvePoint methodsFor: 'pairings-private' stamp: 'len 6/20/2023 21:33:57'!
 miller: Q torsion: anInteger
 	"Miller's algorithm [Mil04]."
 	| n answer i ℓ v V S |
-	(Q isZero or: [anInteger = 0]) ifTrue: [^ DomainError signal].
+	Q isZero ifTrue: [^ nil].
+	self assert: anInteger ~= 0.
 	n := anInteger abs.
 	answer := self codomain scalars one.
 	V := self.

@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5866] on 20 June 2023 at 8:31:24 pm'!
+'From Cuis 6.0 [latest update: #5875] on 21 June 2023 at 11:29:05 pm'!
 'Description '!
-!provides: 'Tests-Elliptic Curves' 1 4!
+!provides: 'Tests-Elliptic Curves' 1 5!
 !requires: 'Elliptic Curves' 1 2 nil!
 SystemOrganization addCategory: 'Tests-Elliptic Curves'!
 
@@ -130,6 +130,21 @@ setUp
 	super setUp.
 	E := EllipticCurve secp256k1! !
 
+!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 6/21/2023 16:33:05'!
+testArithmeticExample1
+	"[Coh+05, Example 13.4]."
+	| F E P Q |
+	F := ℤ/2003.
+	E := EllipticCurve coefficients: F !!!! #(2 5 8 1136 531).
+	P := E points !! #(1118 269).
+	P validate.
+	Q := E points !! #(892 529).
+	Q validate.
+	self assert: P negated = (E points !! #(1118 1493)).
+	self assert: P+Q = (E points !! #(1681 1706)).
+	self assert: P*2 = (E points !! #(1465 677))
+! !
+
 !EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 14:25:34'!
 testBInvariantsExample
 	| E |
@@ -152,15 +167,6 @@ testCurveFromCInvariantsExample
 	E := EllipticCurve c₄: 17 c₆: -2005.
 	self assert: E c₄ = 17.
 	self assert: E c₆ = -2005! !
-
-!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 21:58:03'!
-testEllipticCurvePointOrderExample
-	| p F E P |
-	p := 103.
-	F := ℤ/p.
-	E := EllipticCurve coefficients: F !!!! #(1 18).
-	P := E !! (F !!!! (33, 91)).
-	self assert: P order = 19! !
 
 !EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 19:36:33'!
 testMillerAlgorithmExample1
@@ -262,6 +268,27 @@ testMillerLineSubrutineExamples
 	self assert: (P line: O at: Q) = (F !! 1).
 	self assert: (P line: P*13 at: Q) = (a^4).
 	self assert: (P line: P at: Q) = (a^4 + (a^3) + (a^2) + 1)! !
+
+!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 6/21/2023 16:37:03'!
+testPointOrderExample1
+	| p F E P |
+	p := 103.
+	F := ℤ/p.
+	E := EllipticCurve coefficients: F !!!! #(1 18).
+	P := E !! (F !!!! (33, 91)).
+	self assert: P order = 19! !
+
+!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 6/21/2023 16:36:43'!
+testPointOrderExample2
+	"[Coh+05, Example 13.10]."
+	| F E P Q |
+	F := ℤ/2003.
+	E := EllipticCurve coefficients: F !!!! #(2 5 8 1136 531).
+	E points size = 1956.
+	P := E points !! #(1118 269).
+	self assert: P order = 1956.
+	Q := E points !! #(892 529).
+	self assert: Q order = 163! !
 
 !EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 14:35:24'!
 testRandomCurveWeierstrassEquationInvariants
