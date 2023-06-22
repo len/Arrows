@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5875] on 21 June 2023 at 11:28:58 pm'!
+'From Cuis 6.0 [latest update: #5875] on 22 June 2023 at 4:09:03 pm'!
 'Description '!
-!provides: 'Elliptic Curves' 1 14!
+!provides: 'Elliptic Curves' 1 16!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: 'Elliptic Curves'!
 
@@ -119,10 +119,6 @@ domain
 scalars
 	^ scalars! !
 
-!EllipticCurveGroup methodsFor: 'accessing' stamp: 'len 6/21/2023 16:40:37'!
-size
-	^ self propertyAt: #size ifAbsentPut: [codomain pointsCountOver: scalars]! !
-
 !EllipticCurveGroup methodsFor: 'accessing' stamp: 'len 5/22/2022 11:08:16'!
 torsion
 	"Answer the torsion subgroup of the receiver."
@@ -169,16 +165,17 @@ pointsWithX: x₀ do: aBlock
 	P := scalars polynomials.
 	^ (codomain polynomial value: {P !! x₀. P x. P one}) roots do: [:y| aBlock value: (codomain pointAt: (scalars !! x₀, y))]! !
 
-!EllipticCurveGroup methodsFor: 'enumerating' stamp: 'len 6/19/2023 12:57:57'!
+!EllipticCurveGroup methodsFor: 'enumerating' stamp: 'len 6/22/2023 02:15:46'!
 do: aBlock
-	codomain pointsOver: self scalars do: aBlock! !
+	aBlock value: self identity.
+	scalars do: [:each| self pointsWithX: each do: aBlock]! !
 
 !EllipticCurveGroup methodsFor: 'morphisms' stamp: 'len 6/19/2023 13:00:16'!
 to: aCodomain adapting: anObject
 	((anObject isKindOf: EllipticCurveIsogeny) and: [anObject domain = codomain and: [anObject codomain = aCodomain codomain]]) ifTrue: [^ self to: aCodomain map: [:P| anObject value: P]].
 	^ super to: aCodomain adapting: anObject! !
 
-!EllipticCurveGroup methodsFor: 'operations' stamp: 'len 6/21/2023 15:09:55'!
+!EllipticCurveGroup methodsFor: 'operations' stamp: 'len 6/22/2023 15:40:36'!
 elementaryDivisors
 	"[Mil04, Algorithm 3]."
 	| K N r factors N₀ N₁ P Q P₁ Q₁ s t m ζ d |
@@ -191,8 +188,8 @@ elementaryDivisors
 	Q := self atRandom.
 	P₁ := P * N₁.
 	Q₁ := Q * N₁.
-	s := self orderOf: P₁ exponentBound: r factorization: factors.
-	t := self orderOf: Q₁ exponentBound: r factorization: factors.
+	s := self orderOf: P₁ multiple: r factorization: factors.
+	t := self orderOf: Q₁ multiple: r factorization: factors.
 	m := s lcm: t.
 	ζ := P₁ weilPairing: Q₁ torsion: m.
 	d := ζ multiplicativeOrder.
@@ -338,6 +335,16 @@ j
 	self scalars = ℚ ifFalse: [^ DomainError signal: 'not over the rationals'].
 	^ self over: ℤ / anInteger! !
 
+!EllipticCurve methodsFor: 'converting' stamp: 'len 6/22/2023 16:00:40'!
+asShortWeierstrassModel
+	"Answer a curve of the form y² = x³ + a₄x + a₆ isomorphic to the receiver." 
+	| K |
+	K := self scalars.
+	self assert: K characteristic ~= 2.
+	self b₂ isZero ifTrue: [^ WeierstrassCurve coefficients: K !!!! {self b₄ * 8. self b₆ * 16}].
+	K characteristic = 3 ifTrue: [^ self error: 'no short Weierstrass model for characteristic 3 with nonzero b₂'].
+	^ WeierstrassCurve coefficients: K !!!! {self c₄ * -27. self c₆ * -54}! !
+
 !EllipticCurve methodsFor: 'converting' stamp: 'len 6/18/2023 11:10:36'!
 over: aRing
 	^ self class coefficients: (coefficients over: aRing)! !
@@ -423,6 +430,21 @@ divisionPolynomials
 				[m := n // 2.
 				(phi at: m-1) squared * (phi at: m) * (phi at: m+2) - ((phi at: m-2) * (phi at: m) * (phi at: m+1) squared // φ₂)]]! !
 
+!EllipticCurve methodsFor: 'operations' stamp: 'len 6/22/2023 15:28:57'!
+hasseInvariant
+	"Answer the Hasse invariant of the receiver, which is zero if and only if the curve is supersingular.
+	The Hasse invariant is only defined over fields of positive characteristic."
+	| K p E x |
+	K := self scalars.
+	(p := K characteristic) > 0 ifFalse: [^ self error: 'Hasse invariant only defined in positive characteristic'].
+	p = 2 ifTrue: [^ self a₁].
+	p = 3 ifTrue: [^ self b₂].
+	p = 5 ifTrue: [^ self c₄].
+	p = 7 ifTrue: [^ self c₆ negated].
+	E := self asShortWeierstrassModel.
+	x := K polynomials x.
+	^ (x^3 + (x * E a₄) + E a₆) ^ (p - 1 / 2) at: p - 1! !
+
 !EllipticCurve methodsFor: 'operations' stamp: 'len 10/14/2022 08:45:21'!
 multiplicationBy: m
 	| F f omega φ ψ x |
@@ -438,6 +460,106 @@ multiplicationBy: m
 	φ _ φ value: {F x. F y}.
 	^ "self from: self to: self representatives:" {φ / f squared. omega / (f^3). F z}! !
 
+!EllipticCurve methodsFor: 'operations' stamp: 'len 6/22/2023 14:44:10'!
+quadraticTwist
+	"Assuming the base field is finite, answer the quadratic twist of the receiver (up to isomorphism)."
+	| K D a x |
+	K := self scalars.
+	K isFiniteField ifFalse: [^ self error: 'infinite field'].
+	K characteristic ~= 2 ifTrue:
+		[[(D := K atRandom) isSquare] whileTrue.
+		^ self quadraticTwistBy: D].
+	K degree odd ifTrue: [^ self quadraticTwistBy: K one].
+	D := K x.
+	a := D squared.
+	x := K polynomials x.
+	[(x squared + x + D) roots notEmpty] whileTrue: [D := D * a].
+	^ self quadraticTwistBy: D! !
+
+!EllipticCurve methodsFor: 'operations' stamp: 'len 6/22/2023 14:42:49'!
+quadraticTwistBy: anElement
+	"Answer the quadratic twist by the given twisting parameter D.
+	In characteristic 2, the twist is always isomorphic to the original curve after adjoining a root of x² + x + D to the base field.
+	Otherwise, D must be nonzero and the twist is isomorphic to the original curve after adjoining √D to the base field."
+	| K D E₀ |
+	K := self scalars.
+	D := K !! anElement.
+	K characteristic ~= 2 ifTrue:
+		[D isZero ifTrue: [^ self error: 'twisting parameter must be nonzero'].
+		^ EllipticCurve coefficients: K !!!! {0. self b₂ * D. 0. self b₄ * 8 * D squared. self b₆ * 16 * (D ^ 3)}].
+	self j isZero ifTrue: [^ self notYetImplemented].
+	E₀ := self u: self a₁ r: self a₃ / self a₁ s: 0 t: self a₁ squared * self a₄ + self a₃ squared / (self a₁ ^ 3).
+	self assert: E₀ a₁ isOne.
+	self assert: E₀ a₃ isZero.
+	self assert: E₀ a₄ isZero.
+	^ EllipticCurve coefficients: K !!!! {1. E₀ a₂ + D. 0. 0. E₀ a₆}! !
+
+!EllipticCurve methodsFor: 'operations' stamp: 'len 6/22/2023 15:12:15'!
+quadraticTwistOf: anEllipticCurve
+	"If the receiver is a quadratic twist of the other curve, answer the corresponding twisting parameter.
+	Otherwise return zero."
+	| K j |
+	(K := self scalars) = anEllipticCurve scalars ifFalse: [^ K zero].
+	(j := self j) = anEllipticCurve j ifFalse: [^ K zero].
+"	self ~ anEllipticCurve ifTrue: [^ K one]."
+	K characteristic = 2 ifTrue: [^ self notYetImplemented].
+	K characteristic = 3 ifTrue:
+		[j isZero ifTrue: [^ self notYetImplemented].
+		^ self b₂ / anEllipticCurve b₂].
+	j isZero ifTrue:
+		[(K polynomials x^3 - (self c₆ / anEllipticCurve c₆)) roots do: [:any| ^ any].
+		^ K zero].
+	j = (K !! 1728) ifTrue:
+		[(K polynomials x squared - (self c₄ / anEllipticCurve c₄)) roots do: [:any| ^ any].
+		^ K zero].
+	^ self c₆ * anEllipticCurve c₄ / (self c₄ * anEllipticCurve c₆)! !
+
+!EllipticCurve methodsFor: 'operations' stamp: 'len 6/22/2023 14:27:28'!
+quarticTwistBy: anElement
+	"Answer the quartic twist by the given parameter."
+	| K D |
+	K := self scalars.
+	D := K !! anElement.
+	(K characteristic = 2 or: [K characteristic = 3]) ifTrue: [^ self error: 'quartic twist not defined in characteristic 2 or 3'].
+	self j = (K !! 1728) ifFalse: [^ self error: 'quartic twist only defined when j = 1728'].
+	D isZero ifTrue: [^ self error: 'twisting parameter must be nonzero'].
+	self assert: self c₆ isZero.
+	^ EllipticCurve coefficients: K !!!! {0. 0. 0. self c₄*D*-27. 0}! !
+
+!EllipticCurve methodsFor: 'operations' stamp: 'len 6/22/2023 15:15:08'!
+quarticTwistOf: anEllipticCurve
+	"If the receiver is a quartic twist of the other curve, answer the corresponding twisting parameter.
+	Otherwise return zero."
+	| K j |
+	(K := self scalars) = anEllipticCurve scalars ifFalse: [^ K zero].
+	((j := self j) = anEllipticCurve j and: [j = (K !! 1728)]) ifFalse: [^ K zero].
+"	self ~ anEllipticCurve ifTrue: [^ K one]."
+	(K characteristic = 2 or: [K characteristic = 3]) ifTrue: [^ self notYetImplemented].
+	^ anEllipticCurve c₄ / self c₄! !
+
+!EllipticCurve methodsFor: 'operations' stamp: 'len 6/22/2023 14:29:33'!
+sexticTwistBy: anElement
+	"Answer the sextic twist by the given parameter."
+	| K D |
+	K := self scalars.
+	D := K !! anElement.
+	(K characteristic = 2 or: [K characteristic = 3]) ifTrue: [^ self error: 'sextic twist not defined in characteristic 2 or 3'].
+	self j isZero ifFalse: [^ self error: 'sextic twist only defined when j = 0'].
+	D isZero ifTrue: [^ self error: 'twisting parameter must be nonzero'].
+	self assert: self c₄ isZero.
+	^ EllipticCurve coefficients: K !!!! {0. 0. 0. 0. self c₆*D*-54}! !
+
+!EllipticCurve methodsFor: 'operations' stamp: 'len 6/22/2023 15:16:53'!
+sexticTwistOf: anEllipticCurve
+	"If the receiver is a sextic twist of the other curve, answer the corresponding twisting parameter.
+	Otherwise return zero."
+	| K |
+	(K := self scalars) = anEllipticCurve scalars ifFalse: [^ K zero].
+	(self j isZero and: [anEllipticCurve j isZero]) ifFalse: [^ K zero].
+"	self ~ anEllipticCurve ifTrue: [^ K one]."
+	(K characteristic = 2 or: [K characteristic = 3]) ifTrue: [^ self notYetImplemented].
+	^ anEllipticCurve c₆ / self c₆! !
+
 !EllipticCurve methodsFor: 'points' stamp: 'len 6/18/2023 12:05:20'!
 pointAt: aTuple
 	aTuple size = 2 ifTrue: [^ self pointClass on: self coordinates: aTuple, aTuple scalars one].
@@ -447,6 +569,10 @@ pointAt: aTuple
 pointsOver: aField
 	"Answer the group of K-rational points on the receiver."
 	^ EllipticCurveGroup on: self over: aField! !
+
+!EllipticCurve methodsFor: 'points' stamp: 'len 6/22/2023 02:16:41'!
+pointsOver: aRing do: aBlock
+	(self pointsOver: aRing) do: aBlock! !
 
 !EllipticCurve methodsFor: 'points' stamp: 'len 6/18/2023 22:33:58'!
 zero
@@ -491,7 +617,7 @@ pointNegate: P
 	x := P x.
 	^ P shallowCopy x: x y: P y negated - (self a₁ * x) - (self a₃)! !
 
-!EllipticCurve methodsFor: 'printing' stamp: 'len 6/18/2023 11:09:27'!
+!EllipticCurve methodsFor: 'printing' stamp: 'len 6/21/2023 23:57:10'!
 printOn: aStream
 	| P x y |
 	P := self scalars polynomialsIn: #(x y) ordering: (MonomialOrdering glex: #(2 1)).
@@ -507,11 +633,10 @@ isSmooth
 	self flag: #fixme. "assumes the curve is defined over a field, over a ring it should test isUnit"
 	^ self discriminant isZero not! !
 
-!EllipticCurve methodsFor: 'testing' stamp: 'len 6/21/2023 16:49:48'!
+!EllipticCurve methodsFor: 'testing' stamp: 'len 6/22/2023 15:30:50'!
 isSupersingular
-	(self scalars isKindOf: PrimeField) ifFalse: [^ self notYetImplemented].
-	self scalars characteristic <= 3 ifTrue: [^ self j isZero].
-	^ self scalars characteristic + 1 = self points size! !
+	self scalars characteristic > 0 ifTrue: [^ self hasseInvariant isZero].
+	^ self notYetImplemented! !
 
 !EllipticCurve methodsFor: 'private' stamp: 'len 6/18/2023 11:08:14'!
 coefficients: aTuple
@@ -636,6 +761,11 @@ c₄: c₄ c₆: c₆
 	a₄ := (K !! -48) inverse * c₄.
 	a₆ := (K !! -864) inverse * c₆.
 	^ self coefficients: (K !!!! {a₄. a₆})! !
+
+!WeierstrassCurve methodsFor: 'converting' stamp: 'len 6/22/2023 16:00:53'!
+asShortWeierstrassModel
+	"Answer a curve of the form y² = x³ + a₄x + a₆ isomorphic to the receiver." 
+	^ self! !
 
 !WeierstrassCurve methodsFor: 'points-arithmetic' stamp: 'len 6/18/2023 13:59:39'!
 point: P plus: Q

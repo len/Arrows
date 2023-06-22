@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5875] on 21 June 2023 at 11:29:05 pm'!
+'From Cuis 6.0 [latest update: #5875] on 22 June 2023 at 4:09:09 pm'!
 'Description '!
-!provides: 'Tests-Elliptic Curves' 1 5!
+!provides: 'Tests-Elliptic Curves' 1 6!
 !requires: 'Elliptic Curves' 1 2 nil!
 SystemOrganization addCategory: 'Tests-Elliptic Curves'!
 
@@ -168,6 +168,26 @@ testCurveFromCInvariantsExample
 	self assert: E c₄ = 17.
 	self assert: E c₆ = -2005! !
 
+!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 6/22/2023 16:07:09'!
+testHasseInvariantExamples
+	"Examples from Sage documentation:"
+	| F E |
+	F := ℤ/101.
+	E := EllipticCurve coefficients: F !!!! #(0 0 0 0 1).
+	self assert: E hasseInvariant = (F !! 0).
+	E := EllipticCurve coefficients: F !!!! #(0 0 0 1 1).
+	self assert: E hasseInvariant = (F !! 98).
+	F := ℤ/103.
+	E := EllipticCurve coefficients: F !!!! #(0 0 0 0 1).
+	self assert: E hasseInvariant = (F !! 20).
+	E := EllipticCurve coefficients: F !!!! #(0 0 0 1 1).
+	self assert: E hasseInvariant = (F !! 17).
+	F := GaloisField new: 107 to: 2.
+	E := EllipticCurve coefficients: F !!!! {0. 0. 0. F x. 1}.
+	self assert: E hasseInvariant = (F x * 62 + 75).
+	E := EllipticCurve coefficients: F !!!! {0. 0. 0. 0. F x}.
+	self assert: E hasseInvariant = (F !! 0)! !
+
 !EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 19:36:33'!
 testMillerAlgorithmExample1
 	| F E P Q I |
@@ -289,6 +309,13 @@ testPointOrderExample2
 	self assert: P order = 1956.
 	Q := E points !! #(892 529).
 	self assert: Q order = 163! !
+
+!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 6/22/2023 14:46:00'!
+testQuadraticTwistExample
+	| F E |
+	F := ℤ/1103.
+	E := EllipticCurve coefficients: F !!!! #(1 0 0 107 340).
+	self assert: (E quadraticTwistBy: -1) coefficients = (F !!!! #(0 1102 0 609 300))! !
 
 !EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 14:35:24'!
 testRandomCurveWeierstrassEquationInvariants
