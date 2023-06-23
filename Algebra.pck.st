@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5875] on 23 June 2023 at 10:51:01 pm'!
+'From Cuis 6.0 [latest update: #5875] on 23 June 2023 at 11:46:38 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -78,7 +78,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 119!
+!provides: 'Algebra' 1 120!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -38860,6 +38860,10 @@ abs: p
 	[p | q] whileTrue: [powers _ powers * p. q _ q // p].
 	^ powers asRational reciprocal! !
 
+!Integer methodsFor: '*algebra' stamp: 'len 6/23/2023 23:06:38'!
+additiveOrder
+	^ self = 0 ifTrue: [1] ifFalse: [0]! !
+
 !Integer methodsFor: '*algebra' stamp: 'len 5/21/2022 19:43:37'!
 annihilator
 	"Answer a generator of the ideal of all elements that multiplied by the receiver are zero."
@@ -39060,7 +39064,7 @@ factorization
 	self factorizationDo: [:p :e| answer add: p withOccurrences: e].
 	^ answer! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 6/23/2023 17:46:45'!
+!Integer methodsFor: '*algebra' stamp: 'len 6/23/2023 23:41:58'!
 factorizationDo: aBlock
 	| n times p max |
 	self = 0 ifTrue: [self error: 'factorization of zero'].
@@ -39070,13 +39074,12 @@ factorizationDo: aBlock
 		[aBlock value: 2 value: (times := n lowBit - 1).
 		n := n bitShift: times negated].
 	max := n sqrtFloor + 1.
-	p := 2.
-	self flag: #fixme.
-	[(p := p nextPrime) < max] whileTrue:
+	p := 1.
+	[(p := p + 2) < max] whileTrue:
 		[n \\ p = 0 ifTrue:
 			[times := 1.
 			n := n // p.
-			[n \\ p = 0] whileTrue: [times := times + 1. n := n // p]. "this is slow, should call >>valuation: instead of dividing by p linearly"
+			[n \\ p = 0] whileTrue: [times := times + 1. n := n // p].
 			aBlock value: p value: times.
 			max := n sqrtFloor + 1]].
 	n = 1 ifFalse: [aBlock value: n value: 1]! !
@@ -39122,12 +39125,27 @@ isNilpotent
 isPerfectSquare
 	^ self sqrtFloor squared = self! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 5/23/2023 06:33:56'!
+!Integer methodsFor: '*algebra' stamp: 'len 6/23/2023 23:29:30'!
+isPrime
+	"Answer true if the receiver is a prime number. See isProbablyPrime for a probabilistic
+	implementation that is much faster for large integers, and that is correct to an extremely
+	high statistical level of confidence (effectively deterministic)."
+	
+	self <= 1 ifTrue: [^ false].
+	self even ifTrue: [^ self = 2].
+	self < 1029 ifTrue: [^ (3522777587723736049447994637992932749384026421409511721674352215129673638302223786179858271518502236265837398493945777137046860842981140826231075407076424168720306051611794253284352908295606350496881083115997689935091739508494842812776107849365641477123068724725571505032905335833473762565579647316770506005 bitAt: self-2) = 1].
+	3 to: self sqrtFloor by: 2 do: [:each| self \\ each = 0 ifTrue: [^ false]].
+	^ true! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 6/23/2023 23:21:32'!
 isPrimePower
 	"Answer true if the receiver is of the form p^k for a prime p and a k > 0."
+	| first |
 	self > 0 ifFalse: [^ false].
 	self isPowerOfTwo ifTrue: [^ true].
-	^ self factorization asSet size = 1! !
+	first := true.
+	self factorizationDo: [:p :e| first ifFalse: [^ false]. first := false].
+	^ true! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 11/19/2015 17:21'!
 isRational
