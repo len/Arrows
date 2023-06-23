@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5866] on 20 June 2023 at 9:42:08 pm'!
+'From Cuis 6.0 [latest update: #5875] on 23 June 2023 at 4:37:01 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 75!
+!provides: 'Tests-Algebra' 1 76!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -6207,6 +6207,24 @@ testD3
 	A _ AlternatingGroup new: 3.
 	self assert: D commutator = A.
 	self assert: D center isTrivial! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/23/2023 16:20:41'!
+testElementOrderExample1
+	| K a b n |
+	K := GaloisField new: 5 to: 5.
+	a := K x.
+	b := a^4.
+	n := K units orderOf: b multiple: 5^5-1.
+	self assert: n = 781! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/23/2023 16:23:07'!
+testElementOrderExample2
+	| K z w n |
+	K := CyclotomicField new: 230.
+	z := K x.
+	w := z^50.
+	n := K units orderOf: w multiple: 230.
+	self assert: n = 23! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:13:01'!
 testGroup: G

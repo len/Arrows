@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5875] on 21 June 2023 at 11:27:26 pm'!
+'From Cuis 6.0 [latest update: #5875] on 23 June 2023 at 4:36:48 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -51,6 +51,8 @@ References:
 [Mon04] Michael Monagan; "Maximal Quotient Rational Reconstruction: An Almost Optimal Algorithm for Rational Reconstructoin" (2004)
 [Mon05] Peter L. Montgomery; "Five, Six, and Seven-Term Karatsuba-Like Formulae" (2005)
 [PS09] Clement Pernet; William Stein; "Fast computation of Hermite normal forms of random integer matrices" (2009)
+[PH78] S. Pohlig; M. Hellman; "An Improved Algorithm for Computing Logarithms over GF(p) and its Cryptographic Significance" (1978)
+[Pol78] J. M. Pollard; "Monte Carlo Methods for Index Computation (mod p)", Mathematics of Computation, Volume 32, 1978
 [Pos17] Sebastian Posur; "Linear Systems over Localizations of Rings" (2017)
 [SY09] Michael Sagraloff, Chee K. Yap, "An Efficient and Exact Subdivision Algorithm for Isolating Complex Roots of a Polynomial and its Complexity Analysis" (2009)
 [Sam71] Pierre Samuel, "About Euclidean Rings", J. Algebra, 19:282-301, 1971
@@ -76,7 +78,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 116!
+!provides: 'Algebra' 1 118!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -2274,14 +2276,14 @@ Object subclass: #AdditionChain
 AdditionChain class
 	instanceVariableNames: ''!
 
-!classDefinition: #BabystepGiantstep category: 'Algebra-Algorithms'!
-Object subclass: #BabystepGiantstep
+!classDefinition: #BabyStepGiantStep category: 'Algebra-Algorithms'!
+Object subclass: #BabyStepGiantStep
 	instanceVariableNames: 'group table δ'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'BabystepGiantstep class' category: 'Algebra-Algorithms'!
-BabystepGiantstep class
+!classDefinition: 'BabyStepGiantStep class' category: 'Algebra-Algorithms'!
+BabyStepGiantStep class
 	instanceVariableNames: ''!
 
 !classDefinition: #BrentKung category: 'Algebra-Algorithms'!
@@ -3430,7 +3432,7 @@ An addition chain computing an integer n is given by a sequence v such that:
 
 Short addition chains are useful for implementing fast exponentiation with a fixed exponent. See [Coh+05, Section 9.2.1].!
 
-!BabystepGiantstep commentStamp: 'len 6/4/2023 20:49:45' prior: 0!
+!BabyStepGiantStep commentStamp: 'len 6/4/2023 20:49:45' prior: 0!
 This is Daniel Shanks' Baby-Step/Giant-Step algorithm for computing discrete logarithms (see [Sha71]). Given an element α in a group G, and a bound n for the order of α, the algorithm can compute the discrete logarithm of another element β with respect to α, that is it computes i such that (in multiplicative notation) β = αⁱ. The algorithm precomputes a hash table of size √n containing powers of α, that is then used for computing the discrete logarithm of any β.!
 
 !BrentKung commentStamp: 'len 6/10/2023 09:52:37' prior: 0!
@@ -7617,16 +7619,15 @@ asMonoid
 	"Forgetful functor to the category of monoids."
 	^ self propertyAt: #asMonoid ifAbsentPut: [Monoid newFrom: (self propertyAt: #elements ifAbsent: [self])]! !
 
-!Group methodsFor: 'elements' stamp: 'len 6/21/2023 22:04:20'!
+!Group methodsFor: 'elements' stamp: 'len 6/22/2023 19:58:32'!
 \ anElement
 	"Answer anElement expressed as a word on the generators. Answer nil if anElement is not in the receiver."
-	| F bsgs |
+	| F |
 	F := FreeGroup new: self generators size.
 	anElement = self identity ifTrue: [^ F identity].
 	self generators indexOf: anElement ifPresent: [:i| F x: i].
 	self generators size = 1 ifFalse: [^ self notYetImplemented].
-	bsgs := self propertyAt: #bsgs ifAbsentPut: [BabystepGiantstep on: self].
-	^ F x: 1 to: ((bsgs logarithmOf: anElement) ifNil: [^ nil])! !
+	^ F x: 1 to: ((self logarithmOf: anElement) ifNil: [^ nil])! !
 
 !Group methodsFor: 'elements' stamp: 'len 6/4/2023 01:46:03'!
 elementAt: aWord
@@ -7837,6 +7838,21 @@ index
 indexOf: aSubgroup
 	^ (self / aSubgroup) size! !
 
+!Group methodsFor: 'operations' stamp: 'len 6/23/2023 01:31:24'!
+logarithmOf: anElement
+	"Assuming the receiver is a cyclic group with a fixed generator α, answer the discrete logarithm of anElement with base α,
+	that is i such that αⁱ = anElement (or α*i = anElement in additive notation)."
+	^ self logarithmOf: anElement base: self generator between: 1 and: self size! !
+
+!Group methodsFor: 'operations' stamp: 'len 6/22/2023 19:54:52'!
+logarithmOf: anElement base: α
+	"Answer the discrete logarithm of anElement with base α, that is i such that αⁱ = anElement (or α*i = anElement in additive notation)."
+	^ self logarithmOf: anElement base: α between: 1 and: α order! !
+
+!Group methodsFor: 'operations' stamp: 'len 6/22/2023 19:54:11'!
+logarithmOf: anElement base: α between: lowerBound and: upperBound
+	^ self pollardKangarooLog: anElement base: α between: lowerBound and: upperBound hashBlock: [:x| x hash]! !
+
 !Group methodsFor: 'operations' stamp: 'len 6/18/2023 23:17:40'!
 normalClosureOf: aSubset
 	"From Handbook of Computational Group Theory (Holt) 74p.
@@ -7861,56 +7877,55 @@ normalClosureOf: aSubset
 				(N includes: hg) ifFalse: [Z add: hg. N := self span: Z]]].
 	^ N! !
 
-!Group methodsFor: 'operations' stamp: 'len 6/21/2023 14:23:57'!
-orderOf2: anElement
-	"Answer the order of the argument in the receiver, i.e. the minimum e such that g^e = 1.
-	[Coh96] Algorithm 1.4.3 (Order of an Element)."
-	| h factors id e g1 |
-	self flag: #deprecated.
-	h := self size.
-	factors := self propertyAt: #sizeFactorization ifAbsentPut: [h factorization].
-	e := h.
-	id := self identity.
-	self isAdditiveGroup
-		ifTrue:
-			[factors asSet do: [:p|
-				e := e / (p ^ (factors occurrencesOf: p)).
-				g1 := anElement * e.
-				[g1 = id] whileFalse: [g1 := g1 * p. e := e * p]]]
-		ifFalse:
-			[factors asSet do: [:p|
-				e := e / (p ^ (factors occurrencesOf: p)).
-				g1 := anElement ^ e.
-				[g1 = id] whileFalse: [g1 := g1 ^ p. e := e * p]]].
-	^ e! !
-
-!Group methodsFor: 'operations' stamp: 'len 6/21/2023 14:24:06'!
+!Group methodsFor: 'operations' stamp: 'len 6/22/2023 15:40:25'!
 orderOf: anElement
 	"Answer the order of the argument in the receiver, i.e. the minimum e such that g^e = 1 (or g*e = 0 in additive notation)."
 	| h factors |
 	h := self size.
 	factors := self propertyAt: #sizeFactorization ifAbsentPut: [h factorization].
-	^ self orderOf: anElement exponentBound: h factorization: factors! !
+	^ self orderOf: anElement multiple: h factorization: factors! !
 
-!Group methodsFor: 'operations' stamp: 'len 6/21/2023 14:25:47'!
-orderOf: anElement exponentBound: anInteger factorization: factors
+!Group methodsFor: 'operations' stamp: 'len 6/23/2023 16:20:20'!
+orderOf: anElement multiple: anInteger
+	"Answer the order of anElement, i.e. the minimum e such that g^e = 1 (or g*e = 0 in additive notation)."
+	^ self orderOf: anElement multiple: anInteger factorization: anInteger factorization! !
+
+!Group methodsFor: 'operations' stamp: 'len 6/23/2023 16:34:45'!
+orderOf: anElement multiple: anInteger factorization: factors
 	"Answer the order of anElement, i.e. the minimum e such that g^e = 1 (or g*e = 0 in additive notation).
-	The algorithm takes as argument a bound for the exponent of the group and its factorization,
-	and performs O(log³ n) group operations where n is the specified bound anInteger.
+	The algorithm takes as argument a multiple of the element's order and its factorization,
+	and performs O(log³ n) group operations where n is the specified order multiple anInteger.
 	See [Mil04, Algorithm 4] and [HEO05, 73p]."
 	| answer id b |
 	answer := 1.
 	id := self identity.
 	self isAdditiveGroup
 		ifTrue:
-			[factors asSet do: [:p|
-				b := anElement * (anInteger / (p ^ (factors occurrencesOf: p))).
+			[factors withOccurrencesDo: [:p :r|
+				b := anElement * (anInteger / (p ^ r)).
 				[b = id] whileFalse: [answer := answer * p. b := b * p]]]
 		ifFalse:
-			[factors asSet do: [:p|
-				b := anElement ^ (anInteger / (p ^ (factors occurrencesOf: p))).
+			[factors withOccurrencesDo: [:p :r|
+				b := anElement ^ (anInteger / (p ^ r)).
 				[b = id] whileFalse: [answer := answer * p. b := b ^ p]]].
-	^ answer! !
+	^ answer
+
+"alternative, maybe incorrect:
+	| id e g1 |
+	e := anInteger.
+	id := self identity.
+	self isAdditiveGroup
+		ifTrue:
+			[factors withOccurrencesDo: [:p :r|
+				e := e / (p ^ r).
+				g1 := anElement * e.
+				[g1 = id] whileFalse: [g1 := g1 * p. e := e * p]]]
+		ifFalse:
+			[factors withOccurrencesDo: [:p :r|
+				e := e / (p ^ r).
+				g1 := anElement ^ e.
+				[g1 = id] whileFalse: [g1 := g1 ^ p. e := e * p]]].
+	^ e"! !
 
 !Group methodsFor: 'operations' stamp: 'len 5/1/2016 22:59'!
 perfectCore
@@ -7983,6 +7998,10 @@ upperCentralSeriesQuotientsDo: aBlock
 	| Z1 |
 	Z1 _ self null.
 	self upperCentralSeriesDo: [:Z| aBlock value: Z / Z1. Z1 _ Z]! !
+
+!Group methodsFor: 'testing' stamp: 'len 6/23/2023 14:52:20'!
+isAdditiveGroup
+	^ (self propertyAt: #ambient ifAbsent: [^ false]) isAdditiveGroup! !
 
 !Group methodsFor: 'testing' stamp: 'len 5/10/2023 21:16:05'!
 isCommutative
@@ -8102,6 +8121,70 @@ computeGenerators
 						ifFalse: [generators do: [:y| elements add: x · y]]].
 				previous size = elements size] whileFalse]].
 	^ generators! !
+
+!Group methodsFor: 'private' stamp: 'len 6/23/2023 14:50:15'!
+pohligHellmanLog: β base: α order: n factorization: factors
+	"Pohlig-Hellman algorithm for discrete logarithm.
+	See [PH78]."
+	| additive results |
+	additive := self isAdditiveGroup.
+	results := OrderedCollection new.
+	factors withOccurrencesDo: [:pᵢ :eᵢ|
+		| m αᵢ βᵢ γ bsgs x |
+		m := n / (pᵢ^eᵢ).
+		"By Lagrange's theorem αᵢ has order pᵢ ^ eᵢ, and by construction βᵢ ∈ ⟨αᵢ⟩:"
+		additive ifTrue: [αᵢ := α * m. βᵢ := β * m] ifFalse: [αᵢ := α ^ m. βᵢ := β ^ m].
+		"Now compute 0 ≤ xᵢ ≤ pᵢ^eᵢ - 1 such that αᵢ ^ xᵢ = βᵢ:"
+		x := 0.
+		"By Lagrange's theorem γ has order pᵢ:"
+		γ := additive ifTrue: [αᵢ * (pᵢ^(eᵢ - 1))] ifFalse: [αᵢ ^ (pᵢ^(eᵢ - 1))].
+		bsgs := BabyStepGiantStep on: self base: γ order: pᵢ.
+		0 to: eᵢ - 1 do: [:k|
+			| hₖ dₖ |
+			"By construction the order of hₖ must divide pᵢ, hence hₖ ∈ ⟨γ⟩:"
+			additive
+				ifTrue: [hₖ := βᵢ + (αᵢ * x negated) * (pᵢ ^ (eᵢ - 1 - k))]
+				ifFalse: [hₖ := βᵢ * (αᵢ ^ x negated) ^ (pᵢ ^ (eᵢ - 1 - k))].
+			dₖ := bsgs logarithmOf: hₖ. "this takes time O(√p)"
+			x := x + (pᵢ^k * dₖ)].
+		results add: ℤ/(pᵢ^eᵢ) !! x]. 
+	^ CRT solve: results! !
+
+!Group methodsFor: 'private' stamp: 'len 6/22/2023 20:06:30'!
+pollardKangarooLog: β base: α between: lowerBound and: upperBound hashBlock: aBlock
+	"Pollard's Lambda (or Kangaroo) algorithm for discrete logarithm.
+	It runs in O(√n) time using O(log n) space, where n = upperBound - lowerBound.
+	See [Pol78, Section 3]."
+	| additive N table entry k r H c d mem |
+	self assert: upperBound >= lowerBound.
+	additive := self isAdditiveGroup.
+	N := (upperBound - lowerBound) sqrtFloor + 1.
+	table := Dictionary new. "this table grows with every iteration"
+	10 timesRepeat: "why 10?"
+		["Random walk setup:"
+		k := 0.
+		(N - 1) highBit timesRepeat:
+			[r := N atRandom.
+			table at: k put: r -> (additive ifTrue: [α * r] ifFalse: [α ^ r]).
+			k := k + 1].
+		self assert: 2^k >= N.
+		"First random walk:"
+		H := additive ifTrue: [α * upperBound] ifFalse: [α ^ upperBound].
+		c := upperBound.
+		1 to: N do: [:i|
+			entry := table at: (aBlock value: H) \\ k.
+			H := additive ifTrue: [H + entry value] ifFalse: [H * entry value].
+			c := c + entry key].
+		mem := Set with: H.
+		"Second random walk:"
+		H := β.
+		d := 0.
+		[c - d >= lowerBound] whileTrue:
+			[(upperBound >= (c - d) and: [mem includes: H]) ifTrue: [^ c - d].
+			entry := table at: (aBlock value: H) \\ k.
+			H := additive ifTrue: [H + entry value] ifFalse: [H * entry value].
+			d := d + entry key]].
+	^ nil! !
 
 !Group methodsFor: 'private' stamp: 'len 5/5/2019 17:57:19'!
 raise: anElement to: anInteger
@@ -13445,6 +13528,11 @@ initialize
 irreduciblePolynomialOfDegree: r mod: p
 	(p <= 255 and: [r <= 255]) ifFalse: [^ super irreduciblePolynomialOfDegree: r mod: p].
 	^ (PrimeField new: p) polynomials !! (ConwayPolynomials at: {p. r} asByteArray ifAbsent: [^ super irreduciblePolynomialOfDegree: r mod: p])! !
+
+!FunctionField methodsFor: 'accessing' stamp: 'len 6/23/2023 16:11:13'!
+constants
+	"Answer the constant field of the receiver."
+	^ self scalars scalars! !
 
 !FunctionField methodsFor: 'accessing' stamp: 'len 1/5/2017 19:50:45'!
 genus
@@ -20705,6 +20793,15 @@ arithmeticGenus
 	self isIrreducible ifFalse: [^ self notYetImplemented].
 	n _ self polynomial degree.
 	^ n - 1 * (n - 2) / 2! !
+
+!ProjectivePlaneCurve methodsFor: 'accessing' stamp: 'len 6/22/2023 17:15:54'!
+hasseWeilBounds
+	"Assuming the receiver is a nonsingular curve defined over a finite field K, answer the Hasse-Weil bounds for the number of K-rational points."
+	| q rq |
+	(self isSingular not and: [self scalars isFiniteField]) ifFalse: [^ self error: 'the Hasse-Weil bound is defined only for nonsingular curves over finite fields'].
+	q := self scalars size.
+	rq := (self genus squared * 4 * q) sqrtFloor.
+	^ q+1-rq to: q+1+rq! !
 
 !ProjectivePlaneCurve methodsFor: 'operations' stamp: 'len 8/12/2022 13:12:07'!
 flexes
@@ -28242,20 +28339,20 @@ printIndeterminate: anInteger on: aStream
 		ifNotNil: [:name| aStream nextPutAll: name displayStringOrText. ^ self].
 	aStream nextPutAll: 'x', anInteger printString sub! !
 
-!Monomial methodsFor: 'printing' stamp: 'len 5/6/2023 15:56:50'!
+!Monomial methodsFor: 'printing' stamp: 'len 6/22/2023 00:09:37'!
 printOn: aStream
 	self degree = 0 ifTrue: [aStream print: 1. ^ self].
-	self ordering indeterminates do: [:i| | r |
-		(r _ self at: i) = 0 ifFalse:
+	1 to: self parent rank do: [:i| | r |
+		(r := self at: i) = 0 ifFalse:
 			[self printIndeterminate: i on: aStream.
 			self printExponent: r on: aStream]]! !
 
-!Monomial methodsFor: 'printing' stamp: 'len 6/1/2023 14:07:03'!
+!Monomial methodsFor: 'printing' stamp: 'len 6/22/2023 00:09:49'!
 printOn: aStream shifted: anArray
 	| shiftedExponents |
 	shiftedExponents := exponents + anArray.
 	shiftedExponents sum = 0 ifTrue: [aStream print: 1. ^ self].
-	self ordering indeterminates do: [:i| | r |
+	1 to: self parent rank do: [:i| | r |
 		(r := shiftedExponents at: i) = 0 ifFalse:
 			[self printIndeterminate: i on: aStream.
 			self printExponent: r on: aStream]]! !
@@ -28957,6 +29054,14 @@ commutator: anElement
 !GroupElement methodsFor: 'operations' stamp: 'len 5/6/2019 02:49:53'!
 inverse
 	^ self subclassResponsibility! !
+
+!GroupElement methodsFor: 'operations' stamp: 'len 6/22/2023 19:43:09'!
+log
+	^ self parent logarithmOf: self! !
+
+!GroupElement methodsFor: 'operations' stamp: 'len 6/22/2023 19:43:20'!
+log: α
+	^ self parent logarithmOf: self base: α! !
 
 !GroupElement methodsFor: 'operations' stamp: 'len 12/6/2021 08:01:06'!
 reciprocal
@@ -29773,6 +29878,18 @@ lift: anElement
 	self parent isInvolutive ifTrue: [^ (self conjugate colift: anElement conjugate) conjugate].
 	self parent isFinite ifTrue: [^ self parent detect: [:x| self * x = anElement] ifNone: []].
 	^ self subclassResponsibility! !
+
+!RingElement methodsFor: 'operations' stamp: 'len 6/23/2023 14:43:15'!
+log
+	"If the receiver is a unit and the group of units is cyclic with a fixed generator (for example a distinguished primitive element), answer the logarithm of the receiver with base the generator."
+	self isUnit ifFalse: [^ self error: 'not a unit'].
+	^ self units logarithmOf: self! !
+
+!RingElement methodsFor: 'operations' stamp: 'len 6/23/2023 14:45:47'!
+log: anElement
+	"Answer the logarithm of the receiver with base anElement."
+	self isUnit ifFalse: [^ self error: 'not a unit'].
+	^ self units logarithmOf: self base: anElement! !
 
 !RingElement methodsFor: 'operations' stamp: 'len 10/16/2022 10:27:12'!
 minimalPolynomial
@@ -31258,19 +31375,6 @@ factorization
 gauge
 	"Answer the value of the Euclidean function at the receiver."
 	^ self isZero ifTrue: [0] ifFalse: [representative gcd: parent modulus]! !
-
-!ModularInteger methodsFor: 'operations' stamp: 'len 5/12/2023 21:10:50'!
-log: b
-	"Answer the discrete logarithm of the receiver in base b. This is, answer an integer k such that b^k equals the receiver. Note that this is the discrete logarithm problem in the group of units of Z/nZ, which is multiplicative, not in ℤ/nℤ as additive group."
-	| m g answer x |
-	representative = 0 ifTrue: [^ nil].
-	representative = 1 ifTrue: [^ 0].
-	m _ parent modulus.
-	g _ b representative.
-	answer _ 1.
-	x _ g.
-	[x = representative] whileFalse: [x = 0 ifTrue: [^ nil]. x _ x * g \\ m. answer _ answer + 1].
-	^ answer! !
 
 !ModularInteger methodsFor: 'operations' stamp: 'len 6/8/2019 12:06:49'!
 negated
@@ -37009,7 +37113,7 @@ new: n split: k
 values: anArray
 	^ self new values: anArray! !
 
-!BabystepGiantstep methodsFor: 'computing' stamp: 'len 6/4/2023 18:01:09'!
+!BabyStepGiantStep methodsFor: 'computing' stamp: 'len 6/4/2023 18:01:09'!
 logarithmOf: anElement
 	| m γ |
 	γ := anElement.
@@ -37021,7 +37125,7 @@ logarithmOf: anElement
 			[0 to: m do: [:i| table at: γ ifPresent: [:j| ^ i*m + j]. γ := γ * δ]].
 	^ nil! !
 
-!BabystepGiantstep methodsFor: 'private' stamp: 'len 6/4/2023 20:55:17'!
+!BabyStepGiantStep methodsFor: 'private' stamp: 'len 6/4/2023 20:55:17'!
 group: aGroup base: α order: n
 	| m x |
 	group := aGroup.
@@ -37036,15 +37140,15 @@ group: aGroup base: α order: n
 			[0 to: m - 1 do: [:j| table at: x put: j. x := x * α].
 			δ := α ^ m negated]! !
 
-!BabystepGiantstep class methodsFor: 'instance creation' stamp: 'len 6/4/2023 20:56:37'!
+!BabyStepGiantStep class methodsFor: 'instance creation' stamp: 'len 6/4/2023 20:56:37'!
 on: aGroup
 	^ self new group: aGroup base: aGroup generator order: aGroup size! !
 
-!BabystepGiantstep class methodsFor: 'instance creation' stamp: 'len 6/4/2023 20:56:12'!
+!BabyStepGiantStep class methodsFor: 'instance creation' stamp: 'len 6/4/2023 20:56:12'!
 on: aGroup base: anElement
 	^ self new group: aGroup base: anElement order: (aGroup orderOf: anElement)! !
 
-!BabystepGiantstep class methodsFor: 'instance creation' stamp: 'len 6/4/2023 20:55:52'!
+!BabyStepGiantStep class methodsFor: 'instance creation' stamp: 'len 6/4/2023 20:55:52'!
 on: aGroup base: anElement order: anInteger
 	^ self new group: aGroup base: anElement order: anInteger! !
 
