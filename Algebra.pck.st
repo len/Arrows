@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5875] on 23 June 2023 at 4:36:48 pm'!
+'From Cuis 6.0 [latest update: #5875] on 23 June 2023 at 10:51:01 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -78,7 +78,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 118!
+!provides: 'Algebra' 1 119!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -7838,20 +7838,90 @@ index
 indexOf: aSubgroup
 	^ (self / aSubgroup) size! !
 
-!Group methodsFor: 'operations' stamp: 'len 6/23/2023 01:31:24'!
+!Group methodsFor: 'operations' stamp: 'len 6/23/2023 17:22:29'!
 logarithmOf: anElement
 	"Assuming the receiver is a cyclic group with a fixed generator α, answer the discrete logarithm of anElement with base α,
 	that is i such that αⁱ = anElement (or α*i = anElement in additive notation)."
-	^ self logarithmOf: anElement base: self generator between: 1 and: self size! !
+	^ self logarithmOf: anElement base: self generator! !
 
-!Group methodsFor: 'operations' stamp: 'len 6/22/2023 19:54:52'!
+!Group methodsFor: 'operations' stamp: 'len 6/23/2023 17:24:52'!
 logarithmOf: anElement base: α
 	"Answer the discrete logarithm of anElement with base α, that is i such that αⁱ = anElement (or α*i = anElement in additive notation)."
-	^ self logarithmOf: anElement base: α between: 1 and: α order! !
+	^ self logarithmOf: anElement base: α order: (self orderOf: α)! !
 
-!Group methodsFor: 'operations' stamp: 'len 6/22/2023 19:54:11'!
-logarithmOf: anElement base: α between: lowerBound and: upperBound
-	^ self pollardKangarooLog: anElement base: α between: lowerBound and: upperBound hashBlock: [:x| x hash]! !
+!Group methodsFor: 'operations' stamp: 'len 6/23/2023 17:15:36'!
+logarithmOf: β base: α between: lowerBound and: upperBound
+	"Answer the logarithm of β with base α, given lower and upper bounds for the logarithm.
+	Use Pollard's Lambda (or Kangaroo) algorithm for discrete logarithm.
+	It runs in O(√n) time using O(log n) space, where n = upperBound - lowerBound.
+	See [Pol78, Section 3]."
+	| additive N table entry k r H c d mem |
+	self assert: upperBound >= lowerBound.
+	additive := self isAdditiveGroup.
+	N := (upperBound - lowerBound) sqrtFloor + 1.
+	table := Dictionary new. "this table grows with every iteration"
+	10 timesRepeat: "why 10?"
+		["Random walk setup:"
+		k := 0.
+		(N - 1) highBit timesRepeat:
+			[r := N atRandom.
+			table at: k put: r -> (additive ifTrue: [α * r] ifFalse: [α ^ r]).
+			k := k + 1].
+		self assert: 2^k >= N.
+		"First random walk:"
+		H := additive ifTrue: [α * upperBound] ifFalse: [α ^ upperBound].
+		c := upperBound.
+		1 to: N do: [:i|
+			entry := table at: H hash \\ k.
+			H := additive ifTrue: [H + entry value] ifFalse: [H * entry value].
+			c := c + entry key].
+		mem := Set with: H.
+		"Second random walk:"
+		H := β.
+		d := 0.
+		[c - d >= lowerBound] whileTrue:
+			[(upperBound >= (c - d) and: [mem includes: H]) ifTrue: [^ c - d].
+			entry := table at: H hash  \\ k.
+			H := additive ifTrue: [H + entry value] ifFalse: [H * entry value].
+			d := d + entry key]].
+	^ nil! !
+
+!Group methodsFor: 'operations' stamp: 'len 6/23/2023 17:26:09'!
+logarithmOf: β base: α order: n
+	self flag: #fixme. "we can improve this: if we know a factorization of the group order, it's easy to find a factorization of n"
+	^ self logarithmOf: β base: α order: n factorization: n factorization! !
+
+!Group methodsFor: 'operations' stamp: 'len 6/23/2023 17:56:37'!
+logarithmOf: β base: α order: n factorization: factors
+	"Answer the logarithm of β with base α, given the order of α and its factorization.
+	Use Pohlig-Hellman algorithm for discrete logarithm.
+	The algorithm has worst time complexity O(√n) but it's more efficient if the order is smooth
+	(approximately O(√p) where p is the biggest prime factor of n).
+	See [PH78]."
+	| additive results |
+	additive := self isAdditiveGroup.
+	results := OrderedCollection new.
+	factors withOccurrencesDo: [:pᵢ :eᵢ|
+		| m αᵢ βᵢ γ bsgs x |
+		m := n / (pᵢ^eᵢ).
+		"By Lagrange's theorem αᵢ has order pᵢ ^ eᵢ, and by construction βᵢ ∈ ⟨αᵢ⟩:"
+		additive ifTrue: [αᵢ := α * m. βᵢ := β * m] ifFalse: [αᵢ := α ^ m. βᵢ := β ^ m].
+		"Now compute 0 ≤ xᵢ ≤ pᵢ^eᵢ - 1 such that αᵢ ^ xᵢ = βᵢ:"
+		x := 0.
+		"By Lagrange's theorem γ has order pᵢ:"
+		γ := additive ifTrue: [αᵢ * (pᵢ^(eᵢ - 1))] ifFalse: [αᵢ ^ (pᵢ^(eᵢ - 1))].
+		bsgs := BabyStepGiantStep on: self base: γ order: pᵢ.
+		0 to: eᵢ - 1 do: [:k|
+			| hₖ dₖ |
+			"By construction the order of hₖ must divide pᵢ, hence hₖ ∈ ⟨γ⟩:"
+			additive
+				ifTrue: [hₖ := βᵢ + (αᵢ * x negated) * (pᵢ ^ (eᵢ - 1 - k))]
+				ifFalse: [hₖ := βᵢ * (αᵢ ^ x negated) ^ (pᵢ ^ (eᵢ - 1 - k))].
+			dₖ := bsgs logarithmOf: hₖ. "this takes time O(√p)"
+			x := x + (pᵢ^k * dₖ)].
+		results add: ℤ/(pᵢ^eᵢ) !! x].
+	results isEmpty ifTrue: [^ 1].
+	^ CRT solve: results! !
 
 !Group methodsFor: 'operations' stamp: 'len 6/18/2023 23:17:40'!
 normalClosureOf: aSubset
@@ -8121,70 +8191,6 @@ computeGenerators
 						ifFalse: [generators do: [:y| elements add: x · y]]].
 				previous size = elements size] whileFalse]].
 	^ generators! !
-
-!Group methodsFor: 'private' stamp: 'len 6/23/2023 14:50:15'!
-pohligHellmanLog: β base: α order: n factorization: factors
-	"Pohlig-Hellman algorithm for discrete logarithm.
-	See [PH78]."
-	| additive results |
-	additive := self isAdditiveGroup.
-	results := OrderedCollection new.
-	factors withOccurrencesDo: [:pᵢ :eᵢ|
-		| m αᵢ βᵢ γ bsgs x |
-		m := n / (pᵢ^eᵢ).
-		"By Lagrange's theorem αᵢ has order pᵢ ^ eᵢ, and by construction βᵢ ∈ ⟨αᵢ⟩:"
-		additive ifTrue: [αᵢ := α * m. βᵢ := β * m] ifFalse: [αᵢ := α ^ m. βᵢ := β ^ m].
-		"Now compute 0 ≤ xᵢ ≤ pᵢ^eᵢ - 1 such that αᵢ ^ xᵢ = βᵢ:"
-		x := 0.
-		"By Lagrange's theorem γ has order pᵢ:"
-		γ := additive ifTrue: [αᵢ * (pᵢ^(eᵢ - 1))] ifFalse: [αᵢ ^ (pᵢ^(eᵢ - 1))].
-		bsgs := BabyStepGiantStep on: self base: γ order: pᵢ.
-		0 to: eᵢ - 1 do: [:k|
-			| hₖ dₖ |
-			"By construction the order of hₖ must divide pᵢ, hence hₖ ∈ ⟨γ⟩:"
-			additive
-				ifTrue: [hₖ := βᵢ + (αᵢ * x negated) * (pᵢ ^ (eᵢ - 1 - k))]
-				ifFalse: [hₖ := βᵢ * (αᵢ ^ x negated) ^ (pᵢ ^ (eᵢ - 1 - k))].
-			dₖ := bsgs logarithmOf: hₖ. "this takes time O(√p)"
-			x := x + (pᵢ^k * dₖ)].
-		results add: ℤ/(pᵢ^eᵢ) !! x]. 
-	^ CRT solve: results! !
-
-!Group methodsFor: 'private' stamp: 'len 6/22/2023 20:06:30'!
-pollardKangarooLog: β base: α between: lowerBound and: upperBound hashBlock: aBlock
-	"Pollard's Lambda (or Kangaroo) algorithm for discrete logarithm.
-	It runs in O(√n) time using O(log n) space, where n = upperBound - lowerBound.
-	See [Pol78, Section 3]."
-	| additive N table entry k r H c d mem |
-	self assert: upperBound >= lowerBound.
-	additive := self isAdditiveGroup.
-	N := (upperBound - lowerBound) sqrtFloor + 1.
-	table := Dictionary new. "this table grows with every iteration"
-	10 timesRepeat: "why 10?"
-		["Random walk setup:"
-		k := 0.
-		(N - 1) highBit timesRepeat:
-			[r := N atRandom.
-			table at: k put: r -> (additive ifTrue: [α * r] ifFalse: [α ^ r]).
-			k := k + 1].
-		self assert: 2^k >= N.
-		"First random walk:"
-		H := additive ifTrue: [α * upperBound] ifFalse: [α ^ upperBound].
-		c := upperBound.
-		1 to: N do: [:i|
-			entry := table at: (aBlock value: H) \\ k.
-			H := additive ifTrue: [H + entry value] ifFalse: [H * entry value].
-			c := c + entry key].
-		mem := Set with: H.
-		"Second random walk:"
-		H := β.
-		d := 0.
-		[c - d >= lowerBound] whileTrue:
-			[(upperBound >= (c - d) and: [mem includes: H]) ifTrue: [^ c - d].
-			entry := table at: (aBlock value: H) \\ k.
-			H := additive ifTrue: [H + entry value] ifFalse: [H * entry value].
-			d := d + entry key]].
-	^ nil! !
 
 !Group methodsFor: 'private' stamp: 'len 5/5/2019 17:57:19'!
 raise: anElement to: anInteger
@@ -12800,21 +12806,32 @@ to: aRing images: aList
 to: aRing map: aBlock
 	^ self to: aRing images: (self generators collect: aBlock)! !
 
-!AffineRing methodsFor: 'operations' stamp: 'len 5/8/2023 19:39:04'!
+!AffineRing methodsFor: 'operations' stamp: 'len 6/23/2023 22:13:53'!
 ⊗ aRing
 	"Answer the tensor product of the receiver with the argument.
 	This is the coproduct in the category of commutative R-algebras."
-	| R relations answer i1 i2 |
-	(aRing isKindOf: AffineRing) ifFalse: [^ super ⊗ aRing].
-	R _ self cover ⊗ aRing cover.
-	relations _ OrderedCollection new.
-	self relations generators do: [:f| relations add: R !! f].
-	aRing relations generators do: [:g| relations add: (R !! g substitute: [:i| i + self cover rank])].
-	answer _ R / relations.
-	i1 _ self into: answer images: (answer generators first: self rank).
-	i2 _ aRing into: answer images: (answer generators last: aRing rank).
-	answer addCoprojections: {i1. i2}.
-	answer addCoercionFrom: self, aRing mapWithArguments: [:f :g| (i1 value: f) * (i2 value: g)].
+	| R relations answer ι₁ ι₂ |
+	aRing isAffineAlgebra ifFalse:
+		[self scalars → aRing ifNotNil: [^ self over: aRing].
+		^ super ⊗ aRing].
+	aRing scalars = self scalars ifFalse:
+		[self scalars → aRing scalars ifNotNil: [^ (self over: aRing scalars) ⊗ aRing].
+		aRing scalars → self scalars ifNotNil: [^ self ⊗ (aRing over: self scalars)].
+		^ super ⊗ aRing].
+	relations := OrderedCollection new.
+	(aRing isKindOf: PolynomialRing)
+		ifTrue:
+			[R := self cover ⊗ aRing.
+			self relations generators do: [:f| relations add: R !! f]]
+		ifFalse:
+			[R := self cover ⊗ aRing cover.
+			self relations generators do: [:f| relations add: R !! f].
+			aRing relations generators do: [:g| relations add: (R !! g substitute: [:i| i + self cover rank])]].
+	answer := R / relations.
+	ι₁ := self into: answer images: (answer generators first: self rank).
+	ι₂ := aRing into: answer images: (answer generators last: aRing rank).
+	answer addCoprojections: {ι₁. ι₂}.
+	answer addCoercionFrom: self, aRing mapWithArguments: [:f :g| (ι₁ value: f) * (ι₂ value: g)].
 	^ answer! !
 
 !AffineRing methodsFor: 'operations' stamp: 'len 5/16/2023 22:15:26'!
@@ -15153,24 +15170,27 @@ to: aRing map: aBlock
 >> anInteger
 	^ self << anInteger negated! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 5/8/2023 19:39:58'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 6/23/2023 22:24:31'!
 ⊗ aRing
 	"Answer the tensor product (over the scalars of the receiver) of the receiver with the argument.
 	This is the coproduct in the category of commutative R-algebras."
-	| answer i1 i2 |
+	| R answer ι₁ ι₂ |
 	aRing = self scalars ifTrue: [^ self].
-	(aRing isKindOf: PolynomialRing) ifFalse:
+	aRing isAffineAlgebra ifFalse:
 		[self scalars → aRing ifNotNil: [^ self over: aRing].
 		^ super ⊗ aRing].
 	aRing scalars = self scalars ifFalse:
 		[self scalars → aRing scalars ifNotNil: [^ (self over: aRing scalars) ⊗ aRing].
 		aRing scalars → self scalars ifNotNil: [^ self ⊗ (aRing over: self scalars)].
 		^ super ⊗ aRing].
-	answer _ self class monomials: self monomials × aRing monomials over: self scalars.
-	i1 _ self into: answer images: (answer generators first: self rank).
-	i2 _ aRing into: answer images: (answer generators last: aRing rank).
-	answer addCoprojections: {i1. i2}.
-	answer addCoercionFrom: self, aRing mapWithArguments: [:f :g| (i1 value: f) * (i2 value: g)].
+	R := self class monomials: self monomials × aRing monomials over: self scalars.
+	answer := (aRing isKindOf: PolynomialRing)
+		ifTrue: [R]
+		ifFalse: [R / (aRing relations generators collect: [:f| R !! f substitute: [:i| i + self rank]])].
+	ι₁ := self into: answer images: (answer generators first: self rank).
+	ι₂ := aRing into: answer images: (answer generators last: aRing rank).
+	answer addCoprojections: {ι₁. ι₂}.
+	answer addCoercionFrom: self, aRing mapWithArguments: [:f :g| (ι₁ value: f) * (ι₂ value: g)].
 	^ answer! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 5/9/2023 17:31:06'!
@@ -19922,9 +19942,9 @@ fromAll: anArray
 		[(self coordinateRing ⇉ (anArray collect: [:each| each coordinateRing])) ifNotNil: [:anArrayOfMorphisms| ^ anArrayOfMorphisms collect: [:each| each spec]]].
 	^ super fromAll: anArray! !
 
-!AffineScheme methodsFor: 'morphisms' stamp: 'len 6/19/2023 12:43:28'!
+!AffineScheme methodsFor: 'morphisms' stamp: 'len 6/23/2023 19:53:13'!
 hom: aCodomain
-	aCodomain scalars = self coordinateRing ifTrue: [^ aCodomain pointsOver: self coordinateRing].
+	aCodomain scalars → self coordinateRing ifNotNil: [^ aCodomain pointsOver: self coordinateRing].
 	^ super hom: aCodomain! !
 
 !AffineScheme methodsFor: 'morphisms' stamp: 'len 7/30/2022 12:12:09'!
@@ -19946,6 +19966,12 @@ toAll: anArray
 	(anArray allSatisfy: [:each| each isKindOf: AffineScheme]) ifTrue:
 		[self coordinateRing ⇇ (anArray collect: [:each| each coordinateRing]) ifNotNil: [:anArrayOfMorphisms| ^ anArrayOfMorphisms collect: [:each| each spec]]].
 	^ super toAll: anArray! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 6/23/2023 20:05:54'!
+× anAffineScheme
+	"Answer the fiber product of the receiver and the argument."
+	(anAffineScheme isKindOf: AffineScheme) ifFalse: [self notYetImplemented].
+	^ (self coordinateRing ⊗ anAffineScheme coordinateRing) spec! !
 
 !AffineScheme methodsFor: 'operations' stamp: 'len 12/15/2021 11:57:37'!
 decomposition
@@ -20113,13 +20139,6 @@ to: aCodomain representatives: anArrayOfRationalFunctions
 	self ambient = aScheme ambient ifFalse: [^ DomainError signal: 'ambients don''t match'].
 	^ self ambient subscheme: (self asIdeal saturation: aScheme asIdeal)! !
 
-!AffineVariety methodsFor: 'operations' stamp: 'len 7/25/2022 11:32:48'!
-× anAffineVariety
-	"Answer the cartesian product of the receiver and the argument."
-	self scalars = anAffineVariety scalars ifFalse: [^ DomainError signal: 'scalars don''t match'].
-	(anAffineVariety isKindOf: AffineVariety) ifFalse: [self notYetImplemented].
-	^ (self coordinateRing ⊗ anAffineVariety coordinateRing) spec! !
-
 !AffineVariety methodsFor: 'operations' stamp: 'len 1/13/2022 10:30:44'!
 multiplicityAt: aTuple
 	"Answer the multiplicity at the given point."
@@ -20221,14 +20240,14 @@ satisfies: aTuple
 species
 	^ AffineVariety! !
 
-!AffineVariety class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
+!AffineVariety class methodsFor: 'examples' stamp: 'len 6/23/2023 19:52:24'!
 circle
-	"The unit circle in the rational affine plane:"
+	"The unit circle in the affine plane:"
 	| R x y I |
-	R _ ℚ polynomialsIn: #(x y).
-	x _ R x.
-	y _ R y.
-	I _ R * (x^2 + (y^2) - 1).
+	R := ℤ polynomialsIn: #(x y).
+	x := R x.
+	y := R y.
+	I := R * (x^2 + (y^2) - 1).
 	^ (R / I) spec! !
 
 !AffineVariety class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
@@ -20248,14 +20267,14 @@ clebschCubic
 			+ 1.
 	^ A subscheme: f! !
 
-!AffineVariety class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
+!AffineVariety class methodsFor: 'examples' stamp: 'len 6/23/2023 19:52:38'!
 romanSurface
 	"The Roman surface or Steiner surface.
 	This is a self-intersecting mapping of the real projective plane into affine 3-space.
 	It was discovered by Jakob Steiner when he was in Rome in 1844."
 	| A r |
-	A _ AffineSpace new: #(x y z) over: ℚ.
-	r _ 1.
+	A := AffineSpace new: #(x y z) over: ℤ.
+	r := 1.
 	^ A subscheme: A coordinateRing !! [:x :y :z| x*y^2 + (y*z^2) + (z*x^2) - (x*y*z*r squared)]! !
 
 !AffineVariety class methodsFor: 'examples' stamp: 'len 12/9/2022 21:29:14'!
@@ -29879,17 +29898,17 @@ lift: anElement
 	self parent isFinite ifTrue: [^ self parent detect: [:x| self * x = anElement] ifNone: []].
 	^ self subclassResponsibility! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 6/23/2023 14:43:15'!
+!RingElement methodsFor: 'operations' stamp: 'len 6/23/2023 17:51:51'!
 log
 	"If the receiver is a unit and the group of units is cyclic with a fixed generator (for example a distinguished primitive element), answer the logarithm of the receiver with base the generator."
 	self isUnit ifFalse: [^ self error: 'not a unit'].
-	^ self units logarithmOf: self! !
+	^ self parent units logarithmOf: self! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 6/23/2023 14:45:47'!
+!RingElement methodsFor: 'operations' stamp: 'len 6/23/2023 17:51:44'!
 log: anElement
 	"Answer the logarithm of the receiver with base anElement."
 	self isUnit ifFalse: [^ self error: 'not a unit'].
-	^ self units logarithmOf: self base: anElement! !
+	^ self parent units logarithmOf: self base: anElement! !
 
 !RingElement methodsFor: 'operations' stamp: 'len 10/16/2022 10:27:12'!
 minimalPolynomial
@@ -37226,19 +37245,19 @@ moduli: anArray
 moduli: anArray
 	^ self new moduli: anArray! !
 
-!CRT class methodsFor: 'instance creation' stamp: 'len 5/9/2020 13:55:54'!
+!CRT class methodsFor: 'instance creation' stamp: 'len 6/23/2023 17:54:50'!
 solve: aCollection
 	| x m |
-	x _ aCollection first.
-	m _ x modulus.
+	x := aCollection first.
+	m := x modulus.
 	aCollection allButFirstDo: [:each| | xi mi euclid |
-		xi _ each.
-		mi _ xi modulus.
-		euclid _ m xgcd: mi.
-		x _ (euclid at: 2) * m * xi representative + ((euclid at: 3) * mi * x representative).
-		m _ m*mi.
-		x _ x % m].
-	^ x! !
+		xi := each.
+		mi := xi modulus.
+		euclid := m xgcd: mi.
+		x := (euclid at: 2) * m * xi representative + ((euclid at: 3) * mi * x representative).
+		m := m*mi.
+		x := x % m].
+	^ x lift! !
 
 !Division methodsFor: 'printing' stamp: 'len 5/29/2023 14:06:56'!
 printOn: aStream
@@ -39041,21 +39060,26 @@ factorization
 	self factorizationDo: [:p :e| answer add: p withOccurrences: e].
 	^ answer! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 6/2/2023 17:21:13'!
+!Integer methodsFor: '*algebra' stamp: 'len 6/23/2023 17:46:45'!
 factorizationDo: aBlock
-	| n times |
+	| n times p max |
 	self = 0 ifTrue: [self error: 'factorization of zero'].
 	n := self abs.
 	n <= 1 ifTrue: [^ self].
 	n even ifTrue:
 		[aBlock value: 2 value: (times := n lowBit - 1).
 		n := n bitShift: times negated].
-	Integer primesUpTo: n sqrtFloor + 1 do: [:p| "tests again 2, but who cares"
-		n == 1 ifTrue: [^ self].
-		times := 0.
-		[n \\ p == 0] whileTrue: [times := times + 1. n := n // p].
-		times > 0 ifTrue: [aBlock value: p value: times]].
-	n == 1 ifFalse: [aBlock value: n value: 1]! !
+	max := n sqrtFloor + 1.
+	p := 2.
+	self flag: #fixme.
+	[(p := p nextPrime) < max] whileTrue:
+		[n \\ p = 0 ifTrue:
+			[times := 1.
+			n := n // p.
+			[n \\ p = 0] whileTrue: [times := times + 1. n := n // p]. "this is slow, should call >>valuation: instead of dividing by p linearly"
+			aBlock value: p value: times.
+			max := n sqrtFloor + 1]].
+	n = 1 ifFalse: [aBlock value: n value: 1]! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 11/19/2016 21:03:03'!
 height
@@ -39476,7 +39500,41 @@ valuation
 	"Answer the Euclidean function at the receiver."
 	^ self abs! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 6/16/2023 18:30:51'!
+!Integer methodsFor: '*algebra' stamp: 'len 6/23/2023 22:38:56'!
+valuation2: p
+	"Answer the p-adic valuation of the receiver.
+	This is the exponent of the highest power of p that divides the receiver."
+	"NOTE: this implementation is faster when p appears as factor to a high power, but otherwise slower."
+	| answer q powers x |
+	self = 0 ifTrue: [^ Infinity positive].
+	p = 2 ifTrue: [^ self lowBit - 1].
+	q := self abs.
+	powers := OrderedCollection new.
+	x := p.
+	[q \\ x = 0] whileTrue: [powers add: x. x := x squared].
+	powers isEmpty ifTrue: [^ 0].
+	answer := 0.
+	powers size to: 1 by: -1 do: [:k|
+		x := powers at: k.
+		q \\ x = 0 ifTrue: [answer := answer + (1 << (k-1)). q := q // x]].
+	^ answer! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 6/23/2023 22:46:44'!
+valuation3: p
+	"Answer the p-adic valuation of the receiver.
+	This is the exponent of the highest power of p that divides the receiver."
+	| answer q k x |
+	self = 0 ifTrue: [^ Infinity positive].
+	p = 2 ifTrue: [^ self lowBit - 1].
+	q := self abs.
+	answer := 0.
+	x := p.
+	k := 1.
+	[q \\ x = 0] whileTrue: [answer := answer + k. q := q // x. x := x squared. k := k * 2].
+	answer = 0 ifFalse: [answer := answer + (q valuation3: p)].
+	^ answer! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 6/23/2023 22:40:25'!
 valuation: p
 	"Answer the p-adic valuation of the receiver.
 	This is the exponent of the highest power of p that divides the receiver."
@@ -39485,7 +39543,8 @@ valuation: p
 	p = 2 ifTrue: [^ self lowBit - 1].
 	q := self abs.
 	answer := 0.
-	[p | q] whileTrue: [answer := answer + 1. q := q // p].
+	self flag: #fixme. "this is slow, should divide by powers of p"
+	[q \\ p = 0] whileTrue: [answer := answer + 1. q := q // p].
 	^ answer! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 6/9/2023 09:59:10'!

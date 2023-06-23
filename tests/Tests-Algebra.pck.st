@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5875] on 23 June 2023 at 4:37:01 pm'!
+'From Cuis 6.0 [latest update: #5875] on 23 June 2023 at 10:51:11 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 76!
+!provides: 'Tests-Algebra' 1 77!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -2939,16 +2939,23 @@ testAffinePlaneCurveMultiplicity
 	self assert: (C multiplicityAt: (1,1)) = 1.
 	self assert: (C multiplicityAt: (0,0)) = 2! !
 
-!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 10/5/2022 16:56:28'!
-testAffineSchemeCartesianProduct
-	| X1 X2 P |
-	X1 _ AffineVariety circle.
-	X2 _ AffineVariety romanSurface.
-	P _ X1 × X2.
-	self assert: (P ambient ⇉ (X1 ambient, X2 ambient) collect: [:each| P apply: each]) = {X1. X2}.
-	self assert: X1 dimension + X2 dimension = P dimension.
-	self assert: X1 ambient dimension + X2 ambient dimension = P ambient dimension.
-	self assert: (X1 pointsCountOver: ℤ/3) * (X2 pointsCountOver: ℤ/3) = (P pointsCountOver: ℤ/3).
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 6/23/2023 20:05:01'!
+testAffineSchemeCartesianProduct1
+	| X₁ X₂ P |
+	X₁ := AffineVariety circle × ℚ spec.
+	X₂ := AffineVariety romanSurface × ℚ spec.
+	P := X₁ × X₂.
+	self assert: (P ambient ⇉ (X₁ ambient, X₂ ambient) collect: [:each| P apply: each]) = {X₁. X₂}.
+	self assert: X₁ dimension + X₂ dimension = P dimension.
+	self assert: X₁ ambient dimension + X₂ ambient dimension = P ambient dimension! !
+
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 6/23/2023 20:05:22'!
+testAffineSchemeCartesianProduct2
+	| X₁ X₂ P |
+	X₁ := AffineVariety circle.
+	X₂ := AffineVariety romanSurface.
+	P := X₁ × X₂.
+	self assert: (𝔽₃ spec ⇒ X₁) size * (𝔽₃ spec ⇒ X₂) size = (𝔽₃ spec ⇒ P) size.
 	self assert: (P satisfies: (5,2,6,2,6) % 7)! !
 
 !AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 5/23/2020 09:33:01'!
@@ -2964,11 +2971,11 @@ testAffineSchemeCreation
 	"Y is defined as subscheme of X, so it contains the equations of X plus the two new equations, but its ambient space is still A (not X):"
 	self assert: Y ambient = A! !
 
-!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 10/18/2016 20:58'!
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 6/23/2023 20:07:34'!
 testAffineSpace
 	| K A |
-	K _ PrimeField new: 23.
-	A _ AffineSpace new: 3 over: K.
+	K := ℤ/23.
+	A := AffineSpace new: 3 over: K.
 	self assert: A dimension = 3.
 	self assert: A scalars = K.
 	self assert: A coordinateRing = (K polynomialsIn: 3).
@@ -3007,14 +3014,14 @@ testConicCoefficients
 	self assert: (Conic coefficients: (1,2,3,4,5,6)) coefficients = (1,2,3,4,5,6).
 	self assert: (Conic polynomial: (ℚ polynomialsIn: 3) !! [:x :y :z| x^2 + (x*y*5) + (y^2) + (z^2)]) coefficients = (ℚ !!!! (1,5,0,1,0,1))! !
 
-!AlgebraicGeometryTest methodsFor: 'conics' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'conics' stamp: 'len 6/23/2023 20:08:39'!
 testConicDeterminant
-	self assert: (Conic coefficients: ((1,2,3,4,5,6) over: ℚ)) determinant = (41/4)! !
+	self assert: (Conic coefficients: ℚ !!!! #(1 2 3 4 5 6)) determinant = (41/4)! !
 
-!AlgebraicGeometryTest methodsFor: 'conics' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'conics' stamp: 'len 6/23/2023 20:09:15'!
 testConicIsSmooth
-	self assert: (Conic coefficients: ((1,-1,0) over: ℚ)) isSmooth not.
-	self assert: (Conic coefficients: (1,1,1,1,1,0) % 2) isSmooth! !
+	self assert: (Conic coefficients: ℚ !!!! #(1 -1 0)) isSmooth not.
+	self assert: (Conic coefficients: 𝔽₂ !!!! #(1 1 1 1 1 0)) isSmooth! !
 
 !AlgebraicGeometryTest methodsFor: 'finite rings' stamp: 'len 5/23/2020 08:56:16'!
 testProjectiveLineOverFiniteRing
@@ -3098,15 +3105,15 @@ testEmpty
 	X _ A / {A continuantOfOrder: 2. A continuantOfOrder: 3} :: spec.
 	self assert: X isEmpty! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/23/2020 09:33:01'!
-testEqualVarietiesDifferentIdeals
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/23/2023 20:10:07'!
+testEqualVarietiesDifferentIdeals1
 	| A x I I2 V V2 |
-	A _ ℚ polynomials.
-	x _ A x.
-	I _ A * {x}.
-	I2 _ A * {x^2}.
-	V _ I variety.
-	V2 _ I2 variety.
+	A := ℚ polynomials.
+	x := A x.
+	I := A * {x}.
+	I2 := A * {x^2}.
+	V := I variety.
+	V2 := I2 variety.
 	self assert: V = V2.
 	self assert: I ~= I2! !
 
@@ -3186,14 +3193,14 @@ testMorphismsOfProjectiveVarieties
 	self assert: Z isCurve.
 	self assert: Z degree = 6! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/31/2020 20:38:36'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/23/2023 20:12:14'!
 testMultiplicity
 	"Example from Sage documentation."
 	| A X q1 q2 |
-	A _ AffineSpace new: 4 over: ℚ.
-	X _ A subscheme: (A coordinateRing !! [:x :y :z :w| {z*y - (x^7). w - (2*z)}]).
-	q1 _ X !! (ℚ^4 !! {1. (1/3). 3. 6}).
-	q2 _ X !! (ℚ^4) zero.
+	A := AffineSpace new: 4 over: ℚ.
+	X := A subscheme: (A coordinateRing !! [:x :y :z :w| {z*y - (x^7). w - (2*z)}]).
+	q1 := ℚ spec ⇒ X !! {1. (1/3). 3. 6}.
+	q2 := ℚ spec ⇒ X !! #(0 0 0 0).
 	self assert: q1 multiplicity = 1.
 	self assert: q2 multiplicity = 2! !
 
@@ -6225,6 +6232,14 @@ testElementOrderExample2
 	w := z^50.
 	n := K units orderOf: w multiple: 230.
 	self assert: n = 23! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/23/2023 17:08:56'!
+testElementOrderExample3
+	| K a n |
+	K := GaloisField new: 3 to: 60.
+	a := K primitiveElement.
+	n := K units orderOf: a multiple: 3^60 - 1.
+	self assert: n = 42391158275216203514294433200! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:13:01'!
 testGroup: G
