@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5875] on 23 June 2023 at 10:51:11 pm'!
+'From Cuis 6.0 [latest update: #5878] on 24 June 2023 at 7:54:04 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 77!
+!provides: 'Tests-Algebra' 1 78!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -4725,18 +4725,6 @@ testAlgebraicExtension
 	b _ a^2 + (E embed: 3).
 	self assert: b minimalPolynomial = (x^2 - (x*6) + 7)! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 05:48'!
-testBitCount
-	| v |
-	v _ 1 << 3000 :: atRandom.
-	self assert: (v printStringBase: 2 :: count: [:x| x = $1]) = v bitCount! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 05:48'!
-testBitParity
-	| v |
-	v _ 1 << 3000 :: atRandom.
-	self assert: ((v printStringBase: 2 :: count: [:x| x = $1]) bitAnd: 1) = v bitParity! !
-
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 4/14/2021 05:58:20'!
 testCRT
 	| crt |
@@ -4865,39 +4853,6 @@ testFunctionComposition3
 	g _ ℤ carrier to: ℤ carrier map: [:x| x + 1].
 	self should: [g · f] raise: DomainError! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2016 20:01:51'!
-testFundamentalDiscriminant
-	self assert: ((1 to: 33) select: [:each| each isFundamentalDiscriminant]) =  #(1 5 8 12 13 17 21 24 28 29 33).
-	self assert: ((0 to: -31 by: -1) select: [:each| each isFundamentalDiscriminant]) = #(-3 -4 -7 -8 -11 -15 -19 -20 -23 -24 -31) 
-! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/13/2015 02:02'!
-testIntegerDivisors
-	self assert: 12 numberOfDivisors = 6.
-	self assert: 12 divisors size = 6! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:34:55'!
-testIntegerIdealsPrimePrimarySemiprime
-	self assert: (ℤ*5) isPrime.
-	self assert: (ℤ*6) isPrime not.
-	self assert: (ℤ*25) isPrimary.
-	self assert: (ℤ*30) isPrimary not.
-	self assert: (ℤ*30) isSemiprime.
-	self assert: (ℤ*12) isSemiprime not! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/5/2021 08:40:22'!
-testIntegerSplit
-	"Split algorithm from 'Fast Algorithms for Linear Algebra Modulo N', Arne Storjohann, Thom Mulders."
-	| D a M |
-	10000 timesRepeat:
-		[D _ 100 atRandom.
-		a _ D atRandom - 1.
-		M _ a split: D.
-		self assert: M > 0.
-		self assert: M | D.
-		M factorization asSet do: [:p| self deny: p | a].
-		(D / M) factorization asSet do: [:p| self assert: p | a]]! !
-
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:34:55'!
 testIteratorCovering
 	| F |
@@ -4919,36 +4874,6 @@ testIteratorCovering3
 	self assert: ((F^4) upTo: 3^4) asSet size = (3^4).
 	self assert: ((F^4) upTo: 3^4+100) asSet size = (3^4)! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/26/2016 23:11:25'!
-testJacobiAndLegendreSymbols
-	| a p |
-	10 timesRepeat:
-		[p _ (1000 atRandom + 2) nextPrime. "an odd prime"
-		a _ 1000 atRandom - 1.
-		self assert: (a legendre: p) = (a jacobi: p)]! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2016 08:34:47'!
-testKroneckerAndLegendreSymbols
-	| a p |
-	10 timesRepeat:
-		[p _ (1000 atRandom + 2) nextPrime. "an odd prime"
-		a _ 1000 atRandom - 1.
-		self assert: (a legendre: p) = (a kronecker: p)]! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2016 08:51:30'!
-testKroneckerSymbol
-	| a b c |
-	a _ (-100 to: 100) atRandom.
-	b _ (-100 to: 100) atRandom.
-	self assert: ((a kronecker: b) = 0) = ((a gcd: b) ~= 1).
-	c _ (-100 to: 100) atRandom.
-	self assert: (a*b kronecker: c) = ((a kronecker: c) * (b kronecker: c)).
-	b*c = 0 ifFalse: [self assert: (a kronecker: b*c) = ((a kronecker: b) * (a kronecker: c))]! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/26/2016 23:13:26'!
-testLegendreSymbol
-	self assert: ((1 to: 10) collect: [:k| k legendre: 43]) = #(1 -1 -1 1 -1 1 -1 -1 1 1)! !
-
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:24:41'!
 testMapsInducedByHom
 	| X Y Z f g h yz zx |
@@ -4966,10 +4891,6 @@ testMapsInducedByHom
 	self assert: h codomain = (Z ⇒ Y).
 	zx _ Z to: X map: [:each| X atRandom: (Random seed: each hash)].
 	self assert: (h value: zx) = (f · zx)! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2016 21:04'!
-testPartitions
-	self assert: 42 partitions size =  53174! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 2/1/2018 22:41:50'!
 testPermutationProduct
@@ -5008,22 +4929,6 @@ testPolynomialVectorSpace
 	self assert: (S includes: V !! (x^2 + 2)).
 	self deny: (S includes: V !! (x^3 + 2)).
 	self assert: Qx !! (S orthogonalProjection value: V !! (x^3 - (x^2) + (x*2) + 3)) = ((x^2) negated + (x*2) + 3)! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/13/2015 01:54'!
-testPrimeSignature
-	self assert: 1 primeSignature = #().
-	self assert: 7 primeSignature = #(1).
-	self assert: (7*5) primeSignature = #(1 1).
-	self assert: 12 primeSignature = #(2 1).
-	self assert: 100 primeSignature = #(2 2).
-	self assert: 42 primeSignature = #(1 1 1).
-	self assert: 16 primeSignature = #(4)! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 1/9/2022 08:38:58'!
-testRadicalAndIsSquarefree
-	| n |
-	n _ (-1000 to: 1000) atRandom.
-	self assert: n isSquarefree = (n radical = n)! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2023 13:35:33'!
 testSplittingField1
@@ -7897,9 +7802,87 @@ setUp
 	super setUp.
 	R := ℤ! !
 
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/24/2023 18:51:03'!
+testBitCount
+	| v |
+	v := 1 << 3000 :: atRandom: random.
+	self assert: (v printStringBase: 2 :: count: [:x| x = $1]) = v bitCount! !
+
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/24/2023 18:50:52'!
+testBitParity
+	| v |
+	v := 1 << 3000 :: atRandom: random.
+	self assert: ((v printStringBase: 2 :: count: [:x| x = $1]) bitAnd: 1) = v bitParity! !
+
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/24/2023 18:52:09'!
+testIntegerDivisorsExample
+	self assert: 12 numberOfDivisors = 6.
+	self assert: 12 divisors size = 6! !
+
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/24/2023 18:52:26'!
+testIntegerIdealsPrimePrimarySemiprime
+	self assert: (ℤ*5) isPrime.
+	self assert: (ℤ*6) isPrime not.
+	self assert: (ℤ*25) isPrimary.
+	self assert: (ℤ*30) isPrimary not.
+	self assert: (ℤ*30) isSemiprime.
+	self assert: (ℤ*12) isSemiprime not! !
+
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/24/2023 18:53:29'!
+testIntegerSplit
+	"Split algorithm from 'Fast Algorithms for Linear Algebra Modulo N', Arne Storjohann, Thom Mulders."
+	| D a M |
+	10000 timesRepeat:
+		[D := 100 atRandom.
+		a := D atRandom - 1.
+		M := a split: D.
+		self assert: M > 0.
+		self assert: M | D.
+		M factorization asSet do: [:p| self deny: p | a].
+		(D / M) factorization asSet do: [:p| self assert: p | a]]! !
+
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/24/2023 18:51:50'!
+testIsFundamentalDiscriminant
+	self assert: ((1 to: 33) select: [:each| each isFundamentalDiscriminant]) =  #(1 5 8 12 13 17 21 24 28 29 33).
+	self assert: ((0 to: -31 by: -1) select: [:each| each isFundamentalDiscriminant]) = #(-3 -4 -7 -8 -11 -15 -19 -20 -23 -24 -31) 
+! !
+
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/24/2023 18:43:55'!
+testIsPrimePower
+	self assert: 0 isPrimePower not.
+	self assert: 1 isPrimePower.
+	2 to: 10000 do: [:each|
+		self assert: each isPrimePower = (each factorization asSet size = 1)]! !
+
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/24/2023 18:54:25'!
+testJacobiAndLegendreSymbols
+	| a p |
+	10 timesRepeat:
+		[p := ((1000 atRandom: random) + 2) nextPrime. "an odd prime"
+		a := (1000 atRandom: random) - 1.
+		self assert: (a legendre: p) = (a jacobi: p)]! !
+
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/24/2023 18:54:49'!
+testKroneckerSymbol
+	| a b c |
+	a := (-100 to: 100) atRandom: random.
+	b := (-100 to: 100) atRandom: random.
+	self assert: ((a kronecker: b) = 0) = ((a gcd: b) ~= 1).
+	c := (-100 to: 100) atRandom: random.
+	self assert: (a*b kronecker: c) = ((a kronecker: c) * (b kronecker: c)).
+	b*c = 0 ifFalse: [self assert: (a kronecker: b*c) = ((a kronecker: b) * (a kronecker: c))]! !
+
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/24/2023 18:54:58'!
+testLegendreSymbol
+	self assert: ((1 to: 10) collect: [:k| k legendre: 43]) = #(1 -1 -1 1 -1 1 -1 -1 1 1)! !
+
 !IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 21:33:24'!
 testNilradical
 	self assert: ℤ nilradical = (ℤ*0)! !
+
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/24/2023 18:55:59'!
+testPartitions
+	self assert: 42 partitions size =  53174! !
 
 !IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 17:43:05'!
 testPrimeAndMaximalIdeal
@@ -7920,6 +7903,29 @@ testPrimeNotMaximalIdeal
 	I := ℤ * 0.
 	self assert: I isPrime.
 	self assert: I isMaximal not! !
+
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/24/2023 18:46:40'!
+testPrimePowerFactorization
+	2 to: 10000 do: [:each|
+		each isPrimePower
+			ifTrue: [self assert: each primePowerFactorizationOrNil = each factorization]
+			ifFalse: [self assert: each primePowerFactorizationOrNil isNil]]! !
+
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/24/2023 18:56:13'!
+testPrimeSignature
+	self assert: 1 primeSignature = #().
+	self assert: 7 primeSignature = #(1).
+	self assert: (7*5) primeSignature = #(1 1).
+	self assert: 12 primeSignature = #(2 1).
+	self assert: 100 primeSignature = #(2 2).
+	self assert: 42 primeSignature = #(1 1 1).
+	self assert: 16 primeSignature = #(4)! !
+
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/24/2023 18:56:37'!
+testRadicalAndIsSquarefree
+	| n |
+	n := (-1000 to: 1000) atRandom: random.
+	self assert: n isSquarefree = (n radical = n)! !
 
 !GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 21:02:12'!
 setUp

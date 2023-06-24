@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5875] on 23 June 2023 at 11:46:38 pm'!
+'From Cuis 6.0 [latest update: #5878] on 24 June 2023 at 7:53:53 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -78,7 +78,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 120!
+!provides: 'Algebra' 1 121!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -39084,6 +39084,36 @@ factorizationDo: aBlock
 			max := n sqrtFloor + 1]].
 	n = 1 ifFalse: [aBlock value: n value: 1]! !
 
+!Integer methodsFor: '*algebra' stamp: 'len 6/24/2023 01:17:22'!
+factorizationFermat
+	"If the receiver is the product of two primes p*q, answer p and q."
+	| x y |
+	x := self sqrtFloor + 1.
+	y := x squared - self.
+	[y isPerfectSquare] whileFalse:
+		[x := x + 1.
+		y := x squared - self].
+	y := y sqrt.
+	^ {x + y. x - y}! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 6/24/2023 01:20:04'!
+factorizationFermatSievingOddAndEven
+	"If the receiver is the product of two primes p*q, answer p and q.
+	This is about 2x as fast as factorizationFermat."
+	| x y |
+	x := self sqrtFloor + 1.
+	self \\ 4 = 1
+		ifTrue:
+			[x even ifTrue: [x := x + 1]]
+		ifFalse:
+			[x odd ifTrue: [x := x + 1]].
+	y := x squared - self.
+	[y isPerfectSquare] whileFalse:
+		[x := x + 2.
+		y := x squared - self].
+	y := y sqrt.
+	^ {x + y. x - y}! !
+
 !Integer methodsFor: '*algebra' stamp: 'len 11/19/2016 21:03:03'!
 height
 	self = 0 ifTrue: [^ 1].
@@ -39369,43 +39399,52 @@ phi
 	"Answer Euler's totient function phi of the receiver."
 	^ (1 to: self) count: [:each| (self gcd: each) = 1]! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 12/3/2016 13:17:26'!
+!Integer methodsFor: '*algebra' stamp: 'len 6/24/2023 19:51:47'!
 pollard
-	"Answer a non trivial factor of the receiver.
-	Pollard's p-1 algorithm is used. This works well to find a prime factor p such that p - 1 is smooth."
+	"Answer a nontrivial factor of the receiver.
+	This is Pollard's p-1 algorithm. This works well to find a prime factor p such that p - 1 is smooth."
+	| N a x y p |
+	N := self abs.
+	a := N atRandom.
+	x := N atRandom.
+	y := x.
+	[x := x squared + a \\ self.
+	y := (y squared + a \\ self) squared + a \\ self.
+	(p := y - x gcd: self) = 1 ifFalse: [^ p]] repeat! !
 
-	| N a x y p count |
-	N _ self abs.
-	a _ N atRandom.
-	x _ N atRandom.
-	y _ x.
-	count _ 1.
-	[x _ x squared + a \\ self.
-	y _ (y squared + a \\ self) squared + a \\ self.
-	(p _ y - x gcd: self) = 1
-		ifFalse: [^ Array with: p with: count].
-	count _ count + 1] repeat! !
-
-!Integer methodsFor: '*algebra' stamp: 'len 12/3/2016 13:25:38'!
+!Integer methodsFor: '*algebra' stamp: 'len 6/24/2023 19:51:39'!
 pollard: L
 	"Answer a nontrivial factor of the receiver, or nil if fail.
 	This is Pollard's p-1 algorithm. It works well with numbers divisible by a prime p such that p - 1 is smooth with some small factor q^k where k*q <= L."
 	| N A F |
-	N _ self abs.
-	A _ (2 to: N-1) atRandom.
+	N := self abs.
+	A := (2 to: N-1) atRandom.
 	1 to: L do: [:i|
-		A _ A raisedTo: i modulo: N.
-		(F _ A - 1 gcd: N) = 1
-			ifFalse: [^ F]].
+		A := A raisedTo: i modulo: N.
+		(F := A - 1 gcd: N) = 1 ifFalse: [^ F]].
 	^ nil! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 5/23/2023 06:50:33'!
+!Integer methodsFor: '*algebra' stamp: 'len 6/24/2023 19:50:52'!
+pollardRho
+	"Answer a nontrivial factor of the receiver, or nil if fail.
+	This is Pollard's rho algorithm."
+	| N x y d |
+	N := self abs.
+	x := 2.
+	y := 2.
+	[x := x squared + 1 \\ N.
+	y := (y squared + 1 \\ N) squared + 1 \\ N.
+	(d := x - y gcd: N) = 1] whileTrue.
+	^ d = N ifFalse: [d]! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 6/24/2023 18:46:06'!
 primePowerFactorizationOrNil
 	| m |
+	self isPrime ifTrue: [^ Bag with: self].
 	self highBit + 1 to: 2 by: -1 do: [:k|
 		(m := self root: k) isInteger
-			ifTrue: [
-				self assert: m^k = self.
+			ifTrue:
+				[self assert: m^k = self.
 				m isPrime ifFalse: [^ nil].
 				^ Bag new add: m withOccurrences: k; yourself]].
 	^ nil! !
