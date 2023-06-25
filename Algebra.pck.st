@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5878] on 25 June 2023 at 12:07:29 pm'!
+'From Cuis 6.0 [latest update: #5878] on 25 June 2023 at 8:45:57 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -78,7 +78,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 122!
+!provides: 'Algebra' 1 123!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -9865,9 +9865,9 @@ polynomial: aPolynomial factorizationDo: aBlock
 	self isFiniteField ifTrue: [^ self polynomialOverFiniteField: aPolynomial factorizationDo: aBlock].
 	^ self subclassResponsibility! !
 
-!Ring methodsFor: 'computing-polynomials' stamp: 'len 6/25/2023 11:20:15'!
+!Ring methodsFor: 'computing-polynomials' stamp: 'len 6/25/2023 17:01:38'!
 rootsOf: aPolynomial do: aBlock
-	"Enumerate the distinct (real) rational roots of aPolynomial (without multiplicities)."
+	"Enumerate the distinct roots of aPolynomial (without multiplicities)."
 	self rootsOf: aPolynomial withMultiplicitiesDo: [:τ :m| aBlock value: τ]! !
 
 !Ring methodsFor: 'computing-polynomials' stamp: 'len 6/25/2023 11:40:58'!
@@ -12516,6 +12516,18 @@ syzygiesOf: aMatrix
 	"Answer a matrix whose rows span the kernel of the given matrix.
 	For a matrix A, the output is X with AX = 0."
 	^ self syzygiesOverEuclideanDomainOf: aMatrix! !
+
+!PrimeField methodsFor: 'computing-polynomials' stamp: 'len 6/25/2023 17:08:03'!
+rootsOf: aPolynomial do: aBlock
+	"Enumerate the distinct roots of aPolynomial (without multiplicities)."
+	^ super rootsOf: aPolynomial do: aBlock
+
+"alternative: (which turns out to be slower)"
+	"The polynomial x^p - x has as roots all elements of the receiver, so we compute the roots of the gcd of aPolynomial with x^p - x (which has the same roots as aPolynomial with multiplicity 1)."
+"	| f h |
+	h := (aPolynomial parent x raisedTo: self p modulo: aPolynomial) - aPolynomial parent x.
+	f := aPolynomial gcd: h.
+	f equalDegreeFactorization: 1 do: [:each| aBlock value: each independentCoefficient negated / each leadingCoefficient]"! !
 
 !PrimeField methodsFor: 'enumerating' stamp: 'len 5/7/2023 16:35:24'!
 extensionsDo: aBlock
@@ -17887,10 +17899,6 @@ span: aCollectionOrMatrix
 squared
 	^ self * self! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 1/9/2022 08:33:09'!
-squarefreePart
-	^ self scalars * (self generators collect: [:each| each squarefreePart])! !
-
 !Ideal methodsFor: 'operations' stamp: 'len 8/12/2022 13:09:06'!
 ∩ anIdeal
 	"Answer the intersection of the receiver and the argument."
@@ -18027,10 +18035,6 @@ isSemiprime
 	self scalars = ℤ ifTrue: [^ self isTrivial or: [self generator isSquarefree]].
 	^ self notYetImplemented! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 1/9/2022 08:34:02'!
-isSquarefree
-	^ self = self squarefreePart! !
-
 !Ideal methodsFor: 'testing' stamp: 'len 6/4/2019 07:48:40'!
 isZero
 	"Answer true if the receiver is the zero ideal {0}."
@@ -18132,13 +18136,13 @@ alexanderDual
 	If I is the Stanley-Reisner ideal of a simplicial complex S, the Alexander dual of I is defined as the Stanley-Reisner ideal of the dual of S."
 	^ self asSimplicialComplex dual stanleyReisnerIdealIn: self scalars! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 1/9/2022 08:32:25'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 6/25/2023 19:41:47'!
 asSimplicialComplex
 	"Answer the Stanley-Reisner simplicial complex associated to the receiver.
 	This is the simplicial complex formed by the support of all squarefree monomials not in this ideal.
 	Fail if this ideal is not squarefree."
 	self isMonomial ifFalse: [^ self error: 'not a monomial ideal'].
-	self isSquarefree ifFalse: [^ self error: 'not squarefree'].
+	self isRadical ifFalse: [^ self error: 'not squarefree'].
 	^ (SimplicialComplex on: self scalars indeterminates facets: (self minimalMonomialGeneratingSet collect: [:each| each indeterminates])) complement dual! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 3/6/2021 14:04:35'!
@@ -18225,20 +18229,20 @@ predecomposition
 			previous do: [:G| | H | (H _ G + (p^s)) isProper ifTrue: [answer add: H]]]].
 	^ answer! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 1/9/2022 08:32:35'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 6/25/2023 19:42:47'!
 primaryDecomposition
 	"Answer the standard primary decomposition of the receiver.
 	This is the unique primary decomposition obtained from an irredundant intersection of irreducible ideals."
-	(self isMonomial and: [self isSquarefree]) ifFalse: [^ super primaryDecomposition].
+	(self isMonomial and: [self isRadical]) ifFalse: [^ super primaryDecomposition].
 	^ self asSimplicialComplex facets collect: [:each|
 		self scalars * (self scalars indeterminates \ each vertices collect: [:i| self scalars x: i])]! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 6/20/2023 21:07:05'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 6/25/2023 19:38:59'!
 radical
-	self isMonomial ifTrue: [^ self squarefreePart]. "[HH11] Proposition 1.2.4"
+	self isMonomial ifTrue: [^ self scalars * (self generators collect: [:each| each radical])]. "[HH11] Proposition 1.2.4"
 	(self scalars scalars characteristic > 0 and: [self scalars scalars isPerfectField]) ifTrue: [^ self radicalMatsumoto].
 	self flag: #fixme. "this is not right, maybe only works for Q[x1..xn] and monomial ideals"
-	^ self squarefreePart! !
+	^ self scalars * (self generators collect: [:each| each radical])! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 6/3/2022 21:27:56'!
 reduce: anElement
@@ -18285,12 +18289,12 @@ singular
 	^ self scalars * ((J minors: n - d) collect: [:each| self reduce: each])
 but that seems to be wrong"! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 1/9/2022 08:34:28'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 6/25/2023 19:39:18'!
 zeroDimensionalRadical
 	"Answer the radical of the receiver, assuming it is zero-dimensional.
 	See [BW93] Table 8.3, Algorithm ZRADICAL."
 	self dimension = 0 ifFalse: [self error: 'not zero-dimensional'].
-	^ self scalars * (self scalars indeterminates collect: [:i| (self eliminateAllBut: i) generator squarefreePart])! !
+	^ self scalars * (self scalars indeterminates collect: [:i| (self eliminateAllBut: i) generator radical])! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 8/12/2022 13:09:42'!
 ∩ anIdeal
@@ -18342,10 +18346,10 @@ isPrime
 	"TODO: 	[AL94, Algorithm 4.4.1]"
 	^ super isPrime! !
 
-!PolynomialIdeal methodsFor: 'testing' stamp: 'len 1/9/2022 08:32:30'!
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 6/25/2023 19:42:13'!
 isRadical
 "	self quotientRing isZeroDimensional ifTrue: [^ self isZeroDimensionalRadical]."
-	self isMonomial ifTrue: [^ self isSquarefree].
+	self isMonomial ifTrue: [^ self generators allSatisfy: [:each| each isSquarefree]].
 	^ super isRadical! !
 
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 7/30/2021 12:34:27'!
@@ -18356,12 +18360,6 @@ isRadicalZeroDimensional
 		f _ (self eliminateAllBut: i) generator.
 		(f gcd: (f derivativeIn: i)) isConstant ifFalse: [^ false]].
 	^ true! !
-
-!PolynomialIdeal methodsFor: 'testing' stamp: 'len 1/9/2022 08:31:18'!
-isSquarefree
-	"A monomial ideal is squarefree iff each generator in the minimal generating set is squarefree."
-	self isMonomial ifTrue: [^ self generators allSatisfy: [:each| each isSquarefree]].
-	^ super isSquarefree! !
 
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 3/4/2021 13:43:02'!
 radicalContains: aPolynomial
@@ -18467,10 +18465,10 @@ primaryDecomposition
 	^ self asSimplicialComplex facets collect: [:each|
 		self scalars * (self scalars indeterminates \ each vertices collect: [:i| self scalars x: i])]! !
 
-!MonomialIdeal methodsFor: 'operations' stamp: 'len 1/9/2022 08:34:19'!
+!MonomialIdeal methodsFor: 'operations' stamp: 'len 6/25/2023 19:39:44'!
 radical
 	"J. Herzog, 'Monomial Ideals', Proposition 1.2.4."
-	^ self squarefreePart! !
+	^ self scalars * (self generators collect: [:each| each radical])! !
 
 !MonomialIdeal methodsFor: 'operations' stamp: 'len 1/7/2022 20:25:59'!
 span: aCollection
@@ -18524,9 +18522,10 @@ isPrime
 	"Prime monomial ideals are those generated by subsets of the variables."
 	^ self generatingMonomials allSatisfy: [:each| each degree = 1 and: [each support size = 1]]! !
 
-!MonomialIdeal methodsFor: 'testing' stamp: 'len 1/9/2022 08:32:09'!
+!MonomialIdeal methodsFor: 'testing' stamp: 'len 6/25/2023 19:41:02'!
 isRadical
-	^ self isSquarefree! !
+	"A monomial ideal is radical (or squarefree) iff each generator in the minimal generating set is squarefree."
+	^ self generators allSatisfy: [:each| each isSquarefree]! !
 
 !MonomialIdeal methodsFor: 'testing' stamp: 'len 1/9/2022 08:30:30'!
 isSquarefree
@@ -20778,6 +20777,11 @@ hessian
 	"Answer the Hessian curve associated to the receiver.
 	Over an algebraically closed field, the intersection of a plane curve and its Hessian is the subvariety of flexes."
 	^ self ambient subscheme: self polynomial hessian determinant! !
+
+!ProjectivePlaneCurve methodsFor: 'testing' stamp: 'len 6/25/2023 17:31:46'!
+isIrreducible
+	"A scheme is called 'irreducible' if its underlying topological space is irreducible, i.e. it is not empty and it is not the union of two proper closed subsets."
+	^ self polynomial isIrreducible! !
 
 !Conic methodsFor: 'accessing' stamp: 'len 5/28/2020 18:19:49'!
 coefficients
@@ -29931,6 +29935,20 @@ quotientBy: anElement modulo: m
 	xgcd _ anElement xgcd: m.
 	^ self // (xgcd at: 1) * (xgcd at: 2) \\ m"! !
 
+!RingElement methodsFor: 'operations' stamp: 'len 6/25/2023 20:45:19'!
+raisedTo2: anInteger modulo: anElement
+	"Answer the receiver raised to the power anInteger modulo anElement."
+	| n x y |
+	self flag: #fixme. "just a test"
+	anInteger = 0 ifTrue: [^ self one].
+	anInteger > 0 ifTrue: [x := self. n := anInteger] ifFalse: [x := self inverse. n := anInteger negated].
+	y := 1.
+	[n > 1] whileTrue:	
+		[n odd ifTrue: [y := x * y \\ anElement].
+		x := x squared \\ anElement.
+		n := n bitShift: -1].
+	^ x * y \\ anElement! !
+
 !RingElement methodsFor: 'operations' stamp: 'len 8/5/2022 09:52:43'!
 raisedTo: anInteger
 	^ self ^ anInteger! !
@@ -30447,13 +30465,11 @@ hash
 	self flag: #fix. "this looks wrong:"
 	^ self parent numerator: numerator * anElement denominator // anElement numerator denominator: denominator! !
 
-!Ratio methodsFor: 'operations' stamp: 'len 12/27/2021 07:49:17'!
+!Ratio methodsFor: 'operations' stamp: 'len 6/25/2023 13:24:31'!
 ^ anInteger
 	anInteger = 1 ifTrue: [^ self].
 	anInteger < 0 ifTrue: [^ self inverse ^ anInteger negated].
-	^ self parent
-		reducedNumerator: numerator ^ anInteger
-		denominator: denominator ^ anInteger! !
+	^self parent reducedNumerator: numerator ^ anInteger denominator: denominator ^ anInteger! !
 
 !Ratio methodsFor: 'operations' stamp: 'len 8/12/2022 12:50:58'!
 colift: anElement
@@ -30592,12 +30608,6 @@ parent
 	self isZero ifTrue: [^ self].
 	(v _ self valuation - anElement valuation) < 0 ifTrue: [^ self zero].
 	^ self normalization inverse * anElement normalization * (parent p ^ v)! !
-
-!Germ methodsFor: 'operations' stamp: 'len 12/29/2021 13:57:31'!
-^ anInteger
-	anInteger = 1 ifTrue: [^ self].
-	anInteger < 0 ifTrue: [^ self inverse ^ anInteger negated].
-	^ parent reducedNumerator: numerator ^ anInteger denominator: denominator ^ anInteger! !
 
 !Germ methodsFor: 'operations' stamp: 'len 8/12/2022 12:51:08'!
 colift: anElement
@@ -33335,18 +33345,19 @@ pseudoRem: aPolynomial
 	self isUnivariate ifFalse: [^ (self pseudoDivisionBy: aPolynomial in: self leadingIndeterminate) remainder asMultivariate].
 	^ (self pseudoDivisionBy: aPolynomial) remainder! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 12/9/2022 08:22:24'!
-squared
-	^ self class coefficients: coefficients autoconvolution parent: parent! !
-
-!Polynomial methodsFor: 'operations' stamp: 'len 6/3/2023 21:11:38'!
-squarefreePart
-	"Answer the maximal squarefree divisor of the receiver."
+!Polynomial methodsFor: 'operations' stamp: 'len 6/25/2023 20:44:06'!
+radical
+	"Answer the maximal squarefree divisor of the receiver.
+	This is often called 'squarefree part', but we call it 'radical' to be consistent with integers."
 	| g |
 	self parent scalars characteristic = 0 ifFalse: [^ self error: 'field must include ℚ (i.e., must be of characteristic 0)'].
 	g := self.
 	self indeterminates do: [:each| g := g gcd: (self derivativeIn: each)].
 	^ self / g! !
+
+!Polynomial methodsFor: 'operations' stamp: 'len 12/9/2022 08:22:24'!
+squared
+	^ self class coefficients: coefficients autoconvolution parent: parent! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 4/28/2022 06:43:34'!
 substitute: aBlock
@@ -33954,30 +33965,35 @@ distinctDegreeFactorizationDo: aBlock
 	f₂ isOne ifFalse: [aBlock value: f₂ degree value: f₂. found := true].
 	found ifFalse: [aBlock value: 1 value: f]! !
 
-!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 6/24/2023 23:31:53'!
+!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 6/25/2023 20:00:54'!
 equalDegreeFactorization: d do: aBlock
 	"Cantor-Zassenhaus algorithm. Iterate over the equal-degree factorization of a monic squarefree univariate polynomial which has r>=2 pairwise distinct irreducible factors each of degree d."
 	| f q h g one queue c |
 	self degree = d ifTrue: [^ aBlock value: self].
 	f := self.
 	q := f scalars size.
-	q odd ifFalse: [^ self equalDegreeFactorization2: d do: aBlock].
 	one := f parent one.
 	queue := OrderedCollection with: f.
+	q even ifTrue: [h := f parent x].
 	[queue isEmpty]
 		whileFalse:
-			[[h := (self parent atRandomMaxDegree: 2*d-1). "should be monic? should: d <= deg(h) <= 2d-1"
-			h isZero] whileTrue. "ensure it's not 0"
-			h := h normalized.
-			g := (h raisedTo: q^d - 1 / 2 modulo: f) - one. "<- most time is spent here"
+			[q even
+				ifTrue:
+					[g := h.
+					d - 1 timesRepeat: [g := h + g squared \\ f]]
+				ifFalse:
+					[[(h := self parent atRandomMaxDegree: f degree - 1) isZero] whileTrue.
+					h := h normalized.
+					(g := h gcd: f) = one ifTrue: [g := (h raisedTo: q^d - 1 / 2 modulo: f) - one]].
 			queue do: [:u|
 				c := g gcd: u.
 				(c ~= one and: [c ~= u])
 					ifTrue: "found nontrivial common factor c"
 						[queue := queue copyWithout: u.
-						c degree = d ifTrue: [aBlock value: c] ifFalse: [queue add: c].
+						c degree = d ifTrue: [f := f // c. aBlock value: c] ifFalse: [queue add: c].
 						c := u // c.
-						c degree = d ifTrue: [aBlock value: c] ifFalse: [queue add: c]]]]! !
+						c degree = d ifTrue: [f := f // c. aBlock value: c] ifFalse: [queue add: c]]].
+			q even ifTrue: [h := h << 2]]! !
 
 !UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 6/25/2023 09:56:26'!
 factorizationDo: aBlock
@@ -33989,30 +34005,6 @@ factorizationDo: aBlock
 squarefreeFactorization
 	"Answer a squarefree factorization of the receiver."
 	^ self scalars squarefreeFactorizationOf: self! !
-
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 6/25/2023 10:14:52'!
-equalDegreeFactorization2: d do: aBlock
-	"Cantor-Zassenhaus algorithm. Enumerate the equal-degree factorization of a monic squarefree univariate polynomial which has r>=2 pairwise distinct irreducible factors each of degree d."
-	| f h g one queue c |
-	f := self.
-"	q _ f parent scalars size.
-	q even ifFalse: [^ self error: 'order not even']."
-	one := f parent one.
-	queue := OrderedCollection with: f.
-	h := f parent x.
-	[queue isEmpty]
-		whileFalse:
-			[g := h.
-			d - 1 timesRepeat: [g := h + g squared \\ f].
-			queue do: [:u|
-				c := g gcd: u.
-				(c ~= one and: [c ~= u])
-					ifTrue:
-						[queue := queue copyWithout: u.
-						c degree = d ifTrue: [aBlock value: c] ifFalse: [queue add: c].
-						c := u // c.
-						c degree = d ifTrue: [aBlock value: c] ifFalse: [queue add: c]]].
-			h := h << 2]! !
 
 !UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 1/9/2022 21:02:37'!
 factorizationZassenhauss2
@@ -34044,10 +34036,10 @@ factorizationZassenhauss2
 			g | f ifTrue: [answer add: g]]].
 	^ answer! !
 
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 6/25/2023 11:59:09'!
+!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 6/25/2023 20:36:45'!
 factorizationZassenhaussDo: aBlock
 	"Zassenhauss algorithm. Enumerate the irreducible factors of a squarefree primitive polynomial with integer coefficients."
-	| f n A b B C γ df p Zₚ fₚ dfₚ k factors r |
+	| f n A b B C γ df p factors r k |
 	self isOne ifTrue: [^ self].
 	f := self.
 	n := f degree.
@@ -34059,15 +34051,20 @@ factorizationZassenhaussDo: aBlock
 "	γ _ (2 * (C log: 2)) ceiling."
 	γ := 2 * C highBit. "+1?"
 	df := f derivative.
-	[[(p := (2*γ*γ ln) asInteger atRandom nextPrime) | b] whileTrue.
-	Zₚ := PrimeField new: p.
-	fₚ := f over: Zₚ.
-	dfₚ := df over: Zₚ.
-	(fₚ gcd: dfₚ) isConstant] whileFalse.
-	"Modular factorization:"
-	factors := fₚ normalized factorization.
-	r := factors size. "should repeat this 5 times and choose smallest r"
-	r = 1 ifTrue: [^ aBlock value: f]. "if irreducible mod p, also irreducible over Z"
+	r := nil.
+	"Try several times to find a factorization with fewer factors:"
+	2 timesRepeat: "should try 5 times? 2 seems to be faster than 3, and much faster than 1"
+		[| p₀ Zₚ fₚ dfₚ factors₀ r₀ |
+		[[(p₀ := (2*γ*γ ln) asInteger atRandom nextPrime) | b] whileTrue.
+		Zₚ := PrimeField new: p₀.
+		fₚ := f over: Zₚ.
+		dfₚ := df over: Zₚ.
+		(fₚ gcd: dfₚ) isConstant] whileFalse.
+		"Modular factorization:"
+		factors₀ := fₚ normalized factorization.
+		"If irreducible mod p, also irreducible over ℤ:"
+		(r₀ := factors₀ size) = 1 ifTrue: [^ aBlock value: f].
+		(r isNil or: [r₀ < r]) ifTrue: [p := p₀. factors := factors₀. r := r₀]].
 "	self assert: (self % p - (factors product * b)) isZero."
 	"Hensel lifting:"
 	k := ((2*B+1) log: p) abs ceiling. "p^k > 2B"
@@ -35526,15 +35523,6 @@ monomialsDo: aBlock
 - anElement
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #-].
 	^ self class coefficients: coefficients - anElement coefficients parent: parent! !
-
-!FreePolynomial methodsFor: 'operations' stamp: 'len 6/8/2019 02:24:51'!
-^ anInteger
-	"Answer the receiver raised to the power anInteger."
-	(anInteger isInteger and: [anInteger >= 0])
-		ifFalse: [^ DomainError signal: 'undefinted'].
-	anInteger = 0 ifTrue: [^ self one].
-	anInteger = 1 ifTrue: [^ self].
-	^ anInteger even ifTrue: [self squared ^ (anInteger // 2)] ifFalse: [self squared ^ (anInteger // 2) * self]! !
 
 !FreePolynomial methodsFor: 'operations' stamp: 'len 4/29/2022 07:45:05'!
 apply: aFunction
@@ -39453,6 +39441,29 @@ radical
 	answer _ self sign.
 	self factorizationDo: [:p :e| answer _ answer * p].
 	^ answer! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 6/25/2023 13:32:23'!
+raisedToInteger2: anInteger
+	| n x y |
+	anInteger = 0 ifTrue: [^ 1].
+	anInteger > 0 ifTrue: [x := self. n := anInteger] ifFalse: [x := self reciprocal. n := anInteger negated].
+	y := 1.
+	[n > 1] whileTrue:	
+		[n odd ifTrue: [y := x * y].
+		x := x squared.
+		n := n bitShift: -1].
+	^ x * y! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 6/25/2023 13:33:59'!
+raisedToInteger3: anInteger
+	| n x y |
+	anInteger = 0 ifTrue: [^ 1].
+	anInteger > 0 ifTrue: [x := self. n := anInteger] ifFalse: [x := self reciprocal. n := anInteger negated].
+	y := 1.
+	1 to: n highBit do: [:i|
+		(n bitAt: i) = 1 ifTrue: [y := x * y].
+		x := x squared].
+	^ x * y! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 12/4/2016 13:11:44'!
 reciprocalModulo2: n

@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5878] on 24 June 2023 at 7:54:04 pm'!
+'From Cuis 6.0 [latest update: #5878] on 25 June 2023 at 8:46:06 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 78!
+!provides: 'Tests-Algebra' 1 79!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -5815,27 +5815,27 @@ testShift
 	self assert: f * (x^3) = (f << 3).
 	self assert: (f * (x^3) << -3) = f! !
 
-!PolynomialTest methodsFor: 'etc' stamp: 'len 1/9/2022 08:39:20'!
+!PolynomialTest methodsFor: 'etc' stamp: 'len 6/25/2023 19:37:13'!
 testSquarefreePart
 	| P x f1 f2 f3 f |
-	P _ ℚ polynomials.
-	x _ P x.
-	f1 _ x^2 + x + 1.
-	f2 _ 1 - x.
-	f3 _ x - 2.
-	f _ f1*f1*f2*f3*f3*f3.
-	self assert: f squarefreePart = (f1 * f2 * f3)! !
+	P := ℚ polynomials.
+	x := P x.
+	f1 := x^2 + x + 1.
+	f2 := 1 - x.
+	f3 := x - 2.
+	f := f1*f1*f2*f3*f3*f3.
+	self assert: f radical = (f1 * f2 * f3)! !
 
-!PolynomialTest methodsFor: 'etc' stamp: 'len 1/9/2022 08:39:32'!
+!PolynomialTest methodsFor: 'etc' stamp: 'len 6/25/2023 19:37:20'!
 testSquarefreePartMultivariate
 	| P x y f1 f2 f |
-	P _ ℚ polynomialsIn: #(x y).
-	x _ P x.
-	y _ P y.
-	f1 _ x + 1.
-	f2 _ y + 1.
-	f _ f1*f1*f2*f2.
-	self assert: f squarefreePart = (f1 * f2)! !
+	P := ℚ polynomialsIn: #(x y).
+	x := P x.
+	y := P y.
+	f1 := x + 1.
+	f2 := y + 1.
+	f := f1*f1*f2*f2.
+	self assert: f radical = (f1 * f2)! !
 
 !PolynomialTest methodsFor: 'etc' stamp: 'len 3/6/2021 15:10:54'!
 testUnivariateMultivariateConversion
