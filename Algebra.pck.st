@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5878] on 24 June 2023 at 7:53:53 pm'!
+'From Cuis 6.0 [latest update: #5878] on 25 June 2023 at 12:07:29 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -78,7 +78,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 121!
+!provides: 'Algebra' 1 122!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -9860,44 +9860,27 @@ syzygiesOverEuclideanDomainOf: aMatrix
 	E _ aMatrix coechelon.
 	^ Matrix to: aMatrix domain columns: (((1 to: E width) select: [:i| E isZeroAtColumn: i]) collect: [:i| T columnAt: i])! !
 
-!Ring methodsFor: 'computing-polynomials' stamp: 'len 12/28/2022 11:13:39'!
-allRootsOf: aPolynomial
-	"Answer the roots (counted with multiplicity) of aPolynomial in the receiver."
-	| answer |
-	self isUFR ifFalse: [^ self notYetImplemented].
-	answer _ Bag new.
-	(aPolynomial over: self) factorization withOccurrencesDo: [:f :e|
-			f degree = 1 ifTrue: [answer add: (f independentCoefficient negated / f leadingCoefficient) withOccurrences: e]].
-	^ answer! !
-
-!Ring methodsFor: 'computing-polynomials' stamp: 'len 7/13/2021 14:52:21'!
-anyRootOf: aPolynomial
-	^ (self rootsOf: aPolynomial) anyOne! !
-
-!Ring methodsFor: 'computing-polynomials' stamp: 'len 7/15/2021 16:05:26'!
-factorizationOf: aPolynomial
-	self isFiniteField ifTrue: [^ self factorizationOverFiniteFieldOf: aPolynomial].
+!Ring methodsFor: 'computing-polynomials' stamp: 'len 6/25/2023 09:46:40'!
+polynomial: aPolynomial factorizationDo: aBlock
+	self isFiniteField ifTrue: [^ self polynomialOverFiniteField: aPolynomial factorizationDo: aBlock].
 	^ self subclassResponsibility! !
 
-!Ring methodsFor: 'computing-polynomials' stamp: 'len 5/31/2023 09:29:35'!
-isIrreducibleUnivariatePolynomial: aPolynomial
-	aPolynomial isConstant ifTrue: [^ false]. "constant polynomials are not reducible nor irreducible"
-	aPolynomial degree = 1 ifTrue: [^ true].
-	aPolynomial independentCoefficient isZero ifTrue: [^ false].
-	self isFiniteField ifTrue: [^ aPolynomial isIrreducibleRabin].
-	^ aPolynomial factorization size = 1
+!Ring methodsFor: 'computing-polynomials' stamp: 'len 6/25/2023 11:20:15'!
+rootsOf: aPolynomial do: aBlock
+	"Enumerate the distinct (real) rational roots of aPolynomial (without multiplicities)."
+	self rootsOf: aPolynomial withMultiplicitiesDo: [:τ :m| aBlock value: τ]! !
 
-"	(R isKindOf: RationalField)
-		ifTrue: [^ self isIrreducibleHeuristic: ...]."
-	"f irreducible in R[x] => mu(f(x)) = k*(g(x))^n, where k is unit and mu is the canonical projection to the residue field K:"
-"	(R isLocal and: [(self apply: R -> R residueField) factors asSet size = 1])
-		ifTrue: [^ true]."
-! !
-
-!Ring methodsFor: 'computing-polynomials' stamp: 'len 7/13/2021 14:54:05'!
-rootsOf: aPolynomial
-	"Answer the distinct roots (not counted with multiplicity) of aPolynomial in the receiver."
-	^ (self allRootsOf: aPolynomial) asSet! !
+!Ring methodsFor: 'computing-polynomials' stamp: 'len 6/25/2023 11:40:58'!
+rootsOf: aPolynomial withMultiplicitiesDo: aBlock
+	"Enumerate the roots of aPolynomial with multiplicities."
+	self isUFR ifFalse: [^ self notYetImplemented].
+	self isFiniteField ifTrue:
+		[aPolynomial normalized squarefreeFactorization withOccurrencesDo: [:f :r|
+			f distinctDegreeFactorizationDo: [:d :g|
+				d = 1 ifTrue: [g equalDegreeFactorization: d do: [:each| aBlock value: each independentCoefficient negated / each leadingCoefficient value: r]]]].
+		^ self].
+	(aPolynomial over: self) factorizationDo: [:f :e|
+		f degree = 1 ifTrue: [aBlock value: f independentCoefficient negated / f leadingCoefficient value: e]]! !
 
 !Ring methodsFor: 'computing-polynomials' stamp: 'len 1/9/2022 08:37:27'!
 squarefreeFactorizationOf: aPolynomial
@@ -9907,14 +9890,11 @@ squarefreeFactorizationOf: aPolynomial
 	self isUFD ifFalse: [^ self notYetImplemented].
 	^ (aPolynomial primitivePart over: self fractions) squarefreeFactorizationYun apply: [:each| aPolynomial parent !! each integerPrimitivePart]! !
 
-!Ring methodsFor: 'computing-polynomials-private' stamp: 'len 1/9/2022 08:36:02'!
-factorizationOverFiniteFieldOf: aPolynomial
-	| answer |
-	answer _ Bag new.
+!Ring methodsFor: 'computing-polynomials-private' stamp: 'len 6/25/2023 09:47:09'!
+polynomialOverFiniteField: aPolynomial factorizationDo: aBlock
 	aPolynomial normalized squarefreeFactorization withOccurrencesDo: [:f :r|
-		f distinctDegreeFactorization keysAndValuesDo: [:d :g|
-			(g equalDegreeFactorization: d) do: [:each| answer add: each withOccurrences: r]]].
-	^ answer! !
+		f distinctDegreeFactorizationDo: [:d :g|
+			g equalDegreeFactorization: d do: [:each| aBlock value: each value: r]]]! !
 
 !Ring methodsFor: 'converting' stamp: 'len 10/14/2022 08:48:08'!
 asAbelianGroup
@@ -10807,31 +10787,32 @@ size
 hash
 	^ self class hash! !
 
-!RationalField methodsFor: 'computing-polynomials' stamp: 'len 8/10/2022 10:46:13'!
-allRootsOf: aPolynomial
-	"Answer the (real) rational roots of the polynomial."
-	| roots f n k τ visited fourier |
-	roots _ Bag new.
-	f _ aPolynomial integerPrimitivePart over: ℤ.
-	n _ f degree.
-	(k _ f order) > 0 ifTrue: [roots add: 0 withOccurrences: k. f _ f >> k].
-	f isConstant ifTrue: [^ roots].
-	visited _ Set new.
-	fourier _ OrderedCollection with: f.
+!RationalField methodsFor: 'computing-polynomials' stamp: 'len 6/25/2023 12:05:42'!
+polynomial: aPolynomial factorizationDo: aBlock
+	aPolynomial numerator primitivePart factorizationDo: [:f :r| aBlock value: aPolynomial parent !! f value: r]! !
+
+!RationalField methodsFor: 'computing-polynomials' stamp: 'len 6/25/2023 11:42:07'!
+rootsOf: aPolynomial withMultiplicitiesDo: aBlock
+	"Enumerate the (real) rational roots of aPolynomial with multiplicities."
+	| f n k count τ visited fourier m |
+	f := aPolynomial integerPrimitivePart over: ℤ.
+	n := f degree.
+	(k := f order) > 0 ifTrue: [aBlock value: 0 asRational value: k. f := f >> k].
+	f isConstant ifTrue: [^ self].
+	count := k.
+	visited := Set new.
+	fourier := OrderedCollection with: f.
 	f independentCoefficient divisorsDo: [:each|
 		f leadingCoefficient divisorsDo: [:one|
-			τ _ each / one.
+			τ := each / one.
 			visited add: τ ifAbsent:
-					[(f value: τ) isZero
-						ifTrue: [roots add: τ withOccurrences: (self multiplicityAt: τ fourier: fourier). roots size = n ifTrue: [^ roots]].
-					τ _ τ negated.
-					(f value: τ) isZero
-						ifTrue: [roots add: τ withOccurrences: (self multiplicityAt: τ fourier: fourier). roots size = n ifTrue: [^ roots]]]]].
-	^ roots! !
-
-!RationalField methodsFor: 'computing-polynomials' stamp: 'len 11/20/2022 11:41:07'!
-factorizationOf: aPolynomial
-	^ aPolynomial numerator primitivePart factorization apply: [:each| aPolynomial parent !! each]! !
+					[(f value: τ) isZero ifTrue:
+						[aBlock value: τ value: (m := self multiplicityAt: τ fourier: fourier).
+						(count := count + m) = n ifTrue: [^ self]].
+					τ := τ negated.
+					(f value: τ) isZero ifTrue:
+						[aBlock value: τ value: (m := self multiplicityAt: τ fourier: fourier).
+						(count := count + m) = n ifTrue: [^ self]]]]]! !
 
 !RationalField methodsFor: 'computing-polynomials-private' stamp: 'len 7/13/2021 15:03:04'!
 multiplicityAt: aRoot fourier: fourier
@@ -11085,27 +11066,12 @@ matrix: B quotientBy: A
 				ifTrue: [M lift fill: [:i| reconstruction at: i]]
 				ifFalse: [M lift zero]])! !
 
-!IntegerRing methodsFor: 'computing-polynomials' stamp: 'len 1/9/2022 08:18:48'!
-factorizationOf2: aPolynomial
-	| answer f g |
-	answer _ Bag new.
-	aPolynomial content factorizationDo: [:p :e| answer add: (aPolynomial parent constant: p) withOccurrences: e].
-	g _ aPolynomial gcd: aPolynomial derivative.
-	f _ aPolynomial / g.
-	"TODO: if the receiver is not squarefree, we're missing powers of factors"
-	(f / (f content * f sign)) factorizationZassenhauss
-		withOccurrencesDo: [:each :k|
-			answer add: each withOccurrences: k].
-	^ answer! !
-
-!IntegerRing methodsFor: 'computing-polynomials' stamp: 'len 1/9/2022 08:35:58'!
-factorizationOf: aPolynomial
-	| answer content |
-	answer _ Bag new.
-	(content _ aPolynomial content) factorizationDo: [:p :e| answer add: (aPolynomial parent constant: p) withOccurrences: e].
+!IntegerRing methodsFor: 'computing-polynomials' stamp: 'len 6/25/2023 09:49:46'!
+polynomial: aPolynomial factorizationDo: aBlock
+	| content |
+	(content := aPolynomial content) factorizationDo: [:p :e| aBlock value: (aPolynomial parent constant: p) value: e].
 	(aPolynomial // (content * aPolynomial sign)) squarefreeFactorization withOccurrencesDo: [:f :r|
-		f factorizationZassenhauss do: [:each| answer add: each withOccurrences: r]].
-	^ answer! !
+		f factorizationZassenhaussDo: [:each| aBlock value: each value: r]]! !
 
 !IntegerRing methodsFor: 'converting' stamp: 'len 4/30/2021 13:12:57'!
 asModule
@@ -12967,10 +12933,10 @@ galoisClosure
 	"The Galois closure of a finite simple extension E(α) is the splitting field of the minimal polynomial of α over E."
 	^ self x minimalPolynomial splittingField! !
 
-!ExtensionRing methodsFor: 'computing-polynomials' stamp: 'len 5/12/2023 22:45:51'!
-factorizationOf: aPolynomial
-	self isGlobalField ifTrue: [^ self factorizationOverGlobalFieldOf: aPolynomial].
-	^ super factorizationOf: aPolynomial! !
+!ExtensionRing methodsFor: 'computing-polynomials' stamp: 'len 6/25/2023 09:48:35'!
+polynomial: aPolynomial factorizationDo: aBlock
+	self isGlobalField ifTrue: [^ (self factorizationOverGlobalFieldOf: aPolynomial) withOccurrencesDo: aBlock].
+	^ super polynomial: aPolynomial factorizationDo: aBlock! !
 
 !ExtensionRing methodsFor: 'computing-polynomials-private' stamp: 'len 5/12/2023 22:45:25'!
 factorizationOverGlobalFieldOf: aPolynomial
@@ -13581,9 +13547,9 @@ absoluteField
 	self isAbsolute ifTrue: [^ self].
 	self notYetImplemented! !
 
-!NumberField methodsFor: 'accessing' stamp: 'len 7/16/2021 11:07:47'!
+!NumberField methodsFor: 'accessing' stamp: 'len 6/25/2023 11:38:42'!
 adjoint
-	^ self propertyAt: #adjoint ifAbsentPut: [self modulus anyRootIn: ℂ]! !
+	^ self propertyAt: #adjoint ifAbsentPut: [(self modulus rootsIn: ℂ) anyOne]! !
 
 !NumberField methodsFor: 'accessing' stamp: 'len 7/12/2021 13:17:44'!
 classNumber
@@ -13947,69 +13913,58 @@ zero
 hash
 	^ self class hash! !
 
-!ComplexField methodsFor: 'computing-polynomials' stamp: 'len 12/10/2022 11:59:39'!
-allRootsOf: aPolynomial
-	| answer |
-	answer _ Bag new.
-	aPolynomial integerPrimitivePart factorization withOccurrencesDo: [:f :e|
-		f degree = 1
-			ifTrue:
-				[answer add: (f independentCoefficient negated / f leadingCoefficient) withOccurrences: e]
-			ifFalse:
-				[answer addAll: (self allRootsOf: (f over: self) tolerance: Float epsilon)]].
-	^ answer! !
-
-!ComplexField methodsFor: 'computing-polynomials' stamp: 'len 12/10/2022 12:11:59'!
-allRootsOf: aPolynomial tolerance: tolerance
+!ComplexField methodsFor: 'computing-polynomials' stamp: 'len 6/25/2023 11:27:57'!
+rootsOf: aPolynomial tolerance: tolerance do: aBlock
 	"Given a squarefree polynomial with real or complex coefficients, this algorithm finds
 	approximations with absolute error < tolerance for all the complex roots of the polynomial.
 	This is Newton's modified algorithm with quadratic convergence, based on [Coh96, Algorithm 3.6.6]."
-	| roots X P Q P2 Q2 n x v m c dx x1 v1 m1 realCoefficients |
-	X _ aPolynomial parent x.
-	P _ aPolynomial.
-	Q _ P.
-	P2 _ P derivative.
-	Q2 _ P2.
-	n _ P degree.
-	roots _ OrderedCollection new: n.
-	realCoefficients _ P coefficients allSatisfy: [:each| (each isKindOf: Number) or: [each imaginary isZero]].
+	| X P Q P2 Q2 n x v m c dx x1 v1 m1 realCoefficients |
+	X := aPolynomial parent x.
+	P := aPolynomial.
+	Q := P.
+	P2 := P derivative.
+	Q2 := P2.
+	n := P degree.
+	realCoefficients := P coefficients allSatisfy: [:each| (each isKindOf: Number) or: [each imaginary isZero]].
 	["Initialize root finding:"
-	x _ 1.3 + 0.314159 i. "some initial value"
-	v _ Q value: x.
-	m _ v norm2.
+	x := 1.3 + 0.314159 i. "some initial value"
+	v := Q value: x.
+	m := v norm2.
 	"Initialize recursion:"
-	c _ 0. dx _ v / (Q2 value: x).
+	c := 0. dx := v / (Q2 value: x).
 	[dx abs < tolerance]
 		whileFalse:
-			[x1 _ x - dx.
-			v1 _ Q value: x1.
-			m1 _ v1 norm2.
+			[x1 := x - dx.
+			v1 := Q value: x1.
+			m1 := v1 norm2.
 			m1 < m
-				ifTrue: [x _ x1. v _ v1. m _ m1. c _ 0. dx _ v / (Q2 value: x)]
-				ifFalse: [c _ c + 1. dx _ dx / 4. c > 20 ifTrue: [self error: 'failed']]].
+				ifTrue: [x := x1. v := v1. m := m1. c := 0. dx := v / (Q2 value: x)]
+				ifFalse: [c := c + 1. dx := dx / 4. c > 20 ifTrue: [self error: 'failed']]].
 	"Polish root:"
-	2 timesRepeat: [x _ x - ((P value: x) / (P2 value: x))].
+	2 timesRepeat: [x := x - ((P value: x) / (P2 value: x))].
 	"Divide:"
 	((realCoefficients not or: [n = 1]) or: [x imaginary abs < tolerance "###"])
 		ifTrue: "found one root"
-			[x imaginary abs < tolerance ifTrue: [x _ x real]. "###"
-			roots add: x.
-			Q _ Q // (X - x).
-			Q2 _ Q derivative. "###"
-			n _ n - 1]
+			[x imaginary abs < tolerance ifTrue: [x := x real]. "###"
+			aBlock value: x.
+			Q := Q // (X - x).
+			Q2 := Q derivative. "###"
+			n := n - 1]
 		ifFalse: "found a root and (if the root is not real) also found its conjugate"
-			[roots
-				add: x;
-				add: x conjugate.
-			Q _ Q // (X^2 - (X * (x real * 2)) + x abs squared).
-			Q2 _ Q derivative. "###"
-			n _ n - 2].
-	n > 0] whileTrue.
-	^ roots! !
+			[aBlock value: x; value: x conjugate.
+			Q := Q // (X^2 - (X * (x real * 2)) + x abs squared).
+			Q2 := Q derivative. "###"
+			n := n - 2].
+	n > 0] whileTrue! !
 
-!ComplexField methodsFor: 'computing-polynomials' stamp: 'len 7/4/2022 13:13:58'!
-isIrreducibleUnivariatePolynomial: aPolynomial
-	^ aPolynomial degree = 1! !
+!ComplexField methodsFor: 'computing-polynomials' stamp: 'len 6/25/2023 11:30:06'!
+rootsOf: aPolynomial withMultiplicitiesDo: aBlock
+	aPolynomial integerPrimitivePart factorization withOccurrencesDo: [:f :e|
+		f degree = 1
+			ifTrue:
+				[aBlock value: (f independentCoefficient negated / f leadingCoefficient) value: e]
+			ifFalse:
+				[self rootsOf: (f over: self) tolerance: Float epsilon do: [:each| aBlock value: each value: e]]]! !
 
 !ComplexField methodsFor: 'elements' stamp: 'len 5/28/2023 20:55:04'!
 newFrom: anObject
@@ -14085,22 +14040,14 @@ zero
 hash
 	^ self class hash! !
 
-!RealField methodsFor: 'computing-polynomials' stamp: 'len 12/10/2022 11:59:11'!
-allRootsOf: aPolynomial
-	| answer |
-	answer _ Bag new.
+!RealField methodsFor: 'computing-polynomials' stamp: 'len 6/25/2023 11:31:56'!
+rootsOf: aPolynomial withMultiplicitiesDo: aBlock
 	aPolynomial integerPrimitivePart factorization withOccurrencesDo: [:f :e|
 		f degree = 1
 			ifTrue:
-				[answer add: (f independentCoefficient negated / f leadingCoefficient) withOccurrences: e]
+				[aBlock value: (f independentCoefficient negated / f leadingCoefficient) value: e]
 			ifFalse:
-				[answer addAll: ((ℂ allRootsOf: (f over: ℂ) tolerance: Float epsilon) select: [:each| each isReal])]].
-	^ answer! !
-
-!RealField methodsFor: 'computing-polynomials' stamp: 'len 7/4/2022 13:14:21'!
-isIrreducibleUnivariatePolynomial: aPolynomial
-	aPolynomial degree > 2 ifTrue: [^ false].
-	^ super isIrreducibleUnivariatePolynomial: aPolynomial! !
+				[ℂ rootsOf: (f over: ℂ) tolerance: Float epsilon do: [:each| each isReal ifTrue: [aBlock value: each value: e]]]]! !
 
 !RealField methodsFor: 'enumerating' stamp: 'len 8/6/2016 03:50'!
 do: aBlock
@@ -15938,23 +15885,21 @@ fractions
 printOn: aStream
 	aStream nextPut: $𝕆; nextPut: $(; print: self fractions; nextPut: $)! !
 
-!MaximalOrder methodsFor: 'random' stamp: 'len 5/30/2022 10:32:53'!
+!MaximalOrder methodsFor: 'random' stamp: 'len 6/25/2023 11:39:34'!
 unitAtRandom: aRandom
-	| f roots |
-	[f _ self scalars polynomials atRandom: aRandom maxDegree: self degree - 2.
-	f _ f << 1 + (self scalars units atRandom: aRandom) + (self scalars polynomials x: 1 to: self degree).
-	f _ f over: self fractions.
-	(roots _ f roots) isEmpty] whileTrue.
-	^ self !! roots anyOne! !
+	| f |
+	[f := self scalars polynomials atRandom: aRandom maxDegree: self degree - 2.
+	f := f << 1 + (self scalars units atRandom: aRandom) + (self scalars polynomials x: 1 to: self degree).
+	f := f over: self fractions.
+	f roots do: [:each| ^ self !! each]] repeat! !
 
-!MaximalOrder methodsFor: 'random' stamp: 'len 5/30/2022 10:33:08'!
+!MaximalOrder methodsFor: 'random' stamp: 'len 6/25/2023 11:39:46'!
 unitAtRandom: aRandom bits: bitSize
-	| f roots |
-	[f _ self scalars polynomials atRandom: aRandom bits: bitSize maxDegree: self degree - 2.
-	f _ f << 1 + (self scalars units atRandom: aRandom) + (self scalars polynomials x: 1 to: self degree).
-	f _ f over: self fractions.
-	(roots _ f roots) isEmpty] whileTrue.
-	^ self !! roots anyOne! !
+	| f |
+	[f := self scalars polynomials atRandom: aRandom bits: bitSize maxDegree: self degree - 2.
+	f := f << 1 + (self scalars units atRandom: aRandom) + (self scalars polynomials x: 1 to: self degree).
+	f := f over: self fractions.
+	f roots do: [:each| ^ self !! each]] repeat! !
 
 !MaximalOrder methodsFor: 'testing' stamp: 'len 7/15/2021 16:51:30'!
 isDedekindDomain
@@ -18032,10 +17977,10 @@ isOne
 	"Answer true if the receiver is the unit ideal <1> (the whole ring)."
 	^ self contains: self scalars one! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 6/6/2022 11:51:44'!
+!Ideal methodsFor: 'testing' stamp: 'len 6/25/2023 00:29:51'!
 isPrimary
 	"An ideal I of a commutative ring is called 'primary' if for all x*y in I, x or y^n (n>0) is also in I."
-	self scalars = ℤ ifTrue: [^ self isTrivial or: [self generator factorization asSet size = 1]].
+	self scalars = ℤ ifTrue: [^ self isTrivial or: [self generator isPrimePower]].
 	^ self notYetImplemented! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 10/9/2022 11:15:15'!
@@ -29859,6 +29804,20 @@ corepresentation
 divisionBy: anElement
 	^ Division divide: self by: anElement! !
 
+!RingElement methodsFor: 'operations' stamp: 'len 6/25/2023 09:54:56'!
+factorization
+	"Answer a collection with the irreducible factors of the receiver (with multiplicity)."
+	| answer |
+	answer := Bag new.
+	self factorizationDo: [:p :e| answer add: p withOccurrences: e].
+	^ answer! !
+
+!RingElement methodsFor: 'operations' stamp: 'len 6/25/2023 09:55:59'!
+factorizationDo: aBlock
+	"Enumerate the irreducible factors of the receiver and their multiplicities."
+	self parent isUFR ifFalse: [^ self error: 'not an UFR'].
+	^ self subclassResponsibility! !
+
 !RingElement methodsFor: 'operations' stamp: 'len 12/18/2022 08:45:51'!
 gauge
 	"Answer the value of the Euclidean function at the receiver."
@@ -29995,10 +29954,10 @@ representation
 	| V |
 	^ (V _ self parent asModule) endomorphisms map: [:x| V !! (self * (self parent !! x))]! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 6/20/2023 21:27:08'!
+!RingElement methodsFor: 'operations' stamp: 'len 6/25/2023 11:39:58'!
 root: anInteger
 	"Answer a n-th root of the receiver."
-	^ (self parent polynomials x ^ anInteger - self) anyRoot! !
+	^ (self parent polynomials x ^ anInteger - self) roots anyOne! !
 
 !RingElement methodsFor: 'operations' stamp: 'len 5/30/2023 22:26:04'!
 sqrt
@@ -30286,16 +30245,15 @@ colift: anElement
 	This is the right division of b by a, written b / a."
 	^ parent compose: ((1 to: self size) collect: [:i| ((self at: i) colift: (anElement at: i)) ifNil: [^ nil]])! !
 
-!Product methodsFor: 'operations' stamp: 'len 6/19/2022 07:12:06'!
-factorization
-	"Answer a collection with the irreducible factors of the receiver (with multiplicity)."
-	| answer one |
-	answer _ Bag new.
-	one _ components collect: [:each| each isZero ifTrue: [each] ifFalse: [each one]].
+!Product methodsFor: 'operations' stamp: 'len 6/25/2023 09:57:17'!
+factorizationDo: aBlock
+	"Enumerate the irreducible factors of the receiver and their multiplicities."
+	| one |
+	self isZero ifTrue: [^ self error: 'factorization of zero'].
+	one := components collect: [:each| each isZero ifTrue: [each] ifFalse: [each one]].
 	components withIndexDo: [:each :i|
-		each factorization withOccurrencesDo: [:factor :times|
-			answer add: (parent compose: (one copy at: i put: factor; yourself)) withOccurrences: times]].
-	^ answer! !
+		each factorizationDo: [:factor :times|
+			aBlock value: (parent compose: (one copy at: i put: factor; yourself)) value: times]]! !
 
 !Product methodsFor: 'operations' stamp: 'len 10/16/2022 10:41:00'!
 gauge
@@ -30656,11 +30614,11 @@ colift: anElement
 	u _ d normalization.
 	^ self parent reducedNumerator: n * u denominator: d * u! !
 
-!Germ methodsFor: 'operations' stamp: 'len 6/2/2023 17:20:12'!
-factorization
+!Germ methodsFor: 'operations' stamp: 'len 6/25/2023 09:58:32'!
+factorizationDo: aBlock
 	"If the parent of the receiver is a DVR, this means it is an UFD with unique irreducible element up to multiplication by units."
 	self isZero ifTrue: [^ self error: 'factorization of zero'].
-	^ Bag new add: parent uniformizer withOccurrences: self valuation; yourself! !
+	aBlock value: parent uniformizer value: self valuation! !
 
 !Germ methodsFor: 'operations' stamp: 'len 5/26/2022 12:32:52'!
 gcd: anElement
@@ -31385,10 +31343,11 @@ colift: anElement
 	m _ m // d.
 	^ parent project: (a reciprocalModulo: m) * b "! !
 
-!ModularInteger methodsFor: 'operations' stamp: 'len 8/5/2021 08:35:56'!
-factorization
-	"Answer a collection with the irreducible factors of the receiver (with multiplicity)."
-	^ (self normalized representative factorization apply: [:each| parent representative: each]) select: [:each| each isIrreducible]! !
+!ModularInteger methodsFor: 'operations' stamp: 'len 6/25/2023 10:01:10'!
+factorizationDo: aBlock
+	self normalized representative factorizationDo: [:p :e|
+		| pp |
+		(pp := parent representative: p) isIrreducible ifTrue: [aBlock value: pp value: e]]! !
 
 !ModularInteger methodsFor: 'operations' stamp: 'len 10/16/2022 10:41:51'!
 gauge
@@ -32128,11 +32087,11 @@ O: anInteger
 	anInteger > 0 ifFalse: [self error: 'precision must be positive'].
 	^ parent project: representative precision: anInteger! !
 
-!Adic methodsFor: 'operations' stamp: 'len 6/2/2023 17:21:57'!
-factorization
+!Adic methodsFor: 'operations' stamp: 'len 6/25/2023 10:01:50'!
+factorizationDo: aBlock
 	"This is correct for DVRs, for example ℤₚ, because they are UFDs with unique irreducible element up to multiplication by units."
 	self isZero ifTrue: [^ self error: 'factorization of zero'].
-	^ Bag new add: parent uniformizer withOccurrences: self valuation; yourself! !
+	aBlock value: parent uniformizer value: self valuation! !
 
 !Adic methodsFor: 'operations' stamp: 'len 6/1/2023 21:21:01'!
 gcd: anElement
@@ -33975,131 +33934,85 @@ monomialsDo: aBlock
 	"Iterate over the support of the receiver, i.e. the monomials with nonzero coefficient."
 	coefficients supportDo: [:i| aBlock value: (self parent monomials x: 1 to: i-1)]! !
 
-!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 1/9/2022 21:02:26'!
-distinctDegreeFactorization
-	"Answer the distinct-degree factorization of a monic squarefree polynomial over a finite field.
-	The factorizations is a Dictionary d -> g, where g is the product of all irreducible factors of degree d."
-	| answer i f f2 one q x R h |
-	answer _ Dictionary new.
-	f _ self.
-	R _ f parent.
-	x _ R x.
-	one _ R one.
-	q _ R scalars size.
-	i _ 1.
-	f2 _ f.
-	h _ x.
-	[f2 degree >= (2*i)]
+!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 6/24/2023 23:10:33'!
+distinctDegreeFactorizationDo: aBlock
+	"Iterate over the distinct-degree factorization of a monic squarefree polynomial over a finite field.
+	Evaluates aBlock at d and g, where g is the product of all irreducible factors of degree d."
+	| i f f₂ q x R h found |
+	f := self.
+	R := f parent.
+	x := R x.
+	q := R scalars size.
+	i := 1.
+	f₂ := f.
+	h := x.
+	[f₂ degree >= (2*i)]
 		whileTrue:
-			[ | g | g _ f2 gcd: (h _ h raisedTo: q modulo: f2) - x.
-			g ~= one ifTrue: [answer at: i put: g. f2 _ f2 // g].
-			i _ i + 1].
-	f2 ~= one ifTrue: [answer at: f2 degree put: f2].
-	answer isEmpty ifTrue: [answer at: 1 put: f].
-	^ answer! !
+			[ | g | g := f₂ gcd: (h := h raisedTo: q modulo: f₂) - x.
+			g isOne ifFalse: [aBlock value: i value: g. f₂ := f₂ // g. found := true].
+			i := i + 1].
+	f₂ isOne ifFalse: [aBlock value: f₂ degree value: f₂. found := true].
+	found ifFalse: [aBlock value: 1 value: f]! !
 
-!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 5/8/2022 07:11:36'!
-equalDegreeFactorization: d
-	"Cantor-Zassenhaus algorithm. Answer the equal-degree factorization of a monic squarefree univariate polynomial which has r>=2 pairwise distinct irreducible factors each of degree d."
-	| f r q h g one factors c |
-	f _ self.
-	q _ f scalars size.
-	q odd ifFalse: [^ self equalDegreeFactorization2: d].
-	r _ f degree / d.
-	one _ f parent one.
-	factors _ OrderedCollection with: f.
-	[factors size < r]
-		whileTrue:
-			[[h _ (f parent atRandomMaxDegree: 2*d-1). "should be monic? should: d <= deg(h) <= 2d-1"
+!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 6/24/2023 23:31:53'!
+equalDegreeFactorization: d do: aBlock
+	"Cantor-Zassenhaus algorithm. Iterate over the equal-degree factorization of a monic squarefree univariate polynomial which has r>=2 pairwise distinct irreducible factors each of degree d."
+	| f q h g one queue c |
+	self degree = d ifTrue: [^ aBlock value: self].
+	f := self.
+	q := f scalars size.
+	q odd ifFalse: [^ self equalDegreeFactorization2: d do: aBlock].
+	one := f parent one.
+	queue := OrderedCollection with: f.
+	[queue isEmpty]
+		whileFalse:
+			[[h := (self parent atRandomMaxDegree: 2*d-1). "should be monic? should: d <= deg(h) <= 2d-1"
 			h isZero] whileTrue. "ensure it's not 0"
-			h _ h normalized.
-			g _ (h raisedTo: q^d - 1 / 2 modulo: f) - one. "<- most time is spent here"
-			factors do: [:u|
-				u degree > d
-					ifTrue:
-						[c _ g gcd: u.
-						(c ~= one and: [c ~= u])
-							ifTrue: "found nontrivial common factor c"
-								[factors _ factors copyWithout: u.
-								factors add: c; add: u // c]]]].
-	^ factors! !
+			h := h normalized.
+			g := (h raisedTo: q^d - 1 / 2 modulo: f) - one. "<- most time is spent here"
+			queue do: [:u|
+				c := g gcd: u.
+				(c ~= one and: [c ~= u])
+					ifTrue: "found nontrivial common factor c"
+						[queue := queue copyWithout: u.
+						c degree = d ifTrue: [aBlock value: c] ifFalse: [queue add: c].
+						c := u // c.
+						c degree = d ifTrue: [aBlock value: c] ifFalse: [queue add: c]]]]! !
 
-!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 6/2/2023 17:22:40'!
-factorization
+!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 6/25/2023 09:56:26'!
+factorizationDo: aBlock
+	"Enumerate the irreducible factors of the receiver and their multiplicities."
 	self isZero ifTrue: [^ self error: 'factorization of zero'].
-	^ self scalars factorizationOf: self! !
+	self scalars polynomial: self factorizationDo: aBlock! !
 
 !UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 1/9/2022 08:35:42'!
 squarefreeFactorization
 	"Answer a squarefree factorization of the receiver."
 	^ self scalars squarefreeFactorizationOf: self! !
 
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 4/16/2018 20:24:33'!
-equalDegreeFactorization2: d
-	"Cantor-Zassenhaus algorithm. Answer the equal-degree factorization of a monic squarefree univariate polynomial which has r>=2 pairwise distinct irreducible factors each of degree d."
-	| f r h g one factors c |
-	f _ self.
+!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 6/25/2023 10:14:52'!
+equalDegreeFactorization2: d do: aBlock
+	"Cantor-Zassenhaus algorithm. Enumerate the equal-degree factorization of a monic squarefree univariate polynomial which has r>=2 pairwise distinct irreducible factors each of degree d."
+	| f h g one queue c |
+	f := self.
 "	q _ f parent scalars size.
 	q even ifFalse: [^ self error: 'order not even']."
-	r _ f degree / d.
-	one _ f parent one.
-	factors _ OrderedCollection with: f.
-	h _ f parent x.
-	[factors size < r]
-		whileTrue:
-			[g _ h.
-			d - 1 timesRepeat: [g _ h + g squared \\ f].
-			factors do: [:u|
-				u degree > d
+	one := f parent one.
+	queue := OrderedCollection with: f.
+	h := f parent x.
+	[queue isEmpty]
+		whileFalse:
+			[g := h.
+			d - 1 timesRepeat: [g := h + g squared \\ f].
+			queue do: [:u|
+				c := g gcd: u.
+				(c ~= one and: [c ~= u])
 					ifTrue:
-						[c _ g gcd: u.
-						(c ~= one and: [c ~= u])
-							ifTrue:
-								[factors _ factors copyWithout: u.
-								factors add: c; add: u // c]]].
-			h _ h << 2].
-	^ factors! !
-
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 5/8/2023 11:32:01'!
-factorizationZassenhauss
-	"Zassenhauss algorithm. Answer the irreducible factors of a squarefree primitive polynomial with integer coefficients."
-	| f n A b B C γ df p Zp fp dfp k factors r answer |
-	self isOne ifTrue: [^ Bag new].
-	f _ self.
-	n _ f degree.
-	n = 1 ifTrue: [^ {f}].
-	A _ f normMax.
-	b _ f leadingCoefficient.
-	B _ (n+1) sqrt * (1<<n) * A * b. "float will fail"
-	C _ (n+1)^(2*n)*(A^(2*n-1)).
-"	γ _ (2 * (C log: 2)) ceiling."
-	γ _ 2 * C highBit. "+1?"
-	df _ f derivative.
-	[[p _ (2*γ*γ ln) asInteger atRandom nextPrime.
-	p | b] whileTrue.
-	Zp _ PrimeField new: p.
-	fp _ f over: Zp.
-	dfp _ df over: Zp.
-	(fp gcd: dfp) isConstant] whileFalse.
-	"modular factorization"
-	factors _ fp normalized factorization.
-	r _ factors size. "should repeat this 5 times and choose smallest r"
-	r = 1 ifTrue: [^ {f}]. "if irreducible mod p, also irreducible over Z"
-"	self assert: (self % p - (factors product * b)) isZero."
-	"hensel lifting"
-	k _ ((2*B+1) log: p) abs ceiling. "p^k > 2B"
-	k _ 1 << k highBit. "<- in order to do quadratic liftings, maybe shouldn't"
-	factors _ f henselLift: factors asArray to: (PrimePowerRing new: p to: k). "lift to p^k" "<- about 20% of time is spent here"
-"	1 to: k do: [:i|
-		self assert: (self - ((factors product: [:fi| fi lift]) * b) % (p^i)) isZero]."
-	"recombination"
-	answer _ Bag new.
-	1 to: r do: [:j|
-		(factors combinations: j) do: [:each| | g division | "<- about 50% of time is spent in this recombination step"
-			g _ (each product * b) lift primitivePart.
-			division _ f divisionBy: g.
-			division remainder isZero ifTrue: [answer add: g. f _ division quotient. f isConstant ifTrue: [^ answer]]]].
-	^ answer add: f; yourself! !
+						[queue := queue copyWithout: u.
+						c degree = d ifTrue: [aBlock value: c] ifFalse: [queue add: c].
+						c := u // c.
+						c degree = d ifTrue: [aBlock value: c] ifFalse: [queue add: c]]].
+			h := h << 2]! !
 
 !UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 1/9/2022 21:02:37'!
 factorizationZassenhauss2
@@ -34130,6 +34043,47 @@ factorizationZassenhauss2
 			g _ each product.
 			g | f ifTrue: [answer add: g]]].
 	^ answer! !
+
+!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 6/25/2023 11:59:09'!
+factorizationZassenhaussDo: aBlock
+	"Zassenhauss algorithm. Enumerate the irreducible factors of a squarefree primitive polynomial with integer coefficients."
+	| f n A b B C γ df p Zₚ fₚ dfₚ k factors r |
+	self isOne ifTrue: [^ self].
+	f := self.
+	n := f degree.
+	n = 1 ifTrue: [^ aBlock value: f].
+	A := f normMax.
+	b := f leadingCoefficient.
+	B := (n+1) sqrt * (1<<n) * A * b. "float will fail"
+	C := (n+1)^(2*n)*(A^(2*n-1)).
+"	γ _ (2 * (C log: 2)) ceiling."
+	γ := 2 * C highBit. "+1?"
+	df := f derivative.
+	[[(p := (2*γ*γ ln) asInteger atRandom nextPrime) | b] whileTrue.
+	Zₚ := PrimeField new: p.
+	fₚ := f over: Zₚ.
+	dfₚ := df over: Zₚ.
+	(fₚ gcd: dfₚ) isConstant] whileFalse.
+	"Modular factorization:"
+	factors := fₚ normalized factorization.
+	r := factors size. "should repeat this 5 times and choose smallest r"
+	r = 1 ifTrue: [^ aBlock value: f]. "if irreducible mod p, also irreducible over Z"
+"	self assert: (self % p - (factors product * b)) isZero."
+	"Hensel lifting:"
+	k := ((2*B+1) log: p) abs ceiling. "p^k > 2B"
+	k := 1 << k highBit. "<- in order to do quadratic liftings, maybe shouldn't"
+	factors := f henselLift: factors asArray to: (PrimePowerRing new: p to: k). "lift to p^k" "<- about 20% of time is spent here"
+"	1 to: k do: [:i|
+		self assert: (self - ((factors product: [:fi| fi lift]) * b) % (p^i)) isZero]."
+	"Recombination:"
+	1 to: r do: [:j|
+		(factors combinations: j) do: [:each| | g division | "<- about 50% of time is spent in this recombination step"
+			g := (each product * b) lift primitivePart.
+			division := f divisionBy: g.
+			division remainder isZero ifTrue:
+				[aBlock value: g.
+				(f := division quotient) isConstant ifTrue: [^ self]]]].
+	^ aBlock value: f! !
 
 !UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 5/12/2023 21:11:07'!
 henselLift: factors to: Zpk
@@ -34181,37 +34135,35 @@ landauMignotteBound
 	h _ d // 2.
 	^ (d - 1 choose: h) * self norm2 + (d - 1 choose: h - 1)! !
 
-!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 5/8/2023 11:30:19'!
+!UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 6/25/2023 10:10:43'!
 squarefreeFactorizationFiniteField
 	"Answer the squarefree decomposition of a monic polynomial."
 	"NOTE: this only works on prime fields. For non-prime fields, after substituting x^p by x we must also apply the inverse of the Frobenius automorphism to the coefficients."
 	| answer f one p i g c w y z |
-	self isMonic ifFalse: [self error: 'not monic'].
-	answer _ Bag new.
+	self flag: #fixme.
+	self isMonic ifFalse: [^ self error: 'not monic'].
+	answer := Bag new.
 	self isOne ifTrue: [^ answer].
-	f _ self.
-	one _ f one.
-	p _ f scalars characteristic.
-	(g _ f derivative) isZero
-		ifTrue:
-			[f _ f applyToMonomials: [:m| m root: p]. "not enough if the field is non-prime"
-			f squarefreeFactorizationFiniteField
-				do: [:each| answer add: each withOccurrences: p].
-			^ answer].
-	c _ f gcd: g.
-	w _ f // c.
-	i _ 1.
-	[w = one]
-		whileFalse:
-			[y _ w gcd: c. z _ w // y.
-			z ^ i = one ifFalse: [answer add: z withOccurrences: i].
-			i _ i + 1.
-			w _ y. c _ c // y].
-	c = one
-		ifFalse:
-			[c _ c applyToMonomials: [:m| m root: p]. "not enough if the field is non-prime"
-			c squarefreeFactorizationFiniteField
-				do: [:each| answer add: each withOccurrences: p]].
+	f := self.
+	one := f one.
+	p := f scalars characteristic.
+	(g := f derivative) isZero ifTrue:
+		[f := f applyToMonomials: [:m| m root: p]. "not enough if the field is non-prime"
+		f squarefreeFactorizationFiniteField
+			do: [:each| answer add: each withOccurrences: p].
+		^ answer].
+	c := f gcd: g.
+	w := f // c.
+	i := 1.
+	[w = one] whileFalse:
+		[y := w gcd: c. z := w // y.
+		z ^ i = one ifFalse: [answer add: z withOccurrences: i].
+		i := i + 1.
+		w := y. c := c // y].
+	c = one ifFalse:
+		[c := c applyToMonomials: [:m| m root: p]. "not enough if the field is non-prime"
+		c squarefreeFactorizationFiniteField
+			do: [:each| answer add: each withOccurrences: p]].
 	^ answer! !
 
 !UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 1/9/2022 21:03:10'!
@@ -34554,18 +34506,13 @@ allRoots
 	"Answer the roots (counted with multiplicity) in the coefficients ring or field."
 	^ self allRootsIn: self scalars! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 7/13/2021 15:00:25'!
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 6/25/2023 11:38:00'!
 allRootsIn: aRing
 	"Answer the roots (counted with multiplicity) in aRing."
-	^ aRing allRootsOf: self! !
-
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/16/2018 19:49:43'!
-anyRoot
-	^ self anyRootIn: self scalars! !
-
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 7/13/2021 14:58:03'!
-anyRootIn: aRing
-	^ aRing anyRootOf: self! !
+	| answer |
+	answer := Bag new.
+	self rootsIn: aRing withMultiplicitiesDo: [:τ :m| answer add: τ withOccurrences: m].
+	^ answer! !
 
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 4/16/2018 20:38:44'!
 cauchyRootBound
@@ -34598,10 +34545,20 @@ roots
 	"Answer the set of distinct roots in the coefficients ring or field."
 	^ self rootsIn: self scalars! !
 
-!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 7/13/2021 14:58:45'!
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 6/25/2023 11:36:39'!
 rootsIn: aRing
 	"Answer the distinct roots (not counted with multiplicity) in the given domain."
-	^ aRing rootsOf: self! !
+	^ Iterator on: [:aBlock| self rootsIn: aRing do: aBlock]! !
+
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 6/25/2023 11:34:59'!
+rootsIn: aRing do: aBlock
+	"Enumerate the distinct roots of the receiver in aRing (without multiplicities)."
+	aRing rootsOf: self do: aBlock! !
+
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 6/25/2023 11:35:32'!
+rootsIn: aRing withMultiplicitiesDo: aBlock
+	"Enumerate the roots of the receiver in aRing with multiplicities."
+	aRing rootsOf: self withMultiplicitiesDo: aBlock! !
 
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 5/22/2022 11:10:14'!
 signature
@@ -34704,9 +34661,15 @@ isInertial
 	coefficients last valuation = 0 ifFalse: [^ false].
 	^ (self apply: self scalars → self scalars residueField) isIrreducible! !
 
-!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 7/4/2022 13:15:14'!
+!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 6/24/2023 20:31:33'!
 isIrreducible
-	^ self scalars isIrreducibleUnivariatePolynomial: self! !
+	self isConstant ifTrue: [^ false]. "constant polynomials are not reducible nor irreducible"
+	self degree = 1 ifTrue: [^ true].
+	self independentCoefficient isZero ifTrue: [^ false].
+	self scalars isFiniteField ifTrue: [^ self isIrreducibleRabin].
+	self scalars isAlgebraicallyClosed ifTrue: [^ false]. "because degree > 1"
+	(self scalars = ℝ and: [self degree > 2]) ifTrue: [^ false].
+	^ self factorization size = 1! !
 
 !UnivariatePolynomial methodsFor: 'testing' stamp: 'len 4/16/2018 20:26:51'!
 isIrreducibleBenOr
@@ -39064,8 +39027,9 @@ factorization
 	self factorizationDo: [:p :e| answer add: p withOccurrences: e].
 	^ answer! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 6/23/2023 23:41:58'!
+!Integer methodsFor: '*algebra' stamp: 'len 6/25/2023 09:56:44'!
 factorizationDo: aBlock
+	"Enumerate the prime factors of the receiver and their multiplicities."
 	| n times p max |
 	self = 0 ifTrue: [self error: 'factorization of zero'].
 	n := self abs.
