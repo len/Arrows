@@ -1,17 +1,17 @@
-'From Cuis 6.0 [latest update: #5438] on 25 November 2022 at 10:26:32 am'!
+'From Cuis 6.0 [latest update: #5878] on 26 June 2023 at 2:07:29 pm'!
 'Description '!
-!provides: 'Tests-Codes' 1 2!
+!provides: 'Tests-Codes' 1 3!
 !requires: 'Codes' 1 0 nil!
-SystemOrganization addCategory: #'Tests-Codes'!
+SystemOrganization addCategory: 'Tests-Codes'!
 
 
-!classDefinition: #CodesTest category: #'Tests-Codes'!
+!classDefinition: #CodesTest category: 'Tests-Codes'!
 TestCase subclass: #CodesTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Codes'!
-!classDefinition: 'CodesTest class' category: #'Tests-Codes'!
+!classDefinition: 'CodesTest class' category: 'Tests-Codes'!
 CodesTest class
 	instanceVariableNames: ''!
 
@@ -63,10 +63,10 @@ testDirectSumCode
 	self assert: (C1 includes: (z copyFrom: 1 to: C1 length)).
 	self assert: (C2 includes: (z copyFrom: C1 length + 1 to: C length))! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 10/2/2022 17:41:37'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:52:45'!
 testDual
 	| C |
-	C _ LinearCode on: (ℤ/2^5 span: {(0,0,0,0,0) % 2. (1,1,1,1,1) % 2}).
+	C := LinearCode on: (ℤ/2^5 sub: {(0,0,0,0,0) % 2. (1,1,1,1,1) % 2}).
 	self assert: C dual size = (C space size / C size).
 	C dual do: [:v|
 		"check each codeword of the dual has an even number of 1's, because it must be perpendicular to 11111 (and 00000 of course)."
@@ -228,12 +228,12 @@ testReedMuller4
 	D _ LinearCode RM: {m-r-1. m}.
 	self assert: C dual = D! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 10/2/2022 17:41:37'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:52:50'!
 testSelfDual
 	| F C |
-	F _ ℤ/2.
+	F := ℤ/2.
 	"{00,11} is the smallest self-dual code"
-	C _ LinearCode on: (F^2 span: {(0,0) % 2. (1,1) % 2}).
+	C := LinearCode on: (F^2 sub: {(0,0) % 2. (1,1) % 2}).
 	self assert: C isSelfDual.
 	self assert: C isSelfOrthogonal.
 	"TODO: test other examples of self-dual codes: H8, G24"! !
@@ -257,25 +257,25 @@ testSingletonBoundTetracode
 	"Any linear [n,k,d] code satisfies k + d <= n + 1."
 	self testSingletonBound: LinearCode tetracode! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 10/2/2022 17:41:37'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:52:54'!
 testTetracode
 	| C P x y |
-	C _ LinearCode on: (ℤ/3 ^ 4 span: {(1,1,1,0) % 3. (0,1,2,1) % 3}).
+	C := LinearCode on: (ℤ/3 ^ 4 sub: {(1,1,1,0) % 3. (0,1,2,1) % 3}).
 	self assert: C isSelfDual.
 	self assert: C minimumDistance = 3.
-	P _ ℤ polynomialsIn: #(x y).
-	x _ P x.
-	y _ P y.
+	P := ℤ polynomialsIn: #(x y).
+	x := P x.
+	y := P y.
 	self assert: C weightEnumerator = (x^4 + (x*(y^3)*8))! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 10/2/2022 17:41:36'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:53:00'!
 testWeightEnumerator
 	"From youtube, Neil Sloane 'error correcting codes, group theory and invariant theory part 1' 19:30."
 	| F C w x y |
-	F _ ℤ/2.
-	C _ LinearCode on: (F^5 span: {(0,0,0,0,0) % 2. (1,1,1,1,1) % 2}).
-	w _ C weightEnumerator.
-	x _ w parent x.
-	y _ w parent y.
+	F := ℤ/2.
+	C := LinearCode on: (F^5 sub: {(0,0,0,0,0) % 2. (1,1,1,1,1) % 2}).
+	w := C weightEnumerator.
+	x := w parent x.
+	y := w parent y.
 	self assert: w = (x^5 + (y^5)).
 	self assert: C dual weightEnumerator = (x^5 + (x^3*(y^2)*10) + (y^4*x*5))! !

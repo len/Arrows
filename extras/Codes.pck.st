@@ -1,17 +1,17 @@
-'From Cuis 6.0 [latest update: #5801] on 1 June 2023 at 12:58:48 pm'!
+'From Cuis 6.0 [latest update: #5878] on 26 June 2023 at 2:06:45 pm'!
 'Description '!
-!provides: 'Codes' 1 10!
+!provides: 'Codes' 1 11!
 !requires: 'Algebra' 1 0 nil!
-SystemOrganization addCategory: #Codes!
+SystemOrganization addCategory: 'Codes'!
 
 
-!classDefinition: #LinearCode category: #Codes!
+!classDefinition: #LinearCode category: 'Codes'!
 Structure subclass: #LinearCode
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Codes'!
-!classDefinition: 'LinearCode class' category: #Codes!
+!classDefinition: 'LinearCode class' category: 'Codes'!
 LinearCode class
 	instanceVariableNames: ''!
 
@@ -215,13 +215,13 @@ isometries
 	"Answer the direct sum of the receiver and the argument."
 	^ self class generatorMatrix: self generatorMatrix ⊕ aCode generatorMatrix! !
 
-!LinearCode methodsFor: 'operations' stamp: 'len 11/23/2022 21:26:45'!
+!LinearCode methodsFor: 'operations' stamp: 'len 6/26/2023 12:59:55'!
 augmented
 	"Answer a code like the receiver but including the all-ones vector amoung its codewords."
 	| ones |
-	ones _ self space fill: [:i| self scalars one].
+	ones := self space fill: [:i| self scalars one].
 	(self includes: ones) ifTrue: [^ self].
-	^ self class on: self asModule + (self space span: {ones})! !
+	^ self class on: self asModule + (self space sub: {ones})! !
 
 !LinearCode methodsFor: 'operations' stamp: 'len 8/2/2020 17:59:32'!
 complement
@@ -233,19 +233,19 @@ dual
 	"Answer the dual or orthogonal code of the receiver."
 	^ self class on: self asModule complement! !
 
-!LinearCode methodsFor: 'operations' stamp: 'len 8/11/2020 08:42:37'!
+!LinearCode methodsFor: 'operations' stamp: 'len 6/26/2023 13:00:00'!
 extended
-	^ self class on: (self space scalars ^ (self length + 1) span: (self asModule generators collect: [:each| each, each sum negated]))! !
+	^ self class on: (self space scalars ^ (self length + 1) sub: (self asModule generators collect: [:each| each, each sum negated]))! !
 
 !LinearCode methodsFor: 'operations' stamp: 'len 8/12/2022 13:12:32'!
 hull
 	"The hull of a linear code is the intersection of the code with its dual."
 	^ self ∩ self dual! !
 
-!LinearCode methodsFor: 'operations' stamp: 'len 11/5/2022 14:20:28'!
-span: aCollection
+!LinearCode methodsFor: 'operations' stamp: 'len 6/26/2023 12:47:41'!
+sub: aCollection
 	"Answer the subcode spanned by the elements in aCollection."
-	^ (self class on: (self asModule span: aCollection)) ambient: self! !
+	^ (self class on: (self asModule sub: aCollection)) ambient: self! !
 
 !LinearCode methodsFor: 'operations' stamp: 'len 8/12/2022 13:12:21'!
 ∩ aCode
@@ -401,7 +401,7 @@ H8
 			(0,0,1,0, 1,1,0,1) % 2.
 			(0,0,0,1, 1,1,1,0) % 2})! !
 
-!LinearCode class methodsFor: 'examples' stamp: 'len 5/12/2023 21:10:29'!
+!LinearCode class methodsFor: 'examples' stamp: 'len 6/26/2023 12:59:51'!
 RM: parameters
 	"Answer the Reed-Muller code RM(r, m).
 	First we build the 2^m Sierpinski matrix by taking the m-fold Kronecher product of the 2x2 matrix
@@ -409,13 +409,13 @@ RM: parameters
 		[1 1]
 	over ℤ/2ℤ. Then we construct the RM(r,m) code as the span of the rows with Hamming weight >= 2^(m-r)."
 	| r m F S d |
-	r _ parameters at: 1.
-	m _ parameters at: 2.
-	F _ (ℤ/2^2) endomorphisms !! #(1 0 1 1).
-	S _ (ℤ/2^0) endomorphisms zero.
-	m timesRepeat: [S _ S ⊗ F].
-	d _ 2^(m-r).
-	^ self on: (S domain span: (S rows select: [:each| each weight >= d]))! !
+	r := parameters at: 1.
+	m := parameters at: 2.
+	F := (ℤ/2^2) endomorphisms !! #(1 0 1 1).
+	S := (ℤ/2^0) endomorphisms zero.
+	m timesRepeat: [S := S ⊗ F].
+	d := 2^(m-r).
+	^ self on: (S domain sub: (S rows select: [:each| each weight >= d]))! !
 
 !LinearCode class methodsFor: 'examples' stamp: 'len 8/10/2020 06:25:49'!
 hadamard8
@@ -435,10 +435,10 @@ simplex
 			(0,1,1,0,0,1,1) % 2.
 			(1,0,1,0,1,0,1) % 2})! !
 
-!LinearCode class methodsFor: 'examples' stamp: 'len 8/2/2020 12:25:10'!
+!LinearCode class methodsFor: 'examples' stamp: 'len 6/26/2023 13:00:20'!
 tetracode
 	"Answer the tetracode, a self dual code of minimum distance 3."
-	^ self on: ((ℤ/3)^4 span: {(1,1,1,0) % 3. (0,1,2,1) % 3})! !
+	^ self on: ((ℤ/3)^4 sub: {(1,1,1,0) % 3. (0,1,2,1) % 3})! !
 
 !LinearCode class methodsFor: 'instance creation' stamp: 'len 8/10/2020 06:39:05'!
 generatorMatrix: aMatrix
@@ -450,12 +450,12 @@ generatorMatrix: aMatrix
 generatorPolynomial: aPolynomial
 	^ self new: aPolynomial degree generatorPolynomial: aPolynomial! !
 
-!LinearCode class methodsFor: 'instance creation' stamp: 'len 8/2/2020 18:31:06'!
+!LinearCode class methodsFor: 'instance creation' stamp: 'len 6/26/2023 13:00:05'!
 new: n generatorPolynomial: aPolynomial
 	| V W subspace |
-	V _ aPolynomial parent filtrationAt: n - 1.
-	W _ aPolynomial parent filtrationAt: n - aPolynomial degree - 1.
-	subspace _ V span: (W asArray collect: [:f| aPolynomial * f]).
+	V := aPolynomial parent filtrationAt: n - 1.
+	W := aPolynomial parent filtrationAt: n - aPolynomial degree - 1.
+	subspace := V sub: (W asArray collect: [:f| aPolynomial * f]).
 	^ (self on: subspace)
 		propertyAt: #generatorPolynomial put: aPolynomial;
 		yourself! !

@@ -1,17 +1,17 @@
-'From Cuis 6.0 [latest update: #5801] on 4 June 2023 at 2:37:33 pm'!
+'From Cuis 6.0 [latest update: #5878] on 26 June 2023 at 2:07:23 pm'!
 'Description '!
-!provides: 'Tests-Lattices' 1 1!
+!provides: 'Tests-Lattices' 1 2!
 !requires: 'Lattices' 1 0 nil!
-SystemOrganization addCategory: #'Tests-Lattices'!
+SystemOrganization addCategory: 'Tests-Lattices'!
 
 
-!classDefinition: #LatticeTest category: #'Tests-Lattices'!
+!classDefinition: #LatticeTest category: 'Tests-Lattices'!
 TestCase subclass: #LatticeTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Lattices'!
-!classDefinition: 'LatticeTest class' category: #'Tests-Lattices'!
+!classDefinition: 'LatticeTest class' category: 'Tests-Lattices'!
 LatticeTest class
 	instanceVariableNames: ''!
 
@@ -52,24 +52,24 @@ testLLL2
 	reducer _ LLL basis: { b1. b2 } innerProduct: V innerProduct.
 	self assert: reducer reducedBasis = {V !! (2,0,-2). V !! (1,2,3)}! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 8/11/2020 08:02:37'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:52:31'!
 testLatticeDual
 	| V L R |
-	V _ ℚ^3.
-	L _ Lattice basis: {V !! (-1,0,0). V !! (0,1,2). V !! (0,1,1)}.
-	R _ L dual.
-	self assert: (L space span: L basis) = (R space span: R basis).
+	V := ℚ^3.
+	L := Lattice basis: {V !! (-1,0,0). V !! (0,1,2). V !! (0,1,1)}.
+	R := L dual.
+	self assert: (L space sub: L basis) = (R space sub: R basis).
 	self assert: L determinant = (1 / R determinant).
 	self assert: (R generatorMatrix * L generatorMatrix transpose) isIdentity.
 	self assert: L gramian = R gramian inverse! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 8/11/2020 08:02:45'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:52:38'!
 testLatticeDual2
 	| V L R |
-	V _ ℚ^3.
-	L _ Lattice basis: {V !! (-1,0,0). V !! (0,1,2)}. "not full rank"
-	R _ L dual.
-	self assert: (L space span: L basis) = (R space span: R basis).
+	V := ℚ^3.
+	L := Lattice basis: {V !! (-1,0,0). V !! (0,1,2)}. "not full rank"
+	R := L dual.
+	self assert: (L space sub: L basis) = (R space sub: R basis).
 	self assert: L determinant = (1 / R determinant).
 	self assert: (R generatorMatrix transpose * L generatorMatrix) isIdentity.
 	self assert: L gramian = R gramian inverse! !

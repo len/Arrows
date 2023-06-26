@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5878] on 25 June 2023 at 8:46:06 pm'!
+'From Cuis 6.0 [latest update: #5878] on 26 June 2023 at 2:07:13 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 79!
+!provides: 'Tests-Algebra' 1 80!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -3339,6 +3339,16 @@ testSmoothnessOverQQ
 	C _ P subscheme: P coordinateRing !! [:x :y :z| x^3 - (y^2*z)].
 	self assert: C isSingular! !
 
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 13:22:36'!
+testSmoothnessOverQQ2
+	| R I J |
+	R := ℚ polynomialsIn: #(x y).
+	I := R !! [:x :y| {x - y squared}].
+	J := R !! [:x :y| {x squared - y squared}].
+	self assert: (R/I) spec isSmooth.
+	self assert: (R/J) spec isSmooth not
+! !
+
 !AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 7/26/2022 13:39:32'!
 testSpecZ
 	self assert: ℤ spec dimension = 1.
@@ -4919,13 +4929,13 @@ testPermutationProduct3
 	self assert: b*a = (G !! #((1 2 4))).
 	self assert: a*b = (G !! #((1 3 2)))! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2020 07:20:07'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:48:21'!
 testPolynomialVectorSpace
 	| Qx V S x |
-	Qx _ ℚ polynomials.
-	x _ Qx x.
-	V _ Qx filtrationAt: 5.
-	S _ V span: {Qx one. x^2. x*2}.
+	Qx := ℚ polynomials.
+	x := Qx x.
+	V := Qx filtrationAt: 5.
+	S := V sub: {Qx one. x^2. x*2}.
 	self assert: (S includes: V !! (x^2 + 2)).
 	self deny: (S includes: V !! (x^3 + 2)).
 	self assert: Qx !! (S orthogonalProjection value: V !! (x^3 - (x^2) + (x*2) + 3)) = ((x^2) negated + (x*2) + 3)! !
@@ -6053,15 +6063,15 @@ testActionOrbitOf
 	self assert: (G action orbitOf: 4) = #(4 6 5) asSet.
 	self assert: (G action orbitOf: 7) = #(7 8) asSet! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 2/1/2018 23:04:44'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:48:28'!
 testActionStabilizerOf
 	| G g1 g2 g3 id H |
-	G _ SymmetricGroup new: 8.
-	g1 _ G !! #((1 3 2) (4 6 5)).
-	g2 _ G !! #((1 2 3) (4 5 6)).
-	g3 _ G !! #((7 8)).
-	id _ G identity.
-	H _ G span: {g1. g2. g3}.
+	G := SymmetricGroup new: 8.
+	g1 := G !! #((1 3 2) (4 6 5)).
+	g2 := G !! #((1 2 3) (4 5 6)).
+	g3 := G !! #((7 8)).
+	id := G identity.
+	H := G sub: {g1. g2. g3}.
 	self assert: (H action stabilizerOf: 1) asSet = {id. g3} asSet.
 	self assert: (H action stabilizerOf: 7) asSet = {id. g1. g2} asSet! !
 
@@ -6244,12 +6254,12 @@ testKleinFour
 	A _ S commutator.
 	self assert: (V isNormalIn: A)! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:15:17'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:48:35'!
 testLagrangeTheorem
 	"G finite group, H subgroup of G, then |H| divides |G|."
 	| G H |
 	G := self smallGroupAtRandom.
-	H := G span: ((1 to: (3 atRandom: random)) collect: [:i| G atRandom: random]) asSet.
+	H := G sub: ((1 to: (3 atRandom: random)) collect: [:i| G atRandom: random]) asSet.
 	self assert: H size | G size! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:15:25'!
@@ -6935,12 +6945,12 @@ testQuaternionAlgebraInverse
 	self assert: a * a inverse = A one.
 	self assert: a inverse * a = A one! !
 
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:32:41'!
+!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:48:42'!
 testQuaternionAlgebraIsCentral
 	| A |
-	A _ QuaternionAlgebra over: ℚ invariants: #(-5 -2).
+	A := QuaternionAlgebra over: ℚ invariants: #(-5 -2).
 	self assert: A isCentral.
-	self assert: A center = (A span: {A one})! !
+	self assert: A center = (A sub: {A one})! !
 
 !QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:32:53'!
 testQuaternionAlgebraNormAndTraceExample
@@ -9944,11 +9954,11 @@ testCosyzygiesZeroMatrix
 	X _ A cosyzygies.
 	self assert: (X · A) isZero! !
 
-!AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 3/29/2021 11:08:38'!
+!AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 6/26/2023 12:48:48'!
 testImage
 	| A |
-	A _ self newMatrix.
-	self assert: A image = (scalars^A height span: A columns)! !
+	A := self newMatrix.
+	self assert: A image = (scalars^A height sub: A columns)! !
 
 !AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 3/26/2021 13:18:21'!
 testKernelAndEqualizer
@@ -10399,20 +10409,20 @@ testJordanNormalFormExample
 	B _ (ℚ^2) id * 4 :: at: 1@2 put: 1; yourself.
 	self assert: (jordan includes: B)! !
 
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:17'!
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:48:55'!
 testKernelExample
 	| A K |
-	A _ ℚ !!!!!! {(1, 0, -3, 0, 2, -8). (0, 1, 5, 0, -1, 4). (0, 0, 0, 1, 7, -9). (0, 0, 0, 0, 0, 0)}.
-	K _ ℚ^6 span: {(3,-5,1,0,0,0). (-2,1,0,-7,1,0). (8,-4,0,9,0,1)}.
+	A := ℚ !!!!!! {(1, 0, -3, 0, 2, -8). (0, 1, 5, 0, -1, 4). (0, 0, 0, 1, 7, -9). (0, 0, 0, 0, 0, 0)}.
+	K := ℚ^6 sub: {(3,-5,1,0,0,0). (-2,1,0,-7,1,0). (8,-4,0,9,0,1)}.
 	self assert: A kernel = K! !
 
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:22'!
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:49:01'!
 testKernelExample2
 	"Example from GAP manual."
 	| A K |
-	A _ ℚ !!!!!! #((1 2 7) (4 5 6) (7 8 9) (10 11 19) (5 7 12)).
-	A _ A transpose.
-	K _ ℚ^5 span: {{-7/4. 9/2. -15/4. 1. 0}. {-3/4. -3/2. 1/4. 0. 1}}.
+	A := ℚ !!!!!! #((1 2 7) (4 5 6) (7 8 9) (10 11 19) (5 7 12)).
+	A := A transpose.
+	K := ℚ^5 sub: {{-7/4. 9/2. -15/4. 1. 0}. {-3/4. -3/2. 1/4. 0. 1}}.
 	self assert: A kernel = K! !
 
 !RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:10:06'!
@@ -11131,25 +11141,25 @@ testFirstIsomorphismTheorem
 	self assert: f domain >= f kernel.
 	self assert: f domain / f kernel ~ f image! !
 
-!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 8/12/2022 13:17:01'!
+!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 6/26/2023 12:49:45'!
 testSecondIsomorphismTheorem
 	| M k S T |
-	M _ self newFreeModule.
-	k _ M rank > 0 ifTrue: [M rank atRandom: random] ifFalse: [0].
-	S _ M span: ((1 to: k) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
-	k _ M rank > 0 ifTrue: [M rank atRandom: random] ifFalse: [0].
-	T _ M span: ((1 to: k) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
+	M := self newFreeModule.
+	k := M rank > 0 ifTrue: [M rank atRandom: random] ifFalse: [0].
+	S := M sub: ((1 to: k) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
+	k := M rank > 0 ifTrue: [M rank atRandom: random] ifFalse: [0].
+	T := M sub: ((1 to: k) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
 	self assert: S+T <= M.
 	self assert: S ∩ T <= M.
 	self assert: (S+T)/T ~ (S/(S ∩ T))! !
 
-!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 6/19/2022 21:22:59'!
+!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 6/26/2023 12:50:17'!
 testThirdIsomorphismTheorem
 	| M S T k |
-	M _ self newFreeModule.
-	k _ M rank > 0 ifTrue: [M rank atRandom: random] ifFalse: [0].
-	S _ M span: ((1 to: k) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
-	T _ S span: ((1 to: (k > 0 ifTrue: [k atRandom: random] ifFalse: [0])) collect: [:i| S atRandom: random bits: (10 atRandom: random)]).
+	M := self newFreeModule.
+	k := M rank > 0 ifTrue: [M rank atRandom: random] ifFalse: [0].
+	S := M sub: ((1 to: k) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
+	T := S sub: ((1 to: (k > 0 ifTrue: [k atRandom: random] ifFalse: [0])) collect: [:i| S atRandom: random bits: (10 atRandom: random)]).
 	self assert: S/T <= (M/T).
 	self assert: (M/T)/(S/T) ~ (M/S)! !
 
@@ -11482,13 +11492,13 @@ testAnnihilator
 	A := M annihilator.
 	self assert: (M * (A atRandom: random)) isTrivial! !
 
-!AbstractModuleTest methodsFor: 'other' stamp: 'len 10/5/2022 17:36:42'!
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 6/26/2023 12:49:23'!
 testCanonicalMorphisms
 	| V v W w |
-	V _ self newModule.
-	v _ V atRandom: random bits: 100.
-	W _ V span: {v}.
-	w _ W atRandom: random bits: 100.
+	V := self newModule.
+	v := V atRandom: random bits: 100.
+	W := V sub: {v}.
+	w := W atRandom: random bits: 100.
 	self assert: (V null → W) isZero. "canonical morphism from initial object"
 	self assert: (V → W null) isZero. "canonical morphism to terminal object"
 	self assert: ((W → W null) value: w) isZero.
@@ -11524,14 +11534,14 @@ testFreeModule: M
 	t _ (M \ x) * c + (M \ y).
 	self assert: v = (M elementAt: t)! !
 
-!AbstractModuleTest methodsFor: 'other' stamp: 'len 3/24/2021 08:32:58'!
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 6/26/2023 12:49:54'!
 testSubmoduleInclusion
 	| V S P v w |
-	[[V _ self newModule.
-	v _ V atRandom: random bits: 10. v isZero] whileTrue.
-	S _ V span: {v}.
-	w _ V atRandom: random bits: 10. S includes: w] whileTrue.
-	P _ V span: {w*(V scalars atRandom: random bits: 10)-v. w}.
+	[[V := self newModule.
+	v := V atRandom: random bits: 10. v isZero] whileTrue.
+	S := V sub: {v}.
+	w := V atRandom: random bits: 10. S includes: w] whileTrue.
+	P := V sub: {w*(V scalars atRandom: random bits: 10)-v. w}.
 	self assert: S < P.
 	self assert: P > S.
 	self assert: S ~= P.
@@ -11539,34 +11549,34 @@ testSubmoduleInclusion
 	self assert: (S > P) not.
 	self assert: (P < S) not! !
 
-!AbstractModuleTest methodsFor: 'other' stamp: 'len 3/24/2021 09:17:06'!
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 6/26/2023 12:50:08'!
 testSubmoduleSum
 	| V v w S T P |
-	[[V _ self newModule.
-	v _ V atRandom: random bits: 10. v isZero not] whileFalse.
-	w _ V atRandom: random bits: 10. w isZero not and: [v ~= w]] whileFalse.
-	S _ V span: {v}.
-	T _ V span: {w}.
-	P _ V span: {v. w}.
+	[[V := self newModule.
+	v := V atRandom: random bits: 10. v isZero not] whileFalse.
+	w := V atRandom: random bits: 10. w isZero not and: [v ~= w]] whileFalse.
+	S := V sub: {v}.
+	T := V sub: {w}.
+	P := V sub: {v. w}.
 	self assert: S + T = P.
 	self assert: T + S = P.
-	T _ V span: {v - w. v + w}.
+	T := V sub: {v - w. v + w}.
 	self assert: S + T = P! !
 
 !AbstractModuleTest methodsFor: 'other' stamp: 'len 3/24/2021 09:15:57'!
 testTuples
 	self testFreeModule: (scalars ^ ((0 to: 5) atRandom: random))! !
 
-!AbstractModuleTest methodsFor: 'quotients' stamp: 'len 10/5/2022 17:38:47'!
+!AbstractModuleTest methodsFor: 'quotients' stamp: 'len 6/26/2023 12:49:36'!
 testQuotientMaps
 	| M N Q π v s |
-	M _ self newModule.
-	N _ M span: ((1 to: (3 atRandom: random) - 1) collect: [:i| M atRandom: random bits: 20]).
-	Q _ M / N.
-	π _ M → Q.
-	v _ M atRandom: random bits: 100.
+	M := self newModule.
+	N := M sub: ((1 to: (3 atRandom: random) - 1) collect: [:i| M atRandom: random bits: 20]).
+	Q := M / N.
+	π := M → Q.
+	v := M atRandom: random bits: 100.
 	self assert: (Q includes: (π value: v)).
-	s _ N atRandom: random bits: 100.
+	s := N atRandom: random bits: 100.
 	self assert: (π value: s) isZero.
 	self assert: (π value: v) = (π value: v+s)! !
 
@@ -11587,12 +11597,12 @@ newMatrix: shape
 	samples := {scalars zero. scalars one. scalars one negated}.
 	^ hom fill: [:i :j| (2 atRandom: random) > 1 ifTrue: [scalars zero] ifFalse: [samples atRandom: random]]! !
 
-!AbstractModuleTest methodsFor: 'private' stamp: 'len 8/22/2021 12:27:37'!
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 6/26/2023 12:49:07'!
 newModule
 	| M N |
-	M _ self newFreeModule.
+	M := self newFreeModule.
 	(3 atRandom: random) = 1 ifTrue: [^ M].
-	N _ M span: ((1 to: ((0 to: M rank) atRandom: random)) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
+	N := M sub: ((1 to: ((0 to: M rank) atRandom: random)) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
 	(3 atRandom: random) = 1 ifTrue: [^ N].
 	^ M / N! !
 
@@ -11611,20 +11621,20 @@ newSmallFreeModule
 	(3 atRandom: random) = 1 ifTrue: [^ M dual].
 	^ M! !
 
-!AbstractModuleTest methodsFor: 'private' stamp: 'len 1/6/2022 14:38:20'!
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 6/26/2023 12:49:17'!
 newSmallModule
 	| M N |
-	M _ self newSmallFreeModule.
+	M := self newSmallFreeModule.
 	(3 atRandom: random) = 1 ifTrue: [^ M].
-	N _ M span: ((1 to: ((0 to: M rank) atRandom: random)) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
+	N := M sub: ((1 to: ((0 to: M rank) atRandom: random)) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
 	(2 atRandom: random) = 1 ifTrue: [^ N].
 	^ M / N! !
 
-!AbstractModuleTest methodsFor: 'bugs' stamp: 'len 12/19/2022 11:51:05'!
+!AbstractModuleTest methodsFor: 'bugs' stamp: 'len 6/26/2023 12:49:30'!
 testQuotientBySelfBug
 	| V M |
-	V _ scalars ^ 3.
-	M _ V span: {V atRandom: random. V atRandom: random}.
+	V := scalars ^ 3.
+	M := V sub: {V atRandom: random. V atRandom: random}.
 	self assert: (M / M) isTrivial! !
 
 !AbstractCommutativeRingModuleTest methodsFor: 'adjoint' stamp: 'len 10/14/2022 08:38:59'!
@@ -11807,12 +11817,12 @@ testAdjointAndAnnihilatorSpace
 	self assert: f isSurjective = a isInjective.
 	self assert: f isInjective = a isSurjective! !
 
-!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 6/16/2023 13:42:58'!
+!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 6/26/2023 12:50:23'!
 testAnnihilatorSpace
 	| V v S S0 |
 	[(V := self newVectorSpace) isTrivial] whileTrue.
 	[(v := V atRandom: random bits: 100) isZero] whileTrue.
-	S := V span: {v}.
+	S := V sub: {v}.
 	S0 := S annihilatorSpace.
 	self assert: S0 rank = S corank.
 	S0 generators do: [:f| self assert: (f value: v) isZero]! !
@@ -11998,12 +12008,12 @@ testModuleMapZ2
 	v _ kernel atRandom: random.
 	self assert: (f value: v) isZero! !
 
-!BinaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:18:13'!
+!BinaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:50:28'!
 testPerpZ2
 	| V S perp |
-	V _ (ℤ / 2) ^ 3.
-	S _ V span: {(1,1,1) % 2}.
-	perp _ S complement.
+	V := (ℤ / 2) ^ 3.
+	S := V sub: {(1,1,1) % 2}.
+	perp := S complement.
 	self assert: perp rank = 2.
 	self assert: (S basis first · perp basis first) isZero.
 	self assert: (S basis first · perp basis second) isZero! !
@@ -12081,24 +12091,24 @@ testMapsInducedByHom
 	zx _ Z ⇒ X atRandom: random bits: 100.
 	self assert: (h value: zx) = (f · zx)! !
 
-!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:25:50'!
+!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:50:35'!
 testPerpExample
 	| V S p perp |
-	V _ ℚ ^ 3.
-	S _ V span: {(1, 1, 1). (2, 0, -2)}.
-	perp _ S complement.
+	V := ℚ ^ 3.
+	S := V sub: {(1, 1, 1). (2, 0, -2)}.
+	perp := S complement.
 	self assert: perp rank = 1.
 	self assert: (perp basis first · S basis first) isZero.
 	self assert: (perp basis first · S basis second) isZero.
-	p _ S orthogonalProjection.
+	p := S orthogonalProjection.
 	self assert: p kernel = perp! !
 
-!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:04:35'!
+!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:50:41'!
 testPerpProperties
 	| V S T |
-	V _ ℚ ^ 3.
-	S _ V span: {(1, 1, 1). (2, 0, -2)}.
-	T _ V span: {(1, -1, -3)}. "subspace of S"
+	V := ℚ ^ 3.
+	S := V sub: {(1, 1, 1). (2, 0, -2)}.
+	T := V sub: {(1, -1, -3)}. "subspace of S"
 	self assert: S + S complement = V.
 	self assert: T + T complement = V.
 	self assert: (S ∩ S complement) isTrivial.
@@ -12114,26 +12124,26 @@ testQuotientSpaceExample
 	self assert: x isZero.
 "	self assert: (M lifting value: x) = (0,0,0)"! !
 
-!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:04:41'!
+!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:50:52'!
 testSubspaceIntersectionAndSumExample
 	"Example from wikipedia Zassenhaus algorithm"
 	| V U W |
-	V _ ℚ ^ 4.
-	U _ V span: {(1,-1,0,1). (0,0,1,-1)}.
-	W _ V span: {(5,0,-3,3). (0,5,-3,-2)}.
-	self assert: U + W = (V span: {(1,0,0,0). (0,1,0,-1). (0,0,1,-1)}).
-	self assert: U ∩ W = (V span: {(1,-1,0,1)})! !
+	V := ℚ ^ 4.
+	U := V sub: {(1,-1,0,1). (0,0,1,-1)}.
+	W := V sub: {(5,0,-3,3). (0,5,-3,-2)}.
+	self assert: U + W = (V sub: {(1,0,0,0). (0,1,0,-1). (0,0,1,-1)}).
+	self assert: U ∩ W = (V sub: {(1,-1,0,1)})! !
 
-!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:04:58'!
+!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:51:01'!
 testSubspaceIntersectionExample
 	| V S T T2 |
-	V _ ℚ ^ 3.
-	S _ V span: {(1, 1, 1). (2, 0, -2)}.
+	V := ℚ ^ 3.
+	S := V sub: {(1, 1, 1). (2, 0, -2)}.
 	self assert: S ∩ V = S.
 	self assert: S ∩ S = S.
-	T _ V span: {(3,1,-1)}.
+	T := V sub: {(3,1,-1)}.
 	self assert: S ∩ T = T.
-	T2 _ V span: {(3,1,-1). (0,1,0)}.
+	T2 := V sub: {(3,1,-1). (0,1,0)}.
 	self assert: S ∩ T2 = T! !
 
 !TernaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:21:07'!
@@ -12141,24 +12151,24 @@ setUp
 	super setUp.
 	scalars := ℤ/3! !
 
-!TernaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 5/30/2023 23:00:20'!
+!TernaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:51:07'!
 testQuotientGolay1
 	"Construct the quotient (Z/3Z)^11 by the Golay code.
 	(Example from Magma H28E10.)"
 	| V S Q |
 	V := ℤ/3 ^ 11.
-	S := V span: {(1,0,0,0,0,0,1,1,1,1,1). (0,1,0,0,0,0,0,1,2,2,1). (0,0,1,0,0,0,1,0,1,2,2). (0,0,0,1,0,0,2,1,0,1,2). (0,0,0,0,1,0,2,2,1,0,1). (0,0,0,0,0,1,1,2,2,1,0)}.
+	S := V sub: {(1,0,0,0,0,0,1,1,1,1,1). (0,1,0,0,0,0,0,1,2,2,1). (0,0,1,0,0,0,1,0,1,2,2). (0,0,0,1,0,0,2,1,0,1,2). (0,0,0,0,1,0,2,2,1,0,1). (0,0,0,0,0,1,1,2,2,1,0)}.
 	Q := V/S.
 	self assert: Q rank = 5.
 	self assert: Q ambient rank = 5! !
 
-!TernaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 5/30/2023 23:00:27'!
+!TernaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:51:14'!
 testQuotientGolay2
 	"Construct the quotient (Z/3Z)^11 by the Golay code as a subspace (the orthogonal complement of the Golay code).
 	(Example from Magma H28E11.)"
 	| V S Q |
 	V := ℤ/3 ^ 11.
-	S := V span: ({(1,0,0,0,0,0,1,1,1,1,1). (0,1,0,0,0,0,0,1,2,2,1). (0,0,1,0,0,0,1,0,1,2,2). (0,0,0,1,0,0,2,1,0,1,2). (0,0,0,0,1,0,2,2,1,0,1). (0,0,0,0,0,1,1,2,2,1,0)} collect: [:each| each over: V scalars]).
+	S := V sub: ({(1,0,0,0,0,0,1,1,1,1,1). (0,1,0,0,0,0,0,1,2,2,1). (0,0,1,0,0,0,1,0,1,2,2). (0,0,0,1,0,0,2,1,0,1,2). (0,0,0,0,1,0,2,2,1,0,1). (0,0,0,0,0,1,1,2,2,1,0)} collect: [:each| each over: V scalars]).
 	Q := S complement.
 	self assert: Q rank = 5.
 	self assert: Q ambient rank = 11! !
@@ -12193,14 +12203,14 @@ setUp
 	super setUp.
 	scalars := ℤ! !
 
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 3/24/2021 08:28:50'!
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:51:21'!
 testFreeModuleDiscriminant
 	"From Sage documentation of FreeModule."
 	| M |
-	M _ ℤ^3.
+	M := ℤ^3.
 	self assert: M discriminant = 1.
-	self assert: (M span: {(1,2,3)}) discriminant = 14.
-	self assert: (M span: {(1,2,3). (1,1,1)}) discriminant = 6! !
+	self assert: (M sub: {(1,2,3)}) discriminant = 14.
+	self assert: (M sub: {(1,2,3). (1,1,1)}) discriminant = 6! !
 
 !IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:22:19'!
 testHomBug
@@ -12267,20 +12277,20 @@ testModuleMapBug2
 	self should: [M to: N images: #(1)] raise: DomainError withMessageText: 'invalid morphism'.
 	self should: [M to: N images: #(2)] raise: DomainError withMessageText: 'invalid morphism'! !
 
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:24:01'!
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:51:33'!
 testQuotientModuleAnnihilator
 	"Example from Sage (removed denominators)"
 	| v1 v2 v3 V W |
-	v1 _ (1,0,0). v2 _ (3,4,2). v3 _ (0,0,2).
-	V _ ℤ^3 span: {v1. v2. v3}.
-	W _ V ambient span: {v1 + (v2*2). v1*9 + (v2*2). v3*4}.
+	v1 := (1,0,0). v2 := (3,4,2). v3 := (0,0,2).
+	V := ℤ^3 sub: {v1. v2. v3}.
+	W := V ambient sub: {v1 + (v2*2). v1*9 + (v2*2). v3*4}.
 	self assert: (V/W) annihilator = (ℤ*16)
 	
 "original with denominators:
 	| v1 v2 v3 V W |
 	v1 _ (1/2,0,0). v2 _ (3/2,2,1). v3 _ (0,0,1).
-	V _ QQ^3 span: {v1. v2. v3} over: ℤ.
-	W _ QQ^3 span: {v1 + (v2*2). v1*9 + (v2*2). v3*4} over: ℤ.
+	V _ QQ^3 sub: {v1. v2. v3} over: ℤ.
+	W _ QQ^3 sub: {v1 + (v2*2). v1*9 + (v2*2). v3*4} over: ℤ.
 	self assert: (V/W) annihilator = (ℤ*16)
 "! !
 
@@ -12292,40 +12302,40 @@ testQuotientModuleBug
 	self assert: a representative = (3,0).
 	self assert: (a*2) representative = (6,0)! !
 
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:24:11'!
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:51:43'!
 testQuotientModuleInvariants
 	"Example from Sage (removed denominators)"
 	| v1 v2 v3 V W |
-	v1 _ (1,2,2). v2 _ (3,4,2). v3 _ (0,0,2).
-	V _ ℤ^3 span: {v1. v2. v3}.
-	W _ V ambient span: {v1*2 + (v2*4). v1*9 + (v2*12). v3*4}.
+	v1 := (1,2,2). v2 := (3,4,2). v3 := (0,0,2).
+	V := ℤ^3 sub: {v1. v2. v3}.
+	W := V ambient sub: {v1*2 + (v2*4). v1*9 + (v2*12). v3*4}.
 	self assert: (V/W) invariants = #(4 12)
 
 "original with denominators:
 	| v1 v2 v3 V W |
 	v1 _ (1/2,1,1). v2 _ (3/2,2,1). v3 _ (0,0,1).
-	V _ QQ^3 span: {v1. v2. v3} over: ℤ.
-	W _ QQ^3 span: {v1*2 + (v2*4). v1*9 + (v2*12). v3*4} over: ℤ.
+	V _ QQ^3 sub: {v1. v2. v3} over: ℤ.
+	W _ QQ^3 sub: {v1*2 + (v2*4). v1*9 + (v2*12). v3*4} over: ℤ.
 	self assert: (V/W) invariants = #(4 12)
 "! !
 
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:24:19'!
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:51:47'!
 testQuotientModuleInvariants2
 	"Example from Sage"
 	| V W |
-	V _ ℤ^3.
-	W _ V span: {(1,2,0). (0,1,0). (0,2,0)}.
+	V := ℤ^3.
+	W := V sub: {(1,2,0). (0,1,0). (0,2,0)}.
 	self assert: (V/W) invariants = #(0) "from example in sage fgp_module.py"! !
 
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:24:30'!
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:51:54'!
 testQuotientModuleIsFinite
 	"Example from Sage (removed denominators)"
 	| v1 v2 v3 V W |
-	v1 _ (1,0,0). v2 _ (3,4,2). v3 _ (0,0,2).
-	V _ ℤ^3 span: {v1. v2. v3}.
-	W _ V ambient span: {v1 + (v2*2). v1*9 + (v2*2). v3*4}.
+	v1 := (1,0,0). v2 := (3,4,2). v3 := (0,0,2).
+	V := ℤ^3 sub: {v1. v2. v3}.
+	W := V ambient sub: {v1 + (v2*2). v1*9 + (v2*2). v3*4}.
 	self assert: (V/W) isFinite.
-	W _ V null.
+	W := V null.
 	self assert: (V/W) isFinite not
 
 "original with denominators:
@@ -12338,32 +12348,32 @@ testQuotientModuleIsFinite
 	self assert: (V/W) isFinite not
 "! !
 
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:24:39'!
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:51:59'!
 testQuotientModuleSpanBug
 	"The span is the original module, but it answers a submodule."
 	| M |
-	M _ ℤ^2 / {(1,2)}.
-	self assert: M = (M span: M generators)! !
+	M := ℤ^2 / {(1,2)}.
+	self assert: M = (M sub: M generators)! !
 
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:05:23'!
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:52:07'!
 testSubmoduleIntersectionExample
 	| M S T T2 |
-	M _ ℤ ^ 3.
-	S _ M span: {(1, 1, 1). (2, 0, -2)}.
+	M := ℤ ^ 3.
+	S := M sub: {(1, 1, 1). (2, 0, -2)}.
 	self assert: S ∩ M = S.
 	self assert: M ∩ S = S.
 	self assert: S ∩ S = S.
-	T _ M span: {(3,1,-1)}.
+	T := M sub: {(3,1,-1)}.
 	self assert: S ∩ T = T.
-	T2 _ M span: {(3,1,-1). (0,1,0)}.
+	T2 := M sub: {(3,1,-1). (0,1,0)}.
 	self assert: S ∩ T2 = T! !
 
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:17:27'!
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:52:11'!
 testSubquotientContainsBug
 	| V v S |
-	V _ ℤ / 5 :: asAbelianGroup.
-	v _ V elementAt: #(4).
-	S _ V span: {v}.
+	V := ℤ / 5 :: asAbelianGroup.
+	v := V elementAt: #(4).
+	S := V sub: {v}.
 	self assert: (S contains: v * 3)! !
 
 !IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2022 11:22:25'!
@@ -12394,12 +12404,12 @@ setUp
 	super setUp.
 	scalars := ℤ/((2 to: 64) atRandom: random)! !
 
-!ModularIntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:22:53'!
+!ModularIntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:52:21'!
 testExampleModulesOverZ12
 	| M A B |
-	M _ ℤ/12^3.
-	A _ M span: {(4,1,0). (0,0,5)}.
-	B _ M span: {(8,5,5). (0,9,8). (0,0,10)}.
+	M := ℤ/12^3.
+	A := M sub: {(4,1,0). (0,0,5)}.
+	B := M sub: {(8,5,5). (0,9,8). (0,0,10)}.
 	self assert: A = B! !
 
 !ModularIntegerMultivariatePolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2023 22:46:05'!
