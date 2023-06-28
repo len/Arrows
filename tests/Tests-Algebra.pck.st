@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5878] on 26 June 2023 at 2:07:13 pm'!
+'From Cuis 6.0 [latest update: #5878] on 28 June 2023 at 7:05:20 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 80!
+!provides: 'Tests-Algebra' 1 81!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -2931,11 +2931,11 @@ testTorsionAbelianGroup
 	self assert: G isMixed not.
 	self assert: G torsionFree isTrivial! !
 
-!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 6/26/2023 14:38:17'!
 testAffinePlaneCurveMultiplicity
 	| A C |
-	A _ AffineSpace new: #(x y) over: ℚ.
-	C _ A subscheme: A coordinateRing !! [:x :y| y^2 - (x^3)].
+	A := AffineSpace new: #(x y) over: ℚ.
+	C := A sub: A coordinateRing !! [:x :y| y^2 - (x^3)].
 	self assert: (C multiplicityAt: (1,1)) = 1.
 	self assert: (C multiplicityAt: (0,0)) = 2! !
 
@@ -2958,15 +2958,15 @@ testAffineSchemeCartesianProduct2
 	self assert: (𝔽₃ spec ⇒ X₁) size * (𝔽₃ spec ⇒ X₂) size = (𝔽₃ spec ⇒ P) size.
 	self assert: (P satisfies: (5,2,6,2,6) % 7)! !
 
-!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 6/26/2023 14:38:25'!
 testAffineSchemeCreation
 	| A x y z X Y |
-	A _ AffineSpace new: 3 over: ℚ.
-	x _ A coordinateRing x.
-	y _ A coordinateRing y.
-	z _ A coordinateRing z.
-	X _ A subscheme: x - y.
-	Y _ X subscheme: {x^2 - (z^3). y^3 - (z^4)}.
+	A := AffineSpace new: 3 over: ℚ.
+	x := A coordinateRing x.
+	y := A coordinateRing y.
+	z := A coordinateRing z.
+	X := A sub: x - y.
+	Y := X sub: {x^2 - (z^3). y^3 - (z^4)}.
 	self assert: X ambient = A.
 	"Y is defined as subscheme of X, so it contains the equations of X plus the two new equations, but its ambient space is still A (not X):"
 	self assert: Y ambient = A! !
@@ -2982,29 +2982,31 @@ testAffineSpace
 	self assert: A ambient = A.
 	self assert: A coordinateRing spec = A! !
 
-!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 7/6/2022 10:01:27'!
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 6/28/2023 00:17:09'!
 testProjectiveClosure
 	"From Magma Handbook example Scheme_projective-closure (H118E23)."
 	| A1 u v X PX X2 |
-	A1 _ AffineSpace new: #(u v) over: ℤ/5.
-	u _ A1 coordinateRing x: 1.
-	v _ A1 coordinateRing x: 2.
-	X _ A1 subscheme: u^2 - (v^5).
-	PX _ X projectiveClosure.
-	self assert: (PX patch: 3) = X.
-	X2 _ PX patch: 2.
-	self assert: X2 projectiveClosure = X projectiveClosure! !
+	A1 := (ℤ/5 polynomialsIn: #(u v)) spec.
+	u := A1 coordinateRing x: 1.
+	v := A1 coordinateRing x: 2.
+	X := A1 sub: u^2 - (v^5).
+	PX := X projectiveClosure.
+	self assert: X projectiveClosure == PX.
+	self assert: PX ambient == A1 projectiveClosure.
+	self assert: (PX patch: 3) == X.
+	X2 := PX patch: 2.
+	self assert: X2 projectiveClosure == X projectiveClosure! !
 
-!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 7/6/2022 10:01:14'!
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 6/28/2023 00:06:31'!
 testProjectiveEmbedding
-	| A1 u v X PX affinePointsEmbedded projectivePoints |
-	A1 _ AffineSpace new: #(u v) over: ℤ/5.
-	u _ A1 coordinateRing x: 1.
-	v _ A1 coordinateRing x: 2.
-	X _ A1 subscheme: u^2 - (v^5).
-	PX _ X projectiveClosure.
-	affinePointsEmbedded _ X points asSet apply: X projectiveEmbedding.
-	projectivePoints _ PX points asSet.
+	| A u v X PX affinePointsEmbedded projectivePoints |
+	A := AffineSpace new: #(u v) over: ℤ/5.
+	u := A coordinateRing x: 1.
+	v := A coordinateRing x: 2.
+	X := A sub: u^2 - (v^5).
+	PX := X projectiveClosure.
+	affinePointsEmbedded := X points asSet apply: X → PX.
+	projectivePoints := PX points asSet.
 	self assert: (projectivePoints includesAllOf: affinePointsEmbedded).
 	"the projective scheme has one more point at infinity:"
 	self assert: affinePointsEmbedded size + 1 = projectivePoints size! !
@@ -3070,39 +3072,39 @@ testProjectiveLineOverFiniteRing6
 	self assert: P points size = 18.
 	self assert: (Iterator on: P points performing: #do:) size = 18! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 12/15/2021 12:00:00'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 14:38:33'!
 testDifference
 	| A x y C X2 D O |
-	A _ AffineSpace new: 2 over: ℚ.
-	x _ A coordinateRing x.
-	y _ A coordinateRing y.
-	C _ A subscheme: x * y. "union of x-axis and y-axis"
-	X2 _ A subscheme: x^2. "y-axis with double multiplicity"
-	D _ X2 - C. "y-axis with multiplicity 1"
+	A := AffineSpace new: 2 over: ℚ.
+	x := A coordinateRing x.
+	y := A coordinateRing y.
+	C := A sub: x * y. "union of x-axis and y-axis"
+	X2 := A sub: x^2. "y-axis with double multiplicity"
+	D := X2 - C. "y-axis with multiplicity 1"
 	self assert: D asIdeal = (A coordinateRing * x).
-	O _ A subscheme: {x. y}.
-	D _ C - O.
+	O := A sub: {x. y}.
+	D := C - O.
 	self assert: D = C.
 	self assert: (C - A) isEmpty "removing the ambient space removes all"! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 16:54:42'!
 testEllipticCurvesAreSmooth
 	| R x y C |
-	R _ ℚ polynomialsIn: #(x y z).
-	x _ R x.
-	y _ R y.
-	C _ R / (x^3 - (x*3) + 3 - (y^2) homogenizedIn: 3) :: proj.
+	R := ℚ polynomialsIn: #(x y z).
+	x := R x.
+	y := R y.
+	C := (R / (x^3 - (x*3) + 3 - (y^2) homogenizedIn: 3)) proj.
 	self assert: C isSmooth.
-	C _ R / (x^3 + x - (y^2) homogenizedIn: 3) :: proj.
+	C := (R / (x^3 + x - (y^2) homogenizedIn: 3)) proj.
 	self assert: C isSmooth.
-	C _ R / (x^3 - x - (y^2) homogenizedIn: 3) :: proj.
+	C := (R / (x^3 - x - (y^2) homogenizedIn: 3)) proj.
 	self assert: C isSmooth! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 16:54:13'!
 testEmpty
 	| A X |
-	A _ ℚ polynomialsIn: #(x y z).
-	X _ A / {A continuantOfOrder: 2. A continuantOfOrder: 3} :: spec.
+	A := ℚ polynomialsIn: #(x y z).
+	X := (A / {A continuantOfOrder: 2. A continuantOfOrder: 3}) spec.
 	self assert: X isEmpty! !
 
 !AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/23/2023 20:10:07'!
@@ -3172,58 +3174,58 @@ testLocalAndGlobalDimension
 	self assert: (X @ (1,0,0)) dimension = 2. "dimension of X at (1,0,0)"
 	self assert: (X @ (0,0,1)) dimension = 1. "dimension of X at (0,0,1)"! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 12/9/2022 21:25:40'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 16:42:16'!
 testMorphismsOfProjectiveVarieties
 	"'A Singular Introduction To Commutative Algebra', Example A.6.8 (morphisms of projective varieties)."
-	| P A x y z X f1 f2 f3 I J Y φ Z |
-	P _ ProjectiveSpace new: #(x y z) over: ℚ. "projective plane"
-	A _ P coordinateRing. "C[x,y,z]"
-	x _ A x. y _ A y. z _ A z.
-	X _ P subscheme: {z^3 - (x*(y^2)) + (y^3)}.
-	f1 _ x*z. f2 _ x*y. f3 _ x^2 + (y*z).
-	"In order for (f1,f2,f3) to define a projective morphism (not just a rational map) it must never be zero at any point of X, this means the intersection of X with V(J) must be empty:"
-	I _ X asIdeal.
-	J _ A * {f1. f2. f3}.
+	| P A x y z X f₁ f₂ f₃ I J Y φ Z |
+	P := ProjectiveSpace new: #(x y z) over: ℚ. "projective plane"
+	A := P coordinateRing. "C[x,y,z]"
+	x := A x. y := A y. z := A z.
+	X := P sub: {z^3 - (x*(y^2)) + (y^3)}.
+	f₁ := x*z. f₂ := x*y. f₃ := x^2 + (y*z).
+	"In order for (f₁,f₂,f₃) to define a projective morphism (not just a rational map) it must never be zero at any point of X, this means the intersection of X with V(J) must be empty:"
+	I := X asIdeal.
+	J := A * {f₁. f₂. f₃}.
 	self assert: (A / (I + J)) dimension = 0.
-	Y _ P subscheme: J.
+	Y := P sub: J.
 	self assert: (X ∩ Y) isEmpty.
-	φ _ X to: P representatives: {f1. f2. f3}.
+	φ := X to: P representatives: {f₁. f₂. f₃}.
 	"The image is a curve of degree 6:"
-	Z _ φ image.
+	Z := φ image.
 	self assert: Z isCurve.
 	self assert: Z degree = 6! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/23/2023 20:12:14'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 16:43:01'!
 testMultiplicity
 	"Example from Sage documentation."
-	| A X q1 q2 |
+	| A X q₁ q₂ |
 	A := AffineSpace new: 4 over: ℚ.
-	X := A subscheme: (A coordinateRing !! [:x :y :z :w| {z*y - (x^7). w - (2*z)}]).
-	q1 := ℚ spec ⇒ X !! {1. (1/3). 3. 6}.
-	q2 := ℚ spec ⇒ X !! #(0 0 0 0).
-	self assert: q1 multiplicity = 1.
-	self assert: q2 multiplicity = 2! !
+	X := A sub: (A coordinateRing !! [:x :y :z :w| {z*y - (x^7). w - (2*z)}]).
+	q₁ := ℚ spec ⇒ X !! {1. (1/3). 3. 6}.
+	q₂ := ℚ spec ⇒ X !! #(0 0 0 0).
+	self assert: q₁ multiplicity = 1.
+	self assert: q₂ multiplicity = 2! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 16:44:11'!
 testMultiplicity2
 	"Example from Sage documentation."
-	| P X q1 q2 q3 |
-	P _ ProjectiveSpace new: 4 over: ℚ.
-	X _ P subscheme: (P coordinateRing !! [:x :y :z :w :t| {y^2 - (x*t). w^7 - (t*w*(x^5)) - (z^7)}]).
-	q1 _ X !! (0,0,1,1,1).
-	self assert: q1 multiplicity = 1.
-	q2 _ X !! (1,0,0,0,0).
-	self assert: q2 multiplicity = 3.
-	q3 _ X !! (0,0,0,0,1).
-	self assert: q3 multiplicity = 7! !
+	| P X q₁ q₂ q₃ |
+	P := ProjectiveSpace new: 4 over: ℚ.
+	X := P sub: (P coordinateRing !! [:x :y :z :w :t| {y^2 - (x*t). w^7 - (t*w*(x^5)) - (z^7)}]).
+	q₁ := X !! (0,0,1,1,1).
+	self assert: q₁ multiplicity = 1.
+	q₂ := X !! (1,0,0,0,0).
+	self assert: q₂ multiplicity = 3.
+	q₃ := X !! (0,0,0,0,1).
+	self assert: q₃ multiplicity = 7! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 12/9/2022 21:26:03'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 14:38:55'!
 testMultiplicity3
 	"Example from Sage documentation."
 	| P X q |
-	P _ ProjectiveSpace new: 3 over: ℚ.
-	X _ P subscheme: (P coordinateRing !! [:x :y :z :w| z^5*(x^2)*w - (y^8)]).
-	q _ X !! (2,0,0,1).
+	P := ProjectiveSpace new: 3 over: ℚ.
+	X := P sub: (P coordinateRing !! [:x :y :z :w| z^5*(x^2)*w - (y^8)]).
+	q := X !! (2,0,0,1).
 	self assert: q multiplicity = 5! !
 
 !AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/23/2020 09:33:01'!
@@ -3240,35 +3242,31 @@ testMultiplicityAndTangentCone
 	...
 "! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 16:47:37'!
 testNotEmpty
-	| A x y X |
-	A _ ℚ polynomialsIn: #(x y).
-	x _ A x.
-	y _ A y.
-	X _ A  / {x*x - 1. y*y - (x*x) - 3} :: spec.
+	| A X |
+	A := ℚ polynomialsIn: #(x y).
+	X := (A  / (A !! [:x :y| {x*x - 1. y*y - (x*x) - 3}])) spec.
 	self assert: X isEmpty not! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 16:48:30'!
 testNotFinite
-	| A x y X |
-	A _ ℚ polynomialsIn: #(x y).
-	x _ A x.
-	y _ A y.
-	X _ A / {y*y - (x*x) - 3} :: spec.
+	| A X |
+	A := ℚ polynomialsIn: #(x y).
+	X := (A / (A !! [:x :y| {y*y - (x*x) - 3}])) spec.
 	self assert: X isFinite not! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 16:49:33'!
 testReduced
-	| A R x y z X |
-	A _ AffineSpace new: 3 over: ℚ.
-	R _ A coordinateRing.
-	x _ R x.
-	y _ R y.
-	z _ R z.
-	X _ A subscheme: {x*(y^3). x^2*z}.
+	| 𝔸³ R x y z X |
+	𝔸³ := AffineSpace new: 3 over: ℚ.
+	R := 𝔸³ coordinateRing.
+	x := R x.
+	y := R y.
+	z := R z.
+	X := 𝔸³ sub: {x*(y^3). x^2*z}.
 	self assert: X isReduced not.
-	self assert: X reduced = (A subscheme: {x*y. x*z})! !
+	self assert: X reduced = (𝔸³ sub: {x*y. x*z})! !
 
 !AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 10/14/2022 08:40:09'!
 testRingHomomorphismSpec
@@ -3282,79 +3280,78 @@ testRingHomomorphismSpec
 	self assert: φ spec codomain = A spec.
 	self assert: φ spec asRingMap = φ! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 16:51:02'!
 testSingularCubics
 	| R x y C |
-	R _ ℚ polynomialsIn: #(x y z).
-	x _ R x.
-	y _ R y.
-	C _ R / (x^3 - (y^2) homogenizedIn: 3) :: proj.
+	R := ℚ polynomialsIn: #(x y z).
+	x := R x.
+	y := R y.
+	C := (R / (x^3 - (y^2) homogenizedIn: 3)) proj.
 	self assert: (C !! (1,1,1)) isSmooth.
 	self assert: (C !! (0,0,1)) isSmooth not.
 	self assert: C isSingular.
-	C _ R / (x^3 + (x^2) - (y^2) homogenizedIn: 3) :: proj.
+	C := (R / (x^3 + (x^2) - (y^2) homogenizedIn: 3)) proj.
 	self assert: C isSingular! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 16:51:15'!
 testSmoothness
 	| R C |
-	R _ ℚ polynomialsIn: #(x y).
-	"cuspidal curve:"
-	C _ (R / (R !! [:x :y| y^2 - (x^3)])) spec.
+	R := ℚ polynomialsIn: #(x y).
+	"Cuspidal curve:"
+	C := (R / (R !! [:x :y| y^2 - (x^3)])) spec.
 	self assert: C isSmooth not.
 	self assert: C isSingular.
 	self assert: (C !! (1,1)) isSmooth.
 	self assert: (C !! (0,0)) isSmooth not! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 12/9/2022 21:27:22'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 14:40:03'!
 testSmoothnessOverCC
 	| P R C |
-	P _ ProjectiveSpace new: 2 over: ℚ. "over ℂ or over ℚ ?"
-	R _ P coordinateRing.
-	C _ P subscheme: R !! [:x :y :z| x].
+	P := ProjectiveSpace new: 2 over: ℚ. "over ℂ or over ℚ ?"
+	R := P coordinateRing.
+	C := P sub: R !! [:x :y :z| x].
 	self assert: C isSingular not.
-	C _ P subscheme: R !! [:x :y :z| y^2*z - (x^3)].
+	C := P sub: R !! [:x :y :z| y^2*z - (x^3)].
 	self assert: C isSingular.
-	C _ P subscheme: R !! [:x :y :z| y^2*z - (x^3) + (z^3)].
+	C := P sub: R !! [:x :y :z| y^2*z - (x^3) + (z^3)].
 	self assert: C isSingular not! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/23/2020 08:57:20'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 14:40:14'!
 testSmoothnessOverFiniteField
 	| P R C |
-	P _ ProjectiveSpace new: 2 over: ℤ/19.
-	R _ P coordinateRing.
-	C _ P subscheme: R !! [:x :y :z| x^3 + (y^3) + (z^3)].
+	P := ProjectiveSpace new: 2 over: ℤ/19.
+	R := P coordinateRing.
+	C := P sub: R !! [:x :y :z| x^3 + (y^3) + (z^3)].
 	self assert: C isSingular not.
-	C _ P subscheme: R !! [:x :y :z| x^4 - (x*(z^3))].
+	C := P sub: R !! [:x :y :z| x^4 - (x*(z^3))].
 	self assert: C isSingular.
-	C _ P subscheme: R !! [:x :y :z| x^5 + (y^5*19) + (z^5)].
+	C := P sub: R !! [:x :y :z| x^5 + (y^5*19) + (z^5)].
 	self assert: C isSingular.
-	C _ P subscheme: R !! [:x :y :z| x^5 + (y^5*9) + (z^5)].
+	C := P sub: R !! [:x :y :z| x^5 + (y^5*9) + (z^5)].
 	self assert: C isSingular not! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/23/2020 09:33:17'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 14:40:19'!
 testSmoothnessOverQQ
 	| P C |
-	P _ ProjectiveSpace new: 2 over: ℚ.
-	C _ P subscheme: P coordinateRing !! [:x :y :z| x^3 - (y^2*z)].
+	P := ProjectiveSpace new: 2 over: ℚ.
+	C := P sub: P coordinateRing !! [:x :y :z| x^3 - (y^2*z)].
 	self assert: C isSingular! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 13:22:36'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 16:52:36'!
 testSmoothnessOverQQ2
 	| R I J |
 	R := ℚ polynomialsIn: #(x y).
-	I := R !! [:x :y| {x - y squared}].
-	J := R !! [:x :y| {x squared - y squared}].
+	I := R * (R !! [:x :y| {x - y squared}]).
+	J := R * (R !! [:x :y| {x squared - y squared}]).
 	self assert: (R/I) spec isSmooth.
-	self assert: (R/J) spec isSmooth not
-! !
+	self assert: (R/J) spec isSmooth not! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 7/26/2022 13:39:32'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 17:04:17'!
 testSpecZ
 	self assert: ℤ spec dimension = 1.
 	self assert: ℤ spec isNoetherian.
-"	p _ ℤ * 5.
-	self assert: (ℤ spec includes: p)"! !
+	self assert: (ℤ spec includes: ℤ * 5).
+	self assert: (ℤ spec includes: ℤ * 6) not! !
 
 !AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 8/12/2022 13:06:11'!
 testSpecZSubschemes
@@ -3364,12 +3361,12 @@ testSpecZSubschemes
 	self assert: (ℤ / 10) spec ∩ (ℤ / 15) spec = (ℤ / 5) spec.
 	self assert: (ℤ / 10) spec ∪ (ℤ / 15) spec = (ℤ / 30) spec! !
 
-!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 5/23/2020 08:56:56'!
+!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 6/26/2023 16:57:25'!
 testProjectivePlaneCurveArithmeticGenus
 	| R f C |
-	R _  (ℤ/5) polynomialsIn: 3.
-	f _ R !! [:x :y :z| y^2*(z^7) - (x^9) - (x*(z^8))].
-	C _ ProjectivePlaneCurve polynomial: f.
+	R :=  ℤ/5 polynomialsIn: 3.
+	f := R !! [:x :y :z| y^2*(z^7) - (x^9) - (x*(z^8))].
+	C := ProjectivePlaneCurve polynomial: f.
 	self assert: C arithmeticGenus = 28.
 	"self assert: C genus = 4"! !
 
@@ -3387,42 +3384,42 @@ testProjectivePlaneOverFiniteRing
 	self assert: P points size = 28
 	"this plane has 28 points and 28 lines (falling into 7 neighbour classes of size 4), each line has 6 points and each point is on 6 lines"! !
 
-!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 7/25/2022 10:13:15'!
+!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 6/26/2023 14:39:05'!
 testProjectiveSchemeAffinePatches
 	| P E p a |
-	P _ ProjectivePlane over: ℚ.
+	P := ProjectivePlane over: ℚ.
 	"cremona37a elliptic curve:"
-	E _ P subscheme: (P coordinateRing !! [:x :y :z| y^2*z + (z^2*x) + (z^2*y) - (x^3)]).
-	p _ E !! ((2,-3,1) over: ℚ).
-	a _ p dehomogenizedIn: 2.
+	E := P sub: (P coordinateRing !! [:x :y :z| y^2*z + (z^2*x) + (z^2*y) - (x^3)]).
+	p := E !! ((2,-3,1) over: ℚ).
+	a := p dehomogenizedIn: 2.
 	"the affine point is in the second standard affine patch:"
 	self assert: (E patch: 2) == a codomain.
 	"and when we homogenize again, the same projective embedding is used and come back to the same projective point on exactly the same projective curve:"
 	self assert: a homogenized = p.
 	self assert: a homogenized codomain == E! !
 
-!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 6/26/2023 14:39:10'!
 testProjectiveSchemeDegree
 	"Example from Sage documentation."
 	| P X |
-	P _ ProjectiveSpace new: 5 over: ℚ.
-	X _ P subscheme: (P coordinateRing !! [:x :y :z :w :t :u| x^7 + (x*y*z*(t^4)) - (u^7)]).
+	P := ProjectiveSpace new: 5 over: ℚ.
+	X := P sub: (P coordinateRing !! [:x :y :z :w :t :u| x^7 + (x*y*z*(t^4)) - (u^7)]).
 	self assert: X degree = 7! !
 
-!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 5/23/2020 08:57:04'!
+!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 6/26/2023 14:39:14'!
 testProjectiveSchemeDegree2
 	"Example from Sage documentation."
 	| P X |
-	P _ ProjectiveSpace new: 3 over: ℤ/13.
-	X _ P subscheme: (P coordinateRing !! [:x :y :z :w| {y^3 - (w^3). x + (7*z)}]).
+	P := ProjectiveSpace new: 3 over: ℤ/13.
+	X := P sub: (P coordinateRing !! [:x :y :z :w| {y^3 - (w^3). x + (7*z)}]).
 	self assert: X degree = 3! !
 
-!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 6/26/2023 14:39:18'!
 testProjectiveSchemeDegree3
 	"Example from Sage documentation."
 	| P X |
-	P _ ProjectiveSpace new: 4 over: ℚ.
-	X _ P subscheme: (P coordinateRing !! [:x :y :z :w :u| {x^7 - (y*(z^3)*(w^2)*u). w*(z^2) - (y*(u^2)). z^3 + (y^3)}]).
+	P := ProjectiveSpace new: 4 over: ℚ.
+	X := P sub: (P coordinateRing !! [:x :y :z :w :u| {x^7 - (y*(z^3)*(w^2)*u). w*(z^2) - (y*(u^2)). z^3 + (y^3)}]).
 	self assert: X degree = 63! !
 
 !AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 10/18/2016 20:58'!
@@ -3458,73 +3455,74 @@ testProjectiveSpaceOverModularIntegers
 	self assert: P points asSet size = numberOfPoints.
 	self assert: P points size = numberOfPoints! !
 
-!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 9/16/2022 08:11:41'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 6/26/2023 17:10:58'!
 testRationalMap
 	"Example from Magma handbook Scheme_map-creation (H118E32)."
-	| A1 A2 x y f X |
-	A1 _ AffineSpace new: #(t) over: ℚ.
-	A2 _ AffineSpace new: #(x y) over: ℚ.
+	| 𝔸¹ 𝔸² x y f X |
+	𝔸¹ := AffineSpace new: #(t) over: ℚ.
+	𝔸² := AffineSpace new: #(x y) over: ℚ.
 
-	f _ A1 to: A2 mapWithArguments: [:t| {t^3 + t. (t^2 - 3)}].
+	f := 𝔸¹ to: 𝔸² mapWithArguments: [:t| {t^3 + t. t^2 - 3}].
 
-	self assert: f domain = A1.
-	self assert: f codomain = A2.
+	self assert: f domain = 𝔸¹.
+	self assert: f codomain = 𝔸².
 
-	x _ A2 coordinateRing x.
-	y _ A2 coordinateRing y.
-	X _ A2 subscheme: {x^2*-1 + (y^3) + (y^2*11) + (y*40) + 48}.
+	x := 𝔸¹ coordinateRing x.
+	y := 𝔸² coordinateRing y.
+	X := 𝔸² sub: {x^2*-1 + (y^3) + (y^2*11) + (y*40) + 48}.
 	self assert: f image = X! !
 
-!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 9/16/2022 08:11:47'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 6/26/2023 17:14:36'!
 testRationalMap2
 	"Example from Cox's IVA pag. 234. Parametrization of the tangent surface of the twisted cubic."
-	| A2 A3 x y z f X |
-	A2 _ AffineSpace new: #(t u) over: ℚ.
-	A3 _ AffineSpace new: 3 over: ℚ.
+	| 𝔸² 𝔸³ x y z f X |
+	𝔸² := AffineSpace new: #(t u) over: ℚ.
+	𝔸³ := AffineSpace new: 3 over: ℚ.
 
-	f _ A2 to: A3 mapWithArguments: [:t :u| {t + u. t^2 + (t*u*2). t^3 + (t^2*u*3)}].
+	f := 𝔸² to: 𝔸³ mapWithArguments: [:t :u| {t + u. t^2 + (t*u*2). t^3 + (t^2*u*3)}].
 
-	x _ A3 coordinateRing x.
-	y _ A3 coordinateRing y.
-	z _ A3 coordinateRing z.
-	X _ A3 subscheme: {x^3*z - (x*y^2*(3/4)) - (x*y*z*(3/2)) + (y^3) + (z^2*(1/4))}.
+	x := 𝔸³ coordinateRing x.
+	y := 𝔸³ coordinateRing y.
+	z := 𝔸³ coordinateRing z.
+	X := 𝔸³ sub: {x^3*z - (x*y^2*(3/4)) - (x*y*z*(3/2)) + (y^3) + (z^2*(1/4))}.
 	self assert: f image = X! !
 
-!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 9/16/2022 08:12:56'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 6/26/2023 17:26:53'!
 testRationalMapAffineExample
 	"From lecture notes MIT 18.782 Introduction to Arithmetic Geometry, Lecture #15, Fall 2013, 10/29/2013, Example 15.19."
-	| A2 x y X A1 phi phi2 phiInv |
-	A2 _ AffineSpace new: 2 over: ℚ.
-	x _ A2 coordinateRing x.
-	y _ A2 coordinateRing y.
-	X _ A2 subscheme: x^2 + (y^2) - 1.
-	A1 _ AffineSpace new: 1 over: ℚ.
-	phi _ X to: A1 mapWithArguments: [:x0 :y0| {y0 / (x0 + 1)}].
-	phi2 _ X to: A1 mapWithArguments: [:x0 :y0| {1 - x0 / y0}].
-	self assert: phi = phi2.
-	phiInv _ A1 to: X mapWithArguments: [:t| {1 - (t^2) / (1 + (t^2)). t*2 / (1 + (t^2))}].
-	self assert: (phi · phiInv) isIdentity.
-	self assert: phi isRegular not.
-	self assert: phi isDominant.
-"	self assert: phi isSurjective."
-	self assert: phiInv isRegular not.
-	self assert: phiInv isDominant.
-"	self assert: phiInv isSurjective not"! !
+	| 𝔸² x y X 𝔸¹ φ φ₂ ψ |
+	𝔸² := AffineSpace new: 2 over: ℚ.
+	x := 𝔸² coordinateRing x.
+	y := 𝔸² coordinateRing y.
+	X := 𝔸² sub: x^2 + (y^2) - 1.
+	𝔸¹ := AffineSpace new: 1 over: ℚ.
+	φ := X to: 𝔸¹ mapWithArguments: [:x₀ :y₀| {y₀ / (x₀ + 1)}].
+	φ₂ := X to: 𝔸¹ mapWithArguments: [:x₀ :y₀| {1 - x₀ / y₀}].
+	self assert: φ = φ₂.
+	ψ := 𝔸¹ to: X mapWithArguments: [:t| {1 - (t^2) / (1 + (t^2)). t*2 / (1 + (t^2))}].
+	self assert: (φ · ψ) isIdentity.
+	self assert: φ isRegular not.
+	self assert: φ isDominant.
+	self flag: #fixme. "implement RationalMap>>isSurjective"
+"	self assert: φ isSurjective."
+	self assert: ψ isRegular not.
+	self assert: ψ isDominant.
+"	self assert: ψ isSurjective not"! !
 
-!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 9/16/2022 08:12:17'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 6/26/2023 17:27:51'!
 testRationalMapImage
-	| A X X2 f |
-	A _ AffineSpace new: #(x y) over: ℚ.
+	| A X X₂ f |
+	A := AffineSpace new: #(x y) over: ℚ.
 	"circle centered at (0,0):"
-	X _ A subscheme: A coordinateRing !! [:x :y| x^2 + (y^2) - 1].
+	X := A sub: A coordinateRing !! [:x :y| x^2 + (y^2) - 1].
 	"circle centered at: (1,2):"
-	X2 _ A subscheme: A coordinateRing !! [:x :y| (x-1)^2 + ((y-2)^2) - 1].
+	X₂ := A sub: A coordinateRing !! [:x :y| (x-1)^2 + ((y-2)^2) - 1].
 	"translation by (1,2):"
-	f _ X to: A mapWithArguments: [:x :y| {x+1. y+2}].
-	self assert: f image = X2.
+	f := X to: A mapWithArguments: [:x :y| {x+1. y+2}].
+	self assert: f image = X₂.
 	"global translation by (1,2):"
-	f _ A to: A mapWithArguments: [:x :y| {x+1. y+2}].
-	self assert: (X apply: f) = X2! !
+	f := A to: A mapWithArguments: [:x :y| {x+1. y+2}].
+	self assert: (X apply: f) = X₂! !
 
 !AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 10/5/2022 17:24:12'!
 testRationalMapLinearMapConversion
@@ -3544,11 +3542,25 @@ testRationalMapLinearMapConversion
 	f3 _ V2 ⇒ V3 !! f2.
 	self assert: f = f3! !
 
-!AlgebraicGeometryTest methodsFor: 'rational points' stamp: 'len 5/23/2020 08:57:14'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 6/27/2023 16:04:37'!
+testRationalMapProjectiveExample
+	"Example from Magma documentation, Example Scheme_ex5 H119E5."
+	| ℙ¹ ℙ² f p X |
+	ℙ¹ := ProjectiveSpace new: #(s t) over: ℚ.
+	ℙ² := ProjectiveSpace new: #(x y z) over: ℚ.
+	f := ℙ¹ to: ℙ² mapWithArguments: [:s :t| {s/t. s^2/(s^2 - (t^2)). t/s}].
+	p := ℙ¹ points !! #(3 2).
+	self assert: (f value: p) = (ℙ² points !! {9/4. 27/10. 1}).
+	X := ℙ² sub: (ℙ² coordinateRing !! [:x :y :z| {(x*y)^2 - (x^3*z) - (x*(y^2)*z*2) + ((y*z)^2)}]).
+	self assert: f image = X.
+	self assert: f isRegular
+! !
+
+!AlgebraicGeometryTest methodsFor: 'rational points' stamp: 'len 6/26/2023 14:39:41'!
 testRationalPointsOverFiniteField
 	| P C |
-	P _ ProjectiveSpace new: 2 over: ℤ/7.
-	C _ P subscheme: P coordinateRing !! [:x :y :z| x^3 + (y^3) - (z^3)].
+	P := ProjectiveSpace new: 2 over: ℤ/7.
+	C := P sub: P coordinateRing !! [:x :y :z| x^3 + (y^3) - (z^3)].
 	self assert: C points size = 9.
 	self assert: (Iterator on: C points performing: #do:) size = 9! !
 
@@ -3572,18 +3584,18 @@ testTangentCone2
 	I _ R * (R !! [:x1 :x2 :x3 :x4| {x1*x2 - (x3^2). x2^2. x2*(x3^2). x3^4}]).
 	self assert: T asIdeal = I! !
 
-!AlgebraicGeometryTest methodsFor: 'tangent cone' stamp: 'len 5/23/2020 09:33:01'!
+!AlgebraicGeometryTest methodsFor: 'tangent cone' stamp: 'len 6/26/2023 14:40:25'!
 testTangentConeAndTangentSpace
 	"Example from https://en.wikipedia.org/wiki/Tangent_cone."
 	| A x y S o |
-	A _ AffineSpace new: #(x y) over: ℚ.
-	x _ A coordinateRing x.
-	y _ A coordinateRing y.
+	A := AffineSpace new: #(x y) over: ℚ.
+	x := A coordinateRing x.
+	y := A coordinateRing y.
 	"this curve is singular at (0,0):"
-	S _ A subscheme: x^2 + (x^3) - (y^2).
-	o _ S !! (0,0).
+	S := A sub: x^2 + (x^3) - (y^2).
+	o := S !! (0,0).
 	"the tangent cone is the union of the two lines x = y and x = -y:"
-	self assert: o tangentCone = (A subscheme: (x + y) * (x - y)).
+	self assert: o tangentCone = (A sub: (x + y) * (x - y)).
 	"the tangent space is the whole plane:"
 	self assert: o tangentSpace = A! !
 
@@ -3667,14 +3679,14 @@ testSturmfelsExample2
 	"Each of the points is multiplicity-free:"
 	self assert: ourpoints isReduced. "equivalent to the original: ourpoints reduced projectiveClosure degree = 65."! !
 
-!AlgebraicGeometryTest methodsFor: 'examples' stamp: 'len 10/5/2022 17:17:49'!
+!AlgebraicGeometryTest methodsFor: 'examples' stamp: 'len 6/26/2023 14:40:29'!
 testTwistedCubic
 	| P R M C |
-	P _ ProjectiveSpace new: 3 over: ℚ.
-	R _ P coordinateRing.
+	P := ProjectiveSpace new: 3 over: ℚ.
+	R := P coordinateRing.
 	"R indeterminateNames: #(u v w t)"
-	M _ R^3 ⇒ (R^2) !! (#(1 2 3 2 3 4) collect: [:i| R x: i]).
-	C _ P subscheme: (M minors: 2).
+	M := R^3 ⇒ (R^2) !! (#(1 2 3 2 3 4) collect: [:i| R x: i]).
+	C := P sub: (M minors: 2).
 	self assert: C dimension = 1.
 	self assert: C isSmooth! !
 
