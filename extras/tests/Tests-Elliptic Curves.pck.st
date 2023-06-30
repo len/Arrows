@@ -1,57 +1,57 @@
-'From Cuis 6.0 [latest update: #5875] on 22 June 2023 at 4:09:09 pm'!
+'From Cuis 6.0 [latest update: #5878] on 30 June 2023 at 9:09:12 pm'!
 'Description '!
-!provides: 'Tests-Elliptic Curves' 1 6!
+!provides: 'Tests-Elliptic Curves' 1 7!
 !requires: 'Elliptic Curves' 1 2 nil!
-SystemOrganization addCategory: 'Tests-Elliptic Curves'!
+SystemOrganization addCategory: #'Tests-Elliptic Curves'!
 
 
-!classDefinition: #AbstractEllipticCurveTest category: 'Tests-Elliptic Curves'!
+!classDefinition: #AbstractEllipticCurveTest category: #'Tests-Elliptic Curves'!
 RandomizedTestCase subclass: #AbstractEllipticCurveTest
 	instanceVariableNames: 'E'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Elliptic Curves'!
-!classDefinition: 'AbstractEllipticCurveTest class' category: 'Tests-Elliptic Curves'!
+!classDefinition: 'AbstractEllipticCurveTest class' category: #'Tests-Elliptic Curves'!
 AbstractEllipticCurveTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurveBN254Test category: 'Tests-Elliptic Curves'!
+!classDefinition: #EllipticCurveBN254Test category: #'Tests-Elliptic Curves'!
 AbstractEllipticCurveTest subclass: #EllipticCurveBN254Test
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Elliptic Curves'!
-!classDefinition: 'EllipticCurveBN254Test class' category: 'Tests-Elliptic Curves'!
+!classDefinition: 'EllipticCurveBN254Test class' category: #'Tests-Elliptic Curves'!
 EllipticCurveBN254Test class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurveCremona389a1Test category: 'Tests-Elliptic Curves'!
+!classDefinition: #EllipticCurveCremona389a1Test category: #'Tests-Elliptic Curves'!
 AbstractEllipticCurveTest subclass: #EllipticCurveCremona389a1Test
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Elliptic Curves'!
-!classDefinition: 'EllipticCurveCremona389a1Test class' category: 'Tests-Elliptic Curves'!
+!classDefinition: 'EllipticCurveCremona389a1Test class' category: #'Tests-Elliptic Curves'!
 EllipticCurveCremona389a1Test class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurveSecp256k1Test category: 'Tests-Elliptic Curves'!
+!classDefinition: #EllipticCurveSecp256k1Test category: #'Tests-Elliptic Curves'!
 AbstractEllipticCurveTest subclass: #EllipticCurveSecp256k1Test
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Elliptic Curves'!
-!classDefinition: 'EllipticCurveSecp256k1Test class' category: 'Tests-Elliptic Curves'!
+!classDefinition: 'EllipticCurveSecp256k1Test class' category: #'Tests-Elliptic Curves'!
 EllipticCurveSecp256k1Test class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurvesTest category: 'Tests-Elliptic Curves'!
+!classDefinition: #EllipticCurvesTest category: #'Tests-Elliptic Curves'!
 RandomizedTestCase subclass: #EllipticCurvesTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Elliptic Curves'!
-!classDefinition: 'EllipticCurvesTest class' category: 'Tests-Elliptic Curves'!
+!classDefinition: 'EllipticCurvesTest class' category: #'Tests-Elliptic Curves'!
 EllipticCurvesTest class
 	instanceVariableNames: ''!
 
@@ -316,6 +316,16 @@ testQuadraticTwistExample
 	F := ℤ/1103.
 	E := EllipticCurve coefficients: F !!!! #(1 0 0 107 340).
 	self assert: (E quadraticTwistBy: -1) coefficients = (F !!!! #(0 1102 0 609 300))! !
+
+!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 01:40:03'!
+testQuadraticTwistTraceOfFrobeniusExamples
+	| F E |
+	F := ℤ/1103.
+	E := EllipticCurve coefficients: F !!!! #(1 0 0 107 340).
+	self assert: (E quadraticTwistBy: -1) trace = E trace negated.
+	F := GaloisField new: 7 to: 2.
+	E := EllipticCurve coefficients: F !!!! #(-1 3).
+	self assert: E quadraticTwist trace = E trace negated! !
 
 !EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 14:35:24'!
 testRandomCurveWeierstrassEquationInvariants

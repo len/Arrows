@@ -1,78 +1,98 @@
-'From Cuis 6.0 [latest update: #5875] on 22 June 2023 at 4:09:03 pm'!
+'From Cuis 6.0 [latest update: #5878] on 30 June 2023 at 9:08:53 pm'!
 'Description '!
-!provides: 'Elliptic Curves' 1 16!
+!provides: 'Elliptic Curves' 1 17!
 !requires: 'Algebra' 1 0 nil!
-SystemOrganization addCategory: 'Elliptic Curves'!
+SystemOrganization addCategory: #'Elliptic Curves'!
 
 
-!classDefinition: #EllipticCurveGroup category: 'Elliptic Curves'!
+!classDefinition: #EllipticCurveGroup category: #'Elliptic Curves'!
 Group subclass: #EllipticCurveGroup
 	instanceVariableNames: 'scalars codomain'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveGroup class' category: 'Elliptic Curves'!
+!classDefinition: 'EllipticCurveGroup class' category: #'Elliptic Curves'!
 EllipticCurveGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurve category: 'Elliptic Curves'!
+!classDefinition: #EllipticCurve category: #'Elliptic Curves'!
 ProjectivePlaneCurve subclass: #EllipticCurve
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurve class' category: 'Elliptic Curves'!
+!classDefinition: 'EllipticCurve class' category: #'Elliptic Curves'!
 EllipticCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #WeierstrassCurve category: 'Elliptic Curves'!
+!classDefinition: #WeierstrassCurve category: #'Elliptic Curves'!
 EllipticCurve subclass: #WeierstrassCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'WeierstrassCurve class' category: 'Elliptic Curves'!
+!classDefinition: 'WeierstrassCurve class' category: #'Elliptic Curves'!
 WeierstrassCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurvePoint category: 'Elliptic Curves'!
+!classDefinition: #EllipticCurveMap category: #'Elliptic Curves'!
+RationalMap subclass: #EllipticCurveMap
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Elliptic Curves'!
+!classDefinition: 'EllipticCurveMap class' category: #'Elliptic Curves'!
+EllipticCurveMap class
+	instanceVariableNames: ''!
+
+!classDefinition: #EllipticCurveFrobeniusIsogeny category: #'Elliptic Curves'!
+EllipticCurveMap subclass: #EllipticCurveFrobeniusIsogeny
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Elliptic Curves'!
+!classDefinition: 'EllipticCurveFrobeniusIsogeny class' category: #'Elliptic Curves'!
+EllipticCurveFrobeniusIsogeny class
+	instanceVariableNames: ''!
+
+!classDefinition: #EllipticCurveIsogeny category: #'Elliptic Curves'!
+EllipticCurveMap subclass: #EllipticCurveIsogeny
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Elliptic Curves'!
+!classDefinition: 'EllipticCurveIsogeny class' category: #'Elliptic Curves'!
+EllipticCurveIsogeny class
+	instanceVariableNames: ''!
+
+!classDefinition: #EllipticCurveIsomorphism category: #'Elliptic Curves'!
+EllipticCurveMap subclass: #EllipticCurveIsomorphism
+	instanceVariableNames: 'u r s t'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Elliptic Curves'!
+!classDefinition: 'EllipticCurveIsomorphism class' category: #'Elliptic Curves'!
+EllipticCurveIsomorphism class
+	instanceVariableNames: ''!
+
+!classDefinition: #EllipticCurveScalingEndomorphism category: #'Elliptic Curves'!
+EllipticCurveMap subclass: #EllipticCurveScalingEndomorphism
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Elliptic Curves'!
+!classDefinition: 'EllipticCurveScalingEndomorphism class' category: #'Elliptic Curves'!
+EllipticCurveScalingEndomorphism class
+	instanceVariableNames: ''!
+
+!classDefinition: #EllipticCurvePoint category: #'Elliptic Curves'!
 ProjectivePoint subclass: #EllipticCurvePoint
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurvePoint class' category: 'Elliptic Curves'!
+!classDefinition: 'EllipticCurvePoint class' category: #'Elliptic Curves'!
 EllipticCurvePoint class
-	instanceVariableNames: ''!
-
-!classDefinition: #EllipticCurveMorphism category: 'Elliptic Curves'!
-SchemeMorphism subclass: #EllipticCurveMorphism
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveMorphism class' category: 'Elliptic Curves'!
-EllipticCurveMorphism class
-	instanceVariableNames: ''!
-
-!classDefinition: #EllipticCurveIsogeny category: 'Elliptic Curves'!
-EllipticCurveMorphism subclass: #EllipticCurveIsogeny
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveIsogeny class' category: 'Elliptic Curves'!
-EllipticCurveIsogeny class
-	instanceVariableNames: ''!
-
-!classDefinition: #EllipticCurveIsomorphism category: 'Elliptic Curves'!
-EllipticCurveMorphism subclass: #EllipticCurveIsomorphism
-	instanceVariableNames: 'u r s t'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveIsomorphism class' category: 'Elliptic Curves'!
-EllipticCurveIsomorphism class
 	instanceVariableNames: ''!
 
 
@@ -93,15 +113,15 @@ Elliptic curves defined by a short Weierstrass equation:
 	y² = x³ + a₄x + a₆.
 !
 
+!EllipticCurveIsogeny commentStamp: '<historical>' prior: 0!
+Scheme morphisms of elliptic curves E₁ → E₂ over a field that send the identity of E₁ to the identity of E₂. They are homomorphisms of group schemes.!
+
 !EllipticCurvePoint commentStamp: '<historical>' prior: 0!
-K-rational points on an elliptic curve E, seen as morphisms Spec(K) -> E. These objects implement the group law (with additive notation). The identity element (zero, or the point at infinity) is [0:1:0].
+K-rational points on an elliptic curve E, seen as morphisms Spec(K) → E. These objects implement the group law (with additive notation). The identity element (zero, or the point at infinity) is [0:1:0].
 
 Following conventions, a point [a:b:1] is printed '(a,b)', and the point at infinity [0:1:0] is printed 'O'.
 
 See also EllipticCurve.!
-
-!EllipticCurveIsogeny commentStamp: '<historical>' prior: 0!
-Scheme morphisms of elliptic curves E₁ -> E₂ over a field that send the identity of E₁ to the identity of E₂. They are homomorphisms of group schemes.!
 
 !EllipticCurveGroup methodsFor: 'accessing' stamp: 'len 9/28/2018 06:40:54'!
 ambient
@@ -349,9 +369,54 @@ asShortWeierstrassModel
 over: aRing
 	^ self class coefficients: (coefficients over: aRing)! !
 
+!EllipticCurve methodsFor: 'frobenius' stamp: 'len 6/26/2023 01:44:21'!
+frobenius
+	^ self frobeniusOrder degree = 1 ifTrue: [self frobeniusPolynomial roots anyOne] ifFalse: [self frobeniusOrder x]! !
+
+!EllipticCurve methodsFor: 'frobenius' stamp: 'len 6/26/2023 01:43:07'!
+frobeniusDiscriminant
+	^ self frobeniusPolynomial discriminant! !
+
+!EllipticCurve methodsFor: 'frobenius' stamp: 'len 6/26/2023 01:43:20'!
+frobeniusEndomorphism
+	^ self notYetImplemented! !
+
+!EllipticCurve methodsFor: 'frobenius' stamp: 'len 6/26/2023 01:46:43'!
+frobeniusOrder
+	self flag: #fixme.
+	^ ℤ extension: self frobeniusPolynomial "or one of its factors?"! !
+
+!EllipticCurve methodsFor: 'frobenius' stamp: 'len 6/26/2023 01:29:53'!
+frobeniusPolynomial
+	"Answer the characteristic polynomial of the Frobenius endomorphism."
+	^ ℤ polynomials !! {self scalars size. self trace negated. 1}! !
+
+!EllipticCurve methodsFor: 'frobenius' stamp: 'len 6/26/2023 01:24:30'!
+trace
+	"Answer the trace of Frobenius of this elliptic curve."
+	^ 1 + self scalars size - self points size! !
+
 !EllipticCurve methodsFor: 'morphisms' stamp: 'len 6/20/2023 15:26:21'!
 id
 	^ EllipticCurveIsomorphism from: self to: self u: 1 r: 0 s: 0 t: 0! !
+
+!EllipticCurve methodsFor: 'morphisms' stamp: 'len 6/27/2023 13:33:00'!
+multiplicationBy: anInteger
+	| n K x y P numerator denominator f₁ f₂ |
+	self assert: anInteger ~= 0.
+	n := anInteger abs.
+	P := {-1. n-1. n. n+1} collect: [:i| self divisionPolynomialXNoTwoTorsion: i].
+	x := P first parent x.
+	numerator := n even
+		ifTrue: [x * (P at: 1) * (P at: 3) squared - ((P at: 2) * (P at: 4))]
+		ifFalse: [x * (P at: 3) squared - ((P at: 1) * (P at: 2) * (P at: 4))].
+	denominator := (P at: 3) squared.
+	n even ifTrue: [denominator := denominator * (P at: 1)].
+	K := self ambient functionField.
+	x := K x: 1. y := K x: 2.
+	f₁ := K !! numerator / (K !! denominator).
+	f₂ := (y*2 + (x * self a₁) + self a₃) * (f₁ derivativeIn: 1) / anInteger - (f₁ * self a₁) - self a₃ / 2.
+	^ self to: self representatives: {f₁. f₂}! !
 
 !EllipticCurve methodsFor: 'morphisms' stamp: 'len 6/18/2023 22:35:40'!
 negationMap
@@ -379,36 +444,11 @@ badPrimes
 	"Answer the set of primes for which the receiver doesn't have 'good reduction'."
 	^ self discriminant factorization asSet! !
 
-!EllipticCurve methodsFor: 'operations' stamp: 'len 11/10/2016 09:43'!
-divisionPolynomial: n
-	"Answer the n-th division polynomial."
-	^ self divisionPolynomial: n at: self scalars polynomials x! !
-
-!EllipticCurve methodsFor: 'operations' stamp: 'len 12/28/2016 09:23:12'!
-divisionPolynomial: n at: x
-	"Answer the n-th division polynomial of the receiver evaluated at x."
-	^ self notYetImplemented! !
-
-!EllipticCurve methodsFor: 'operations' stamp: 'len 6/18/2023 11:14:24'!
-divisionPolynomialNew: n
-	"Answer the n-th division polynomial."
-	| R x y |
-	R := ℤ polynomialsIn: #(x y).
-	n == 1 ifTrue: [^ R one].
-	x := R x.
-	y := R y.
-	n == 2 ifTrue: [^ y*2 + (self a₁ * x) + self a₃].
-	n == 3 ifTrue: [^ x^4 * 3 + (x^3 * self b₂) + (x^2 * 3 * self b₄) + (x * 3 * self b₆) + self b₈].
-	n == 4 ifTrue: [^ (self divisionPolynomial: 2) * (x^6 * 2 + (x^5 * self b₂) + (x^4 * self b₄ * 5) + (x^3 * 10 * self b₆) + (x^2 * 10 * self b₈) + (x * (self b₂ * self b₈ - (self b₄ * self b₆))) + (self b₄ * self b₈ - self b₆ squared))].
-"	n odd ifTrue: [
-		m _ n - 1 // 2.
-		^ (self divisionPolynomial: m+2) * ((self divisionPolynomial: m) ^ 3) - (self divisionPolynomial"! !
-
-!EllipticCurve methodsFor: 'operations' stamp: 'len 6/18/2023 11:19:42'!
+!EllipticCurve methodsFor: 'operations' stamp: 'len 6/27/2023 12:25:14'!
 divisionPolynomials
 	"Answer the sequence of division polynomials.
 	Reference: Silverman, 'The Arithmetic of Elliptic Curves', Exercise 3.7, pag. 105."
-	| R x y φ₁ φ₂ φ₃ φ₄ a₁ a₃ b₂ b₄ b₆ b₈ |
+	| R x y ψ₁ ψ₂ ψ₃ ψ₄ a₁ a₃ b₂ b₄ b₆ b₈ |
 	R := self scalars polynomialsIn: #(x y). x := R x. y := R y.
 	a₁ := self a₁.
 	a₃ := self a₃.
@@ -416,19 +456,19 @@ divisionPolynomials
 	b₄ := self b₄.
 	b₆ := self b₆.
 	b₈ := self b₈.
-	φ₁ := R one.
-	φ₂ := y*2 + (a₁ * x) + a₃.
-	φ₃ := x^4 * 3 + (x^3 * b₂) + (x^2 * 3 * b₄) + (x * 3 * b₆) + b₈.
-	φ₄ := φ₂ * (x^6 * 2 + (x^5 * b₂) + (x^4 * b₄ * 5) + (x^3 * 10 * b₆) + (x^2 * 10 * b₈) + (x * (b₂ * b₈ - (b₄ * b₆))) + (b₄ * b₈ - b₆ squared)).
-	^ Sequence to: R initialValues: {φ₁. φ₂. φ₃. φ₄} recurrence: [:phi :n|
+	ψ₁ := R one.
+	ψ₂ := y*2 + (a₁ * x) + a₃.
+	ψ₃ := x^4 * 3 + (x^3 * b₂) + (x^2 * 3 * b₄) + (x * 3 * b₆) + b₈.
+	ψ₄ := ψ₂ * (x^6 * 2 + (x^5 * b₂) + (x^4 * b₄ * 5) + (x^3 * 10 * b₆) + (x^2 * 10 * b₈) + (x * (b₂ * b₈ - (b₄ * b₆))) + (b₄ * b₈ - b₆ squared)).
+	^ Sequence to: R initialValues: {ψ₁. ψ₂. ψ₃. ψ₄} recurrence: [:ψ :n|
 		| m |
 		n odd
 			ifTrue:
 				[m := n - 1 // 2.
-				(phi at: m+2) * ((phi at: m) ^ 3) - ((phi at: m - 1) * ((phi at: m + 1) ^ 3))]
+				(ψ at: m+2) * ((ψ at: m) ^ 3) - ((ψ at: m - 1) * ((ψ at: m + 1) ^ 3))]
 			ifFalse:
 				[m := n // 2.
-				(phi at: m-1) squared * (phi at: m) * (phi at: m+2) - ((phi at: m-2) * (phi at: m) * (phi at: m+1) squared // φ₂)]]! !
+				(ψ at: m-1) squared * (ψ at: m) * (ψ at: m+2) - ((ψ at: m-2) * (ψ at: m) * (ψ at: m+1) squared / ψ₂)]]! !
 
 !EllipticCurve methodsFor: 'operations' stamp: 'len 6/22/2023 15:28:57'!
 hasseInvariant
@@ -444,21 +484,6 @@ hasseInvariant
 	E := self asShortWeierstrassModel.
 	x := K polynomials x.
 	^ (x^3 + (x * E a₄) + E a₆) ^ (p - 1 / 2) at: p - 1! !
-
-!EllipticCurve methodsFor: 'operations' stamp: 'len 10/14/2022 08:45:21'!
-multiplicationBy: m
-	| F f omega φ ψ x |
-	ψ _ self divisionPolynomials.
-	f _ ψ at: m.
-	x _ ψ codomain x.
-"	y _ psi codomain y."
-	F _ self ambient functionField.
-	φ _ x * f squared - ((ψ at: m+1) * (ψ at: m-1)).
-	omega _ (ψ at: m+2) * (ψ at: m-1) squared - ((ψ at: m-2) * (ψ at: m+1) squared).
-	f _ f value: {F x. F y}.
-	omega _ (omega value: {F x. F y}) / (F y * 4).
-	φ _ φ value: {F x. F y}.
-	^ "self from: self to: self representatives:" {φ / f squared. omega / (f^3). F z}! !
 
 !EllipticCurve methodsFor: 'operations' stamp: 'len 6/22/2023 14:44:10'!
 quadraticTwist
@@ -560,10 +585,12 @@ sexticTwistOf: anEllipticCurve
 	(K characteristic = 2 or: [K characteristic = 3]) ifTrue: [^ self notYetImplemented].
 	^ anEllipticCurve c₆ / self c₆! !
 
-!EllipticCurve methodsFor: 'points' stamp: 'len 6/18/2023 12:05:20'!
+!EllipticCurve methodsFor: 'points' stamp: 'len 6/27/2023 15:32:05'!
 pointAt: aTuple
-	aTuple size = 2 ifTrue: [^ self pointClass on: self coordinates: aTuple, aTuple scalars one].
-	^ self pointClass on: self coordinates: aTuple! !
+	aTuple size = 2 ifTrue: [^ EllipticCurvePoint on: self coordinates: aTuple, aTuple scalars one].
+	self assert: aTuple size = 3.
+"	(aTuple at: 3) isOne ifFalse: [^ EllipticCurvePoint on: self coordinates: aTuple / (aTuple at: 3)]."
+	^ EllipticCurvePoint on: self coordinates: aTuple! !
 
 !EllipticCurve methodsFor: 'points' stamp: 'len 12/22/2016 23:19:49'!
 pointsOver: aField
@@ -628,14 +655,19 @@ printOn: aStream
 		nextPutAll: ' = ';
 		print: (x^3) + (x^2 * self a₂) + (x * self a₄) + self a₆! !
 
+!EllipticCurve methodsFor: 'testing' stamp: 'len 6/26/2023 01:50:19'!
+isOrdinary
+	^ self isSupersingular not! !
+
 !EllipticCurve methodsFor: 'testing' stamp: 'len 6/19/2023 12:19:22'!
 isSmooth
 	self flag: #fixme. "assumes the curve is defined over a field, over a ring it should test isUnit"
 	^ self discriminant isZero not! !
 
-!EllipticCurve methodsFor: 'testing' stamp: 'len 6/22/2023 15:30:50'!
+!EllipticCurve methodsFor: 'testing' stamp: 'len 6/26/2023 01:49:26'!
 isSupersingular
 	self scalars characteristic > 0 ifTrue: [^ self hasseInvariant isZero].
+	"equivalently: the trace of Frobenius is divisible by the characteristic"
 	^ self notYetImplemented! !
 
 !EllipticCurve methodsFor: 'private' stamp: 'len 6/18/2023 11:08:14'!
@@ -648,32 +680,59 @@ coefficients: aTuple
 	f := f homogenizedIn: 3.
 	self coordinateRing: f parent / f! !
 
-!EllipticCurve methodsFor: 'private' stamp: 'len 6/18/2023 11:12:26'!
-divisionPolynomial0: n at: x
-	"Answer the n-th division polynomial, without the 2-torsion factor if n is even, evaluated at x."
-	n = -2 ifTrue: [^ (self divisionPolynomial: -1 at: x) squared].
-	n = -1 ifTrue: [^ x^3 * 4 + (x^2 * self b₂) + (x * self b₄ * 2) + self b₆].
-	n <= 0 ifTrue: [DomainError signal].
-	(n = 1 or: [n = 2]) ifTrue: [^ x one].
-	n = 3 ifTrue: [^ x^4 + (x^3 * self b₂) + (x^2 * self b₄ * 3) + (x * self b₆ * 3) + self b₈].
-	n = 4 ifTrue: [^ (x^2 * 6 + (x * self b₂) + self b₄) * (self divisionPolynomial: 3 at: x) + (self divisionPolynomial: -2 at: x)].
-	^ n even
-		ifTrue:
-			[| m |
-			m := n - 2 // 2.
-			(self divisionPolynomial: m+1 at: x) *
-			((self divisionPolynomial: m at: x)^2 * (self divisionPolynomial: m+3 at: x) -
-			((self divisionPolynomial: m+2 at: x)^2 * (self divisionPolynomial: m-1 at: x)))]
-		ifFalse:
-			[| m |
-			m := n - 1 // 2.
-			m even
-				ifTrue: [(self divisionPolynomial: m at: x)^3 * (self divisionPolynomial: -2 at: x) * (self divisionPolynomial: m+2 at: x) - ((self divisionPolynomial: m+1 at: x)^3 * (self divisionPolynomial: m-1 at: x))]
-				ifFalse: [(self divisionPolynomial: m at: x)^3 * (self divisionPolynomial: m+2 at: x) - ((self divisionPolynomial: m+1 at: x)^3 * (self divisionPolynomial: m-1 at: x) * (self divisionPolynomial: -2 at: x))]]! !
+!EllipticCurve methodsFor: 'private' stamp: 'len 6/27/2023 13:23:59'!
+divisionPolynomial: n
+	"Answer the n-th division polynomial, as a bivariate polynomial including a factor 2y+a₁x+a₃ having simple roots at the 2-torsion points."
+	| cache x y φ |
+	cache := self propertyAt: #divisionPolynomials ifAbsentPut: [Dictionary new].
+	x := cache notEmpty ifTrue: [cache anyOne parent x] ifFalse: [(self scalars polynomialsIn: #(x y)) x].
+	φ := self divisionPolynomial: n at: x cache: cache.
+	n even ifTrue: [y := x parent y. φ := φ * (y * 2 + (x * self a₁) + self a₃)].
+	^ φ! !
 
-!EllipticCurve methodsFor: 'private' stamp: 'len 6/18/2023 11:42:02'!
-pointClass
-	^ EllipticCurvePoint! !
+!EllipticCurve methodsFor: 'private' stamp: 'len 6/26/2023 23:34:50'!
+divisionPolynomial: n at: x cache: cache
+	"Answer the n-th division polynomial, without the 2-torsion factor if n is even, evaluated at x.
+	When n = -1 answer B₆ := (2y+a₁x+a₃)², and for n = -2 answer B₆²."
+	cache at: n ifPresent: [:aPolynomial| ^ aPolynomial].
+	n = -2 ifTrue: [^ cache at: n put: (self divisionPolynomial: -1 at: x cache: cache) squared].
+	n = -1 ifTrue: [^ cache at: n put: x^3 * 4 + (x^2 * self b₂) + (x * self b₄ * 2) + self b₆].
+	n <= 0 ifTrue: [DomainError signal].
+	(n = 1 or: [n = 2]) ifTrue: [^ cache at: n put: x one].
+	n = 3 ifTrue: [^ cache at: n put: x^4 * 3 + (x^3 * self b₂) + (x^2 * self b₄ * 3) + (x * self b₆ * 3) + self b₈].
+	n = 4 ifTrue: [^ cache at: n put: (x^2 * 6 + (x * self b₂) + self b₄) * (self divisionPolynomial: 3 at: x cache: cache) - (self divisionPolynomial: -2 at: x cache: cache)].
+	^ cache at: n put:
+		(n even
+			ifTrue:
+				[| m |
+				m := n - 2 // 2.
+				(self divisionPolynomial: m+1 at: x cache: cache) *
+				((self divisionPolynomial: m at: x cache: cache) squared * (self divisionPolynomial: m+3 at: x cache: cache) -
+				((self divisionPolynomial: m+2 at: x cache: cache) squared * (self divisionPolynomial: m-1 at: x cache: cache)))]
+			ifFalse:
+				[| m |
+				m := n - 1 // 2.
+				m even
+					ifTrue: [(self divisionPolynomial: m at: x cache: cache)^3 * (self divisionPolynomial: -2 at: x cache: cache) * (self divisionPolynomial: m+2 at: x cache: cache) - ((self divisionPolynomial: m+1 at: x cache: cache)^3 * (self divisionPolynomial: m-1 at: x cache: cache))]
+					ifFalse: [(self divisionPolynomial: m at: x cache: cache)^3 * (self divisionPolynomial: m+2 at: x cache: cache) - ((self divisionPolynomial: m+1 at: x cache: cache)^3 * (self divisionPolynomial: m-1 at: x cache: cache) * (self divisionPolynomial: -2 at: x cache: cache))]])! !
+
+!EllipticCurve methodsFor: 'private' stamp: 'len 6/27/2023 13:20:35'!
+divisionPolynomialX: n
+	"Answer the n-th division polynomial, as a univariate polynomial including a factor of degree 3 whose roots are the x-coordinates of the 2-torsion points."
+	| cache x φ |
+	cache := self propertyAt: #divisionPolynomialsX ifAbsentPut: [Dictionary new].
+	x := cache notEmpty ifTrue: [cache anyOne parent x] ifFalse: [self scalars polynomials x].
+	φ := self divisionPolynomial: n at: x cache: cache.
+	n even ifTrue: [φ := φ * (self divisionPolynomial: -1 at: x cache: cache)].
+	^ φ! !
+
+!EllipticCurve methodsFor: 'private' stamp: 'len 6/26/2023 21:45:53'!
+divisionPolynomialXNoTwoTorsion: n
+	"Answer the n-th division polynomial, as a univariate polynomial omiting factors corresponding to the x-coordinates of the 2-torsion points."
+	| cache x |
+	cache := self propertyAt: #divisionPolynomialsXNoTwoTorsion ifAbsentPut: [Dictionary new].
+	x := cache notEmpty ifTrue: [cache anyOne parent x] ifFalse: [self scalars polynomials x].
+	^ self divisionPolynomial: n at: x cache: cache! !
 
 !EllipticCurve class methodsFor: 'examples' stamp: 'len 6/18/2023 15:15:48'!
 bn254
@@ -807,6 +866,173 @@ coefficients: aTuple
 	aTuple size = 2 ifTrue: [^ self new coefficients: aTuple scalars !!!! {0. 0. 0} , aTuple].
 	self assert: ((1 to: 3) allSatisfy: [:i| aTuple isZeroAt: i]).
 	^ self new coefficients: aTuple! !
+
+!EllipticCurveMap methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:50:56'!
+dual
+	^ self subclassResponsibility! !
+
+!EllipticCurveMap methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:07:14'!
+isInjective
+	self isSeparable ifTrue: [^ self degree = 1].
+	self notYetImplemented! !
+
+!EllipticCurveMap methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:06:09'!
+isSurjective
+	^ self degree > 0! !
+
+!EllipticCurveMap methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:08:04'!
+isZero
+	^ self degree = 0! !
+
+!EllipticCurveMap methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:50:32'!
+kernelPolynomial
+	^ self subclassResponsibility! !
+
+!EllipticCurveFrobeniusIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:11:42'!
+isInjective
+	^ true! !
+
+!EllipticCurveFrobeniusIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:11:52'!
+isSeparable
+	^ self degree = 1! !
+
+!EllipticCurveFrobeniusIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:14:42'!
+kernelPolynomial
+	^ self domain scalars polynomials one! !
+
+!EllipticCurveFrobeniusIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:13:03'!
+scalingFactor
+	^ self degree = 1 ifTrue: [self domain scalars one] ifFalse: [self domain scalars zero]! !
+
+!EllipticCurveFrobeniusIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:13:59'!
+value: aPoint
+	aPoint isZero ifTrue: [^ aPoint].
+	^ aPoint shallowCopy x: aPoint x ^ self degree y: aPoint y ^ self degree! !
+
+!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 18:07:06'!
+degree
+	| Φ₁ |
+	Φ₁ := self xRationalFunction.
+	^ Φ₁ numerator degree max: Φ₁ denominator degree! !
+
+!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/29/2023 19:49:16'!
+dual
+	"Answer the dual of the receiver. If the receiver is f:E→E' of degree n, its dual is an isogeny g:E'→E such that the compositions are [n] (multiplication by n)."
+	^ self notYetImplemented! !
+
+!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:41:47'!
+isSeparable
+	^ true! !
+
+!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 12/25/2016 08:42:27'!
+isSurjective
+	^ self isZero not! !
+
+!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 12/28/2016 11:16:46'!
+kernelPolynomial
+	^ self propertyAt: #kernelPolynomial ifAbsentPut: [self computeKernelPolynomial]! !
+
+!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:36:28'!
+value: aPoint
+	aPoint isZero ifTrue: [^ self codomain zero].
+	self notYetImplemented! !
+
+!EllipticCurveIsogeny class methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:24:40'!
+from: anEllipticCurve kernel: aCollection
+	"Answer an isogeny from anEllipticCurve with kernel given by a list of points."
+	^ self notYetImplemented! !
+
+!EllipticCurveIsogeny class methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:24:01'!
+from: anEllipticCurve kernelPolynomial: aPolynomial
+	^ self notYetImplemented! !
+
+!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 12:03:31'!
+= anObject
+	self class = anObject class ifFalse: [^ super = anObject].
+	^ self domain = anObject domain and: [self codomain = anObject codomain and: [u = anObject u and: [r = anObject r and: [s = anObject s and: [t = anObject t]]]]]! !
+
+!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:47:57'!
+dual
+	^ self inverse! !
+
+!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:40:41'!
+inverse
+	| r₂ s₂ u₂ |
+	^ self class from: self codomain to: self domain u: (u₂ := u inverse) r: (r₂ := r negated * u₂ squared) s: (s₂ := s negated * u₂) t: r₂ * s₂ * (u₂ ^ 3)! !
+
+!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:33:03'!
+r
+	^ r! !
+
+!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 12:06:08'!
+rationalFunctions
+	^ self value: self domain functionField generators! !
+
+!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:33:07'!
+s
+	^ s! !
+
+!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:33:14'!
+t
+	^ t! !
+
+!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:33:18'!
+u
+	^ u! !
+
+!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:39:13'!
+u: u₀ r: r₀ s: s₀ t: t₀
+	u := u₀.
+	r := r₀.
+	s := s₀.
+	t := t₀! !
+
+!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 12:05:50'!
+xRationalFunction
+	^ (self domain functionField x: 1) - r / u squared! !
+
+!EllipticCurveIsomorphism class methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:40:22'!
+from: anEllipticCurve to: anotherEllipticCurve u: u₀ r: r₀ s: s₀ t: t₀
+	^ self new domain: anEllipticCurve; codomain: anotherEllipticCurve; u: u₀ r: r₀ s: s₀ t: t₀! !
+
+!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:00:58'!
+degree
+	^ self multiplier squared! !
+
+!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 17:59:08'!
+dual
+	^ self! !
+
+!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:06:06'!
+isInjective
+	self multiplier = 0 ifTrue: [^ false].
+	^ (self multiplier abs isPowerOf: self domain scalars characteristic) and: [self domain isSupersingular]! !
+
+!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:04:48'!
+isSeparable
+	self multiplier = 0 ifTrue: [^ self error: 'not an isogeny'].
+	^ self scalingFactor isZero not! !
+
+!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:03:35'!
+kernelPolynomial
+"	self multiplier = 0 ifTrue: [^ ... zero polynomial]."
+	^ (self domain divisionPolynomial: self multiplier abs) radical! !
+
+!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:00:41'!
+multiplier
+	^ self propertyAt: #multiplier! !
+
+!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:06:47'!
+negated
+	^ self class on: self domain multiplier: self multiplier negated! !
+
+!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:00:31'!
+scalingFactor
+	^ self domain scalars !! self multiplier! !
+
+!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:01:19'!
+value: aPoint
+	^ aPoint * self multiplier! !
 
 !EllipticCurvePoint methodsFor: 'accessing' stamp: 'len 6/19/2023 00:55:55'!
 order
@@ -1010,114 +1236,3 @@ divisionPolynomial: anInteger
 	is2Torsion := self = nP."
 	self isZero ifTrue: [^ self codomain divisionPolynomial: anInteger].
 	^ self notYetImplemented! !
-
-!EllipticCurveMorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:50:56'!
-dual
-	^ self subclassResponsibility! !
-
-!EllipticCurveMorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:07:14'!
-isInjective
-	self isSeparable ifTrue: [^ self degree = 1].
-	self notYetImplemented! !
-
-!EllipticCurveMorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:06:09'!
-isSurjective
-	^ self degree > 0! !
-
-!EllipticCurveMorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:08:04'!
-isZero
-	^ self degree = 0! !
-
-!EllipticCurveMorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:50:32'!
-kernelPolynomial
-	^ self subclassResponsibility! !
-
-!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 18:07:06'!
-degree
-	| Φ₁ |
-	Φ₁ := self xRationalFunction.
-	^ Φ₁ numerator degree max: Φ₁ denominator degree! !
-
-!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 3/6/2017 16:48:06'!
-dual
-	"Answer the dual of the receiver. If the receiver is f:E->E' of degree n, its dual is an isogeny g:E'->E such that the compositions are [n] (multiplication by n)."
-	^ self notYetImplemented! !
-
-!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:41:47'!
-isSeparable
-	^ true! !
-
-!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 12/25/2016 08:42:27'!
-isSurjective
-	^ self isZero not! !
-
-!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 12/25/2016 08:43:44'!
-isZero
-	^ self degree = 0! !
-
-!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 12/28/2016 11:16:46'!
-kernelPolynomial
-	^ self propertyAt: #kernelPolynomial ifAbsentPut: [self computeKernelPolynomial]! !
-
-!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:36:28'!
-value: aPoint
-	aPoint isZero ifTrue: [^ self codomain zero].
-	self notYetImplemented! !
-
-!EllipticCurveIsogeny class methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:24:40'!
-from: anEllipticCurve kernel: aCollection
-	"Answer an isogeny from anEllipticCurve with kernel given by a list of points."
-	^ self notYetImplemented! !
-
-!EllipticCurveIsogeny class methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:24:01'!
-from: anEllipticCurve kernelPolynomial: aPolynomial
-	^ self notYetImplemented! !
-
-!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 12:03:31'!
-= anObject
-	self class = anObject class ifFalse: [^ super = anObject].
-	^ self domain = anObject domain and: [self codomain = anObject codomain and: [u = anObject u and: [r = anObject r and: [s = anObject s and: [t = anObject t]]]]]! !
-
-!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:47:57'!
-dual
-	^ self inverse! !
-
-!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:40:41'!
-inverse
-	| r₂ s₂ u₂ |
-	^ self class from: self codomain to: self domain u: (u₂ := u inverse) r: (r₂ := r negated * u₂ squared) s: (s₂ := s negated * u₂) t: r₂ * s₂ * (u₂ ^ 3)! !
-
-!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:33:03'!
-r
-	^ r! !
-
-!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 12:06:08'!
-rationalFunctions
-	^ self value: self domain functionField generators! !
-
-!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:33:07'!
-s
-	^ s! !
-
-!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:33:14'!
-t
-	^ t! !
-
-!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:33:18'!
-u
-	^ u! !
-
-!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:39:13'!
-u: u₀ r: r₀ s: s₀ t: t₀
-	u := u₀.
-	r := r₀.
-	s := s₀.
-	t := t₀! !
-
-!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 12:05:50'!
-xRationalFunction
-	^ (self domain functionField x: 1) - r / u squared! !
-
-!EllipticCurveIsomorphism class methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:40:22'!
-from: anEllipticCurve to: anotherEllipticCurve u: u₀ r: r₀ s: s₀ t: t₀
-	^ self new domain: anEllipticCurve; codomain: anotherEllipticCurve; u: u₀ r: r₀ s: s₀ t: t₀! !
