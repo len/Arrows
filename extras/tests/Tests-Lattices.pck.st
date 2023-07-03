@@ -1,30 +1,30 @@
-'From Cuis 6.0 [latest update: #5878] on 26 June 2023 at 2:07:23 pm'!
+'From Cuis 6.0 [latest update: #5878] on 3 July 2023 at 1:14:51 pm'!
 'Description '!
-!provides: 'Tests-Lattices' 1 2!
+!provides: 'Tests-Lattices' 1 3!
 !requires: 'Lattices' 1 0 nil!
-SystemOrganization addCategory: 'Tests-Lattices'!
+SystemOrganization addCategory: #'Tests-Lattices'!
 
 
-!classDefinition: #LatticeTest category: 'Tests-Lattices'!
-TestCase subclass: #LatticeTest
+!classDefinition: #LatticeTest category: #'Tests-Lattices'!
+RandomizedTestCase subclass: #LatticeTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Lattices'!
-!classDefinition: 'LatticeTest class' category: 'Tests-Lattices'!
+!classDefinition: 'LatticeTest class' category: #'Tests-Lattices'!
 LatticeTest class
 	instanceVariableNames: ''!
 
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 7/31/2020 18:22:45'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2023 00:27:55'!
 newLattice
-	^ {[Lattice A: 5 atRandom]. [Lattice Z: 5 atRandom]. [Lattice D: (2 to: 5) atRandom]. [Lattice bcc]. [Lattice fcc]} atRandom value! !
+	^ ({[Lattice A: (5 atRandom: random)]. [Lattice Z: (5 atRandom: random)]. [Lattice D: ((2 to: 5) atRandom: random)]. [Lattice bcc]. [Lattice fcc]} atRandom: random) value! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 7/31/2020 18:09:03'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2023 00:28:06'!
 testE8
 	| E8 v |
-	E8 _ Lattice E8.
-	v _ (E8 atRandomBits: 100) asVector.
+	E8 := Lattice E8.
+	v := (E8 atRandom: random bits: 100) asVector.
 	self assert: ((v allSatisfy: [:x| x isIntegral]) or: [v allSatisfy: [:x| x isIntegral not and: [(x*2) isIntegral]]]).
 	self assert: (v sum isIntegral and: [v sum asInteger even]).
 	self assert: E8 isIntegral.
@@ -115,11 +115,11 @@ testLatticeElements
 	self assert: v norm = 14.
 	self assert: v · w = 28! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2020 19:16:10'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2023 00:28:54'!
 testLeech
 	| L v |
-	L _ Lattice leech.
-	v _ (L atRandomBits: 100) asVector.
+	L := Lattice leech.
+	v := (L atRandom: random bits: 100) asVector.
 	self assert: L determinant = 1.
 "	self assert: L kissingNumber = 196560."
 "	self assert: L minimalNorm = 4."
