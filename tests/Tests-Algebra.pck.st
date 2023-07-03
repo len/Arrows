@@ -1,2073 +1,2093 @@
-'From Cuis 6.0 [latest update: #5878] on 28 June 2023 at 7:05:20 pm'!
+'From Cuis 6.0 [latest update: #5878] on 3 July 2023 at 1:17:01 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 81!
-SystemOrganization addCategory: 'Tests-Algebra'!
-SystemOrganization addCategory: 'Tests-Algebra-Rings'!
-SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
-SystemOrganization addCategory: 'Tests-Algebra-Tuples'!
-SystemOrganization addCategory: 'Tests-Algebra-Matrices'!
-SystemOrganization addCategory: 'Tests-Algebra-Modules'!
-SystemOrganization addCategory: 'Tests-Algebra-Groebner Bases'!
-SystemOrganization addCategory: 'Tests-Algebra-Benchmarks'!
+!provides: 'Tests-Algebra' 1 82!
+SystemOrganization addCategory: #'Tests-Algebra'!
+SystemOrganization addCategory: #'Tests-Algebra-Rings'!
+SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
+SystemOrganization addCategory: #'Tests-Algebra-Tuples'!
+SystemOrganization addCategory: #'Tests-Algebra-Matrices'!
+SystemOrganization addCategory: #'Tests-Algebra-Modules'!
+SystemOrganization addCategory: #'Tests-Algebra-Groebner Bases'!
+SystemOrganization addCategory: #'Tests-Algebra-Benchmarks'!
 
 
-!classDefinition: #AbelianGroupTest category: 'Tests-Algebra'!
+!classDefinition: #AbelianGroupTest category: #'Tests-Algebra'!
 TestCase subclass: #AbelianGroupTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra'!
-!classDefinition: 'AbelianGroupTest class' category: 'Tests-Algebra'!
+!classDefinition: 'AbelianGroupTest class' category: #'Tests-Algebra'!
 AbelianGroupTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicGeometryTest category: 'Tests-Algebra'!
+!classDefinition: #AlgebraicGeometryTest category: #'Tests-Algebra'!
 TestCase subclass: #AlgebraicGeometryTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra'!
-!classDefinition: 'AlgebraicGeometryTest class' category: 'Tests-Algebra'!
+!classDefinition: 'AlgebraicGeometryTest class' category: #'Tests-Algebra'!
 AlgebraicGeometryTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicGraphTest category: 'Tests-Algebra'!
+!classDefinition: #AlgebraicGraphTest category: #'Tests-Algebra'!
 TestCase subclass: #AlgebraicGraphTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra'!
-!classDefinition: 'AlgebraicGraphTest class' category: 'Tests-Algebra'!
+!classDefinition: 'AlgebraicGraphTest class' category: #'Tests-Algebra'!
 AlgebraicGraphTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BilinearFormTest category: 'Tests-Algebra'!
+!classDefinition: #BilinearFormTest category: #'Tests-Algebra'!
 TestCase subclass: #BilinearFormTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra'!
-!classDefinition: 'BilinearFormTest class' category: 'Tests-Algebra'!
+!classDefinition: 'BilinearFormTest class' category: #'Tests-Algebra'!
 BilinearFormTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ChainComplexTest category: 'Tests-Algebra'!
+!classDefinition: #ChainComplexTest category: #'Tests-Algebra'!
 TestCase subclass: #ChainComplexTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra'!
-!classDefinition: 'ChainComplexTest class' category: 'Tests-Algebra'!
+!classDefinition: 'ChainComplexTest class' category: #'Tests-Algebra'!
 ChainComplexTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #CommutativeAlgebraTest category: 'Tests-Algebra'!
+!classDefinition: #CommutativeAlgebraTest category: #'Tests-Algebra'!
 TestCase subclass: #CommutativeAlgebraTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra'!
-!classDefinition: 'CommutativeAlgebraTest class' category: 'Tests-Algebra'!
+!classDefinition: 'CommutativeAlgebraTest class' category: #'Tests-Algebra'!
 CommutativeAlgebraTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #MathematicsTest category: 'Tests-Algebra'!
+!classDefinition: #MathematicsTest category: #'Tests-Algebra'!
 TestCase subclass: #MathematicsTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra'!
-!classDefinition: 'MathematicsTest class' category: 'Tests-Algebra'!
+!classDefinition: 'MathematicsTest class' category: #'Tests-Algebra'!
 MathematicsTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #MonomialTest category: 'Tests-Algebra'!
+!classDefinition: #MonomialTest category: #'Tests-Algebra'!
 TestCase subclass: #MonomialTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra'!
-!classDefinition: 'MonomialTest class' category: 'Tests-Algebra'!
+!classDefinition: 'MonomialTest class' category: #'Tests-Algebra'!
 MonomialTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #NumberFieldTest category: 'Tests-Algebra'!
+!classDefinition: #NumberFieldTest category: #'Tests-Algebra'!
 TestCase subclass: #NumberFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra'!
-!classDefinition: 'NumberFieldTest class' category: 'Tests-Algebra'!
+!classDefinition: 'NumberFieldTest class' category: #'Tests-Algebra'!
 NumberFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialTest category: 'Tests-Algebra'!
+!classDefinition: #PolynomialTest category: #'Tests-Algebra'!
 TestCase subclass: #PolynomialTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra'!
-!classDefinition: 'PolynomialTest class' category: 'Tests-Algebra'!
+!classDefinition: 'PolynomialTest class' category: #'Tests-Algebra'!
 PolynomialTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RandomizedTestCase category: 'Tests-Algebra'!
+!classDefinition: #RandomizedTestCase category: #'Tests-Algebra'!
 TestCase subclass: #RandomizedTestCase
 	instanceVariableNames: 'seed random'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra'!
-!classDefinition: 'RandomizedTestCase class' category: 'Tests-Algebra'!
+!classDefinition: 'RandomizedTestCase class' category: #'Tests-Algebra'!
 RandomizedTestCase class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupTest category: 'Tests-Algebra'!
+!classDefinition: #AbstractAbelianCategoryTest category: #'Tests-Algebra'!
+RandomizedTestCase subclass: #AbstractAbelianCategoryTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'AbstractAbelianCategoryTest class' category: #'Tests-Algebra'!
+AbstractAbelianCategoryTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #IntegerModuleAbelianCategoryTest category: #'Tests-Algebra'!
+AbstractAbelianCategoryTest subclass: #IntegerModuleAbelianCategoryTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'IntegerModuleAbelianCategoryTest class' category: #'Tests-Algebra'!
+IntegerModuleAbelianCategoryTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #GroupTest category: #'Tests-Algebra'!
 RandomizedTestCase subclass: #GroupTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra'!
-!classDefinition: 'GroupTest class' category: 'Tests-Algebra'!
+!classDefinition: 'GroupTest class' category: #'Tests-Algebra'!
 GroupTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearGroupsTest category: 'Tests-Algebra'!
+!classDefinition: #LinearGroupsTest category: #'Tests-Algebra'!
 RandomizedTestCase subclass: #LinearGroupsTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra'!
-!classDefinition: 'LinearGroupsTest class' category: 'Tests-Algebra'!
+!classDefinition: 'LinearGroupsTest class' category: #'Tests-Algebra'!
 LinearGroupsTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuadraticFormTest category: 'Tests-Algebra'!
+!classDefinition: #QuadraticFormTest category: #'Tests-Algebra'!
 RandomizedTestCase subclass: #QuadraticFormTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra'!
-!classDefinition: 'QuadraticFormTest class' category: 'Tests-Algebra'!
+!classDefinition: 'QuadraticFormTest class' category: #'Tests-Algebra'!
 QuadraticFormTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #AbstractRingTest category: #'Tests-Algebra-Rings'!
 RandomizedTestCase subclass: #AbstractRingTest
 	instanceVariableNames: 'R'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'AbstractRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'AbstractRingTest class' category: #'Tests-Algebra-Rings'!
 AbstractRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractAlgebraTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #AbstractAlgebraTest category: #'Tests-Algebra-Rings'!
 AbstractRingTest subclass: #AbstractAlgebraTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'AbstractAlgebraTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'AbstractAlgebraTest class' category: #'Tests-Algebra-Rings'!
 AbstractAlgebraTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractFiniteAlgebraTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #AbstractFiniteAlgebraTest category: #'Tests-Algebra-Rings'!
 AbstractAlgebraTest subclass: #AbstractFiniteAlgebraTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'AbstractFiniteAlgebraTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'AbstractFiniteAlgebraTest class' category: #'Tests-Algebra-Rings'!
 AbstractFiniteAlgebraTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractMaximalOrderTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #AbstractMaximalOrderTest category: #'Tests-Algebra-Rings'!
 AbstractFiniteAlgebraTest subclass: #AbstractMaximalOrderTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'AbstractMaximalOrderTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'AbstractMaximalOrderTest class' category: #'Tests-Algebra-Rings'!
 AbstractMaximalOrderTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #CyclotomicRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #CyclotomicRingTest category: #'Tests-Algebra-Rings'!
 AbstractMaximalOrderTest subclass: #CyclotomicRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'CyclotomicRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'CyclotomicRingTest class' category: #'Tests-Algebra-Rings'!
 CyclotomicRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuadraticRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #QuadraticRingTest category: #'Tests-Algebra-Rings'!
 AbstractMaximalOrderTest subclass: #QuadraticRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'QuadraticRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'QuadraticRingTest class' category: #'Tests-Algebra-Rings'!
 QuadraticRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #CliffordAlgebraTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #CliffordAlgebraTest category: #'Tests-Algebra-Rings'!
 AbstractFiniteAlgebraTest subclass: #CliffordAlgebraTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'CliffordAlgebraTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'CliffordAlgebraTest class' category: #'Tests-Algebra-Rings'!
 CliffordAlgebraTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #MatrixAlgebraTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #MatrixAlgebraTest category: #'Tests-Algebra-Rings'!
 AbstractFiniteAlgebraTest subclass: #MatrixAlgebraTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'MatrixAlgebraTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'MatrixAlgebraTest class' category: #'Tests-Algebra-Rings'!
 MatrixAlgebraTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuaternionAlgebraTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #QuaternionAlgebraTest category: #'Tests-Algebra-Rings'!
 AbstractFiniteAlgebraTest subclass: #QuaternionAlgebraTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'QuaternionAlgebraTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'QuaternionAlgebraTest class' category: #'Tests-Algebra-Rings'!
 QuaternionAlgebraTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalAffineAlgebraTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #RationalAffineAlgebraTest category: #'Tests-Algebra-Rings'!
 AbstractAlgebraTest subclass: #RationalAffineAlgebraTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'RationalAffineAlgebraTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'RationalAffineAlgebraTest class' category: #'Tests-Algebra-Rings'!
 RationalAffineAlgebraTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractCommutativeRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #AbstractCommutativeRingTest category: #'Tests-Algebra-Rings'!
 AbstractRingTest subclass: #AbstractCommutativeRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'AbstractCommutativeRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'AbstractCommutativeRingTest class' category: #'Tests-Algebra-Rings'!
 AbstractCommutativeRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractGCDRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #AbstractGCDRingTest category: #'Tests-Algebra-Rings'!
 AbstractCommutativeRingTest subclass: #AbstractGCDRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'AbstractGCDRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'AbstractGCDRingTest class' category: #'Tests-Algebra-Rings'!
 AbstractGCDRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractEuclideanRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #AbstractEuclideanRingTest category: #'Tests-Algebra-Rings'!
 AbstractGCDRingTest subclass: #AbstractEuclideanRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'AbstractEuclideanRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'AbstractEuclideanRingTest class' category: #'Tests-Algebra-Rings'!
 AbstractEuclideanRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractEuclideanDomainTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #AbstractEuclideanDomainTest category: #'Tests-Algebra-Rings'!
 AbstractEuclideanRingTest subclass: #AbstractEuclideanDomainTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'AbstractEuclideanDomainTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'AbstractEuclideanDomainTest class' category: #'Tests-Algebra-Rings'!
 AbstractEuclideanDomainTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractDVRTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #AbstractDVRTest category: #'Tests-Algebra-Rings'!
 AbstractEuclideanDomainTest subclass: #AbstractDVRTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'AbstractDVRTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'AbstractDVRTest class' category: #'Tests-Algebra-Rings'!
 AbstractDVRTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AdicIntegerRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #AdicIntegerRingTest category: #'Tests-Algebra-Rings'!
 AbstractDVRTest subclass: #AdicIntegerRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'AdicIntegerRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'AdicIntegerRingTest class' category: #'Tests-Algebra-Rings'!
 AdicIntegerRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #LocalIntegerRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #LocalIntegerRingTest category: #'Tests-Algebra-Rings'!
 AbstractDVRTest subclass: #LocalIntegerRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'LocalIntegerRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'LocalIntegerRingTest class' category: #'Tests-Algebra-Rings'!
 LocalIntegerRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalPowerSeriesRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #RationalPowerSeriesRingTest category: #'Tests-Algebra-Rings'!
 AbstractDVRTest subclass: #RationalPowerSeriesRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'RationalPowerSeriesRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'RationalPowerSeriesRingTest class' category: #'Tests-Algebra-Rings'!
 RationalPowerSeriesRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractFieldPolynomialRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #AbstractFieldPolynomialRingTest category: #'Tests-Algebra-Rings'!
 AbstractEuclideanDomainTest subclass: #AbstractFieldPolynomialRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'AbstractFieldPolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'AbstractFieldPolynomialRingTest class' category: #'Tests-Algebra-Rings'!
 AbstractFieldPolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #FiniteFieldPolynomialRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #FiniteFieldPolynomialRingTest category: #'Tests-Algebra-Rings'!
 AbstractFieldPolynomialRingTest subclass: #FiniteFieldPolynomialRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'FiniteFieldPolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'FiniteFieldPolynomialRingTest class' category: #'Tests-Algebra-Rings'!
 FiniteFieldPolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryExtensionFieldPolynomialRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #BinaryExtensionFieldPolynomialRingTest category: #'Tests-Algebra-Rings'!
 FiniteFieldPolynomialRingTest subclass: #BinaryExtensionFieldPolynomialRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'BinaryExtensionFieldPolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'BinaryExtensionFieldPolynomialRingTest class' category: #'Tests-Algebra-Rings'!
 BinaryExtensionFieldPolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimeFieldPolynomialRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #PrimeFieldPolynomialRingTest category: #'Tests-Algebra-Rings'!
 FiniteFieldPolynomialRingTest subclass: #PrimeFieldPolynomialRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'PrimeFieldPolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'PrimeFieldPolynomialRingTest class' category: #'Tests-Algebra-Rings'!
 PrimeFieldPolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryFieldPolynomialRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #BinaryFieldPolynomialRingTest category: #'Tests-Algebra-Rings'!
 PrimeFieldPolynomialRingTest subclass: #BinaryFieldPolynomialRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'BinaryFieldPolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'BinaryFieldPolynomialRingTest class' category: #'Tests-Algebra-Rings'!
 BinaryFieldPolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #TernaryFieldPolynomialRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #TernaryFieldPolynomialRingTest category: #'Tests-Algebra-Rings'!
 PrimeFieldPolynomialRingTest subclass: #TernaryFieldPolynomialRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'TernaryFieldPolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'TernaryFieldPolynomialRingTest class' category: #'Tests-Algebra-Rings'!
 TernaryFieldPolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #TernaryExtensionFieldPolynomialRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #TernaryExtensionFieldPolynomialRingTest category: #'Tests-Algebra-Rings'!
 FiniteFieldPolynomialRingTest subclass: #TernaryExtensionFieldPolynomialRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'TernaryExtensionFieldPolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'TernaryExtensionFieldPolynomialRingTest class' category: #'Tests-Algebra-Rings'!
 TernaryExtensionFieldPolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalPolynomialRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #RationalPolynomialRingTest category: #'Tests-Algebra-Rings'!
 AbstractFieldPolynomialRingTest subclass: #RationalPolynomialRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'RationalPolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'RationalPolynomialRingTest class' category: #'Tests-Algebra-Rings'!
 RationalPolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractFieldTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #AbstractFieldTest category: #'Tests-Algebra-Rings'!
 AbstractEuclideanDomainTest subclass: #AbstractFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'AbstractFieldTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'AbstractFieldTest class' category: #'Tests-Algebra-Rings'!
 AbstractFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractNumberFieldTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #AbstractNumberFieldTest category: #'Tests-Algebra-Rings'!
 AbstractFieldTest subclass: #AbstractNumberFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'AbstractNumberFieldTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'AbstractNumberFieldTest class' category: #'Tests-Algebra-Rings'!
 AbstractNumberFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #CyclotomicFieldTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #CyclotomicFieldTest category: #'Tests-Algebra-Rings'!
 AbstractNumberFieldTest subclass: #CyclotomicFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'CyclotomicFieldTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'CyclotomicFieldTest class' category: #'Tests-Algebra-Rings'!
 CyclotomicFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianFieldTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #GaussianFieldTest category: #'Tests-Algebra-Rings'!
 AbstractNumberFieldTest subclass: #GaussianFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'GaussianFieldTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'GaussianFieldTest class' category: #'Tests-Algebra-Rings'!
 GaussianFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuadraticFieldTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #QuadraticFieldTest category: #'Tests-Algebra-Rings'!
 AbstractNumberFieldTest subclass: #QuadraticFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'QuadraticFieldTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'QuadraticFieldTest class' category: #'Tests-Algebra-Rings'!
 QuadraticFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #FiniteFieldRationalFunctionFieldTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #FiniteFieldRationalFunctionFieldTest category: #'Tests-Algebra-Rings'!
 AbstractFieldTest subclass: #FiniteFieldRationalFunctionFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'FiniteFieldRationalFunctionFieldTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'FiniteFieldRationalFunctionFieldTest class' category: #'Tests-Algebra-Rings'!
 FiniteFieldRationalFunctionFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #FiniteFieldTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #FiniteFieldTest category: #'Tests-Algebra-Rings'!
 AbstractFieldTest subclass: #FiniteFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'FiniteFieldTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'FiniteFieldTest class' category: #'Tests-Algebra-Rings'!
 FiniteFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryExtensionFieldTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #BinaryExtensionFieldTest category: #'Tests-Algebra-Rings'!
 FiniteFieldTest subclass: #BinaryExtensionFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'BinaryExtensionFieldTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'BinaryExtensionFieldTest class' category: #'Tests-Algebra-Rings'!
 BinaryExtensionFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimeFieldTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #PrimeFieldTest category: #'Tests-Algebra-Rings'!
 FiniteFieldTest subclass: #PrimeFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'PrimeFieldTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'PrimeFieldTest class' category: #'Tests-Algebra-Rings'!
 PrimeFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryFieldTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #BinaryFieldTest category: #'Tests-Algebra-Rings'!
 PrimeFieldTest subclass: #BinaryFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'BinaryFieldTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'BinaryFieldTest class' category: #'Tests-Algebra-Rings'!
 BinaryFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #TernaryFieldTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #TernaryFieldTest category: #'Tests-Algebra-Rings'!
 PrimeFieldTest subclass: #TernaryFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'TernaryFieldTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'TernaryFieldTest class' category: #'Tests-Algebra-Rings'!
 TernaryFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #TernaryExtensionFieldTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #TernaryExtensionFieldTest category: #'Tests-Algebra-Rings'!
 FiniteFieldTest subclass: #TernaryExtensionFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'TernaryExtensionFieldTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'TernaryExtensionFieldTest class' category: #'Tests-Algebra-Rings'!
 TernaryExtensionFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalFieldTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #RationalFieldTest category: #'Tests-Algebra-Rings'!
 AbstractFieldTest subclass: #RationalFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'RationalFieldTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'RationalFieldTest class' category: #'Tests-Algebra-Rings'!
 RationalFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalRationalFunctionFieldTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #RationalRationalFunctionFieldTest category: #'Tests-Algebra-Rings'!
 AbstractFieldTest subclass: #RationalRationalFunctionFieldTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'RationalRationalFunctionFieldTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'RationalRationalFunctionFieldTest class' category: #'Tests-Algebra-Rings'!
 RationalRationalFunctionFieldTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #EisensteinRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #EisensteinRingTest category: #'Tests-Algebra-Rings'!
 AbstractEuclideanDomainTest subclass: #EisensteinRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'EisensteinRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'EisensteinRingTest class' category: #'Tests-Algebra-Rings'!
 EisensteinRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #GaussianRingTest category: #'Tests-Algebra-Rings'!
 AbstractEuclideanDomainTest subclass: #GaussianRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'GaussianRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'GaussianRingTest class' category: #'Tests-Algebra-Rings'!
 GaussianRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #IntegerRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #IntegerRingTest category: #'Tests-Algebra-Rings'!
 AbstractEuclideanDomainTest subclass: #IntegerRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'IntegerRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'IntegerRingTest class' category: #'Tests-Algebra-Rings'!
 IntegerRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #GaloisRingTest category: #'Tests-Algebra-Rings'!
 AbstractEuclideanRingTest subclass: #GaloisRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'GaloisRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'GaloisRingTest class' category: #'Tests-Algebra-Rings'!
 GaloisRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimePowerRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #PrimePowerRingTest category: #'Tests-Algebra-Rings'!
 GaloisRingTest subclass: #PrimePowerRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'PrimePowerRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'PrimePowerRingTest class' category: #'Tests-Algebra-Rings'!
 PrimePowerRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryPowerRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #BinaryPowerRingTest category: #'Tests-Algebra-Rings'!
 PrimePowerRingTest subclass: #BinaryPowerRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'BinaryPowerRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'BinaryPowerRingTest class' category: #'Tests-Algebra-Rings'!
 BinaryPowerRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #ModularIntegerRingTest category: #'Tests-Algebra-Rings'!
 AbstractEuclideanRingTest subclass: #ModularIntegerRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'ModularIntegerRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'ModularIntegerRingTest class' category: #'Tests-Algebra-Rings'!
 ModularIntegerRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #FiniteFieldMultivariatePolynomialRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #FiniteFieldMultivariatePolynomialRingTest category: #'Tests-Algebra-Rings'!
 AbstractGCDRingTest subclass: #FiniteFieldMultivariatePolynomialRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'FiniteFieldMultivariatePolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'FiniteFieldMultivariatePolynomialRingTest class' category: #'Tests-Algebra-Rings'!
 FiniteFieldMultivariatePolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #IntegerMultivariatePolynomialRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #IntegerMultivariatePolynomialRingTest category: #'Tests-Algebra-Rings'!
 AbstractGCDRingTest subclass: #IntegerMultivariatePolynomialRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'IntegerMultivariatePolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'IntegerMultivariatePolynomialRingTest class' category: #'Tests-Algebra-Rings'!
 IntegerMultivariatePolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #IntegerPolynomialRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #IntegerPolynomialRingTest category: #'Tests-Algebra-Rings'!
 AbstractGCDRingTest subclass: #IntegerPolynomialRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'IntegerPolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'IntegerPolynomialRingTest class' category: #'Tests-Algebra-Rings'!
 IntegerPolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProductRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #ProductRingTest category: #'Tests-Algebra-Rings'!
 AbstractGCDRingTest subclass: #ProductRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'ProductRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'ProductRingTest class' category: #'Tests-Algebra-Rings'!
 ProductRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalMultivariatePolynomialRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #RationalMultivariatePolynomialRingTest category: #'Tests-Algebra-Rings'!
 AbstractGCDRingTest subclass: #RationalMultivariatePolynomialRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'RationalMultivariatePolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'RationalMultivariatePolynomialRingTest class' category: #'Tests-Algebra-Rings'!
 RationalMultivariatePolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #FiniteRingExample1Test category: 'Tests-Algebra-Rings'!
+!classDefinition: #FiniteRingExample1Test category: #'Tests-Algebra-Rings'!
 AbstractCommutativeRingTest subclass: #FiniteRingExample1Test
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'FiniteRingExample1Test class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'FiniteRingExample1Test class' category: #'Tests-Algebra-Rings'!
 FiniteRingExample1Test class
 	instanceVariableNames: ''!
 
-!classDefinition: #FiniteRingExample2Test category: 'Tests-Algebra-Rings'!
+!classDefinition: #FiniteRingExample2Test category: #'Tests-Algebra-Rings'!
 AbstractCommutativeRingTest subclass: #FiniteRingExample2Test
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'FiniteRingExample2Test class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'FiniteRingExample2Test class' category: #'Tests-Algebra-Rings'!
 FiniteRingExample2Test class
 	instanceVariableNames: ''!
 
-!classDefinition: #FiniteRingExample3Test category: 'Tests-Algebra-Rings'!
+!classDefinition: #FiniteRingExample3Test category: #'Tests-Algebra-Rings'!
 AbstractCommutativeRingTest subclass: #FiniteRingExample3Test
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'FiniteRingExample3Test class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'FiniteRingExample3Test class' category: #'Tests-Algebra-Rings'!
 FiniteRingExample3Test class
 	instanceVariableNames: ''!
 
-!classDefinition: #FiniteRingExample4Test category: 'Tests-Algebra-Rings'!
+!classDefinition: #FiniteRingExample4Test category: #'Tests-Algebra-Rings'!
 AbstractCommutativeRingTest subclass: #FiniteRingExample4Test
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'FiniteRingExample4Test class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'FiniteRingExample4Test class' category: #'Tests-Algebra-Rings'!
 FiniteRingExample4Test class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisRingMultivariatePolynomialRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #GaloisRingMultivariatePolynomialRingTest category: #'Tests-Algebra-Rings'!
 AbstractCommutativeRingTest subclass: #GaloisRingMultivariatePolynomialRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'GaloisRingMultivariatePolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'GaloisRingMultivariatePolynomialRingTest class' category: #'Tests-Algebra-Rings'!
 GaloisRingMultivariatePolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisRingPolynomialRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #GaloisRingPolynomialRingTest category: #'Tests-Algebra-Rings'!
 AbstractCommutativeRingTest subclass: #GaloisRingPolynomialRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'GaloisRingPolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'GaloisRingPolynomialRingTest class' category: #'Tests-Algebra-Rings'!
 GaloisRingPolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimePowerRingPolynomialRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #PrimePowerRingPolynomialRingTest category: #'Tests-Algebra-Rings'!
 GaloisRingPolynomialRingTest subclass: #PrimePowerRingPolynomialRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'PrimePowerRingPolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'PrimePowerRingPolynomialRingTest class' category: #'Tests-Algebra-Rings'!
 PrimePowerRingPolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryPowerRingPolynomialRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #BinaryPowerRingPolynomialRingTest category: #'Tests-Algebra-Rings'!
 PrimePowerRingPolynomialRingTest subclass: #BinaryPowerRingPolynomialRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'BinaryPowerRingPolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'BinaryPowerRingPolynomialRingTest class' category: #'Tests-Algebra-Rings'!
 BinaryPowerRingPolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerMultivariatePolynomialRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #ModularIntegerMultivariatePolynomialRingTest category: #'Tests-Algebra-Rings'!
 AbstractCommutativeRingTest subclass: #ModularIntegerMultivariatePolynomialRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'ModularIntegerMultivariatePolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'ModularIntegerMultivariatePolynomialRingTest class' category: #'Tests-Algebra-Rings'!
 ModularIntegerMultivariatePolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerPolynomialRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #ModularIntegerPolynomialRingTest category: #'Tests-Algebra-Rings'!
 AbstractCommutativeRingTest subclass: #ModularIntegerPolynomialRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'ModularIntegerPolynomialRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'ModularIntegerPolynomialRingTest class' category: #'Tests-Algebra-Rings'!
 ModularIntegerPolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuasiGaloisRingTest category: 'Tests-Algebra-Rings'!
+!classDefinition: #QuasiGaloisRingTest category: #'Tests-Algebra-Rings'!
 AbstractCommutativeRingTest subclass: #QuasiGaloisRingTest
 	instanceVariableNames: 'p r n'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'QuasiGaloisRingTest class' category: 'Tests-Algebra-Rings'!
+!classDefinition: 'QuasiGaloisRingTest class' category: #'Tests-Algebra-Rings'!
 QuasiGaloisRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractArrayTest category: 'Tests-Algebra-Arrays'!
+!classDefinition: #AbstractArrayTest category: #'Tests-Algebra-Arrays'!
 RandomizedTestCase subclass: #AbstractArrayTest
 	instanceVariableNames: 'scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'AbstractArrayTest class' category: 'Tests-Algebra-Arrays'!
+!classDefinition: 'AbstractArrayTest class' category: #'Tests-Algebra-Arrays'!
 AbstractArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ArrayTest category: 'Tests-Algebra-Arrays'!
+!classDefinition: #ArrayTest category: #'Tests-Algebra-Arrays'!
 AbstractArrayTest subclass: #ArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'ArrayTest class' category: 'Tests-Algebra-Arrays'!
+!classDefinition: 'ArrayTest class' category: #'Tests-Algebra-Arrays'!
 ArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryArrayTest category: 'Tests-Algebra-Arrays'!
+!classDefinition: #BinaryArrayTest category: #'Tests-Algebra-Arrays'!
 AbstractArrayTest subclass: #BinaryArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'BinaryArrayTest class' category: 'Tests-Algebra-Arrays'!
+!classDefinition: 'BinaryArrayTest class' category: #'Tests-Algebra-Arrays'!
 BinaryArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryExtensionSlicedArrayTest category: 'Tests-Algebra-Arrays'!
+!classDefinition: #BinaryExtensionSlicedArrayTest category: #'Tests-Algebra-Arrays'!
 AbstractArrayTest subclass: #BinaryExtensionSlicedArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'BinaryExtensionSlicedArrayTest class' category: 'Tests-Algebra-Arrays'!
+!classDefinition: 'BinaryExtensionSlicedArrayTest class' category: #'Tests-Algebra-Arrays'!
 BinaryExtensionSlicedArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryPowerArrayTest category: 'Tests-Algebra-Arrays'!
+!classDefinition: #BinaryPowerArrayTest category: #'Tests-Algebra-Arrays'!
 AbstractArrayTest subclass: #BinaryPowerArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'BinaryPowerArrayTest class' category: 'Tests-Algebra-Arrays'!
+!classDefinition: 'BinaryPowerArrayTest class' category: #'Tests-Algebra-Arrays'!
 BinaryPowerArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisFieldArrayTest category: 'Tests-Algebra-Arrays'!
+!classDefinition: #GaloisFieldArrayTest category: #'Tests-Algebra-Arrays'!
 AbstractArrayTest subclass: #GaloisFieldArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'GaloisFieldArrayTest class' category: 'Tests-Algebra-Arrays'!
+!classDefinition: 'GaloisFieldArrayTest class' category: #'Tests-Algebra-Arrays'!
 GaloisFieldArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisRingArrayTest category: 'Tests-Algebra-Arrays'!
+!classDefinition: #GaloisRingArrayTest category: #'Tests-Algebra-Arrays'!
 AbstractArrayTest subclass: #GaloisRingArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'GaloisRingArrayTest class' category: 'Tests-Algebra-Arrays'!
+!classDefinition: 'GaloisRingArrayTest class' category: #'Tests-Algebra-Arrays'!
 GaloisRingArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularArrayTest category: 'Tests-Algebra-Arrays'!
+!classDefinition: #ModularArrayTest category: #'Tests-Algebra-Arrays'!
 AbstractArrayTest subclass: #ModularArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'ModularArrayTest class' category: 'Tests-Algebra-Arrays'!
+!classDefinition: 'ModularArrayTest class' category: #'Tests-Algebra-Arrays'!
 ModularArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularByteArrayTest category: 'Tests-Algebra-Arrays'!
+!classDefinition: #ModularByteArrayTest category: #'Tests-Algebra-Arrays'!
 AbstractArrayTest subclass: #ModularByteArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'ModularByteArrayTest class' category: 'Tests-Algebra-Arrays'!
+!classDefinition: 'ModularByteArrayTest class' category: #'Tests-Algebra-Arrays'!
 ModularByteArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularDoubleByteArrayTest category: 'Tests-Algebra-Arrays'!
+!classDefinition: #ModularDoubleByteArrayTest category: #'Tests-Algebra-Arrays'!
 AbstractArrayTest subclass: #ModularDoubleByteArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'ModularDoubleByteArrayTest class' category: 'Tests-Algebra-Arrays'!
+!classDefinition: 'ModularDoubleByteArrayTest class' category: #'Tests-Algebra-Arrays'!
 ModularDoubleByteArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularWordArrayTest category: 'Tests-Algebra-Arrays'!
+!classDefinition: #ModularWordArrayTest category: #'Tests-Algebra-Arrays'!
 AbstractArrayTest subclass: #ModularWordArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'ModularWordArrayTest class' category: 'Tests-Algebra-Arrays'!
+!classDefinition: 'ModularWordArrayTest class' category: #'Tests-Algebra-Arrays'!
 ModularWordArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProductArrayTest category: 'Tests-Algebra-Arrays'!
+!classDefinition: #ProductArrayTest category: #'Tests-Algebra-Arrays'!
 AbstractArrayTest subclass: #ProductArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'ProductArrayTest class' category: 'Tests-Algebra-Arrays'!
+!classDefinition: 'ProductArrayTest class' category: #'Tests-Algebra-Arrays'!
 ProductArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #TernaryArrayTest category: 'Tests-Algebra-Arrays'!
+!classDefinition: #TernaryArrayTest category: #'Tests-Algebra-Arrays'!
 AbstractArrayTest subclass: #TernaryArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'TernaryArrayTest class' category: 'Tests-Algebra-Arrays'!
+!classDefinition: 'TernaryArrayTest class' category: #'Tests-Algebra-Arrays'!
 TernaryArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #AbstractTupleTest category: #'Tests-Algebra-Tuples'!
 RandomizedTestCase subclass: #AbstractTupleTest
 	instanceVariableNames: 'scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'AbstractTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'AbstractTupleTest class' category: #'Tests-Algebra-Tuples'!
 AbstractTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractCommutativeRingTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #AbstractCommutativeRingTupleTest category: #'Tests-Algebra-Tuples'!
 AbstractTupleTest subclass: #AbstractCommutativeRingTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'AbstractCommutativeRingTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'AbstractCommutativeRingTupleTest class' category: #'Tests-Algebra-Tuples'!
 AbstractCommutativeRingTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractModularIntegerTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #AbstractModularIntegerTupleTest category: #'Tests-Algebra-Tuples'!
 AbstractCommutativeRingTupleTest subclass: #AbstractModularIntegerTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'AbstractModularIntegerTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'AbstractModularIntegerTupleTest class' category: #'Tests-Algebra-Tuples'!
 AbstractModularIntegerTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryPowerTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #BinaryPowerTupleTest category: #'Tests-Algebra-Tuples'!
 AbstractModularIntegerTupleTest subclass: #BinaryPowerTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'BinaryPowerTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'BinaryPowerTupleTest class' category: #'Tests-Algebra-Tuples'!
 BinaryPowerTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #BinaryTupleTest category: #'Tests-Algebra-Tuples'!
 AbstractModularIntegerTupleTest subclass: #BinaryTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'BinaryTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'BinaryTupleTest class' category: #'Tests-Algebra-Tuples'!
 BinaryTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerByteTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #ModularIntegerByteTupleTest category: #'Tests-Algebra-Tuples'!
 AbstractModularIntegerTupleTest subclass: #ModularIntegerByteTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'ModularIntegerByteTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'ModularIntegerByteTupleTest class' category: #'Tests-Algebra-Tuples'!
 ModularIntegerByteTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerDoubleByteTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #ModularIntegerDoubleByteTupleTest category: #'Tests-Algebra-Tuples'!
 AbstractModularIntegerTupleTest subclass: #ModularIntegerDoubleByteTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'ModularIntegerDoubleByteTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'ModularIntegerDoubleByteTupleTest class' category: #'Tests-Algebra-Tuples'!
 ModularIntegerDoubleByteTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #ModularIntegerTupleTest category: #'Tests-Algebra-Tuples'!
 AbstractModularIntegerTupleTest subclass: #ModularIntegerTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'ModularIntegerTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'ModularIntegerTupleTest class' category: #'Tests-Algebra-Tuples'!
 ModularIntegerTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerWordTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #ModularIntegerWordTupleTest category: #'Tests-Algebra-Tuples'!
 AbstractModularIntegerTupleTest subclass: #ModularIntegerWordTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'ModularIntegerWordTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'ModularIntegerWordTupleTest class' category: #'Tests-Algebra-Tuples'!
 ModularIntegerWordTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #TernaryTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #TernaryTupleTest category: #'Tests-Algebra-Tuples'!
 AbstractModularIntegerTupleTest subclass: #TernaryTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'TernaryTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'TernaryTupleTest class' category: #'Tests-Algebra-Tuples'!
 TernaryTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryExtensionFieldTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #BinaryExtensionFieldTupleTest category: #'Tests-Algebra-Tuples'!
 AbstractCommutativeRingTupleTest subclass: #BinaryExtensionFieldTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'BinaryExtensionFieldTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'BinaryExtensionFieldTupleTest class' category: #'Tests-Algebra-Tuples'!
 BinaryExtensionFieldTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #FiniteFieldTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #FiniteFieldTupleTest category: #'Tests-Algebra-Tuples'!
 AbstractCommutativeRingTupleTest subclass: #FiniteFieldTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'FiniteFieldTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'FiniteFieldTupleTest class' category: #'Tests-Algebra-Tuples'!
 FiniteFieldTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisRingTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #GaloisRingTupleTest category: #'Tests-Algebra-Tuples'!
 AbstractCommutativeRingTupleTest subclass: #GaloisRingTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'GaloisRingTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'GaloisRingTupleTest class' category: #'Tests-Algebra-Tuples'!
 GaloisRingTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #IntegerTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #IntegerTupleTest category: #'Tests-Algebra-Tuples'!
 AbstractCommutativeRingTupleTest subclass: #IntegerTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'IntegerTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'IntegerTupleTest class' category: #'Tests-Algebra-Tuples'!
 IntegerTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #MultivariateTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #MultivariateTupleTest category: #'Tests-Algebra-Tuples'!
 AbstractCommutativeRingTupleTest subclass: #MultivariateTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'MultivariateTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'MultivariateTupleTest class' category: #'Tests-Algebra-Tuples'!
 MultivariateTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProductRingTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #ProductRingTupleTest category: #'Tests-Algebra-Tuples'!
 AbstractCommutativeRingTupleTest subclass: #ProductRingTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'ProductRingTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'ProductRingTupleTest class' category: #'Tests-Algebra-Tuples'!
 ProductRingTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalPolynomialRingTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #RationalPolynomialRingTupleTest category: #'Tests-Algebra-Tuples'!
 AbstractCommutativeRingTupleTest subclass: #RationalPolynomialRingTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'RationalPolynomialRingTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'RationalPolynomialRingTupleTest class' category: #'Tests-Algebra-Tuples'!
 RationalPolynomialRingTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #RationalTupleTest category: #'Tests-Algebra-Tuples'!
 AbstractCommutativeRingTupleTest subclass: #RationalTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'RationalTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'RationalTupleTest class' category: #'Tests-Algebra-Tuples'!
 RationalTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #SmallFiniteFieldTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #SmallFiniteFieldTupleTest category: #'Tests-Algebra-Tuples'!
 AbstractCommutativeRingTupleTest subclass: #SmallFiniteFieldTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'SmallFiniteFieldTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'SmallFiniteFieldTupleTest class' category: #'Tests-Algebra-Tuples'!
 SmallFiniteFieldTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #TernaryExtensionFieldTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #TernaryExtensionFieldTupleTest category: #'Tests-Algebra-Tuples'!
 AbstractCommutativeRingTupleTest subclass: #TernaryExtensionFieldTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'TernaryExtensionFieldTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'TernaryExtensionFieldTupleTest class' category: #'Tests-Algebra-Tuples'!
 TernaryExtensionFieldTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #MatrixAlgebraTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #MatrixAlgebraTupleTest category: #'Tests-Algebra-Tuples'!
 AbstractTupleTest subclass: #MatrixAlgebraTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'MatrixAlgebraTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'MatrixAlgebraTupleTest class' category: #'Tests-Algebra-Tuples'!
 MatrixAlgebraTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuaternionAlgebraTupleTest category: 'Tests-Algebra-Tuples'!
+!classDefinition: #QuaternionAlgebraTupleTest category: #'Tests-Algebra-Tuples'!
 AbstractTupleTest subclass: #QuaternionAlgebraTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'QuaternionAlgebraTupleTest class' category: 'Tests-Algebra-Tuples'!
+!classDefinition: 'QuaternionAlgebraTupleTest class' category: #'Tests-Algebra-Tuples'!
 QuaternionAlgebraTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #AbstractMatrixTest category: #'Tests-Algebra-Matrices'!
 RandomizedTestCase subclass: #AbstractMatrixTest
 	instanceVariableNames: 'scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'AbstractMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'AbstractMatrixTest class' category: #'Tests-Algebra-Matrices'!
 AbstractMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractCommutativeRingMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #AbstractCommutativeRingMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractMatrixTest subclass: #AbstractCommutativeRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'AbstractCommutativeRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'AbstractCommutativeRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
 AbstractCommutativeRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractIntegralDomainMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #AbstractIntegralDomainMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractCommutativeRingMatrixTest subclass: #AbstractIntegralDomainMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'AbstractIntegralDomainMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'AbstractIntegralDomainMatrixTest class' category: #'Tests-Algebra-Matrices'!
 AbstractIntegralDomainMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #CyclotomicIntegerMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #CyclotomicIntegerMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractIntegralDomainMatrixTest subclass: #CyclotomicIntegerMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'CyclotomicIntegerMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'CyclotomicIntegerMatrixTest class' category: #'Tests-Algebra-Matrices'!
 CyclotomicIntegerMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuadraticRingMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #QuadraticRingMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractIntegralDomainMatrixTest subclass: #QuadraticRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'QuadraticRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'QuadraticRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
 QuadraticRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractStandardRingMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #AbstractStandardRingMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractCommutativeRingMatrixTest subclass: #AbstractStandardRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'AbstractStandardRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'AbstractStandardRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
 AbstractStandardRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractEuclideanRingMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #AbstractEuclideanRingMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractStandardRingMatrixTest subclass: #AbstractEuclideanRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'AbstractEuclideanRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'AbstractEuclideanRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
 AbstractEuclideanRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractEuclideanDomainMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #AbstractEuclideanDomainMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractEuclideanRingMatrixTest subclass: #AbstractEuclideanDomainMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'AbstractEuclideanDomainMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'AbstractEuclideanDomainMatrixTest class' category: #'Tests-Algebra-Matrices'!
 AbstractEuclideanDomainMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractFieldMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #AbstractFieldMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractEuclideanDomainMatrixTest subclass: #AbstractFieldMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'AbstractFieldMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'AbstractFieldMatrixTest class' category: #'Tests-Algebra-Matrices'!
 AbstractFieldMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryExtensionFieldMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #BinaryExtensionFieldMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractFieldMatrixTest subclass: #BinaryExtensionFieldMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'BinaryExtensionFieldMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'BinaryExtensionFieldMatrixTest class' category: #'Tests-Algebra-Matrices'!
 BinaryExtensionFieldMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #BinaryMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractFieldMatrixTest subclass: #BinaryMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'BinaryMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'BinaryMatrixTest class' category: #'Tests-Algebra-Matrices'!
 BinaryMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #CyclotomicFieldMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #CyclotomicFieldMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractFieldMatrixTest subclass: #CyclotomicFieldMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'CyclotomicFieldMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'CyclotomicFieldMatrixTest class' category: #'Tests-Algebra-Matrices'!
 CyclotomicFieldMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #FiniteFieldMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #FiniteFieldMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractFieldMatrixTest subclass: #FiniteFieldMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'FiniteFieldMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'FiniteFieldMatrixTest class' category: #'Tests-Algebra-Matrices'!
 FiniteFieldMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianFieldMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #GaussianFieldMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractFieldMatrixTest subclass: #GaussianFieldMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'GaussianFieldMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'GaussianFieldMatrixTest class' category: #'Tests-Algebra-Matrices'!
 GaussianFieldMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuadraticFieldMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #QuadraticFieldMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractFieldMatrixTest subclass: #QuadraticFieldMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'QuadraticFieldMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'QuadraticFieldMatrixTest class' category: #'Tests-Algebra-Matrices'!
 QuadraticFieldMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #RationalMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractFieldMatrixTest subclass: #RationalMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'RationalMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'RationalMatrixTest class' category: #'Tests-Algebra-Matrices'!
 RationalMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #SmallFiniteFieldMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #SmallFiniteFieldMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractFieldMatrixTest subclass: #SmallFiniteFieldMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'SmallFiniteFieldMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'SmallFiniteFieldMatrixTest class' category: #'Tests-Algebra-Matrices'!
 SmallFiniteFieldMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #TernaryExtensionFieldMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #TernaryExtensionFieldMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractFieldMatrixTest subclass: #TernaryExtensionFieldMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'TernaryExtensionFieldMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'TernaryExtensionFieldMatrixTest class' category: #'Tests-Algebra-Matrices'!
 TernaryExtensionFieldMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #TernaryMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #TernaryMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractFieldMatrixTest subclass: #TernaryMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'TernaryMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'TernaryMatrixTest class' category: #'Tests-Algebra-Matrices'!
 TernaryMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #EisensteinIntegerMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #EisensteinIntegerMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractEuclideanDomainMatrixTest subclass: #EisensteinIntegerMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'EisensteinIntegerMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'EisensteinIntegerMatrixTest class' category: #'Tests-Algebra-Matrices'!
 EisensteinIntegerMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianIntegerMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #GaussianIntegerMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractEuclideanDomainMatrixTest subclass: #GaussianIntegerMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'GaussianIntegerMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'GaussianIntegerMatrixTest class' category: #'Tests-Algebra-Matrices'!
 GaussianIntegerMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #IntegerMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #IntegerMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractEuclideanDomainMatrixTest subclass: #IntegerMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'IntegerMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'IntegerMatrixTest class' category: #'Tests-Algebra-Matrices'!
 IntegerMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimeFieldPolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #PrimeFieldPolynomialRingMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractEuclideanDomainMatrixTest subclass: #PrimeFieldPolynomialRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'PrimeFieldPolynomialRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'PrimeFieldPolynomialRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
 PrimeFieldPolynomialRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalPolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #RationalPolynomialRingMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractEuclideanDomainMatrixTest subclass: #RationalPolynomialRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'RationalPolynomialRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'RationalPolynomialRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
 RationalPolynomialRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryPowerRingMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #BinaryPowerRingMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractEuclideanRingMatrixTest subclass: #BinaryPowerRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'BinaryPowerRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'BinaryPowerRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
 BinaryPowerRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisRingMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #GaloisRingMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractEuclideanRingMatrixTest subclass: #GaloisRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'GaloisRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'GaloisRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
 GaloisRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #LocalIntegerRingMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #LocalIntegerRingMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractEuclideanRingMatrixTest subclass: #LocalIntegerRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'LocalIntegerRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'LocalIntegerRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
 LocalIntegerRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #ModularIntegerMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractEuclideanRingMatrixTest subclass: #ModularIntegerMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'ModularIntegerMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'ModularIntegerMatrixTest class' category: #'Tests-Algebra-Matrices'!
 ModularIntegerMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimePowerRingMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #PrimePowerRingMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractEuclideanRingMatrixTest subclass: #PrimePowerRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'PrimePowerRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'PrimePowerRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
 PrimePowerRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisRingMultivariatePolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #GaloisRingMultivariatePolynomialRingMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractStandardRingMatrixTest subclass: #GaloisRingMultivariatePolynomialRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'GaloisRingMultivariatePolynomialRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'GaloisRingMultivariatePolynomialRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
 GaloisRingMultivariatePolynomialRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerMultivariatePolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #ModularIntegerMultivariatePolynomialRingMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractStandardRingMatrixTest subclass: #ModularIntegerMultivariatePolynomialRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'ModularIntegerMultivariatePolynomialRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'ModularIntegerMultivariatePolynomialRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
 ModularIntegerMultivariatePolynomialRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerPolynomialRingPolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #ModularIntegerPolynomialRingPolynomialRingMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractStandardRingMatrixTest subclass: #ModularIntegerPolynomialRingPolynomialRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'ModularIntegerPolynomialRingPolynomialRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'ModularIntegerPolynomialRingPolynomialRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
 ModularIntegerPolynomialRingPolynomialRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimeFieldMultivariatePolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #PrimeFieldMultivariatePolynomialRingMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractStandardRingMatrixTest subclass: #PrimeFieldMultivariatePolynomialRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'PrimeFieldMultivariatePolynomialRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'PrimeFieldMultivariatePolynomialRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
 PrimeFieldMultivariatePolynomialRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalMultivariatePolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #RationalMultivariatePolynomialRingMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractStandardRingMatrixTest subclass: #RationalMultivariatePolynomialRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'RationalMultivariatePolynomialRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'RationalMultivariatePolynomialRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
 RationalMultivariatePolynomialRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalPolynomialRingPolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #RationalPolynomialRingPolynomialRingMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractStandardRingMatrixTest subclass: #RationalPolynomialRingPolynomialRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'RationalPolynomialRingPolynomialRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'RationalPolynomialRingPolynomialRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
 RationalPolynomialRingPolynomialRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimeFieldAffineAlgebraMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #PrimeFieldAffineAlgebraMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractCommutativeRingMatrixTest subclass: #PrimeFieldAffineAlgebraMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'PrimeFieldAffineAlgebraMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'PrimeFieldAffineAlgebraMatrixTest class' category: #'Tests-Algebra-Matrices'!
 PrimeFieldAffineAlgebraMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProductRingMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #ProductRingMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractCommutativeRingMatrixTest subclass: #ProductRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'ProductRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'ProductRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
 ProductRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalAffineAlgebraMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #RationalAffineAlgebraMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractCommutativeRingMatrixTest subclass: #RationalAffineAlgebraMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'RationalAffineAlgebraMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'RationalAffineAlgebraMatrixTest class' category: #'Tests-Algebra-Matrices'!
 RationalAffineAlgebraMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #CliffordAlgebraMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #CliffordAlgebraMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractMatrixTest subclass: #CliffordAlgebraMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'CliffordAlgebraMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'CliffordAlgebraMatrixTest class' category: #'Tests-Algebra-Matrices'!
 CliffordAlgebraMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupAlgebraMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #GroupAlgebraMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractMatrixTest subclass: #GroupAlgebraMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'GroupAlgebraMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'GroupAlgebraMatrixTest class' category: #'Tests-Algebra-Matrices'!
 GroupAlgebraMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #MatrixAlgebraMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #MatrixAlgebraMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractMatrixTest subclass: #MatrixAlgebraMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'MatrixAlgebraMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'MatrixAlgebraMatrixTest class' category: #'Tests-Algebra-Matrices'!
 MatrixAlgebraMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuaternionAlgebraMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #QuaternionAlgebraMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractMatrixTest subclass: #QuaternionAlgebraMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'QuaternionAlgebraMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'QuaternionAlgebraMatrixTest class' category: #'Tests-Algebra-Matrices'!
 QuaternionAlgebraMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractModuleTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #AbstractModuleTest category: #'Tests-Algebra-Modules'!
 RandomizedTestCase subclass: #AbstractModuleTest
 	instanceVariableNames: 'scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'AbstractModuleTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'AbstractModuleTest class' category: #'Tests-Algebra-Modules'!
 AbstractModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractCommutativeRingModuleTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #AbstractCommutativeRingModuleTest category: #'Tests-Algebra-Modules'!
 AbstractModuleTest subclass: #AbstractCommutativeRingModuleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'AbstractCommutativeRingModuleTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'AbstractCommutativeRingModuleTest class' category: #'Tests-Algebra-Modules'!
 AbstractCommutativeRingModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractVectorSpaceTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #AbstractVectorSpaceTest category: #'Tests-Algebra-Modules'!
 AbstractCommutativeRingModuleTest subclass: #AbstractVectorSpaceTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'AbstractVectorSpaceTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'AbstractVectorSpaceTest class' category: #'Tests-Algebra-Modules'!
 AbstractVectorSpaceTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryVectorSpaceTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #BinaryVectorSpaceTest category: #'Tests-Algebra-Modules'!
 AbstractVectorSpaceTest subclass: #BinaryVectorSpaceTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'BinaryVectorSpaceTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'BinaryVectorSpaceTest class' category: #'Tests-Algebra-Modules'!
 BinaryVectorSpaceTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #CyclotomicFieldVectorSpaceTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #CyclotomicFieldVectorSpaceTest category: #'Tests-Algebra-Modules'!
 AbstractVectorSpaceTest subclass: #CyclotomicFieldVectorSpaceTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'CyclotomicFieldVectorSpaceTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'CyclotomicFieldVectorSpaceTest class' category: #'Tests-Algebra-Modules'!
 CyclotomicFieldVectorSpaceTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #FiniteFieldVectorSpaceTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #FiniteFieldVectorSpaceTest category: #'Tests-Algebra-Modules'!
 AbstractVectorSpaceTest subclass: #FiniteFieldVectorSpaceTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'FiniteFieldVectorSpaceTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'FiniteFieldVectorSpaceTest class' category: #'Tests-Algebra-Modules'!
 FiniteFieldVectorSpaceTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianFieldVectorSpaceTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #GaussianFieldVectorSpaceTest category: #'Tests-Algebra-Modules'!
 AbstractVectorSpaceTest subclass: #GaussianFieldVectorSpaceTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'GaussianFieldVectorSpaceTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'GaussianFieldVectorSpaceTest class' category: #'Tests-Algebra-Modules'!
 GaussianFieldVectorSpaceTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuadraticFieldVectorSpaceTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #QuadraticFieldVectorSpaceTest category: #'Tests-Algebra-Modules'!
 AbstractVectorSpaceTest subclass: #QuadraticFieldVectorSpaceTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'QuadraticFieldVectorSpaceTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'QuadraticFieldVectorSpaceTest class' category: #'Tests-Algebra-Modules'!
 QuadraticFieldVectorSpaceTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalVectorSpaceTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #RationalVectorSpaceTest category: #'Tests-Algebra-Modules'!
 AbstractVectorSpaceTest subclass: #RationalVectorSpaceTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'RationalVectorSpaceTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'RationalVectorSpaceTest class' category: #'Tests-Algebra-Modules'!
 RationalVectorSpaceTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #TernaryVectorSpaceTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #TernaryVectorSpaceTest category: #'Tests-Algebra-Modules'!
 AbstractVectorSpaceTest subclass: #TernaryVectorSpaceTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'TernaryVectorSpaceTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'TernaryVectorSpaceTest class' category: #'Tests-Algebra-Modules'!
 TernaryVectorSpaceTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #CyclotomicIntegerModuleTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #CyclotomicIntegerModuleTest category: #'Tests-Algebra-Modules'!
 AbstractCommutativeRingModuleTest subclass: #CyclotomicIntegerModuleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'CyclotomicIntegerModuleTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'CyclotomicIntegerModuleTest class' category: #'Tests-Algebra-Modules'!
 CyclotomicIntegerModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #EisensteinIntegerModuleTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #EisensteinIntegerModuleTest category: #'Tests-Algebra-Modules'!
 AbstractCommutativeRingModuleTest subclass: #EisensteinIntegerModuleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'EisensteinIntegerModuleTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'EisensteinIntegerModuleTest class' category: #'Tests-Algebra-Modules'!
 EisensteinIntegerModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisRingModuleTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #GaloisRingModuleTest category: #'Tests-Algebra-Modules'!
 AbstractCommutativeRingModuleTest subclass: #GaloisRingModuleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'GaloisRingModuleTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'GaloisRingModuleTest class' category: #'Tests-Algebra-Modules'!
 GaloisRingModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisRingMultivariatePolynomialRingModuleTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #GaloisRingMultivariatePolynomialRingModuleTest category: #'Tests-Algebra-Modules'!
 AbstractCommutativeRingModuleTest subclass: #GaloisRingMultivariatePolynomialRingModuleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'GaloisRingMultivariatePolynomialRingModuleTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'GaloisRingMultivariatePolynomialRingModuleTest class' category: #'Tests-Algebra-Modules'!
 GaloisRingMultivariatePolynomialRingModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianIntegerModuleTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #GaussianIntegerModuleTest category: #'Tests-Algebra-Modules'!
 AbstractCommutativeRingModuleTest subclass: #GaussianIntegerModuleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'GaussianIntegerModuleTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'GaussianIntegerModuleTest class' category: #'Tests-Algebra-Modules'!
 GaussianIntegerModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #IntegerModuleTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #IntegerModuleTest category: #'Tests-Algebra-Modules'!
 AbstractCommutativeRingModuleTest subclass: #IntegerModuleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'IntegerModuleTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'IntegerModuleTest class' category: #'Tests-Algebra-Modules'!
 IntegerModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #LocalIntegerRingModuleTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #LocalIntegerRingModuleTest category: #'Tests-Algebra-Modules'!
 AbstractCommutativeRingModuleTest subclass: #LocalIntegerRingModuleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'LocalIntegerRingModuleTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'LocalIntegerRingModuleTest class' category: #'Tests-Algebra-Modules'!
 LocalIntegerRingModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerModuleTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #ModularIntegerModuleTest category: #'Tests-Algebra-Modules'!
 AbstractCommutativeRingModuleTest subclass: #ModularIntegerModuleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'ModularIntegerModuleTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'ModularIntegerModuleTest class' category: #'Tests-Algebra-Modules'!
 ModularIntegerModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerMultivariatePolynomialRingModuleTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #ModularIntegerMultivariatePolynomialRingModuleTest category: #'Tests-Algebra-Modules'!
 AbstractCommutativeRingModuleTest subclass: #ModularIntegerMultivariatePolynomialRingModuleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'ModularIntegerMultivariatePolynomialRingModuleTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'ModularIntegerMultivariatePolynomialRingModuleTest class' category: #'Tests-Algebra-Modules'!
 ModularIntegerMultivariatePolynomialRingModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProductRingModuleTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #ProductRingModuleTest category: #'Tests-Algebra-Modules'!
 AbstractCommutativeRingModuleTest subclass: #ProductRingModuleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'ProductRingModuleTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'ProductRingModuleTest class' category: #'Tests-Algebra-Modules'!
 ProductRingModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuadraticRingModuleTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #QuadraticRingModuleTest category: #'Tests-Algebra-Modules'!
 AbstractCommutativeRingModuleTest subclass: #QuadraticRingModuleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'QuadraticRingModuleTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'QuadraticRingModuleTest class' category: #'Tests-Algebra-Modules'!
 QuadraticRingModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalMultivariatePolynomialRingModuleTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #RationalMultivariatePolynomialRingModuleTest category: #'Tests-Algebra-Modules'!
 AbstractCommutativeRingModuleTest subclass: #RationalMultivariatePolynomialRingModuleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'RationalMultivariatePolynomialRingModuleTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'RationalMultivariatePolynomialRingModuleTest class' category: #'Tests-Algebra-Modules'!
 RationalMultivariatePolynomialRingModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalPolynomialRingModuleTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #RationalPolynomialRingModuleTest category: #'Tests-Algebra-Modules'!
 AbstractCommutativeRingModuleTest subclass: #RationalPolynomialRingModuleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'RationalPolynomialRingModuleTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'RationalPolynomialRingModuleTest class' category: #'Tests-Algebra-Modules'!
 RationalPolynomialRingModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #CliffordAlgebraModuleTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #CliffordAlgebraModuleTest category: #'Tests-Algebra-Modules'!
 AbstractModuleTest subclass: #CliffordAlgebraModuleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'CliffordAlgebraModuleTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'CliffordAlgebraModuleTest class' category: #'Tests-Algebra-Modules'!
 CliffordAlgebraModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #MatrixAlgebraModuleTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #MatrixAlgebraModuleTest category: #'Tests-Algebra-Modules'!
 AbstractModuleTest subclass: #MatrixAlgebraModuleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'MatrixAlgebraModuleTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'MatrixAlgebraModuleTest class' category: #'Tests-Algebra-Modules'!
 MatrixAlgebraModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuaternionAlgebraModuleTest category: 'Tests-Algebra-Modules'!
+!classDefinition: #QuaternionAlgebraModuleTest category: #'Tests-Algebra-Modules'!
 AbstractModuleTest subclass: #QuaternionAlgebraModuleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'QuaternionAlgebraModuleTest class' category: 'Tests-Algebra-Modules'!
+!classDefinition: 'QuaternionAlgebraModuleTest class' category: #'Tests-Algebra-Modules'!
 QuaternionAlgebraModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractGroebnerBasisTest category: 'Tests-Algebra-Groebner Bases'!
+!classDefinition: #AbstractGroebnerBasisTest category: #'Tests-Algebra-Groebner Bases'!
 RandomizedTestCase subclass: #AbstractGroebnerBasisTest
 	instanceVariableNames: 'scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Groebner Bases'!
-!classDefinition: 'AbstractGroebnerBasisTest class' category: 'Tests-Algebra-Groebner Bases'!
+!classDefinition: 'AbstractGroebnerBasisTest class' category: #'Tests-Algebra-Groebner Bases'!
 AbstractGroebnerBasisTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #FiniteFieldGroebnerBasisTest category: 'Tests-Algebra-Groebner Bases'!
+!classDefinition: #FiniteFieldGroebnerBasisTest category: #'Tests-Algebra-Groebner Bases'!
 AbstractGroebnerBasisTest subclass: #FiniteFieldGroebnerBasisTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Groebner Bases'!
-!classDefinition: 'FiniteFieldGroebnerBasisTest class' category: 'Tests-Algebra-Groebner Bases'!
+!classDefinition: 'FiniteFieldGroebnerBasisTest class' category: #'Tests-Algebra-Groebner Bases'!
 FiniteFieldGroebnerBasisTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisRingGroebnerBasisTest category: 'Tests-Algebra-Groebner Bases'!
+!classDefinition: #GaloisRingGroebnerBasisTest category: #'Tests-Algebra-Groebner Bases'!
 AbstractGroebnerBasisTest subclass: #GaloisRingGroebnerBasisTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Groebner Bases'!
-!classDefinition: 'GaloisRingGroebnerBasisTest class' category: 'Tests-Algebra-Groebner Bases'!
+!classDefinition: 'GaloisRingGroebnerBasisTest class' category: #'Tests-Algebra-Groebner Bases'!
 GaloisRingGroebnerBasisTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #IntegerGroebnerBasisTest category: 'Tests-Algebra-Groebner Bases'!
+!classDefinition: #IntegerGroebnerBasisTest category: #'Tests-Algebra-Groebner Bases'!
 AbstractGroebnerBasisTest subclass: #IntegerGroebnerBasisTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Groebner Bases'!
-!classDefinition: 'IntegerGroebnerBasisTest class' category: 'Tests-Algebra-Groebner Bases'!
+!classDefinition: 'IntegerGroebnerBasisTest class' category: #'Tests-Algebra-Groebner Bases'!
 IntegerGroebnerBasisTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerGroebnerBasisTest category: 'Tests-Algebra-Groebner Bases'!
+!classDefinition: #ModularIntegerGroebnerBasisTest category: #'Tests-Algebra-Groebner Bases'!
 AbstractGroebnerBasisTest subclass: #ModularIntegerGroebnerBasisTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Groebner Bases'!
-!classDefinition: 'ModularIntegerGroebnerBasisTest class' category: 'Tests-Algebra-Groebner Bases'!
+!classDefinition: 'ModularIntegerGroebnerBasisTest class' category: #'Tests-Algebra-Groebner Bases'!
 ModularIntegerGroebnerBasisTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalGroebnerBasisTest category: 'Tests-Algebra-Groebner Bases'!
+!classDefinition: #RationalGroebnerBasisTest category: #'Tests-Algebra-Groebner Bases'!
 AbstractGroebnerBasisTest subclass: #RationalGroebnerBasisTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Groebner Bases'!
-!classDefinition: 'RationalGroebnerBasisTest class' category: 'Tests-Algebra-Groebner Bases'!
+!classDefinition: 'RationalGroebnerBasisTest class' category: #'Tests-Algebra-Groebner Bases'!
 RationalGroebnerBasisTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RingTest category: 'Tests-Algebra'!
+!classDefinition: #RingTest category: #'Tests-Algebra'!
 TestCase subclass: #RingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra'!
-!classDefinition: 'RingTest class' category: 'Tests-Algebra'!
+!classDefinition: 'RingTest class' category: #'Tests-Algebra'!
 RingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #SequenceTest category: 'Tests-Algebra'!
+!classDefinition: #SequenceTest category: #'Tests-Algebra'!
 TestCase subclass: #SequenceTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra'!
-!classDefinition: 'SequenceTest class' category: 'Tests-Algebra'!
+!classDefinition: 'SequenceTest class' category: #'Tests-Algebra'!
 SequenceTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #SimplicialComplexTest category: 'Tests-Algebra'!
+!classDefinition: #SimplicialComplexTest category: #'Tests-Algebra'!
 TestCase subclass: #SimplicialComplexTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra'!
-!classDefinition: 'SimplicialComplexTest class' category: 'Tests-Algebra'!
+!classDefinition: 'SimplicialComplexTest class' category: #'Tests-Algebra'!
 SimplicialComplexTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #WordArrayTest category: 'Tests-Algebra-Arrays'!
+!classDefinition: #WordArrayTest category: #'Tests-Algebra-Arrays'!
 TestCase subclass: #WordArrayTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Arrays'!
-!classDefinition: 'WordArrayTest class' category: 'Tests-Algebra-Arrays'!
+!classDefinition: 'WordArrayTest class' category: #'Tests-Algebra-Arrays'!
 WordArrayTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #FiniteFieldRationalFunctionFieldMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #FiniteFieldRationalFunctionFieldMatrixTest category: #'Tests-Algebra-Matrices'!
 Object subclass: #FiniteFieldRationalFunctionFieldMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'FiniteFieldRationalFunctionFieldMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'FiniteFieldRationalFunctionFieldMatrixTest class' category: #'Tests-Algebra-Matrices'!
 FiniteFieldRationalFunctionFieldMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalLocalPolynomialRingMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #RationalLocalPolynomialRingMatrixTest category: #'Tests-Algebra-Matrices'!
 Object subclass: #RationalLocalPolynomialRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'RationalLocalPolynomialRingMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'RationalLocalPolynomialRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
 RationalLocalPolynomialRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalRationalFunctionFieldMatrixTest category: 'Tests-Algebra-Matrices'!
+!classDefinition: #RationalRationalFunctionFieldMatrixTest category: #'Tests-Algebra-Matrices'!
 Object subclass: #RationalRationalFunctionFieldMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'RationalRationalFunctionFieldMatrixTest class' category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'RationalRationalFunctionFieldMatrixTest class' category: #'Tests-Algebra-Matrices'!
 RationalRationalFunctionFieldMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #Benchmark category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: #Benchmark category: #'Tests-Algebra-Benchmarks'!
 Object subclass: #Benchmark
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Benchmarks'!
-!classDefinition: 'Benchmark class' category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: 'Benchmark class' category: #'Tests-Algebra-Benchmarks'!
 Benchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #CharacteristicPolynomialOverIntegersBenchmark category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: #CharacteristicPolynomialOverIntegersBenchmark category: #'Tests-Algebra-Benchmarks'!
 Benchmark subclass: #CharacteristicPolynomialOverIntegersBenchmark
 	instanceVariableNames: 'M'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Benchmarks'!
-!classDefinition: 'CharacteristicPolynomialOverIntegersBenchmark class' category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: 'CharacteristicPolynomialOverIntegersBenchmark class' category: #'Tests-Algebra-Benchmarks'!
 CharacteristicPolynomialOverIntegersBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #DeterminantOverCommutativeRingBenchmark category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: #DeterminantOverCommutativeRingBenchmark category: #'Tests-Algebra-Benchmarks'!
 Benchmark subclass: #DeterminantOverCommutativeRingBenchmark
 	instanceVariableNames: 'M'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Benchmarks'!
-!classDefinition: 'DeterminantOverCommutativeRingBenchmark class' category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: 'DeterminantOverCommutativeRingBenchmark class' category: #'Tests-Algebra-Benchmarks'!
 DeterminantOverCommutativeRingBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #DeterminantOverPolynomialRingBenchmark category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: #DeterminantOverPolynomialRingBenchmark category: #'Tests-Algebra-Benchmarks'!
 Benchmark subclass: #DeterminantOverPolynomialRingBenchmark
 	instanceVariableNames: 'M'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Benchmarks'!
-!classDefinition: 'DeterminantOverPolynomialRingBenchmark class' category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: 'DeterminantOverPolynomialRingBenchmark class' category: #'Tests-Algebra-Benchmarks'!
 DeterminantOverPolynomialRingBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #FatemanBenchmark category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: #FatemanBenchmark category: #'Tests-Algebra-Benchmarks'!
 Benchmark subclass: #FatemanBenchmark
 	instanceVariableNames: 'f p'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Benchmarks'!
-!classDefinition: 'FatemanBenchmark class' category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: 'FatemanBenchmark class' category: #'Tests-Algebra-Benchmarks'!
 FatemanBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroebnerBasisBenchmark category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: #GroebnerBasisBenchmark category: #'Tests-Algebra-Benchmarks'!
 Benchmark subclass: #GroebnerBasisBenchmark
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Benchmarks'!
-!classDefinition: 'GroebnerBasisBenchmark class' category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: 'GroebnerBasisBenchmark class' category: #'Tests-Algebra-Benchmarks'!
 GroebnerBasisBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupBenchmark category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: #GroupBenchmark category: #'Tests-Algebra-Benchmarks'!
 Benchmark subclass: #GroupBenchmark
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Benchmarks'!
-!classDefinition: 'GroupBenchmark class' category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: 'GroupBenchmark class' category: #'Tests-Algebra-Benchmarks'!
 GroupBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #IntegersBenchmark category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: #IntegersBenchmark category: #'Tests-Algebra-Benchmarks'!
 Benchmark subclass: #IntegersBenchmark
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Benchmarks'!
-!classDefinition: 'IntegersBenchmark class' category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: 'IntegersBenchmark class' category: #'Tests-Algebra-Benchmarks'!
 IntegersBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularMatrixBenchmark category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: #ModularMatrixBenchmark category: #'Tests-Algebra-Benchmarks'!
 Benchmark subclass: #ModularMatrixBenchmark
 	instanceVariableNames: 'field matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Benchmarks'!
-!classDefinition: 'ModularMatrixBenchmark class' category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: 'ModularMatrixBenchmark class' category: #'Tests-Algebra-Benchmarks'!
 ModularMatrixBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialBenchmark category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: #PolynomialBenchmark category: #'Tests-Algebra-Benchmarks'!
 Benchmark subclass: #PolynomialBenchmark
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Benchmarks'!
-!classDefinition: 'PolynomialBenchmark class' category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: 'PolynomialBenchmark class' category: #'Tests-Algebra-Benchmarks'!
 PolynomialBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #SmallMatrixBenchmark category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: #SmallMatrixBenchmark category: #'Tests-Algebra-Benchmarks'!
 Benchmark subclass: #SmallMatrixBenchmark
 	instanceVariableNames: 'integerMatrix binaryMatrix modularMatrix'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Benchmarks'!
-!classDefinition: 'SmallMatrixBenchmark class' category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: 'SmallMatrixBenchmark class' category: #'Tests-Algebra-Benchmarks'!
 SmallMatrixBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #SparsePolynomialMultiplicationBenchmark category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: #SparsePolynomialMultiplicationBenchmark category: #'Tests-Algebra-Benchmarks'!
 Benchmark subclass: #SparsePolynomialMultiplicationBenchmark
 	instanceVariableNames: 'p pPlusOne pBigCoefficients pBigExponents pBigCoefficientsPlusOne pBigExponentsPlusOne'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Benchmarks'!
-!classDefinition: 'SparsePolynomialMultiplicationBenchmark class' category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: 'SparsePolynomialMultiplicationBenchmark class' category: #'Tests-Algebra-Benchmarks'!
 SparsePolynomialMultiplicationBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #CASBenchmark category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: #CASBenchmark category: #'Tests-Algebra-Benchmarks'!
 Object subclass: #CASBenchmark
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Benchmarks'!
-!classDefinition: 'CASBenchmark class' category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: 'CASBenchmark class' category: #'Tests-Algebra-Benchmarks'!
 CASBenchmark class
 	instanceVariableNames: ''!
 
@@ -6059,6 +6079,168 @@ isAbstract
 !RandomizedTestCase class methodsFor: 'testing' stamp: 'len 6/5/2023 17:50:54'!
 shouldInheritSelectors
 	^ true! !
+
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 16:59:31'!
+newCospan
+	| α β |
+	α := self newMorphism.
+	β := self newMorphismTo: α codomain.
+	^ Cospan arrow: α coarrow: β! !
+
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 16:57:36'!
+newSpan
+	| α β |
+	α := self newMorphism.
+	β := self newMorphismFrom: α domain.
+	^ Span arrow: α coarrow: β! !
+
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/2/2023 00:20:52'!
+newThreeArrow
+	| α ι π |
+	α := self newMorphism.
+	ι := self newMorphismFrom: α domain.
+	π := self newMorphismTo: α codomain.
+	^ ThreeArrow aid: ι arrow: α coaid: π! !
+
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 20:30:57'!
+testCospanAdditiveInverse
+	| φ |
+	φ := self newCospan.
+	self assert: φ negated negated = φ.
+	self assert: (φ + φ negated) isZero! !
+
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 16:49:01'!
+testCospanCanonicalObjects
+	| γ |
+	γ := self newMorphism.
+	self assert: γ image = γ asCospan generalizedImage.
+	self assert: γ coimage = γ asCospan generalizedCoimage.
+	self assert: γ kernel = γ asCospan generalizedKernel.
+	self assert: γ cokernel = γ asCospan generalizedCokernel! !
+
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 17:17:09'!
+testCospanCompositionWithIdentity
+	| φ |
+	φ := self newCospan.
+	self assert: φ · φ domain id asCospan = φ.
+	self assert: φ codomain id asCospan · φ = φ! !
+
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 21:03:08'!
+testCospanIdentity
+	| A φ |
+	A := self newObject.
+	φ := A id asCospan.
+	self assert: φ isIdentity.
+	self assert: (φ arrow = A id and: [φ coarrow = A id])! !
+
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/2/2023 11:45:52'!
+testCospanNormalization
+	| φ |
+	φ := self newCospan.
+	self assert: φ normalized isNormalized! !
+
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 18:31:23'!
+testGeneralizedMorphismsEmbeddingFunctors
+	| γ |
+	γ := self newMorphism.
+	self assert: γ asSpan representative = γ.
+	self assert: γ asCospan representative = γ.
+	self assert: γ asThreeArrow representative = γ.
+	self assert: γ asSpan asCospan normalized representative = γ.
+	self assert: γ asCospan asSpan normalized representative = γ! !
+
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 20:31:10'!
+testSpanAdditiveInverse
+	| φ |
+	φ := self newSpan.
+	self assert: φ negated negated = φ.
+	self assert: (φ + φ negated) isZero! !
+
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 16:48:27'!
+testSpanCanonicalObjects
+	| γ |
+	γ := self newMorphism.
+	self assert: γ image = γ asSpan generalizedImage.
+	self assert: γ coimage = γ asSpan generalizedCoimage.
+	self assert: γ kernel = γ asSpan generalizedKernel.
+	self assert: γ cokernel = γ asSpan generalizedCokernel! !
+
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 17:16:48'!
+testSpanCompositionWithIdentity
+	| φ |
+	φ := self newSpan.
+	self assert: φ · φ domain id asSpan = φ.
+	self assert: φ codomain id asSpan · φ = φ! !
+
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 17:26:09'!
+testSpanIdentity
+	| A φ |
+	A := self newObject.
+	φ := A id asSpan.
+	self assert: φ isIdentity.
+	self assert: (φ arrow = A id and: [φ coarrow = A id])! !
+
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/2/2023 11:45:40'!
+testSpanNormalization
+	| φ |
+	φ := self newSpan.
+	self assert: φ normalized isNormalized! !
+
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/2/2023 12:04:35'!
+testThreeArrowAdditiveInverse
+	| φ |
+	φ := self newThreeArrow.
+	self assert: φ negated negated = φ.
+	self assert: (φ + φ negated) isZero! !
+
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 20:53:25'!
+testThreeArrowCompositionWithIdentity
+	| φ |
+	φ := self newThreeArrow.
+	self assert: φ · φ domain id asThreeArrow = φ.
+	self assert: φ codomain id asThreeArrow · φ = φ! !
+
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/2/2023 11:46:03'!
+testThreeArrowNormalization
+	| φ |
+	φ := self newThreeArrow.
+	self assert: φ normalized isNormalized! !
+
+!AbstractAbelianCategoryTest methodsFor: 'private' stamp: 'len 7/1/2023 16:56:14'!
+newMorphism
+	^ self newObject ⇒ self newObject atRandom: random! !
+
+!AbstractAbelianCategoryTest methodsFor: 'private' stamp: 'len 7/1/2023 16:56:00'!
+newMorphismFrom: aDomain
+	^ aDomain ⇒ self newObject atRandom: random! !
+
+!AbstractAbelianCategoryTest methodsFor: 'private' stamp: 'len 7/1/2023 16:56:07'!
+newMorphismTo: aCodomain
+	^ self newObject ⇒ aCodomain atRandom: random! !
+
+!IntegerModuleAbelianCategoryTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2023 16:51:10'!
+newFreeModule
+	| M |
+	M := (3 atRandom: random) = 1 ifTrue: [ℤ asIdeal] ifFalse: [ℤ ^ ((0 to: 3) atRandom: random)].
+	(5 atRandom: random) = 1 ifTrue: [^ M ⇒ self newSmallFreeModule].
+	(5 atRandom: random) = 1 ifTrue: [^ M dual].
+	^ M! !
+
+!IntegerModuleAbelianCategoryTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2023 16:50:34'!
+newObject
+	| M N |
+	M := self newFreeModule.
+	(3 atRandom: random) = 1 ifTrue: [^ M].
+	N := M sub: ((1 to: ((0 to: M rank) atRandom: random)) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
+	(3 atRandom: random) = 1 ifTrue: [^ N].
+	^ M / N! !
+
+!IntegerModuleAbelianCategoryTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2023 16:51:23'!
+newSmallFreeModule
+	| M |
+	M := (3 atRandom: random) = 1 ifTrue: [ℤ asIdeal] ifFalse: [ℤ ^ ((0 to: 3) atRandom: random)].
+	(3 atRandom: random) = 1 ifTrue: [^ M dual].
+	^ M! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:11:58'!
 smallGroupAtRandom
@@ -10291,13 +10473,13 @@ testBackslashExample
 	self assert: X = (ℚ^2 ⇒ (ℚ^3) !! {-1/7. -11/7. 4/7. 23/7. 0. 0}).
 	self assert: A * X = B! !
 
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:09:32'!
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/29/2023 16:49:14'!
 testBackslashExampleNoSolution
 	"Example from Sage documentation."
 	| A v |
-	A _ ℚ^3 ⇒ (ℚ^2) !! #(1 2 3 2 4 6).
-	v _ ℚ^2 !! #(1 1).
-	self assert: (A \ v) isNil! !
+	A := ℚ^3 ⇒ (ℚ^2) !! #(1 2 3 2 4 6).
+	v := ℚ^2 !! #(1 1).
+	self should: [A \ v] raise: DivisibilityError! !
 
 !RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:09:40'!
 testBackslashExampleNonSquare
@@ -10818,15 +11000,15 @@ testIsHermiteNormalForm2
 	M _ ℤ !!!!!! {(2,0,1,11). (0,1,5,12). (0,0,6,12). (0,0,0,33). (0,0,0,1)}.
 	self assert: M isHermiteNormalForm not! !
 
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:14'!
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2023 18:22:47'!
 testKernelExample
 	"Example from GAP manual."
 	| A K |
-	A _ ℤ !!!!!! #((1 2 7) (4 5 6) (7 8 9) (10 11 19) (5 7 12)).
-	A _ A transpose. "because in GAP matrices act on rows"
-	K _ ℤ !!!!!! #((1 18 -9 2 -6) (0 24 -13 3 -7)).
-	K _ K transpose.
-	self assert: A kernelMap asMatrix = K! !
+	A := ℤ !!!!!! #((1 2 7) (4 5 6) (7 8 9) (10 11 19) (5 7 12)).
+	A := A transpose. "because in GAP matrices act on rows"
+	K := ℤ !!!!!! #((1 18 -9 2 -6) (0 24 -13 3 -7)).
+	K := K transpose.
+	self assert: (A kernel → A domain) asMatrix = K! !
 
 !IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:21'!
 testKroneckerProductExample
@@ -11186,19 +11368,19 @@ testCoequalizer
 	self assert: (f → Q) notNil.
 	self assert: f → Q = (g → Q)! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/29/2021 04:22:14'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/2/2023 18:26:00'!
 testCoimage
 	| A J |
-	A _ self newModuleMap.
-	J _ A coimageMap.
+	A := self newModuleMap.
+	J := A domain → A coimage.
 	self assert: A coimage = J image.
 	self assert: J isEpimorphism! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 6/21/2022 07:22:08'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/2/2023 18:25:26'!
 testCokernel
 	| A Q |
-	A _ self newModuleMap.
-	Q _ A cokernelMap.
+	A := self newModuleMap.
+	Q := A codomain → A cokernel.
 	self assert: (Q · A) isZero.
 	self assert: Q isEpimorphism.
 	self assert: A cokernel = Q image! !
@@ -11314,18 +11496,18 @@ testImage
 	w _ f value: v.
 	self assert: (image includes: w)! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/29/2021 04:24:51'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/2/2023 18:25:02'!
 testImageAndCoimage
 	| A |
-	A _ self newModuleMap.
-	self assert: A cokernelMap kernelMap = A imageMap.
-	self assert: A kernelMap cokernelMap = A coimageMap! !
+	A := self newModuleMap.
+	self assert: (A codomain → A cokernel) kernel → A codomain = (A image → A codomain).
+	self assert: A domain → (A kernel → A domain) cokernel = (A domain → A coimage)! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 4/4/2021 10:22:02'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/2/2023 18:17:19'!
 testKernel
 	| A K |
-	A _ self newModuleMap.
-	K _ A kernelMap.
+	A := self newModuleMap.
+	K := A kernel → A domain.
 	self assert: (A · K) isZero.
 	self assert: K isMonomorphism.
 	self assert: A kernel = K image! !

@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5878] on 28 June 2023 at 7:05:10 pm'!
+'From Cuis 6.0 [latest update: #5878] on 3 July 2023 at 1:16:50 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -54,6 +54,8 @@ References:
 [PH78] S. Pohlig; M. Hellman; "An Improved Algorithm for Computing Logarithms over GF(p) and its Cryptographic Significance" (1978)
 [Pol78] J. M. Pollard; "Monte Carlo Methods for Index Computation (mod p)", Mathematics of Computation, Volume 32, 1978
 [Pos17] Sebastian Posur; "Linear Systems over Localizations of Rings" (2017)
+[Pos17b] Sebastian Posur; "A Constructive Approach to Freyd Categories" (2017)
+[Pos17c] Sebastian Posur; "Constructive category theory and applications to equivariant sheaves" (2017)
 [SY09] Michael Sagraloff, Chee K. Yap, "An Efficient and Exact Subdivision Algorithm for Isolating Complex Roots of a Polynomial and its Complexity Analysis" (2009)
 [Sam71] Pierre Samuel, "About Euclidean Rings", J. Algebra, 19:282-301, 1971
 [San11] Metod Saniga; "Projective Lines over Finite Rings", 2011
@@ -78,2441 +80,2522 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 126!
+!provides: 'Algebra' 1 127!
 !requires: 'Complex' 1 7 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Transfinites' 1 2 nil!
-SystemOrganization addCategory: 'Algebra-Categories'!
-SystemOrganization addCategory: 'Algebra-Monoids'!
-SystemOrganization addCategory: 'Algebra-Monoids-Orderings'!
-SystemOrganization addCategory: 'Algebra-Groups'!
-SystemOrganization addCategory: 'Algebra-Groups-Permutations'!
-SystemOrganization addCategory: 'Algebra-Groups-Linear'!
-SystemOrganization addCategory: 'Algebra-Rings'!
-SystemOrganization addCategory: 'Algebra-Rings-Finite'!
-SystemOrganization addCategory: 'Algebra-Fields'!
-SystemOrganization addCategory: 'Algebra-Fields-Global'!
-SystemOrganization addCategory: 'Algebra-Fields-Global-Cyclotomic'!
-SystemOrganization addCategory: 'Algebra-Fields-Global-Quadratic'!
-SystemOrganization addCategory: 'Algebra-Fields-Local'!
-SystemOrganization addCategory: 'Algebra-Modules'!
-SystemOrganization addCategory: 'Algebra-Modules-Orderings'!
-SystemOrganization addCategory: 'Algebra-Modules-Multilinear'!
-SystemOrganization addCategory: 'Algebra-Complexes'!
-SystemOrganization addCategory: 'Algebra-Algebras-Affine'!
-SystemOrganization addCategory: 'Algebra-Algebras-Finite'!
-SystemOrganization addCategory: 'Algebra-Algebras-Free'!
-SystemOrganization addCategory: 'Algebra-Algebras-Distributive'!
-SystemOrganization addCategory: 'Algebra-Schemes'!
-SystemOrganization addCategory: 'Algebra-Schemes-Affine Space'!
-SystemOrganization addCategory: 'Algebra-Schemes-Projective Space'!
-SystemOrganization addCategory: 'Algebra-Sequences'!
-SystemOrganization addCategory: 'Algebra-Simplicial Complexes'!
-SystemOrganization addCategory: 'Algebra-Algorithms'!
-SystemOrganization addCategory: 'Algebra-Algorithms-Arrays'!
-SystemOrganization addCategory: 'Algebra-Algorithms-Echelonization'!
-SystemOrganization addCategory: 'Algebra-Algorithms-Standard Bases'!
+SystemOrganization addCategory: #'Algebra-Categories'!
+SystemOrganization addCategory: #'Algebra-Categories-Abelian'!
+SystemOrganization addCategory: #'Algebra-Monoids'!
+SystemOrganization addCategory: #'Algebra-Monoids-Orderings'!
+SystemOrganization addCategory: #'Algebra-Groups'!
+SystemOrganization addCategory: #'Algebra-Groups-Permutations'!
+SystemOrganization addCategory: #'Algebra-Groups-Linear'!
+SystemOrganization addCategory: #'Algebra-Rings'!
+SystemOrganization addCategory: #'Algebra-Rings-Finite'!
+SystemOrganization addCategory: #'Algebra-Fields'!
+SystemOrganization addCategory: #'Algebra-Fields-Global'!
+SystemOrganization addCategory: #'Algebra-Fields-Global-Cyclotomic'!
+SystemOrganization addCategory: #'Algebra-Fields-Global-Quadratic'!
+SystemOrganization addCategory: #'Algebra-Fields-Local'!
+SystemOrganization addCategory: #'Algebra-Modules'!
+SystemOrganization addCategory: #'Algebra-Modules-Orderings'!
+SystemOrganization addCategory: #'Algebra-Modules-Multilinear'!
+SystemOrganization addCategory: #'Algebra-Complexes'!
+SystemOrganization addCategory: #'Algebra-Algebras-Affine'!
+SystemOrganization addCategory: #'Algebra-Algebras-Finite'!
+SystemOrganization addCategory: #'Algebra-Algebras-Free'!
+SystemOrganization addCategory: #'Algebra-Algebras-Distributive'!
+SystemOrganization addCategory: #'Algebra-Schemes'!
+SystemOrganization addCategory: #'Algebra-Schemes-Affine Space'!
+SystemOrganization addCategory: #'Algebra-Schemes-Projective Space'!
+SystemOrganization addCategory: #'Algebra-Sequences'!
+SystemOrganization addCategory: #'Algebra-Simplicial Complexes'!
+SystemOrganization addCategory: #'Algebra-Algorithms'!
+SystemOrganization addCategory: #'Algebra-Algorithms-Arrays'!
+SystemOrganization addCategory: #'Algebra-Algorithms-Echelonization'!
+SystemOrganization addCategory: #'Algebra-Algorithms-Standard Bases'!
 
 
-!classDefinition: #ContinuedFraction category: 'Algebra-Sequences'!
+!classDefinition: #ContinuedFraction category: #'Algebra-Sequences'!
 Number subclass: #ContinuedFraction
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Sequences'!
-!classDefinition: 'ContinuedFraction class' category: 'Algebra-Sequences'!
+!classDefinition: 'ContinuedFraction class' category: #'Algebra-Sequences'!
 ContinuedFraction class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryArray category: 'Algebra-Algorithms-Arrays'!
+!classDefinition: #BinaryArray category: #'Algebra-Algorithms-Arrays'!
 ArrayedCollection subclass: #BinaryArray
 	instanceVariableNames: 'words size'
 	classVariableNames: 'ByteSquares One Zero'
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Arrays'!
-!classDefinition: 'BinaryArray class' category: 'Algebra-Algorithms-Arrays'!
+!classDefinition: 'BinaryArray class' category: #'Algebra-Algorithms-Arrays'!
 BinaryArray class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtensionPackedArray category: 'Algebra-Algorithms-Arrays'!
+!classDefinition: #ExtensionPackedArray category: #'Algebra-Algorithms-Arrays'!
 ArrayedCollection subclass: #ExtensionPackedArray
 	instanceVariableNames: 'coefficients scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Arrays'!
-!classDefinition: 'ExtensionPackedArray class' category: 'Algebra-Algorithms-Arrays'!
+!classDefinition: 'ExtensionPackedArray class' category: #'Algebra-Algorithms-Arrays'!
 ExtensionPackedArray class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtensionSlicedArray category: 'Algebra-Algorithms-Arrays'!
+!classDefinition: #ExtensionSlicedArray category: #'Algebra-Algorithms-Arrays'!
 ArrayedCollection subclass: #ExtensionSlicedArray
 	instanceVariableNames: 'slices scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Arrays'!
-!classDefinition: 'ExtensionSlicedArray class' category: 'Algebra-Algorithms-Arrays'!
+!classDefinition: 'ExtensionSlicedArray class' category: #'Algebra-Algorithms-Arrays'!
 ExtensionSlicedArray class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryExtensionArray category: 'Algebra-Algorithms-Arrays'!
+!classDefinition: #BinaryExtensionArray category: #'Algebra-Algorithms-Arrays'!
 ExtensionSlicedArray subclass: #BinaryExtensionArray
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Arrays'!
-!classDefinition: 'BinaryExtensionArray class' category: 'Algebra-Algorithms-Arrays'!
+!classDefinition: 'BinaryExtensionArray class' category: #'Algebra-Algorithms-Arrays'!
 BinaryExtensionArray class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularArray category: 'Algebra-Algorithms-Arrays'!
+!classDefinition: #ModularArray category: #'Algebra-Algorithms-Arrays'!
 ArrayedCollection subclass: #ModularArray
 	instanceVariableNames: 'representatives scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Arrays'!
-!classDefinition: 'ModularArray class' category: 'Algebra-Algorithms-Arrays'!
+!classDefinition: 'ModularArray class' category: #'Algebra-Algorithms-Arrays'!
 ModularArray class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProductArray category: 'Algebra-Algorithms-Arrays'!
+!classDefinition: #ProductArray category: #'Algebra-Algorithms-Arrays'!
 ArrayedCollection subclass: #ProductArray
 	instanceVariableNames: 'components scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Arrays'!
-!classDefinition: 'ProductArray class' category: 'Algebra-Algorithms-Arrays'!
+!classDefinition: 'ProductArray class' category: #'Algebra-Algorithms-Arrays'!
 ProductArray class
 	instanceVariableNames: ''!
 
-!classDefinition: #TernaryArray category: 'Algebra-Algorithms-Arrays'!
+!classDefinition: #TernaryArray category: #'Algebra-Algorithms-Arrays'!
 ArrayedCollection subclass: #TernaryArray
 	instanceVariableNames: 'words₀ words₁ size'
 	classVariableNames: 'MinusOne One Zero'
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Arrays'!
-!classDefinition: 'TernaryArray class' category: 'Algebra-Algorithms-Arrays'!
+!classDefinition: 'TernaryArray class' category: #'Algebra-Algorithms-Arrays'!
 TernaryArray class
 	instanceVariableNames: ''!
 
-!classDefinition: #Simplex category: 'Algebra-Simplicial Complexes'!
+!classDefinition: #Simplex category: #'Algebra-Simplicial Complexes'!
 Collection subclass: #Simplex
 	instanceVariableNames: 'vertices'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Simplicial Complexes'!
-!classDefinition: 'Simplex class' category: 'Algebra-Simplicial Complexes'!
+!classDefinition: 'Simplex class' category: #'Algebra-Simplicial Complexes'!
 Simplex class
 	instanceVariableNames: ''!
 
-!classDefinition: #DivisibilityError category: 'Algebra-Rings'!
+!classDefinition: #DivisibilityError category: #'Algebra-Rings'!
 ArithmeticMessageError subclass: #DivisibilityError
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'DivisibilityError class' category: 'Algebra-Rings'!
+!classDefinition: 'DivisibilityError class' category: #'Algebra-Rings'!
 DivisibilityError class
 	instanceVariableNames: ''!
 
-!classDefinition: #Domain category: 'Algebra-Categories'!
+!classDefinition: #Domain category: #'Algebra-Categories'!
 Object subclass: #Domain
 	instanceVariableNames: 'properties'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Categories'!
-!classDefinition: 'Domain class' category: 'Algebra-Categories'!
+!classDefinition: 'Domain class' category: #'Algebra-Categories'!
 Domain class
 	instanceVariableNames: ''!
 
-!classDefinition: #Structure category: 'Algebra-Categories'!
+!classDefinition: #Structure category: #'Algebra-Categories'!
 Domain subclass: #Structure
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Categories'!
-!classDefinition: 'Structure class' category: 'Algebra-Categories'!
+!classDefinition: 'Structure class' category: #'Algebra-Categories'!
 Structure class
 	instanceVariableNames: ''!
 
-!classDefinition: #CartesianProduct category: 'Algebra-Categories'!
+!classDefinition: #CartesianProduct category: #'Algebra-Categories'!
 Structure subclass: #CartesianProduct
 	instanceVariableNames: 'components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Categories'!
-!classDefinition: 'CartesianProduct class' category: 'Algebra-Categories'!
+!classDefinition: 'CartesianProduct class' category: #'Algebra-Categories'!
 CartesianProduct class
 	instanceVariableNames: ''!
 
-!classDefinition: #Category category: 'Algebra-Categories'!
+!classDefinition: #Category category: #'Algebra-Categories'!
 Structure subclass: #Category
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Categories'!
-!classDefinition: 'Category class' category: 'Algebra-Categories'!
+!classDefinition: 'Category class' category: #'Algebra-Categories'!
 Category class
 	instanceVariableNames: ''!
 
-!classDefinition: #Modules category: 'Algebra-Modules'!
+!classDefinition: #FreydCategory category: #'Algebra-Categories-Abelian'!
+Category subclass: #FreydCategory
+	instanceVariableNames: 'objects'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Categories-Abelian'!
+!classDefinition: 'FreydCategory class' category: #'Algebra-Categories-Abelian'!
+FreydCategory class
+	instanceVariableNames: ''!
+
+!classDefinition: #Modules category: #'Algebra-Modules'!
 Category subclass: #Modules
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'Modules class' category: 'Algebra-Modules'!
+!classDefinition: 'Modules class' category: #'Algebra-Modules'!
 Modules class
 	instanceVariableNames: ''!
 
-!classDefinition: #ChainComplexes category: 'Algebra-Complexes'!
+!classDefinition: #ChainComplexes category: #'Algebra-Complexes'!
 Category subclass: #ChainComplexes
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Complexes'!
-!classDefinition: 'ChainComplexes class' category: 'Algebra-Complexes'!
+!classDefinition: 'ChainComplexes class' category: #'Algebra-Complexes'!
 ChainComplexes class
 	instanceVariableNames: ''!
 
-!classDefinition: #CochainComplexes category: 'Algebra-Complexes'!
+!classDefinition: #CochainComplexes category: #'Algebra-Complexes'!
 Category subclass: #CochainComplexes
 	instanceVariableNames: 'opposite'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Complexes'!
-!classDefinition: 'CochainComplexes class' category: 'Algebra-Complexes'!
+!classDefinition: 'CochainComplexes class' category: #'Algebra-Complexes'!
 CochainComplexes class
 	instanceVariableNames: ''!
 
-!classDefinition: #Sheaves category: 'Algebra-Schemes'!
+!classDefinition: #Sheaves category: #'Algebra-Schemes'!
 Category subclass: #Sheaves
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'Sheaves class' category: 'Algebra-Schemes'!
+!classDefinition: 'Sheaves class' category: #'Algebra-Schemes'!
 Sheaves class
 	instanceVariableNames: ''!
 
-!classDefinition: #HomSet category: 'Algebra-Categories'!
+!classDefinition: #HomSet category: #'Algebra-Categories'!
 Structure subclass: #HomSet
 	instanceVariableNames: 'domain codomain'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Categories'!
-!classDefinition: 'HomSet class' category: 'Algebra-Categories'!
+!classDefinition: 'HomSet class' category: #'Algebra-Categories'!
 HomSet class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalPointSet category: 'Algebra-Schemes'!
+!classDefinition: #RationalPointSet category: #'Algebra-Schemes'!
 HomSet subclass: #RationalPointSet
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'RationalPointSet class' category: 'Algebra-Schemes'!
+!classDefinition: 'RationalPointSet class' category: #'Algebra-Schemes'!
 RationalPointSet class
 	instanceVariableNames: ''!
 
-!classDefinition: #Naturals category: 'Algebra-Categories'!
+!classDefinition: #Naturals category: #'Algebra-Categories'!
 Structure subclass: #Naturals
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Categories'!
-!classDefinition: 'Naturals class' category: 'Algebra-Categories'!
+!classDefinition: 'Naturals class' category: #'Algebra-Categories'!
 Naturals class
 	instanceVariableNames: ''!
 
-!classDefinition: #Monoid category: 'Algebra-Monoids'!
+!classDefinition: #Monoid category: #'Algebra-Monoids'!
 Structure subclass: #Monoid
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids'!
-!classDefinition: 'Monoid class' category: 'Algebra-Monoids'!
+!classDefinition: 'Monoid class' category: #'Algebra-Monoids'!
 Monoid class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreeAbelianMonoid category: 'Algebra-Monoids'!
+!classDefinition: #FreeAbelianMonoid category: #'Algebra-Monoids'!
 Monoid subclass: #FreeAbelianMonoid
 	instanceVariableNames: 'rank ordering'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids'!
-!classDefinition: 'FreeAbelianMonoid class' category: 'Algebra-Monoids'!
+!classDefinition: 'FreeAbelianMonoid class' category: #'Algebra-Monoids'!
 FreeAbelianMonoid class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreeMonoid category: 'Algebra-Monoids'!
+!classDefinition: #FreeMonoid category: #'Algebra-Monoids'!
 Monoid subclass: #FreeMonoid
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids'!
-!classDefinition: 'FreeMonoid class' category: 'Algebra-Monoids'!
+!classDefinition: 'FreeMonoid class' category: #'Algebra-Monoids'!
 FreeMonoid class
 	instanceVariableNames: ''!
 
-!classDefinition: #Group category: 'Algebra-Groups'!
+!classDefinition: #Group category: #'Algebra-Groups'!
 Structure subclass: #Group
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups'!
-!classDefinition: 'Group class' category: 'Algebra-Groups'!
+!classDefinition: 'Group class' category: #'Algebra-Groups'!
 Group class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreeGroup category: 'Algebra-Groups'!
+!classDefinition: #HomGroup category: #'Algebra-Categories-Abelian'!
+Group subclass: #HomGroup
+	instanceVariableNames: 'domain codomain'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Categories-Abelian'!
+!classDefinition: 'HomGroup class' category: #'Algebra-Categories-Abelian'!
+HomGroup class
+	instanceVariableNames: ''!
+
+!classDefinition: #FreeGroup category: #'Algebra-Groups'!
 Group subclass: #FreeGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups'!
-!classDefinition: 'FreeGroup class' category: 'Algebra-Groups'!
+!classDefinition: 'FreeGroup class' category: #'Algebra-Groups'!
 FreeGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuotientGroup category: 'Algebra-Groups'!
+!classDefinition: #QuotientGroup category: #'Algebra-Groups'!
 Group subclass: #QuotientGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups'!
-!classDefinition: 'QuotientGroup class' category: 'Algebra-Groups'!
+!classDefinition: 'QuotientGroup class' category: #'Algebra-Groups'!
 QuotientGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #PermutationGroup category: 'Algebra-Groups-Permutations'!
+!classDefinition: #PermutationGroup category: #'Algebra-Groups-Permutations'!
 Group subclass: #PermutationGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Permutations'!
-!classDefinition: 'PermutationGroup class' category: 'Algebra-Groups-Permutations'!
+!classDefinition: 'PermutationGroup class' category: #'Algebra-Groups-Permutations'!
 PermutationGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlternatingGroup category: 'Algebra-Groups-Permutations'!
+!classDefinition: #AlternatingGroup category: #'Algebra-Groups-Permutations'!
 PermutationGroup subclass: #AlternatingGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Permutations'!
-!classDefinition: 'AlternatingGroup class' category: 'Algebra-Groups-Permutations'!
+!classDefinition: 'AlternatingGroup class' category: #'Algebra-Groups-Permutations'!
 AlternatingGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #SymmetricGroup category: 'Algebra-Groups-Permutations'!
+!classDefinition: #SymmetricGroup category: #'Algebra-Groups-Permutations'!
 PermutationGroup subclass: #SymmetricGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Permutations'!
-!classDefinition: 'SymmetricGroup class' category: 'Algebra-Groups-Permutations'!
+!classDefinition: 'SymmetricGroup class' category: #'Algebra-Groups-Permutations'!
 SymmetricGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearGroup category: 'Algebra-Groups-Linear'!
+!classDefinition: #LinearGroup category: #'Algebra-Groups-Linear'!
 Group subclass: #LinearGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Linear'!
-!classDefinition: 'LinearGroup class' category: 'Algebra-Groups-Linear'!
+!classDefinition: 'LinearGroup class' category: #'Algebra-Groups-Linear'!
 LinearGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #GeneralLinearGroup category: 'Algebra-Groups-Linear'!
+!classDefinition: #GeneralLinearGroup category: #'Algebra-Groups-Linear'!
 LinearGroup subclass: #GeneralLinearGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Linear'!
-!classDefinition: 'GeneralLinearGroup class' category: 'Algebra-Groups-Linear'!
+!classDefinition: 'GeneralLinearGroup class' category: #'Algebra-Groups-Linear'!
 GeneralLinearGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #OrthogonalGroup category: 'Algebra-Groups-Linear'!
+!classDefinition: #OrthogonalGroup category: #'Algebra-Groups-Linear'!
 LinearGroup subclass: #OrthogonalGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Linear'!
-!classDefinition: 'OrthogonalGroup class' category: 'Algebra-Groups-Linear'!
+!classDefinition: 'OrthogonalGroup class' category: #'Algebra-Groups-Linear'!
 OrthogonalGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #ScalarGroup category: 'Algebra-Groups-Linear'!
+!classDefinition: #ScalarGroup category: #'Algebra-Groups-Linear'!
 LinearGroup subclass: #ScalarGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Linear'!
-!classDefinition: 'ScalarGroup class' category: 'Algebra-Groups-Linear'!
+!classDefinition: 'ScalarGroup class' category: #'Algebra-Groups-Linear'!
 ScalarGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #SpecialLinearGroup category: 'Algebra-Groups-Linear'!
+!classDefinition: #SpecialLinearGroup category: #'Algebra-Groups-Linear'!
 LinearGroup subclass: #SpecialLinearGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Linear'!
-!classDefinition: 'SpecialLinearGroup class' category: 'Algebra-Groups-Linear'!
+!classDefinition: 'SpecialLinearGroup class' category: #'Algebra-Groups-Linear'!
 SpecialLinearGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #SpecialOrthogonalGroup category: 'Algebra-Groups-Linear'!
+!classDefinition: #SpecialOrthogonalGroup category: #'Algebra-Groups-Linear'!
 LinearGroup subclass: #SpecialOrthogonalGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Linear'!
-!classDefinition: 'SpecialOrthogonalGroup class' category: 'Algebra-Groups-Linear'!
+!classDefinition: 'SpecialOrthogonalGroup class' category: #'Algebra-Groups-Linear'!
 SpecialOrthogonalGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #SpecialScalarGroup category: 'Algebra-Groups-Linear'!
+!classDefinition: #SpecialScalarGroup category: #'Algebra-Groups-Linear'!
 LinearGroup subclass: #SpecialScalarGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Linear'!
-!classDefinition: 'SpecialScalarGroup class' category: 'Algebra-Groups-Linear'!
+!classDefinition: 'SpecialScalarGroup class' category: #'Algebra-Groups-Linear'!
 SpecialScalarGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #UnitsGroup category: 'Algebra-Rings'!
+!classDefinition: #UnitsGroup category: #'Algebra-Rings'!
 Group subclass: #UnitsGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'UnitsGroup class' category: 'Algebra-Rings'!
+!classDefinition: 'UnitsGroup class' category: #'Algebra-Rings'!
 UnitsGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularUnitsGroup category: 'Algebra-Rings-Finite'!
+!classDefinition: #ModularUnitsGroup category: #'Algebra-Rings-Finite'!
 UnitsGroup subclass: #ModularUnitsGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'ModularUnitsGroup class' category: 'Algebra-Rings-Finite'!
+!classDefinition: 'ModularUnitsGroup class' category: #'Algebra-Rings-Finite'!
 ModularUnitsGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #DivisorGroup category: 'Algebra-Schemes'!
+!classDefinition: #DivisorGroup category: #'Algebra-Schemes'!
 Group subclass: #DivisorGroup
 	instanceVariableNames: 'scalars space'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'DivisorGroup class' category: 'Algebra-Schemes'!
+!classDefinition: 'DivisorGroup class' category: #'Algebra-Schemes'!
 DivisorGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #Ring category: 'Algebra-Rings'!
+!classDefinition: #Ring category: #'Algebra-Rings'!
 Structure subclass: #Ring
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'Ring class' category: 'Algebra-Rings'!
+!classDefinition: 'Ring class' category: #'Algebra-Rings'!
 Ring class
 	instanceVariableNames: ''!
 
-!classDefinition: #FractionRing category: 'Algebra-Rings'!
+!classDefinition: #FractionRing category: #'Algebra-Rings'!
 Ring subclass: #FractionRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'FractionRing class' category: 'Algebra-Rings'!
+!classDefinition: 'FractionRing class' category: #'Algebra-Rings'!
 FractionRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalField category: 'Algebra-Rings'!
+!classDefinition: #RationalField category: #'Algebra-Rings'!
 FractionRing subclass: #RationalField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'RationalField class' category: 'Algebra-Rings'!
+!classDefinition: 'RationalField class' category: #'Algebra-Rings'!
 RationalField class
 	instanceVariableNames: ''!
 
-!classDefinition: #AdicField category: 'Algebra-Fields-Local'!
+!classDefinition: #AdicField category: #'Algebra-Fields-Local'!
 FractionRing subclass: #AdicField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Local'!
-!classDefinition: 'AdicField class' category: 'Algebra-Fields-Local'!
+!classDefinition: 'AdicField class' category: #'Algebra-Fields-Local'!
 AdicField class
 	instanceVariableNames: ''!
 
-!classDefinition: #AdicNumberField category: 'Algebra-Fields-Local'!
+!classDefinition: #AdicNumberField category: #'Algebra-Fields-Local'!
 AdicField subclass: #AdicNumberField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Local'!
-!classDefinition: 'AdicNumberField class' category: 'Algebra-Fields-Local'!
+!classDefinition: 'AdicNumberField class' category: #'Algebra-Fields-Local'!
 AdicNumberField class
 	instanceVariableNames: ''!
 
-!classDefinition: #LaurentSeriesField category: 'Algebra-Fields-Local'!
+!classDefinition: #LaurentSeriesField category: #'Algebra-Fields-Local'!
 AdicField subclass: #LaurentSeriesField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Local'!
-!classDefinition: 'LaurentSeriesField class' category: 'Algebra-Fields-Local'!
+!classDefinition: 'LaurentSeriesField class' category: #'Algebra-Fields-Local'!
 LaurentSeriesField class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalFunctionField category: 'Algebra-Algebras-Affine'!
+!classDefinition: #RationalFunctionField category: #'Algebra-Algebras-Affine'!
 FractionRing subclass: #RationalFunctionField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'RationalFunctionField class' category: 'Algebra-Algebras-Affine'!
+!classDefinition: 'RationalFunctionField class' category: #'Algebra-Algebras-Affine'!
 RationalFunctionField class
 	instanceVariableNames: ''!
 
-!classDefinition: #IntegerRing category: 'Algebra-Rings'!
+!classDefinition: #IntegerRing category: #'Algebra-Rings'!
 Ring subclass: #IntegerRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'IntegerRing class' category: 'Algebra-Rings'!
+!classDefinition: 'IntegerRing class' category: #'Algebra-Rings'!
 IntegerRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #LocalRing category: 'Algebra-Rings'!
+!classDefinition: #LocalRing category: #'Algebra-Rings'!
 Ring subclass: #LocalRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'LocalRing class' category: 'Algebra-Rings'!
+!classDefinition: 'LocalRing class' category: #'Algebra-Rings'!
 LocalRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #OppositeRing category: 'Algebra-Rings'!
+!classDefinition: #OppositeRing category: #'Algebra-Rings'!
 Ring subclass: #OppositeRing
 	instanceVariableNames: 'opposite'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'OppositeRing class' category: 'Algebra-Rings'!
+!classDefinition: 'OppositeRing class' category: #'Algebra-Rings'!
 OppositeRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProductRing category: 'Algebra-Rings'!
+!classDefinition: #ProductRing category: #'Algebra-Rings'!
 Ring subclass: #ProductRing
 	instanceVariableNames: 'components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'ProductRing class' category: 'Algebra-Rings'!
+!classDefinition: 'ProductRing class' category: #'Algebra-Rings'!
 ProductRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuotientRing category: 'Algebra-Rings'!
+!classDefinition: #QuotientRing category: #'Algebra-Rings'!
 Ring subclass: #QuotientRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'QuotientRing class' category: 'Algebra-Rings'!
+!classDefinition: 'QuotientRing class' category: #'Algebra-Rings'!
 QuotientRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerRing category: 'Algebra-Rings-Finite'!
+!classDefinition: #ModularIntegerRing category: #'Algebra-Rings-Finite'!
 QuotientRing subclass: #ModularIntegerRing
 	instanceVariableNames: 'modulus'
 	classVariableNames: 'Cache'
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'ModularIntegerRing class' category: 'Algebra-Rings-Finite'!
+!classDefinition: 'ModularIntegerRing class' category: #'Algebra-Rings-Finite'!
 ModularIntegerRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimePowerRing category: 'Algebra-Rings-Finite'!
+!classDefinition: #PrimePowerRing category: #'Algebra-Rings-Finite'!
 ModularIntegerRing subclass: #PrimePowerRing
 	instanceVariableNames: 'p'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'PrimePowerRing class' category: 'Algebra-Rings-Finite'!
+!classDefinition: 'PrimePowerRing class' category: #'Algebra-Rings-Finite'!
 PrimePowerRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimeField category: 'Algebra-Rings-Finite'!
+!classDefinition: #PrimeField category: #'Algebra-Rings-Finite'!
 PrimePowerRing subclass: #PrimeField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'PrimeField class' category: 'Algebra-Rings-Finite'!
+!classDefinition: 'PrimeField class' category: #'Algebra-Rings-Finite'!
 PrimeField class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryField category: 'Algebra-Rings-Finite'!
+!classDefinition: #BinaryField category: #'Algebra-Rings-Finite'!
 PrimeField subclass: #BinaryField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'BinaryField class' category: 'Algebra-Rings-Finite'!
+!classDefinition: 'BinaryField class' category: #'Algebra-Rings-Finite'!
 BinaryField class
 	instanceVariableNames: ''!
 
-!classDefinition: #TernaryField category: 'Algebra-Rings-Finite'!
+!classDefinition: #TernaryField category: #'Algebra-Rings-Finite'!
 PrimeField subclass: #TernaryField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'TernaryField class' category: 'Algebra-Rings-Finite'!
+!classDefinition: 'TernaryField class' category: #'Algebra-Rings-Finite'!
 TernaryField class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineRing category: 'Algebra-Algebras-Affine'!
+!classDefinition: #AffineRing category: #'Algebra-Algebras-Affine'!
 QuotientRing subclass: #AffineRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'AffineRing class' category: 'Algebra-Algebras-Affine'!
+!classDefinition: 'AffineRing class' category: #'Algebra-Algebras-Affine'!
 AffineRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuasiGaloisRing category: 'Algebra-Rings-Finite'!
+!classDefinition: #QuasiGaloisRing category: #'Algebra-Rings-Finite'!
 AffineRing subclass: #QuasiGaloisRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'QuasiGaloisRing class' category: 'Algebra-Rings-Finite'!
+!classDefinition: 'QuasiGaloisRing class' category: #'Algebra-Rings-Finite'!
 QuasiGaloisRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtensionRing category: 'Algebra-Algebras-Affine'!
+!classDefinition: #ExtensionRing category: #'Algebra-Algebras-Affine'!
 AffineRing subclass: #ExtensionRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'ExtensionRing class' category: 'Algebra-Algebras-Affine'!
+!classDefinition: 'ExtensionRing class' category: #'Algebra-Algebras-Affine'!
 ExtensionRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisRing category: 'Algebra-Rings-Finite'!
+!classDefinition: #GaloisRing category: #'Algebra-Rings-Finite'!
 ExtensionRing subclass: #GaloisRing
 	instanceVariableNames: ''
 	classVariableNames: 'IrreduciblePolynomialsCache'
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'GaloisRing class' category: 'Algebra-Rings-Finite'!
+!classDefinition: 'GaloisRing class' category: #'Algebra-Rings-Finite'!
 GaloisRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisField category: 'Algebra-Rings-Finite'!
+!classDefinition: #GaloisField category: #'Algebra-Rings-Finite'!
 GaloisRing subclass: #GaloisField
 	instanceVariableNames: ''
 	classVariableNames: 'ConwayPolynomials'
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'GaloisField class' category: 'Algebra-Rings-Finite'!
+!classDefinition: 'GaloisField class' category: #'Algebra-Rings-Finite'!
 GaloisField class
 	instanceVariableNames: ''!
 
-!classDefinition: #FunctionField category: 'Algebra-Fields-Global'!
+!classDefinition: #FunctionField category: #'Algebra-Fields-Global'!
 ExtensionRing subclass: #FunctionField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global'!
-!classDefinition: 'FunctionField class' category: 'Algebra-Fields-Global'!
+!classDefinition: 'FunctionField class' category: #'Algebra-Fields-Global'!
 FunctionField class
 	instanceVariableNames: ''!
 
-!classDefinition: #NumberField category: 'Algebra-Fields-Global'!
+!classDefinition: #NumberField category: #'Algebra-Fields-Global'!
 ExtensionRing subclass: #NumberField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global'!
-!classDefinition: 'NumberField class' category: 'Algebra-Fields-Global'!
+!classDefinition: 'NumberField class' category: #'Algebra-Fields-Global'!
 NumberField class
 	instanceVariableNames: ''!
 
-!classDefinition: #CyclotomicField category: 'Algebra-Fields-Global-Cyclotomic'!
+!classDefinition: #CyclotomicField category: #'Algebra-Fields-Global-Cyclotomic'!
 NumberField subclass: #CyclotomicField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Cyclotomic'!
-!classDefinition: 'CyclotomicField class' category: 'Algebra-Fields-Global-Cyclotomic'!
+!classDefinition: 'CyclotomicField class' category: #'Algebra-Fields-Global-Cyclotomic'!
 CyclotomicField class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuadraticField category: 'Algebra-Fields-Global-Quadratic'!
+!classDefinition: #QuadraticField category: #'Algebra-Fields-Global-Quadratic'!
 NumberField subclass: #QuadraticField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Quadratic'!
-!classDefinition: 'QuadraticField class' category: 'Algebra-Fields-Global-Quadratic'!
+!classDefinition: 'QuadraticField class' category: #'Algebra-Fields-Global-Quadratic'!
 QuadraticField class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianField category: 'Algebra-Fields-Global-Quadratic'!
+!classDefinition: #GaussianField category: #'Algebra-Fields-Global-Quadratic'!
 QuadraticField subclass: #GaussianField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Quadratic'!
-!classDefinition: 'GaussianField class' category: 'Algebra-Fields-Global-Quadratic'!
+!classDefinition: 'GaussianField class' category: #'Algebra-Fields-Global-Quadratic'!
 GaussianField class
 	instanceVariableNames: ''!
 
-!classDefinition: #LaurentPolynomialRing category: 'Algebra-Algebras-Affine'!
+!classDefinition: #LaurentPolynomialRing category: #'Algebra-Algebras-Affine'!
 AffineRing subclass: #LaurentPolynomialRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'LaurentPolynomialRing class' category: 'Algebra-Algebras-Affine'!
+!classDefinition: 'LaurentPolynomialRing class' category: #'Algebra-Algebras-Affine'!
 LaurentPolynomialRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicClosureField category: 'Algebra-Fields'!
+!classDefinition: #AlgebraicClosureField category: #'Algebra-Fields'!
 Ring subclass: #AlgebraicClosureField
 	instanceVariableNames: 'scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields'!
-!classDefinition: 'AlgebraicClosureField class' category: 'Algebra-Fields'!
+!classDefinition: 'AlgebraicClosureField class' category: #'Algebra-Fields'!
 AlgebraicClosureField class
 	instanceVariableNames: ''!
 
-!classDefinition: #ComplexField category: 'Algebra-Fields'!
+!classDefinition: #ComplexField category: #'Algebra-Fields'!
 Ring subclass: #ComplexField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields'!
-!classDefinition: 'ComplexField class' category: 'Algebra-Fields'!
+!classDefinition: 'ComplexField class' category: #'Algebra-Fields'!
 ComplexField class
 	instanceVariableNames: ''!
 
-!classDefinition: #RealField category: 'Algebra-Fields'!
+!classDefinition: #RealField category: #'Algebra-Fields'!
 Ring subclass: #RealField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields'!
-!classDefinition: 'RealField class' category: 'Algebra-Fields'!
+!classDefinition: 'RealField class' category: #'Algebra-Fields'!
 RealField class
 	instanceVariableNames: ''!
 
-!classDefinition: #AdicRing category: 'Algebra-Fields-Local'!
+!classDefinition: #AdicRing category: #'Algebra-Fields-Local'!
 Ring subclass: #AdicRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Local'!
-!classDefinition: 'AdicRing class' category: 'Algebra-Fields-Local'!
+!classDefinition: 'AdicRing class' category: #'Algebra-Fields-Local'!
 AdicRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #AdicIntegerRing category: 'Algebra-Fields-Local'!
+!classDefinition: #AdicIntegerRing category: #'Algebra-Fields-Local'!
 AdicRing subclass: #AdicIntegerRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Local'!
-!classDefinition: 'AdicIntegerRing class' category: 'Algebra-Fields-Local'!
+!classDefinition: 'AdicIntegerRing class' category: #'Algebra-Fields-Local'!
 AdicIntegerRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #PowerSeriesRing category: 'Algebra-Fields-Local'!
+!classDefinition: #PowerSeriesRing category: #'Algebra-Fields-Local'!
 AdicRing subclass: #PowerSeriesRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Local'!
-!classDefinition: 'PowerSeriesRing class' category: 'Algebra-Fields-Local'!
+!classDefinition: 'PowerSeriesRing class' category: #'Algebra-Fields-Local'!
 PowerSeriesRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialRing category: 'Algebra-Algebras-Affine'!
+!classDefinition: #PolynomialRing category: #'Algebra-Algebras-Affine'!
 Ring subclass: #PolynomialRing
 	instanceVariableNames: 'monomials scalars'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'PolynomialRing class' category: 'Algebra-Algebras-Affine'!
+!classDefinition: 'PolynomialRing class' category: #'Algebra-Algebras-Affine'!
 PolynomialRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #FiniteAlgebra category: 'Algebra-Algebras-Finite'!
+!classDefinition: #FiniteAlgebra category: #'Algebra-Algebras-Finite'!
 Ring subclass: #FiniteAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'FiniteAlgebra class' category: 'Algebra-Algebras-Finite'!
+!classDefinition: 'FiniteAlgebra class' category: #'Algebra-Algebras-Finite'!
 FiniteAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #Order category: 'Algebra-Fields-Global'!
+!classDefinition: #Order category: #'Algebra-Fields-Global'!
 FiniteAlgebra subclass: #Order
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global'!
-!classDefinition: 'Order class' category: 'Algebra-Fields-Global'!
+!classDefinition: 'Order class' category: #'Algebra-Fields-Global'!
 Order class
 	instanceVariableNames: ''!
 
-!classDefinition: #MaximalOrder category: 'Algebra-Fields-Global'!
+!classDefinition: #MaximalOrder category: #'Algebra-Fields-Global'!
 Order subclass: #MaximalOrder
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global'!
-!classDefinition: 'MaximalOrder class' category: 'Algebra-Fields-Global'!
+!classDefinition: 'MaximalOrder class' category: #'Algebra-Fields-Global'!
 MaximalOrder class
 	instanceVariableNames: ''!
 
-!classDefinition: #CyclotomicRing category: 'Algebra-Fields-Global-Cyclotomic'!
+!classDefinition: #CyclotomicRing category: #'Algebra-Fields-Global-Cyclotomic'!
 MaximalOrder subclass: #CyclotomicRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Cyclotomic'!
-!classDefinition: 'CyclotomicRing class' category: 'Algebra-Fields-Global-Cyclotomic'!
+!classDefinition: 'CyclotomicRing class' category: #'Algebra-Fields-Global-Cyclotomic'!
 CyclotomicRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #EisensteinRing category: 'Algebra-Fields-Global-Cyclotomic'!
+!classDefinition: #EisensteinRing category: #'Algebra-Fields-Global-Cyclotomic'!
 CyclotomicRing subclass: #EisensteinRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Cyclotomic'!
-!classDefinition: 'EisensteinRing class' category: 'Algebra-Fields-Global-Cyclotomic'!
+!classDefinition: 'EisensteinRing class' category: #'Algebra-Fields-Global-Cyclotomic'!
 EisensteinRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuadraticRing category: 'Algebra-Fields-Global-Quadratic'!
+!classDefinition: #QuadraticRing category: #'Algebra-Fields-Global-Quadratic'!
 MaximalOrder subclass: #QuadraticRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Quadratic'!
-!classDefinition: 'QuadraticRing class' category: 'Algebra-Fields-Global-Quadratic'!
+!classDefinition: 'QuadraticRing class' category: #'Algebra-Fields-Global-Quadratic'!
 QuadraticRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianRing category: 'Algebra-Fields-Global-Quadratic'!
+!classDefinition: #GaussianRing category: #'Algebra-Fields-Global-Quadratic'!
 QuadraticRing subclass: #GaussianRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Quadratic'!
-!classDefinition: 'GaussianRing class' category: 'Algebra-Fields-Global-Quadratic'!
+!classDefinition: 'GaussianRing class' category: #'Algebra-Fields-Global-Quadratic'!
 GaussianRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #CliffordAlgebra category: 'Algebra-Algebras-Finite'!
+!classDefinition: #CliffordAlgebra category: #'Algebra-Algebras-Finite'!
 FiniteAlgebra subclass: #CliffordAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'CliffordAlgebra class' category: 'Algebra-Algebras-Finite'!
+!classDefinition: 'CliffordAlgebra class' category: #'Algebra-Algebras-Finite'!
 CliffordAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #EndomorphismAlgebra category: 'Algebra-Algebras-Finite'!
+!classDefinition: #EndomorphismAlgebra category: #'Algebra-Algebras-Finite'!
 FiniteAlgebra subclass: #EndomorphismAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'EndomorphismAlgebra class' category: 'Algebra-Algebras-Finite'!
+!classDefinition: 'EndomorphismAlgebra class' category: #'Algebra-Algebras-Finite'!
 EndomorphismAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #MatrixAlgebra category: 'Algebra-Algebras-Finite'!
+!classDefinition: #MatrixAlgebra category: #'Algebra-Algebras-Finite'!
 EndomorphismAlgebra subclass: #MatrixAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'MatrixAlgebra class' category: 'Algebra-Algebras-Finite'!
+!classDefinition: 'MatrixAlgebra class' category: #'Algebra-Algebras-Finite'!
 MatrixAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupAlgebra category: 'Algebra-Algebras-Finite'!
+!classDefinition: #GroupAlgebra category: #'Algebra-Algebras-Finite'!
 FiniteAlgebra subclass: #GroupAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'GroupAlgebra class' category: 'Algebra-Algebras-Finite'!
+!classDefinition: 'GroupAlgebra class' category: #'Algebra-Algebras-Finite'!
 GroupAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuaternionAlgebra category: 'Algebra-Algebras-Finite'!
+!classDefinition: #QuaternionAlgebra category: #'Algebra-Algebras-Finite'!
 FiniteAlgebra subclass: #QuaternionAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'QuaternionAlgebra class' category: 'Algebra-Algebras-Finite'!
+!classDefinition: 'QuaternionAlgebra class' category: #'Algebra-Algebras-Finite'!
 QuaternionAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreeAlgebra category: 'Algebra-Algebras-Free'!
+!classDefinition: #FreeAlgebra category: #'Algebra-Algebras-Free'!
 Ring subclass: #FreeAlgebra
 	instanceVariableNames: 'scalars monomials'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Free'!
-!classDefinition: 'FreeAlgebra class' category: 'Algebra-Algebras-Free'!
+!classDefinition: 'FreeAlgebra class' category: #'Algebra-Algebras-Free'!
 FreeAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #Module category: 'Algebra-Modules'!
+!classDefinition: #Module category: #'Algebra-Modules'!
 Structure subclass: #Module
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'Module class' category: 'Algebra-Modules'!
+!classDefinition: 'Module class' category: #'Algebra-Modules'!
 Module class
 	instanceVariableNames: ''!
 
-!classDefinition: #Ideal category: 'Algebra-Rings'!
+!classDefinition: #Ideal category: #'Algebra-Rings'!
 Module subclass: #Ideal
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'Ideal class' category: 'Algebra-Rings'!
+!classDefinition: 'Ideal class' category: #'Algebra-Rings'!
 Ideal class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialIdeal category: 'Algebra-Algebras-Affine'!
+!classDefinition: #PolynomialIdeal category: #'Algebra-Algebras-Affine'!
 Ideal subclass: #PolynomialIdeal
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'PolynomialIdeal class' category: 'Algebra-Algebras-Affine'!
+!classDefinition: 'PolynomialIdeal class' category: #'Algebra-Algebras-Affine'!
 PolynomialIdeal class
 	instanceVariableNames: ''!
 
-!classDefinition: #MonomialIdeal category: 'Algebra-Algebras-Affine'!
+!classDefinition: #MonomialIdeal category: #'Algebra-Algebras-Affine'!
 PolynomialIdeal subclass: #MonomialIdeal
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'MonomialIdeal class' category: 'Algebra-Algebras-Affine'!
+!classDefinition: 'MonomialIdeal class' category: #'Algebra-Algebras-Affine'!
 MonomialIdeal class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreeModule category: 'Algebra-Modules'!
+!classDefinition: #FreeModule category: #'Algebra-Modules'!
 Module subclass: #FreeModule
 	instanceVariableNames: 'scalars rank'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'FreeModule class' category: 'Algebra-Modules'!
+!classDefinition: 'FreeModule class' category: #'Algebra-Modules'!
 FreeModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #HomModule category: 'Algebra-Modules'!
+!classDefinition: #HomModule category: #'Algebra-Modules'!
 Module subclass: #HomModule
 	instanceVariableNames: 'domain codomain'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'HomModule class' category: 'Algebra-Modules'!
+!classDefinition: 'HomModule class' category: #'Algebra-Modules'!
 HomModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #MatrixModule category: 'Algebra-Modules'!
+!classDefinition: #MatrixModule category: #'Algebra-Modules'!
 HomModule subclass: #MatrixModule
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'MatrixModule class' category: 'Algebra-Modules'!
+!classDefinition: 'MatrixModule class' category: #'Algebra-Modules'!
 MatrixModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuotientModule category: 'Algebra-Modules'!
+!classDefinition: #QuotientModule category: #'Algebra-Modules'!
 Module subclass: #QuotientModule
 	instanceVariableNames: 'relationsMatrix'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'QuotientModule class' category: 'Algebra-Modules'!
+!classDefinition: 'QuotientModule class' category: #'Algebra-Modules'!
 QuotientModule class
 	instanceVariableNames: ''!
 
-!classDefinition: #DistributiveAlgebra category: 'Algebra-Algebras-Distributive'!
+!classDefinition: #DistributiveAlgebra category: #'Algebra-Algebras-Distributive'!
 Structure subclass: #DistributiveAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Distributive'!
-!classDefinition: 'DistributiveAlgebra class' category: 'Algebra-Algebras-Distributive'!
+!classDefinition: 'DistributiveAlgebra class' category: #'Algebra-Algebras-Distributive'!
 DistributiveAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #LieAlgebra category: 'Algebra-Algebras-Distributive'!
+!classDefinition: #LieAlgebra category: #'Algebra-Algebras-Distributive'!
 DistributiveAlgebra subclass: #LieAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Distributive'!
-!classDefinition: 'LieAlgebra class' category: 'Algebra-Algebras-Distributive'!
+!classDefinition: 'LieAlgebra class' category: #'Algebra-Algebras-Distributive'!
 LieAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #OctonionAlgebra category: 'Algebra-Algebras-Distributive'!
+!classDefinition: #OctonionAlgebra category: #'Algebra-Algebras-Distributive'!
 DistributiveAlgebra subclass: #OctonionAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Distributive'!
-!classDefinition: 'OctonionAlgebra class' category: 'Algebra-Algebras-Distributive'!
+!classDefinition: 'OctonionAlgebra class' category: #'Algebra-Algebras-Distributive'!
 OctonionAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #Scheme category: 'Algebra-Schemes'!
+!classDefinition: #Scheme category: #'Algebra-Schemes'!
 Structure subclass: #Scheme
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'Scheme class' category: 'Algebra-Schemes'!
+!classDefinition: 'Scheme class' category: #'Algebra-Schemes'!
 Scheme class
 	instanceVariableNames: ''!
 
-!classDefinition: #Grassmannian category: 'Algebra-Modules'!
+!classDefinition: #Grassmannian category: #'Algebra-Modules'!
 Scheme subclass: #Grassmannian
 	instanceVariableNames: 'space rank'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'Grassmannian class' category: 'Algebra-Modules'!
+!classDefinition: 'Grassmannian class' category: #'Algebra-Modules'!
 Grassmannian class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineScheme category: 'Algebra-Schemes'!
+!classDefinition: #AffineScheme category: #'Algebra-Schemes'!
 Scheme subclass: #AffineScheme
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'AffineScheme class' category: 'Algebra-Schemes'!
+!classDefinition: 'AffineScheme class' category: #'Algebra-Schemes'!
 AffineScheme class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineVariety category: 'Algebra-Schemes-Affine Space'!
+!classDefinition: #AffineVariety category: #'Algebra-Schemes-Affine Space'!
 AffineScheme subclass: #AffineVariety
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Affine Space'!
-!classDefinition: 'AffineVariety class' category: 'Algebra-Schemes-Affine Space'!
+!classDefinition: 'AffineVariety class' category: #'Algebra-Schemes-Affine Space'!
 AffineVariety class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineCurve category: 'Algebra-Schemes-Affine Space'!
+!classDefinition: #AffineCurve category: #'Algebra-Schemes-Affine Space'!
 AffineVariety subclass: #AffineCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Affine Space'!
-!classDefinition: 'AffineCurve class' category: 'Algebra-Schemes-Affine Space'!
+!classDefinition: 'AffineCurve class' category: #'Algebra-Schemes-Affine Space'!
 AffineCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineHypersurface category: 'Algebra-Schemes-Affine Space'!
+!classDefinition: #AffineHypersurface category: #'Algebra-Schemes-Affine Space'!
 AffineVariety subclass: #AffineHypersurface
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Affine Space'!
-!classDefinition: 'AffineHypersurface class' category: 'Algebra-Schemes-Affine Space'!
+!classDefinition: 'AffineHypersurface class' category: #'Algebra-Schemes-Affine Space'!
 AffineHypersurface class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffinePlaneCurve category: 'Algebra-Schemes-Affine Space'!
+!classDefinition: #AffinePlaneCurve category: #'Algebra-Schemes-Affine Space'!
 AffineHypersurface subclass: #AffinePlaneCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Affine Space'!
-!classDefinition: 'AffinePlaneCurve class' category: 'Algebra-Schemes-Affine Space'!
+!classDefinition: 'AffinePlaneCurve class' category: #'Algebra-Schemes-Affine Space'!
 AffinePlaneCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineSpace category: 'Algebra-Schemes-Affine Space'!
+!classDefinition: #AffineSpace category: #'Algebra-Schemes-Affine Space'!
 AffineVariety subclass: #AffineSpace
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Affine Space'!
-!classDefinition: 'AffineSpace class' category: 'Algebra-Schemes-Affine Space'!
+!classDefinition: 'AffineSpace class' category: #'Algebra-Schemes-Affine Space'!
 AffineSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveScheme category: 'Algebra-Schemes'!
+!classDefinition: #ProjectiveScheme category: #'Algebra-Schemes'!
 Scheme subclass: #ProjectiveScheme
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'ProjectiveScheme class' category: 'Algebra-Schemes'!
+!classDefinition: 'ProjectiveScheme class' category: #'Algebra-Schemes'!
 ProjectiveScheme class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveVariety category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: #ProjectiveVariety category: #'Algebra-Schemes-Projective Space'!
 ProjectiveScheme subclass: #ProjectiveVariety
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'ProjectiveVariety class' category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: 'ProjectiveVariety class' category: #'Algebra-Schemes-Projective Space'!
 ProjectiveVariety class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveCurve category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: #ProjectiveCurve category: #'Algebra-Schemes-Projective Space'!
 ProjectiveVariety subclass: #ProjectiveCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'ProjectiveCurve class' category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: 'ProjectiveCurve class' category: #'Algebra-Schemes-Projective Space'!
 ProjectiveCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveHypersurface category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: #ProjectiveHypersurface category: #'Algebra-Schemes-Projective Space'!
 ProjectiveVariety subclass: #ProjectiveHypersurface
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'ProjectiveHypersurface class' category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: 'ProjectiveHypersurface class' category: #'Algebra-Schemes-Projective Space'!
 ProjectiveHypersurface class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectivePlaneCurve category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: #ProjectivePlaneCurve category: #'Algebra-Schemes-Projective Space'!
 ProjectiveHypersurface subclass: #ProjectivePlaneCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'ProjectivePlaneCurve class' category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: 'ProjectivePlaneCurve class' category: #'Algebra-Schemes-Projective Space'!
 ProjectivePlaneCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #Conic category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: #Conic category: #'Algebra-Schemes-Projective Space'!
 ProjectivePlaneCurve subclass: #Conic
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'Conic class' category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: 'Conic class' category: #'Algebra-Schemes-Projective Space'!
 Conic class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalCurve category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: #RationalCurve category: #'Algebra-Schemes-Projective Space'!
 ProjectivePlaneCurve subclass: #RationalCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'RationalCurve class' category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: 'RationalCurve class' category: #'Algebra-Schemes-Projective Space'!
 RationalCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveSpace category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: #ProjectiveSpace category: #'Algebra-Schemes-Projective Space'!
 ProjectiveVariety subclass: #ProjectiveSpace
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'ProjectiveSpace class' category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: 'ProjectiveSpace class' category: #'Algebra-Schemes-Projective Space'!
 ProjectiveSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveLine category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: #ProjectiveLine category: #'Algebra-Schemes-Projective Space'!
 ProjectiveSpace subclass: #ProjectiveLine
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'ProjectiveLine class' category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: 'ProjectiveLine class' category: #'Algebra-Schemes-Projective Space'!
 ProjectiveLine class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectivePlane category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: #ProjectivePlane category: #'Algebra-Schemes-Projective Space'!
 ProjectiveSpace subclass: #ProjectivePlane
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'ProjectivePlane class' category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: 'ProjectivePlane class' category: #'Algebra-Schemes-Projective Space'!
 ProjectivePlane class
 	instanceVariableNames: ''!
 
-!classDefinition: #CellComplex category: 'Algebra-Simplicial Complexes'!
+!classDefinition: #CellComplex category: #'Algebra-Simplicial Complexes'!
 Structure subclass: #CellComplex
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Simplicial Complexes'!
-!classDefinition: 'CellComplex class' category: 'Algebra-Simplicial Complexes'!
+!classDefinition: 'CellComplex class' category: #'Algebra-Simplicial Complexes'!
 CellComplex class
 	instanceVariableNames: ''!
 
-!classDefinition: #SimplicialComplex category: 'Algebra-Simplicial Complexes'!
+!classDefinition: #SimplicialComplex category: #'Algebra-Simplicial Complexes'!
 CellComplex subclass: #SimplicialComplex
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Simplicial Complexes'!
-!classDefinition: 'SimplicialComplex class' category: 'Algebra-Simplicial Complexes'!
+!classDefinition: 'SimplicialComplex class' category: #'Algebra-Simplicial Complexes'!
 SimplicialComplex class
 	instanceVariableNames: ''!
 
-!classDefinition: #ChainComplex category: 'Algebra-Complexes'!
+!classDefinition: #ChainComplex category: #'Algebra-Complexes'!
 Domain subclass: #ChainComplex
 	instanceVariableNames: 'differentials shift'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Complexes'!
-!classDefinition: 'ChainComplex class' category: 'Algebra-Complexes'!
+!classDefinition: 'ChainComplex class' category: #'Algebra-Complexes'!
 ChainComplex class
 	instanceVariableNames: ''!
 
-!classDefinition: #Sheaf category: 'Algebra-Schemes'!
+!classDefinition: #Sheaf category: #'Algebra-Schemes'!
 Domain subclass: #Sheaf
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'Sheaf class' category: 'Algebra-Schemes'!
+!classDefinition: 'Sheaf class' category: #'Algebra-Schemes'!
 Sheaf class
 	instanceVariableNames: ''!
 
-!classDefinition: #Morphism category: 'Algebra-Categories'!
+!classDefinition: #Morphism category: #'Algebra-Categories'!
 Object subclass: #Morphism
 	instanceVariableNames: 'properties'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Categories'!
-!classDefinition: 'Morphism class' category: 'Algebra-Categories'!
+!classDefinition: 'Morphism class' category: #'Algebra-Categories'!
 Morphism class
 	instanceVariableNames: ''!
 
-!classDefinition: #Function category: 'Algebra-Categories'!
+!classDefinition: #Function category: #'Algebra-Categories'!
 Morphism subclass: #Function
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Categories'!
-!classDefinition: 'Function class' category: 'Algebra-Categories'!
+!classDefinition: 'Function class' category: #'Algebra-Categories'!
 Function class
 	instanceVariableNames: ''!
 
-!classDefinition: #Functor category: 'Algebra-Categories'!
+!classDefinition: #Functor category: #'Algebra-Categories'!
 Function subclass: #Functor
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Categories'!
-!classDefinition: 'Functor class' category: 'Algebra-Categories'!
+!classDefinition: 'Functor class' category: #'Algebra-Categories'!
 Functor class
 	instanceVariableNames: ''!
 
-!classDefinition: #MonoidMap category: 'Algebra-Monoids'!
+!classDefinition: #MonoidMap category: #'Algebra-Monoids'!
 Function subclass: #MonoidMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids'!
-!classDefinition: 'MonoidMap class' category: 'Algebra-Monoids'!
+!classDefinition: 'MonoidMap class' category: #'Algebra-Monoids'!
 MonoidMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupAction category: 'Algebra-Groups'!
+!classDefinition: #GroupAction category: #'Algebra-Groups'!
 Function subclass: #GroupAction
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups'!
-!classDefinition: 'GroupAction class' category: 'Algebra-Groups'!
+!classDefinition: 'GroupAction class' category: #'Algebra-Groups'!
 GroupAction class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupMap category: 'Algebra-Groups'!
+!classDefinition: #GroupMap category: #'Algebra-Groups'!
 Function subclass: #GroupMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups'!
-!classDefinition: 'GroupMap class' category: 'Algebra-Groups'!
+!classDefinition: 'GroupMap class' category: #'Algebra-Groups'!
 GroupMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #RingMap category: 'Algebra-Rings'!
+!classDefinition: #RingMap category: #'Algebra-Rings'!
 Function subclass: #RingMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'RingMap class' category: 'Algebra-Rings'!
+!classDefinition: 'RingMap class' category: #'Algebra-Rings'!
 RingMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialMap category: 'Algebra-Algebras-Affine'!
+!classDefinition: #PolynomialMap category: #'Algebra-Algebras-Affine'!
 RingMap subclass: #PolynomialMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'PolynomialMap class' category: 'Algebra-Algebras-Affine'!
+!classDefinition: 'PolynomialMap class' category: #'Algebra-Algebras-Affine'!
 PolynomialMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #FiniteAlgebraMap category: 'Algebra-Algebras-Finite'!
+!classDefinition: #FiniteAlgebraMap category: #'Algebra-Algebras-Finite'!
 RingMap subclass: #FiniteAlgebraMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'FiniteAlgebraMap class' category: 'Algebra-Algebras-Finite'!
+!classDefinition: 'FiniteAlgebraMap class' category: #'Algebra-Algebras-Finite'!
 FiniteAlgebraMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModuleMap category: 'Algebra-Modules'!
-Function subclass: #ModuleMap
-	instanceVariableNames: 'domain codomain'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Modules'!
-!classDefinition: 'ModuleMap class' category: 'Algebra-Modules'!
-ModuleMap class
-	instanceVariableNames: ''!
-
-!classDefinition: #Matrix category: 'Algebra-Modules'!
-ModuleMap subclass: #Matrix
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Modules'!
-!classDefinition: 'Matrix class' category: 'Algebra-Modules'!
-Matrix class
-	instanceVariableNames: ''!
-
-!classDefinition: #BlockSparseMatrix category: 'Algebra-Modules'!
-Matrix subclass: #BlockSparseMatrix
-	instanceVariableNames: 'coefficients blockIndices columnIndices rowPointers'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Modules'!
-!classDefinition: 'BlockSparseMatrix class' category: 'Algebra-Modules'!
-BlockSparseMatrix class
-	instanceVariableNames: ''!
-
-!classDefinition: #DenseMatrix category: 'Algebra-Modules'!
-Matrix subclass: #DenseMatrix
-	instanceVariableNames: 'coefficients'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Modules'!
-!classDefinition: 'DenseMatrix class' category: 'Algebra-Modules'!
-DenseMatrix class
-	instanceVariableNames: ''!
-
-!classDefinition: #SparseMatrix category: 'Algebra-Modules'!
-Matrix subclass: #SparseMatrix
-	instanceVariableNames: 'coefficients columnIndices rowPointers'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Modules'!
-!classDefinition: 'SparseMatrix class' category: 'Algebra-Modules'!
-SparseMatrix class
-	instanceVariableNames: ''!
-
-!classDefinition: #Submatrix category: 'Algebra-Modules'!
-Matrix subclass: #Submatrix
-	instanceVariableNames: 'coefficients rowIndices'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Modules'!
-!classDefinition: 'Submatrix class' category: 'Algebra-Modules'!
-Submatrix class
-	instanceVariableNames: ''!
-
-!classDefinition: #BilinearMap category: 'Algebra-Modules-Multilinear'!
+!classDefinition: #BilinearMap category: #'Algebra-Modules-Multilinear'!
 Function subclass: #BilinearMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules-Multilinear'!
-!classDefinition: 'BilinearMap class' category: 'Algebra-Modules-Multilinear'!
+!classDefinition: 'BilinearMap class' category: #'Algebra-Modules-Multilinear'!
 BilinearMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #BilinearForm category: 'Algebra-Modules-Multilinear'!
+!classDefinition: #BilinearForm category: #'Algebra-Modules-Multilinear'!
 BilinearMap subclass: #BilinearForm
 	instanceVariableNames: 'space matrix'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules-Multilinear'!
-!classDefinition: 'BilinearForm class' category: 'Algebra-Modules-Multilinear'!
+!classDefinition: 'BilinearForm class' category: #'Algebra-Modules-Multilinear'!
 BilinearForm class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuadraticForm category: 'Algebra-Modules-Multilinear'!
+!classDefinition: #QuadraticForm category: #'Algebra-Modules-Multilinear'!
 Function subclass: #QuadraticForm
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules-Multilinear'!
-!classDefinition: 'QuadraticForm class' category: 'Algebra-Modules-Multilinear'!
+!classDefinition: 'QuadraticForm class' category: #'Algebra-Modules-Multilinear'!
 QuadraticForm class
 	instanceVariableNames: ''!
 
-!classDefinition: #DistributiveAlgebraMap category: 'Algebra-Algebras-Distributive'!
+!classDefinition: #DistributiveAlgebraMap category: #'Algebra-Algebras-Distributive'!
 Function subclass: #DistributiveAlgebraMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Distributive'!
-!classDefinition: 'DistributiveAlgebraMap class' category: 'Algebra-Algebras-Distributive'!
+!classDefinition: 'DistributiveAlgebraMap class' category: #'Algebra-Algebras-Distributive'!
 DistributiveAlgebraMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalMap category: 'Algebra-Schemes-Affine Space'!
+!classDefinition: #RationalMap category: #'Algebra-Schemes-Affine Space'!
 Function subclass: #RationalMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Affine Space'!
-!classDefinition: 'RationalMap class' category: 'Algebra-Schemes-Affine Space'!
+!classDefinition: 'RationalMap class' category: #'Algebra-Schemes-Affine Space'!
 RationalMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #Sequence category: 'Algebra-Sequences'!
+!classDefinition: #Sequence category: #'Algebra-Sequences'!
 Function subclass: #Sequence
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Sequences'!
-!classDefinition: 'Sequence class' category: 'Algebra-Sequences'!
+!classDefinition: 'Sequence class' category: #'Algebra-Sequences'!
 Sequence class
 	instanceVariableNames: ''!
 
-!classDefinition: #CFiniteSequence category: 'Algebra-Sequences'!
+!classDefinition: #CFiniteSequence category: #'Algebra-Sequences'!
 Sequence subclass: #CFiniteSequence
 	instanceVariableNames: 'coefficients initialValues'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Sequences'!
-!classDefinition: 'CFiniteSequence class' category: 'Algebra-Sequences'!
+!classDefinition: 'CFiniteSequence class' category: #'Algebra-Sequences'!
 CFiniteSequence class
 	instanceVariableNames: ''!
 
-!classDefinition: #SimplicialMap category: 'Algebra-Simplicial Complexes'!
+!classDefinition: #SimplicialMap category: #'Algebra-Simplicial Complexes'!
 Function subclass: #SimplicialMap
 	instanceVariableNames: 'vertexMap'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Simplicial Complexes'!
-!classDefinition: 'SimplicialMap class' category: 'Algebra-Simplicial Complexes'!
+!classDefinition: 'SimplicialMap class' category: #'Algebra-Simplicial Complexes'!
 SimplicialMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #ChainMap category: 'Algebra-Complexes'!
-Morphism subclass: #ChainMap
+!classDefinition: #AbelianMorphism category: #'Algebra-Categories-Abelian'!
+Morphism subclass: #AbelianMorphism
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Categories-Abelian'!
+!classDefinition: 'AbelianMorphism class' category: #'Algebra-Categories-Abelian'!
+AbelianMorphism class
+	instanceVariableNames: ''!
+
+!classDefinition: #FreydMorphism category: #'Algebra-Categories-Abelian'!
+AbelianMorphism subclass: #FreydMorphism
+	instanceVariableNames: 'datum'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Categories-Abelian'!
+!classDefinition: 'FreydMorphism class' category: #'Algebra-Categories-Abelian'!
+FreydMorphism class
+	instanceVariableNames: ''!
+
+!classDefinition: #ModuleMap category: #'Algebra-Modules'!
+AbelianMorphism subclass: #ModuleMap
+	instanceVariableNames: 'domain codomain'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Modules'!
+!classDefinition: 'ModuleMap class' category: #'Algebra-Modules'!
+ModuleMap class
+	instanceVariableNames: ''!
+
+!classDefinition: #Matrix category: #'Algebra-Modules'!
+ModuleMap subclass: #Matrix
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Modules'!
+!classDefinition: 'Matrix class' category: #'Algebra-Modules'!
+Matrix class
+	instanceVariableNames: ''!
+
+!classDefinition: #BlockSparseMatrix category: #'Algebra-Modules'!
+Matrix subclass: #BlockSparseMatrix
+	instanceVariableNames: 'coefficients blockIndices columnIndices rowPointers'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Modules'!
+!classDefinition: 'BlockSparseMatrix class' category: #'Algebra-Modules'!
+BlockSparseMatrix class
+	instanceVariableNames: ''!
+
+!classDefinition: #DenseMatrix category: #'Algebra-Modules'!
+Matrix subclass: #DenseMatrix
+	instanceVariableNames: 'coefficients'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Modules'!
+!classDefinition: 'DenseMatrix class' category: #'Algebra-Modules'!
+DenseMatrix class
+	instanceVariableNames: ''!
+
+!classDefinition: #SparseMatrix category: #'Algebra-Modules'!
+Matrix subclass: #SparseMatrix
+	instanceVariableNames: 'coefficients columnIndices rowPointers'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Modules'!
+!classDefinition: 'SparseMatrix class' category: #'Algebra-Modules'!
+SparseMatrix class
+	instanceVariableNames: ''!
+
+!classDefinition: #Submatrix category: #'Algebra-Modules'!
+Matrix subclass: #Submatrix
+	instanceVariableNames: 'coefficients rowIndices'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Modules'!
+!classDefinition: 'Submatrix class' category: #'Algebra-Modules'!
+Submatrix class
+	instanceVariableNames: ''!
+
+!classDefinition: #ChainMap category: #'Algebra-Complexes'!
+AbelianMorphism subclass: #ChainMap
 	instanceVariableNames: 'components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Complexes'!
-!classDefinition: 'ChainMap class' category: 'Algebra-Complexes'!
+!classDefinition: 'ChainMap class' category: #'Algebra-Complexes'!
 ChainMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #CochainMap category: 'Algebra-Complexes'!
-Morphism subclass: #CochainMap
+!classDefinition: #CochainMap category: #'Algebra-Complexes'!
+AbelianMorphism subclass: #CochainMap
 	instanceVariableNames: 'opposite'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Complexes'!
-!classDefinition: 'CochainMap class' category: 'Algebra-Complexes'!
+!classDefinition: 'CochainMap class' category: #'Algebra-Complexes'!
 CochainMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #SchemeMorphism category: 'Algebra-Schemes'!
+!classDefinition: #SheafMap category: #'Algebra-Schemes'!
+AbelianMorphism subclass: #SheafMap
+	instanceVariableNames: 'domain codomain moduleMap'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Schemes'!
+!classDefinition: 'SheafMap class' category: #'Algebra-Schemes'!
+SheafMap class
+	instanceVariableNames: ''!
+
+!classDefinition: #GeneralizedMorphism category: #'Algebra-Categories-Abelian'!
+Morphism subclass: #GeneralizedMorphism
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Categories-Abelian'!
+!classDefinition: 'GeneralizedMorphism class' category: #'Algebra-Categories-Abelian'!
+GeneralizedMorphism class
+	instanceVariableNames: ''!
+
+!classDefinition: #Cospan category: #'Algebra-Categories-Abelian'!
+GeneralizedMorphism subclass: #Cospan
+	instanceVariableNames: 'arrow coarrow'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Categories-Abelian'!
+!classDefinition: 'Cospan class' category: #'Algebra-Categories-Abelian'!
+Cospan class
+	instanceVariableNames: ''!
+
+!classDefinition: #Span category: #'Algebra-Categories-Abelian'!
+GeneralizedMorphism subclass: #Span
+	instanceVariableNames: 'arrow coarrow'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Categories-Abelian'!
+!classDefinition: 'Span class' category: #'Algebra-Categories-Abelian'!
+Span class
+	instanceVariableNames: ''!
+
+!classDefinition: #ThreeArrow category: #'Algebra-Categories-Abelian'!
+GeneralizedMorphism subclass: #ThreeArrow
+	instanceVariableNames: 'aid arrow coaid'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Categories-Abelian'!
+!classDefinition: 'ThreeArrow class' category: #'Algebra-Categories-Abelian'!
+ThreeArrow class
+	instanceVariableNames: ''!
+
+!classDefinition: #SchemeMorphism category: #'Algebra-Schemes'!
 Morphism subclass: #SchemeMorphism
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'SchemeMorphism class' category: 'Algebra-Schemes'!
+!classDefinition: 'SchemeMorphism class' category: #'Algebra-Schemes'!
 SchemeMorphism class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineMorphism category: 'Algebra-Schemes'!
+!classDefinition: #AffineMorphism category: #'Algebra-Schemes'!
 SchemeMorphism subclass: #AffineMorphism
 	instanceVariableNames: 'ringMap'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'AffineMorphism class' category: 'Algebra-Schemes'!
+!classDefinition: 'AffineMorphism class' category: #'Algebra-Schemes'!
 AffineMorphism class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffinePoint category: 'Algebra-Schemes-Affine Space'!
+!classDefinition: #AffinePoint category: #'Algebra-Schemes-Affine Space'!
 AffineMorphism subclass: #AffinePoint
 	instanceVariableNames: 'codomain coordinates'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Affine Space'!
-!classDefinition: 'AffinePoint class' category: 'Algebra-Schemes-Affine Space'!
+!classDefinition: 'AffinePoint class' category: #'Algebra-Schemes-Affine Space'!
 AffinePoint class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectivePoint category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: #ProjectivePoint category: #'Algebra-Schemes-Projective Space'!
 SchemeMorphism subclass: #ProjectivePoint
 	instanceVariableNames: 'codomain coordinates'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'ProjectivePoint class' category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: 'ProjectivePoint class' category: #'Algebra-Schemes-Projective Space'!
 ProjectivePoint class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveLinePoint category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: #ProjectiveLinePoint category: #'Algebra-Schemes-Projective Space'!
 ProjectivePoint subclass: #ProjectiveLinePoint
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes-Projective Space'!
-!classDefinition: 'ProjectiveLinePoint class' category: 'Algebra-Schemes-Projective Space'!
+!classDefinition: 'ProjectiveLinePoint class' category: #'Algebra-Schemes-Projective Space'!
 ProjectiveLinePoint class
 	instanceVariableNames: ''!
 
-!classDefinition: #SheafMap category: 'Algebra-Schemes'!
-Morphism subclass: #SheafMap
-	instanceVariableNames: 'domain codomain moduleMap'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Schemes'!
-!classDefinition: 'SheafMap class' category: 'Algebra-Schemes'!
-SheafMap class
-	instanceVariableNames: ''!
-
-!classDefinition: #Monomial category: 'Algebra-Monoids'!
+!classDefinition: #Monomial category: #'Algebra-Monoids'!
 Object subclass: #Monomial
 	instanceVariableNames: 'exponents parent degree'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids'!
-!classDefinition: 'Monomial class' category: 'Algebra-Monoids'!
+!classDefinition: 'Monomial class' category: #'Algebra-Monoids'!
 Monomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #MonomialOrdering category: 'Algebra-Monoids-Orderings'!
+!classDefinition: #MonomialOrdering category: #'Algebra-Monoids-Orderings'!
 Object subclass: #MonomialOrdering
 	instanceVariableNames: 'indeterminates'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids-Orderings'!
-!classDefinition: 'MonomialOrdering class' category: 'Algebra-Monoids-Orderings'!
+!classDefinition: 'MonomialOrdering class' category: #'Algebra-Monoids-Orderings'!
 MonomialOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #BlockMonomialOrdering category: 'Algebra-Monoids-Orderings'!
+!classDefinition: #BlockMonomialOrdering category: #'Algebra-Monoids-Orderings'!
 MonomialOrdering subclass: #BlockMonomialOrdering
 	instanceVariableNames: 'blocks'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids-Orderings'!
-!classDefinition: 'BlockMonomialOrdering class' category: 'Algebra-Monoids-Orderings'!
+!classDefinition: 'BlockMonomialOrdering class' category: #'Algebra-Monoids-Orderings'!
 BlockMonomialOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #GradedLexicographicOrdering category: 'Algebra-Monoids-Orderings'!
+!classDefinition: #GradedLexicographicOrdering category: #'Algebra-Monoids-Orderings'!
 MonomialOrdering subclass: #GradedLexicographicOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids-Orderings'!
-!classDefinition: 'GradedLexicographicOrdering class' category: 'Algebra-Monoids-Orderings'!
+!classDefinition: 'GradedLexicographicOrdering class' category: #'Algebra-Monoids-Orderings'!
 GradedLexicographicOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #GradedReverseLexicographicOrdering category: 'Algebra-Monoids-Orderings'!
+!classDefinition: #GradedReverseLexicographicOrdering category: #'Algebra-Monoids-Orderings'!
 MonomialOrdering subclass: #GradedReverseLexicographicOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids-Orderings'!
-!classDefinition: 'GradedReverseLexicographicOrdering class' category: 'Algebra-Monoids-Orderings'!
+!classDefinition: 'GradedReverseLexicographicOrdering class' category: #'Algebra-Monoids-Orderings'!
 GradedReverseLexicographicOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #GradedReverseLexicographicWeightedOrdering category: 'Algebra-Monoids-Orderings'!
+!classDefinition: #GradedReverseLexicographicWeightedOrdering category: #'Algebra-Monoids-Orderings'!
 GradedReverseLexicographicOrdering subclass: #GradedReverseLexicographicWeightedOrdering
 	instanceVariableNames: 'weights'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids-Orderings'!
-!classDefinition: 'GradedReverseLexicographicWeightedOrdering class' category: 'Algebra-Monoids-Orderings'!
+!classDefinition: 'GradedReverseLexicographicWeightedOrdering class' category: #'Algebra-Monoids-Orderings'!
 GradedReverseLexicographicWeightedOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #LexicographicOrdering category: 'Algebra-Monoids-Orderings'!
+!classDefinition: #LexicographicOrdering category: #'Algebra-Monoids-Orderings'!
 MonomialOrdering subclass: #LexicographicOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids-Orderings'!
-!classDefinition: 'LexicographicOrdering class' category: 'Algebra-Monoids-Orderings'!
+!classDefinition: 'LexicographicOrdering class' category: #'Algebra-Monoids-Orderings'!
 LexicographicOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #LocalGradedLexicographicOrdering category: 'Algebra-Monoids-Orderings'!
+!classDefinition: #LocalGradedLexicographicOrdering category: #'Algebra-Monoids-Orderings'!
 MonomialOrdering subclass: #LocalGradedLexicographicOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids-Orderings'!
-!classDefinition: 'LocalGradedLexicographicOrdering class' category: 'Algebra-Monoids-Orderings'!
+!classDefinition: 'LocalGradedLexicographicOrdering class' category: #'Algebra-Monoids-Orderings'!
 LocalGradedLexicographicOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #LocalGradedReverseLexicographicOrdering category: 'Algebra-Monoids-Orderings'!
+!classDefinition: #LocalGradedReverseLexicographicOrdering category: #'Algebra-Monoids-Orderings'!
 MonomialOrdering subclass: #LocalGradedReverseLexicographicOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids-Orderings'!
-!classDefinition: 'LocalGradedReverseLexicographicOrdering class' category: 'Algebra-Monoids-Orderings'!
+!classDefinition: 'LocalGradedReverseLexicographicOrdering class' category: #'Algebra-Monoids-Orderings'!
 LocalGradedReverseLexicographicOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #LocalLexicographicOrdering category: 'Algebra-Monoids-Orderings'!
+!classDefinition: #LocalLexicographicOrdering category: #'Algebra-Monoids-Orderings'!
 MonomialOrdering subclass: #LocalLexicographicOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Monoids-Orderings'!
-!classDefinition: 'LocalLexicographicOrdering class' category: 'Algebra-Monoids-Orderings'!
+!classDefinition: 'LocalLexicographicOrdering class' category: #'Algebra-Monoids-Orderings'!
 LocalLexicographicOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupElement category: 'Algebra-Groups'!
+!classDefinition: #GroupElement category: #'Algebra-Groups'!
 Object subclass: #GroupElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups'!
-!classDefinition: 'GroupElement class' category: 'Algebra-Groups'!
+!classDefinition: 'GroupElement class' category: #'Algebra-Groups'!
 GroupElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #Coset category: 'Algebra-Groups'!
+!classDefinition: #Coset category: #'Algebra-Groups'!
 GroupElement subclass: #Coset
 	instanceVariableNames: 'representative parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups'!
-!classDefinition: 'Coset class' category: 'Algebra-Groups'!
+!classDefinition: 'Coset class' category: #'Algebra-Groups'!
 Coset class
 	instanceVariableNames: ''!
 
-!classDefinition: #Word category: 'Algebra-Groups'!
+!classDefinition: #Word category: #'Algebra-Groups'!
 GroupElement subclass: #Word
 	instanceVariableNames: 'syllables parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups'!
-!classDefinition: 'Word class' category: 'Algebra-Groups'!
+!classDefinition: 'Word class' category: #'Algebra-Groups'!
 Word class
 	instanceVariableNames: ''!
 
-!classDefinition: #Permutation category: 'Algebra-Groups-Permutations'!
+!classDefinition: #Permutation category: #'Algebra-Groups-Permutations'!
 GroupElement subclass: #Permutation
 	instanceVariableNames: 'images parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Groups-Permutations'!
-!classDefinition: 'Permutation class' category: 'Algebra-Groups-Permutations'!
+!classDefinition: 'Permutation class' category: #'Algebra-Groups-Permutations'!
 Permutation class
 	instanceVariableNames: ''!
 
-!classDefinition: #FractionalIdeal category: 'Algebra-Fields-Global'!
+!classDefinition: #FractionalIdeal category: #'Algebra-Fields-Global'!
 GroupElement subclass: #FractionalIdeal
 	instanceVariableNames: 'numerator denominator'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global'!
-!classDefinition: 'FractionalIdeal class' category: 'Algebra-Fields-Global'!
+!classDefinition: 'FractionalIdeal class' category: #'Algebra-Fields-Global'!
 FractionalIdeal class
 	instanceVariableNames: ''!
 
-!classDefinition: #RingElement category: 'Algebra-Rings'!
+!classDefinition: #RingElement category: #'Algebra-Rings'!
 Object subclass: #RingElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'RingElement class' category: 'Algebra-Rings'!
+!classDefinition: 'RingElement class' category: #'Algebra-Rings'!
 RingElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #Opposite category: 'Algebra-Rings'!
+!classDefinition: #Opposite category: #'Algebra-Rings'!
 RingElement subclass: #Opposite
 	instanceVariableNames: 'opposite'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'Opposite class' category: 'Algebra-Rings'!
+!classDefinition: 'Opposite class' category: #'Algebra-Rings'!
 Opposite class
 	instanceVariableNames: ''!
 
-!classDefinition: #Product category: 'Algebra-Rings'!
+!classDefinition: #Product category: #'Algebra-Rings'!
 RingElement subclass: #Product
 	instanceVariableNames: 'parent components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'Product class' category: 'Algebra-Rings'!
+!classDefinition: 'Product class' category: #'Algebra-Rings'!
 Product class
 	instanceVariableNames: ''!
 
-!classDefinition: #Ratio category: 'Algebra-Rings'!
+!classDefinition: #Ratio category: #'Algebra-Rings'!
 RingElement subclass: #Ratio
 	instanceVariableNames: 'numerator denominator'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'Ratio class' category: 'Algebra-Rings'!
+!classDefinition: 'Ratio class' category: #'Algebra-Rings'!
 Ratio class
 	instanceVariableNames: ''!
 
-!classDefinition: #Germ category: 'Algebra-Rings'!
+!classDefinition: #Germ category: #'Algebra-Rings'!
 Ratio subclass: #Germ
 	instanceVariableNames: 'parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'Germ class' category: 'Algebra-Rings'!
+!classDefinition: 'Germ class' category: #'Algebra-Rings'!
 Germ class
 	instanceVariableNames: ''!
 
-!classDefinition: #Rational category: 'Algebra-Rings'!
+!classDefinition: #Rational category: #'Algebra-Rings'!
 Ratio subclass: #Rational
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'Rational class' category: 'Algebra-Rings'!
+!classDefinition: 'Rational class' category: #'Algebra-Rings'!
 Rational class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalFunction category: 'Algebra-Algebras-Affine'!
+!classDefinition: #RationalFunction category: #'Algebra-Algebras-Affine'!
 Ratio subclass: #RationalFunction
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'RationalFunction class' category: 'Algebra-Algebras-Affine'!
+!classDefinition: 'RationalFunction class' category: #'Algebra-Algebras-Affine'!
 RationalFunction class
 	instanceVariableNames: ''!
 
-!classDefinition: #Residue category: 'Algebra-Rings'!
+!classDefinition: #Residue category: #'Algebra-Rings'!
 RingElement subclass: #Residue
 	instanceVariableNames: 'representative parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'Residue class' category: 'Algebra-Rings'!
+!classDefinition: 'Residue class' category: #'Algebra-Rings'!
 Residue class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularInteger category: 'Algebra-Rings-Finite'!
+!classDefinition: #ModularInteger category: #'Algebra-Rings-Finite'!
 Residue subclass: #ModularInteger
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'ModularInteger class' category: 'Algebra-Rings-Finite'!
+!classDefinition: 'ModularInteger class' category: #'Algebra-Rings-Finite'!
 ModularInteger class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimePowerResidue category: 'Algebra-Rings-Finite'!
+!classDefinition: #PrimePowerResidue category: #'Algebra-Rings-Finite'!
 ModularInteger subclass: #PrimePowerResidue
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'PrimePowerResidue class' category: 'Algebra-Rings-Finite'!
+!classDefinition: 'PrimePowerResidue class' category: #'Algebra-Rings-Finite'!
 PrimePowerResidue class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimeResidue category: 'Algebra-Rings-Finite'!
+!classDefinition: #PrimeResidue category: #'Algebra-Rings-Finite'!
 PrimePowerResidue subclass: #PrimeResidue
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'PrimeResidue class' category: 'Algebra-Rings-Finite'!
+!classDefinition: 'PrimeResidue class' category: #'Algebra-Rings-Finite'!
 PrimeResidue class
 	instanceVariableNames: ''!
 
-!classDefinition: #RegularFunction category: 'Algebra-Algebras-Affine'!
+!classDefinition: #RegularFunction category: #'Algebra-Algebras-Affine'!
 Residue subclass: #RegularFunction
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'RegularFunction class' category: 'Algebra-Algebras-Affine'!
+!classDefinition: 'RegularFunction class' category: #'Algebra-Algebras-Affine'!
 RegularFunction class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtensionElement category: 'Algebra-Algebras-Affine'!
+!classDefinition: #ExtensionElement category: #'Algebra-Algebras-Affine'!
 RegularFunction subclass: #ExtensionElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'ExtensionElement class' category: 'Algebra-Algebras-Affine'!
+!classDefinition: 'ExtensionElement class' category: #'Algebra-Algebras-Affine'!
 ExtensionElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisRingElement category: 'Algebra-Rings-Finite'!
+!classDefinition: #GaloisRingElement category: #'Algebra-Rings-Finite'!
 ExtensionElement subclass: #GaloisRingElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'GaloisRingElement class' category: 'Algebra-Rings-Finite'!
+!classDefinition: 'GaloisRingElement class' category: #'Algebra-Rings-Finite'!
 GaloisRingElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisFieldElement category: 'Algebra-Rings-Finite'!
+!classDefinition: #GaloisFieldElement category: #'Algebra-Rings-Finite'!
 GaloisRingElement subclass: #GaloisFieldElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'GaloisFieldElement class' category: 'Algebra-Rings-Finite'!
+!classDefinition: 'GaloisFieldElement class' category: #'Algebra-Rings-Finite'!
 GaloisFieldElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianRational category: 'Algebra-Fields-Global-Quadratic'!
+!classDefinition: #GaussianRational category: #'Algebra-Fields-Global-Quadratic'!
 ExtensionElement subclass: #GaussianRational
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Quadratic'!
-!classDefinition: 'GaussianRational class' category: 'Algebra-Fields-Global-Quadratic'!
+!classDefinition: 'GaussianRational class' category: #'Algebra-Fields-Global-Quadratic'!
 GaussianRational class
 	instanceVariableNames: ''!
 
-!classDefinition: #LaurentPolynomial category: 'Algebra-Algebras-Affine'!
+!classDefinition: #LaurentPolynomial category: #'Algebra-Algebras-Affine'!
 RegularFunction subclass: #LaurentPolynomial
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'LaurentPolynomial class' category: 'Algebra-Algebras-Affine'!
+!classDefinition: 'LaurentPolynomial class' category: #'Algebra-Algebras-Affine'!
 LaurentPolynomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #Adic category: 'Algebra-Fields-Local'!
+!classDefinition: #Adic category: #'Algebra-Fields-Local'!
 RingElement subclass: #Adic
 	instanceVariableNames: 'parent representative precision'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Local'!
-!classDefinition: 'Adic class' category: 'Algebra-Fields-Local'!
+!classDefinition: 'Adic class' category: #'Algebra-Fields-Local'!
 Adic class
 	instanceVariableNames: ''!
 
-!classDefinition: #AdicInteger category: 'Algebra-Fields-Local'!
+!classDefinition: #AdicInteger category: #'Algebra-Fields-Local'!
 Adic subclass: #AdicInteger
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Local'!
-!classDefinition: 'AdicInteger class' category: 'Algebra-Fields-Local'!
+!classDefinition: 'AdicInteger class' category: #'Algebra-Fields-Local'!
 AdicInteger class
 	instanceVariableNames: ''!
 
-!classDefinition: #PowerSeries category: 'Algebra-Fields-Local'!
+!classDefinition: #PowerSeries category: #'Algebra-Fields-Local'!
 Adic subclass: #PowerSeries
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Local'!
-!classDefinition: 'PowerSeries class' category: 'Algebra-Fields-Local'!
+!classDefinition: 'PowerSeries class' category: #'Algebra-Fields-Local'!
 PowerSeries class
 	instanceVariableNames: ''!
 
-!classDefinition: #AdicFraction category: 'Algebra-Fields-Local'!
+!classDefinition: #AdicFraction category: #'Algebra-Fields-Local'!
 RingElement subclass: #AdicFraction
 	instanceVariableNames: 'valuation unitPart'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Local'!
-!classDefinition: 'AdicFraction class' category: 'Algebra-Fields-Local'!
+!classDefinition: 'AdicFraction class' category: #'Algebra-Fields-Local'!
 AdicFraction class
 	instanceVariableNames: ''!
 
-!classDefinition: #Polynomial category: 'Algebra-Algebras-Affine'!
+!classDefinition: #Polynomial category: #'Algebra-Algebras-Affine'!
 RingElement subclass: #Polynomial
 	instanceVariableNames: 'parent coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'Polynomial class' category: 'Algebra-Algebras-Affine'!
+!classDefinition: 'Polynomial class' category: #'Algebra-Algebras-Affine'!
 Polynomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #MultivariatePolynomial category: 'Algebra-Algebras-Affine'!
+!classDefinition: #MultivariatePolynomial category: #'Algebra-Algebras-Affine'!
 Polynomial subclass: #MultivariatePolynomial
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'MultivariatePolynomial class' category: 'Algebra-Algebras-Affine'!
+!classDefinition: 'MultivariatePolynomial class' category: #'Algebra-Algebras-Affine'!
 MultivariatePolynomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #UnivariatePolynomial category: 'Algebra-Algebras-Affine'!
+!classDefinition: #UnivariatePolynomial category: #'Algebra-Algebras-Affine'!
 Polynomial subclass: #UnivariatePolynomial
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'UnivariatePolynomial class' category: 'Algebra-Algebras-Affine'!
+!classDefinition: 'UnivariatePolynomial class' category: #'Algebra-Algebras-Affine'!
 UnivariatePolynomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #FiniteAlgebraElement category: 'Algebra-Algebras-Finite'!
+!classDefinition: #FiniteAlgebraElement category: #'Algebra-Algebras-Finite'!
 RingElement subclass: #FiniteAlgebraElement
 	instanceVariableNames: 'parent moduleElement representation'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'FiniteAlgebraElement class' category: 'Algebra-Algebras-Finite'!
+!classDefinition: 'FiniteAlgebraElement class' category: #'Algebra-Algebras-Finite'!
 FiniteAlgebraElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicInteger category: 'Algebra-Fields-Global'!
+!classDefinition: #AlgebraicInteger category: #'Algebra-Fields-Global'!
 FiniteAlgebraElement subclass: #AlgebraicInteger
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global'!
-!classDefinition: 'AlgebraicInteger class' category: 'Algebra-Fields-Global'!
+!classDefinition: 'AlgebraicInteger class' category: #'Algebra-Fields-Global'!
 AlgebraicInteger class
 	instanceVariableNames: ''!
 
-!classDefinition: #EisensteinInteger category: 'Algebra-Fields-Global-Cyclotomic'!
+!classDefinition: #EisensteinInteger category: #'Algebra-Fields-Global-Cyclotomic'!
 AlgebraicInteger subclass: #EisensteinInteger
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Cyclotomic'!
-!classDefinition: 'EisensteinInteger class' category: 'Algebra-Fields-Global-Cyclotomic'!
+!classDefinition: 'EisensteinInteger class' category: #'Algebra-Fields-Global-Cyclotomic'!
 EisensteinInteger class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuadraticInteger category: 'Algebra-Fields-Global-Quadratic'!
+!classDefinition: #QuadraticInteger category: #'Algebra-Fields-Global-Quadratic'!
 AlgebraicInteger subclass: #QuadraticInteger
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Quadratic'!
-!classDefinition: 'QuadraticInteger class' category: 'Algebra-Fields-Global-Quadratic'!
+!classDefinition: 'QuadraticInteger class' category: #'Algebra-Fields-Global-Quadratic'!
 QuadraticInteger class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussianInteger category: 'Algebra-Fields-Global-Quadratic'!
+!classDefinition: #GaussianInteger category: #'Algebra-Fields-Global-Quadratic'!
 QuadraticInteger subclass: #GaussianInteger
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Fields-Global-Quadratic'!
-!classDefinition: 'GaussianInteger class' category: 'Algebra-Fields-Global-Quadratic'!
+!classDefinition: 'GaussianInteger class' category: #'Algebra-Fields-Global-Quadratic'!
 GaussianInteger class
 	instanceVariableNames: ''!
 
-!classDefinition: #GroupAlgebraElement category: 'Algebra-Algebras-Finite'!
+!classDefinition: #GroupAlgebraElement category: #'Algebra-Algebras-Finite'!
 FiniteAlgebraElement subclass: #GroupAlgebraElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'GroupAlgebraElement class' category: 'Algebra-Algebras-Finite'!
+!classDefinition: 'GroupAlgebraElement class' category: #'Algebra-Algebras-Finite'!
 GroupAlgebraElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #Multivector category: 'Algebra-Algebras-Finite'!
+!classDefinition: #Multivector category: #'Algebra-Algebras-Finite'!
 FiniteAlgebraElement subclass: #Multivector
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'Multivector class' category: 'Algebra-Algebras-Finite'!
+!classDefinition: 'Multivector class' category: #'Algebra-Algebras-Finite'!
 Multivector class
 	instanceVariableNames: ''!
 
-!classDefinition: #Quaternion category: 'Algebra-Algebras-Finite'!
+!classDefinition: #Quaternion category: #'Algebra-Algebras-Finite'!
 FiniteAlgebraElement subclass: #Quaternion
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'Quaternion class' category: 'Algebra-Algebras-Finite'!
+!classDefinition: 'Quaternion class' category: #'Algebra-Algebras-Finite'!
 Quaternion class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreePolynomial category: 'Algebra-Algebras-Free'!
+!classDefinition: #FreePolynomial category: #'Algebra-Algebras-Free'!
 RingElement subclass: #FreePolynomial
 	instanceVariableNames: 'coefficients parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Free'!
-!classDefinition: 'FreePolynomial class' category: 'Algebra-Algebras-Free'!
+!classDefinition: 'FreePolynomial class' category: #'Algebra-Algebras-Free'!
 FreePolynomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModuleElement category: 'Algebra-Modules'!
+!classDefinition: #ModuleElement category: #'Algebra-Modules'!
 Object subclass: #ModuleElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'ModuleElement class' category: 'Algebra-Modules'!
+!classDefinition: 'ModuleElement class' category: #'Algebra-Modules'!
 ModuleElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModuleCoset category: 'Algebra-Modules'!
+!classDefinition: #ModuleCoset category: #'Algebra-Modules'!
 ModuleElement subclass: #ModuleCoset
 	instanceVariableNames: 'representative parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'ModuleCoset class' category: 'Algebra-Modules'!
+!classDefinition: 'ModuleCoset class' category: #'Algebra-Modules'!
 ModuleCoset class
 	instanceVariableNames: ''!
 
-!classDefinition: #Tuple category: 'Algebra-Modules'!
+!classDefinition: #Tuple category: #'Algebra-Modules'!
 ModuleElement subclass: #Tuple
 	instanceVariableNames: 'coefficients parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'Tuple class' category: 'Algebra-Modules'!
+!classDefinition: 'Tuple class' category: #'Algebra-Modules'!
 Tuple class
 	instanceVariableNames: ''!
 
-!classDefinition: #MultivariateTuple category: 'Algebra-Modules'!
+!classDefinition: #MultivariateTuple category: #'Algebra-Modules'!
 Tuple subclass: #MultivariateTuple
 	instanceVariableNames: 'leadingMonomial'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules'!
-!classDefinition: 'MultivariateTuple class' category: 'Algebra-Modules'!
+!classDefinition: 'MultivariateTuple class' category: #'Algebra-Modules'!
 MultivariateTuple class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModuleMonomial category: 'Algebra-Modules-Orderings'!
+!classDefinition: #ModuleMonomial category: #'Algebra-Modules-Orderings'!
 Object subclass: #ModuleMonomial
 	instanceVariableNames: 'ordering monomial position'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules-Orderings'!
-!classDefinition: 'ModuleMonomial class' category: 'Algebra-Modules-Orderings'!
+!classDefinition: 'ModuleMonomial class' category: #'Algebra-Modules-Orderings'!
 ModuleMonomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModuleMonomialOrdering category: 'Algebra-Modules-Orderings'!
+!classDefinition: #ModuleMonomialOrdering category: #'Algebra-Modules-Orderings'!
 Object subclass: #ModuleMonomialOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules-Orderings'!
-!classDefinition: 'ModuleMonomialOrdering class' category: 'Algebra-Modules-Orderings'!
+!classDefinition: 'ModuleMonomialOrdering class' category: #'Algebra-Modules-Orderings'!
 ModuleMonomialOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #POTMonomialOrdering category: 'Algebra-Modules-Orderings'!
+!classDefinition: #POTMonomialOrdering category: #'Algebra-Modules-Orderings'!
 ModuleMonomialOrdering subclass: #POTMonomialOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules-Orderings'!
-!classDefinition: 'POTMonomialOrdering class' category: 'Algebra-Modules-Orderings'!
+!classDefinition: 'POTMonomialOrdering class' category: #'Algebra-Modules-Orderings'!
 POTMonomialOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #SchreyerMonomialOrdering category: 'Algebra-Modules-Orderings'!
+!classDefinition: #SchreyerMonomialOrdering category: #'Algebra-Modules-Orderings'!
 ModuleMonomialOrdering subclass: #SchreyerMonomialOrdering
 	instanceVariableNames: 'weights'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules-Orderings'!
-!classDefinition: 'SchreyerMonomialOrdering class' category: 'Algebra-Modules-Orderings'!
+!classDefinition: 'SchreyerMonomialOrdering class' category: #'Algebra-Modules-Orderings'!
 SchreyerMonomialOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #TOPMonomialOrdering category: 'Algebra-Modules-Orderings'!
+!classDefinition: #TOPMonomialOrdering category: #'Algebra-Modules-Orderings'!
 ModuleMonomialOrdering subclass: #TOPMonomialOrdering
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules-Orderings'!
-!classDefinition: 'TOPMonomialOrdering class' category: 'Algebra-Modules-Orderings'!
+!classDefinition: 'TOPMonomialOrdering class' category: #'Algebra-Modules-Orderings'!
 TOPMonomialOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #TOPWMonomialOrdering category: 'Algebra-Modules-Orderings'!
+!classDefinition: #TOPWMonomialOrdering category: #'Algebra-Modules-Orderings'!
 TOPMonomialOrdering subclass: #TOPWMonomialOrdering
 	instanceVariableNames: 'weights'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Modules-Orderings'!
-!classDefinition: 'TOPWMonomialOrdering class' category: 'Algebra-Modules-Orderings'!
+!classDefinition: 'TOPWMonomialOrdering class' category: #'Algebra-Modules-Orderings'!
 TOPWMonomialOrdering class
 	instanceVariableNames: ''!
 
-!classDefinition: #CochainComplex category: 'Algebra-Complexes'!
+!classDefinition: #CochainComplex category: #'Algebra-Complexes'!
 Object subclass: #CochainComplex
 	instanceVariableNames: 'opposite'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Complexes'!
-!classDefinition: 'CochainComplex class' category: 'Algebra-Complexes'!
+!classDefinition: 'CochainComplex class' category: #'Algebra-Complexes'!
 CochainComplex class
 	instanceVariableNames: ''!
 
-!classDefinition: #DistributiveAlgebraElement category: 'Algebra-Algebras-Distributive'!
+!classDefinition: #DistributiveAlgebraElement category: #'Algebra-Algebras-Distributive'!
 Object subclass: #DistributiveAlgebraElement
 	instanceVariableNames: 'parent moduleElement representation'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Distributive'!
-!classDefinition: 'DistributiveAlgebraElement class' category: 'Algebra-Algebras-Distributive'!
+!classDefinition: 'DistributiveAlgebraElement class' category: #'Algebra-Algebras-Distributive'!
 DistributiveAlgebraElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #Octonion category: 'Algebra-Algebras-Distributive'!
+!classDefinition: #Octonion category: #'Algebra-Algebras-Distributive'!
 DistributiveAlgebraElement subclass: #Octonion
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Distributive'!
-!classDefinition: 'Octonion class' category: 'Algebra-Algebras-Distributive'!
+!classDefinition: 'Octonion class' category: #'Algebra-Algebras-Distributive'!
 Octonion class
 	instanceVariableNames: ''!
 
-!classDefinition: #Divisor category: 'Algebra-Schemes'!
+!classDefinition: #Divisor category: #'Algebra-Schemes'!
 Object subclass: #Divisor
 	instanceVariableNames: 'coefficients parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'Divisor class' category: 'Algebra-Schemes'!
+!classDefinition: 'Divisor class' category: #'Algebra-Schemes'!
 Divisor class
 	instanceVariableNames: ''!
 
-!classDefinition: #DirichletSeries category: 'Algebra-Sequences'!
+!classDefinition: #DirichletSeries category: #'Algebra-Sequences'!
 Object subclass: #DirichletSeries
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Sequences'!
-!classDefinition: 'DirichletSeries class' category: 'Algebra-Sequences'!
+!classDefinition: 'DirichletSeries class' category: #'Algebra-Sequences'!
 DirichletSeries class
 	instanceVariableNames: ''!
 
-!classDefinition: #AdditionChain category: 'Algebra-Algorithms'!
+!classDefinition: #AdditionChain category: #'Algebra-Algorithms'!
 Object subclass: #AdditionChain
 	instanceVariableNames: 'values firstIndices secondIndices'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'AdditionChain class' category: 'Algebra-Algorithms'!
+!classDefinition: 'AdditionChain class' category: #'Algebra-Algorithms'!
 AdditionChain class
 	instanceVariableNames: ''!
 
-!classDefinition: #BabyStepGiantStep category: 'Algebra-Algorithms'!
+!classDefinition: #BabyStepGiantStep category: #'Algebra-Algorithms'!
 Object subclass: #BabyStepGiantStep
 	instanceVariableNames: 'group table δ'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'BabyStepGiantStep class' category: 'Algebra-Algorithms'!
+!classDefinition: 'BabyStepGiantStep class' category: #'Algebra-Algorithms'!
 BabyStepGiantStep class
 	instanceVariableNames: ''!
 
-!classDefinition: #BrentKung category: 'Algebra-Algorithms'!
+!classDefinition: #BrentKung category: #'Algebra-Algorithms'!
 Object subclass: #BrentKung
 	instanceVariableNames: 'modulus G P'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'BrentKung class' category: 'Algebra-Algorithms'!
+!classDefinition: 'BrentKung class' category: #'Algebra-Algorithms'!
 BrentKung class
 	instanceVariableNames: ''!
 
-!classDefinition: #CRT category: 'Algebra-Algorithms'!
+!classDefinition: #CRT category: #'Algebra-Algorithms'!
 Object subclass: #CRT
 	instanceVariableNames: 'moduli inverses'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'CRT class' category: 'Algebra-Algorithms'!
+!classDefinition: 'CRT class' category: #'Algebra-Algorithms'!
 CRT class
 	instanceVariableNames: ''!
 
-!classDefinition: #Division category: 'Algebra-Algorithms'!
+!classDefinition: #Division category: #'Algebra-Algorithms'!
 Object subclass: #Division
 	instanceVariableNames: 'divisor dividend quotient remainder'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'Division class' category: 'Algebra-Algorithms'!
+!classDefinition: 'Division class' category: #'Algebra-Algorithms'!
 Division class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtendedEuclid category: 'Algebra-Algorithms'!
+!classDefinition: #ExtendedEuclid category: #'Algebra-Algorithms'!
 Object subclass: #ExtendedEuclid
 	instanceVariableNames: 'elements gcd bezout'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'ExtendedEuclid class' category: 'Algebra-Algorithms'!
+!classDefinition: 'ExtendedEuclid class' category: #'Algebra-Algorithms'!
 ExtendedEuclid class
 	instanceVariableNames: ''!
 
-!classDefinition: #FFT category: 'Algebra-Algorithms'!
+!classDefinition: #FFT category: #'Algebra-Algorithms'!
 Object subclass: #FFT
 	instanceVariableNames: 'modulus powers inversePowers inverseN'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'FFT class' category: 'Algebra-Algorithms'!
+!classDefinition: 'FFT class' category: #'Algebra-Algorithms'!
 FFT class
 	instanceVariableNames: ''!
 
-!classDefinition: #GrayCode category: 'Algebra-Algorithms'!
+!classDefinition: #GrayCode category: #'Algebra-Algorithms'!
 Object subclass: #GrayCode
 	instanceVariableNames: 'indices increments'
 	classVariableNames: 'Cache'
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'GrayCode class' category: 'Algebra-Algorithms'!
+!classDefinition: 'GrayCode class' category: #'Algebra-Algorithms'!
 GrayCode class
 	instanceVariableNames: ''!
 
-!classDefinition: #LagrangeGaussReduction category: 'Algebra-Algorithms'!
+!classDefinition: #LagrangeGaussReduction category: #'Algebra-Algorithms'!
 Object subclass: #LagrangeGaussReduction
 	instanceVariableNames: 'vectorSpace v1 v2 shortVector'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'LagrangeGaussReduction class' category: 'Algebra-Algorithms'!
+!classDefinition: 'LagrangeGaussReduction class' category: #'Algebra-Algorithms'!
 LagrangeGaussReduction class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModifiedBerlekampMassey category: 'Algebra-Algorithms'!
+!classDefinition: #ModifiedBerlekampMassey category: #'Algebra-Algorithms'!
 Object subclass: #ModifiedBerlekampMassey
 	instanceVariableNames: 'input field minimalPolynomial'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'ModifiedBerlekampMassey class' category: 'Algebra-Algorithms'!
+!classDefinition: 'ModifiedBerlekampMassey class' category: #'Algebra-Algorithms'!
 ModifiedBerlekampMassey class
 	instanceVariableNames: ''!
 
-!classDefinition: #NewtonInterpolation category: 'Algebra-Algorithms'!
+!classDefinition: #NewtonInterpolation category: #'Algebra-Algorithms'!
 Object subclass: #NewtonInterpolation
 	instanceVariableNames: 'points inverses'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'NewtonInterpolation class' category: 'Algebra-Algorithms'!
+!classDefinition: 'NewtonInterpolation class' category: #'Algebra-Algorithms'!
 NewtonInterpolation class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProductReplacementRandomGenerator category: 'Algebra-Algorithms'!
+!classDefinition: #ProductReplacementRandomGenerator category: #'Algebra-Algorithms'!
 Object subclass: #ProductReplacementRandomGenerator
 	instanceVariableNames: 'generators state'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'ProductReplacementRandomGenerator class' category: 'Algebra-Algorithms'!
+!classDefinition: 'ProductReplacementRandomGenerator class' category: #'Algebra-Algorithms'!
 ProductReplacementRandomGenerator class
 	instanceVariableNames: ''!
 
-!classDefinition: #PseudoDivision category: 'Algebra-Algorithms'!
+!classDefinition: #PseudoDivision category: #'Algebra-Algorithms'!
 Object subclass: #PseudoDivision
 	instanceVariableNames: 'dividend divisor quotient remainder'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'PseudoDivision class' category: 'Algebra-Algorithms'!
+!classDefinition: 'PseudoDivision class' category: #'Algebra-Algorithms'!
 PseudoDivision class
 	instanceVariableNames: ''!
 
-!classDefinition: #SchreierSims category: 'Algebra-Algorithms'!
+!classDefinition: #SchreierSims category: #'Algebra-Algorithms'!
 Object subclass: #SchreierSims
 	instanceVariableNames: 'action generators base strongGeneratingSet trees order'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'SchreierSims class' category: 'Algebra-Algorithms'!
+!classDefinition: 'SchreierSims class' category: #'Algebra-Algorithms'!
 SchreierSims class
 	instanceVariableNames: ''!
 
-!classDefinition: #SchreierTree category: 'Algebra-Algorithms'!
+!classDefinition: #SchreierTree category: #'Algebra-Algorithms'!
 Object subclass: #SchreierTree
 	instanceVariableNames: 'root generators action v inverses w orbit'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'SchreierTree class' category: 'Algebra-Algorithms'!
+!classDefinition: 'SchreierTree class' category: #'Algebra-Algorithms'!
 SchreierTree class
 	instanceVariableNames: ''!
 
-!classDefinition: #TonelliShanks category: 'Algebra-Algorithms'!
+!classDefinition: #TonelliShanks category: #'Algebra-Algorithms'!
 Object subclass: #TonelliShanks
 	instanceVariableNames: 'p q e z'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
-!classDefinition: 'TonelliShanks class' category: 'Algebra-Algorithms'!
+!classDefinition: 'TonelliShanks class' category: #'Algebra-Algorithms'!
 TonelliShanks class
 	instanceVariableNames: ''!
 
-!classDefinition: #Echelonization category: 'Algebra-Algorithms-Echelonization'!
+!classDefinition: #Echelonization category: #'Algebra-Algorithms-Echelonization'!
 Object subclass: #Echelonization
 	instanceVariableNames: 'matrix echelon transformation'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Echelonization'!
-!classDefinition: 'Echelonization class' category: 'Algebra-Algorithms-Echelonization'!
+!classDefinition: 'Echelonization class' category: #'Algebra-Algorithms-Echelonization'!
 Echelonization class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaussJordanEchelonization category: 'Algebra-Algorithms-Echelonization'!
+!classDefinition: #GaussJordanEchelonization category: #'Algebra-Algorithms-Echelonization'!
 Echelonization subclass: #GaussJordanEchelonization
 	instanceVariableNames: 'determinantFactor'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Echelonization'!
-!classDefinition: 'GaussJordanEchelonization class' category: 'Algebra-Algorithms-Echelonization'!
+!classDefinition: 'GaussJordanEchelonization class' category: #'Algebra-Algorithms-Echelonization'!
 GaussJordanEchelonization class
 	instanceVariableNames: ''!
 
-!classDefinition: #HermiteEchelonization category: 'Algebra-Algorithms-Echelonization'!
+!classDefinition: #HermiteEchelonization category: #'Algebra-Algorithms-Echelonization'!
 Echelonization subclass: #HermiteEchelonization
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Echelonization'!
-!classDefinition: 'HermiteEchelonization class' category: 'Algebra-Algorithms-Echelonization'!
+!classDefinition: 'HermiteEchelonization class' category: #'Algebra-Algorithms-Echelonization'!
 HermiteEchelonization class
 	instanceVariableNames: ''!
 
-!classDefinition: #HowellEchelonization category: 'Algebra-Algorithms-Echelonization'!
+!classDefinition: #HowellEchelonization category: #'Algebra-Algorithms-Echelonization'!
 Echelonization subclass: #HowellEchelonization
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Echelonization'!
-!classDefinition: 'HowellEchelonization class' category: 'Algebra-Algorithms-Echelonization'!
+!classDefinition: 'HowellEchelonization class' category: #'Algebra-Algorithms-Echelonization'!
 HowellEchelonization class
 	instanceVariableNames: ''!
 
-!classDefinition: #MultivariateDivision category: 'Algebra-Algorithms-Standard Bases'!
+!classDefinition: #MultivariateDivision category: #'Algebra-Algorithms-Standard Bases'!
 Object subclass: #MultivariateDivision
 	instanceVariableNames: 'dividend divisors quotients remainder'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Standard Bases'!
-!classDefinition: 'MultivariateDivision class' category: 'Algebra-Algorithms-Standard Bases'!
+!classDefinition: 'MultivariateDivision class' category: #'Algebra-Algorithms-Standard Bases'!
 MultivariateDivision class
 	instanceVariableNames: ''!
 
-!classDefinition: #StrongBuchberger category: 'Algebra-Algorithms-Standard Bases'!
+!classDefinition: #StrongBuchberger category: #'Algebra-Algorithms-Standard Bases'!
 Object subclass: #StrongBuchberger
 	instanceVariableNames: 'matrix generators'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Standard Bases'!
-!classDefinition: 'StrongBuchberger class' category: 'Algebra-Algorithms-Standard Bases'!
+!classDefinition: 'StrongBuchberger class' category: #'Algebra-Algorithms-Standard Bases'!
 StrongBuchberger class
 	instanceVariableNames: ''!
 
-!classDefinition: #Buchberger category: 'Algebra-Algorithms-Standard Bases'!
+!classDefinition: #Buchberger category: #'Algebra-Algorithms-Standard Bases'!
 StrongBuchberger subclass: #Buchberger
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Standard Bases'!
-!classDefinition: 'Buchberger class' category: 'Algebra-Algorithms-Standard Bases'!
+!classDefinition: 'Buchberger class' category: #'Algebra-Algorithms-Standard Bases'!
 Buchberger class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtendedStrongBuchberger category: 'Algebra-Algorithms-Standard Bases'!
+!classDefinition: #ExtendedStrongBuchberger category: #'Algebra-Algorithms-Standard Bases'!
 StrongBuchberger subclass: #ExtendedStrongBuchberger
 	instanceVariableNames: 'combinations'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Standard Bases'!
-!classDefinition: 'ExtendedStrongBuchberger class' category: 'Algebra-Algorithms-Standard Bases'!
+!classDefinition: 'ExtendedStrongBuchberger class' category: #'Algebra-Algorithms-Standard Bases'!
 ExtendedStrongBuchberger class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtendedBuchberger category: 'Algebra-Algorithms-Standard Bases'!
+!classDefinition: #ExtendedBuchberger category: #'Algebra-Algorithms-Standard Bases'!
 ExtendedStrongBuchberger subclass: #ExtendedBuchberger
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Standard Bases'!
-!classDefinition: 'ExtendedBuchberger class' category: 'Algebra-Algorithms-Standard Bases'!
+!classDefinition: 'ExtendedBuchberger class' category: #'Algebra-Algorithms-Standard Bases'!
 ExtendedBuchberger class
 	instanceVariableNames: ''!
 
@@ -2592,6 +2675,9 @@ References:
 	https://ncatlab.org/nlab/show/single-sorted+definition+of+a+category
 !
 
+!FreydCategory commentStamp: '<historical>' prior: 0!
+The Freyd category A(C) of an additive category C with weak kernels, that equips C with cokernels in a universal way. The objects of A(C) are the morphisms of C, and the morphisms are FreydMorphisms. See [Pos17b].!
+
 !Modules commentStamp: '<historical>' prior: 0!
 Category of finitely presented right R-modules, for a unital ring R. See Module and ModuleMap.!
 
@@ -2605,7 +2691,7 @@ Category of cochain complexes over a given abelian category of cochains. See Coc
 Category of coherent sheaves on a given scheme. See Sheaf and SheafMap.!
 
 !HomSet commentStamp: '<historical>' prior: 0!
-Hom-Set objects Hom(A,B) for domain A and codomain B, i.e. sets of all morphisms between two Domains. When A = B, this is the set of endomorphisms of A and it's noted End(A).!
+Hom-Set objects Hom(A,B) for domain A and codomain B, i.e. sets of all morphisms between two objects. When A = B, this is the set of endomorphisms of A and it's noted End(A).!
 
 !RationalPointSet commentStamp: '<historical>' prior: 0!
 Set of K-rational points on a variety X, seen as Hom(Spec(K), X).!
@@ -2638,6 +2724,9 @@ Groups consist of a set with an associative binary operation (that we implement 
 
 Subclasses implement specific types of groups, such as permutation groups and matrix groups.
 !
+
+!HomGroup commentStamp: '<historical>' prior: 0!
+Hom-Set objects Hom(A,B) for domain A and codomain B in an abelian category, i.e. abelian groups whose elements are all morphisms between two objects.!
 
 !QuotientGroup commentStamp: '<historical>' prior: 0!
 Quotient groups (or factor groups) G/N (read "G mod N"), i.e. the quotient of a group G by a normal subgroup N. The elements are the cosets of N (see Coset).!
@@ -3032,7 +3121,7 @@ See also CochainComplex for the dual notion.!
 Coherent sheaves of O(X)-modules on a projective scheme X. See also SheafMap.!
 
 !Morphism commentStamp: '<historical>' prior: 0!
-Morphisms belonging to a given Category. See Map and other subclasses for morphisms of specific categories, and Domain and HomSet.!
+Morphisms belonging to a given Category. See subclasses for morphisms of specific categories, and Domain and HomSet.!
 
 !Function commentStamp: '<historical>' prior: 0!
 Functions, unlike general Morphisms, can be evaluated at elements of the domain (#value:) and they produce elements of the codomain. An instance of Function is a morphism in the category of sets, while instances of subclasses can be morphisms in other categories with underlying sets.
@@ -3072,30 +3161,6 @@ Homomorphisms of finite associative unital R-algebras over a commutative ring R.
 
 All R-algebra homomorphisms are also ring homomorphisms, but since R-algebras are implemented in the category of rings they have additional ring homomorphisms that are not R-algebra homomorphisms.!
 
-!ModuleMap commentStamp: '<historical>' prior: 0!
-Homomorphisms of R-modules. They are internally represented by a matrix (assuming a choice of finite presentations for the domain and codomain, or more concretely a choice of an ordered set of generators).
-
-See Module and HomModule.!
-
-!Matrix commentStamp: '<historical>' prior: 0!
-Matrices with coefficients in a ring R.
-
-A matrix A with m rows and n columns is viewed as a morphism of free modules of tuples R^n → R^m following left action convention: A(x) = A*x; and the composition of A with a matrix B with n rows is A*B, and in this way A(B(x)) = A*B*x.
-
-See also MatrixModule, FreeModule and Tuple.!
-
-!BlockSparseMatrix commentStamp: '<historical>' prior: 0!
-Sparse matrices stored in Block CSR (Block Compressed Sparse Row) format. They are fast at matrix-tuple multiplication and generally useful over ℤ/2ℤ with small blocks.!
-
-!DenseMatrix commentStamp: '<historical>' prior: 0!
-Matrices stored in row-major format. The coefficients are stored as the concatenation of the rows, starting with the first coefficient of the first row and ending with the last coefficient of the last row.!
-
-!SparseMatrix commentStamp: '<historical>' prior: 0!
-Sparse matrices stored in CSR (Compressed Sparse Row) format. They are fast at matrix-tuple multiplication.!
-
-!Submatrix commentStamp: '<historical>' prior: 0!
-Submatrices of a dense matrix, stored as the array of coefficients from the original matrix and an array of indices where each row starts.!
-
 !BilinearMap commentStamp: '<historical>' prior: 0!
 Bilinear maps are functions from a cartesian product of two R-modules to (the underlying set of) a R-module, that are linear when fixing one of the arguments.!
 
@@ -3106,7 +3171,7 @@ Bilinear forms are functions from the cartesian square of an R-module to R that 
 !
 
 !QuadraticForm commentStamp: '<historical>' prior: 0!
-Quadratic forms as homogeneous quadratic functions M->R from a finite-rank free R-module to R. Given a basis of M, quadratic forms can be represented as homogeneous quadratic polynomials or as symmetric matrices that define symmetric bilinear forms MxM->R.!
+Quadratic forms as homogeneous quadratic functions M→R from a finite-rank free R-module to R. Given a basis of M, quadratic forms can be represented as homogeneous quadratic polynomials or as symmetric matrices that define symmetric bilinear forms M×M→R.!
 
 !RationalMap commentStamp: 'len 6/27/2023 22:05:59' prior: 0!
 Rational maps between varieties (closed subschemes of affine or projective space). The domain is assumed to be irreducible. Rational maps are specified by a tuple of rational functions.
@@ -3164,10 +3229,52 @@ Example:
 !SimplicialMap commentStamp: '<historical>' prior: 0!
 Morphisms of simplicial complexes. See SimplicialComplex.!
 
+!AbelianMorphism commentStamp: '<historical>' prior: 0!
+Abstract class for morphisms in abelian categories. See subclasses.!
+
+!FreydMorphism commentStamp: '<historical>' prior: 0!
+Morphisms of a Freyd category.!
+
+!ModuleMap commentStamp: '<historical>' prior: 0!
+Homomorphisms of R-modules. They are internally represented by a matrix (assuming a choice of finite presentations for the domain and codomain, or more concretely a choice of an ordered set of generators).
+
+See Module and HomModule.!
+
+!Matrix commentStamp: '<historical>' prior: 0!
+Matrices with coefficients in a ring R.
+
+A matrix A with m rows and n columns is viewed as a morphism of free modules of tuples R^n → R^m following left action convention: A(x) = A*x; and the composition of A with a matrix B with n rows is A*B, and in this way A(B(x)) = A*B*x.
+
+See also MatrixModule, FreeModule and Tuple.!
+
+!BlockSparseMatrix commentStamp: '<historical>' prior: 0!
+Sparse matrices stored in Block CSR (Block Compressed Sparse Row) format. They are fast at matrix-tuple multiplication and generally useful over ℤ/2ℤ with small blocks.!
+
+!DenseMatrix commentStamp: '<historical>' prior: 0!
+Matrices stored in row-major format. The coefficients are stored as the concatenation of the rows, starting with the first coefficient of the first row and ending with the last coefficient of the last row.!
+
+!SparseMatrix commentStamp: '<historical>' prior: 0!
+Sparse matrices stored in CSR (Compressed Sparse Row) format. They are fast at matrix-tuple multiplication.!
+
+!Submatrix commentStamp: '<historical>' prior: 0!
+Submatrices of a dense matrix, stored as the array of coefficients from the original matrix and an array of indices where each row starts.!
+
 !ChainMap commentStamp: '<historical>' prior: 0!
-A chain map between two chain complexes defined by differentials d(k):C(k)->C(k-1) and d'(k):C'(k)->C'(k-1) is a sequence of homomorphisms f(k):C(k)->C'(k) that commute with the differentials in the two complexes: d'(k) o f(k) = f(k-1) o d(k). They send cycles to cycles and boundaries to boundaries, and this descends to a map in homology f(k)* : H(k) -> H'(k).
+A chain map between two chain complexes defined by differentials d(k):C(k)→C(k-1) and d'(k):C'(k)→C'(k-1) is a sequence of homomorphisms f(k):C(k)→C'(k) that commute with the differentials in the two complexes: d'(k) o f(k) = f(k-1) · d(k). They send cycles to cycles and boundaries to boundaries, and this descends to a map in homology f(k)* : H(k) → H'(k).
 
 Chain maps are morphisms in the category of chain complexes. See ChainComplex.!
+
+!SheafMap commentStamp: '<historical>' prior: 0!
+Morphisms of coherent sheaves. See Sheaf.!
+
+!Cospan commentStamp: '<historical>' prior: 0!
+A cospan from A to B is a diagram A → X ← B, and we call A → X the 'arrow' and X ← B the 'coarrow'.!
+
+!Span commentStamp: 'len 7/1/2023 18:59:55' prior: 0!
+A span from A to B is a diagram A ← C → B, and we call A ← C the 'coarrow' and C → B the 'arrow'.!
+
+!ThreeArrow commentStamp: '<historical>' prior: 0!
+A 3-arrow from A to B is a diagram A ← X → Y ← B. We call A ← X the 'aid', X → Y the 'arrow' and B → Y the 'coaid'.!
 
 !SchemeMorphism commentStamp: '<historical>' prior: 0!
 Morphisms of schemes are morphisms of locally ringed spaces.
@@ -3175,23 +3282,20 @@ Morphisms of schemes are morphisms of locally ringed spaces.
 A scheme is covered by open affine patches, and a morphism of schemes is locally induced by affine morphisms between affine patches (or dually, ring homomorphisms between the coordinate rings of affine patches).!
 
 !AffineMorphism commentStamp: '<historical>' prior: 0!
-Scheme morphism between affine schemes Spec(A) -> Spec(B). It is induced by a ring homomorphism B -> A.!
+Scheme morphism between affine schemes Spec(A) → Spec(B). It is induced by a ring homomorphism B → A.!
 
 !AffinePoint commentStamp: '<historical>' prior: 0!
-K-rational points on an affine variety X, seen as morphisms Spec(K) -> X.
+K-rational points on an affine variety X, seen as morphisms Spec(K) → X.
 
 See also RationalPointSet and AffineVariety.!
 
 !ProjectivePoint commentStamp: '<historical>' prior: 0!
-K-rational points on a projective variety X, seen as morphisms Spec(K) -> X.
+K-rational points on a projective variety X, seen as morphisms Spec(K) → X.
 
 See also RationalPointSet and ProjectiveVariety.!
 
 !ProjectiveLinePoint commentStamp: '<historical>' prior: 0!
 Points on the projective line P^1(R) for some ring R. See also ProjectiveLine.!
-
-!SheafMap commentStamp: '<historical>' prior: 0!
-Morphisms of coherent sheaves. See Sheaf.!
 
 !Monomial commentStamp: '<historical>' prior: 0!
 Commutative power products of one or many indeterminates. They form a monoid (see FreeAbelianMonoid). Their formal linear combinations over a ring are Polynomials (see also PolynomialRing).
@@ -3403,7 +3507,7 @@ Given tuple monomials x[i] and y[i], x[i] < y[j] iff x < y or x = y and i < j.!
 !CochainComplex commentStamp: '<historical>' prior: 0!
 (Bounded) cochain complexes.
 
-A cochain complex is a sequence of objects of an abelian category (such as abelian groups, modules or other (co)chain complexes) C(k) (called k-cochains) indexed by integers k, with homomorphisms d(k):C(k)->C(k+1) (called boundary operators or differentials) such that the composition between any two consecutive differentials is the trivial map: d(k)d(k+1) = 0.
+A cochain complex is a sequence of objects of an abelian category (such as abelian groups, modules or other (co)chain complexes) C(k) (called k-cochains) indexed by integers k, with homomorphisms d(k):C(k)→C(k+1) (called boundary operators or differentials) such that the composition between any two consecutive differentials is the trivial map: d(k)d(k+1) = 0.
 
 A bounded cochain complex is one where only a finite number of C(k) are not 0.
 
@@ -5961,6 +6065,11 @@ addProjections: anArray
 automorphisms
 	^ self subclassResponsibility! !
 
+!Domain methodsFor: 'morphisms' stamp: 'len 7/2/2023 17:26:13'!
+colift: aMorphism
+	"Answer the restriction of aMorphism to the receiver."
+	^ self → aMorphism domain ifNotNil: [:anotherMorphism| anotherMorphism colift: aMorphism]! !
+
 !Domain methodsFor: 'morphisms' stamp: 'len 10/5/2022 17:19:00'!
 endomorphisms
 	^ self ⇒ self! !
@@ -6038,13 +6147,13 @@ toAll: anArray
 	self propertyAt: #projections ifPresent: [:aDictionary| aDictionary at: components ifPresent: [:anArrayOfMorphisms| ^ anArrayOfMorphisms]].
 	^ self toAll: components! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 10/5/2022 17:03:44'!
+!Domain methodsFor: 'morphisms' stamp: 'len 6/29/2023 17:20:04'!
 ⇒ anObject
 	"This is the Hom(A,-) functor, where A is the receiver:
 	- if the argument is a domain X in the same category, answer Hom(A,X), the morphisms from A to X;
-	- if the argument is a morphism g:X→Y, answer the map Hom(A,g):Hom(A,X)→Hom(A,Y) that sends a morphism f to g ∘ f.
+	- if the argument is a morphism g:X→Y, answer the map Hom(A,g):Hom(A,X)→Hom(A,Y) that sends a morphism f to g · f.
 	Subclasses should not override this method. Instead, they can implement #hom: to answer an appropriate hom-object."
-	anObject isMorphism ifTrue: [^ self ⇒ anObject domain to: self ⇒ anObject codomain map: [:f| anObject ∘ f]].
+	anObject isMorphism ifTrue: [^ self ⇒ anObject domain to: self ⇒ anObject codomain map: [:f| anObject · f]].
 	^ (self propertyAt: #homs ifAbsentPut: [WeakIdentityKeyDictionary new]) at: anObject ifAbsentPut: [self hom: anObject]! !
 
 !Domain methodsFor: 'properties' stamp: 'len 4/22/2020 05:53:39'!
@@ -6874,15 +6983,6 @@ components: anArray
 name
 	^ self propertyAt: #name! !
 
-!Category methodsFor: 'as yet unclassified' stamp: 'len 10/30/2020 11:12:02'!
-ChainComplexes
-	self isAbelian ifFalse: [DomainError signal: 'not an abelian category'].
-	^ self propertyAt: #ChainComplexes ifAbsentPut: [ChainComplexes over: self]! !
-
-!Category methodsFor: 'as yet unclassified' stamp: 'len 10/30/2020 11:11:34'!
-CochainComplexes
-	^ self ChainComplexes opposite! !
-
 !Category methodsFor: 'comparing' stamp: 'len 4/26/2020 17:31:03'!
 = anObject
 	^ self class = anObject class and: [self name = anObject name]! !
@@ -6890,6 +6990,20 @@ CochainComplexes
 !Category methodsFor: 'comparing' stamp: 'len 4/26/2020 17:31:07'!
 hash
 	^ self name hash! !
+
+!Category methodsFor: 'constructions' stamp: 'len 10/30/2020 11:12:02'!
+ChainComplexes
+	self isAbelian ifFalse: [DomainError signal: 'not an abelian category'].
+	^ self propertyAt: #ChainComplexes ifAbsentPut: [ChainComplexes over: self]! !
+
+!Category methodsFor: 'constructions' stamp: 'len 10/30/2020 11:11:34'!
+CochainComplexes
+	^ self ChainComplexes opposite! !
+
+!Category methodsFor: 'constructions' stamp: 'len 6/30/2023 15:09:49'!
+Freyd
+	self isAdditive ifFalse: [DomainError signal: 'not an additive category'].
+	^ self propertyAt: #Freyd ifAbsentPut: [FreydCategory on: self]! !
 
 !Category methodsFor: 'morphisms' stamp: 'len 9/16/2022 07:34:16'!
 to: aCodomain map: aBlock
@@ -6904,13 +7018,29 @@ printOn: aStream
 includes: aMorphism
 	^ aMorphism category = self! !
 
-!Category methodsFor: 'testing' stamp: 'len 10/30/2020 11:10:58'!
+!Category methodsFor: 'testing' stamp: 'len 6/30/2023 00:28:43'!
 isAbelian
+	"Answer true if the receiver is preabelian category with lifts along monomorphisms and colifts along epimorphisms."
 	^ false! !
+
+!Category methodsFor: 'testing' stamp: 'len 6/30/2023 00:29:50'!
+isAdditive
+	"Answer true if the receiver is a preadditive category with direct sums."
+	^ self isPreabelian! !
 
 !Category methodsFor: 'testing' stamp: 'len 6/27/2022 13:18:40'!
 isMonoidal
 	^ false! !
+
+!Category methodsFor: 'testing' stamp: 'len 6/30/2023 00:27:33'!
+isPreabelian
+	"Answer true if the receiver is an additive category with kernels and cokernels."
+	^ self isAbelian! !
+
+!Category methodsFor: 'testing' stamp: 'len 6/30/2023 00:30:34'!
+isPreadditive
+	"Answer true if the receiver is a category whose hom-set is an abelian group."
+	^ self isAdditive! !
 
 !Category methodsFor: 'testing-categories' stamp: 'len 5/2/2020 21:33:26'!
 isCategory
@@ -6923,6 +7053,34 @@ name: aString
 !Category methodsFor: 'private' stamp: 'len 5/2/2020 05:07:09'!
 species
 	^ Category! !
+
+!FreydCategory methodsFor: 'as yet unclassified' stamp: 'len 6/30/2023 15:08:34'!
+= anObject
+	^ self class = anObject class and: [objects = anObject objects]! !
+
+!FreydCategory methodsFor: 'as yet unclassified' stamp: 'len 6/30/2023 15:08:41'!
+hash
+	^ objects hash! !
+
+!FreydCategory methodsFor: 'as yet unclassified' stamp: 'len 6/30/2023 15:06:34'!
+isAbelian
+	^ true! !
+
+!FreydCategory methodsFor: 'as yet unclassified' stamp: 'len 6/30/2023 15:08:17'!
+objects
+	^ objects! !
+
+!FreydCategory methodsFor: 'as yet unclassified' stamp: 'len 6/30/2023 15:04:09'!
+objects: anAdditiveCategory
+	objects := anAdditiveCategory! !
+
+!FreydCategory methodsFor: 'as yet unclassified' stamp: 'len 7/1/2023 01:05:49'!
+printOn: aStream
+	aStream nextPutAll: 'Freyd('; print: objects; nextPut: $)! !
+
+!FreydCategory class methodsFor: 'as yet unclassified' stamp: 'len 6/30/2023 15:08:03'!
+on: anAdditiveCategory
+	^ self new objects: anAdditiveCategory! !
 
 !Modules methodsFor: 'accessing' stamp: 'len 10/26/2020 10:41:24'!
 name
@@ -7088,9 +7246,9 @@ codomain
 domain
 	^ domain! !
 
-!HomSet methodsFor: 'comparing' stamp: 'len 4/30/2020 09:13:30'!
+!HomSet methodsFor: 'comparing' stamp: 'len 6/30/2023 15:19:54'!
 = anObject
-	^ self class == anObject class and: [self domain = anObject domain and: [self codomain = anObject codomain]]! !
+	^ self class = anObject class and: [self domain = anObject domain and: [self codomain = anObject codomain]]! !
 
 !HomSet methodsFor: 'comparing' stamp: 'len 4/30/2020 09:14:39'!
 hash
@@ -7136,13 +7294,10 @@ includes: anObject
 isEndomorphisms
 	^ self domain = self codomain! !
 
-!HomSet methodsFor: 'private' stamp: 'len 3/11/2020 11:22:05'!
-codomain: aDomain
-	codomain _ aDomain! !
-
-!HomSet methodsFor: 'private' stamp: 'len 3/11/2020 11:21:58'!
-domain: aDomain
-	domain _ aDomain! !
+!HomSet methodsFor: 'private' stamp: 'len 6/30/2023 15:22:19'!
+domain: aDomain codomain: aCodomain
+	domain := aDomain.
+	codomain := aCodomain! !
 
 !HomSet class methodsFor: 'examples' stamp: 'len 10/5/2022 17:19:11'!
 example1
@@ -7163,9 +7318,9 @@ example3
 	This is the internal hom(Q^3,Q^5), and it is a vector space (not just a set)."
 	^ ℚ^3 ⇒ (ℚ^5)! !
 
-!HomSet class methodsFor: 'instance creation' stamp: 'len 8/7/2020 15:07:48'!
+!HomSet class methodsFor: 'instance creation' stamp: 'len 6/30/2023 15:22:03'!
 from: aDomain to: aCodomain
-	^ self new domain: aDomain; codomain: aCodomain! !
+	^ self new domain: aDomain codomain: aCodomain! !
 
 !RationalPointSet methodsFor: 'accessing' stamp: 'len 7/28/2022 08:06:10'!
 scalars
@@ -8316,6 +8471,79 @@ tetrahedral
 	| F |
 	F _ FreeGroup new: #(s t).
 	^ F / (F !! [:s :t| {s^2. t^3. (s·t)^3}])! !
+
+!HomGroup methodsFor: 'accessing' stamp: 'len 7/1/2023 15:36:03'!
+carrier
+	^ self propertyAt: #carrier ifAbsentPut: [HomSet from: domain to: codomain]! !
+
+!HomGroup methodsFor: 'accessing' stamp: 'len 6/30/2023 15:19:27'!
+codomain
+	^ codomain! !
+
+!HomGroup methodsFor: 'accessing' stamp: 'len 6/30/2023 15:19:31'!
+domain
+	^ domain! !
+
+!HomGroup methodsFor: 'comparing' stamp: 'len 6/30/2023 15:20:00'!
+= anObject
+	^ self class = anObject class and: [self domain = anObject domain and: [self codomain = anObject codomain]]! !
+
+!HomGroup methodsFor: 'comparing' stamp: 'len 6/30/2023 15:19:44'!
+hash
+	^ self domain hash hashMultiply + self codomain hash! !
+
+!HomGroup methodsFor: 'elements' stamp: 'len 6/30/2023 15:20:23'!
+adapt: anElement
+	^ (super adapt: anElement) ifNil: [self domain to: self codomain adapting: anElement]! !
+
+!HomGroup methodsFor: 'elements' stamp: 'len 6/30/2023 15:20:30'!
+images: aList
+	"Answer a morphism defined by images of generators."
+	^ self domain to: self codomain images: aList! !
+
+!HomGroup methodsFor: 'elements' stamp: 'len 6/30/2023 15:20:34'!
+map: aBlock
+	^ self domain to: self codomain map: aBlock! !
+
+!HomGroup methodsFor: 'elements' stamp: 'len 6/30/2023 15:20:39'!
+newFrom: anObject
+	anObject isEvaluable ifTrue: [^ self map: anObject].
+	^ super newFrom: anObject! !
+
+!HomGroup methodsFor: 'printing' stamp: 'len 6/30/2023 15:20:58'!
+printOn: aStream
+	self isEndomorphisms
+		ifTrue: [aStream nextPutAll: 'End'; nextPut: $(; print: self domain; nextPut: $)]
+		ifFalse: [aStream nextPutAll: 'Hom'; nextPut: $(; print: self domain; nextPut: $,; print: self codomain; nextPut: $)]! !
+
+!HomGroup methodsFor: 'random' stamp: 'len 6/30/2023 15:21:08'!
+atRandom: aRandom
+	^ self domain to: self codomain atRandom: aRandom! !
+
+!HomGroup methodsFor: 'random' stamp: 'len 6/30/2023 15:21:13'!
+atRandom: aRandom bits: bitSize
+	^ self domain to: self codomain atRandom: aRandom bits: bitSize! !
+
+!HomGroup methodsFor: 'testing' stamp: 'len 6/30/2023 15:21:36'!
+includes: anObject
+	^ anObject isMorphism and: [anObject domain = self domain and: [anObject codomain = self codomain]]! !
+
+!HomGroup methodsFor: 'testing' stamp: 'len 6/30/2023 15:23:36'!
+isAdditiveGroup
+	^ true! !
+
+!HomGroup methodsFor: 'testing' stamp: 'len 6/30/2023 15:21:44'!
+isEndomorphisms
+	^ self domain = self codomain! !
+
+!HomGroup methodsFor: 'private' stamp: 'len 6/30/2023 15:22:32'!
+domain: aDomain codomain: aCodomain
+	domain := aDomain.
+	codomain := aCodomain! !
+
+!HomGroup class methodsFor: 'instance creation' stamp: 'len 6/30/2023 15:23:15'!
+from: aDomain to: aCodomain
+	^ self new domain: aDomain codomain: aCodomain! !
 
 !FreeGroup methodsFor: 'accessing' stamp: 'len 6/10/2022 11:37:16'!
 cover
@@ -12667,20 +12895,20 @@ dimension
 indeterminates
 	^ self cover indeterminates! !
 
-!AffineRing methodsFor: 'accessing' stamp: 'len 5/4/2023 22:45:42'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 6/29/2023 19:42:15'!
 maximallyIndependentIndeterminates
 	"Answer a maximimally independent set of indeterminates.
-	A set of indeterminats Y is called independent modulo I if the canonical map K[Y] -> P/I is injective.
+	A set of indeterminats Y is called independent modulo I if the canonical map K[Y] → P/I is injective.
 	The size of a maximally independent set is called the 'combinatorial dimension' of the ideal, and it is actually equal to the Krull dimension of the quotient ring P/I defined by the ideal. Seeing the quotient ring as a field extension, the Krull dimension is its transcendence degree."
 	"See [DK02], Algorithm 1.2.4 (Dimension of an ideal)."
 	| G leadingMonomials indeterminates |
 	self relations isTrivial ifTrue: [^ #()].
 "	self isTrivial ifTrue: [^ self error: 'trivial quotient']."
-	G _ self relations gradedBasis.
+	G := self relations gradedBasis.
 	"G _ G minimal." "is this necesary?"
-	leadingMonomials _ Set new.
+	leadingMonomials := Set new.
 	G do: [:each| leadingMonomials add: each leadingMonomial].
-	indeterminates _ self indeterminates.
+	indeterminates := self indeterminates.
 	1 to: indeterminates size do: [:k|
 		indeterminates combinations: k atATimeDo: [:combination|
 			(leadingMonomials allSatisfy: [:monomial| combination includesAnyOf: monomial indeterminates])
@@ -15231,9 +15459,9 @@ printOn: aStream
 	aStream nextPut: $].
 	self ordering isLocal ifTrue: [aStream nextPutAll: self maximalIdeal printText sub]! !
 
-!PolynomialRing methodsFor: 'random' stamp: 'len 6/16/2019 17:51:45'!
+!PolynomialRing methodsFor: 'random' stamp: 'len 6/30/2023 12:45:24'!
 atRandom: aRandom bits: bitSize
-	^ self atRandom: aRandom bits: bitSize maxDegree: ((bitSize raisedTo: 1/(self rank+1)) min: bitSize - 1) truncated! !
+	^ self atRandom: aRandom bits: bitSize maxDegree: (bitSize ^ (1/(self rank+1)) min: bitSize - 1) truncated! !
 
 !PolynomialRing methodsFor: 'random' stamp: 'len 6/21/2023 15:16:36'!
 atRandom: aRandom bits: bitSize maxDegree: d
@@ -16661,9 +16889,9 @@ printOn: aStream
 			do: [:i| aStream2 print: (self x: i)]
 			separatedBy: [aStream2 nextPut: $,]]! !
 
-!FreeAlgebra methodsFor: 'random' stamp: 'len 3/25/2018 19:36:09'!
+!FreeAlgebra methodsFor: 'random' stamp: 'len 6/30/2023 12:45:08'!
 atRandom: aRandom bits: bitSize
-	^ self atRandom: aRandom bits: bitSize maxDegree: ((bitSize raisedTo: (1/self rank)) min: bitSize - 1) truncated! !
+	^ self atRandom: aRandom bits: bitSize maxDegree: (bitSize ^ (1/self rank) min: bitSize - 1) truncated! !
 
 !FreeAlgebra methodsFor: 'random' stamp: 'len 1/10/2018 13:21:35'!
 atRandom: aRandom bits: bitSize maxDegree: d
@@ -17302,10 +17530,10 @@ to: aModule validMatrix: aMatrix
 	"The coproduct in the category of R-modules is the direct sum."
 	^ self ⊕ aModule! !
 
-!Module methodsFor: 'operations' stamp: 'len 6/16/2023 20:03:08'!
+!Module methodsFor: 'operations' stamp: 'len 6/29/2023 19:42:44'!
 annihilator
 	"Answer the ideal of elements of the scalar ring that annihilate all the elements in the receiver.
-	For an R-module M, Ann(M) is the kernel of the natural map R -> End(M), and can also be computed as the colon quotient {0} : M."
+	For an R-module M, Ann(M) is the kernel of the natural map R → End(M), and can also be computed as the colon quotient {0} : M."
 	self scalars isEuclideanDomain ifTrue:
 		[self isFinite ifFalse: [^ self scalars asIdeal null].
 		^ self scalars * (self invariants inject: self scalars one into: [:result :each| result lcm: each])].
@@ -17578,15 +17806,15 @@ isFinite
 isFinitelyGenerated
 	^ true! !
 
-!Module methodsFor: 'testing' stamp: 'len 6/5/2022 18:36:08'!
+!Module methodsFor: 'testing' stamp: 'len 6/29/2023 19:42:59'!
 isFlat
-	"A module M is called flat if, for every injective homomorphism i:N->L, the induced map i⊗M:N⊗M->L⊗M is again injective.
+	"A module M is called flat if, for every injective homomorphism i:N→L, the induced map i⊗M:N⊗M→L⊗M is again injective.
 	Equivalently, M is flat if -⊗M is an exact functor.
 	See [GP08, 7.3. Flatness]."
 	| i F |
 	self isFreelyGenerated ifTrue: [^ true].
-	i _ 0.
-	[(F _ self fittingIdeal: i) isTrivial] whileTrue: [i _ i + 1].
+	i := 0.
+	[(F := self fittingIdeal: i) isTrivial] whileTrue: [i := i + 1].
 	^ F isOne! !
 
 !Module methodsFor: 'testing' stamp: 'len 7/12/2022 06:23:41'!
@@ -17889,20 +18117,17 @@ saturation: anIdeal
 squared
 	^ self * self! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 6/26/2023 12:46:52'!
+!Ideal methodsFor: 'operations' stamp: 'len 7/3/2023 00:44:55'!
 sub: aCollectionOrMatrix
 	| generator generators |
-	generators := aCollectionOrMatrix isMatrix
-		ifTrue: [aCollectionOrMatrix width > 1 ifFalse: [^ super sub: aCollectionOrMatrix].
-			aCollectionOrMatrix asTuple asArray]
-		ifFalse: [aCollectionOrMatrix].
-	generators := generators asSet select: [:each| each isZero not].
+	aCollectionOrMatrix isMatrix ifTrue: [^ super sub: aCollectionOrMatrix].
+	generators := aCollectionOrMatrix asSet select: [:each| each isZero not].
 	self scalars isEuclidean ifTrue:
 		[generator := self scalars zero.
 		generators do: [:each| generator := generator gcd: each].
-		generator isUnit ifTrue: [^ self ambient].
+		(self isAmbient and: [generator isOne]) ifTrue: [^ self].
 		^ super sub: {generator}].
-	(generators anySatisfy: [:any| any isUnit]) ifTrue: [^ self ambient].
+	(self isAmbient and: [generators anySatisfy: [:any| any isUnit]]) ifTrue: [^ self].
 	^ super sub: generators! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 8/12/2022 13:09:06'!
@@ -18471,15 +18696,14 @@ radical
 	"J. Herzog, 'Monomial Ideals', Proposition 1.2.4."
 	^ self scalars * (self generators collect: [:each| each radical])! !
 
-!MonomialIdeal methodsFor: 'operations' stamp: 'len 6/26/2023 12:47:09'!
+!MonomialIdeal methodsFor: 'operations' stamp: 'len 7/2/2023 20:09:04'!
 sub: aCollection
 	| generators |
 	aCollection isCollection ifFalse: [^ super sub: aCollection].
 	generators := OrderedCollection new: aCollection size.
+	"Make sure the generating set is minimal (and thus unique):"
 	(aCollection asSortedCollection: [:a :b| a degree <= b degree])
-		do: [:each|
-			"make sure the generating set is minimal (and thus unique):"
-			(generators anySatisfy: [:any| any | each]) ifFalse: [generators add: each]].
+		do: [:each| (generators anySatisfy: [:any| any | each]) ifFalse: [generators add: each]].
 	^ super sub: generators! !
 
 !MonomialIdeal methodsFor: 'operations' stamp: 'len 8/12/2022 13:17:30'!
@@ -21576,9 +21800,9 @@ on: aVertexSet facets: aCollection
 	The faces in aCollection are assumed to be maximal."
 	^ (self facets: aCollection) vertices: aVertexSet! !
 
-!ChainComplex methodsFor: 'accessing' stamp: 'len 10/5/2022 18:40:05'!
+!ChainComplex methodsFor: 'accessing' stamp: 'len 6/29/2023 19:43:27'!
 at: k
-	"Answer the k-th differential or boundary map d(k):C(k)->C(k-1)."
+	"Answer the k-th differential or boundary map d(k):C(k)→C(k-1)."
 	^ differentials at: differentials size - k + shift ifAbsent: [(self chains: k) → (self chains: k-1)]! !
 
 !ChainComplex methodsFor: 'accessing' stamp: 'len 4/22/2020 22:47:36'!
@@ -21771,9 +21995,9 @@ isExactAt: anInteger
 isTrivial
 	^ self chains allSatisfy: [:each| each isTrivial]! !
 
-!ChainComplex methodsFor: 'private' stamp: 'len 4/28/2019 07:03:42'!
+!ChainComplex methodsFor: 'private' stamp: 'len 6/29/2023 19:43:43'!
 differentials
-	"Answer the differentials, ordered as d(n) -> ... -> d(1) -> d(0)."
+	"Answer the differentials, ordered as d(n) → ... → d(1) → d(0)."
 	^ differentials! !
 
 !ChainComplex methodsFor: 'private' stamp: 'len 11/4/2020 12:24:18'!
@@ -21949,54 +22173,28 @@ hash
 	anInteger < 0 ifTrue: [^ self inverse ^ anInteger negated].
 	^ anInteger even ifTrue: [self squared ^ (anInteger // 2)] ifFalse: [self squared ^ (anInteger // 2) · self]! !
 
-!Morphism methodsFor: 'operations' stamp: 'len 8/14/2022 10:57:11'!
+!Morphism methodsFor: 'operations' stamp: 'len 6/29/2023 19:20:42'!
 · aMorphism
-	^ self ∘ aMorphism! !
-
-!Morphism methodsFor: 'operations' stamp: 'len 8/14/2022 10:47:37'!
-∘ aMorphism
 	"Answer the composition of the receiver with the argument.
-	Given the argument f:X -> Y and the receiver g:Y -> Z, answer g·f:X -> Z."
+	Given the argument f:X→Y and the receiver g:Y→Z, answer g·f:X→Z."
 	^ self subclassResponsibility! !
 
-!Morphism methodsFor: 'operations' stamp: 'len 8/8/2016 06:42'!
-coimage
-	^ self domain / self kernel! !
-
-!Morphism methodsFor: 'operations' stamp: 'len 10/5/2022 18:40:32'!
-coimageMap
-	^ self domain → self coimage! !
-
-!Morphism methodsFor: 'operations' stamp: 'len 8/8/2016 06:42'!
-cokernel
-	^ self codomain / self image! !
-
-!Morphism methodsFor: 'operations' stamp: 'len 10/5/2022 18:40:36'!
-cokernelMap
-	^ self codomain → self cokernel! !
+!Morphism methodsFor: 'operations' stamp: 'len 6/29/2023 19:20:17'!
+∘ aMorphism
+	"Answer the composition of the receiver with the argument.
+	Given the argument f:X→Y and the receiver g:Y→Z, answer g·f:X→Z."
+	^ self · aMorphism! !
 
 !Morphism methodsFor: 'operations' stamp: 'len 5/3/2020 10:06:33'!
 commutator: aMorphism
 	^ self inverse · aMorphism inverse · self · aMorphism! !
-
-!Morphism methodsFor: 'operations' stamp: 'len 4/22/2020 14:39:46'!
-image
-	^ self propertyAt: #image ifAbsent: [self domain apply: self]! !
-
-!Morphism methodsFor: 'operations' stamp: 'len 10/5/2022 18:42:54'!
-imageMap
-	^ self image → self codomain! !
 
 !Morphism methodsFor: 'operations' stamp: 'len 4/22/2020 14:39:01'!
 inverse
 	"Answer a two-sided inverse of the receiver (i.e., a morphism that is both a retraction and a section) or nil."
 	^ self propertyAt: #inverse! !
 
-!Morphism methodsFor: 'operations' stamp: 'len 10/5/2022 18:42:57'!
-kernelMap
-	^ self kernel → self domain! !
-
-!Morphism methodsFor: 'operations' stamp: 'len 8/5/2022 09:53:00'!
+!Morphism methodsFor: 'operations' stamp: 'len 6/30/2023 14:32:42'!
 raisedTo: anInteger
 	^ self ^ anInteger! !
 
@@ -22014,21 +22212,18 @@ section
 squared
 	^ self · self! !
 
-!Morphism methodsFor: 'operations' stamp: 'len 10/5/2022 17:06:40'!
+!Morphism methodsFor: 'operations' stamp: 'len 7/2/2023 20:06:15'!
 → aCodomain
 	"Answer the composition with the canonical morphism from the codomain of the receiver to aCodomain. See also Domain>>→."
+	self codomain == aCodomain ifTrue: [^ self].
 	^ self codomain → aCodomain ifNotNil: [:aMorphism| aMorphism · self]! !
 
-!Morphism methodsFor: 'operations' stamp: 'len 10/5/2022 17:04:52'!
+!Morphism methodsFor: 'operations' stamp: 'len 6/29/2023 17:20:29'!
 ⇒ aCodomain
 	"This is the Hom(-,B) functor, where B is the argument.
 	If the receiver is a morphism g:X→Y, answer the map Hom(g,B):Hom(Y,B)→Hom(X,B) that sends a morphism f to f ∘ g.
 	This is a contravariant functor, and it is often called the 'functor of points' of B."
-	^ self codomain ⇒ aCodomain to: self domain ⇒ aCodomain map: [:f| f ∘ self]! !
-
-!Morphism methodsFor: 'printing' stamp: 'len 5/2/2020 09:34:13'!
-arrow
-	^ Text streamContents: [:s | self arrowPrintOn: s]! !
+	^ self codomain ⇒ aCodomain to: self domain ⇒ aCodomain map: [:f| f · self]! !
 
 !Morphism methodsFor: 'printing' stamp: 'len 9/20/2022 06:04:16'!
 arrowPrintOn: aStream
@@ -22102,9 +22297,9 @@ isElement
 isEndomorphism
 	^ self domain = self codomain! !
 
-!Morphism methodsFor: 'testing' stamp: 'len 12/25/2021 12:01:21'!
+!Morphism methodsFor: 'testing' stamp: 'len 6/29/2023 19:43:56'!
 isEpimorphism
-	"Answer true if the receiver is right cancelable: a morphism f:A->B is an epimorphism if, for any pair of morphisms g:B->C, h:B->C, gf = hf implies g = h."
+	"Answer true if the receiver is right cancelable: a morphism f:A→B is an epimorphism if, for any pair of morphisms g:B→C, h:B→C, gf = hf implies g = h."
 	^ self subclassResponsibility! !
 
 !Morphism methodsFor: 'testing' stamp: 'len 3/13/2020 06:18:30'!
@@ -22119,9 +22314,9 @@ isIdentity
 isIsomorphism
 	^ self inverse notNil! !
 
-!Morphism methodsFor: 'testing' stamp: 'len 12/25/2021 12:01:52'!
+!Morphism methodsFor: 'testing' stamp: 'len 6/29/2023 19:44:12'!
 isMonomorphism
-	"Answer true if the receiver is left cancelable: a morphism f:A->B is a monomorphism if, for any pair of morphisms g:C->A, h:C->A, fg = fh implies g = h."
+	"Answer true if the receiver is left cancelable: a morphism f:A→B is a monomorphism if, for any pair of morphisms g:C→A, h:C→A, fg = fh implies g = h."
 	^ self subclassResponsibility! !
 
 !Morphism methodsFor: 'testing' stamp: 'len 5/8/2020 17:57:22'!
@@ -22139,10 +22334,6 @@ isSection
 	"A split monomorphism is a morphism that has a retraction (a left inverse).
 	Dualy, a split monomorphism is a morphism that *is* a section (a right inverse)."
 	^ self retraction notNil! !
-
-!Morphism methodsFor: 'testing' stamp: 'len 12/10/2016 12:59:06'!
-isTrivial
-	^ self kernel = self domain! !
 
 !Morphism methodsFor: 'private' stamp: 'len 6/9/2022 07:24:43'!
 checkCodomainsMatch: aMorphism
@@ -22262,19 +22453,23 @@ asFunction
 		to: (self codomain, aFunction codomain)
 		map: [:each| {self value: (each at: 1). aFunction value: (each at: 2)}]! !
 
+!Function methodsFor: 'operations' stamp: 'len 6/29/2023 19:44:33'!
+· aFunction
+	"Answer the composition of the receiver with the argument.
+	Given the argument f:X→Y and the receiver g:Y→Z, answer g·f:X→Z.
+	This is, (g·f)(x) = g(f(x))."
+	self checkCompatibleComposition: aFunction.
+	"self category = aFunction category ifFalse: [^ DomainError signal: 'categories don''t match']."
+	^ aFunction domain to: self codomain map: [:x| self value: (aFunction value: x)]! !
+
 !Function methodsFor: 'operations' stamp: 'len 12/23/2021 15:29:05'!
 × aFunction
 	"Answer the product of the receiver with the argument."
 	^ self, aFunction! !
 
-!Function methodsFor: 'operations' stamp: 'len 9/16/2022 08:01:25'!
-∘ aFunction
-	"Answer the composition of the receiver with the argument.
-	Given the argument f:X -> Y and the receiver g:Y -> Z, answer g·f:X -> Z.
-	This is, (g·f)(x) = g(f(x))."
-	self checkCompatibleComposition: aFunction.
-	"self category = aFunction category ifFalse: [^ DomainError signal: 'categories don''t match']."
-	^ aFunction domain to: self codomain map: [:x| self value: (aFunction value: x)]! !
+!Function methodsFor: 'operations' stamp: 'len 7/2/2023 18:43:45'!
+image
+	^ self propertyAt: #image ifAbsent: [self domain apply: self]! !
 
 !Function methodsFor: 'operations' stamp: 'len 3/3/2021 07:30:54'!
 value: anElement
@@ -22312,9 +22507,9 @@ isAlgebraHomomorphism
 isBijective
 	^ self isInjective and: [self isSurjective]! !
 
-!Function methodsFor: 'testing' stamp: 'len 12/25/2021 12:02:44'!
+!Function methodsFor: 'testing' stamp: 'len 6/29/2023 19:44:54'!
 isEpimorphism
-	"Answer true if the receiver is right cancelable: a morphism f:A->B is an epimorphism if, for any pair of morphisms g:B->C, h:B->C, gf = hf implies g = h.
+	"Answer true if the receiver is right cancelable: a morphism f:A→B is an epimorphism if, for any pair of morphisms g:B→C, h:B→C, gf = hf implies g = h.
 	In the category of sets epimorphisms are surjections." 
 	^ self isSurjective! !
 
@@ -22360,9 +22555,9 @@ isMonoidHomomorphism
 		self domain allSatisfy: [:y|
 			(self value: x)·(self value: y) = (self value: x·y)]]! !
 
-!Function methodsFor: 'testing' stamp: 'len 12/25/2021 12:03:05'!
+!Function methodsFor: 'testing' stamp: 'len 6/29/2023 19:45:14'!
 isMonomorphism
-	"Answer true if the receiver is left cancelable: a morphism f:A->B is a monomorphism if, for any pair of morphisms g:C->A, h:C->A, fg = fh implies g = h.
+	"Answer true if the receiver is left cancelable: a morphism f:A→B is a monomorphism if, for any pair of morphisms g:C→A, h:C→A, fg = fh implies g = h.
 	In the category of sets monomorphisms are injections." 
 	^ self isInjective! !
 
@@ -22500,9 +22695,9 @@ isContinuous
 	"Answer true if the receiver is continuous (also called non-erasing)."
 	^ self domain generators noneSatisfy: [:each| (self value: each) = self codomain identity]! !
 
-!MonoidMap methodsFor: 'testing' stamp: 'len 12/25/2021 12:12:18'!
+!MonoidMap methodsFor: 'testing' stamp: 'len 6/29/2023 19:45:30'!
 isEpimorphism
-	"Answer true if the receiver is right cancelable: a morphism f:A->B is an epimorphism if, for any pair of morphisms g:B->C, h:B->C, gf = hf implies g = h.
+	"Answer true if the receiver is right cancelable: a morphism f:A→B is an epimorphism if, for any pair of morphisms g:B→C, h:B→C, gf = hf implies g = h.
 	In the category of monoids not all epimorphisms are surjective."
 	self isSurjective ifTrue: [^ true].
 	^ self notYetImplemented! !
@@ -22582,25 +22777,25 @@ orbits
 	self space do: [:each| answer add: (self orbitOf: each)].
 	^ answer! !
 
-!GroupAction methodsFor: 'accessing' stamp: 'len 10/11/2022 10:54:13'!
+!GroupAction methodsFor: 'accessing' stamp: 'len 6/29/2023 19:46:02'!
 reynolds
 	"Answer the Reynolds operator, assuming the group acts on a polynomial ring S.
 	Properties:
-	- K-linear map S -> S^G (it's the G-invariant projection from S to S^G;
+	- K-linear map S → S^G (it's the G-invariant projection from S to S^G;
 	- restricts to the identity on S^G;
 	- it's an S^G-module homomorphisms: R(p*q) = p*R(q) for all invariants p in S^G."
 	| order |
-	order _ self group size.
+	order := self group size.
 	^ self space to: self space map: [:p| (self group sum: [:g| self value: {g. p}]) / order]! !
 
-!GroupAction methodsFor: 'accessing' stamp: 'len 2/16/2016 04:29'!
+!GroupAction methodsFor: 'accessing' stamp: 'len 6/29/2023 19:46:11'!
 space
-	"Answer the underlying set X of the action G x X -> X."
+	"Answer the underlying set X of the action G × X → X."
 	^ self codomain! !
 
-!GroupAction methodsFor: 'accessing' stamp: 'len 11/14/2016 09:30'!
+!GroupAction methodsFor: 'accessing' stamp: 'len 6/29/2023 19:46:20'!
 stabilizerOf: aPoint
-	"Answer the stabilizer subgroup (or isotropy group or little group) of aPoint, defined as the set of elements that 'fix' aPoint. The stabilizer of fixed points is the whole group, and the kernel of the action homomorphism G -> Sym(X) is the intersection of all stabilizers."
+	"Answer the stabilizer subgroup (or isotropy group or little group) of aPoint, defined as the set of elements that 'fix' aPoint. The stabilizer of fixed points is the whole group, and the kernel of the action homomorphism G → Sym(X) is the intersection of all stabilizers."
 	self group generators
 		ifNotNil: [:S| ^ (SchreierTree root: aPoint generators: S action: self) stabilizer].
 	^ self group select: [:each| (self value: {each. aPoint}) = aPoint]! !
@@ -22637,9 +22832,9 @@ actionGraph: groupGenerators
 			G addEdgeFrom: x to: (self value: {g.x}) label: g]].
 	^ G! !
 
-!GroupAction methodsFor: 'testing' stamp: 'len 12/28/2016 11:12:53'!
+!GroupAction methodsFor: 'testing' stamp: 'len 6/29/2023 19:45:50'!
 isFaithful
-	"A group action G x X -> X is faithful (or effective) if the homomorphism G -> Sym(X) has trivial kernel {id}."
+	"A group action G × X → X is faithful (or effective) if the homomorphism G → Sym(X) has trivial kernel {id}."
 	^ self propertyAt: #isFaithful ifAbsentPut: [self kernel isTrivial]! !
 
 !GroupAction methodsFor: 'testing' stamp: 'len 2/13/2016 08:02'!
@@ -22700,6 +22895,10 @@ asMonoidMap
 	"Forgetful functor to the category of monoids."
 	^ self domain asMonoid to: self codomain asMonoid map: self! !
 
+!GroupMap methodsFor: 'operations' stamp: 'len 7/2/2023 18:42:45'!
+cokernel
+	^ self codomain / self image! !
+
 !GroupMap methodsFor: 'operations' stamp: 'len 6/26/2023 13:00:37'!
 image
 	^ self codomain sub: self images! !
@@ -22750,9 +22949,13 @@ isInjective
 isSurjective
 	^ self image = self codomain! !
 
-!GroupMap methodsFor: 'testing' stamp: 'len 4/26/2020 08:22:14'!
+!GroupMap methodsFor: 'testing' stamp: 'len 7/2/2023 18:45:40'!
 isTrivial
-	^ self domain generators allSatisfy: [:each| (self value: each) = self codomain identity]! !
+	^ self domain generators allSatisfy: [:each| (self value: each) = self codomain identity]
+"
+alternative:
+	^ self kernel = self domain
+"! !
 
 !GroupMap methodsFor: 'private' stamp: 'len 6/26/2023 13:00:31'!
 computeImageAndKernel
@@ -22853,9 +23056,9 @@ preimageRepresentative: anElement
 
 "	^ self section value: anElement"! !
 
-!RingMap methodsFor: 'operations' stamp: 'len 7/9/2022 17:41:17'!
+!RingMap methodsFor: 'operations' stamp: 'len 6/29/2023 19:47:13'!
 spec
-	"This is the Spec functor. Answer the morphism between affine schemes induced by the receiver, i.e. given a ring homomorphism f:R->S, Spec(f) is a scheme morphism Spec(S)->Spec(R)."
+	"This is the Spec functor. Answer the morphism between affine schemes induced by the receiver, i.e. given a ring homomorphism f:R→S, Spec(f) is a scheme morphism Spec(S)→Spec(R)."
 	^ AffineMorphism ringMap: self! !
 
 !RingMap methodsFor: 'operations' stamp: 'len 9/16/2022 08:02:57'!
@@ -22863,10 +23066,10 @@ units
 	"This is the natural functor from the cateogry of rings to the category of groups which sends each ring R to its group of units U(R) and each ring homomorphism to the restriction to U(R). This functor has a left adjoint which sends each group G to the integral group ring Z[G]."
 	^ self domain units to: self codomain units map: [:each| self value: each]! !
 
-!RingMap methodsFor: 'testing' stamp: 'len 12/25/2021 12:06:30'!
+!RingMap methodsFor: 'testing' stamp: 'len 6/29/2023 19:47:01'!
 isEpimorphism
-	"Answer true if the receiver is right cancelable: a morphism f:A->B is an epimorphism if, for any pair of morphisms g:B->C, h:B->C, gf = hf implies g = h.
-	In the category of unital rings not all epimorphisms are surjective. For example, the initial morphism Z -> Q from the rational integers to the rational numbers is not surjective but it is an epimorphism."
+	"Answer true if the receiver is right cancelable: a morphism f:A→B is an epimorphism if, for any pair of morphisms g:B→C, h:B→C, gf = hf implies g = h.
+	In the category of unital rings not all epimorphisms are surjective. For example, the initial morphism ℤ → ℚ from the rational integers to the rational numbers is not surjective but it is an epimorphism."
 	self isSurjective ifTrue: [^ true].
 	^ self notYetImplemented! !
 
@@ -22941,12 +23144,12 @@ kernel
 	I _ P * generators eliminateAll: (n+1 to: P rank).
 	^ self propertyAt: #kernel put: A * (I generators collect: [:each| A !! each])! !
 
-!PolynomialMap methodsFor: 'operations' stamp: 'len 10/15/2022 09:32:23'!
+!PolynomialMap methodsFor: 'operations' stamp: 'len 6/29/2023 19:47:27'!
 spec
-	"This is the Spec functor. Answer the morphism between affine schemes induced by the receiver, i.e. given a ring homomorphism f:R->S, Spec(f) is a scheme morphism Spec(S)->Spec(R)."
+	"This is the Spec functor. Answer the morphism between affine schemes induced by the receiver, i.e. given a ring homomorphism f:R→S, Spec(f) is a scheme morphism Spec(S)→Spec(R)."
 	| representatives |
 	self isAffineAlgebraHomomorphism ifFalse: [^ super spec].
-	representatives _ self codomain isQuotient ifTrue: [self images collect: [:each| each representative]] ifFalse: [self images].
+	representatives := self codomain isQuotient ifTrue: [self images collect: [:each| each representative]] ifFalse: [self images].
 	^ self codomain spec to: self domain spec representatives: representatives! !
 
 !PolynomialMap methodsFor: 'operations' stamp: 'len 10/13/2022 10:32:18'!
@@ -23012,2756 +23215,6 @@ validate
 !FiniteAlgebraMap class methodsFor: 'instance creation' stamp: 'len 7/14/2020 09:58:40'!
 from: aDomain to: aCodomain moduleMap: aModuleMap
 	^ self new domain: aDomain; codomain: aCodomain; moduleMap: aModuleMap! !
-
-!ModuleMap methodsFor: 'accessing' stamp: 'len 4/1/2021 06:41:51'!
-bitSize
-	^ self asMatrix bitSize! !
-
-!ModuleMap methodsFor: 'accessing' stamp: 'len 10/26/2020 10:41:24'!
-category
-	^ self domain scalars Modules! !
-
-!ModuleMap methodsFor: 'accessing' stamp: 'len 5/16/2019 20:40:32'!
-codomain
-	^ codomain! !
-
-!ModuleMap methodsFor: 'accessing' stamp: 'len 7/6/2022 11:34:14'!
-degree
-	self isTrivial ifTrue: [^ Infinity negative].
-	^ self asMatrix coefficients max: [:each| each degree]! !
-
-!ModuleMap methodsFor: 'accessing' stamp: 'len 4/1/2021 06:41:57'!
-denominator
-	^ self asMatrix denominator! !
-
-!ModuleMap methodsFor: 'accessing' stamp: 'len 5/16/2019 20:40:36'!
-domain
-	^ domain! !
-
-!ModuleMap methodsFor: 'accessing' stamp: 'len 5/29/2020 10:16:57'!
-one
-	^ self identity! !
-
-!ModuleMap methodsFor: 'accessing' stamp: 'len 10/5/2022 17:22:34'!
-parent
-	"A module homomorphism f:A->B belongs to Hom(A,B)."
-	^ self domain ⇒ self codomain! !
-
-!ModuleMap methodsFor: 'accessing' stamp: 'len 5/28/2020 09:52:20'!
-scalars
-	^ self domain scalars! !
-
-!ModuleMap methodsFor: 'accessing' stamp: 'len 9/16/2022 08:03:32'!
-zero
-	^ self domain to: self codomain map: [:x| self codomain zero]! !
-
-!ModuleMap methodsFor: 'comparing' stamp: 'len 3/13/2021 13:45:24'!
-= anObject
-	self == anObject ifTrue: [^ true].
-	(anObject isKindOf: ModuleMap) ifFalse: [^ super = anObject].
-	^ domain = anObject domain and: [codomain = anObject codomain and: [(self - anObject) isZero]]! !
-
-!ModuleMap methodsFor: 'comparing' stamp: 'len 5/31/2022 11:54:49'!
-| aModuleMap
-	"Answer true if the receiver is a left divisor of the argument
-	(or equivalently, the argument is a right multiple of the receiver),
-	i.e. if the receiver is a and the argument is b, there exists x with ax = b."
-	aModuleMap isZero ifTrue: [^ true].
-	self isZero ifTrue: [^ false].
-	^ (self lift: aModuleMap) notNil! !
-
-!ModuleMap methodsFor: 'converting' stamp: 'len 6/15/2022 09:52:16'!
-asAbelianGroupMap
-	self scalars = ℤ ifFalse: [^ DomainError signal].
-	^ self! !
-
-!ModuleMap methodsFor: 'converting' stamp: 'len 4/1/2021 06:34:04'!
-asMatrix
-	"Answer the matrix corresponding to the receiver with respect to the fixed list of generators of its domain and codomain."
-	^ self propertyAt: #matrix! !
-
-!ModuleMap methodsFor: 'converting' stamp: 'len 7/16/2020 10:39:14'!
-asModuleElement
-	^ self! !
-
-!ModuleMap methodsFor: 'converting' stamp: 'len 11/23/2022 21:28:50'!
-asPolynomial
-	"If the receiver is a linear form, answer the receiver as a polynomial in the coordinate ring of the domain."
-	| P |
-	self isLinearForm ifFalse: [DomainError signal: 'not a linear form'].
-	P _ self domain coordinateRing.
-	^ (P !!!! P generators) · (self asMatrix asTuple over: P)! !
-
-!ModuleMap methodsFor: 'converting' stamp: 'len 5/31/2022 18:10:39'!
-asScalar
-	"If the receiver is the embedding of an element of the scalars ring in an endomorphism algebra, answer the corresponding scalar."
-	^ self asMatrix asScalar! !
-
-!ModuleMap methodsFor: 'converting' stamp: 'len 5/31/2022 18:13:44'!
-asSingletonMatrix
-	"Answer the 1x1 matrix with the receiver as its only coefficient."
-	^ self parent asAlgebra matrix: {{self}}! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 7/25/2021 12:32:13'!
-* anObject
-	((self scalars includes: anObject) not and: [anObject isKindOf: ModuleMap]) ifTrue: [^ self · anObject].
-	^ domain to: codomain validMatrix: self asMatrix * anObject! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 9/16/2022 08:03:18'!
-+ anObject
-	(anObject isKindOf: ModuleMap) ifFalse: [^ super + anObject].
-	(self domain == anObject domain and: [self codomain == anObject codomain])
-			ifTrue: [^ domain to: codomain validMatrix: self asMatrix + anObject asMatrix].
-	self checkDomainsMatch: anObject.
-	self checkCodomainsMatch: anObject.
-	^ domain to: codomain map: [:v| (self value: v) + (anObject value: v)]! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 5/7/2019 08:47:03'!
-- aModuleMap
-	^ self + aModuleMap negated! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 6/10/2022 11:07:29'!
-/ anObject
-	"If the argument is a monomorphism i:A->X, and the receiver is f:A->Y, answer f':X->Y such that the diagram commutes. This is a 'colift (or extension) of f along i' and it is noted f/i."
-	| M |
-	(anObject isKindOf: ModuleMap) ifFalse: [^ self * (self domain scalars !! anObject) inverse].
-	self checkDomainsMatch: anObject.
-	self domain relationsMatrix = anObject domain relationsMatrix ifFalse: [^ self notYetImplemented].
-	M _ self domain isFreelyGenerated
-		ifTrue: [self asMatrix / anObject asMatrix]
-		ifFalse: [anObject asMatrix colift: self asMatrix modulo: self domain relationsMatrix].
-	^ M ifNotNil: [anObject codomain to: codomain matrix: M]! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 1/3/2022 10:50:09'!
-@ aPrimeIdeal
-	"Answer the localization of the receiver at aPrimeIdeal."
-	^ self domain @ aPrimeIdeal to: self codomain @ aPrimeIdeal matrix: self matrix @ aPrimeIdeal! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 6/15/2023 16:38:10'!
-\ aModuleMap
-	"If the receiver is an epimorphism p:X->B, and the argument is f:Y->B, answer f':Y->X such that the diagram commutes. This is a 'lift of f along p', noted p \ f."
-	self checkCodomainsMatch: aModuleMap.
-	self codomain relationsMatrix = aModuleMap codomain relationsMatrix ifFalse: [^ self notYetImplemented].
-	^ (self codomain isFreelyGenerated
-		ifTrue: [self asMatrix \ aModuleMap asMatrix]
-		ifFalse: [self asMatrix lift: aModuleMap asMatrix modulo: self codomain relationsMatrix]) ifNotNil: [:aMatrix| aModuleMap domain to: domain matrix: aMatrix]! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 5/14/2023 18:21:10'!
-÷ anElement
-	"Answer the exact division of the receiver by the argument.
-	Asume that the argument divides the receiver."
-	^ anElement \ self! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 4/6/2021 14:24:52'!
-⊕ aModuleMap
-	"Answer the direct sum of the receiver and the argument."
-	^ domain ⊕ aModuleMap domain to: codomain ⊕ aModuleMap codomain validMatrix: self asMatrix ⊕ aModuleMap asMatrix! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 4/28/2021 11:29:01'!
-⊗ aModuleMap
-	"Answer the tensor product of the receiver with the argument."
-	(aModuleMap isKindOf: ModuleMap) ifFalse: [^ self notYetImplemented].
-	^ domain ⊗ aModuleMap domain to: codomain ⊗ aModuleMap codomain validMatrix: self asMatrix ⊗ aModuleMap asMatrix! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 9/16/2022 08:03:24'!
-∘ aModuleMap
-	"Answer the composition of the receiver with the argument."
-	self species = aModuleMap species ifFalse: [^ super ∘ aModuleMap].
-	domain == aModuleMap codomain
-		ifTrue: [^ aModuleMap domain to: codomain validMatrix: self asMatrix ∘ aModuleMap asMatrix].
-	domain >= aModuleMap codomain
-		ifTrue: [^ aModuleMap domain to: codomain map: [:each| self value: (aModuleMap value: each)]].
-	^ DomainError signal: 'incompatible composition'! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 6/9/2022 07:48:35'!
-⊓ aModuleMap
-	"Answer the product morphism of the receiver and the argument."
-	self checkDomainsMatch: aModuleMap.
-	^ domain to: codomain ⊕ aModuleMap codomain validMatrix: self asMatrix ⊓ aModuleMap asMatrix! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 6/9/2022 07:48:48'!
-⊔ aModuleMap
-	"Answer the coproduct morphism of the receiver and the argument."
-	self checkCodomainsMatch: aModuleMap.
-	^ domain ⊕ aModuleMap domain to: codomain validMatrix: self asMatrix ⊔ aModuleMap asMatrix! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 12/15/2022 11:24:44'!
-adjoint
-	"Answer the transpose (or dual, or adjoint) of the receiver.
-	The assignment of a linear map f:V->W to its dual f*:W*->V* produces an injective linear map between Hom(V,W) and Hom(W*,V*).
-	This is the 'operator adjoint', not to be confused with the 'Hilbert adjoint' that is defined for an operator in an inner product space."
-	(self scalars isCommutative or: [self scalars isInvolutive]) ifFalse: [^ self notYetImplemented].
-	self flag: #fixme. "shouldn't be opposite instead of transpose?"
-	^ codomain dual to: domain dual matrix: self asMatrix transpose! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 12/15/2021 19:51:16'!
-characteristicPolynomial
-	^ self asMatrix characteristicPolynomial! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 3/26/2021 15:07:14'!
-coequalizer: aModuleMap
-	^ (self - aModuleMap) cokernel! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 10/16/2022 11:10:18'!
-corepresentation
-	"Assuming the receiver is an endomorphism, answer the module endomorphism corresponding to the right regular representation of the receiver."
-	^ self parent endomorphisms map: [:x| x * self]! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 3/26/2021 15:07:06'!
-equalizer: aModuleMap
-	^ (self - aModuleMap) kernel! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 6/26/2023 13:00:50'!
-image
-	^ self propertyAt: #image ifAbsentPut: [codomain sub: self asMatrix]! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 12/9/2022 10:42:02'!
-inverse
-	"Answer a two-sided inverse of the receiver (i.e., a morphism that is both a retraction and a section) or nil."
-	self flag: #fixme. "this is a right inverse, not two-sided inverse"
-	^ self section ifNil: [self error: 'not invertible']! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 6/26/2023 13:00:54'!
-kernel
-	^ self propertyAt: #kernel ifAbsentPut: [self domain sub: (self asMatrix syzygiesModulo: self codomain relationsMatrix)]! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 12/15/2021 19:50:51'!
-minimalPolynomial
-	^ self asMatrix minimalPolynomial! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 4/6/2021 14:26:04'!
-negated
-	^ domain to: codomain validMatrix: self asMatrix negated! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 7/18/2021 07:40:10'!
-norm
-	^ self asMatrix determinant! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 12/10/2021 19:25:03'!
-normalization
-	"Answer a unit u such that 'self * u' is a unique choice of associate. See >>normalized."
-	self isEndomorphism ifFalse: [^ self error: 'not an endomorphism'].
-	^ self notYetImplemented! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 12/10/2021 19:24:00'!
-normalized
-	"Answer a unique choice of associate. See >>normalization."
-	^ self * self normalization! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 6/26/2023 13:00:58'!
-preimage: aSubmodule
-	^ self domain ambient sub: (aSubmodule generators collect: [:each| self preimageRepresentative: each]) "+ self kernel?"! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 6/10/2022 11:08:09'!
-preimageRepresentative: anElement
-	"Answer a representative of the preimage of anElement.
-	Answer nil if anElement is not in the image of the receiver."
-	^ domain elementAt: ((self asMatrix lift: (codomain \ anElement) asMatrix modulo: self codomain relationsMatrix) ifNil: [^ nil]) asTuple! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 10/16/2022 11:09:57'!
-representation
-	"Assuming the receiver is an endomorphism, answer the module endomorphism corresponding to the left regular representation of the receiver."
-	^ self parent endomorphisms map: [:x| self * x]! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 3/14/2021 10:38:40'!
-retraction
-	"Answer a left inverse (or retraction) of the receiver, or nil."
-	^ self propertyAt: #retraction ifAbsentPut: [self domain id / self]! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 3/14/2021 10:39:20'!
-section
-	"Answer a right inverse (or section) of the receiver, or nil."
-	^ self propertyAt: #section ifAbsentPut: [self \ self codomain id]! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 4/1/2021 06:43:21'!
-trace
-	^ self asMatrix trace! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 4/1/2021 06:43:27'!
-transpose
-	"The kernel of this map is the complement of the image of the receiver (the orthogonal complement with respect to the standard inner product defined or dot product).
-	See also >>adjoint."
-	^ codomain to: domain matrix: self asMatrix transpose! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 7/6/2021 14:32:15'!
-value: anElement
-"	(domain isTrivial or: [codomain isTrivial])
-		ifTrue: [^ codomain ambient zero]."
-	^ codomain elementAt: self asMatrix * (domain \ anElement)
-
-"	^ codomain elementAt: self asMatrix * (domain \ (domain !! anElement))"! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 10/5/2022 18:43:09'!
-∧ aModuleMap
-	"Answer the pullback (or fibered product, cartesian square) of the receiver and the argument. The pullback is the limit of a cospan Y -> X <- Z and it is the categorical dual of the pushout (see >>∨).
-	The pullback of a morphism f and a monomorphism g can be thought of as the 'preimage' under f of the subobject specified by g. Similarly, pullbacks of two monomorphisms can be thought of as the 'intersection' of the two subobjects."
-	| coproduct answer |
-	coproduct _ self ⊔ aModuleMap negated.
-	answer _ coproduct kernel.
-	answer addProjections: (coproduct domain ⇉ {self domain. aModuleMap domain} collect: [:each| answer → each]).
-	^ answer! !
-
-!ModuleMap methodsFor: 'operations' stamp: 'len 10/5/2022 18:43:23'!
-∨ aModuleMap
-	"Answer the pushout (or fibered coproduct, fibered sum, cocartesian square, amalgamated sum) of the receiver and the argument. The pushout is the colimit of a span Y <- X -> Z, and it is the categorical dual of the pullback (see >>∧)."
-	| answer product |
-	product _ self ⊓ aModuleMap negated.
-	answer _ product cokernel.
-	answer addCoprojections: (product codomain ⇇ {self codomain. aModuleMap codomain} collect: [:each| each → answer]).
-	^ answer! !
-
-!ModuleMap methodsFor: 'printing' stamp: 'len 6/8/2022 18:07:53'!
-printOn: aStream
-	self isZero ifTrue: [aStream nextPut: $0. ^ self].
-	self isIdentity ifTrue: [aStream nextPutAll: 'id'. ^ self].
-	self negated isIdentity ifTrue: [aStream nextPutAll: '-id'. ^ self].
-"	(self isLinearForm and: [self scalars isCommutative]) ifTrue: [aStream print: self asPolynomial. ^ self]."
-	"If the codomain is tuples, print the linear map as a tuple of linear forms:"
-"	((self codomain isKindOf: FreeModule) and: [self scalars isCommutative]) ifTrue:
-		[aStream nextPut: $(.
-		self asMatrix rows
-			do: [:each| aStream print: (self domain dual elementAt: each)]
-			separatedBy: [aStream nextPutAll: ', '].
-		aStream nextPut: $).
-		^ self]."
-	aStream print: self asMatrix
-	"Print it as a linear combination of the generators of the codomain:"
-"	A _ self domain coordinateRing.
-	B _ A polynomialsIn: self codomain coordinates names.
-	f _ B zero.
-	self asMatrix withIndicesDo: [:each :i :j| f _ (B x: i) * (A x: j) * each + f].
-	aStream print: f"! !
-
-!ModuleMap methodsFor: 'testing' stamp: 'len 3/17/2021 14:38:35'!
-isAutomorphism
-	"A surjective endomorphism of a finitely generated module is an automorphism (i.e., it's not necessary to check it is injective)."
-	^ self isEndomorphism and: [self isSurjective]! !
-
-!ModuleMap methodsFor: 'testing' stamp: 'len 3/11/2020 18:49:29'!
-isConstant
-	^ self isZero! !
-
-!ModuleMap methodsFor: 'testing' stamp: 'len 7/8/2022 08:25:10'!
-isGraded
-	"Answer true if the receiver is a graded module homomorphism."
-	| n |
-	(self domain isGraded and: [self codomain isGraded]) ifFalse: [^ false].
-	n _ self degree.
-	^ self asMatrix coefficients allSatisfy: [:each| each isHomogeneous and: [each degree = n]]! !
-
-!ModuleMap methodsFor: 'testing' stamp: 'len 7/12/2022 06:30:19'!
-isGroupHomomorphism
-	^ self domain isGroup and: [self codomain isGroup]! !
-
-!ModuleMap methodsFor: 'testing' stamp: 'len 3/12/2020 16:14:11'!
-isIdentity
-	self isEndomorphism ifFalse: [^ false].
-	^ self domain generators allSatisfy: [:each| (self value: each) = each]! !
-
-!ModuleMap methodsFor: 'testing' stamp: 'len 5/16/2019 20:42:56'!
-isInjective
-	^ self kernel isTrivial! !
-
-!ModuleMap methodsFor: 'testing' stamp: 'len 12/7/2022 19:37:37'!
-isIsomorphism
-	^ self isSurjective and: [self isEndomorphism or: [self isInjective]]! !
-
-!ModuleMap methodsFor: 'testing' stamp: 'len 4/8/2021 12:49:58'!
-isLinearForm
-	"Answer true if the receiver is a linear form (or linear functional, one-form, covector)."
-	^ self codomain = self scalars asIdeal! !
-
-!ModuleMap methodsFor: 'testing' stamp: 'len 4/25/2022 18:04:49'!
-isMinusOne
-	^ self = self identity negated! !
-
-!ModuleMap methodsFor: 'testing' stamp: 'len 5/10/2019 07:41:27'!
-isModuleHomomorphism
-	^ true! !
-
-!ModuleMap methodsFor: 'testing' stamp: 'len 7/16/2020 10:36:53'!
-isOne
-	^ self isIdentity! !
-
-!ModuleMap methodsFor: 'testing' stamp: 'len 1/13/2018 21:54:27'!
-isProjection
-	^ self isIdempotent! !
-
-!ModuleMap methodsFor: 'testing' stamp: 'len 10/17/2022 16:14:48'!
-isSurjective
-	^ self image = self codomain
-
-"alternatively:
-	^ self cokernel isTrivial"! !
-
-!ModuleMap methodsFor: 'testing' stamp: 'len 1/13/2018 21:53:54'!
-isTrivial
-	^ self isZero! !
-
-!ModuleMap methodsFor: 'testing' stamp: 'len 5/25/2022 13:36:36'!
-isUnit
-	"Answer true if the receiver is invertible."
-	^ self isAutomorphism! !
-
-!ModuleMap methodsFor: 'testing' stamp: 'len 3/13/2021 13:36:11'!
-isZero
-	^ self image isTrivial! !
-
-!ModuleMap methodsFor: 'testing' stamp: 'len 5/25/2022 11:05:19'!
-isZeroDivisor
-	"Answer true if there exists a nonzero element that multiplied by the receiver is zero.
-	Assumes the receiver is an endomorphism."
-	^ self kernel isTrivial not! !
-
-!ModuleMap methodsFor: 'private' stamp: 'len 5/16/2019 20:40:52'!
-codomain: aModule
-	codomain _ aModule! !
-
-!ModuleMap methodsFor: 'private' stamp: 'len 5/16/2019 20:40:56'!
-domain: aModule
-	domain _ aModule! !
-
-!ModuleMap methodsFor: 'private' stamp: 'len 5/29/2020 10:58:40'!
-matrix: aMatrix
-	self propertyAt: #matrix put: aMatrix! !
-
-!ModuleMap methodsFor: 'private' stamp: 'len 1/11/2018 18:20:06'!
-species
-	^ ModuleMap! !
-
-!ModuleMap methodsFor: 'private' stamp: 'len 7/8/2022 11:14:14'!
-validate
-	self assert: super isModuleHomomorphism! !
-
-!ModuleMap class methodsFor: 'instance creation' stamp: 'len 9/16/2022 08:20:40'!
-from: aDomain to: aCodomain map: aBlock
-	"Answer a new instance of the receiver using the one argument block aBlock for evaluating each vector in the domain basis."
-	
-	self shouldNotImplement
-"	| matrix |
-	matrix _ Matrix rows: (aDomain generators collect: [:each| aCodomain coordinatesOf: aCodomain !! (aBlock value: each)]).
-	^ self from: aDomain to: aCodomain matrix: matrix transposed"! !
-
-!ModuleMap class methodsFor: 'instance creation' stamp: 'len 5/29/2020 10:46:33'!
-from: aDomain to: aCodomain matrix: aMatrix
-	^ self new
-		domain: aDomain;
-		codomain: aCodomain;
-		matrix: aMatrix! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 12/20/2021 13:26:46'!
-at: aPoint
-	"Answer the coefficient at i@j (row i, column j)."
-	^ self atRow: aPoint x column: aPoint y! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 4/26/2022 21:54:54'!
-at: aPoint add: anElement
-	self at: aPoint put: (self at: aPoint) + anElement! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 12/20/2021 13:27:45'!
-at: aPoint ifAbsent: exceptionBlock
-	"Answer the coefficient at i@j (row i, column j), and evaluate aBlock if the indices are out of bounds."
-	^ self atRow: aPoint x column: aPoint y ifAbsent: exceptionBlock! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 12/20/2021 13:28:06'!
-at: aPoint put: anObject
-	"Answer the coefficient at i@j (row i, column j)."
-	^ self atRow: aPoint x column: aPoint y put: anObject! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 4/28/2022 12:34:14'!
-atRow: i column: j
-	^ self atRow: i column: j ifAbsent: [self scalars zero]! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 4/28/2022 12:09:51'!
-atRow: i column: j ifAbsent: exceptionBlock
-	^ self subclassResponsibility! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 5/29/2020 04:56:59'!
-bitSize
-	| answer |
-	answer _ 0.
-	self do: [:each| answer _ answer + each bitSize].
-	^ answer! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 11/23/2022 21:29:03'!
-columnAt: j
-	^ codomain fill: [:i| self at: i@j]! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 5/29/2020 06:14:11'!
-columnAt: j put: aTuple
-	aTuple withIndexDo: [:each :i| self at: i@j put: each]! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 5/29/2020 06:55:40'!
-columns
-	^ (Iterator on: self performing: #columnsDo:) asArray! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 6/6/2023 14:15:19'!
-denominator
-	"If the coefficients ring is a localization, answer the LCM of the denominators of the coefficients."
-	| answer |
-	self scalars isLocalization ifFalse: [^ self scalars one].
-	self propertyAt: #denominator ifPresent: [:anElement| ^ anElement].
-	answer := self scalars numerators one.
-	self do: [:each| answer := each denominator lcm: answer].
-	^ self propertyAt: #denominator put: answer! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 5/29/2020 07:26:49'!
-diagonal
-	^ (Iterator on: self performing: #diagonalDo:) asArray! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 5/29/2020 06:32:28'!
-height
-	^ codomain rank! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 4/5/2018 15:32:32'!
-lastColumn
-	^ self columnAt: self width! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 1/6/2022 17:03:55'!
-lastRow
-	^ self rowAt: self height! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 12/2/2022 14:25:27'!
-lift
-	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R."
-	^ self class from: domain lift to: codomain lift fill: [:i :j| (self atRow: i column: j) lift]! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 6/9/2023 10:03:21'!
-numerator
-	"If the coefficients ring is a localization, answer the product of the receiver by the LCM of the denominators of the coefficients. The answer is a matrix over the ring of numerators of the localization ring."
-	| d |
-	self scalars isLocalization ifFalse: [^ self].
-	self propertyAt: #numerator ifPresent: [:aMatrix| ^ aMatrix].
-	d := self scalars !! self denominator.
-	^ self propertyAt: #numerator put: (self parent numerators fill: [:i :j| ((self at: i@j) * d) numerator])! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 12/2/2022 14:13:06'!
-projection: anInteger
-	"If the coefficients ring is a product ring, answer matrix induced by the projection to the anInteger-th component."
-	^ self class from: (domain over: (domain scalars at: anInteger)) to: (codomain over: (domain scalars at: anInteger)) fill: [:i :j| (self atRow: i column: j) at: anInteger]! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 11/23/2022 21:34:45'!
-representative
-	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
-	^ self class from: domain lift to: codomain lift fill: [:i :j| (self atRow: i column: j) representative]! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 11/23/2022 21:29:28'!
-rowAt: i
-	^ domain fill: [:j| self at: i@j]! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 5/29/2020 06:14:33'!
-rowAt: i put: aTuple
-	aTuple withIndexDo: [:each :j| self at: i@j put: each]! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 5/29/2020 06:55:51'!
-rows
-	^ (Iterator on: self performing: #rowsDo:) asArray! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 5/29/2020 04:58:46'!
-width
-	^ domain rank! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 11/23/2022 21:34:54'!
-zero
-	| zero |
-	zero _ self scalars zero.
-	^ self class from: domain to: codomain fill: [:i :j| zero]! !
-
-!Matrix methodsFor: 'comparing' stamp: 'len 5/15/2019 23:48:39'!
-= anObject
-	anObject isMatrix ifFalse: [^ false].
-	self height = anObject height ifFalse: [^ false].
-	self width = anObject width ifFalse: [^ false].
-	1 to: self height do: [:i|
-		1 to: self width do: [:j|
-			(self at: i@j) = (anObject at: i@j) ifFalse: [^ false]]].
-	^ true! !
-
-!Matrix methodsFor: 'comparing' stamp: 'len 12/22/2022 18:49:09'!
-~ aMatrix
-	"Two rectangular matrices A and B are 'column equivalent' if there exists an invertible matrix P such that B = A * P. Two matrices are column equivalent if they have the same reduced column echelon form.
-	In the case of square matrices, answer true if the receiver and the argument are associates.
-	Note that we define 'a ~ b' if there's a unit 'u' such that 'au = b' (this relation is called 'strongly associate' by some authors)."
-	^ self coechelon = aMatrix coechelon! !
-
-!Matrix methodsFor: 'comparing' stamp: 'len 4/5/2018 15:31:22'!
-hash
-	| answer |
-	answer _ 0.
-	1 to: self height do: [:i|
-		1 to: self width do: [:j|
-			answer _ answer hashMultiply + (self at: i@j) hash]].
-	^ answer! !
-
-!Matrix methodsFor: 'comparing' stamp: 'len 12/11/2022 09:59:03'!
-≃ aMatrix
-	"Two square matrices A and B are 'similar' or 'conjugate' if there exists an invertible matrix P such that B = P^-1 * A * P. This is the conjugacy equivalence relation in GL.
-	Two matrices are similar if and only if they have the same rational canonical form (or Frobenius normal form)."
-	^ self invariantFactors = aMatrix invariantFactors! !
-
-!Matrix methodsFor: 'comparing' stamp: 'len 12/11/2022 09:35:34'!
-≅ aMatrix
-	"Two square matrices A and B over a field are 'congruent' if there exists an invertible matrix P such that B = P^T * A * P.
-	Assuming the matrices are invertible, this congruence of A and B is equivalent to similarity of their associated cosquares."
-	^ self cosquare ≃ aMatrix cosquare! !
-
-!Matrix methodsFor: 'comparing' stamp: 'len 12/11/2022 09:50:26'!
-≡ aMatrix
-	"Two rectangular matrices A and B are 'equivalent' if there exist invertible matrices P and Q such that B = Q^-1 * A * P.
-	Two matrices over a field are equivalent if and only if they have the same rank, and over a PID they are equivalent if and only if they have the same Smith normal form."
-	^ self elementaryDivisors = aMatrix elementaryDivisors! !
-
-!Matrix methodsFor: 'converting' stamp: 'len 4/1/2021 06:34:34'!
-asMatrix
-	^ self! !
-
-!Matrix methodsFor: 'converting' stamp: 'len 11/23/2022 21:28:29'!
-asPolynomial
-	"If the receiver is a linear form, answer the receiver as a polynomial in the coordinate ring of the domain."
-	| P |
-	self isLinearForm ifFalse: [DomainError signal: 'not a linear form'].
-	P _ self domain coordinateRing.
-	^ (P !!!! P generators) · (self asTuple over: P)! !
-
-!Matrix methodsFor: 'converting' stamp: 'len 11/23/2022 21:32:48'!
-asRationalMap
-	| A B polynomials |
-	A _ self domain coordinateRing.
-	B _ self codomain coordinateRing.
-	polynomials _ (self over: A) * (A !!!! A generators).
-	^ A spec to: B spec representatives: polynomials! !
-
-!Matrix methodsFor: 'converting' stamp: 'len 5/31/2022 18:10:34'!
-asScalar
-	"If the receiver is the embedding of an element of the scalars ring in an endomorphism algebra, answer the corresponding scalar."
-	self isScalar ifFalse: [^ self error: 'not a scalar matrix'].
-	^ self at: 1@1! !
-
-!Matrix methodsFor: 'converting' stamp: 'len 5/5/2023 18:19:20'!
-asTuple
-	"Answer the receiver converted to Tuple by concatenating its rows (which is also the coordinates of the receiver in the canonical basis)."
-	| answerCoefficients i |
-	answerCoefficients _ self scalars new: self width * self height.
-	i _ 1.
-	self rowsDo: [:each|
-		answerCoefficients replaceFrom: i to: i + self width - 1 with: each coefficients startingAt: 1.
-		i _ i + self width].
-	^ self scalars ^ (self width * self height) coefficients: answerCoefficients! !
-
-!Matrix methodsFor: 'copying' stamp: 'len 4/26/2022 04:54:21'!
-coproject: anArray
-	^ self class from: (self  scalars ^ anArray size) to: codomain columns: (anArray collect: [:j| self columnAt: j])! !
-
-!Matrix methodsFor: 'copying' stamp: 'len 11/23/2022 21:34:34'!
-copyFrom: aPoint to: anotherPoint
-	"Answer the submatrix of the receiver from aPoint to anotherPoint."
-
-	| start |
-	start _ aPoint - (1@1).
-	^ self class
-		from: (domain copyFrom: aPoint y to: anotherPoint y)
-		to: (codomain copyFrom: aPoint x to: anotherPoint x)
-		fill: [:i :j| self at: start + (i@j)]! !
-
-!Matrix methodsFor: 'copying' stamp: 'len 4/26/2022 05:48:43'!
-copyFromColumn: start to: end
-	^ self copyFrom: 1 @ start to: self height @ end! !
-
-!Matrix methodsFor: 'copying' stamp: 'len 4/26/2022 05:48:24'!
-copyFromRow: start to: end
-	^ self copyFrom: start @ 1 to: end @ self width! !
-
-!Matrix methodsFor: 'copying' stamp: 'len 11/23/2022 21:39:09'!
-copyWithout: aPoint
-	"Answer the matrix obtained by removing the row i and column j from the receiver, where the argument is the point i@j."
-	^ self scalars
-		matrix: self height - 1 @ (self width - 1)
-		fill: [:i :j| self at: (i < aPoint x ifTrue: [i] ifFalse: [i + 1]) @ (j < aPoint y ifTrue: [j] ifFalse: [j + 1])]! !
-
-!Matrix methodsFor: 'copying' stamp: 'len 11/23/2022 21:39:15'!
-copyWithoutColumn: anInteger
-	"Answer the matrix obtained by removing the anInteger-th column from the receiver."
-	^ self scalars
-		matrix: self height @ (self width - 1)
-		fill: [:i :j| self at: i @ (j < anInteger ifTrue: [j] ifFalse: [j + 1])]! !
-
-!Matrix methodsFor: 'copying' stamp: 'len 11/23/2022 21:39:20'!
-copyWithoutRow: anInteger
-	"Answer the matrix obtained by removing the anInteger-th column from the receiver."
-	^ self scalars
-		matrix: self height - 1 @ self width
-		fill: [:i :j| self at: (i < anInteger ifTrue: [i] ifFalse: [i + 1]) @ j]! !
-
-!Matrix methodsFor: 'copying' stamp: 'len 12/24/2022 17:13:34'!
-copyWithoutRowAndColumn: aPoint
-	"Answer the matrix obtained by removing the row i and column j from the receiver, where the argument is the point i@j."
-	^ self scalars
-		matrix: self height - 1 @ (self width - 1)
-		fill: [:i :j| self at: (i < aPoint x ifTrue: [i] ifFalse: [i + 1]) @ (j < aPoint y ifTrue: [j] ifFalse: [j + 1])]! !
-
-!Matrix methodsFor: 'copying' stamp: 'len 4/26/2022 04:52:22'!
-copyWithoutZeroColumns
-	^ Matrix to: codomain columns: (self columns select: [:each| each isZero not])! !
-
-!Matrix methodsFor: 'copying' stamp: 'len 4/26/2022 04:52:28'!
-copyWithoutZeroRows
-	^ Matrix from: domain rows: (self rows select: [:each| each isZero not])! !
-
-!Matrix methodsFor: 'copying' stamp: 'len 4/26/2022 04:53:06'!
-project: anArray
-	^ self class from: domain to: (self scalars ^ anArray size) rows: (anArray collect: [:i| self rowAt: i])! !
-
-!Matrix methodsFor: 'enumerating' stamp: 'len 3/24/2018 19:27:46'!
-allSatisfy: aBlock
-	self do: [:each| (aBlock value: each) ifFalse: [^ false]].
-	^ true! !
-
-!Matrix methodsFor: 'enumerating' stamp: 'len 11/23/2022 21:34:27'!
-collect: aBlock
-	^ self class from: self domain to: self codomain fill: [:i :j| aBlock value: (self at: i@j)]! !
-
-!Matrix methodsFor: 'enumerating' stamp: 'len 4/5/2018 15:28:54'!
-columnsDo: aBlock
-	1 to: self width do: [:i| aBlock value: (self columnAt: i)]! !
-
-!Matrix methodsFor: 'enumerating' stamp: 'len 5/29/2020 13:07:39'!
-diagonalDo: aBlock
-	1 to: (self width min: self height) do: [:i| aBlock value: (self at: i@i)]! !
-
-!Matrix methodsFor: 'enumerating' stamp: 'len 4/5/2018 15:29:50'!
-do: aBlock
-	1 to: self height do: [:i|
-		1 to: self width do: [:j|
-			aBlock value: (self at: i@j)]]! !
-
-!Matrix methodsFor: 'enumerating' stamp: 'len 7/14/2019 15:19:46'!
-inject: thisValue into: binaryBlock 
-	| nextValue |
-	nextValue _ thisValue.
-	self do: [:each | nextValue _ binaryBlock value: nextValue value: each].
-	^ nextValue! !
-
-!Matrix methodsFor: 'enumerating' stamp: 'len 5/18/2022 06:30:55'!
-pivotsDo: aBlock
-	"Enumerate the row-style pivot indices. These are the pairs i@j corresponding to the first nonzero entry of each row."
-	| i |
-	i _ 1.
-	self rowsDo: [:each|
-		each firstNonzeroIndex ifNotNil: [:j| aBlock value: i@j].
-		i _ i + 1]! !
-
-!Matrix methodsFor: 'enumerating' stamp: 'len 4/5/2018 15:43:00'!
-rowsDo: aBlock
-	1 to: self height do: [:i| aBlock value: (self rowAt: i)]! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 12/29/2022 19:55:52'!
-CHNF
-	"Answer the column-style Hermite normal form of the receiver."
-	^ self transpose HNF transpose! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 12/29/2022 19:56:36'!
-CHNFAndTransformation
-	"Answer the column-style Hermite normal form H of the receiver A and the unique unimodular matrix T such that A*T = H."
-	^ self transpose CHNFAndTransformation collect: [:each| each transpose]! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 12/29/2022 19:55:48'!
-HNF
-	"Answer the row-style Hermite normal form of the receiver."
-	self isEmpty ifTrue: [^ self].
-	self scalars isLocalization ifTrue: [^ (self numerator HNF over: self scalars) / self denominator].
-	^ (HermiteEchelonization on: self) echelon! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 12/29/2022 19:56:35'!
-HNFAndTransformation
-	"Answer the row-style Hermite normal form H of the receiver A and the unique unimodular matrix T such that T*A = H."
-	self scalars isLocalization ifTrue:
-		[| HT |
-		HT _ self numerator HNFAndTransformation.
-		^ {(HT first over: self scalars) / self denominator. HT second over: self scalars}].
-	^ (HermiteEchelonization on: self) echelonAndTransformation! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 5/29/2020 15:05:40'!
-PRCF
-	"Answer the primary rational canonical form of the receiver, assuming it's a square matrix over a field.
-	The PRCF reflects a decomposition of the vector space into a maximal number of cyclic subspaces. Unlike the RCF, finding this form requires factorization of polynomials over the coefficients field, and as a consequence the primary rational canonical form may change when the same matrix is considered over an extension field of the coefficients field."
-	^ self primaryInvariantFactors inject: (self scalars^0) id into: [:result :each| result ⊕ each companion]! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 5/29/2020 15:06:07'!
-RCF
-	"Answer the Frobenius normal form (or rational canonical form) of the receiver, assuming it's a square matrix over a field.
-	The RCF of a matrix A reflects a minimal decomposition of the vector space into subspaces that are cyclic for A (i.e., spanned by some vector and its repeated images under A). A matrix B is similar to A iff it has the same rational canonical form as A. Unlike the PRCF, finding this form doesn't require factorization of polynomials or any operation that might change when extending the coefficients field (hence the 'rational'), showing that matrix similarity does not change upon field extensions."
-	^ self invariantFactors inject: (self scalars^0) id into: [:result :each| result ⊕ each companion]! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 12/20/2021 13:25:43'!
-SNF
-	"Given a matrix with coefficients in a PID, answer the Smith normal form of the receiver.
-	The Smith normal form is very useful for working with finitely generated modules over a PID, and in particular for deducing the structure of a quotient of a free module.
-	This is a naive implementation of Kannan-Bachem algorithm."
-	| S a n |
-	self isEmpty ifTrue: [^ self].
-	"Repeatedly compute the Hermite normal form and transpose until a diagonal form is obtained:"
-	S _ self HNF.
-	[S isDiagonal] whileFalse: [S _ S transpose HNF transpose HNF].
-	"Once in diagonal form, substitute neighboring diagonal elements by their GCD and LCM"
-	n _ ((S width min: S height) to: 2 by: -1) detect: [:i| (S atRow: i column: i) isZero not] ifNone: [^ S].
-	[a _ S atRow: 1 column: 1.
-	2 to: n do: [:i| | b gcd |
-		b _ S atRow: i column: i.
-		S atRow: i-1 column: i-1 put: (gcd _ a gcd: b). "GCD"
-		S atRow: i column: i put: (a _ a // gcd * b) "LCM"].
-	S isSmithNormalForm] whileFalse.
-	^ S! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 12/13/2022 12:56:46'!
-SNFAfterHNF
-	"Answer the Smith normal form of the receiver. Perform first a HNF reduction."
-	| H n |
-	H _ self HNF.
-	n _ H diagonal findLast: [:each| each isZero not].
-	^ (H copyFrom: 1@1 to: n@n) SNF ⊕ (self scalars ^ ((H width max: H height) - n)) endomorphisms zero! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 12/23/2021 17:50:15'!
-SNFAndTransformations
-	"Answer the Smith normal form S of the receiver A and the unique unimodular matrices P and Q such that P*A*Q = S.
-	This is a naive implementation of Kannan-Bachem algorithm."
-	| HT S a n P Q |
-	"Repeatedly compute the Hermite normal form and transpose until a diagonal form is obtained:"
-	P _ self codomain id.
-	Q _ self domain id.
-	HT _ self HNFAndTransformation.
-	S _ HT first. P _ HT second.
-	[S isDiagonal] whileFalse:
-		[HT _ S transpose HNFAndTransformation.
-		Q _ HT second transpose * Q.
-		HT _ HT first transpose HNFAndTransformation.
-		S _ HT first. P _ P * HT second].
-	"Once in diagonal form, substitute neighboring diagonal elements by their GCD and LCM"
-	n _ ((S width min: S height) to: 2 by: -1) detect: [:i| (S atRow: i column: i) isZero not] ifNone: [^ S].
-	"TODO: update P and Q"
-	[a _ S atRow: 1 column: 1.
-	2 to: n do: [:i| | b gcd |
-		b _ S atRow: i column: i.
-		S atRow: i-1 column: i-1 put: (gcd _ a gcd: b). "GCD"
-		S atRow: i column: i put: (a _ a // gcd * b) "LCM"].
-	S isSmithNormalForm] whileFalse.
-	^ {S. P. Q}! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 12/19/2022 10:12:26'!
-SNFOneStep
-	| L S R zero one j k |
-	L _ self codomain id.
-	R _ self domain id.
-	(self isEmpty or: [self isZero]) ifTrue: [^ {L. self. R}].
-	S _ self copy.
-	zero _ self scalars zero.
-	one _ self scalars one.
-
-	"put a nonzero column as first column"
-	j _ 1.
-	[(S columnAt: j) isZero] whileTrue: [j _ j + 1].
-	j > 1 ifTrue: [R at: 1@1 put: zero; at: j@j put: zero; at: 1@j put: one; at: j@1 put: one negated. S _ S * R].
-
-	self assert: self * R = S.
-
-	"put a nonzero value at 1@1:"
-	k _ 1.
-	[(S at: k@1) isZero] whileTrue: [k _ k + 1].
-	k > 1 ifTrue: [L at: 1@1 put: zero; at: k@k put: zero; at: 1@k put: one; at: k@1 put: one negated. S _ L * S].
-
-	self assert: L * self * R = S.
-
-	2 to: S height do: [:i| | a1 ai euclid c d e f M |
-		a1 _ S at: 1@1.
-		ai _ S at: i@1.
-		ai | a1 ifFalse:
-			[euclid _ ExtendedEuclid on: {a1. ai}.
-			c _ euclid bezout at: 1.
-			d _ (euclid bezout at: 2) negated.
-			self assert: a1*c - (ai*d) = euclid gcd.
-			e _ ai negated / euclid gcd.
-			f _ a1 / euclid gcd.
-			self assert: d*e + (c*f) = self scalars one.
-			M _ S codomain id.
-			M at: 1@1 put: c; at: 1@i put: d negated; at: i@1 put: e; at: i@i put: f.
-			self assert: M determinant = self scalars one.
-			S _ M * S.
-			L _ M * L.
-			self assert: L * self * R = S]].
-
-	"now everything in column 1 is divisible by the pivot at 1@1:"
-	2 to: S height do: [:i| | x |
-		x _ (S at: i@1) negated / (S at: 1@1).
-		S addRow: 1 times: x to: i.
-		L addRow: 1 times: x to: i].
-
-	self assert: L * self * R = S.
-
-	"if anything at the right of the pivot in the first row is not zero, we recurse
-	(the algorithm must termiate if the cofficients ring is Noetherian)"
-	((j+1 to: self width) allSatisfy: [:jj| (S at: 1@jj) isZero])
-		ifFalse:
-			[| result |
-			result _ S transpose SNFOneStep.
-			L _ (result at: 3) * L.
-			S _ (result at: 2) transpose.
-			R _ R * (result at: 1) transpose].
-
-	^ {L. S. R}! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 5/9/2023 13:17:39'!
-SNFRecursive
-	| L S R LL SS RR I result |
-	L _ self codomain id.
-	R _ self domain id.
-	(self isEmpty or: [self isZero]) ifTrue: [^ {L. self. R}].
-
-	result _ self SNFOneStep.
-	L _ result at: 1.
-	S _ result at: 2.
-	R _ result at: 3.
-	result _ (S copyFrom: 2@2 to: S height @ S width) SNFRecursive.
-	LL _ result at: 1.
-	SS _ result at: 2.
-	RR _ result at: 3.
-	
-	I _ (self scalars^1) id.
-	L _ I ⊕ LL * L.
-	S _ (I * (S at: 1@1)) ⊕ SS.
-	R _ R * (I ⊕ RR).
-
-	"TODO: fix diagonal"
-	
-	^ {L. S. R}! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 12/22/2022 19:09:57'!
-basis
-	self propertyAt: #basisAndTransformation ifPresent: [:anArray| ^ anArray first].
-	^ self propertyAt: #basis ifAbsentPut: [self scalars basisOf: self]! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 1/9/2022 13:13:24'!
-basisAndTransformation
-	^ self propertyAt: #basisAndTransformation ifAbsentPut: [self scalars basisAndTransformationOf: self]! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 12/22/2022 19:09:42'!
-basisTransformation
-	^ self basisAndTransformation second! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 12/29/2022 16:26:13'!
-coechelon
-	"Answer the column echelon form of the receiver."
-	self propertyAt: #coechelonAndTransformation ifPresent: [:anArray| ^ anArray first].
-	^ self propertyAt: #coechelon ifAbsentPut: [self transpose echelon transpose]! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 12/29/2022 16:27:29'!
-coechelonAndTransformation
-	"Answer an array with the column echelon form of the receiver and the transformation to echelon form."
-	^ self propertyAt: #coechelonAndTransformation ifAbsentPut: [self transpose echelonAndTransformation collect: [:each| each transpose]]! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 12/29/2022 16:26:51'!
-coechelonTransformation
-	"Answer the transformation to column echelon form."
-	^ self coechelonAndTransformation second! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 4/10/2021 12:28:33'!
-dependentColumns
-	"Answer the collection of indices of linearly dependent columns."
-	| independent d answer |
-	independent _ self independentColumns.
-	d _ 1.
-	answer _ OrderedCollection new: self width - independent size.
-	independent do: [:i| answer addAll: (d to: i-1). d _ i+1].
-	answer addAll: (d to: self width).
-	^ answer! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 5/19/2023 07:11:55'!
-echelon
-	"Answer the row echelon form of the receiver."
-	self propertyAt: #echelonAndTransformation ifPresent: [:anArray| ^ anArray first].
-	^ self propertyAt: #echelon ifAbsentPut: [self scalars echelonOf: self]! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 5/19/2023 07:12:10'!
-echelonAndTransformation
-	"Answer an array with the row echelon form of the receiver and the transformation to echelon form."
-	^ self propertyAt: #echelonAndTransformation ifAbsentPut: [self scalars echelonAndTransformationOf: self]! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 12/22/2022 18:42:10'!
-echelonTransformation
-	"Answer the transformation to row echelon form."
-	^ self echelonAndTransformation second! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 6/9/2019 10:08:46'!
-elementaryDivisors
-	"Answer the diagonal of the Smith normal form."
-	self isEmpty ifTrue: [^ #()].
-	self scalars isField ifTrue: [^ (1 to: self rank) collect: [:each| self scalars one]].
-	^ self SNF diagonal asArray select: [:each| each isZero not]! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 7/13/2019 04:31:49'!
-hessenberg
-	"Answer the matrix similar to the receiver but in upper Hessenberg form (zeroes below the first subdiagonal)."
-	^ self notYetImplemented! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 4/10/2021 12:28:27'!
-independentColumns
-	"Answer the collection of indices of linearly independent columns."
-	^ self echelon pivots collect: [:each| each y]! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 5/17/2022 04:52:23'!
-invariantFactors
-	"Answer the invariant factors of the receiver, corresponding to the Frobenius normal form (or rational canonical form), assuming it's a square matrix over a field."
-	^ self characteristicMatrix elementaryDivisors select: [:each| each degree > 0]! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 11/23/2022 21:29:21'!
-jordan
-	"Answer the Jordan blocks of the receiver's Jordan normal form."
-	| spectrum blocks one zero |
-	spectrum _ self spectrum.
-	spectrum size = self height ifFalse: [^ self error: 'the characteristic polynomial doesn''t split'].
-"	I _ matrix species identity."
-	blocks _ Bag new.
-	one _ self scalars one.
-	zero _ self scalars zero.
-	spectrum asSet do: [:eigenvalue|
-		| multiplicity dimensions X T count |
-		multiplicity _ spectrum occurrencesOf: eigenvalue.
-		dimensions _ OrderedCollection new.
-		X _ self - (self parent scalar: eigenvalue).
-		T _ X.
-		[(dimensions add: T nullity) < multiplicity] whileTrue: [T _ T * X].
-		count _ 0.
-		dimensions size to: 1 by: -1 do: [:n| | k block |
-			k _ (dimensions at: n) - (dimensions at: n-1 ifAbsent: [0]).
-			block _ (self scalars^n) endomorphisms fill: [:i :j| i=j ifTrue: [eigenvalue] ifFalse: [j-1=i ifTrue: [one] ifFalse: [zero]]].
-			blocks add: block withOccurrences: k - count.
-			count _ count + k]].
-	^ blocks! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 8/10/2020 05:25:58'!
-orthogonalized
-	"Perform the Gram-Schmidt orthogonalization process on the columns of the receiver."
-	| orthogonalVectors orthogonalVectorsNorms2 u uv |
-	orthogonalVectors _ OrderedCollection new: self width.
-	orthogonalVectorsNorms2 _ OrderedCollection new: self width.
-	self columns do: [:each|
-		u _ each.
-		orthogonalVectors with: orthogonalVectorsNorms2 do: [:v :vv|
-			uv _ u · v.
-			u _ u - (v * uv / vv)].
-		orthogonalVectors add: u.
-		orthogonalVectorsNorms2 add: u · u].
-	^ self class from: domain to: codomain columns: orthogonalVectors! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 3/7/2017 08:34:26'!
-pivots
-	"Answer the collection of row-style pivot indices. These are the pairs i@j corresponding to the first nonzero entry of each row."
-	^ Iterator on: self performing: #pivotsDo:! !
-
-!Matrix methodsFor: 'normal forms' stamp: 'len 8/5/2021 08:40:26'!
-primaryInvariantFactors
-	^ self characteristicPolynomial factorization! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 4/20/2022 18:11:01'!
-% anInteger
-	self scalars = ℤ ifFalse: [DomainError signal].
-	^ self apply: (ℤ / anInteger) projection! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 7/24/2021 14:20:31'!
-* anObject
-	((self scalars includes: anObject) or: [anObject isInteger]) ifTrue: [^ self collect: [:each| each * anObject]].
-	anObject isMatrix ifTrue: [^ self · anObject].
-	anObject isTuple ifTrue: [^ self value: anObject].
-	(anObject isKindOf: ModuleMap) ifTrue: [^ self · anObject].
-	^ DomainError signal! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 11/23/2022 21:34:06'!
-+ aMatrix
-	aMatrix isMatrix ifFalse: [^ self adapt: aMatrix andSend: #+].
-	self checkDomainsMatch: aMatrix.
-	self checkCodomainsMatch: aMatrix.
-	^ self class from: domain to: codomain fill: [:i :j| (self at: i@j) + (aMatrix at: i@j)]! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 3/23/2016 00:21'!
-- aMatrix
-	^ self + aMatrix negated! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 5/28/2022 07:10:54'!
-/ anObject
-	"Answer X such that XA = B, where B is the receiver and A is the argument.
-	X is called a colift (or extension) of B along A, written B / A.
-	If the argument is a scalar, just divide each element of the matrix by the scalar."
-	(anObject isMatrix and: [self scalars = anObject scalars]) ifTrue: [^ anObject colift: self].
-	^ super / anObject! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 10/5/2022 18:43:28'!
-@ aPrimeIdeal
-	"Answer the localization of the receiver at aPrimeIdeal."
-	^ self apply: self scalars → (self scalars @ aPrimeIdeal)! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 5/28/2022 07:11:13'!
-\ aMatrix
-	"Answer X such that AX = B, where A is the receiver and B is the argument.
-	X is called a lift of B along A, written A \ B.
-	Answer nil if there's no solution.
-	The argument can also be a tuple, in which case it is considered as a column matrix and the returned value is also a tuple.
-	This is the 'backslash' operator, as implemented in MATLAB, Octave and Sage."
-	(aMatrix isMatrix and: [self scalars = aMatrix scalars]) ifTrue: [^ self lift: aMatrix].
-	(aMatrix isTuple and: [self scalars = aMatrix scalars]) ifTrue: [^ (self lift: aMatrix asMatrix) ifNotNil: [:answer| answer asTuple]].
-	^ super \ aMatrix! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 11/23/2022 21:34:17'!
-⊕ aMatrix
-	"Answer the block sum of the receiver and the argument.
-	If the receiver is A and the argument is B, output a matrix of the form:
-	  [A 0]
-	  [0 B]"
-	aMatrix isMatrix ifFalse: [^ super ⊕ aMatrix].
-	^ self class from: domain ⊕ aMatrix domain to: codomain ⊕ aMatrix codomain fill: [:i :j| self at: i @ j ifAbsent: [aMatrix at: i - self height @ (j - self width) ifAbsent: [self scalars zero]]]! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 11/23/2022 21:36:44'!
-⊗ aMatrix
-	"Answer the Kronecker product of the receiver by the argument."
-	| m n p q |
-	aMatrix isTuple ifTrue: [^ self ⊗ aMatrix asMatrix].
-	aMatrix isMatrix ifFalse: [^ super ⊗ aMatrix].
-	self checkScalarsMatch: aMatrix.
-	m _ self height.
-	n _ self width.
-	p _ aMatrix height.
-	q _ aMatrix width.
-	^ self scalars^(n*q)
-		to: self scalars^(m*p)
-		fill: [:i :j|
-			(self at: (i-1)*m//(m*p)+1 @ ((j-1)*n//(n*q)+1)) *
-			(aMatrix at: (i-1)\\p+1 @ ((j-1)\\q+1))]! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 12/27/2022 22:30:06'!
-∘ aMatrix
-	| rows columns |
-	aMatrix isMatrix ifFalse: [^ super ∘ aMatrix].
-	self checkCompatibleComposition: aMatrix.
-	rows _ self rows asArray.
-	columns _ aMatrix columns asArray.
-	^ self class from: aMatrix domain to: self codomain fill: [:i :j| (rows at: i) · (columns at: j)]! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:21:39'!
-⊓ aMatrix
-	"Answer the product morphism of the receiver and the argument.
-	This is the row-augmented matrix with the receiver stacked on top of the argument.
-	If the receiver is A and the argument is B, output a matrix of the form:
-	  [A]
-	  [B]"
-	aMatrix isTuple ifTrue: [^ self ⊓ aMatrix asRowMatrix].
-	aMatrix isMatrix ifFalse: [^ super ⊓ aMatrix].
-	self checkDomainsMatch: aMatrix.
-	^ self class from: domain to: codomain ⊕ aMatrix codomain rows: self rows, aMatrix rows! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:21:53'!
-⊔ aMatrix
-	"Answer the coproduct morphism of the receiver and the argument.
-	This is the column-augmented matrix with the receiver concatenated with the argument.
-	If the receiver is A and the argument is B, output a matrix of the form:
-	  [A B]"
-	aMatrix isTuple ifTrue: [^ self ⊔ aMatrix asMatrix].
-	aMatrix isMatrix ifFalse: [^ super ⊔ aMatrix].
-	self checkCodomainsMatch: aMatrix.
-	^ self class from: domain ⊕ aMatrix domain to: codomain columns: self columns, aMatrix columns! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 7/15/2021 12:37:58'!
-adjugate
-	"Answer the adjugate matrix (or classical adjoint matrix) of the receiver. This is the matrix such that multiplicated at the left by the receiver equals the scalar matrix with the determinant of the receiver in the diagonal."
-	| f |
-	f _ self characteristicPolynomial >> 1.
-	^ (self height odd ifTrue: [f] ifFalse: [f negated]) value: self! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 8/10/2020 05:34:21'!
-antitranspose
-	^ self class from: codomain to: domain rows: (self columns reversed collect: [:each| each reversed])! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 5/9/2023 13:20:53'!
-apply: aFunction
-	"Answer a new matrix with coefficients obtainted by applying aFunction to the coefficients of the receiver.
-	If aFunction is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
-
-	aFunction isBlock ifTrue: [^ domain to: codomain fill: [:i :j| aFunction value: (self at: i@j)]].
-	^ (domain over: aFunction codomain) to: (codomain over: aFunction codomain) fill: [:i :j| aFunction value: (self at: i@j)]! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 6/14/2023 15:10:47'!
-berkowitz
-	"Answer the coefficients of the characteristic polynomial of the receiver.
-	It's computed by the Berkowitz division-free algorithm and works over any commutative ring.
-	It uses small space in comparision with classic Gaussian elimination and performs O(n^4) scalar operations."
-	| n v C Ar R S Q one |
-	self isSquare ifFalse: [^ self error: 'not square'].
-	one := self scalars one.
-	(n := self width) = 0 ifTrue: [^ self scalars !!!! {one}].
-	n = 1 ifTrue: [^ self scalars !!!! {one. (self at: 1@1) negated}].
-	n = 2 ifTrue:
-			[^ self scalars !!!!
-				{one.
-				((self at: 1@1) + (self at: 2@2)) negated.
-				(self at: 1@1) * (self at: 2@2) - ((self at: 1@2) * (self at: 2@1))}].
-
-	v := self scalars !!!!
-		{one.
-		(self at: 2@2) negated - (self at: 1@1).
-		(self at: 2@2) * (self at: 1@1) - ((self at: 1@2) * (self at: 2@1))}.
-
-	3 to: n do: [:r|
-		C := (self scalars^r ⇒ (self scalars^(r+1))) zero.
-		Ar := self copyFrom: 1@1 to: r-1 @ (r-1).
-
-		R := (self rowAt: r) copyFrom: 1 to: r-1.
-		S := (self columnAt: r) copyFrom: 1 to: r-1.
-
-		C at: 1@1 put: one negated.
-		C at: 2@1 put: (self at: r@r).
-		C at: 3@1 put: (R · S).
-
-		Q := Ar * S.
-
-		C at: 4@1 put: (R · Q).
-
-		3 to: r-1 do: [:i|
-			Q := Ar * Q.
-			C at: i+2 @ 1 put: (R · Q)].
-
-		2 to: r do: [ :i |
-			0 to: r+1-i do: [ :j |
-				C at: i+j @ i put: (C at: j+1 @ 1)]].
-
-		v := C * v].
-
-	^ n even ifTrue: [v] ifFalse: [v negated]! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 11/23/2022 21:36:49'!
-characteristicMatrix
-	"Answer the characteristic matrix I*x - A."
-	| P x M |
-	P _ self scalars polynomials.
-	x _ P x.
-	M _ P^self width.
-	^ M to: M fill: [:i :j|
-		i = j
-			ifTrue: [x - (P constant: (self at: i @ j))]
-			ifFalse: [P constant: (self at: i @ j) negated]]! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 5/8/2023 16:55:28'!
-characteristicPolynomial
-	self scalars isLocalization ifTrue:
-		[| P x d answer |
-		P _ self scalars numerators polynomials.
-		x _ P x.
-		d _ self denominator.
-		answer _ ((self parent over: P) asAlgebra one * (x * d) - (self numerator over: P)) determinant over: self scalars.
-		self width timesRepeat: [answer _ answer / d].
-		^ answer].
-	self width <= 6 ifTrue: [^ self characteristicMatrix determinant].
-	^ self scalars polynomials coefficients: self berkowitz coefficients reversed
-
-"TODO: best algorithms choices are:
-	- for Z use modular algorithm: compute modulo p for many primes p, then CRT;
-	- for finite fields (fields with no coefficient explosion) use Hessenberg form with O(n^3);
-	- for general ring, use Berkowitz"
-! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 5/8/2023 16:56:08'!
-characteristicPolynomial3
-	"[Coh96] Algorithm 2.2.7. (Characteristic Polynomial and Adjoint Matrix) O(n^4).
-	This is the Faddeev-Leverrier algorithm and works over a commutative ring of characteristic 0 or characteristic coprime to 1..n. It also computes the determinant as a side product."
-	| n i I C a |
-	n _ self height.
-	i _ 0. I _ self identity. C _ I. a _ OrderedCollection new: n+1.
-	a add: self scalars one.
-	[(i _ i + 1) = n
-		ifTrue:
-			[a add: (self * C) trace negated / n.
-			^ self scalars polynomials newFrom: a reversed. "adj _ (-1)^(n-1) * C"].
-	C _ self * C.
-	a add: C trace negated / i.
-	C _ C + (I * a last)] repeat! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 5/8/2023 16:56:45'!
-characteristicPolynomial4
-	"This is the Faddeev-Leverrier algorithm to compute the characteristic polynomial, adjoint matrix and determinant of a matrix. It works over a commutative ring of characteristic 0 or characteristic coprime to 1..n. It runs in O(n^4)."
-	| n p I B |
-	n _ self height.
-	p _ self scalars new: n+1.
-	p at: n+1 put: self scalars one.
-	I _ self identity.
-	B _ I.
-	1 to: n-1 do: [:k|
-		B _ self*B.
-		B _ B + (I*(p at: n-k+1 put: B trace negated / k))].
-	p at: 1 put: (self*B) trace negated / n.
-	^ self scalars polynomials coefficients: p! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 5/8/2023 16:57:30'!
-characteristicPolynomialAndAdjoint
-	"[Coh96] Algorithm 2.2.7. (Characteristic Polynomial and Adjoint Matrix) O(n^4)."
-	| n i I C a |
-	n _ self height.
-	i _ 0. I _ self identity. C _ I. a _ OrderedCollection new: n.
-	a add: self scalars one.
-	[(i _ i + 1) = n
-		ifTrue:
-			[a add: (self * C) trace negated / n.
-			^ {self scalars polynomials newFrom: a reversed. (-1)^(n-1) * C}].
-	C _ self * C.
-	a add: C trace negated / i.
-	C _ C + (I * a last)] repeat! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 10/13/2016 14:00'!
-cofactor: aPoint
-	"Answer the cofactor i@j of the receiver."
-
-	^ (aPoint x + aPoint y) even
-		ifTrue: [self minor: aPoint]
-		ifFalse: [(self minor: aPoint) negated]! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 5/3/2021 10:57:09'!
-columnExtended
-	"Answer a square full rank matrix, adding columns if needed."
-	| M |
-	(self isSquare and: [self isFullRank]) ifTrue: [^ self].
-	M _ self ⊔ self codomain id.
-	^ Matrix from: self codomain to: self codomain columns: (M independentColumns collect: [:i| M columnAt: i])! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 8/9/2020 07:53:30'!
-comatrix
-	"Answer the co-matrix (or cofactor matrix) of the receiver, i.e. the matrix '(a{ij})' where 'a{ij}' is the cofactor 'ij'."
-	^ self adjugate transpose! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 5/28/2023 15:53:17'!
-conjugate
-	"Answer the conjugate transpose of the receiver. This is the involution of the matrix algebra."
-	^ self scalars isInvolutive ifTrue: [self transpose collect: [:each| each conjugate]] ifFalse: [self transpose]! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 5/14/2023 12:04:25'!
-content
-	"Answer the GCD of the coefficients of the receiver."
-	| answer |
-	self isZero ifTrue: [^ self scalars zero].
-	self scalars isField ifTrue: [^ self scalars one].
-	answer _ self scalars zero.
-	self do: [:each| answer _ answer gcd: each. answer isOne ifTrue: [^ answer]].
-	^ answer! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 12/11/2022 09:29:30'!
-cosquare
-	^ self transpose inverse * self! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 12/29/2022 19:54:18'!
-determinant
-	| n a0 |
-	self checkIsSquare.
-	self isEmpty ifTrue: [^ self scalars one].
-	n _ self width.
-	"For localizations, compute the determinant of the numerator matrix and divide by denominator n times:"
-	self scalars isLocalization ifTrue:
-		[| answer d |
-		answer _ self scalars !! self numerator determinant.
-		d _ self denominator.
-		n timesRepeat: [answer _ answer / d].
-		^ answer].
-	self scalars isProduct ifTrue:
-		[^ self scalars compose: ((1 to: self scalars arity) collect: [:i| (self projection: i) determinant])].
-	"For small matrices use Laplace expansion:"
-	n <= 6 ifTrue: [^ (1 to: n) sum: [:i| (self at: i@1) * (self cofactor: i@1)]].
-	"Over a field use Gaussian elimination:"
-	self scalars isField ifTrue: [^ (GaussJordanEchelonization on: self) determinant].
-	"Otherwise get the determinant from the characteristic polynomial (possibly computed by Berkowitz algorithm):"
-	a0 _ self characteristicPolynomial independentCoefficient.
-	^ n even ifTrue: [a0] ifFalse: [a0 negated]! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 7/12/2019 04:58:17'!
-determinant1
-	| a0 |
-	a0 _ self characteristicPolynomial independentCoefficient.
-	^ self height even ifTrue: [a0] ifFalse: [a0 negated]! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 5/22/2022 11:09:39'!
-determinant2
-	"[Coh96] Algorithm 2.2.6. (Determinant using Gauss-Bareiss). O(n^3)"
-	| n M k c s p i t |
-	self assert: self scalars isIntegralDomain.
-	self assert: self isSquare.
-	n _ self height.
-	M _ self copy.
-	k _ 0. c _ self scalars one. s _ self scalars one.
-	[k _ k + 1.
-	k = n ifTrue: [^ s * (M at: n@n)].
-	p _ M at: k@k. i _ k.
-	p isZero ifTrue: [i _ (k+1 to: n) detect: [:j| (M at: j@k) isZero not] ifNone: [^ self scalars zero]].
-	k to: n do: [:j| t _ M at: i@j. M at: i@j put: (M at: k@j). M at: k@j put: t].
-	s _ s negated.
-	p _ M at: k@k.
-	"the division t/c is exact, must use Euclidean division and discard the remainder"
-	c | t ifFalse: [self halt].
-	k+1 to: n do: [:j| t _ p * (M at: i@j) - ((M at: i@k) * (M at: k@j)). M at: i@j put: t/c].
-	c _ p] repeat! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 11/13/2022 10:35:33'!
-determinant3
-	self checkIsSquare.
-	self isEmpty ifTrue: [^ self scalars one].
-	^ (1 to: self height) sum: [:i| (self at: i@1) * (self cofactor: i@1)]! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 6/14/2023 15:08:27'!
-determinantModular
-	| B C n r moduli determinants |
-	B := 0.
-	self do: [:each| B := B max: each abs].
-	n := self width.
-	C := (n^n) sqrt * (B^n).
-	r := (C log: 2) ceiling.
-	moduli := OrderedCollection new: r.
-	moduli add: 2.
-	r - 1 timesRepeat: [moduli add: moduli last nextPrime].
-	determinants := moduli collect: [:each| (self % each) determinant].
-	^ (CRT solve: determinants) lift! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 4/5/2018 15:29:05'!
-determinantx
-	(self height = 2 and: [self width = 2])
-		ifTrue: [^ (self at: 1@1) * (self at: 2@2) - ((self at: 2@1) * (self at: 1@2))].
-	^ self determinant! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 6/4/2023 11:04:01'!
-gcd: aMatrix
-	"The GCD is well defined for scalar matrices over a ring with GCD."
-	^ self parent scalar: (self asScalar gcd: aMatrix asScalar)! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 5/29/2020 13:40:04'!
-index
-	"Answer the index of the receiver, assuming it is an endomorphism.
-	This is precisely the Euler characteristic of the 2-term complex 0 -> domain -> codomain -> 0."
-	^ self kernel rank - self cokernel rank! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 6/17/2023 11:04:27'!
-lcm: aMatrix
-	"The LCM is well defined for scalar matrices over a ring with GCD."
-	^ self parent scalar: (self asScalar lcm: aMatrix asScalar)! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 5/5/2023 18:30:21'!
-minimalPolynomial
-	| P n answer |
-	self checkIsSquare.
-	self scalars isIntegralDomain ifFalse: [DomainError signal: 'not over an integral domain'].
-	P _ self scalars polynomials.
-	n _ self width.
-	answer _ P one.
-	self codomain basis do: [:ei| "It's not necessary to iterate over the whole basis"
-		| v L K s |
-		v _ ei.
-		L _ OrderedCollection new: n + 1.
-		L add: v.
-		[v _ self * v.
-		L add: v.
-		K _ (Matrix columns: L) syzygies.
-		K isZero] whileTrue.
-		K _ K coechelon.
-		s _ K columns first coefficients.
-		answer _ answer lcm: (P coefficients: s / s last).
-		answer degree = n ifTrue: [^ answer]].
-	^ answer! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 6/15/2023 16:43:59'!
-minor: aPoint
-	"Answer the (i,j)-minor, i.e. the determinant of the matrix obtained by removing row i and column j from the receiver."
-	^ (self copyWithoutRowAndColumn: aPoint) determinant! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 11/23/2022 21:39:32'!
-minors: k
-	"Answer the list of all the k-minors of the receiver, i.e. the determinants of all matrices obtained by deleting m - k rows and n - k columns."
-	| answer |
-	answer _ OrderedCollection new.
-	(1 to: self height) combinations: k atATimeDo: [:rows|
-		(1 to: self width) combinations: k atATimeDo: [:columns|
-			answer add: (self scalars matrix: k@k fill: [:i :j| self at: (rows at: i) @ (columns at: j)]) determinant]].
-	^ answer! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 3/23/2016 00:23'!
-negated
-	^ self collect: [:each| each negated]! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 12/22/2022 18:45:22'!
-normalization
-	"Answer a unit u such that 'self * u' is a unique choice of associate. See >>normalized."
-	self isSquare ifFalse: [^ self error: 'not square'].
-	(self scalars isPID not or: [self isZero]) ifTrue: [^ self one].
-	^ self coechelonTransformation! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 1/7/2022 14:23:27'!
-normalized
-	"Answer a unique choice of associate. See >>normalization."
-	self isSquare ifFalse: [^ self error: 'not square'].
-	self scalars isPID ifFalse: [^ self].
-	^ self coechelon! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 4/5/2018 15:33:02'!
-nullity
-	^ self width - self rank! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 11/5/2022 14:06:28'!
-opposite
-	"Answer the receiver as an element of the opposite ring."
-	^ self conjugate! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 11/13/2022 10:34:43'!
-permanent
-	| n |
-	self checkIsSquare.
-	n _ self width.
-	^ (SymmetricGroup new: n)
-			sum: [:aPermutation| (1 to: n) product: [:i| self atRow: i column: (aPermutation value: i)]]! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 12/11/2015 00:14'!
-pseudoInverse
-	"Answer the Moore-Penrose pseudoinverse matrix of the receiver."
-	^ self notYetImplemented! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 12/17/2022 09:55:44'!
-rank
-	self flag: #fixme. "this is inefficient with dense matrices"
-	^ self echelon rows count: [:each| each isZero not]! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 3/31/2021 09:42:21'!
-rowExtended
-	"Answer a square full rank matrix, adding rows if needed."
-	^ self transpose columnExtended transpose! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 11/13/2022 10:34:54'!
-trace
-	| answer |
-	self checkIsSquare.
-	answer _ self scalars zero.
-	1 to: self height do: [:i| answer _ answer + (self at: i@i)].
-	^ answer! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 11/23/2022 21:34:49'!
-transpose
-	^ self class from: codomain to: domain fill: [:i :j| self at: j@i]! !
-
-!Matrix methodsFor: 'operations' stamp: 'len 11/23/2022 21:29:34'!
-value: aTuple
-"	(self domain includes: aTuple) ifFalse: [^ DomainError signal]."
-	^ codomain fill: [:i| (self rowAt: i) · aTuple]
-"	self isEmpty ifTrue: [^ aTuple scalars tuple: #()].
-	(self height = 0 or: [self width = aTuple size])
-		ifFalse: [^ DomainError signal: 'dimensions don''t match'].
-	self scalars >= aTuple scalars
-		ifTrue: [^ self codomain filling: [:i| (self rowAt: i) · aTuple]].
-	self scalars <= aTuple scalars
-		ifTrue: [^ (self codomain over: aTuple scalars) filling: [:i| (self rowAt: i) · aTuple]].
-	^ DomainError signal: 'base rings don''t match'"! !
-
-!Matrix methodsFor: 'operations-inplace' stamp: 'len 5/19/2023 14:52:43'!
-+= aMatrix
-	self replaceWith: self plus: aMatrix! !
-
-!Matrix methodsFor: 'operations-inplace' stamp: 'len 5/19/2023 14:52:36'!
--= aMatrix
-	self replaceWith: self minus: aMatrix! !
-
-!Matrix methodsFor: 'operations-inplace' stamp: 'len 5/26/2023 18:45:10'!
-replacePeelingStrassenWinogradWith: aMatrix1 times: aMatrix2
-	"Apply dynamic peeling if needed and perform Strassen-Winograd on submatrices with even dimensions.
-	Assumes the matrices are square."
-	| n A B C₁₁ |
-	(n := aMatrix1 width) even ifTrue: [^ self replaceStrassenWinogradWith: aMatrix1 times: aMatrix2].
-	A := aMatrix1.
-	B := aMatrix2.
-	C₁₁ := self from: 1@1 to: n-1 @ (n-1).
-	C₁₁ replaceStrassenWinogradWith: (A from: 1@1 to: n-1 @ (n-1)) times: (B from: 1@1 to: n-1 @ (n-1)).
-	C₁₁ accumulateWith: (A from: 1@n to: n-1@n) times: (B from: n@1 to: n@(n-1)).
-	(self from: 1@n to: n-1@n) replaceWith: (A from: 1@1 to: n-1@n) times: (B from: 1@n to: n@n).
-	(self from: n@1 to: n@n) replaceWith: (A from: n@1 to: n@n) times: B! !
-
-!Matrix methodsFor: 'operations-inplace' stamp: 'len 5/26/2023 17:16:09'!
-replaceStrassenWinogradWith: aMatrix1 times: aMatrix2
-	"Strassen-Winograd matrix multiplication algorithm with complexity O(n^ω), ω = log₂(7) ≈ 2.8074.
-	Schedule with 2 temporary matrices from [BDPZ07] and dynamic peeling as [HLJJ+96].
-	Assumes the matrices are square with even dimension."
-	| A B m ℓ n mₕ ℓₕ nₕ A₁₁ A₁₂ A₂₁ A₂₂ B₁₁ B₁₂ B₂₁ B₂₂ C₁₁ C₁₂ C₂₁ C₂₂ S₁ S₂ S₃ S₄ T₁ T₂ T₃ T₄ P₁ P₂ P₃ P₄ P₅ P₆ P₇ U₁ U₂ U₃ U₄ U₅ U₆ U₇ X Y |
-	A := aMatrix1.
-	B := aMatrix2.
-	m := A height.
-	ℓ := A width.
-	n := B height.
-	mₕ := m - 1 // 2 + 1.
-	ℓₕ := ℓ - 1 // 2 + 1.
-	nₕ := n - 1 // 2 + 1.
-	A₁₁ := A from: 1 @ 1 to: mₕ @ ℓₕ.
-	A₁₂ := A from: 1 @ (ℓₕ + 1) to: mₕ @ ℓ.
-	A₂₁ := A from: mₕ + 1 @ 1 to: m @ ℓₕ.
-	A₂₂ := A from: mₕ + 1 @ (ℓₕ + 1) to: m @ ℓ.
-	self assert: A₁₁ ⊔ A₁₂ ⊓ (A₂₁ ⊔ A₂₂) = A.
-	B₁₁ := B from: 1 @ 1 to: ℓₕ @ nₕ.
-	B₁₂ := B from: 1 @ (nₕ + 1) to: ℓₕ @ n.
-	B₂₁ := B from: ℓₕ + 1 @ 1 to: ℓ @ nₕ.
-	B₂₂ := B from: ℓₕ + 1 @ (nₕ + 1) to: ℓ @ n.
-	self assert: B₁₁ ⊔ B₁₂ ⊓ (B₂₁ ⊔ B₂₂) = B.
-	C₁₁ := self from: 1 @ 1 to: mₕ @ nₕ.
-	C₁₂ := self from: 1 @ (nₕ + 1) to: mₕ @ n.
-	C₂₁ := self from: mₕ + 1 @ 1 to: m @ nₕ.
-	C₂₂ := self from: mₕ + 1 @ (nₕ + 1) to: m @ n.
-	X := A₁₁ parent zero. Y := X parent zero.
-	S₃ := X replaceWith: A₁₁ minus: A₂₁.
-	T₃ := Y replaceWith: B₂₂ minus: B₁₂.
-	P₇ := C₂₁ replaceWith: S₃ times: T₃.
-	S₁ := X replaceWith: A₂₁ plus: A₂₂.
-	T₁ := Y replaceWith: B₁₂ minus: B₁₁.
-	P₅ := C₂₂ replaceWith: S₁ times: T₁.
-	S₂ := X replaceWith: S₁ minus: A₁₁.
-	T₂ := Y replaceWith: B₂₂ minus: T₁.
-	P₆ := C₁₂ replaceWith: S₂ times: T₂.
-	S₄ := X replaceWith: A₁₂ minus: S₂.
-	P₃ := C₁₁ replaceWith: S₄ times: B₂₂.
-	P₁ := X replaceWith: A₁₁ times: B₁₁.
-	U₂ := C₁₂ replaceWith: P₁ plus: P₆.
-	U₃ := C₂₁ replaceWith: U₂ plus: P₇.
-	U₄ := C₁₂ replaceWith: U₂ plus: P₅.
-	U₇ := C₂₂ replaceWith: U₃ plus: P₅.
-	U₅ := C₁₂ replaceWith: U₄ plus: P₃.
-	T₄ := Y replaceWith: T₂ minus: B₂₁.
-	P₄ := C₁₁ replaceWith: A₂₂ times: T₄.
-	U₆ := C₂₁ replaceWith: U₃ minus: P₄.
-	P₂ := C₁₁ replaceWith: A₁₂ times: B₂₁.
-	U₁ := C₁₁ replaceWith: P₁ plus: P₂
-"	S₁ := A₂₁ + A₂₂. S₂ := S₁ - A₁₁. S₃ := A₁₁ - A₂₁.
-	T₁ := B₁₂ - B₁₁. T₂ := B₂₂ - T₁. T₃ := B₂₂ - B₁₂.
-	S₄ := A₁₂ - S₂. T₄ := T₂ - B₂₁.
-	P₁ := A₁₁ * B₁₁. P₂ := A₁₂ * B₂₁.
-	P₃ := S₄ * B₂₂. P₄ := A₂₂ * T₄.
-	P₅ := S₁ * T₁. P₆ := S₂ * T₂. P₇ := S₃ * T₃.
-	U₁ := P₁ + P₂. U₂ := P₁ + P₆.
-	U₃ := U₂ + P₇. U₄ := U₂ + P₅.
-	U₅ := U₄ + P₃. U₆ := U₃ - P₄. U₇ := U₃ + P₅.
-	^ U₁ ⊔ U₅ ⊓ (U₆ ⊔ U₇)"! !
-
-!Matrix methodsFor: 'operations-inplace' stamp: 'len 5/22/2023 17:24:02'!
-replaceWith: aMatrix1 times: aMatrix2
-	self atAllPut: self scalars zero.
-	self accumulateWith: aMatrix1 times: aMatrix2! !
-
-!Matrix methodsFor: 'printing' stamp: 'len 5/29/2023 23:29:54'!
-printBinaryOn: aStream
-	| elementSize space form canvas rect side color |
-	elementSize := Preferences defaultFontSize.
-	space := elementSize / 8.0.
-	form := Form extent: self width @ self height * elementSize depth: 8.
-	form fillColor: Color transparent.
-	canvas := BitBltCanvas onForm: form.
-	color := Theme current text.
-	1 to: self height do: [:i|
-		1 to: self width do: [:j|
-			rect := j-1@(i-1) * elementSize + space extent: elementSize@elementSize - (space*2).
-			(self isZeroAt: i@j)
-				ifTrue: [canvas frameRectangle: rect borderWidth: 1 color: color]
-				ifFalse: [canvas fillRectangle: rect color: color]]].
-	(side := form width max: form height) > 300 ifTrue: [form := form magnifyBy: 300.0 / side].
-	aStream print: form! !
-
-!Matrix methodsFor: 'printing' stamp: 'len 6/13/2023 17:17:22'!
-printOn: aStream
-	| columnWidth rowHeight w h canvas form textColor space lineWidth |
-	self isTrivial ifTrue: [aStream print: 0. ^ self].
-	aStream isText ifFalse: [self printPlainStringOn: aStream. ^ self].
-	(self scalars isKindOf: BinaryField)
-		ifTrue: [^ self printBinaryOn: aStream].
-	columnWidth := Array new: self width withAll: 0.
-	rowHeight := 0.
-	1 to: self width do: [:j|
-		| cellExtent |
-		cellExtent := 0@0.
-		1 to: self height do: [:i|
-			cellExtent := cellExtent max: (TextComposition new setModel: (TextModel withText: (self at: i@j) printText, '  '); extentForComposing: 9999999@9999999; composeAll; usedExtent)].
-		columnWidth at: j put: cellExtent x.
-		rowHeight := rowHeight max: cellExtent y].
-	space := 5.
-	w := columnWidth sum + (space * 2).
-	h := self height * rowHeight + (space * 1.5).
-	form := Form extent: w@h + 2 depth: 32.
-	form fillColor: Color transparent.
-	canvas := VectorCanvas onFormWithSubPixelAntiAliasing: form.
-	textColor := Theme current text.
-	1 to: self height do: [:i|
-		1 to: self width do: [:j|
-			| textComposition |
-			textComposition := TextComposition new setModel: (TextModel withText: (self at: i@j) printText centered); extentForComposing: (columnWidth at: j) @ rowHeight; composeAll.
-			canvas
-				drawTextComposition: textComposition
-				at: ((1 to: j-1) sum: [:k| columnWidth at: k] ifEmpty: [0]) @ (i-1*rowHeight) + space
-				extent: textComposition usedExtent
-				color: textColor
-				selectionColor: textColor
-				avoidOverhang: true]].
-	lineWidth := 1.0.
-	canvas
-		line: 1@2 to: 1@(h-1) width: lineWidth color: textColor;
-		line: 1@1 to: space*1.5@1 width: lineWidth color: textColor;
-		line: 1@h to: space*1.5@h width: lineWidth color: textColor;
-		line: w@2 to: w@(h-1) width: lineWidth color: textColor;
-		line: w@1 to: w-(space*1.5)@1 width: lineWidth color: textColor;
-		line: w@h to: w-(space*1.5)@h width: lineWidth color: textColor.
-	aStream print: form! !
-
-!Matrix methodsFor: 'printing' stamp: 'len 6/13/2023 17:20:02'!
-printPlainStringOn: aStream
-	self rows do: [:each| aStream withBrackets: [:aStream2| each asArray do: [:x| aStream2 print: x] separatedBy: [aStream nextPutAll: '  ']]] separatedBy: [aStream nextPutAll: String lfString]! !
-
-!Matrix methodsFor: 'solving' stamp: 'len 5/8/2023 18:47:04'!
-colift: aMatrix
-	"Answer X such that XA = B, where A is the receiver and B is the argument. Answer nil if there's no solution.
-	X is called a colift (or extension) of B along A, written B / A."
-	| X |
-	self scalars isCommutative ifTrue:
-		[X _ (aMatrix transpose quotientBy: self transpose) transpose.
-		^ X * self = aMatrix ifTrue: [X]].
-	self scalars isInvolutive ifTrue:
-		[X _ (aMatrix conjugate quotientBy: self conjugate) conjugate.
-		^ X * self = aMatrix ifTrue: [X]].
-	^ self notYetImplemented! !
-
-!Matrix methodsFor: 'solving' stamp: 'len 1/4/2022 09:01:04'!
-colift: aMatrix modulo: aRelationsMatrix
-	"Answer X such that XA = B modulo L, i.e. X such that there exists Y with XA + YL = B, where A is self, B is aMatrix and L is aRelationsMatrix."
-	aRelationsMatrix isZero ifTrue: [^ self colift: aMatrix].
-	^ (self ⊓ aRelationsMatrix transpose colift: aMatrix) ifNotNil: [:X| X copyFromColumn: 1 to: self height]! !
-
-!Matrix methodsFor: 'solving' stamp: 'len 5/8/2023 18:47:17'!
-cosyzygies
-	"Answer a matrix whose columns span the cokernel or left nullspace of the receiver.
-	For a matrix A, the output is X such that XA = 0."
-	self scalars isCommutative ifTrue: [^ self transpose syzygies transpose].
-	self scalars isInvolutive ifTrue: [^ self conjugate syzygies conjugate].
-	^ self notYetImplemented! !
-
-!Matrix methodsFor: 'solving' stamp: 'len 6/1/2022 20:42:52'!
-divisionBy: aMatrix
-	"Answer X and N such that AX + N = B, where B is self and A is aMatrix, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
-	| X |
-	X _ self quotientBy: aMatrix.
-	^ {X. self - (aMatrix * X)}! !
-
-!Matrix methodsFor: 'solving' stamp: 'len 6/1/2022 19:59:18'!
-lift: aMatrix
-	"Answer X such that AX = B, where A is the receiver and B is the argument. 	Answer nil if there's no solution.
-	X is called a lift of B along A, written A \ B."
-	| X |
-	X _ aMatrix quotientBy: self.
-	^ self * X = aMatrix ifTrue: [X]! !
-
-!Matrix methodsFor: 'solving' stamp: 'len 6/2/2022 19:25:01'!
-lift: aMatrix modulo: aRelationsMatrix
-	"Answer X such that AX = B modulo L, i.e. X such that there exists Y with AX + LY = B, where A is self, B is aMatrix and aRelationsMatrix is L."
-	aRelationsMatrix isZero ifTrue: [^ self lift: aMatrix].
-	^ (self ⊔ aRelationsMatrix lift: aMatrix) ifNotNil: [:X| X copyFromRow: 1 to: self width]! !
-
-!Matrix methodsFor: 'solving' stamp: 'len 10/5/2022 17:22:51'!
-quotientBy: aMatrix
-	"Answer X such that AX + N = B, where B is the receiver and A is the argument, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
-	self height = aMatrix height ifFalse: [^ self error: 'matrix shapes don''t match'].
-	(self isZero or: [aMatrix isZero]) ifTrue: [^ (self domain ⇒ aMatrix domain) zero].
-	^ self scalars matrix: self quotientBy: aMatrix! !
-
-!Matrix methodsFor: 'solving' stamp: 'len 6/1/2022 19:08:25'!
-quotientBy: aMatrix modulo: aRelationsMatrix
-	"Answer X such that AX + N = B modulo L, i.e. X such that there exists Y with AX + LY + N = B, where B is the receiver, A is aMatrix and L is aRelationsMatrix, satisfying that if the i-th column of B is a linear combination of the columns of A modulo L then the i-th column of N is zero."
-	aRelationsMatrix isZero ifTrue: [^ self quotientBy: aMatrix].
-	^ (self quotientBy: aMatrix ⊔ aRelationsMatrix) copyFromRow: 1 to: aMatrix width! !
-
-!Matrix methodsFor: 'solving' stamp: 'len 6/4/2022 21:15:05'!
-reductionBy: aMatrix
-	"Answer N with AX + N = B. See >>quotientBy:."
-	self height = aMatrix height ifFalse: [^ self error: 'matrix shapes don''t match'].
-	(self isZero or: [aMatrix isZero]) ifTrue: [^ self].
-	^ self scalars matrix: self reductionBy: aMatrix! !
-
-!Matrix methodsFor: 'solving' stamp: 'len 6/1/2022 20:35:23'!
-reductionBy: aMatrix modulo: aRelationsMatrix
-	"Answer N with AX + N = B modulo L. See >>quotientBy:modulo:."
-	| A |
-	aRelationsMatrix isZero ifTrue: [^ self reductionBy: aMatrix].
-	A _ aMatrix ⊔ aRelationsMatrix.
-	^ self - (A * (self quotientBy: A))! !
-
-!Matrix methodsFor: 'solving' stamp: 'len 5/16/2022 20:33:54'!
-syzygies
-	"Answer a matrix whose columns span the (right) kernel or nullspace of the receiver.
-	For a matrix A, the output is X such that AX = 0."
-	^ self scalars syzygiesOf: self! !
-
-!Matrix methodsFor: 'solving' stamp: 'len 9/11/2022 19:37:15'!
-syzygiesModulo: aRelationsMatrix
-	aRelationsMatrix isZero ifTrue: [^ self syzygies].
-	^ (self ⊔ aRelationsMatrix) syzygies copyFromRow: 1 to: self width! !
-
-!Matrix methodsFor: 'spectrum' stamp: 'len 5/29/2020 05:03:52'!
-eigenspaceAt: anEigenvalue
-	^ (self - (self identity * anEigenvalue)) kernel! !
-
-!Matrix methodsFor: 'spectrum' stamp: 'len 2/6/2016 19:39'!
-eigenvalues
-	^ self spectrum asSet! !
-
-!Matrix methodsFor: 'spectrum' stamp: 'len 2/22/2017 08:46:13'!
-spectralRadius
-	(self scalars isReal or: [self scalars isComplex])
-		ifFalse: [^ DomainError signal: 'spectral radius is only defined for matrices with complex scalars'].
-	^ self spectrum max: [:each| each abs]! !
-
-!Matrix methodsFor: 'spectrum' stamp: 'len 3/27/2018 16:26:17'!
-spectrum
-	^ self characteristicPolynomial allRoots! !
-
-!Matrix methodsFor: 'subobjects' stamp: 'len 4/6/2021 11:06:49'!
-kernel
-	^ self syzygies image! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 5/25/2022 13:36:26'!
-isAutomorphism
-	"Answer true if the receiver is invertible."
-	^ self isSquare and: [self determinant isUnit]! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 5/20/2023 12:21:49'!
-isDense
-	^ false! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 5/30/2019 04:43:29'!
-isDiagonal
-	^ self isLowerTriangular and: [self isUpperTriangular]! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 12/20/2022 15:00:46'!
-isEchelon
-	"Answer true if the receiver is in row echelon form.
-	It must satisfy the following conditions:
-	1. All nonzero rows are above any rows of all zeros;
-	2. The leading coefficient (or pivot) of each nonzero row is always strictly to the right of the pivot of the row above it."
-	| lastPivot |
-	lastPivot _ 0@0.
-	self pivotsDo: [:each|
-		(each y > lastPivot y and: [each x - lastPivot x = 1]) ifFalse: [^ false].
-		lastPivot _ each].
-	^ true! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 5/29/2020 06:32:04'!
-isEmpty
-	^ self width = 0 or: [self height = 0]! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 3/17/2021 14:40:31'!
-isEndomorphism
-	^ self isSquare! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 4/5/2018 15:31:35'!
-isFullRank
-	^ self rank = (self width min: self height)! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 6/17/2023 22:08:02'!
-isHermiteNormalForm
-	"Answer true if the receiver is in row Hermite normal form over ℤ.
-	It must satisfy the following conditions:
-	1. It is upper triangular;
-	2. The leading coefficient (or pivot) of a nonzero row is always strictly to the right of the leading coefficient of the row above it, and it is positive;
-	3. And the elements below pivots are zero and elements above pivots are nonnegative and strictly smaller than the pivot."
-	| lastPivot |
-	lastPivot := 0@0.
-	self pivotsDo: [:each| | coefficient |
-		(each x <= each y and: [each y > lastPivot y and: [each x - lastPivot x = 1]])
-			ifFalse: [^ false].
-		coefficient := self at: each.
-		coefficient > 0 ifFalse: [^ false].
-		1 to: each x - 1 do: [:i| | v |
-			((v := self at: i@each y) >= 0 and: [v < coefficient])
-				ifFalse: [^ false]].
-		each x + 1 to: self height do: [:i|
-			(self at: i@each y) = 0
-				ifFalse: [^ false]].
-		lastPivot := each].
-	^ true! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 7/22/2021 18:53:41'!
-isHermitian
-	"Answer true if the receiver is Hermitian (or self-adjoint)."
-	^ self = self conjugate! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 8/14/2020 17:13:22'!
-isIdentity
-	^ self isSquare and: [self = self identity]! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 8/25/2021 18:28:29'!
-isIsomorphism
-	^ self isUnimodular! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 12/17/2022 10:58:51'!
-isLowerTriangular
-	"Answer true if the receiver is lower triangular (or left triangular)."
-	1 to: (self width min: self height) do: [:i|
-		i+1 to: self width do: [:j| (self isZeroAt: i@j) ifFalse: [^ false]]].
-	^ true! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 4/2/2018 05:16:26'!
-isMatrix
-	^ true! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 6/17/2023 12:00:10'!
-isMinimalStandardBasis
-	"A Groebner basis G of an ideal I is called 'minimal' if the leading terms of the elements in G minimally generate in(I); or equivalently, if for all g in G:
-	- LC(g) is normalized (over fields g is monic), and
-	- LT(g) is not in ⟨G-{g}⟩ (i.e., leading-term-minimal, no leading term of any generator divides any other generator's leading term).
-	Note that any leading-term-minimal Groebner basis is also cardinality-minimal."
-	self isStandardBasis ifFalse: [^ false].
-	self columnsDo: [:g| g leadingCoefficient normalization isOne ifFalse: [^ false]].
-	1 to: self width do: [:i|
-		| Cᵢ m c |
-		Cᵢ := self columnAt: i.
-		m := Cᵢ leadingMonomial.
-		c := Cᵢ leadingCoefficient.
-		1 to: self width do: [:j|
-			i ~= j ifTrue:
-				[| Cⱼ |
-				Cⱼ := self columnAt: j.
-				(Cⱼ leadingMonomial | m and: [Cⱼ leadingCoefficient | c]) ifTrue: [^ false]]]].
-	^ true! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 1/2/2022 10:01:23'!
-isMonomial
-	"A matrix is called a 'monomial matrix' if it has exactly one nonzero entry in each column and each row."
-	self rowsDo: [:row| (row count: [:each| each isZero not]) = 1 ifFalse: [^ false]].
-	self columnsDo: [:column| (column count: [:each| each isZero not]) = 1 ifFalse: [^ false]].
-	^ true! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 11/13/2022 10:35:22'!
-isNegativeDefinite
-	self checkIsSquare.
-	self scalars isReal ifFalse: [^ DomainError signal: 'not a real matrix'].
-	self flag: #fix. "define this for complex matrices too"
-	^ (1 to: self width) allSatisfy: [:i| (self copyFrom: 1@1 to: i@i) determinant < 0]! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 5/29/2020 05:03:24'!
-isNilpotent
-	"Answer true if self^n = 0 for some integer n >= 1."
-	"This only works for real or complex matrices."
-	^ self trace isZero and: [self determinant isZero]! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 7/22/2021 18:53:54'!
-isNormal
-	^ self conjugate * self = (self * self conjugate)! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 8/9/2020 07:53:38'!
-isOrthogonal
-	"A real square matrix Q is orthogonal if Q^t * Q = I (the transposed is the inverse).
-	Equivalently:
-		- Q has orthonormal columns and rows;
-		- For all v, ||Qv|| = ||v|| (the matrix preserves the Euclidean norm defined by the standard dot product)."
-	^ self isSquare and: [(self * self transpose) isIdentity]! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 11/13/2022 10:35:06'!
-isPositiveDefinite
-	self checkIsSquare.
-	"TODO: extend this to the hermitian matrices over the complex numbers, use the indefinite factorization algorithm as Sage"
-	self scalars isComplex
-		ifTrue:
-			[self isHermitian ifFalse: [^ false].
-			self notYetImplemented].
-	self scalars isReal
-		ifTrue:
-			[self isSymmetric ifFalse: [^ false].
-			^ (1 to: self width) allSatisfy: [:i| (self copyFrom: 1@1 to: i@i) determinant > 0]].
-	^ DomainError signal: 'not a real or complex matrix'! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 5/23/2016 19:55'!
-isRankDeficient
-	^ self isFullRank not! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 12/20/2022 15:00:27'!
-isReducedEchelon
-	"Answer true if the receiver is in reduced row echelon form.
-	It must satisfy the following conditions:
-	1. It is in row echelon form;
-	2. And every leading coefficient is 1 and is the only nonzero entry in its column."
-	| lastPivot |
-	lastPivot _ 0@0.
-	self pivotsDo: [:each|
-		(each y > lastPivot y and: [each x - lastPivot x = 1]) ifFalse: [^ false].
-		(self at: each) isOne ifFalse: [^ false].
-		1 to: self height do: [:j|
-			(j = each x or: [(self at: j @ each y) isZero]) ifFalse: [^ false]].
-		lastPivot _ each].
-	^ true! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 6/17/2023 14:22:09'!
-isReducedStandardBasis
-	"A strong Groebner basis G is called 'reduced' (or 'auto-reduced') if for all g in G:
-	- LC(g) is normalized (over fields g is monic), and
-	- if the monomial m of any term c*m of g can be divided by the leading monomial LM(f) of any other element f of G, the Euclidean quotient of the division c by LC(f) is zero.
-	In particular, a reduced Groebner basis is leading-term-minimal (no leading term of any generator divides any other generator's leading term), and a leading-term-minimal basis is also cardinality-minimal."
-	self isStandardBasis ifFalse: [^ false].
-	self columnsDo: [:g| g leadingCoefficient normalization isOne ifFalse: [^ false]].
-	1 to: self width do: [:i|
-		(self columnAt: i) associationsDo: [:each|
-			1 to: self width do: [:j|
-				i ~= j ifTrue:
-					[| Cⱼ |
-					Cⱼ := self columnAt: j.
-					(Cⱼ leadingMonomial | each key and: [(each value // Cⱼ leadingCoefficient) isZero not]) ifTrue: [^ false]]]]].
-	^ true! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 4/5/2018 15:42:21'!
-isScalar
-	self isDiagonal ifFalse: [^ false].
-	2 to: self height do: [:i|
-		(self at: i@i) = (self at: 1@1) ifFalse: [^ false]].
-	^ true! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 1/9/2022 08:31:55'!
-isSemisimple
-	^ self minimalPolynomial isSquarefree! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 5/3/2021 10:57:24'!
-isSimplectic
-	| M ω |
-	(self isSquare and: [self width even]) ifFalse: [^ false].
-	M _ (self scalars^(self width/2)) endomorphisms.
-	ω _ M zero ⊔ M identity ⊓ (M identity negated ⊔ M zero).
-	^ self transpose * ω * self = ω! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 10/16/2022 11:50:25'!
-isSingular
-	"Answer true if the receiver has nontrivial kernel."
-	^ self determinant isZeroDivisor! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 7/22/2021 18:54:00'!
-isSkewHermitian
-	"Answer true if the receiver is skew-Hermitian (or antihermitian)."
-	^ self = self conjugate negated! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 8/9/2020 07:53:41'!
-isSkewSymmetric
-	"Answer true if the receiver is a skew-symmetric (or anti-symmetric) matrix."
-	^ self negated = self transpose! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 5/29/2020 07:30:05'!
-isSmithNormalForm
-	"Answer true if the receiver is in Smith normal form."
-	| diagonal previousEntry n0 |
-	self isDiagonal ifFalse: [^ false].
-	self isEmpty ifTrue: [^ true].
-	diagonal _ self diagonal.
-	previousEntry _ diagonal first.
-	n0 _ diagonal findLast: [:each| each isZero not].
-	2 to: n0 do: [:i| | thisEntry |
-		thisEntry _ diagonal at: i.
-		previousEntry | thisEntry ifFalse: [^ false].
-		previousEntry _ thisEntry].
-	n0+1 to: diagonal size do: [:i|
-		(diagonal at: i) isZero ifFalse: [^ false]].
-	^ true! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 4/5/2018 15:31:59'!
-isSquare
-	^ self height = self width! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 12/18/2022 11:34:49'!
-isStandardBasis
-	"Answer true if the columns of the receiver form a standard basis of the module spanned by the columns."
-	1 to: self width do: [:i| | fi |
-		fi _ self columnAt: i.
-		i+1 to: self width do: [:j| | fj |
-			fj _ self columnAt: j.
-			(fi s: fj) ifNotNil: [:s| (s \\ self columns) isZero ifFalse: [^ false]]]].
-	^ true! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 8/9/2020 07:53:44'!
-isSymmetric
-	^ self = self transpose! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 3/2/2017 19:36:13'!
-isTriangular
-	^ self isLowerTriangular or: [self isUpperTriangular]! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 5/4/2020 10:04:50'!
-isUnimodular
-	^ self determinant isUnit! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 7/22/2021 18:54:06'!
-isUnitary
-	"A complex square matrix U is unitary if U* * U = I (the adjoint is the inverse).
-	Equivalently:
-		- U has orthonormal columns and rows;
-		- For all v, ||Uv|| = ||v||."
-	^ self isSquare and: [(self * self conjugate) isIdentity]! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 12/17/2022 10:59:13'!
-isUpperTriangular
-	"Answer true if the receiver is upper triangular (or right triangular)."
-	^ self transpose isLowerTriangular! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 3/23/2016 00:27'!
-isZero
-	self do: [:each| each isZero ifFalse: [^ false]].
-	^ true! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 12/1/2016 17:03:47'!
-isZeroAt: aPoint
-	^ (self at: aPoint) isZero! !
-
-!Matrix methodsFor: 'testing' stamp: 'len 12/22/2022 19:00:54'!
-isZeroAtColumn: anInteger
-	^ (self columnAt: anInteger) isZero! !
-
-!Matrix methodsFor: 'private' stamp: 'len 5/26/2023 22:56:17'!
-** aMatrix
-	"Strassen-Winograd matrix multiplication algorithm. This is a naive implementation."
-	| A B m ℓ n mₕ ℓₕ nₕ A₁₁ A₁₂ A₂₁ A₂₂ B₁₁ B₁₂ B₂₁ B₂₂ S₁ S₂ S₃ S₄ T₁ T₂ T₃ T₄ P₁ P₂ P₃ P₄ P₅ P₆ P₇ U₁ U₂ U₃ U₄ U₅ U₆ U₇ |
-	self flag: #deprecated.
-	A := self.
-	B := aMatrix.
-	m := A height.
-	ℓ := A width.
-	n := B height.
-	mₕ := m - 1 // 2 + 1.
-	ℓₕ := ℓ - 1 // 2 + 1.
-	nₕ := n - 1 // 2 + 1.
-	A₁₁ := A copyFrom: 1 @ 1 to: mₕ @ ℓₕ.
-	A₁₂ := A copyFrom: 1 @ (ℓₕ + 1) to: mₕ @ ℓ.
-	A₂₁ := A copyFrom: mₕ + 1 @ 1 to: m @ ℓₕ.
-	A₂₂ := A copyFrom: mₕ + 1 @ (ℓₕ + 1) to: m @ ℓ.
-	self assert: A₁₁ ⊔ A₁₂ ⊓ (A₂₁ ⊔ A₂₂) = A.
-	B₁₁ := B copyFrom: 1 @ 1 to: ℓₕ @ nₕ.
-	B₁₂ := B copyFrom: 1 @ (nₕ + 1) to: ℓₕ @ n.
-	B₂₁ := B copyFrom: ℓₕ + 1 @ 1 to: ℓ @ nₕ.
-	B₂₂ := B copyFrom: ℓₕ + 1 @ (nₕ + 1) to: ℓ @ n.
-	self assert: B₁₁ ⊔ B₁₂ ⊓ (B₂₁ ⊔ B₂₂) = B.
-	S₁ := A₂₁ + A₂₂. S₂ := S₁ - A₁₁. S₃ := A₁₁ - A₂₁.
-	T₁ := B₁₂ - B₁₁. T₂ := B₂₂ - T₁. T₃ := B₂₂ - B₁₂.
-	S₄ := A₁₂ - S₂. T₄ := T₂ - B₂₁.
-	P₁ := A₁₁ * B₁₁. P₂ := A₁₂ * B₂₁.
-	P₃ := S₄ * B₂₂. P₄ := A₂₂ * T₄.
-	P₅ := S₁ * T₁. P₆ := S₂ * T₂. P₇ := S₃ * T₃.
-	U₁ := P₁ + P₂. U₂ := P₁ + P₆.
-	U₃ := U₂ + P₇. U₄ := U₂ + P₅.
-	U₅ := U₄ + P₃. U₆ := U₃ - P₄. U₇ := U₃ + P₅.
-	^ U₁ ⊔ U₅ ⊓ (U₆ ⊔ U₇)! !
-
-!Matrix methodsFor: 'private' stamp: 'len 11/13/2022 10:34:18'!
-checkIsSquare
-	self isSquare ifFalse: [^ DomainError signal: 'not a square matrix']! !
-
-!Matrix methodsFor: 'private' stamp: 'len 3/13/2021 12:32:27'!
-checkScalarsMatch: aMatrix
-	self scalars = aMatrix scalars ifFalse: [^ DomainError signal: 'base rings don''t match']! !
-
-!Matrix methodsFor: 'private' stamp: 'len 6/9/2022 07:45:08'!
-checkShapesMatch: aMatrix
-	(self width = aMatrix width and: [self height = aMatrix height]) ifFalse: [^ DomainError signal: 'matrix shapes don''t match']! !
-
-!Matrix methodsFor: 'private' stamp: 'len 12/13/2016 09:51:35'!
-hadamardBound
-	"Answer a bound N on the determinant of the receiver such that |det A| < 2^N.
-	Assume the coefficients are real."
-	^ (self rows sum: [:row| (row sum: [:each| each squared])]) log2 min: (self columns sum: [:column| (column sum: [:each| each squared])]) log2! !
-
-!Matrix methodsFor: 'private' stamp: 'len 7/8/2022 11:08:27'!
-validate
-	self assert: (self allSatisfy: [:each| self scalars includes: each]).
-	^ super validate! !
-
-!Matrix class methodsFor: 'instance creation' stamp: 'len 10/26/2020 16:29:36'!
-columns: anArray
-	^ self to: anArray first parent columns: anArray! !
-
-!Matrix class methodsFor: 'instance creation' stamp: 'len 11/25/2022 06:23:37'!
-from: aDomain rows: anArray
-	^ self from: aDomain to: aDomain scalars ^ anArray size rows: anArray! !
-
-!Matrix class methodsFor: 'instance creation' stamp: 'len 5/12/2023 20:46:42'!
-from: aDomain to: aCodomain columns: anArray
-	^ (self from: aCodomain to: aDomain rows: anArray) transpose! !
-
-!Matrix class methodsFor: 'instance creation' stamp: 'len 11/23/2022 21:33:31'!
-from: aDomain to: aCodomain fill: aBlock
-	^ self from: aDomain to: aCodomain rows: ((1 to: aCodomain rank) collect: [:i| aDomain fill: [:j| aBlock value: i value: j]])! !
-
-!Matrix class methodsFor: 'instance creation' stamp: 'len 5/29/2020 10:47:04'!
-from: aDomain to: aCodomain matrix: aMatrix
-	^ self shouldNotImplement! !
-
-!Matrix class methodsFor: 'instance creation' stamp: 'len 5/12/2023 20:45:39'!
-from: aDomain to: aCodomain rows: anArray
-	| coefficients i n |
-	coefficients _ aDomain scalars new: aDomain rank * aCodomain rank.
-	i _ 1.
-	n _ aDomain rank.
-	anArray do: [:each| coefficients replaceFrom: i to: i + n - 1 with: each coefficients. i _ i + n].
-	^ DenseMatrix from: aDomain to: aCodomain coefficients: coefficients! !
-
-!Matrix class methodsFor: 'instance creation' stamp: 'len 10/26/2020 16:28:36'!
-rows: anArray
-	^ self from: anArray first parent rows: anArray! !
-
-!Matrix class methodsFor: 'instance creation' stamp: 'len 11/25/2022 06:23:05'!
-to: aCodomain columns: anArray
-	^ self from: aCodomain scalars ^ anArray size to: aCodomain columns: anArray! !
-
-!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/20/2023 19:28:50'!
-atAllPut: anElement
-	coefficients atAllPut: anElement! !
-
-!DenseMatrix methodsFor: 'accessing' stamp: 'len 4/20/2022 18:37:50'!
-atRow: i column: j
-	^ coefficients at: i - 1 * self width + j! !
-
-!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 22:37:43'!
-atRow: i column: j ifAbsent: exceptionBlock
-	((i between: 1 and: self height) and: [j between: 1 and: self width])
-		ifFalse: [^ exceptionBlock value].
-	^ coefficients at: i - 1 * self width + j "ifAbsent: exceptionBlock"! !
-
-!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 22:38:15'!
-atRow: i column: j put: anObject
-	((i between: 1 and: self height) and: [j between: 1 and: self width])
-		ifFalse: [^ self error: 'indices out of bounds'].
-	^ coefficients at: i - 1 * self width + j put: anObject! !
-
-!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/15/2023 17:31:53'!
-lift
-	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R."
-	self scalars cover = ℤ ifTrue: [^ self class from: domain lift to: codomain lift coefficients: coefficients lift].
-	^ super lift! !
-
-!DenseMatrix methodsFor: 'accessing' stamp: 'len 12/2/2022 14:30:26'!
-projection: anInteger
-	"If the coefficients ring is a product ring, answer matrix induced by the projection to the anInteger-th component."
-	^ self class from: (domain over: (domain scalars at: anInteger)) to: (codomain over: (domain scalars at: anInteger)) coefficients: (coefficients projection: anInteger)! !
-
-!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/15/2023 17:30:51'!
-representative
-	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R."
-	self scalars cover = ℤ ifTrue: [^ self class from: domain lift to: codomain lift coefficients: coefficients representative].
-	^ super representative! !
-
-!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/5/2023 16:50:11'!
-rowAt: i
-	^ domain coefficients: (coefficients copyFrom: i - 1 * self width + 1 to: i * self width)! !
-
-!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/5/2023 16:50:23'!
-rowAt: i put: aTuple
-	coefficients replaceFrom: i - 1 * self width + 1 to: i * self width with: aTuple coefficients startingAt: 1! !
-
-!DenseMatrix methodsFor: 'accessing' stamp: 'len 6/9/2023 20:57:12'!
-zero
-	^ self class from: domain to: codomain coefficients: (self scalars zeros: coefficients size)! !
-
-!DenseMatrix methodsFor: 'comparing' stamp: 'len 12/11/2022 09:53:10'!
-= anObject
-	^ (self class = anObject class and: [coefficients = anObject coefficients]) or: [super = anObject]! !
-
-!DenseMatrix methodsFor: 'comparing' stamp: 'len 5/9/2023 17:58:28'!
-apply: aFunction
-	"Answer a new tuple with coefficients obtainted by applying aFunction to the coefficients of the receiver.
-	If aFunction is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
-
-	aFunction isBlock ifTrue: [^ self class from: domain to: codomain coefficients: (coefficients apply: aFunction)].
-	^ self class from: (domain over: aFunction codomain) to: (codomain over: aFunction codomain) coefficients: (coefficients apply: aFunction)! !
-
-!DenseMatrix methodsFor: 'converting' stamp: 'len 5/5/2023 18:19:38'!
-asTuple
-	"Answer the receiver converted to Tuple by concatenating its rows (which is also the coordinates of the receiver in the canonical basis)."
-	^ self scalars ^ (self width * self height) coefficients: coefficients! !
-
-!DenseMatrix methodsFor: 'converting' stamp: 'len 5/5/2023 17:16:37'!
-over: aRing
-	self scalars = aRing ifTrue: [^ self].
-	^ self class from: (domain over: aRing) to: (codomain over: aRing) coefficients: (aRing new: coefficients size fill: [:i| coefficients at: i])! !
-
-!DenseMatrix methodsFor: 'copying' stamp: 'len 5/16/2022 11:09:18'!
-copyFrom: start to: stop
-	"Answer the submatrix of the receiver from start to stop."
-	| h w subcoefficients |
-	(stop x > self height or: [stop y > self width]) ifTrue: [^ self error: 'index out of bounds'].
-	h _ stop x - start x + 1 max: 0.
-	w _ stop y - start y + 1 max: 0.
-	subcoefficients _ self scalars new: h*w.
-	w > 0 ifTrue: [start x to: stop x do: [:i| subcoefficients replaceFrom: i - start x * w + 1 to: i - start x * w + w with: coefficients startingAt: i - 1 * self width + start y]].
-	^ self class
-		from: (domain copyFrom: start y to: stop y)
-		to: (codomain copyFrom: start x to: stop x)
-		coefficients: subcoefficients! !
-
-!DenseMatrix methodsFor: 'copying' stamp: 'len 12/20/2022 09:46:05'!
-postCopy
-	super postCopy.
-	properties _ nil.
-	coefficients _ coefficients copy! !
-
-!DenseMatrix methodsFor: 'enumerating' stamp: 'len 4/21/2022 12:32:12'!
-allSatisfy: aBlock
-	^ coefficients allSatisfy: aBlock! !
-
-!DenseMatrix methodsFor: 'enumerating' stamp: 'len 5/29/2020 04:11:36'!
-collect: aBlock
-	^ self class from: domain to: codomain coefficients: (coefficients collect: aBlock)! !
-
-!DenseMatrix methodsFor: 'enumerating' stamp: 'len 12/15/2022 12:50:32'!
-diagonalDo: aBlock
-	| i step |
-	i _ 1.
-	step _ self width + 1.
-	[i <= coefficients size]
-		whileTrue:
-			[aBlock value: (coefficients at: i).
-			i _ i + step]! !
-
-!DenseMatrix methodsFor: 'enumerating' stamp: 'len 5/28/2020 10:34:42'!
-do: aBlock
-	coefficients do: aBlock! !
-
-!DenseMatrix methodsFor: 'enumerating' stamp: 'len 5/20/2022 11:37:50'!
-pivotsDo: aBlock
-	"Enumerate the row-style pivot indices. These are the pairs i@j corresponding to the first nonzero entry of each row."
-	| w rowStart |
-	w _ self width.
-	rowStart _ 1.
-	1 to: self height do: [:i|
-		(coefficients findFirstNonzeroFrom: rowStart to: rowStart + w - 1) ifNotNil: [:j| aBlock value: i@(j - rowStart + 1)].
-		rowStart _ rowStart + w]! !
-
-!DenseMatrix methodsFor: 'enumerating' stamp: 'len 4/21/2022 12:35:08'!
-withIndicesDo: aBlock
-	| width i j |
-	width _ self width.
-	i _ 1.
-	j _ 1.
-	coefficients do: [:each|
-		aBlock value: each value: i value: j.
-		(j _ j + 1) > width ifTrue: [j _ 1. i _ i + 1]].! !
-
-!DenseMatrix methodsFor: 'operations' stamp: 'len 6/1/2023 19:24:41'!
-* anObject
-	(self scalars includes: anObject) ifTrue: [^ self class from: domain to: codomain coefficients: coefficients * anObject].
-	anObject isInteger ifTrue: [^ self * (self scalars !! anObject)].
-	anObject isMatrix ifTrue: [^ self · anObject].
-	anObject isTuple ifTrue: [^ self value: anObject].
-	(anObject isKindOf: ModuleMap) ifTrue: [^ self · anObject].
-	^ self class from: domain to: codomain coefficients: coefficients * (self scalars !! anObject)! !
-
-!DenseMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:23:50'!
-+ aMatrix
-	self class = aMatrix class ifFalse: [^ super + aMatrix].
-	self checkDomainsMatch: aMatrix.
-	self checkCodomainsMatch: aMatrix.
-	^ self class from: domain to: codomain coefficients: coefficients + aMatrix coefficients! !
-
-!DenseMatrix methodsFor: 'operations' stamp: 'len 5/9/2023 17:56:08'!
-- aMatrix
-	self class = aMatrix class ifFalse: [^ super - aMatrix].
-	self checkDomainsMatch: aMatrix.
-	self checkCodomainsMatch: aMatrix.
-	^ self class from: domain to: codomain coefficients: coefficients - aMatrix coefficients! !
-
-!DenseMatrix methodsFor: 'operations' stamp: 'len 5/16/2022 11:32:28'!
-⊕ aMatrix
-	"Answer the block sum of the receiver and the argument.
-	If the receiver is A and the argument is B, output a matrix of the form:
-	  [A 0]
-	  [0 B]"
-	| newCoefficients w |
-	self class = aMatrix class ifFalse: [^ super ⊕ aMatrix].
-	w _ self width + aMatrix width.
-	newCoefficients _ self scalars zeros: w * (self height + aMatrix height).
-	1 to: self height do: [:i|
-		newCoefficients replaceFrom: i - 1 * w + 1 to: i - 1 * w + self width with: coefficients startingAt: i - 1 * self width + 1].
-	1 to: aMatrix height do: [:i|
-		newCoefficients replaceFrom: i - 1 + self height * w + self width + 1 to: i + self height * w with: aMatrix coefficients startingAt: i - 1 * aMatrix width + 1].
-	^ self class from: domain ⊕ aMatrix domain to: codomain ⊕ aMatrix codomain coefficients: newCoefficients
-! !
-
-!DenseMatrix methodsFor: 'operations' stamp: 'len 6/14/2023 15:32:28'!
-∘ aMatrix
-	self class = aMatrix class ifFalse: [^ super ∘ aMatrix].
-	self flag: #fixme. "TODO: multiplication with submatrix"
-	self flag: #fixme. "should do this with localizations? we are doing the same for polynomial multiplication"
-	self scalars isLocalization ifTrue:
-		[| F numerators denominator |
-		F := self scalars.
-		numerators := (self numerator * aMatrix numerator) coefficients.
-		denominator := self denominator * aMatrix denominator.
-		^ self class from: aMatrix domain to: codomain coefficients: (F new: numerators size fill: [:i| F numerator: (numerators at: i) denominator: denominator])].
-	self checkCompatibleComposition: aMatrix.
-	(coefficients isEmpty or: [aMatrix coefficients isEmpty])
-		ifTrue: [^ self class from: aMatrix domain to: codomain coefficients: (self scalars zeros: aMatrix width * self height)].
-	^ self class
-		from: aMatrix domain
-		to: codomain
-		coefficients:
-			((self scalars zeros: aMatrix width * self height)
-				accumulateWithMatrix: coefficients width: self width
-				timesMatrix: aMatrix coefficients width: aMatrix width)! !
-
-!DenseMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:22:20'!
-⊓ aMatrix
-	"Answer the product morphism of the receiver and the argument.
-	This is the row-augmented matrix with the receiver stacked on top of the argument.
-	If the receiver is A and the argument is B, output a matrix of the form:
-	  [A]
-	  [B]"
-	self class = aMatrix class ifFalse: [^ super ⊓ aMatrix].
-	self checkDomainsMatch: aMatrix.
-	^ self class from: domain to: codomain ⊕ aMatrix codomain coefficients: coefficients, aMatrix coefficients! !
-
-!DenseMatrix methodsFor: 'operations' stamp: 'len 12/25/2022 13:32:29'!
-⊔ aMatrix
-	"Answer the coproduct morphism of the receiver and the argument.
-	This is the column-augmented matrix with the receiver concatenated with the argument.
-	If the receiver is A and the argument is B, output a matrix of the form:
-	  [A B]"
-	| newCoefficients w |
-	self class = aMatrix class ifFalse: [^ super ⊔ aMatrix].
-	self checkCodomainsMatch: aMatrix.
-	newCoefficients _ self scalars new: coefficients size + aMatrix coefficients size.
-	w _ self width + aMatrix width.
-	1 to: self height do: [:i|
-		newCoefficients
-			replaceFrom: i - 1 * w + 1 to: i - 1 * w + self width with: coefficients startingAt: i - 1 * self width + 1;
-			replaceFrom: i - 1 * w + self width + 1 to: i * w with: aMatrix coefficients startingAt: i - 1 * aMatrix width + 1].
-	^ self class from: domain ⊕ aMatrix domain to: codomain coefficients: newCoefficients! !
-
-!DenseMatrix methodsFor: 'operations' stamp: 'len 4/21/2022 12:38:12'!
-negated
-	^ self class from: domain to: codomain coefficients: coefficients negated! !
-
-!DenseMatrix methodsFor: 'operations' stamp: 'len 5/18/2023 17:32:36'!
-transpose
-	^ self class from: codomain to: domain coefficients: ((coefficients species new: coefficients size) replaceWithMatrixTranspose: coefficients width: self width)! !
-
-!DenseMatrix methodsFor: 'operations' stamp: 'len 5/22/2023 16:51:07'!
-value: aTuple
-"	(self domain includes: aTuple) ifFalse: [^ DomainError signal]."
-	(coefficients isEmpty or: [aTuple isEmpty]) ifTrue: [^ codomain zero].
-	^ codomain coefficients:
-		((self scalars zeros: self height)
-			accumulateFrom: 1 to: self height
-			withMatrix: coefficients
-			timesTuple: aTuple coefficients)! !
-
-!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 5/22/2023 17:23:03'!
-accumulateWith: aMatrix1 times: aMatrix2
-	(aMatrix1 isEmpty or: [aMatrix2 isEmpty])
-		ifTrue: [^ self atAllPut: self scalars zero].
-	(aMatrix1 class = self class and: [aMatrix2 = self class])
-		ifTrue:
-			[coefficients
-				accumulateWithMatrix: aMatrix1 coefficients width: aMatrix1 width
-				timesMatrix: aMatrix2 coefficients width: aMatrix2 width.
-			^ self].
-	"Assume they are DenseMatrix or Submatrix:"
-	coefficients
-		accumulateRowIndices: self rowIndices
-		withMatrix: aMatrix1 coefficients width: aMatrix1 width rowIndices: aMatrix1 rowIndices
-		timesMatrix: aMatrix2 coefficients width: aMatrix2 width rowIndices: aMatrix2 rowIndices! !
-
-!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 5/21/2023 17:04:35'!
-from: start to: stop
-	"Answer the submatrix of the receiver from start to stop."
-	| h w newRowIndices |
-	self flag: #fixme. "duplicated code in Submatrix"
-	h := stop x - start x + 1 max: 0.
-	w := stop y - start y + 1 max: 0.
-	(w > 0 and: [h > 0]) ifFalse: [^ self class from: domain scalars ^ w to: codomain scalars ^ h coefficients: (self scalars new: 0)].
-	(stop x > self height or: [stop y > self width]) ifTrue: [^ self error: 'index out of bounds'].
-	newRowIndices := DoubleByteArray new: h.
-	1 to: h do: [:i| newRowIndices at: i put: (self rowIndexAt: i + start x - 1) + start y - 1].
-	^ Submatrix
-		from: domain scalars ^ w
-		to: codomain scalars ^ h
-		coefficients: coefficients
-		rowIndices: newRowIndices! !
-
-!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 5/21/2023 17:09:39'!
-replaceWith: aMatrix1 minus: aMatrix2
-	(aMatrix1 class = self class and: [aMatrix2 class = self])
-		ifTrue: [coefficients replaceFrom: 1 to: coefficients size with: aMatrix1 coefficients startingAt: 1 minus: aMatrix2 coefficients startingAt: 1. ^ self].
-	1 to: self height do: [:i|
-		| i₀ j₀ k₀ |
-		i₀ := self rowIndexAt: i.
-		j₀ := aMatrix1 rowIndexAt: i.
-		k₀ := aMatrix2 rowIndexAt: i.
-		coefficients replaceFrom: i₀ to: i₀ + self width - 1 with: aMatrix1 coefficients startingAt: j₀ minus: aMatrix2 coefficients startingAt: k₀]! !
-
-!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 5/21/2023 17:09:53'!
-replaceWith: aMatrix1 plus: aMatrix2
-	(aMatrix1 class = self class and: [aMatrix2 class = self])
-		ifTrue: [coefficients replaceFrom: 1 to: coefficients size with: aMatrix1 coefficients startingAt: 1 plus: aMatrix2 coefficients startingAt: 1. ^ self].
-	1 to: self height do: [:i|
-		| i₀ j₀ k₀ |
-		i₀ := self rowIndexAt: i.
-		j₀ := aMatrix1 rowIndexAt: i.
-		k₀ := aMatrix2 rowIndexAt: i.
-		coefficients replaceFrom: i₀ to: i₀ + self width - 1 with: aMatrix1 coefficients startingAt: j₀ plus: aMatrix2 coefficients startingAt: k₀]! !
-
-!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/19/2022 10:24:22'!
-addRow: i₁ times: anElement to: i₂
-	self addRow: i₁ times: anElement to: i₂ startingAt: 1! !
-
-!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/19/2022 10:26:58'!
-addRow: i₁ times: anElement to: i₂ startingAt: startColumn
-	| width start₁ start₂ |
-	width _ self width.
-	start₁ _ i₁ - 1 * width + startColumn.
-	start₂ _ i₂ - 1 * width + startColumn.
-	coefficients
-		replaceFrom: start₂ to: i₂ * width
-		with: coefficients startingAt: start₂
-		plus: coefficients startingAt: start₁
-		timesScalar: anElement! !
-
-!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/29/2022 09:51:40'!
-cancelRow: i₁ and: i₂ with: mgcd
-	| s t u v A₁ A₂ |
-	s _ mgcd at: 2.
-	t _ mgcd at: 3.
-	u _ mgcd at: 4.
-	v _ mgcd at: 5.
-	self flag: #fixme. "optimize:"
-	A₁ _ (self rowAt: i₁) copy.
-	A₂ _ (self rowAt: i₂) copy.
-	self rowAt: i₁ put: A₁*s + (A₂*t).
-	self rowAt: i₂ put: A₁*u + (A₂*v)! !
-
-!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/29/2022 09:52:16'!
-copyRow: i₁ times: anElement to: i₂
-	self copyRow: i₁ times: anElement to: i₂ startingAt: 1! !
-
-!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/29/2022 09:53:17'!
-copyRow: i₁ times: anElement to: i₂ startingAt: startColumn
-	| width start₁ start₂ |
-	width _ self width.
-	start₁ _ i₁ - 1 * width + startColumn.
-	start₂ _ i₂ - 1 * width + startColumn.
-	coefficients
-		replaceFrom: start₂ to: i₂ * width
-		with: coefficients startingAt: start₁
-		timesScalar: anElement! !
-
-!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/29/2022 09:53:40'!
-copyRow: i₁ to: i₂
-	self copyRow: i₁ to: i₂ startingAt: 1! !
-
-!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/29/2022 09:54:41'!
-copyRow: i₁ to: i₂ startingAt: startColumn
-	| width start₁ start₂ |
-	width _ self width.
-	start₁ _ i₁ - 1 * width + startColumn.
-	start₂ _ i₂ - 1 * width + startColumn.
-	coefficients
-		replaceFrom: start₂ to: i₂ * width
-		with: coefficients startingAt: start₁! !
-
-!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/15/2022 11:53:33'!
-multiplyRow: i by: anElement
-	self multiplyRow: i by: anElement startingAt: 1! !
-
-!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 5/21/2023 20:44:20'!
-multiplyRow: i by: anElement startingAt: startColumn
-	| width start |
-	width := self width.
-	start := i - 1 * width + startColumn.
-	coefficients
-		replaceFrom: start to: i * width
-		with: coefficients startingAt: start
-		timesScalar: anElement! !
-
-!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/19/2022 10:28:49'!
-swapRow: i₁ with: i₂
-	| width start₁ start₂ |
-	width _ self width.
-	start₁ _ i₁ - 1 * width + 1.
-	start₂ _ i₂ - 1 * width + 1.
-	coefficients
-		swapFrom: start₁ to: i₁ * width
-		with: coefficients startingAt: start₂! !
-
-!DenseMatrix methodsFor: 'testing' stamp: 'len 5/20/2023 12:22:00'!
-isDense
-	^ true! !
-
-!DenseMatrix methodsFor: 'testing' stamp: 'len 4/21/2022 12:45:41'!
-isZero
-	^ coefficients isZero! !
-
-!DenseMatrix methodsFor: 'testing' stamp: 'len 4/21/2022 12:47:28'!
-isZeroAt: aPoint
-	^ coefficients isZeroAt: aPoint x - 1 * self width + aPoint y! !
-
-!DenseMatrix methodsFor: 'private' stamp: 'len 5/28/2020 09:57:19'!
-coefficients
-	^ coefficients! !
-
-!DenseMatrix methodsFor: 'private' stamp: 'len 5/8/2023 16:32:22'!
-coefficients: anArray
-	coefficients _ anArray! !
-
-!DenseMatrix methodsFor: 'private' stamp: 'len 5/18/2023 18:26:32'!
-rowIndexAt: anInteger
-	^ anInteger - 1 * self width + 1! !
-
-!DenseMatrix methodsFor: 'private' stamp: 'len 5/22/2023 17:21:22'!
-rowIndices
-	^ (1 to: self height - 1 * self width + 1 by: self width) as: DoubleByteArray! !
-
-!DenseMatrix methodsFor: 'private' stamp: 'len 5/14/2023 18:01:51'!
-validate
-	self assert: coefficients size = (domain rank * codomain rank).
-	self assert: (self scalars isValidArray: coefficients).
-	^ super validate! !
-
-!DenseMatrix class methodsFor: 'instance creation' stamp: 'len 4/20/2022 20:57:36'!
-from: aDomain to: aCodomain coefficients: anArray
-	^ self new domain: aDomain; codomain: aCodomain; coefficients: anArray! !
-
-!SparseMatrix methodsFor: 'accessing' stamp: 'len 5/3/2022 05:36:15'!
-atRow: i column: j ifAbsent: exceptionBlock
-	(rowPointers at: i) to: (rowPointers at: i+1) - 1 do: [:k| (columnIndices at: k) = j ifTrue: [^ coefficients at: k]].
-	^ exceptionBlock value! !
-
-!SparseMatrix methodsFor: 'operations' stamp: 'len 5/22/2023 16:42:50'!
-value: aTuple
-"	(self domain includes: aTuple) ifFalse: [^ DomainError signal]."
-	^ codomain fill: [:i|
-		| value |
-		value := self scalars zero.
-		(rowPointers at: i) to: (rowPointers at: i+1) - 1 do: [:j| value := (coefficients at: j) * (aTuple at: (columnIndices at: j)) + value].
-		value]! !
-
-!SparseMatrix methodsFor: 'private' stamp: 'len 5/3/2022 05:36:47'!
-coefficients: anArray columnIndices: anArray2 rowPointers: anArray3
-	coefficients _ anArray.
-	columnIndices _ anArray2.
-	rowPointers _ anArray3! !
-
-!SparseMatrix methodsFor: 'private' stamp: 'len 7/8/2022 11:15:49'!
-validate
-	self assert: coefficients size = columnIndices size.
-	self assert: rowPointers last - 1 = coefficients size.
-	self assert: (coefficients allSatisfy: [:each| self scalars includes: each]).
-	self assert: (columnIndices allSatisfy: [:each| each between: 1 and: domain rank]).
-	self assert: ((1 to: rowPointers size - 1) sum: [:i| (rowPointers at: i+1) - (rowPointers at: i)]) = coefficients size.
-	self assert: ((1 to: rowPointers size - 1) allSatisfy: [:i| (rowPointers at: i+1) >= (rowPointers at: i)]).
-	^ super validate! !
-
-!SparseMatrix class methodsFor: 'examples' stamp: 'len 5/3/2022 05:35:22'!
-example
-	^ self from: ℤ^5 to: ℤ^5
-		coefficients: #(1 -1 -3 -2 5 4 6 4 -4 2 7 8 -5)
-		columnIndices: #(1 2 4 1 2 3 4 5 1 3 4 2 5)
-		rowPointers: #(1 4 6 9 12 14)! !
-
-!SparseMatrix class methodsFor: 'instance creation' stamp: 'len 5/3/2022 05:35:06'!
-from: aDomain to: aCodomain coefficients: anArray columnIndices: anArray2 rowPointers: anArray3
-	^ self new domain: aDomain; codomain: aCodomain; coefficients: anArray columnIndices: anArray2 rowPointers: anArray3! !
-
-!Submatrix methodsFor: 'accessing' stamp: 'len 5/21/2023 17:05:47'!
-atAllPut: anElement
-	rowIndices do: [:i₀| coefficients from: i₀ to: i₀ + self width - 1 put: anElement]! !
-
-!Submatrix methodsFor: 'accessing' stamp: 'len 5/21/2023 17:06:07'!
-atRow: i column: j ifAbsent: exceptionBlock
-	(j between: 1 and: self width) ifFalse: [^ exceptionBlock value].
-	^ coefficients at: (rowIndices at: i) + j - 1! !
-
-!Submatrix methodsFor: 'accessing' stamp: 'len 5/21/2023 17:06:20'!
-atRow: i column: j put: anElement
-	(j between: 1 and: self width) ifFalse: [^ self  error: 'index out of bounds'].
-	^ coefficients at: (rowIndices at: i) + j - 1 put: anElement! !
-
-!Submatrix methodsFor: 'copying' stamp: 'len 6/11/2023 19:25:31'!
-copy
-	^ DenseMatrix
-		from: domain
-		to: codomain
-		coefficients:
-			((self scalars new: self width * self height)
-				replaceWithMatrix: coefficients rowIndices: rowIndices width: self width)! !
-
-!Submatrix methodsFor: 'operations' stamp: 'len 6/11/2023 19:40:01'!
-value: aTuple
-"	(self domain includes: aTuple) ifFalse: [^ DomainError signal]."
-	(coefficients isEmpty or: [aTuple isEmpty]) ifTrue: [^ codomain zero].
-	^ codomain coefficients:
-		((codomain scalars zeros: self height)
-			accumulateFrom: 1 to: self height
-			withMatrix: coefficients rowIndices: rowIndices
-			timesTuple: aTuple coefficients)! !
-
-!Submatrix methodsFor: 'operations-inplace' stamp: 'len 5/22/2023 17:21:59'!
-accumulateWith: aMatrix1 times: aMatrix2
-	(aMatrix1 isEmpty or: [aMatrix2 isEmpty])
-		ifTrue: [^ self atAllPut: self scalars zero].
-	coefficients
-		accumulateRowIndices: rowIndices
-		withMatrix: aMatrix1 coefficients width: aMatrix1 width rowIndices: aMatrix1 rowIndices
-		timesMatrix: aMatrix2 coefficients width: aMatrix2 width rowIndices: aMatrix2 rowIndices! !
-
-!Submatrix methodsFor: 'operations-inplace' stamp: 'len 5/21/2023 17:04:25'!
-from: start to: stop
-	"Answer the submatrix of the receiver from start to stop."
-	| h w newRowIndices |
-	self flag: #fixme. "duplicated code in DenseMatrix"
-	h := stop x - start x + 1 max: 0.
-	w := stop y - start y + 1 max: 0.
-	(w > 0 and: [h > 0]) ifFalse: [^ self class from: domain scalars ^ w to: codomain scalars ^ h coefficients: (self scalars new: 0)].
-	(stop x > self height or: [stop y > self width]) ifTrue: [^ self error: 'index out of bounds'].
-	newRowIndices := DoubleByteArray new: h.
-	1 to: h do: [:i| newRowIndices at: i put: (self rowIndexAt: i + start x - 1) + start y - 1].
-	^ Submatrix
-		from: domain scalars ^ w
-		to: codomain scalars ^ h
-		coefficients: coefficients
-		rowIndices: newRowIndices! !
-
-!Submatrix methodsFor: 'operations-inplace' stamp: 'len 5/21/2023 17:08:15'!
-replaceWith: aMatrix1 minus: aMatrix2
-	1 to: rowIndices size do: [:i|
-		| i₀ j₀ k₀ |
-		i₀ := rowIndices at: i.
-		j₀ := aMatrix1 rowIndexAt: i.
-		k₀ := aMatrix2 rowIndexAt: i.
-		coefficients replaceFrom: i₀ to: i₀ + self width - 1 with: aMatrix1 coefficients startingAt: j₀ minus: aMatrix2 coefficients startingAt: k₀]! !
-
-!Submatrix methodsFor: 'operations-inplace' stamp: 'len 5/21/2023 17:08:12'!
-replaceWith: aMatrix1 plus: aMatrix2
-	1 to: rowIndices size do: [:i|
-		| i₀ j₀ k₀ |
-		i₀ := rowIndices at: i.
-		j₀ := aMatrix1 rowIndexAt: i.
-		k₀ := aMatrix2 rowIndexAt: i.
-		coefficients replaceFrom: i₀ to: i₀ + self width - 1 with: aMatrix1 coefficients startingAt: j₀ plus: aMatrix2 coefficients startingAt: k₀]! !
-
-!Submatrix methodsFor: 'testing' stamp: 'len 5/20/2023 12:22:09'!
-isDense
-	^ true! !
-
-!Submatrix methodsFor: 'private' stamp: 'len 5/19/2023 14:54:43'!
-coefficients
-	^ coefficients! !
-
-!Submatrix methodsFor: 'private' stamp: 'len 5/21/2023 17:05:08'!
-coefficients: anArray rowIndices: anArray2
-	coefficients := anArray.
-	rowIndices := anArray2! !
-
-!Submatrix methodsFor: 'private' stamp: 'len 5/19/2023 14:56:24'!
-rowIndexAt: anInteger
-	^ rowIndices at: anInteger! !
-
-!Submatrix methodsFor: 'private' stamp: 'len 5/19/2023 20:46:30'!
-rowIndices
-	^ rowIndices! !
-
-!Submatrix class methodsFor: 'instance creation' stamp: 'len 5/21/2023 17:04:52'!
-from: aDomain to: aCodomain coefficients: anArray rowIndices: anArray2
-	^ self new domain: aDomain; codomain: aCodomain; coefficients: anArray rowIndices: anArray2! !
 
 !BilinearMap methodsFor: 'as yet unclassified' stamp: 'len 11/5/2022 13:32:01'!
 ⊕ aBilinearMap
@@ -26360,9 +23813,9 @@ asRingMap
 		ifFalse: [^ DomainError signal].
 	^ self species from: self domain to: self codomain representatives: self representatives + aRationalMap representatives! !
 
-!RationalMap methodsFor: 'operations' stamp: 'len 8/14/2022 10:55:20'!
-∘ aRationalMap
-	self species = aRationalMap species ifFalse: [^ super ∘ aRationalMap].
+!RationalMap methodsFor: 'operations' stamp: 'len 6/29/2023 19:19:32'!
+· aRationalMap
+	self species = aRationalMap species ifFalse: [^ super · aRationalMap].
 	self domain >= aRationalMap codomain ifFalse: [DomainError signal: 'incompatible composition'].
 	^ self species from: aRationalMap domain to: self codomain representatives: (self representatives asArray collect: [:each| each value: aRationalMap representatives])! !
 
@@ -27263,6 +24716,2963 @@ from: aSimplicialComplex to: anotherSimplicialComplex map: aBlock
 from: aSimplicialComplex to: anotherSimplicialComplex vertexMap: aDictionary
 	^ self new domain: aSimplicialComplex; codomain: anotherSimplicialComplex; vertexMap: aDictionary! !
 
+!AbelianMorphism methodsFor: 'accessing' stamp: 'len 6/30/2023 15:37:54'!
+id
+	"Answer the identity morphisms of the receiver in the Freyd category."
+	^ FreydMorphism from: self to: self datum: self codomain id! !
+
+!AbelianMorphism methodsFor: 'accessing' stamp: 'len 6/29/2023 22:58:59'!
+zero
+	^ self subclassResponsibility! !
+
+!AbelianMorphism methodsFor: 'converting' stamp: 'len 6/30/2023 01:16:14'!
+asCospan
+	^ Cospan arrow: self coarrow: self codomain id! !
+
+!AbelianMorphism methodsFor: 'converting' stamp: 'len 6/30/2023 01:20:05'!
+asSpan
+	^ Span arrow: self coarrow: self domain id! !
+
+!AbelianMorphism methodsFor: 'converting' stamp: 'len 7/1/2023 23:12:37'!
+asThreeArrow
+	^ ThreeArrow aid: self domain id arrow: self coaid: self codomain id! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 6/29/2023 22:58:51'!
+* anInteger
+	anInteger = 1 ifTrue: [^ self].
+	anInteger = 0 ifTrue: [^ self zero].
+	anInteger < 0 ifTrue: [^ self negated * anInteger negated].
+	^ anInteger even ifTrue: [self + self * (anInteger // 2)] ifFalse: [self + self * (anInteger // 2) + self]! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 6/29/2023 22:55:30'!
++ aMorphism
+	^ self subclassResponsibility! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 6/29/2023 22:55:42'!
+- aMorphism
+	^ self + aMorphism negated! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 7/3/2023 00:17:11'!
+/ aMorphism
+	"If the argument is g:A→X, and the receiver is f:A→Y, answer h:X→Y such that the diagram commutes, i.e. h·g = f.
+	This is a 'colift (or extension) of g along f' and it is noted f / g."
+	^ (aMorphism colift: self) ifNil: [DivisibilityError new signalReceiver: self selector: #/ argument: aMorphism]! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 7/3/2023 00:11:40'!
+\ aMorphism
+	"If the receiver is f:X→B, and the argument is g:Y→B, answer h:Y→X such that the diagram commutes, i.e. f·h = g.
+	This is a 'lift of g along f', noted f \ g."
+	^ (self lift: aMorphism) ifNil: [DivisibilityError new signalReceiver: self selector: #\ argument: aMorphism]! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 7/1/2023 10:10:17'!
+⊕ aMorphism
+	"Answer the direct sum of the receiver and the argument.
+	If the receiver is in Hom(A,B) and the argument is in Hom(C,D), the answer is in Hom(A⊕C,B⊕D)."
+	| π ι |
+	π := self domain ⊕ aMorphism domain ⇉ {self domain. aMorphism domain}.
+	ι := self codomain ⊕ aMorphism codomain ⇇ {self codomain. aMorphism codomain}.
+	^ (ι at: 1) · self · (π at: 1) + ((ι at: 2) · aMorphism · (π at: 2))! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 7/1/2023 10:08:56'!
+⊓ aMorphism
+	"Answer the product morphism of the receiver and the argument.
+	If the receiver is in Hom(A,X) and the argument in Hom(A,Y), the answer is in Hom(A,X⊕Y)."
+	| ι |
+	self checkDomainsMatch: aMorphism.
+	ι := self codomain ⊕ aMorphism codomain ⇇ {self codomain. aMorphism codomain}.
+	^ (ι at: 1) · self + ((ι at: 2) · aMorphism)! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 7/1/2023 10:09:14'!
+⊔ aMorphism
+	"Answer the coproduct morphism of the receiver and the argument.
+	If the receiver is in Hom(X,B) and the argument in Hom(Y,B), the answer is in Hom(X⊕Y,B)."
+	| π |
+	self checkCodomainsMatch: aMorphism.
+	π := self domain ⊕ aMorphism domain ⇉ {self domain. aMorphism domain}.
+	^ self · (π at: 1) + (aMorphism · (π at: 2))! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 7/2/2023 23:44:29'!
+astriction
+	"Answer the astriction of the receiver to its coimage: given a morphism f:A→B answer the morphism f:coim(A)→B."
+	^ self / (self domain → self coimage)! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 7/2/2023 23:44:36'!
+coastriction
+	"Answer the coastriction of the receiver to its image: given a morphism f:A→B answer the morphism f:A→im(f)."
+	^ self image → self codomain \ self! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 7/2/2023 18:30:30'!
+coequalizer: aMorphism
+	"In a preadditive category the coequalizer is the cokernel of the difference."
+	^ (self - aMorphism) cokernel! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 7/2/2023 18:36:11'!
+coimage
+	"In an abelian category, the coimage is the cokernel of the kernel."
+	^ (self kernel → self domain) cokernel! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 7/2/2023 18:53:25'!
+cokernel
+	^ self subclassResponsibility! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 6/30/2023 14:27:03'!
+colift: aMorphism
+	^ self subclassResponsibility! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 7/2/2023 18:31:05'!
+equalizer: aMorphism
+	"In a preadditive category the equalizer is the kernel of the difference."
+	^ (self - aMorphism) kernel! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 7/2/2023 18:34:15'!
+image
+	"In an abelian category, the image is the kernel of the cokernel."
+	^ (self codomain → self cokernel) kernel! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 7/2/2023 18:53:16'!
+kernel
+	^ self subclassResponsibility! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 6/30/2023 14:27:00'!
+lift: aMorphism
+	^ self subclassResponsibility! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 6/29/2023 22:55:23'!
+negated
+	^ self subclassResponsibility! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 6/30/2023 14:52:43'!
+retraction
+	"Answer a left inverse (or retraction) of the receiver."
+	^ self propertyAt: #retraction ifAbsentPut: [self domain id / self]! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 6/30/2023 14:52:51'!
+section
+	"Answer a right inverse (or section) of the receiver."
+	^ self propertyAt: #section ifAbsentPut: [self \ self codomain id]! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 6/30/2023 13:13:51'!
+∧ aMorphism
+	"Answer the pullback (or fibered product, cartesian square) of the receiver and the argument.
+	The pullback is the limit of a cospan Y → X ← Z and it is the categorical dual of the pushout (see >>∨).
+	The pullback of a morphism f and a monomorphism g can be thought of as the 'preimage' under f of the subobject specified by g. Similarly, pullbacks of two monomorphisms can be thought of as the 'intersection' of the two subobjects."
+	| S answer |
+	S := self ⊔ aMorphism negated.
+	answer := S kernel.
+	answer addProjections: (S domain ⇉ {self domain. aMorphism domain} collect: [:each| answer → each]).
+	^ answer! !
+
+!AbelianMorphism methodsFor: 'operations' stamp: 'len 6/30/2023 13:13:58'!
+∨ aMorphism
+	"Answer the pushout (or fibered coproduct, fibered sum, cocartesian square, amalgamated sum) of the receiver and the argument.
+	The pushout is the colimit of a span Y ← X → Z, and it is the categorical dual of the pullback (see >>∧)."
+	| P answer |
+	P := self ⊓ aMorphism negated.
+	answer := P cokernel.
+	answer addCoprojections: (P codomain ⇇ {self codomain. aMorphism codomain} collect: [:each| each → answer]).
+	^ answer! !
+
+!AbelianMorphism methodsFor: 'testing' stamp: 'len 6/30/2023 13:09:41'!
+isEpimorphism
+	"In a preabelian category a morphism is an epimorphisms if and only if the cokernel is zero."
+	^ (self codomain → self cokernel) codomain isTrivial! !
+
+!AbelianMorphism methodsFor: 'testing' stamp: 'len 6/30/2023 13:10:08'!
+isIsomorphism
+	"In an abelian category a morphism is an isomorphism if and only if it is a monomorphism and an epimorphism."
+	^ self isMonomorphism and: [self isEpimorphism]! !
+
+!AbelianMorphism methodsFor: 'testing' stamp: 'len 6/30/2023 13:09:36'!
+isMonomorphism
+	"In a preabelian category a morphism is an monomorphisms if and only if the kernel is zero."
+	^ (self kernel → self domain) domain isTrivial! !
+
+!AbelianMorphism methodsFor: 'testing' stamp: 'len 7/2/2023 18:46:56'!
+isTrivial
+	^ self isZero! !
+
+!FreydMorphism methodsFor: 'accessing' stamp: 'len 6/30/2023 15:11:09'!
+category
+	^ self domain category Freyd! !
+
+!FreydMorphism methodsFor: 'accessing' stamp: 'len 6/29/2023 17:08:03'!
+datum
+	^ datum! !
+
+!FreydMorphism methodsFor: 'accessing' stamp: 'len 6/29/2023 19:37:14'!
+witness
+	^ self propertyAt: #witness ifAbsentPut: [self codomain \ (datum · self domain)]! !
+
+!FreydMorphism methodsFor: 'comparing' stamp: 'len 6/29/2023 17:07:56'!
+= anObject
+	anObject class = self class ifFalse: [^ false].
+	(self domain = anObject domain and: [self codomain = anObject codomain]) ifFalse: [^ false].
+	^ (self codomain lift: datum - anObject datum) notNil! !
+
+!FreydMorphism methodsFor: 'comparing' stamp: 'len 6/29/2023 17:08:27'!
+hash
+	^ self domain hash + self codomain hash hashMultiply! !
+
+!FreydMorphism methodsFor: 'operations' stamp: 'len 6/29/2023 19:19:26'!
+· aMorphism
+	self checkCompatibleComposition: aMorphism.
+	^ self class from: aMorphism domain to: self codomain datum: datum · aMorphism datum! !
+
+!FreydMorphism methodsFor: 'operations' stamp: 'len 6/29/2023 18:14:00'!
+cokernel
+	"Answer the cokernel projection of the receiver."
+	^ self class from: self codomain to: datum ⊔ self codomain datum: self codomain domain id! !
+
+!FreydMorphism methodsFor: 'operations' stamp: 'len 6/29/2023 18:16:01'!
+colift: aMorphism
+	self notYetImplemented! !
+
+!FreydMorphism methodsFor: 'operations' stamp: 'len 6/29/2023 18:14:10'!
+kernel
+	"Answer the kernel embedding of the receiver."
+	^ self notYetImplemented! !
+
+!FreydMorphism methodsFor: 'operations' stamp: 'len 6/29/2023 18:15:59'!
+lift: aMorphism
+	self notYetImplemented! !
+
+!FreydMorphism methodsFor: 'testing' stamp: 'len 6/30/2023 00:33:29'!
+isEpimorphism
+	^ datum isIdentity or: [super isEpimorphism]! !
+
+!FreydMorphism methodsFor: 'private' stamp: 'len 6/29/2023 17:27:27'!
+datum: aMorphism
+	datum := aMorphism! !
+
+!FreydMorphism class methodsFor: 'instance creation' stamp: 'len 6/29/2023 17:26:53'!
+from: aDomain to: aCodomain datum: aMorphism
+	self assert: (aMorphism domain = aDomain codomain and: [aMorphism codomain = aCodomain codomain]).
+	^ self new domain: aDomain; codomain: aCodomain; datum: aMorphism! !
+
+!ModuleMap methodsFor: 'accessing' stamp: 'len 4/1/2021 06:41:51'!
+bitSize
+	^ self asMatrix bitSize! !
+
+!ModuleMap methodsFor: 'accessing' stamp: 'len 10/26/2020 10:41:24'!
+category
+	^ self domain scalars Modules! !
+
+!ModuleMap methodsFor: 'accessing' stamp: 'len 5/16/2019 20:40:32'!
+codomain
+	^ codomain! !
+
+!ModuleMap methodsFor: 'accessing' stamp: 'len 7/6/2022 11:34:14'!
+degree
+	self isTrivial ifTrue: [^ Infinity negative].
+	^ self asMatrix coefficients max: [:each| each degree]! !
+
+!ModuleMap methodsFor: 'accessing' stamp: 'len 4/1/2021 06:41:57'!
+denominator
+	^ self asMatrix denominator! !
+
+!ModuleMap methodsFor: 'accessing' stamp: 'len 5/16/2019 20:40:36'!
+domain
+	^ domain! !
+
+!ModuleMap methodsFor: 'accessing' stamp: 'len 5/29/2020 10:16:57'!
+one
+	^ self identity! !
+
+!ModuleMap methodsFor: 'accessing' stamp: 'len 6/29/2023 19:47:51'!
+parent
+	"A module homomorphism f:A→B belongs to Hom(A,B)."
+	^ self domain ⇒ self codomain! !
+
+!ModuleMap methodsFor: 'accessing' stamp: 'len 5/28/2020 09:52:20'!
+scalars
+	^ self domain scalars! !
+
+!ModuleMap methodsFor: 'accessing' stamp: 'len 9/16/2022 08:03:32'!
+zero
+	^ self domain to: self codomain map: [:x| self codomain zero]! !
+
+!ModuleMap methodsFor: 'comparing' stamp: 'len 3/13/2021 13:45:24'!
+= anObject
+	self == anObject ifTrue: [^ true].
+	(anObject isKindOf: ModuleMap) ifFalse: [^ super = anObject].
+	^ domain = anObject domain and: [codomain = anObject codomain and: [(self - anObject) isZero]]! !
+
+!ModuleMap methodsFor: 'comparing' stamp: 'len 5/31/2022 11:54:49'!
+| aModuleMap
+	"Answer true if the receiver is a left divisor of the argument
+	(or equivalently, the argument is a right multiple of the receiver),
+	i.e. if the receiver is a and the argument is b, there exists x with ax = b."
+	aModuleMap isZero ifTrue: [^ true].
+	self isZero ifTrue: [^ false].
+	^ (self lift: aModuleMap) notNil! !
+
+!ModuleMap methodsFor: 'converting' stamp: 'len 6/15/2022 09:52:16'!
+asAbelianGroupMap
+	self scalars = ℤ ifFalse: [^ DomainError signal].
+	^ self! !
+
+!ModuleMap methodsFor: 'converting' stamp: 'len 4/1/2021 06:34:04'!
+asMatrix
+	"Answer the matrix corresponding to the receiver with respect to the fixed list of generators of its domain and codomain."
+	^ self propertyAt: #matrix! !
+
+!ModuleMap methodsFor: 'converting' stamp: 'len 7/16/2020 10:39:14'!
+asModuleElement
+	^ self! !
+
+!ModuleMap methodsFor: 'converting' stamp: 'len 11/23/2022 21:28:50'!
+asPolynomial
+	"If the receiver is a linear form, answer the receiver as a polynomial in the coordinate ring of the domain."
+	| P |
+	self isLinearForm ifFalse: [DomainError signal: 'not a linear form'].
+	P _ self domain coordinateRing.
+	^ (P !!!! P generators) · (self asMatrix asTuple over: P)! !
+
+!ModuleMap methodsFor: 'converting' stamp: 'len 5/31/2022 18:10:39'!
+asScalar
+	"If the receiver is the embedding of an element of the scalars ring in an endomorphism algebra, answer the corresponding scalar."
+	^ self asMatrix asScalar! !
+
+!ModuleMap methodsFor: 'converting' stamp: 'len 5/31/2022 18:13:44'!
+asSingletonMatrix
+	"Answer the 1x1 matrix with the receiver as its only coefficient."
+	^ self parent asAlgebra matrix: {{self}}! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 7/25/2021 12:32:13'!
+* anObject
+	((self scalars includes: anObject) not and: [anObject isKindOf: ModuleMap]) ifTrue: [^ self · anObject].
+	^ domain to: codomain validMatrix: self asMatrix * anObject! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 9/16/2022 08:03:18'!
++ anObject
+	(anObject isKindOf: ModuleMap) ifFalse: [^ super + anObject].
+	(self domain == anObject domain and: [self codomain == anObject codomain])
+			ifTrue: [^ domain to: codomain validMatrix: self asMatrix + anObject asMatrix].
+	self checkDomainsMatch: anObject.
+	self checkCodomainsMatch: anObject.
+	^ domain to: codomain map: [:v| (self value: v) + (anObject value: v)]! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 6/30/2023 14:47:58'!
+/ anObject
+	"If the argument is i:A→X, and the receiver is f:A→Y, answer g:X→Y such that the diagram commutes.
+	This is a 'colift (or extension) of f along i' and it is noted f / i."
+	(anObject isKindOf: ModuleMap) ifFalse: [^ self * (self domain scalars !! anObject) inverse].
+	^ super / anObject! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 1/3/2022 10:50:09'!
+@ aPrimeIdeal
+	"Answer the localization of the receiver at aPrimeIdeal."
+	^ self domain @ aPrimeIdeal to: self codomain @ aPrimeIdeal matrix: self matrix @ aPrimeIdeal! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 6/29/2023 18:20:05'!
+· aModuleMap
+	"Answer the composition of the receiver with the argument."
+	self species = aModuleMap species ifFalse: [^ super · aModuleMap].
+	domain == aModuleMap codomain
+		ifTrue: [^ aModuleMap domain to: codomain validMatrix: self asMatrix · aModuleMap asMatrix].
+	domain >= aModuleMap codomain
+		ifTrue: [^ aModuleMap domain to: codomain map: [:each| self value: (aModuleMap value: each)]].
+	^ DomainError signal: 'incompatible composition'! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 5/14/2023 18:21:10'!
+÷ anElement
+	"Answer the exact division of the receiver by the argument.
+	Asume that the argument divides the receiver."
+	^ anElement \ self! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 4/6/2021 14:24:52'!
+⊕ aModuleMap
+	"Answer the direct sum of the receiver and the argument."
+	^ domain ⊕ aModuleMap domain to: codomain ⊕ aModuleMap codomain validMatrix: self asMatrix ⊕ aModuleMap asMatrix! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 4/28/2021 11:29:01'!
+⊗ aModuleMap
+	"Answer the tensor product of the receiver with the argument."
+	(aModuleMap isKindOf: ModuleMap) ifFalse: [^ self notYetImplemented].
+	^ domain ⊗ aModuleMap domain to: codomain ⊗ aModuleMap codomain validMatrix: self asMatrix ⊗ aModuleMap asMatrix! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 6/9/2022 07:48:35'!
+⊓ aModuleMap
+	"Answer the product morphism of the receiver and the argument."
+	self checkDomainsMatch: aModuleMap.
+	^ domain to: codomain ⊕ aModuleMap codomain validMatrix: self asMatrix ⊓ aModuleMap asMatrix! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 6/9/2022 07:48:48'!
+⊔ aModuleMap
+	"Answer the coproduct morphism of the receiver and the argument."
+	self checkCodomainsMatch: aModuleMap.
+	^ domain ⊕ aModuleMap domain to: codomain validMatrix: self asMatrix ⊔ aModuleMap asMatrix! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 6/29/2023 19:47:40'!
+adjoint
+	"Answer the transpose (or dual, or adjoint) of the receiver.
+	The assignment of a linear map f:V→W to its dual f*:W*→V* produces an injective linear map between Hom(V,W) and Hom(W*,V*).
+	This is the 'operator adjoint', not to be confused with the 'Hilbert adjoint' that is defined for an operator in an inner product space."
+	(self scalars isCommutative or: [self scalars isInvolutive]) ifFalse: [^ self notYetImplemented].
+	self flag: #fixme. "shouldn't be opposite instead of transpose?"
+	^ codomain dual to: domain dual matrix: self asMatrix transpose! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 12/15/2021 19:51:16'!
+characteristicPolynomial
+	^ self asMatrix characteristicPolynomial! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 7/2/2023 18:35:37'!
+coimage
+	^ self domain / self kernel! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 7/2/2023 18:37:09'!
+cokernel
+	^ self codomain / self image! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 6/29/2023 16:45:18'!
+colift: aModuleMap
+	"Answer X such that XA = B, where A is the receiver and B is the argument. Answer nil if there's no solution.
+	X is called a colift (or extension) of B along A, written B / A."
+	self checkDomainsMatch: aModuleMap.
+	domain relationsMatrix = aModuleMap domain relationsMatrix ifFalse: [^ self notYetImplemented].
+	^ (domain isFreelyGenerated
+		ifTrue: [self asMatrix colift: aModuleMap asMatrix]
+		ifFalse: [self asMatrix colift: aModuleMap asMatrix modulo: domain relationsMatrix])
+			ifNotNil: [:aMatrix| codomain to: aModuleMap codomain matrix: aMatrix]! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 10/16/2022 11:10:18'!
+corepresentation
+	"Assuming the receiver is an endomorphism, answer the module endomorphism corresponding to the right regular representation of the receiver."
+	^ self parent endomorphisms map: [:x| x * self]! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 6/26/2023 13:00:50'!
+image
+	^ self propertyAt: #image ifAbsentPut: [codomain sub: self asMatrix]! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 12/9/2022 10:42:02'!
+inverse
+	"Answer a two-sided inverse of the receiver (i.e., a morphism that is both a retraction and a section) or nil."
+	self flag: #fixme. "this is a right inverse, not two-sided inverse"
+	^ self section ifNil: [self error: 'not invertible']! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 6/26/2023 13:00:54'!
+kernel
+	^ self propertyAt: #kernel ifAbsentPut: [self domain sub: (self asMatrix syzygiesModulo: self codomain relationsMatrix)]! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 6/29/2023 16:45:34'!
+lift: aModuleMap
+	"Answer X such that AX = B, where A is the receiver and B is the argument. 	Answer nil if there's no solution.
+	X is called a lift of B along A, written A \ B."
+	self checkCodomainsMatch: aModuleMap.
+	codomain relationsMatrix = aModuleMap codomain relationsMatrix ifFalse: [^ self notYetImplemented].
+	^ (codomain isFreelyGenerated
+		ifTrue: [self asMatrix lift: aModuleMap asMatrix]
+		ifFalse: [self asMatrix lift: aModuleMap asMatrix modulo: codomain relationsMatrix])
+			ifNotNil: [:aMatrix| aModuleMap domain to: domain matrix: aMatrix]! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 12/15/2021 19:50:51'!
+minimalPolynomial
+	^ self asMatrix minimalPolynomial! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 4/6/2021 14:26:04'!
+negated
+	^ domain to: codomain validMatrix: self asMatrix negated! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 7/18/2021 07:40:10'!
+norm
+	^ self asMatrix determinant! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 12/10/2021 19:25:03'!
+normalization
+	"Answer a unit u such that 'self * u' is a unique choice of associate. See >>normalized."
+	self isEndomorphism ifFalse: [^ self error: 'not an endomorphism'].
+	^ self notYetImplemented! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 12/10/2021 19:24:00'!
+normalized
+	"Answer a unique choice of associate. See >>normalization."
+	^ self * self normalization! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 6/26/2023 13:00:58'!
+preimage: aSubmodule
+	^ self domain ambient sub: (aSubmodule generators collect: [:each| self preimageRepresentative: each]) "+ self kernel?"! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 6/10/2022 11:08:09'!
+preimageRepresentative: anElement
+	"Answer a representative of the preimage of anElement.
+	Answer nil if anElement is not in the image of the receiver."
+	^ domain elementAt: ((self asMatrix lift: (codomain \ anElement) asMatrix modulo: self codomain relationsMatrix) ifNil: [^ nil]) asTuple! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 10/16/2022 11:09:57'!
+representation
+	"Assuming the receiver is an endomorphism, answer the module endomorphism corresponding to the left regular representation of the receiver."
+	^ self parent endomorphisms map: [:x| self * x]! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 4/1/2021 06:43:21'!
+trace
+	^ self asMatrix trace! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 4/1/2021 06:43:27'!
+transpose
+	"The kernel of this map is the complement of the image of the receiver (the orthogonal complement with respect to the standard inner product defined or dot product).
+	See also >>adjoint."
+	^ codomain to: domain matrix: self asMatrix transpose! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 7/6/2021 14:32:15'!
+value: anElement
+"	(domain isTrivial or: [codomain isTrivial])
+		ifTrue: [^ codomain ambient zero]."
+	^ codomain elementAt: self asMatrix * (domain \ anElement)
+
+"	^ codomain elementAt: self asMatrix * (domain \ (domain !! anElement))"! !
+
+!ModuleMap methodsFor: 'printing' stamp: 'len 6/8/2022 18:07:53'!
+printOn: aStream
+	self isZero ifTrue: [aStream nextPut: $0. ^ self].
+	self isIdentity ifTrue: [aStream nextPutAll: 'id'. ^ self].
+	self negated isIdentity ifTrue: [aStream nextPutAll: '-id'. ^ self].
+"	(self isLinearForm and: [self scalars isCommutative]) ifTrue: [aStream print: self asPolynomial. ^ self]."
+	"If the codomain is tuples, print the linear map as a tuple of linear forms:"
+"	((self codomain isKindOf: FreeModule) and: [self scalars isCommutative]) ifTrue:
+		[aStream nextPut: $(.
+		self asMatrix rows
+			do: [:each| aStream print: (self domain dual elementAt: each)]
+			separatedBy: [aStream nextPutAll: ', '].
+		aStream nextPut: $).
+		^ self]."
+	aStream print: self asMatrix
+	"Print it as a linear combination of the generators of the codomain:"
+"	A _ self domain coordinateRing.
+	B _ A polynomialsIn: self codomain coordinates names.
+	f _ B zero.
+	self asMatrix withIndicesDo: [:each :i :j| f _ (B x: i) * (A x: j) * each + f].
+	aStream print: f"! !
+
+!ModuleMap methodsFor: 'testing' stamp: 'len 3/17/2021 14:38:35'!
+isAutomorphism
+	"A surjective endomorphism of a finitely generated module is an automorphism (i.e., it's not necessary to check it is injective)."
+	^ self isEndomorphism and: [self isSurjective]! !
+
+!ModuleMap methodsFor: 'testing' stamp: 'len 3/11/2020 18:49:29'!
+isConstant
+	^ self isZero! !
+
+!ModuleMap methodsFor: 'testing' stamp: 'len 7/8/2022 08:25:10'!
+isGraded
+	"Answer true if the receiver is a graded module homomorphism."
+	| n |
+	(self domain isGraded and: [self codomain isGraded]) ifFalse: [^ false].
+	n _ self degree.
+	^ self asMatrix coefficients allSatisfy: [:each| each isHomogeneous and: [each degree = n]]! !
+
+!ModuleMap methodsFor: 'testing' stamp: 'len 7/12/2022 06:30:19'!
+isGroupHomomorphism
+	^ self domain isGroup and: [self codomain isGroup]! !
+
+!ModuleMap methodsFor: 'testing' stamp: 'len 3/12/2020 16:14:11'!
+isIdentity
+	self isEndomorphism ifFalse: [^ false].
+	^ self domain generators allSatisfy: [:each| (self value: each) = each]! !
+
+!ModuleMap methodsFor: 'testing' stamp: 'len 5/16/2019 20:42:56'!
+isInjective
+	^ self kernel isTrivial! !
+
+!ModuleMap methodsFor: 'testing' stamp: 'len 12/7/2022 19:37:37'!
+isIsomorphism
+	^ self isSurjective and: [self isEndomorphism or: [self isInjective]]! !
+
+!ModuleMap methodsFor: 'testing' stamp: 'len 4/8/2021 12:49:58'!
+isLinearForm
+	"Answer true if the receiver is a linear form (or linear functional, one-form, covector)."
+	^ self codomain = self scalars asIdeal! !
+
+!ModuleMap methodsFor: 'testing' stamp: 'len 4/25/2022 18:04:49'!
+isMinusOne
+	^ self = self identity negated! !
+
+!ModuleMap methodsFor: 'testing' stamp: 'len 5/10/2019 07:41:27'!
+isModuleHomomorphism
+	^ true! !
+
+!ModuleMap methodsFor: 'testing' stamp: 'len 7/16/2020 10:36:53'!
+isOne
+	^ self isIdentity! !
+
+!ModuleMap methodsFor: 'testing' stamp: 'len 1/13/2018 21:54:27'!
+isProjection
+	^ self isIdempotent! !
+
+!ModuleMap methodsFor: 'testing' stamp: 'len 10/17/2022 16:14:48'!
+isSurjective
+	^ self image = self codomain
+
+"alternatively:
+	^ self cokernel isTrivial"! !
+
+!ModuleMap methodsFor: 'testing' stamp: 'len 5/25/2022 13:36:36'!
+isUnit
+	"Answer true if the receiver is invertible."
+	^ self isAutomorphism! !
+
+!ModuleMap methodsFor: 'testing' stamp: 'len 3/13/2021 13:36:11'!
+isZero
+	^ self image isTrivial! !
+
+!ModuleMap methodsFor: 'testing' stamp: 'len 5/25/2022 11:05:19'!
+isZeroDivisor
+	"Answer true if there exists a nonzero element that multiplied by the receiver is zero.
+	Assumes the receiver is an endomorphism."
+	^ self kernel isTrivial not! !
+
+!ModuleMap methodsFor: 'private' stamp: 'len 5/16/2019 20:40:52'!
+codomain: aModule
+	codomain _ aModule! !
+
+!ModuleMap methodsFor: 'private' stamp: 'len 5/16/2019 20:40:56'!
+domain: aModule
+	domain _ aModule! !
+
+!ModuleMap methodsFor: 'private' stamp: 'len 5/29/2020 10:58:40'!
+matrix: aMatrix
+	self propertyAt: #matrix put: aMatrix! !
+
+!ModuleMap methodsFor: 'private' stamp: 'len 1/11/2018 18:20:06'!
+species
+	^ ModuleMap! !
+
+!ModuleMap methodsFor: 'private' stamp: 'len 7/8/2022 11:14:14'!
+validate
+	self assert: super isModuleHomomorphism! !
+
+!ModuleMap class methodsFor: 'instance creation' stamp: 'len 9/16/2022 08:20:40'!
+from: aDomain to: aCodomain map: aBlock
+	"Answer a new instance of the receiver using the one argument block aBlock for evaluating each vector in the domain basis."
+	
+	self shouldNotImplement
+"	| matrix |
+	matrix _ Matrix rows: (aDomain generators collect: [:each| aCodomain coordinatesOf: aCodomain !! (aBlock value: each)]).
+	^ self from: aDomain to: aCodomain matrix: matrix transposed"! !
+
+!ModuleMap class methodsFor: 'instance creation' stamp: 'len 5/29/2020 10:46:33'!
+from: aDomain to: aCodomain matrix: aMatrix
+	^ self new
+		domain: aDomain;
+		codomain: aCodomain;
+		matrix: aMatrix! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 12/20/2021 13:26:46'!
+at: aPoint
+	"Answer the coefficient at i@j (row i, column j)."
+	^ self atRow: aPoint x column: aPoint y! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 4/26/2022 21:54:54'!
+at: aPoint add: anElement
+	self at: aPoint put: (self at: aPoint) + anElement! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 12/20/2021 13:27:45'!
+at: aPoint ifAbsent: exceptionBlock
+	"Answer the coefficient at i@j (row i, column j), and evaluate aBlock if the indices are out of bounds."
+	^ self atRow: aPoint x column: aPoint y ifAbsent: exceptionBlock! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 12/20/2021 13:28:06'!
+at: aPoint put: anObject
+	"Answer the coefficient at i@j (row i, column j)."
+	^ self atRow: aPoint x column: aPoint y put: anObject! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 4/28/2022 12:34:14'!
+atRow: i column: j
+	^ self atRow: i column: j ifAbsent: [self scalars zero]! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 4/28/2022 12:09:51'!
+atRow: i column: j ifAbsent: exceptionBlock
+	^ self subclassResponsibility! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 5/29/2020 04:56:59'!
+bitSize
+	| answer |
+	answer _ 0.
+	self do: [:each| answer _ answer + each bitSize].
+	^ answer! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 11/23/2022 21:29:03'!
+columnAt: j
+	^ codomain fill: [:i| self at: i@j]! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 5/29/2020 06:14:11'!
+columnAt: j put: aTuple
+	aTuple withIndexDo: [:each :i| self at: i@j put: each]! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 5/29/2020 06:55:40'!
+columns
+	^ (Iterator on: self performing: #columnsDo:) asArray! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 6/6/2023 14:15:19'!
+denominator
+	"If the coefficients ring is a localization, answer the LCM of the denominators of the coefficients."
+	| answer |
+	self scalars isLocalization ifFalse: [^ self scalars one].
+	self propertyAt: #denominator ifPresent: [:anElement| ^ anElement].
+	answer := self scalars numerators one.
+	self do: [:each| answer := each denominator lcm: answer].
+	^ self propertyAt: #denominator put: answer! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 5/29/2020 07:26:49'!
+diagonal
+	^ (Iterator on: self performing: #diagonalDo:) asArray! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 5/29/2020 06:32:28'!
+height
+	^ codomain rank! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 4/5/2018 15:32:32'!
+lastColumn
+	^ self columnAt: self width! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 1/6/2022 17:03:55'!
+lastRow
+	^ self rowAt: self height! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 12/2/2022 14:25:27'!
+lift
+	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R."
+	^ self class from: domain lift to: codomain lift fill: [:i :j| (self atRow: i column: j) lift]! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 6/9/2023 10:03:21'!
+numerator
+	"If the coefficients ring is a localization, answer the product of the receiver by the LCM of the denominators of the coefficients. The answer is a matrix over the ring of numerators of the localization ring."
+	| d |
+	self scalars isLocalization ifFalse: [^ self].
+	self propertyAt: #numerator ifPresent: [:aMatrix| ^ aMatrix].
+	d := self scalars !! self denominator.
+	^ self propertyAt: #numerator put: (self parent numerators fill: [:i :j| ((self at: i@j) * d) numerator])! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 12/2/2022 14:13:06'!
+projection: anInteger
+	"If the coefficients ring is a product ring, answer matrix induced by the projection to the anInteger-th component."
+	^ self class from: (domain over: (domain scalars at: anInteger)) to: (codomain over: (domain scalars at: anInteger)) fill: [:i :j| (self atRow: i column: j) at: anInteger]! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 11/23/2022 21:34:45'!
+representative
+	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
+	^ self class from: domain lift to: codomain lift fill: [:i :j| (self atRow: i column: j) representative]! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 11/23/2022 21:29:28'!
+rowAt: i
+	^ domain fill: [:j| self at: i@j]! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 5/29/2020 06:14:33'!
+rowAt: i put: aTuple
+	aTuple withIndexDo: [:each :j| self at: i@j put: each]! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 5/29/2020 06:55:51'!
+rows
+	^ (Iterator on: self performing: #rowsDo:) asArray! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 5/29/2020 04:58:46'!
+width
+	^ domain rank! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 11/23/2022 21:34:54'!
+zero
+	| zero |
+	zero _ self scalars zero.
+	^ self class from: domain to: codomain fill: [:i :j| zero]! !
+
+!Matrix methodsFor: 'comparing' stamp: 'len 5/15/2019 23:48:39'!
+= anObject
+	anObject isMatrix ifFalse: [^ false].
+	self height = anObject height ifFalse: [^ false].
+	self width = anObject width ifFalse: [^ false].
+	1 to: self height do: [:i|
+		1 to: self width do: [:j|
+			(self at: i@j) = (anObject at: i@j) ifFalse: [^ false]]].
+	^ true! !
+
+!Matrix methodsFor: 'comparing' stamp: 'len 12/22/2022 18:49:09'!
+~ aMatrix
+	"Two rectangular matrices A and B are 'column equivalent' if there exists an invertible matrix P such that B = A * P. Two matrices are column equivalent if they have the same reduced column echelon form.
+	In the case of square matrices, answer true if the receiver and the argument are associates.
+	Note that we define 'a ~ b' if there's a unit 'u' such that 'au = b' (this relation is called 'strongly associate' by some authors)."
+	^ self coechelon = aMatrix coechelon! !
+
+!Matrix methodsFor: 'comparing' stamp: 'len 4/5/2018 15:31:22'!
+hash
+	| answer |
+	answer _ 0.
+	1 to: self height do: [:i|
+		1 to: self width do: [:j|
+			answer _ answer hashMultiply + (self at: i@j) hash]].
+	^ answer! !
+
+!Matrix methodsFor: 'comparing' stamp: 'len 12/11/2022 09:59:03'!
+≃ aMatrix
+	"Two square matrices A and B are 'similar' or 'conjugate' if there exists an invertible matrix P such that B = P^-1 * A * P. This is the conjugacy equivalence relation in GL.
+	Two matrices are similar if and only if they have the same rational canonical form (or Frobenius normal form)."
+	^ self invariantFactors = aMatrix invariantFactors! !
+
+!Matrix methodsFor: 'comparing' stamp: 'len 12/11/2022 09:35:34'!
+≅ aMatrix
+	"Two square matrices A and B over a field are 'congruent' if there exists an invertible matrix P such that B = P^T * A * P.
+	Assuming the matrices are invertible, this congruence of A and B is equivalent to similarity of their associated cosquares."
+	^ self cosquare ≃ aMatrix cosquare! !
+
+!Matrix methodsFor: 'comparing' stamp: 'len 12/11/2022 09:50:26'!
+≡ aMatrix
+	"Two rectangular matrices A and B are 'equivalent' if there exist invertible matrices P and Q such that B = Q^-1 * A * P.
+	Two matrices over a field are equivalent if and only if they have the same rank, and over a PID they are equivalent if and only if they have the same Smith normal form."
+	^ self elementaryDivisors = aMatrix elementaryDivisors! !
+
+!Matrix methodsFor: 'converting' stamp: 'len 4/1/2021 06:34:34'!
+asMatrix
+	^ self! !
+
+!Matrix methodsFor: 'converting' stamp: 'len 11/23/2022 21:28:29'!
+asPolynomial
+	"If the receiver is a linear form, answer the receiver as a polynomial in the coordinate ring of the domain."
+	| P |
+	self isLinearForm ifFalse: [DomainError signal: 'not a linear form'].
+	P _ self domain coordinateRing.
+	^ (P !!!! P generators) · (self asTuple over: P)! !
+
+!Matrix methodsFor: 'converting' stamp: 'len 11/23/2022 21:32:48'!
+asRationalMap
+	| A B polynomials |
+	A _ self domain coordinateRing.
+	B _ self codomain coordinateRing.
+	polynomials _ (self over: A) * (A !!!! A generators).
+	^ A spec to: B spec representatives: polynomials! !
+
+!Matrix methodsFor: 'converting' stamp: 'len 5/31/2022 18:10:34'!
+asScalar
+	"If the receiver is the embedding of an element of the scalars ring in an endomorphism algebra, answer the corresponding scalar."
+	self isScalar ifFalse: [^ self error: 'not a scalar matrix'].
+	^ self at: 1@1! !
+
+!Matrix methodsFor: 'converting' stamp: 'len 5/5/2023 18:19:20'!
+asTuple
+	"Answer the receiver converted to Tuple by concatenating its rows (which is also the coordinates of the receiver in the canonical basis)."
+	| answerCoefficients i |
+	answerCoefficients _ self scalars new: self width * self height.
+	i _ 1.
+	self rowsDo: [:each|
+		answerCoefficients replaceFrom: i to: i + self width - 1 with: each coefficients startingAt: 1.
+		i _ i + self width].
+	^ self scalars ^ (self width * self height) coefficients: answerCoefficients! !
+
+!Matrix methodsFor: 'copying' stamp: 'len 4/26/2022 04:54:21'!
+coproject: anArray
+	^ self class from: (self  scalars ^ anArray size) to: codomain columns: (anArray collect: [:j| self columnAt: j])! !
+
+!Matrix methodsFor: 'copying' stamp: 'len 11/23/2022 21:34:34'!
+copyFrom: aPoint to: anotherPoint
+	"Answer the submatrix of the receiver from aPoint to anotherPoint."
+
+	| start |
+	start _ aPoint - (1@1).
+	^ self class
+		from: (domain copyFrom: aPoint y to: anotherPoint y)
+		to: (codomain copyFrom: aPoint x to: anotherPoint x)
+		fill: [:i :j| self at: start + (i@j)]! !
+
+!Matrix methodsFor: 'copying' stamp: 'len 4/26/2022 05:48:43'!
+copyFromColumn: start to: end
+	^ self copyFrom: 1 @ start to: self height @ end! !
+
+!Matrix methodsFor: 'copying' stamp: 'len 4/26/2022 05:48:24'!
+copyFromRow: start to: end
+	^ self copyFrom: start @ 1 to: end @ self width! !
+
+!Matrix methodsFor: 'copying' stamp: 'len 11/23/2022 21:39:09'!
+copyWithout: aPoint
+	"Answer the matrix obtained by removing the row i and column j from the receiver, where the argument is the point i@j."
+	^ self scalars
+		matrix: self height - 1 @ (self width - 1)
+		fill: [:i :j| self at: (i < aPoint x ifTrue: [i] ifFalse: [i + 1]) @ (j < aPoint y ifTrue: [j] ifFalse: [j + 1])]! !
+
+!Matrix methodsFor: 'copying' stamp: 'len 11/23/2022 21:39:15'!
+copyWithoutColumn: anInteger
+	"Answer the matrix obtained by removing the anInteger-th column from the receiver."
+	^ self scalars
+		matrix: self height @ (self width - 1)
+		fill: [:i :j| self at: i @ (j < anInteger ifTrue: [j] ifFalse: [j + 1])]! !
+
+!Matrix methodsFor: 'copying' stamp: 'len 11/23/2022 21:39:20'!
+copyWithoutRow: anInteger
+	"Answer the matrix obtained by removing the anInteger-th column from the receiver."
+	^ self scalars
+		matrix: self height - 1 @ self width
+		fill: [:i :j| self at: (i < anInteger ifTrue: [i] ifFalse: [i + 1]) @ j]! !
+
+!Matrix methodsFor: 'copying' stamp: 'len 12/24/2022 17:13:34'!
+copyWithoutRowAndColumn: aPoint
+	"Answer the matrix obtained by removing the row i and column j from the receiver, where the argument is the point i@j."
+	^ self scalars
+		matrix: self height - 1 @ (self width - 1)
+		fill: [:i :j| self at: (i < aPoint x ifTrue: [i] ifFalse: [i + 1]) @ (j < aPoint y ifTrue: [j] ifFalse: [j + 1])]! !
+
+!Matrix methodsFor: 'copying' stamp: 'len 4/26/2022 04:52:22'!
+copyWithoutZeroColumns
+	^ Matrix to: codomain columns: (self columns select: [:each| each isZero not])! !
+
+!Matrix methodsFor: 'copying' stamp: 'len 4/26/2022 04:52:28'!
+copyWithoutZeroRows
+	^ Matrix from: domain rows: (self rows select: [:each| each isZero not])! !
+
+!Matrix methodsFor: 'copying' stamp: 'len 4/26/2022 04:53:06'!
+project: anArray
+	^ self class from: domain to: (self scalars ^ anArray size) rows: (anArray collect: [:i| self rowAt: i])! !
+
+!Matrix methodsFor: 'enumerating' stamp: 'len 3/24/2018 19:27:46'!
+allSatisfy: aBlock
+	self do: [:each| (aBlock value: each) ifFalse: [^ false]].
+	^ true! !
+
+!Matrix methodsFor: 'enumerating' stamp: 'len 11/23/2022 21:34:27'!
+collect: aBlock
+	^ self class from: self domain to: self codomain fill: [:i :j| aBlock value: (self at: i@j)]! !
+
+!Matrix methodsFor: 'enumerating' stamp: 'len 4/5/2018 15:28:54'!
+columnsDo: aBlock
+	1 to: self width do: [:i| aBlock value: (self columnAt: i)]! !
+
+!Matrix methodsFor: 'enumerating' stamp: 'len 5/29/2020 13:07:39'!
+diagonalDo: aBlock
+	1 to: (self width min: self height) do: [:i| aBlock value: (self at: i@i)]! !
+
+!Matrix methodsFor: 'enumerating' stamp: 'len 4/5/2018 15:29:50'!
+do: aBlock
+	1 to: self height do: [:i|
+		1 to: self width do: [:j|
+			aBlock value: (self at: i@j)]]! !
+
+!Matrix methodsFor: 'enumerating' stamp: 'len 7/14/2019 15:19:46'!
+inject: thisValue into: binaryBlock 
+	| nextValue |
+	nextValue _ thisValue.
+	self do: [:each | nextValue _ binaryBlock value: nextValue value: each].
+	^ nextValue! !
+
+!Matrix methodsFor: 'enumerating' stamp: 'len 5/18/2022 06:30:55'!
+pivotsDo: aBlock
+	"Enumerate the row-style pivot indices. These are the pairs i@j corresponding to the first nonzero entry of each row."
+	| i |
+	i _ 1.
+	self rowsDo: [:each|
+		each firstNonzeroIndex ifNotNil: [:j| aBlock value: i@j].
+		i _ i + 1]! !
+
+!Matrix methodsFor: 'enumerating' stamp: 'len 4/5/2018 15:43:00'!
+rowsDo: aBlock
+	1 to: self height do: [:i| aBlock value: (self rowAt: i)]! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/29/2022 19:55:52'!
+CHNF
+	"Answer the column-style Hermite normal form of the receiver."
+	^ self transpose HNF transpose! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/29/2022 19:56:36'!
+CHNFAndTransformation
+	"Answer the column-style Hermite normal form H of the receiver A and the unique unimodular matrix T such that A*T = H."
+	^ self transpose CHNFAndTransformation collect: [:each| each transpose]! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/29/2022 19:55:48'!
+HNF
+	"Answer the row-style Hermite normal form of the receiver."
+	self isEmpty ifTrue: [^ self].
+	self scalars isLocalization ifTrue: [^ (self numerator HNF over: self scalars) / self denominator].
+	^ (HermiteEchelonization on: self) echelon! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/29/2022 19:56:35'!
+HNFAndTransformation
+	"Answer the row-style Hermite normal form H of the receiver A and the unique unimodular matrix T such that T*A = H."
+	self scalars isLocalization ifTrue:
+		[| HT |
+		HT _ self numerator HNFAndTransformation.
+		^ {(HT first over: self scalars) / self denominator. HT second over: self scalars}].
+	^ (HermiteEchelonization on: self) echelonAndTransformation! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 5/29/2020 15:05:40'!
+PRCF
+	"Answer the primary rational canonical form of the receiver, assuming it's a square matrix over a field.
+	The PRCF reflects a decomposition of the vector space into a maximal number of cyclic subspaces. Unlike the RCF, finding this form requires factorization of polynomials over the coefficients field, and as a consequence the primary rational canonical form may change when the same matrix is considered over an extension field of the coefficients field."
+	^ self primaryInvariantFactors inject: (self scalars^0) id into: [:result :each| result ⊕ each companion]! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 5/29/2020 15:06:07'!
+RCF
+	"Answer the Frobenius normal form (or rational canonical form) of the receiver, assuming it's a square matrix over a field.
+	The RCF of a matrix A reflects a minimal decomposition of the vector space into subspaces that are cyclic for A (i.e., spanned by some vector and its repeated images under A). A matrix B is similar to A iff it has the same rational canonical form as A. Unlike the PRCF, finding this form doesn't require factorization of polynomials or any operation that might change when extending the coefficients field (hence the 'rational'), showing that matrix similarity does not change upon field extensions."
+	^ self invariantFactors inject: (self scalars^0) id into: [:result :each| result ⊕ each companion]! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/20/2021 13:25:43'!
+SNF
+	"Given a matrix with coefficients in a PID, answer the Smith normal form of the receiver.
+	The Smith normal form is very useful for working with finitely generated modules over a PID, and in particular for deducing the structure of a quotient of a free module.
+	This is a naive implementation of Kannan-Bachem algorithm."
+	| S a n |
+	self isEmpty ifTrue: [^ self].
+	"Repeatedly compute the Hermite normal form and transpose until a diagonal form is obtained:"
+	S _ self HNF.
+	[S isDiagonal] whileFalse: [S _ S transpose HNF transpose HNF].
+	"Once in diagonal form, substitute neighboring diagonal elements by their GCD and LCM"
+	n _ ((S width min: S height) to: 2 by: -1) detect: [:i| (S atRow: i column: i) isZero not] ifNone: [^ S].
+	[a _ S atRow: 1 column: 1.
+	2 to: n do: [:i| | b gcd |
+		b _ S atRow: i column: i.
+		S atRow: i-1 column: i-1 put: (gcd _ a gcd: b). "GCD"
+		S atRow: i column: i put: (a _ a // gcd * b) "LCM"].
+	S isSmithNormalForm] whileFalse.
+	^ S! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/13/2022 12:56:46'!
+SNFAfterHNF
+	"Answer the Smith normal form of the receiver. Perform first a HNF reduction."
+	| H n |
+	H _ self HNF.
+	n _ H diagonal findLast: [:each| each isZero not].
+	^ (H copyFrom: 1@1 to: n@n) SNF ⊕ (self scalars ^ ((H width max: H height) - n)) endomorphisms zero! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/23/2021 17:50:15'!
+SNFAndTransformations
+	"Answer the Smith normal form S of the receiver A and the unique unimodular matrices P and Q such that P*A*Q = S.
+	This is a naive implementation of Kannan-Bachem algorithm."
+	| HT S a n P Q |
+	"Repeatedly compute the Hermite normal form and transpose until a diagonal form is obtained:"
+	P _ self codomain id.
+	Q _ self domain id.
+	HT _ self HNFAndTransformation.
+	S _ HT first. P _ HT second.
+	[S isDiagonal] whileFalse:
+		[HT _ S transpose HNFAndTransformation.
+		Q _ HT second transpose * Q.
+		HT _ HT first transpose HNFAndTransformation.
+		S _ HT first. P _ P * HT second].
+	"Once in diagonal form, substitute neighboring diagonal elements by their GCD and LCM"
+	n _ ((S width min: S height) to: 2 by: -1) detect: [:i| (S atRow: i column: i) isZero not] ifNone: [^ S].
+	"TODO: update P and Q"
+	[a _ S atRow: 1 column: 1.
+	2 to: n do: [:i| | b gcd |
+		b _ S atRow: i column: i.
+		S atRow: i-1 column: i-1 put: (gcd _ a gcd: b). "GCD"
+		S atRow: i column: i put: (a _ a // gcd * b) "LCM"].
+	S isSmithNormalForm] whileFalse.
+	^ {S. P. Q}! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/19/2022 10:12:26'!
+SNFOneStep
+	| L S R zero one j k |
+	L _ self codomain id.
+	R _ self domain id.
+	(self isEmpty or: [self isZero]) ifTrue: [^ {L. self. R}].
+	S _ self copy.
+	zero _ self scalars zero.
+	one _ self scalars one.
+
+	"put a nonzero column as first column"
+	j _ 1.
+	[(S columnAt: j) isZero] whileTrue: [j _ j + 1].
+	j > 1 ifTrue: [R at: 1@1 put: zero; at: j@j put: zero; at: 1@j put: one; at: j@1 put: one negated. S _ S * R].
+
+	self assert: self * R = S.
+
+	"put a nonzero value at 1@1:"
+	k _ 1.
+	[(S at: k@1) isZero] whileTrue: [k _ k + 1].
+	k > 1 ifTrue: [L at: 1@1 put: zero; at: k@k put: zero; at: 1@k put: one; at: k@1 put: one negated. S _ L * S].
+
+	self assert: L * self * R = S.
+
+	2 to: S height do: [:i| | a1 ai euclid c d e f M |
+		a1 _ S at: 1@1.
+		ai _ S at: i@1.
+		ai | a1 ifFalse:
+			[euclid _ ExtendedEuclid on: {a1. ai}.
+			c _ euclid bezout at: 1.
+			d _ (euclid bezout at: 2) negated.
+			self assert: a1*c - (ai*d) = euclid gcd.
+			e _ ai negated / euclid gcd.
+			f _ a1 / euclid gcd.
+			self assert: d*e + (c*f) = self scalars one.
+			M _ S codomain id.
+			M at: 1@1 put: c; at: 1@i put: d negated; at: i@1 put: e; at: i@i put: f.
+			self assert: M determinant = self scalars one.
+			S _ M * S.
+			L _ M * L.
+			self assert: L * self * R = S]].
+
+	"now everything in column 1 is divisible by the pivot at 1@1:"
+	2 to: S height do: [:i| | x |
+		x _ (S at: i@1) negated / (S at: 1@1).
+		S addRow: 1 times: x to: i.
+		L addRow: 1 times: x to: i].
+
+	self assert: L * self * R = S.
+
+	"if anything at the right of the pivot in the first row is not zero, we recurse
+	(the algorithm must termiate if the cofficients ring is Noetherian)"
+	((j+1 to: self width) allSatisfy: [:jj| (S at: 1@jj) isZero])
+		ifFalse:
+			[| result |
+			result _ S transpose SNFOneStep.
+			L _ (result at: 3) * L.
+			S _ (result at: 2) transpose.
+			R _ R * (result at: 1) transpose].
+
+	^ {L. S. R}! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 5/9/2023 13:17:39'!
+SNFRecursive
+	| L S R LL SS RR I result |
+	L _ self codomain id.
+	R _ self domain id.
+	(self isEmpty or: [self isZero]) ifTrue: [^ {L. self. R}].
+
+	result _ self SNFOneStep.
+	L _ result at: 1.
+	S _ result at: 2.
+	R _ result at: 3.
+	result _ (S copyFrom: 2@2 to: S height @ S width) SNFRecursive.
+	LL _ result at: 1.
+	SS _ result at: 2.
+	RR _ result at: 3.
+	
+	I _ (self scalars^1) id.
+	L _ I ⊕ LL * L.
+	S _ (I * (S at: 1@1)) ⊕ SS.
+	R _ R * (I ⊕ RR).
+
+	"TODO: fix diagonal"
+	
+	^ {L. S. R}! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/22/2022 19:09:57'!
+basis
+	self propertyAt: #basisAndTransformation ifPresent: [:anArray| ^ anArray first].
+	^ self propertyAt: #basis ifAbsentPut: [self scalars basisOf: self]! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 1/9/2022 13:13:24'!
+basisAndTransformation
+	^ self propertyAt: #basisAndTransformation ifAbsentPut: [self scalars basisAndTransformationOf: self]! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/22/2022 19:09:42'!
+basisTransformation
+	^ self basisAndTransformation second! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/29/2022 16:26:13'!
+coechelon
+	"Answer the column echelon form of the receiver."
+	self propertyAt: #coechelonAndTransformation ifPresent: [:anArray| ^ anArray first].
+	^ self propertyAt: #coechelon ifAbsentPut: [self transpose echelon transpose]! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/29/2022 16:27:29'!
+coechelonAndTransformation
+	"Answer an array with the column echelon form of the receiver and the transformation to echelon form."
+	^ self propertyAt: #coechelonAndTransformation ifAbsentPut: [self transpose echelonAndTransformation collect: [:each| each transpose]]! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/29/2022 16:26:51'!
+coechelonTransformation
+	"Answer the transformation to column echelon form."
+	^ self coechelonAndTransformation second! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 4/10/2021 12:28:33'!
+dependentColumns
+	"Answer the collection of indices of linearly dependent columns."
+	| independent d answer |
+	independent _ self independentColumns.
+	d _ 1.
+	answer _ OrderedCollection new: self width - independent size.
+	independent do: [:i| answer addAll: (d to: i-1). d _ i+1].
+	answer addAll: (d to: self width).
+	^ answer! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 5/19/2023 07:11:55'!
+echelon
+	"Answer the row echelon form of the receiver."
+	self propertyAt: #echelonAndTransformation ifPresent: [:anArray| ^ anArray first].
+	^ self propertyAt: #echelon ifAbsentPut: [self scalars echelonOf: self]! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 5/19/2023 07:12:10'!
+echelonAndTransformation
+	"Answer an array with the row echelon form of the receiver and the transformation to echelon form."
+	^ self propertyAt: #echelonAndTransformation ifAbsentPut: [self scalars echelonAndTransformationOf: self]! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 12/22/2022 18:42:10'!
+echelonTransformation
+	"Answer the transformation to row echelon form."
+	^ self echelonAndTransformation second! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 6/9/2019 10:08:46'!
+elementaryDivisors
+	"Answer the diagonal of the Smith normal form."
+	self isEmpty ifTrue: [^ #()].
+	self scalars isField ifTrue: [^ (1 to: self rank) collect: [:each| self scalars one]].
+	^ self SNF diagonal asArray select: [:each| each isZero not]! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 7/13/2019 04:31:49'!
+hessenberg
+	"Answer the matrix similar to the receiver but in upper Hessenberg form (zeroes below the first subdiagonal)."
+	^ self notYetImplemented! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 4/10/2021 12:28:27'!
+independentColumns
+	"Answer the collection of indices of linearly independent columns."
+	^ self echelon pivots collect: [:each| each y]! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 5/17/2022 04:52:23'!
+invariantFactors
+	"Answer the invariant factors of the receiver, corresponding to the Frobenius normal form (or rational canonical form), assuming it's a square matrix over a field."
+	^ self characteristicMatrix elementaryDivisors select: [:each| each degree > 0]! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 11/23/2022 21:29:21'!
+jordan
+	"Answer the Jordan blocks of the receiver's Jordan normal form."
+	| spectrum blocks one zero |
+	spectrum _ self spectrum.
+	spectrum size = self height ifFalse: [^ self error: 'the characteristic polynomial doesn''t split'].
+"	I _ matrix species identity."
+	blocks _ Bag new.
+	one _ self scalars one.
+	zero _ self scalars zero.
+	spectrum asSet do: [:eigenvalue|
+		| multiplicity dimensions X T count |
+		multiplicity _ spectrum occurrencesOf: eigenvalue.
+		dimensions _ OrderedCollection new.
+		X _ self - (self parent scalar: eigenvalue).
+		T _ X.
+		[(dimensions add: T nullity) < multiplicity] whileTrue: [T _ T * X].
+		count _ 0.
+		dimensions size to: 1 by: -1 do: [:n| | k block |
+			k _ (dimensions at: n) - (dimensions at: n-1 ifAbsent: [0]).
+			block _ (self scalars^n) endomorphisms fill: [:i :j| i=j ifTrue: [eigenvalue] ifFalse: [j-1=i ifTrue: [one] ifFalse: [zero]]].
+			blocks add: block withOccurrences: k - count.
+			count _ count + k]].
+	^ blocks! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 8/10/2020 05:25:58'!
+orthogonalized
+	"Perform the Gram-Schmidt orthogonalization process on the columns of the receiver."
+	| orthogonalVectors orthogonalVectorsNorms2 u uv |
+	orthogonalVectors _ OrderedCollection new: self width.
+	orthogonalVectorsNorms2 _ OrderedCollection new: self width.
+	self columns do: [:each|
+		u _ each.
+		orthogonalVectors with: orthogonalVectorsNorms2 do: [:v :vv|
+			uv _ u · v.
+			u _ u - (v * uv / vv)].
+		orthogonalVectors add: u.
+		orthogonalVectorsNorms2 add: u · u].
+	^ self class from: domain to: codomain columns: orthogonalVectors! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 3/7/2017 08:34:26'!
+pivots
+	"Answer the collection of row-style pivot indices. These are the pairs i@j corresponding to the first nonzero entry of each row."
+	^ Iterator on: self performing: #pivotsDo:! !
+
+!Matrix methodsFor: 'normal forms' stamp: 'len 8/5/2021 08:40:26'!
+primaryInvariantFactors
+	^ self characteristicPolynomial factorization! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 4/20/2022 18:11:01'!
+% anInteger
+	self scalars = ℤ ifFalse: [DomainError signal].
+	^ self apply: (ℤ / anInteger) projection! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 7/24/2021 14:20:31'!
+* anObject
+	((self scalars includes: anObject) or: [anObject isInteger]) ifTrue: [^ self collect: [:each| each * anObject]].
+	anObject isMatrix ifTrue: [^ self · anObject].
+	anObject isTuple ifTrue: [^ self value: anObject].
+	(anObject isKindOf: ModuleMap) ifTrue: [^ self · anObject].
+	^ DomainError signal! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 11/23/2022 21:34:06'!
++ aMatrix
+	aMatrix isMatrix ifFalse: [^ self adapt: aMatrix andSend: #+].
+	self checkDomainsMatch: aMatrix.
+	self checkCodomainsMatch: aMatrix.
+	^ self class from: domain to: codomain fill: [:i :j| (self at: i@j) + (aMatrix at: i@j)]! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 3/23/2016 00:21'!
+- aMatrix
+	^ self + aMatrix negated! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 6/29/2023 14:12:32'!
+/ anObject
+	"Answer X such that XA = B, where B is the receiver and A is the argument.
+	X is called a colift (or extension) of B along A, written B / A.
+	If the argument is a scalar, just divide each element of the matrix by the scalar."
+	(anObject isMatrix and: [self scalars = anObject scalars]) ifFalse: [^ super / anObject].
+	^ (anObject colift: self) ifNil: [DivisibilityError new signalReceiver: self selector: #/ argument: anObject]! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 10/5/2022 18:43:28'!
+@ aPrimeIdeal
+	"Answer the localization of the receiver at aPrimeIdeal."
+	^ self apply: self scalars → (self scalars @ aPrimeIdeal)! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 6/29/2023 14:32:12'!
+\ anObject
+	"Answer X such that AX = B, where A is the receiver and B is the argument.
+	X is called a lift of B along A, written A \ B.
+	The argument can also be a tuple, in which case it is considered as a column matrix and the returned value is also a tuple.
+	This is the 'backslash' operator, as implemented in MATLAB, Octave and Sage."
+	(anObject isMatrix and: [self scalars = anObject scalars])
+		ifTrue: [^ (self lift: anObject) ifNil: [DivisibilityError new signalReceiver: self selector: #\ argument: anObject]].
+	(anObject isTuple and: [self scalars = anObject scalars])
+		ifTrue: [^ (self lift: anObject asMatrix) ifNil: [DivisibilityError new signalReceiver: self selector: #\ argument: anObject] ifNotNil: [:answer| answer asTuple]].
+	^ super \ anObject! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 6/29/2023 18:20:31'!
+· aMatrix
+	| rows columns |
+	aMatrix isMatrix ifFalse: [^ super · aMatrix].
+	self checkCompatibleComposition: aMatrix.
+	rows := self rows asArray.
+	columns := aMatrix columns asArray.
+	^ self class from: aMatrix domain to: self codomain fill: [:i :j| (rows at: i) · (columns at: j)]! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 11/23/2022 21:34:17'!
+⊕ aMatrix
+	"Answer the block sum of the receiver and the argument.
+	If the receiver is A and the argument is B, output a matrix of the form:
+	  [A 0]
+	  [0 B]"
+	aMatrix isMatrix ifFalse: [^ super ⊕ aMatrix].
+	^ self class from: domain ⊕ aMatrix domain to: codomain ⊕ aMatrix codomain fill: [:i :j| self at: i @ j ifAbsent: [aMatrix at: i - self height @ (j - self width) ifAbsent: [self scalars zero]]]! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 11/23/2022 21:36:44'!
+⊗ aMatrix
+	"Answer the Kronecker product of the receiver by the argument."
+	| m n p q |
+	aMatrix isTuple ifTrue: [^ self ⊗ aMatrix asMatrix].
+	aMatrix isMatrix ifFalse: [^ super ⊗ aMatrix].
+	self checkScalarsMatch: aMatrix.
+	m _ self height.
+	n _ self width.
+	p _ aMatrix height.
+	q _ aMatrix width.
+	^ self scalars^(n*q)
+		to: self scalars^(m*p)
+		fill: [:i :j|
+			(self at: (i-1)*m//(m*p)+1 @ ((j-1)*n//(n*q)+1)) *
+			(aMatrix at: (i-1)\\p+1 @ ((j-1)\\q+1))]! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:21:39'!
+⊓ aMatrix
+	"Answer the product morphism of the receiver and the argument.
+	This is the row-augmented matrix with the receiver stacked on top of the argument.
+	If the receiver is A and the argument is B, output a matrix of the form:
+	  [A]
+	  [B]"
+	aMatrix isTuple ifTrue: [^ self ⊓ aMatrix asRowMatrix].
+	aMatrix isMatrix ifFalse: [^ super ⊓ aMatrix].
+	self checkDomainsMatch: aMatrix.
+	^ self class from: domain to: codomain ⊕ aMatrix codomain rows: self rows, aMatrix rows! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:21:53'!
+⊔ aMatrix
+	"Answer the coproduct morphism of the receiver and the argument.
+	This is the column-augmented matrix with the receiver concatenated with the argument.
+	If the receiver is A and the argument is B, output a matrix of the form:
+	  [A B]"
+	aMatrix isTuple ifTrue: [^ self ⊔ aMatrix asMatrix].
+	aMatrix isMatrix ifFalse: [^ super ⊔ aMatrix].
+	self checkCodomainsMatch: aMatrix.
+	^ self class from: domain ⊕ aMatrix domain to: codomain columns: self columns, aMatrix columns! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 7/15/2021 12:37:58'!
+adjugate
+	"Answer the adjugate matrix (or classical adjoint matrix) of the receiver. This is the matrix such that multiplicated at the left by the receiver equals the scalar matrix with the determinant of the receiver in the diagonal."
+	| f |
+	f _ self characteristicPolynomial >> 1.
+	^ (self height odd ifTrue: [f] ifFalse: [f negated]) value: self! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 8/10/2020 05:34:21'!
+antitranspose
+	^ self class from: codomain to: domain rows: (self columns reversed collect: [:each| each reversed])! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 5/9/2023 13:20:53'!
+apply: aFunction
+	"Answer a new matrix with coefficients obtainted by applying aFunction to the coefficients of the receiver.
+	If aFunction is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
+
+	aFunction isBlock ifTrue: [^ domain to: codomain fill: [:i :j| aFunction value: (self at: i@j)]].
+	^ (domain over: aFunction codomain) to: (codomain over: aFunction codomain) fill: [:i :j| aFunction value: (self at: i@j)]! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 6/14/2023 15:10:47'!
+berkowitz
+	"Answer the coefficients of the characteristic polynomial of the receiver.
+	It's computed by the Berkowitz division-free algorithm and works over any commutative ring.
+	It uses small space in comparision with classic Gaussian elimination and performs O(n^4) scalar operations."
+	| n v C Ar R S Q one |
+	self isSquare ifFalse: [^ self error: 'not square'].
+	one := self scalars one.
+	(n := self width) = 0 ifTrue: [^ self scalars !!!! {one}].
+	n = 1 ifTrue: [^ self scalars !!!! {one. (self at: 1@1) negated}].
+	n = 2 ifTrue:
+			[^ self scalars !!!!
+				{one.
+				((self at: 1@1) + (self at: 2@2)) negated.
+				(self at: 1@1) * (self at: 2@2) - ((self at: 1@2) * (self at: 2@1))}].
+
+	v := self scalars !!!!
+		{one.
+		(self at: 2@2) negated - (self at: 1@1).
+		(self at: 2@2) * (self at: 1@1) - ((self at: 1@2) * (self at: 2@1))}.
+
+	3 to: n do: [:r|
+		C := (self scalars^r ⇒ (self scalars^(r+1))) zero.
+		Ar := self copyFrom: 1@1 to: r-1 @ (r-1).
+
+		R := (self rowAt: r) copyFrom: 1 to: r-1.
+		S := (self columnAt: r) copyFrom: 1 to: r-1.
+
+		C at: 1@1 put: one negated.
+		C at: 2@1 put: (self at: r@r).
+		C at: 3@1 put: (R · S).
+
+		Q := Ar * S.
+
+		C at: 4@1 put: (R · Q).
+
+		3 to: r-1 do: [:i|
+			Q := Ar * Q.
+			C at: i+2 @ 1 put: (R · Q)].
+
+		2 to: r do: [ :i |
+			0 to: r+1-i do: [ :j |
+				C at: i+j @ i put: (C at: j+1 @ 1)]].
+
+		v := C * v].
+
+	^ n even ifTrue: [v] ifFalse: [v negated]! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 11/23/2022 21:36:49'!
+characteristicMatrix
+	"Answer the characteristic matrix I*x - A."
+	| P x M |
+	P _ self scalars polynomials.
+	x _ P x.
+	M _ P^self width.
+	^ M to: M fill: [:i :j|
+		i = j
+			ifTrue: [x - (P constant: (self at: i @ j))]
+			ifFalse: [P constant: (self at: i @ j) negated]]! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 5/8/2023 16:55:28'!
+characteristicPolynomial
+	self scalars isLocalization ifTrue:
+		[| P x d answer |
+		P _ self scalars numerators polynomials.
+		x _ P x.
+		d _ self denominator.
+		answer _ ((self parent over: P) asAlgebra one * (x * d) - (self numerator over: P)) determinant over: self scalars.
+		self width timesRepeat: [answer _ answer / d].
+		^ answer].
+	self width <= 6 ifTrue: [^ self characteristicMatrix determinant].
+	^ self scalars polynomials coefficients: self berkowitz coefficients reversed
+
+"TODO: best algorithms choices are:
+	- for Z use modular algorithm: compute modulo p for many primes p, then CRT;
+	- for finite fields (fields with no coefficient explosion) use Hessenberg form with O(n^3);
+	- for general ring, use Berkowitz"
+! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 5/8/2023 16:56:08'!
+characteristicPolynomial3
+	"[Coh96] Algorithm 2.2.7. (Characteristic Polynomial and Adjoint Matrix) O(n^4).
+	This is the Faddeev-Leverrier algorithm and works over a commutative ring of characteristic 0 or characteristic coprime to 1..n. It also computes the determinant as a side product."
+	| n i I C a |
+	n _ self height.
+	i _ 0. I _ self identity. C _ I. a _ OrderedCollection new: n+1.
+	a add: self scalars one.
+	[(i _ i + 1) = n
+		ifTrue:
+			[a add: (self * C) trace negated / n.
+			^ self scalars polynomials newFrom: a reversed. "adj _ (-1)^(n-1) * C"].
+	C _ self * C.
+	a add: C trace negated / i.
+	C _ C + (I * a last)] repeat! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 5/8/2023 16:56:45'!
+characteristicPolynomial4
+	"This is the Faddeev-Leverrier algorithm to compute the characteristic polynomial, adjoint matrix and determinant of a matrix. It works over a commutative ring of characteristic 0 or characteristic coprime to 1..n. It runs in O(n^4)."
+	| n p I B |
+	n _ self height.
+	p _ self scalars new: n+1.
+	p at: n+1 put: self scalars one.
+	I _ self identity.
+	B _ I.
+	1 to: n-1 do: [:k|
+		B _ self*B.
+		B _ B + (I*(p at: n-k+1 put: B trace negated / k))].
+	p at: 1 put: (self*B) trace negated / n.
+	^ self scalars polynomials coefficients: p! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 5/8/2023 16:57:30'!
+characteristicPolynomialAndAdjoint
+	"[Coh96] Algorithm 2.2.7. (Characteristic Polynomial and Adjoint Matrix) O(n^4)."
+	| n i I C a |
+	n _ self height.
+	i _ 0. I _ self identity. C _ I. a _ OrderedCollection new: n.
+	a add: self scalars one.
+	[(i _ i + 1) = n
+		ifTrue:
+			[a add: (self * C) trace negated / n.
+			^ {self scalars polynomials newFrom: a reversed. (-1)^(n-1) * C}].
+	C _ self * C.
+	a add: C trace negated / i.
+	C _ C + (I * a last)] repeat! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 10/13/2016 14:00'!
+cofactor: aPoint
+	"Answer the cofactor i@j of the receiver."
+
+	^ (aPoint x + aPoint y) even
+		ifTrue: [self minor: aPoint]
+		ifFalse: [(self minor: aPoint) negated]! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 5/3/2021 10:57:09'!
+columnExtended
+	"Answer a square full rank matrix, adding columns if needed."
+	| M |
+	(self isSquare and: [self isFullRank]) ifTrue: [^ self].
+	M _ self ⊔ self codomain id.
+	^ Matrix from: self codomain to: self codomain columns: (M independentColumns collect: [:i| M columnAt: i])! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 8/9/2020 07:53:30'!
+comatrix
+	"Answer the co-matrix (or cofactor matrix) of the receiver, i.e. the matrix '(a{ij})' where 'a{ij}' is the cofactor 'ij'."
+	^ self adjugate transpose! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 5/28/2023 15:53:17'!
+conjugate
+	"Answer the conjugate transpose of the receiver. This is the involution of the matrix algebra."
+	^ self scalars isInvolutive ifTrue: [self transpose collect: [:each| each conjugate]] ifFalse: [self transpose]! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 5/14/2023 12:04:25'!
+content
+	"Answer the GCD of the coefficients of the receiver."
+	| answer |
+	self isZero ifTrue: [^ self scalars zero].
+	self scalars isField ifTrue: [^ self scalars one].
+	answer _ self scalars zero.
+	self do: [:each| answer _ answer gcd: each. answer isOne ifTrue: [^ answer]].
+	^ answer! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 12/11/2022 09:29:30'!
+cosquare
+	^ self transpose inverse * self! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 12/29/2022 19:54:18'!
+determinant
+	| n a0 |
+	self checkIsSquare.
+	self isEmpty ifTrue: [^ self scalars one].
+	n _ self width.
+	"For localizations, compute the determinant of the numerator matrix and divide by denominator n times:"
+	self scalars isLocalization ifTrue:
+		[| answer d |
+		answer _ self scalars !! self numerator determinant.
+		d _ self denominator.
+		n timesRepeat: [answer _ answer / d].
+		^ answer].
+	self scalars isProduct ifTrue:
+		[^ self scalars compose: ((1 to: self scalars arity) collect: [:i| (self projection: i) determinant])].
+	"For small matrices use Laplace expansion:"
+	n <= 6 ifTrue: [^ (1 to: n) sum: [:i| (self at: i@1) * (self cofactor: i@1)]].
+	"Over a field use Gaussian elimination:"
+	self scalars isField ifTrue: [^ (GaussJordanEchelonization on: self) determinant].
+	"Otherwise get the determinant from the characteristic polynomial (possibly computed by Berkowitz algorithm):"
+	a0 _ self characteristicPolynomial independentCoefficient.
+	^ n even ifTrue: [a0] ifFalse: [a0 negated]! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 7/12/2019 04:58:17'!
+determinant1
+	| a0 |
+	a0 _ self characteristicPolynomial independentCoefficient.
+	^ self height even ifTrue: [a0] ifFalse: [a0 negated]! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 5/22/2022 11:09:39'!
+determinant2
+	"[Coh96] Algorithm 2.2.6. (Determinant using Gauss-Bareiss). O(n^3)"
+	| n M k c s p i t |
+	self assert: self scalars isIntegralDomain.
+	self assert: self isSquare.
+	n _ self height.
+	M _ self copy.
+	k _ 0. c _ self scalars one. s _ self scalars one.
+	[k _ k + 1.
+	k = n ifTrue: [^ s * (M at: n@n)].
+	p _ M at: k@k. i _ k.
+	p isZero ifTrue: [i _ (k+1 to: n) detect: [:j| (M at: j@k) isZero not] ifNone: [^ self scalars zero]].
+	k to: n do: [:j| t _ M at: i@j. M at: i@j put: (M at: k@j). M at: k@j put: t].
+	s _ s negated.
+	p _ M at: k@k.
+	"the division t/c is exact, must use Euclidean division and discard the remainder"
+	c | t ifFalse: [self halt].
+	k+1 to: n do: [:j| t _ p * (M at: i@j) - ((M at: i@k) * (M at: k@j)). M at: i@j put: t/c].
+	c _ p] repeat! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 11/13/2022 10:35:33'!
+determinant3
+	self checkIsSquare.
+	self isEmpty ifTrue: [^ self scalars one].
+	^ (1 to: self height) sum: [:i| (self at: i@1) * (self cofactor: i@1)]! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 6/14/2023 15:08:27'!
+determinantModular
+	| B C n r moduli determinants |
+	B := 0.
+	self do: [:each| B := B max: each abs].
+	n := self width.
+	C := (n^n) sqrt * (B^n).
+	r := (C log: 2) ceiling.
+	moduli := OrderedCollection new: r.
+	moduli add: 2.
+	r - 1 timesRepeat: [moduli add: moduli last nextPrime].
+	determinants := moduli collect: [:each| (self % each) determinant].
+	^ (CRT solve: determinants) lift! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 4/5/2018 15:29:05'!
+determinantx
+	(self height = 2 and: [self width = 2])
+		ifTrue: [^ (self at: 1@1) * (self at: 2@2) - ((self at: 2@1) * (self at: 1@2))].
+	^ self determinant! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 6/4/2023 11:04:01'!
+gcd: aMatrix
+	"The GCD is well defined for scalar matrices over a ring with GCD."
+	^ self parent scalar: (self asScalar gcd: aMatrix asScalar)! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 6/29/2023 19:48:28'!
+index
+	"Answer the index of the receiver, assuming it is an endomorphism.
+	This is precisely the Euler characteristic of the 2-term complex 0 → domain → codomain → 0."
+	^ self kernel rank - self cokernel rank! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 6/17/2023 11:04:27'!
+lcm: aMatrix
+	"The LCM is well defined for scalar matrices over a ring with GCD."
+	^ self parent scalar: (self asScalar lcm: aMatrix asScalar)! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 5/5/2023 18:30:21'!
+minimalPolynomial
+	| P n answer |
+	self checkIsSquare.
+	self scalars isIntegralDomain ifFalse: [DomainError signal: 'not over an integral domain'].
+	P _ self scalars polynomials.
+	n _ self width.
+	answer _ P one.
+	self codomain basis do: [:ei| "It's not necessary to iterate over the whole basis"
+		| v L K s |
+		v _ ei.
+		L _ OrderedCollection new: n + 1.
+		L add: v.
+		[v _ self * v.
+		L add: v.
+		K _ (Matrix columns: L) syzygies.
+		K isZero] whileTrue.
+		K _ K coechelon.
+		s _ K columns first coefficients.
+		answer _ answer lcm: (P coefficients: s / s last).
+		answer degree = n ifTrue: [^ answer]].
+	^ answer! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 6/15/2023 16:43:59'!
+minor: aPoint
+	"Answer the (i,j)-minor, i.e. the determinant of the matrix obtained by removing row i and column j from the receiver."
+	^ (self copyWithoutRowAndColumn: aPoint) determinant! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 11/23/2022 21:39:32'!
+minors: k
+	"Answer the list of all the k-minors of the receiver, i.e. the determinants of all matrices obtained by deleting m - k rows and n - k columns."
+	| answer |
+	answer _ OrderedCollection new.
+	(1 to: self height) combinations: k atATimeDo: [:rows|
+		(1 to: self width) combinations: k atATimeDo: [:columns|
+			answer add: (self scalars matrix: k@k fill: [:i :j| self at: (rows at: i) @ (columns at: j)]) determinant]].
+	^ answer! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 3/23/2016 00:23'!
+negated
+	^ self collect: [:each| each negated]! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 12/22/2022 18:45:22'!
+normalization
+	"Answer a unit u such that 'self * u' is a unique choice of associate. See >>normalized."
+	self isSquare ifFalse: [^ self error: 'not square'].
+	(self scalars isPID not or: [self isZero]) ifTrue: [^ self one].
+	^ self coechelonTransformation! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 1/7/2022 14:23:27'!
+normalized
+	"Answer a unique choice of associate. See >>normalization."
+	self isSquare ifFalse: [^ self error: 'not square'].
+	self scalars isPID ifFalse: [^ self].
+	^ self coechelon! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 4/5/2018 15:33:02'!
+nullity
+	^ self width - self rank! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 11/5/2022 14:06:28'!
+opposite
+	"Answer the receiver as an element of the opposite ring."
+	^ self conjugate! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 11/13/2022 10:34:43'!
+permanent
+	| n |
+	self checkIsSquare.
+	n _ self width.
+	^ (SymmetricGroup new: n)
+			sum: [:aPermutation| (1 to: n) product: [:i| self atRow: i column: (aPermutation value: i)]]! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 12/11/2015 00:14'!
+pseudoInverse
+	"Answer the Moore-Penrose pseudoinverse matrix of the receiver."
+	^ self notYetImplemented! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 12/17/2022 09:55:44'!
+rank
+	self flag: #fixme. "this is inefficient with dense matrices"
+	^ self echelon rows count: [:each| each isZero not]! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 3/31/2021 09:42:21'!
+rowExtended
+	"Answer a square full rank matrix, adding rows if needed."
+	^ self transpose columnExtended transpose! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 11/13/2022 10:34:54'!
+trace
+	| answer |
+	self checkIsSquare.
+	answer _ self scalars zero.
+	1 to: self height do: [:i| answer _ answer + (self at: i@i)].
+	^ answer! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 11/23/2022 21:34:49'!
+transpose
+	^ self class from: codomain to: domain fill: [:i :j| self at: j@i]! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 11/23/2022 21:29:34'!
+value: aTuple
+"	(self domain includes: aTuple) ifFalse: [^ DomainError signal]."
+	^ codomain fill: [:i| (self rowAt: i) · aTuple]
+"	self isEmpty ifTrue: [^ aTuple scalars tuple: #()].
+	(self height = 0 or: [self width = aTuple size])
+		ifFalse: [^ DomainError signal: 'dimensions don''t match'].
+	self scalars >= aTuple scalars
+		ifTrue: [^ self codomain filling: [:i| (self rowAt: i) · aTuple]].
+	self scalars <= aTuple scalars
+		ifTrue: [^ (self codomain over: aTuple scalars) filling: [:i| (self rowAt: i) · aTuple]].
+	^ DomainError signal: 'base rings don''t match'"! !
+
+!Matrix methodsFor: 'operations-inplace' stamp: 'len 5/19/2023 14:52:43'!
++= aMatrix
+	self replaceWith: self plus: aMatrix! !
+
+!Matrix methodsFor: 'operations-inplace' stamp: 'len 5/19/2023 14:52:36'!
+-= aMatrix
+	self replaceWith: self minus: aMatrix! !
+
+!Matrix methodsFor: 'operations-inplace' stamp: 'len 5/26/2023 18:45:10'!
+replacePeelingStrassenWinogradWith: aMatrix1 times: aMatrix2
+	"Apply dynamic peeling if needed and perform Strassen-Winograd on submatrices with even dimensions.
+	Assumes the matrices are square."
+	| n A B C₁₁ |
+	(n := aMatrix1 width) even ifTrue: [^ self replaceStrassenWinogradWith: aMatrix1 times: aMatrix2].
+	A := aMatrix1.
+	B := aMatrix2.
+	C₁₁ := self from: 1@1 to: n-1 @ (n-1).
+	C₁₁ replaceStrassenWinogradWith: (A from: 1@1 to: n-1 @ (n-1)) times: (B from: 1@1 to: n-1 @ (n-1)).
+	C₁₁ accumulateWith: (A from: 1@n to: n-1@n) times: (B from: n@1 to: n@(n-1)).
+	(self from: 1@n to: n-1@n) replaceWith: (A from: 1@1 to: n-1@n) times: (B from: 1@n to: n@n).
+	(self from: n@1 to: n@n) replaceWith: (A from: n@1 to: n@n) times: B! !
+
+!Matrix methodsFor: 'operations-inplace' stamp: 'len 5/26/2023 17:16:09'!
+replaceStrassenWinogradWith: aMatrix1 times: aMatrix2
+	"Strassen-Winograd matrix multiplication algorithm with complexity O(n^ω), ω = log₂(7) ≈ 2.8074.
+	Schedule with 2 temporary matrices from [BDPZ07] and dynamic peeling as [HLJJ+96].
+	Assumes the matrices are square with even dimension."
+	| A B m ℓ n mₕ ℓₕ nₕ A₁₁ A₁₂ A₂₁ A₂₂ B₁₁ B₁₂ B₂₁ B₂₂ C₁₁ C₁₂ C₂₁ C₂₂ S₁ S₂ S₃ S₄ T₁ T₂ T₃ T₄ P₁ P₂ P₃ P₄ P₅ P₆ P₇ U₁ U₂ U₃ U₄ U₅ U₆ U₇ X Y |
+	A := aMatrix1.
+	B := aMatrix2.
+	m := A height.
+	ℓ := A width.
+	n := B height.
+	mₕ := m - 1 // 2 + 1.
+	ℓₕ := ℓ - 1 // 2 + 1.
+	nₕ := n - 1 // 2 + 1.
+	A₁₁ := A from: 1 @ 1 to: mₕ @ ℓₕ.
+	A₁₂ := A from: 1 @ (ℓₕ + 1) to: mₕ @ ℓ.
+	A₂₁ := A from: mₕ + 1 @ 1 to: m @ ℓₕ.
+	A₂₂ := A from: mₕ + 1 @ (ℓₕ + 1) to: m @ ℓ.
+	self assert: A₁₁ ⊔ A₁₂ ⊓ (A₂₁ ⊔ A₂₂) = A.
+	B₁₁ := B from: 1 @ 1 to: ℓₕ @ nₕ.
+	B₁₂ := B from: 1 @ (nₕ + 1) to: ℓₕ @ n.
+	B₂₁ := B from: ℓₕ + 1 @ 1 to: ℓ @ nₕ.
+	B₂₂ := B from: ℓₕ + 1 @ (nₕ + 1) to: ℓ @ n.
+	self assert: B₁₁ ⊔ B₁₂ ⊓ (B₂₁ ⊔ B₂₂) = B.
+	C₁₁ := self from: 1 @ 1 to: mₕ @ nₕ.
+	C₁₂ := self from: 1 @ (nₕ + 1) to: mₕ @ n.
+	C₂₁ := self from: mₕ + 1 @ 1 to: m @ nₕ.
+	C₂₂ := self from: mₕ + 1 @ (nₕ + 1) to: m @ n.
+	X := A₁₁ parent zero. Y := X parent zero.
+	S₃ := X replaceWith: A₁₁ minus: A₂₁.
+	T₃ := Y replaceWith: B₂₂ minus: B₁₂.
+	P₇ := C₂₁ replaceWith: S₃ times: T₃.
+	S₁ := X replaceWith: A₂₁ plus: A₂₂.
+	T₁ := Y replaceWith: B₁₂ minus: B₁₁.
+	P₅ := C₂₂ replaceWith: S₁ times: T₁.
+	S₂ := X replaceWith: S₁ minus: A₁₁.
+	T₂ := Y replaceWith: B₂₂ minus: T₁.
+	P₆ := C₁₂ replaceWith: S₂ times: T₂.
+	S₄ := X replaceWith: A₁₂ minus: S₂.
+	P₃ := C₁₁ replaceWith: S₄ times: B₂₂.
+	P₁ := X replaceWith: A₁₁ times: B₁₁.
+	U₂ := C₁₂ replaceWith: P₁ plus: P₆.
+	U₃ := C₂₁ replaceWith: U₂ plus: P₇.
+	U₄ := C₁₂ replaceWith: U₂ plus: P₅.
+	U₇ := C₂₂ replaceWith: U₃ plus: P₅.
+	U₅ := C₁₂ replaceWith: U₄ plus: P₃.
+	T₄ := Y replaceWith: T₂ minus: B₂₁.
+	P₄ := C₁₁ replaceWith: A₂₂ times: T₄.
+	U₆ := C₂₁ replaceWith: U₃ minus: P₄.
+	P₂ := C₁₁ replaceWith: A₁₂ times: B₂₁.
+	U₁ := C₁₁ replaceWith: P₁ plus: P₂
+"	S₁ := A₂₁ + A₂₂. S₂ := S₁ - A₁₁. S₃ := A₁₁ - A₂₁.
+	T₁ := B₁₂ - B₁₁. T₂ := B₂₂ - T₁. T₃ := B₂₂ - B₁₂.
+	S₄ := A₁₂ - S₂. T₄ := T₂ - B₂₁.
+	P₁ := A₁₁ * B₁₁. P₂ := A₁₂ * B₂₁.
+	P₃ := S₄ * B₂₂. P₄ := A₂₂ * T₄.
+	P₅ := S₁ * T₁. P₆ := S₂ * T₂. P₇ := S₃ * T₃.
+	U₁ := P₁ + P₂. U₂ := P₁ + P₆.
+	U₃ := U₂ + P₇. U₄ := U₂ + P₅.
+	U₅ := U₄ + P₃. U₆ := U₃ - P₄. U₇ := U₃ + P₅.
+	^ U₁ ⊔ U₅ ⊓ (U₆ ⊔ U₇)"! !
+
+!Matrix methodsFor: 'operations-inplace' stamp: 'len 5/22/2023 17:24:02'!
+replaceWith: aMatrix1 times: aMatrix2
+	self atAllPut: self scalars zero.
+	self accumulateWith: aMatrix1 times: aMatrix2! !
+
+!Matrix methodsFor: 'printing' stamp: 'len 5/29/2023 23:29:54'!
+printBinaryOn: aStream
+	| elementSize space form canvas rect side color |
+	elementSize := Preferences defaultFontSize.
+	space := elementSize / 8.0.
+	form := Form extent: self width @ self height * elementSize depth: 8.
+	form fillColor: Color transparent.
+	canvas := BitBltCanvas onForm: form.
+	color := Theme current text.
+	1 to: self height do: [:i|
+		1 to: self width do: [:j|
+			rect := j-1@(i-1) * elementSize + space extent: elementSize@elementSize - (space*2).
+			(self isZeroAt: i@j)
+				ifTrue: [canvas frameRectangle: rect borderWidth: 1 color: color]
+				ifFalse: [canvas fillRectangle: rect color: color]]].
+	(side := form width max: form height) > 300 ifTrue: [form := form magnifyBy: 300.0 / side].
+	aStream print: form! !
+
+!Matrix methodsFor: 'printing' stamp: 'len 6/13/2023 17:17:22'!
+printOn: aStream
+	| columnWidth rowHeight w h canvas form textColor space lineWidth |
+	self isTrivial ifTrue: [aStream print: 0. ^ self].
+	aStream isText ifFalse: [self printPlainStringOn: aStream. ^ self].
+	(self scalars isKindOf: BinaryField)
+		ifTrue: [^ self printBinaryOn: aStream].
+	columnWidth := Array new: self width withAll: 0.
+	rowHeight := 0.
+	1 to: self width do: [:j|
+		| cellExtent |
+		cellExtent := 0@0.
+		1 to: self height do: [:i|
+			cellExtent := cellExtent max: (TextComposition new setModel: (TextModel withText: (self at: i@j) printText, '  '); extentForComposing: 9999999@9999999; composeAll; usedExtent)].
+		columnWidth at: j put: cellExtent x.
+		rowHeight := rowHeight max: cellExtent y].
+	space := 5.
+	w := columnWidth sum + (space * 2).
+	h := self height * rowHeight + (space * 1.5).
+	form := Form extent: w@h + 2 depth: 32.
+	form fillColor: Color transparent.
+	canvas := VectorCanvas onFormWithSubPixelAntiAliasing: form.
+	textColor := Theme current text.
+	1 to: self height do: [:i|
+		1 to: self width do: [:j|
+			| textComposition |
+			textComposition := TextComposition new setModel: (TextModel withText: (self at: i@j) printText centered); extentForComposing: (columnWidth at: j) @ rowHeight; composeAll.
+			canvas
+				drawTextComposition: textComposition
+				at: ((1 to: j-1) sum: [:k| columnWidth at: k] ifEmpty: [0]) @ (i-1*rowHeight) + space
+				extent: textComposition usedExtent
+				color: textColor
+				selectionColor: textColor
+				avoidOverhang: true]].
+	lineWidth := 1.0.
+	canvas
+		line: 1@2 to: 1@(h-1) width: lineWidth color: textColor;
+		line: 1@1 to: space*1.5@1 width: lineWidth color: textColor;
+		line: 1@h to: space*1.5@h width: lineWidth color: textColor;
+		line: w@2 to: w@(h-1) width: lineWidth color: textColor;
+		line: w@1 to: w-(space*1.5)@1 width: lineWidth color: textColor;
+		line: w@h to: w-(space*1.5)@h width: lineWidth color: textColor.
+	aStream print: form! !
+
+!Matrix methodsFor: 'printing' stamp: 'len 6/13/2023 17:20:02'!
+printPlainStringOn: aStream
+	self rows do: [:each| aStream withBrackets: [:aStream2| each asArray do: [:x| aStream2 print: x] separatedBy: [aStream nextPutAll: '  ']]] separatedBy: [aStream nextPutAll: String lfString]! !
+
+!Matrix methodsFor: 'solving' stamp: 'len 6/29/2023 14:23:41'!
+colift: aMatrix
+	"Answer X such that XA = B, where A is the receiver and B is the argument. Answer nil if there's no solution.
+	X is called a colift (or extension) of B along A, written B / A."
+	| X |
+	aMatrix isMatrix ifFalse: [^ super colift: aMatrix].
+	self scalars isCommutative ifTrue:
+		[X := (aMatrix transpose quotientBy: self transpose) transpose.
+		^ X * self = aMatrix ifTrue: [X]].
+	self scalars isInvolutive ifTrue:
+		[X := (aMatrix conjugate quotientBy: self conjugate) conjugate.
+		^ X * self = aMatrix ifTrue: [X]].
+	^ self notYetImplemented! !
+
+!Matrix methodsFor: 'solving' stamp: 'len 1/4/2022 09:01:04'!
+colift: aMatrix modulo: aRelationsMatrix
+	"Answer X such that XA = B modulo L, i.e. X such that there exists Y with XA + YL = B, where A is self, B is aMatrix and L is aRelationsMatrix."
+	aRelationsMatrix isZero ifTrue: [^ self colift: aMatrix].
+	^ (self ⊓ aRelationsMatrix transpose colift: aMatrix) ifNotNil: [:X| X copyFromColumn: 1 to: self height]! !
+
+!Matrix methodsFor: 'solving' stamp: 'len 5/8/2023 18:47:17'!
+cosyzygies
+	"Answer a matrix whose columns span the cokernel or left nullspace of the receiver.
+	For a matrix A, the output is X such that XA = 0."
+	self scalars isCommutative ifTrue: [^ self transpose syzygies transpose].
+	self scalars isInvolutive ifTrue: [^ self conjugate syzygies conjugate].
+	^ self notYetImplemented! !
+
+!Matrix methodsFor: 'solving' stamp: 'len 6/1/2022 20:42:52'!
+divisionBy: aMatrix
+	"Answer X and N such that AX + N = B, where B is self and A is aMatrix, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
+	| X |
+	X _ self quotientBy: aMatrix.
+	^ {X. self - (aMatrix * X)}! !
+
+!Matrix methodsFor: 'solving' stamp: 'len 6/29/2023 14:23:57'!
+lift: aMatrix
+	"Answer X such that AX = B, where A is the receiver and B is the argument. 	Answer nil if there's no solution.
+	X is called a lift of B along A, written A \ B."
+	| X |
+	aMatrix isMatrix ifFalse: [^ super lift: aMatrix].
+	X := aMatrix quotientBy: self.
+	^ self * X = aMatrix ifTrue: [X]! !
+
+!Matrix methodsFor: 'solving' stamp: 'len 6/2/2022 19:25:01'!
+lift: aMatrix modulo: aRelationsMatrix
+	"Answer X such that AX = B modulo L, i.e. X such that there exists Y with AX + LY = B, where A is self, B is aMatrix and aRelationsMatrix is L."
+	aRelationsMatrix isZero ifTrue: [^ self lift: aMatrix].
+	^ (self ⊔ aRelationsMatrix lift: aMatrix) ifNotNil: [:X| X copyFromRow: 1 to: self width]! !
+
+!Matrix methodsFor: 'solving' stamp: 'len 6/29/2023 14:34:01'!
+quotientBy: aMatrix
+	"Answer X such that AX + N = B, where B is the receiver and A is the argument, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
+	self checkCodomainsMatch: aMatrix.
+	(self isZero or: [aMatrix isZero]) ifTrue: [^ (self domain ⇒ aMatrix domain) zero].
+	^ self scalars matrix: self quotientBy: aMatrix! !
+
+!Matrix methodsFor: 'solving' stamp: 'len 6/1/2022 19:08:25'!
+quotientBy: aMatrix modulo: aRelationsMatrix
+	"Answer X such that AX + N = B modulo L, i.e. X such that there exists Y with AX + LY + N = B, where B is the receiver, A is aMatrix and L is aRelationsMatrix, satisfying that if the i-th column of B is a linear combination of the columns of A modulo L then the i-th column of N is zero."
+	aRelationsMatrix isZero ifTrue: [^ self quotientBy: aMatrix].
+	^ (self quotientBy: aMatrix ⊔ aRelationsMatrix) copyFromRow: 1 to: aMatrix width! !
+
+!Matrix methodsFor: 'solving' stamp: 'len 6/29/2023 14:34:45'!
+reductionBy: aMatrix
+	"Answer N with AX + N = B. See >>quotientBy:."
+	self checkCodomainsMatch: aMatrix.
+	(self isZero or: [aMatrix isZero]) ifTrue: [^ self].
+	^ self scalars matrix: self reductionBy: aMatrix! !
+
+!Matrix methodsFor: 'solving' stamp: 'len 6/1/2022 20:35:23'!
+reductionBy: aMatrix modulo: aRelationsMatrix
+	"Answer N with AX + N = B modulo L. See >>quotientBy:modulo:."
+	| A |
+	aRelationsMatrix isZero ifTrue: [^ self reductionBy: aMatrix].
+	A _ aMatrix ⊔ aRelationsMatrix.
+	^ self - (A * (self quotientBy: A))! !
+
+!Matrix methodsFor: 'solving' stamp: 'len 5/16/2022 20:33:54'!
+syzygies
+	"Answer a matrix whose columns span the (right) kernel or nullspace of the receiver.
+	For a matrix A, the output is X such that AX = 0."
+	^ self scalars syzygiesOf: self! !
+
+!Matrix methodsFor: 'solving' stamp: 'len 9/11/2022 19:37:15'!
+syzygiesModulo: aRelationsMatrix
+	aRelationsMatrix isZero ifTrue: [^ self syzygies].
+	^ (self ⊔ aRelationsMatrix) syzygies copyFromRow: 1 to: self width! !
+
+!Matrix methodsFor: 'spectrum' stamp: 'len 5/29/2020 05:03:52'!
+eigenspaceAt: anEigenvalue
+	^ (self - (self identity * anEigenvalue)) kernel! !
+
+!Matrix methodsFor: 'spectrum' stamp: 'len 2/6/2016 19:39'!
+eigenvalues
+	^ self spectrum asSet! !
+
+!Matrix methodsFor: 'spectrum' stamp: 'len 2/22/2017 08:46:13'!
+spectralRadius
+	(self scalars isReal or: [self scalars isComplex])
+		ifFalse: [^ DomainError signal: 'spectral radius is only defined for matrices with complex scalars'].
+	^ self spectrum max: [:each| each abs]! !
+
+!Matrix methodsFor: 'spectrum' stamp: 'len 3/27/2018 16:26:17'!
+spectrum
+	^ self characteristicPolynomial allRoots! !
+
+!Matrix methodsFor: 'subobjects' stamp: 'len 4/6/2021 11:06:49'!
+kernel
+	^ self syzygies image! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 5/25/2022 13:36:26'!
+isAutomorphism
+	"Answer true if the receiver is invertible."
+	^ self isSquare and: [self determinant isUnit]! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 5/20/2023 12:21:49'!
+isDense
+	^ false! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 5/30/2019 04:43:29'!
+isDiagonal
+	^ self isLowerTriangular and: [self isUpperTriangular]! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 12/20/2022 15:00:46'!
+isEchelon
+	"Answer true if the receiver is in row echelon form.
+	It must satisfy the following conditions:
+	1. All nonzero rows are above any rows of all zeros;
+	2. The leading coefficient (or pivot) of each nonzero row is always strictly to the right of the pivot of the row above it."
+	| lastPivot |
+	lastPivot _ 0@0.
+	self pivotsDo: [:each|
+		(each y > lastPivot y and: [each x - lastPivot x = 1]) ifFalse: [^ false].
+		lastPivot _ each].
+	^ true! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 5/29/2020 06:32:04'!
+isEmpty
+	^ self width = 0 or: [self height = 0]! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 3/17/2021 14:40:31'!
+isEndomorphism
+	^ self isSquare! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 4/5/2018 15:31:35'!
+isFullRank
+	^ self rank = (self width min: self height)! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 6/17/2023 22:08:02'!
+isHermiteNormalForm
+	"Answer true if the receiver is in row Hermite normal form over ℤ.
+	It must satisfy the following conditions:
+	1. It is upper triangular;
+	2. The leading coefficient (or pivot) of a nonzero row is always strictly to the right of the leading coefficient of the row above it, and it is positive;
+	3. And the elements below pivots are zero and elements above pivots are nonnegative and strictly smaller than the pivot."
+	| lastPivot |
+	lastPivot := 0@0.
+	self pivotsDo: [:each| | coefficient |
+		(each x <= each y and: [each y > lastPivot y and: [each x - lastPivot x = 1]])
+			ifFalse: [^ false].
+		coefficient := self at: each.
+		coefficient > 0 ifFalse: [^ false].
+		1 to: each x - 1 do: [:i| | v |
+			((v := self at: i@each y) >= 0 and: [v < coefficient])
+				ifFalse: [^ false]].
+		each x + 1 to: self height do: [:i|
+			(self at: i@each y) = 0
+				ifFalse: [^ false]].
+		lastPivot := each].
+	^ true! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 7/22/2021 18:53:41'!
+isHermitian
+	"Answer true if the receiver is Hermitian (or self-adjoint)."
+	^ self = self conjugate! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 8/14/2020 17:13:22'!
+isIdentity
+	^ self isSquare and: [self = self identity]! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 8/25/2021 18:28:29'!
+isIsomorphism
+	^ self isUnimodular! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 12/17/2022 10:58:51'!
+isLowerTriangular
+	"Answer true if the receiver is lower triangular (or left triangular)."
+	1 to: (self width min: self height) do: [:i|
+		i+1 to: self width do: [:j| (self isZeroAt: i@j) ifFalse: [^ false]]].
+	^ true! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 4/2/2018 05:16:26'!
+isMatrix
+	^ true! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 6/17/2023 12:00:10'!
+isMinimalStandardBasis
+	"A Groebner basis G of an ideal I is called 'minimal' if the leading terms of the elements in G minimally generate in(I); or equivalently, if for all g in G:
+	- LC(g) is normalized (over fields g is monic), and
+	- LT(g) is not in ⟨G-{g}⟩ (i.e., leading-term-minimal, no leading term of any generator divides any other generator's leading term).
+	Note that any leading-term-minimal Groebner basis is also cardinality-minimal."
+	self isStandardBasis ifFalse: [^ false].
+	self columnsDo: [:g| g leadingCoefficient normalization isOne ifFalse: [^ false]].
+	1 to: self width do: [:i|
+		| Cᵢ m c |
+		Cᵢ := self columnAt: i.
+		m := Cᵢ leadingMonomial.
+		c := Cᵢ leadingCoefficient.
+		1 to: self width do: [:j|
+			i ~= j ifTrue:
+				[| Cⱼ |
+				Cⱼ := self columnAt: j.
+				(Cⱼ leadingMonomial | m and: [Cⱼ leadingCoefficient | c]) ifTrue: [^ false]]]].
+	^ true! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 1/2/2022 10:01:23'!
+isMonomial
+	"A matrix is called a 'monomial matrix' if it has exactly one nonzero entry in each column and each row."
+	self rowsDo: [:row| (row count: [:each| each isZero not]) = 1 ifFalse: [^ false]].
+	self columnsDo: [:column| (column count: [:each| each isZero not]) = 1 ifFalse: [^ false]].
+	^ true! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 11/13/2022 10:35:22'!
+isNegativeDefinite
+	self checkIsSquare.
+	self scalars isReal ifFalse: [^ DomainError signal: 'not a real matrix'].
+	self flag: #fix. "define this for complex matrices too"
+	^ (1 to: self width) allSatisfy: [:i| (self copyFrom: 1@1 to: i@i) determinant < 0]! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 5/29/2020 05:03:24'!
+isNilpotent
+	"Answer true if self^n = 0 for some integer n >= 1."
+	"This only works for real or complex matrices."
+	^ self trace isZero and: [self determinant isZero]! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 7/22/2021 18:53:54'!
+isNormal
+	^ self conjugate * self = (self * self conjugate)! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 8/9/2020 07:53:38'!
+isOrthogonal
+	"A real square matrix Q is orthogonal if Q^t * Q = I (the transposed is the inverse).
+	Equivalently:
+		- Q has orthonormal columns and rows;
+		- For all v, ||Qv|| = ||v|| (the matrix preserves the Euclidean norm defined by the standard dot product)."
+	^ self isSquare and: [(self * self transpose) isIdentity]! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 11/13/2022 10:35:06'!
+isPositiveDefinite
+	self checkIsSquare.
+	"TODO: extend this to the hermitian matrices over the complex numbers, use the indefinite factorization algorithm as Sage"
+	self scalars isComplex
+		ifTrue:
+			[self isHermitian ifFalse: [^ false].
+			self notYetImplemented].
+	self scalars isReal
+		ifTrue:
+			[self isSymmetric ifFalse: [^ false].
+			^ (1 to: self width) allSatisfy: [:i| (self copyFrom: 1@1 to: i@i) determinant > 0]].
+	^ DomainError signal: 'not a real or complex matrix'! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 5/23/2016 19:55'!
+isRankDeficient
+	^ self isFullRank not! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 12/20/2022 15:00:27'!
+isReducedEchelon
+	"Answer true if the receiver is in reduced row echelon form.
+	It must satisfy the following conditions:
+	1. It is in row echelon form;
+	2. And every leading coefficient is 1 and is the only nonzero entry in its column."
+	| lastPivot |
+	lastPivot _ 0@0.
+	self pivotsDo: [:each|
+		(each y > lastPivot y and: [each x - lastPivot x = 1]) ifFalse: [^ false].
+		(self at: each) isOne ifFalse: [^ false].
+		1 to: self height do: [:j|
+			(j = each x or: [(self at: j @ each y) isZero]) ifFalse: [^ false]].
+		lastPivot _ each].
+	^ true! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 6/17/2023 14:22:09'!
+isReducedStandardBasis
+	"A strong Groebner basis G is called 'reduced' (or 'auto-reduced') if for all g in G:
+	- LC(g) is normalized (over fields g is monic), and
+	- if the monomial m of any term c*m of g can be divided by the leading monomial LM(f) of any other element f of G, the Euclidean quotient of the division c by LC(f) is zero.
+	In particular, a reduced Groebner basis is leading-term-minimal (no leading term of any generator divides any other generator's leading term), and a leading-term-minimal basis is also cardinality-minimal."
+	self isStandardBasis ifFalse: [^ false].
+	self columnsDo: [:g| g leadingCoefficient normalization isOne ifFalse: [^ false]].
+	1 to: self width do: [:i|
+		(self columnAt: i) associationsDo: [:each|
+			1 to: self width do: [:j|
+				i ~= j ifTrue:
+					[| Cⱼ |
+					Cⱼ := self columnAt: j.
+					(Cⱼ leadingMonomial | each key and: [(each value // Cⱼ leadingCoefficient) isZero not]) ifTrue: [^ false]]]]].
+	^ true! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 4/5/2018 15:42:21'!
+isScalar
+	self isDiagonal ifFalse: [^ false].
+	2 to: self height do: [:i|
+		(self at: i@i) = (self at: 1@1) ifFalse: [^ false]].
+	^ true! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 1/9/2022 08:31:55'!
+isSemisimple
+	^ self minimalPolynomial isSquarefree! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 5/3/2021 10:57:24'!
+isSimplectic
+	| M ω |
+	(self isSquare and: [self width even]) ifFalse: [^ false].
+	M _ (self scalars^(self width/2)) endomorphisms.
+	ω _ M zero ⊔ M identity ⊓ (M identity negated ⊔ M zero).
+	^ self transpose * ω * self = ω! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 10/16/2022 11:50:25'!
+isSingular
+	"Answer true if the receiver has nontrivial kernel."
+	^ self determinant isZeroDivisor! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 7/22/2021 18:54:00'!
+isSkewHermitian
+	"Answer true if the receiver is skew-Hermitian (or antihermitian)."
+	^ self = self conjugate negated! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 8/9/2020 07:53:41'!
+isSkewSymmetric
+	"Answer true if the receiver is a skew-symmetric (or anti-symmetric) matrix."
+	^ self negated = self transpose! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 5/29/2020 07:30:05'!
+isSmithNormalForm
+	"Answer true if the receiver is in Smith normal form."
+	| diagonal previousEntry n0 |
+	self isDiagonal ifFalse: [^ false].
+	self isEmpty ifTrue: [^ true].
+	diagonal _ self diagonal.
+	previousEntry _ diagonal first.
+	n0 _ diagonal findLast: [:each| each isZero not].
+	2 to: n0 do: [:i| | thisEntry |
+		thisEntry _ diagonal at: i.
+		previousEntry | thisEntry ifFalse: [^ false].
+		previousEntry _ thisEntry].
+	n0+1 to: diagonal size do: [:i|
+		(diagonal at: i) isZero ifFalse: [^ false]].
+	^ true! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 4/5/2018 15:31:59'!
+isSquare
+	^ self height = self width! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 12/18/2022 11:34:49'!
+isStandardBasis
+	"Answer true if the columns of the receiver form a standard basis of the module spanned by the columns."
+	1 to: self width do: [:i| | fi |
+		fi _ self columnAt: i.
+		i+1 to: self width do: [:j| | fj |
+			fj _ self columnAt: j.
+			(fi s: fj) ifNotNil: [:s| (s \\ self columns) isZero ifFalse: [^ false]]]].
+	^ true! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 8/9/2020 07:53:44'!
+isSymmetric
+	^ self = self transpose! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 3/2/2017 19:36:13'!
+isTriangular
+	^ self isLowerTriangular or: [self isUpperTriangular]! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 5/4/2020 10:04:50'!
+isUnimodular
+	^ self determinant isUnit! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 7/22/2021 18:54:06'!
+isUnitary
+	"A complex square matrix U is unitary if U* * U = I (the adjoint is the inverse).
+	Equivalently:
+		- U has orthonormal columns and rows;
+		- For all v, ||Uv|| = ||v||."
+	^ self isSquare and: [(self * self conjugate) isIdentity]! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 12/17/2022 10:59:13'!
+isUpperTriangular
+	"Answer true if the receiver is upper triangular (or right triangular)."
+	^ self transpose isLowerTriangular! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 3/23/2016 00:27'!
+isZero
+	self do: [:each| each isZero ifFalse: [^ false]].
+	^ true! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 12/1/2016 17:03:47'!
+isZeroAt: aPoint
+	^ (self at: aPoint) isZero! !
+
+!Matrix methodsFor: 'testing' stamp: 'len 12/22/2022 19:00:54'!
+isZeroAtColumn: anInteger
+	^ (self columnAt: anInteger) isZero! !
+
+!Matrix methodsFor: 'private' stamp: 'len 5/26/2023 22:56:17'!
+** aMatrix
+	"Strassen-Winograd matrix multiplication algorithm. This is a naive implementation."
+	| A B m ℓ n mₕ ℓₕ nₕ A₁₁ A₁₂ A₂₁ A₂₂ B₁₁ B₁₂ B₂₁ B₂₂ S₁ S₂ S₃ S₄ T₁ T₂ T₃ T₄ P₁ P₂ P₃ P₄ P₅ P₆ P₇ U₁ U₂ U₃ U₄ U₅ U₆ U₇ |
+	self flag: #deprecated.
+	A := self.
+	B := aMatrix.
+	m := A height.
+	ℓ := A width.
+	n := B height.
+	mₕ := m - 1 // 2 + 1.
+	ℓₕ := ℓ - 1 // 2 + 1.
+	nₕ := n - 1 // 2 + 1.
+	A₁₁ := A copyFrom: 1 @ 1 to: mₕ @ ℓₕ.
+	A₁₂ := A copyFrom: 1 @ (ℓₕ + 1) to: mₕ @ ℓ.
+	A₂₁ := A copyFrom: mₕ + 1 @ 1 to: m @ ℓₕ.
+	A₂₂ := A copyFrom: mₕ + 1 @ (ℓₕ + 1) to: m @ ℓ.
+	self assert: A₁₁ ⊔ A₁₂ ⊓ (A₂₁ ⊔ A₂₂) = A.
+	B₁₁ := B copyFrom: 1 @ 1 to: ℓₕ @ nₕ.
+	B₁₂ := B copyFrom: 1 @ (nₕ + 1) to: ℓₕ @ n.
+	B₂₁ := B copyFrom: ℓₕ + 1 @ 1 to: ℓ @ nₕ.
+	B₂₂ := B copyFrom: ℓₕ + 1 @ (nₕ + 1) to: ℓ @ n.
+	self assert: B₁₁ ⊔ B₁₂ ⊓ (B₂₁ ⊔ B₂₂) = B.
+	S₁ := A₂₁ + A₂₂. S₂ := S₁ - A₁₁. S₃ := A₁₁ - A₂₁.
+	T₁ := B₁₂ - B₁₁. T₂ := B₂₂ - T₁. T₃ := B₂₂ - B₁₂.
+	S₄ := A₁₂ - S₂. T₄ := T₂ - B₂₁.
+	P₁ := A₁₁ * B₁₁. P₂ := A₁₂ * B₂₁.
+	P₃ := S₄ * B₂₂. P₄ := A₂₂ * T₄.
+	P₅ := S₁ * T₁. P₆ := S₂ * T₂. P₇ := S₃ * T₃.
+	U₁ := P₁ + P₂. U₂ := P₁ + P₆.
+	U₃ := U₂ + P₇. U₄ := U₂ + P₅.
+	U₅ := U₄ + P₃. U₆ := U₃ - P₄. U₇ := U₃ + P₅.
+	^ U₁ ⊔ U₅ ⊓ (U₆ ⊔ U₇)! !
+
+!Matrix methodsFor: 'private' stamp: 'len 11/13/2022 10:34:18'!
+checkIsSquare
+	self isSquare ifFalse: [^ DomainError signal: 'not a square matrix']! !
+
+!Matrix methodsFor: 'private' stamp: 'len 3/13/2021 12:32:27'!
+checkScalarsMatch: aMatrix
+	self scalars = aMatrix scalars ifFalse: [^ DomainError signal: 'base rings don''t match']! !
+
+!Matrix methodsFor: 'private' stamp: 'len 6/9/2022 07:45:08'!
+checkShapesMatch: aMatrix
+	(self width = aMatrix width and: [self height = aMatrix height]) ifFalse: [^ DomainError signal: 'matrix shapes don''t match']! !
+
+!Matrix methodsFor: 'private' stamp: 'len 12/13/2016 09:51:35'!
+hadamardBound
+	"Answer a bound N on the determinant of the receiver such that |det A| < 2^N.
+	Assume the coefficients are real."
+	^ (self rows sum: [:row| (row sum: [:each| each squared])]) log2 min: (self columns sum: [:column| (column sum: [:each| each squared])]) log2! !
+
+!Matrix methodsFor: 'private' stamp: 'len 7/8/2022 11:08:27'!
+validate
+	self assert: (self allSatisfy: [:each| self scalars includes: each]).
+	^ super validate! !
+
+!Matrix class methodsFor: 'instance creation' stamp: 'len 10/26/2020 16:29:36'!
+columns: anArray
+	^ self to: anArray first parent columns: anArray! !
+
+!Matrix class methodsFor: 'instance creation' stamp: 'len 11/25/2022 06:23:37'!
+from: aDomain rows: anArray
+	^ self from: aDomain to: aDomain scalars ^ anArray size rows: anArray! !
+
+!Matrix class methodsFor: 'instance creation' stamp: 'len 5/12/2023 20:46:42'!
+from: aDomain to: aCodomain columns: anArray
+	^ (self from: aCodomain to: aDomain rows: anArray) transpose! !
+
+!Matrix class methodsFor: 'instance creation' stamp: 'len 11/23/2022 21:33:31'!
+from: aDomain to: aCodomain fill: aBlock
+	^ self from: aDomain to: aCodomain rows: ((1 to: aCodomain rank) collect: [:i| aDomain fill: [:j| aBlock value: i value: j]])! !
+
+!Matrix class methodsFor: 'instance creation' stamp: 'len 5/29/2020 10:47:04'!
+from: aDomain to: aCodomain matrix: aMatrix
+	^ self shouldNotImplement! !
+
+!Matrix class methodsFor: 'instance creation' stamp: 'len 5/12/2023 20:45:39'!
+from: aDomain to: aCodomain rows: anArray
+	| coefficients i n |
+	coefficients _ aDomain scalars new: aDomain rank * aCodomain rank.
+	i _ 1.
+	n _ aDomain rank.
+	anArray do: [:each| coefficients replaceFrom: i to: i + n - 1 with: each coefficients. i _ i + n].
+	^ DenseMatrix from: aDomain to: aCodomain coefficients: coefficients! !
+
+!Matrix class methodsFor: 'instance creation' stamp: 'len 10/26/2020 16:28:36'!
+rows: anArray
+	^ self from: anArray first parent rows: anArray! !
+
+!Matrix class methodsFor: 'instance creation' stamp: 'len 11/25/2022 06:23:05'!
+to: aCodomain columns: anArray
+	^ self from: aCodomain scalars ^ anArray size to: aCodomain columns: anArray! !
+
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/20/2023 19:28:50'!
+atAllPut: anElement
+	coefficients atAllPut: anElement! !
+
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 4/20/2022 18:37:50'!
+atRow: i column: j
+	^ coefficients at: i - 1 * self width + j! !
+
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 22:37:43'!
+atRow: i column: j ifAbsent: exceptionBlock
+	((i between: 1 and: self height) and: [j between: 1 and: self width])
+		ifFalse: [^ exceptionBlock value].
+	^ coefficients at: i - 1 * self width + j "ifAbsent: exceptionBlock"! !
+
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/15/2022 22:38:15'!
+atRow: i column: j put: anObject
+	((i between: 1 and: self height) and: [j between: 1 and: self width])
+		ifFalse: [^ self error: 'indices out of bounds'].
+	^ coefficients at: i - 1 * self width + j put: anObject! !
+
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/15/2023 17:31:53'!
+lift
+	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R."
+	self scalars cover = ℤ ifTrue: [^ self class from: domain lift to: codomain lift coefficients: coefficients lift].
+	^ super lift! !
+
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 12/2/2022 14:30:26'!
+projection: anInteger
+	"If the coefficients ring is a product ring, answer matrix induced by the projection to the anInteger-th component."
+	^ self class from: (domain over: (domain scalars at: anInteger)) to: (codomain over: (domain scalars at: anInteger)) coefficients: (coefficients projection: anInteger)! !
+
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/15/2023 17:30:51'!
+representative
+	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R."
+	self scalars cover = ℤ ifTrue: [^ self class from: domain lift to: codomain lift coefficients: coefficients representative].
+	^ super representative! !
+
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/5/2023 16:50:11'!
+rowAt: i
+	^ domain coefficients: (coefficients copyFrom: i - 1 * self width + 1 to: i * self width)! !
+
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/5/2023 16:50:23'!
+rowAt: i put: aTuple
+	coefficients replaceFrom: i - 1 * self width + 1 to: i * self width with: aTuple coefficients startingAt: 1! !
+
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 6/9/2023 20:57:12'!
+zero
+	^ self class from: domain to: codomain coefficients: (self scalars zeros: coefficients size)! !
+
+!DenseMatrix methodsFor: 'comparing' stamp: 'len 12/11/2022 09:53:10'!
+= anObject
+	^ (self class = anObject class and: [coefficients = anObject coefficients]) or: [super = anObject]! !
+
+!DenseMatrix methodsFor: 'comparing' stamp: 'len 5/9/2023 17:58:28'!
+apply: aFunction
+	"Answer a new tuple with coefficients obtainted by applying aFunction to the coefficients of the receiver.
+	If aFunction is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
+
+	aFunction isBlock ifTrue: [^ self class from: domain to: codomain coefficients: (coefficients apply: aFunction)].
+	^ self class from: (domain over: aFunction codomain) to: (codomain over: aFunction codomain) coefficients: (coefficients apply: aFunction)! !
+
+!DenseMatrix methodsFor: 'converting' stamp: 'len 5/5/2023 18:19:38'!
+asTuple
+	"Answer the receiver converted to Tuple by concatenating its rows (which is also the coordinates of the receiver in the canonical basis)."
+	^ self scalars ^ (self width * self height) coefficients: coefficients! !
+
+!DenseMatrix methodsFor: 'converting' stamp: 'len 5/5/2023 17:16:37'!
+over: aRing
+	self scalars = aRing ifTrue: [^ self].
+	^ self class from: (domain over: aRing) to: (codomain over: aRing) coefficients: (aRing new: coefficients size fill: [:i| coefficients at: i])! !
+
+!DenseMatrix methodsFor: 'copying' stamp: 'len 5/16/2022 11:09:18'!
+copyFrom: start to: stop
+	"Answer the submatrix of the receiver from start to stop."
+	| h w subcoefficients |
+	(stop x > self height or: [stop y > self width]) ifTrue: [^ self error: 'index out of bounds'].
+	h _ stop x - start x + 1 max: 0.
+	w _ stop y - start y + 1 max: 0.
+	subcoefficients _ self scalars new: h*w.
+	w > 0 ifTrue: [start x to: stop x do: [:i| subcoefficients replaceFrom: i - start x * w + 1 to: i - start x * w + w with: coefficients startingAt: i - 1 * self width + start y]].
+	^ self class
+		from: (domain copyFrom: start y to: stop y)
+		to: (codomain copyFrom: start x to: stop x)
+		coefficients: subcoefficients! !
+
+!DenseMatrix methodsFor: 'copying' stamp: 'len 12/20/2022 09:46:05'!
+postCopy
+	super postCopy.
+	properties _ nil.
+	coefficients _ coefficients copy! !
+
+!DenseMatrix methodsFor: 'enumerating' stamp: 'len 4/21/2022 12:32:12'!
+allSatisfy: aBlock
+	^ coefficients allSatisfy: aBlock! !
+
+!DenseMatrix methodsFor: 'enumerating' stamp: 'len 5/29/2020 04:11:36'!
+collect: aBlock
+	^ self class from: domain to: codomain coefficients: (coefficients collect: aBlock)! !
+
+!DenseMatrix methodsFor: 'enumerating' stamp: 'len 12/15/2022 12:50:32'!
+diagonalDo: aBlock
+	| i step |
+	i _ 1.
+	step _ self width + 1.
+	[i <= coefficients size]
+		whileTrue:
+			[aBlock value: (coefficients at: i).
+			i _ i + step]! !
+
+!DenseMatrix methodsFor: 'enumerating' stamp: 'len 5/28/2020 10:34:42'!
+do: aBlock
+	coefficients do: aBlock! !
+
+!DenseMatrix methodsFor: 'enumerating' stamp: 'len 5/20/2022 11:37:50'!
+pivotsDo: aBlock
+	"Enumerate the row-style pivot indices. These are the pairs i@j corresponding to the first nonzero entry of each row."
+	| w rowStart |
+	w _ self width.
+	rowStart _ 1.
+	1 to: self height do: [:i|
+		(coefficients findFirstNonzeroFrom: rowStart to: rowStart + w - 1) ifNotNil: [:j| aBlock value: i@(j - rowStart + 1)].
+		rowStart _ rowStart + w]! !
+
+!DenseMatrix methodsFor: 'enumerating' stamp: 'len 4/21/2022 12:35:08'!
+withIndicesDo: aBlock
+	| width i j |
+	width _ self width.
+	i _ 1.
+	j _ 1.
+	coefficients do: [:each|
+		aBlock value: each value: i value: j.
+		(j _ j + 1) > width ifTrue: [j _ 1. i _ i + 1]].! !
+
+!DenseMatrix methodsFor: 'operations' stamp: 'len 6/1/2023 19:24:41'!
+* anObject
+	(self scalars includes: anObject) ifTrue: [^ self class from: domain to: codomain coefficients: coefficients * anObject].
+	anObject isInteger ifTrue: [^ self * (self scalars !! anObject)].
+	anObject isMatrix ifTrue: [^ self · anObject].
+	anObject isTuple ifTrue: [^ self value: anObject].
+	(anObject isKindOf: ModuleMap) ifTrue: [^ self · anObject].
+	^ self class from: domain to: codomain coefficients: coefficients * (self scalars !! anObject)! !
+
+!DenseMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:23:50'!
++ aMatrix
+	self class = aMatrix class ifFalse: [^ super + aMatrix].
+	self checkDomainsMatch: aMatrix.
+	self checkCodomainsMatch: aMatrix.
+	^ self class from: domain to: codomain coefficients: coefficients + aMatrix coefficients! !
+
+!DenseMatrix methodsFor: 'operations' stamp: 'len 5/9/2023 17:56:08'!
+- aMatrix
+	self class = aMatrix class ifFalse: [^ super - aMatrix].
+	self checkDomainsMatch: aMatrix.
+	self checkCodomainsMatch: aMatrix.
+	^ self class from: domain to: codomain coefficients: coefficients - aMatrix coefficients! !
+
+!DenseMatrix methodsFor: 'operations' stamp: 'len 6/29/2023 18:21:15'!
+· aMatrix
+	self class = aMatrix class ifFalse: [^ super · aMatrix].
+	self flag: #fixme. "TODO: multiplication with submatrix"
+	self flag: #fixme. "should do this with localizations? we are doing the same for polynomial multiplication"
+	self scalars isLocalization ifTrue:
+		[| F numerators denominator |
+		F := self scalars.
+		numerators := (self numerator * aMatrix numerator) coefficients.
+		denominator := self denominator * aMatrix denominator.
+		^ self class from: aMatrix domain to: codomain coefficients: (F new: numerators size fill: [:i| F numerator: (numerators at: i) denominator: denominator])].
+	self checkCompatibleComposition: aMatrix.
+	(coefficients isEmpty or: [aMatrix coefficients isEmpty])
+		ifTrue: [^ self class from: aMatrix domain to: codomain coefficients: (self scalars zeros: aMatrix width * self height)].
+	^ self class
+		from: aMatrix domain
+		to: codomain
+		coefficients:
+			((self scalars zeros: aMatrix width * self height)
+				accumulateWithMatrix: coefficients width: self width
+				timesMatrix: aMatrix coefficients width: aMatrix width)! !
+
+!DenseMatrix methodsFor: 'operations' stamp: 'len 5/16/2022 11:32:28'!
+⊕ aMatrix
+	"Answer the block sum of the receiver and the argument.
+	If the receiver is A and the argument is B, output a matrix of the form:
+	  [A 0]
+	  [0 B]"
+	| newCoefficients w |
+	self class = aMatrix class ifFalse: [^ super ⊕ aMatrix].
+	w _ self width + aMatrix width.
+	newCoefficients _ self scalars zeros: w * (self height + aMatrix height).
+	1 to: self height do: [:i|
+		newCoefficients replaceFrom: i - 1 * w + 1 to: i - 1 * w + self width with: coefficients startingAt: i - 1 * self width + 1].
+	1 to: aMatrix height do: [:i|
+		newCoefficients replaceFrom: i - 1 + self height * w + self width + 1 to: i + self height * w with: aMatrix coefficients startingAt: i - 1 * aMatrix width + 1].
+	^ self class from: domain ⊕ aMatrix domain to: codomain ⊕ aMatrix codomain coefficients: newCoefficients
+! !
+
+!DenseMatrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:22:20'!
+⊓ aMatrix
+	"Answer the product morphism of the receiver and the argument.
+	This is the row-augmented matrix with the receiver stacked on top of the argument.
+	If the receiver is A and the argument is B, output a matrix of the form:
+	  [A]
+	  [B]"
+	self class = aMatrix class ifFalse: [^ super ⊓ aMatrix].
+	self checkDomainsMatch: aMatrix.
+	^ self class from: domain to: codomain ⊕ aMatrix codomain coefficients: coefficients, aMatrix coefficients! !
+
+!DenseMatrix methodsFor: 'operations' stamp: 'len 12/25/2022 13:32:29'!
+⊔ aMatrix
+	"Answer the coproduct morphism of the receiver and the argument.
+	This is the column-augmented matrix with the receiver concatenated with the argument.
+	If the receiver is A and the argument is B, output a matrix of the form:
+	  [A B]"
+	| newCoefficients w |
+	self class = aMatrix class ifFalse: [^ super ⊔ aMatrix].
+	self checkCodomainsMatch: aMatrix.
+	newCoefficients _ self scalars new: coefficients size + aMatrix coefficients size.
+	w _ self width + aMatrix width.
+	1 to: self height do: [:i|
+		newCoefficients
+			replaceFrom: i - 1 * w + 1 to: i - 1 * w + self width with: coefficients startingAt: i - 1 * self width + 1;
+			replaceFrom: i - 1 * w + self width + 1 to: i * w with: aMatrix coefficients startingAt: i - 1 * aMatrix width + 1].
+	^ self class from: domain ⊕ aMatrix domain to: codomain coefficients: newCoefficients! !
+
+!DenseMatrix methodsFor: 'operations' stamp: 'len 4/21/2022 12:38:12'!
+negated
+	^ self class from: domain to: codomain coefficients: coefficients negated! !
+
+!DenseMatrix methodsFor: 'operations' stamp: 'len 5/18/2023 17:32:36'!
+transpose
+	^ self class from: codomain to: domain coefficients: ((coefficients species new: coefficients size) replaceWithMatrixTranspose: coefficients width: self width)! !
+
+!DenseMatrix methodsFor: 'operations' stamp: 'len 5/22/2023 16:51:07'!
+value: aTuple
+"	(self domain includes: aTuple) ifFalse: [^ DomainError signal]."
+	(coefficients isEmpty or: [aTuple isEmpty]) ifTrue: [^ codomain zero].
+	^ codomain coefficients:
+		((self scalars zeros: self height)
+			accumulateFrom: 1 to: self height
+			withMatrix: coefficients
+			timesTuple: aTuple coefficients)! !
+
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 5/22/2023 17:23:03'!
+accumulateWith: aMatrix1 times: aMatrix2
+	(aMatrix1 isEmpty or: [aMatrix2 isEmpty])
+		ifTrue: [^ self atAllPut: self scalars zero].
+	(aMatrix1 class = self class and: [aMatrix2 = self class])
+		ifTrue:
+			[coefficients
+				accumulateWithMatrix: aMatrix1 coefficients width: aMatrix1 width
+				timesMatrix: aMatrix2 coefficients width: aMatrix2 width.
+			^ self].
+	"Assume they are DenseMatrix or Submatrix:"
+	coefficients
+		accumulateRowIndices: self rowIndices
+		withMatrix: aMatrix1 coefficients width: aMatrix1 width rowIndices: aMatrix1 rowIndices
+		timesMatrix: aMatrix2 coefficients width: aMatrix2 width rowIndices: aMatrix2 rowIndices! !
+
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 5/21/2023 17:04:35'!
+from: start to: stop
+	"Answer the submatrix of the receiver from start to stop."
+	| h w newRowIndices |
+	self flag: #fixme. "duplicated code in Submatrix"
+	h := stop x - start x + 1 max: 0.
+	w := stop y - start y + 1 max: 0.
+	(w > 0 and: [h > 0]) ifFalse: [^ self class from: domain scalars ^ w to: codomain scalars ^ h coefficients: (self scalars new: 0)].
+	(stop x > self height or: [stop y > self width]) ifTrue: [^ self error: 'index out of bounds'].
+	newRowIndices := DoubleByteArray new: h.
+	1 to: h do: [:i| newRowIndices at: i put: (self rowIndexAt: i + start x - 1) + start y - 1].
+	^ Submatrix
+		from: domain scalars ^ w
+		to: codomain scalars ^ h
+		coefficients: coefficients
+		rowIndices: newRowIndices! !
+
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 5/21/2023 17:09:39'!
+replaceWith: aMatrix1 minus: aMatrix2
+	(aMatrix1 class = self class and: [aMatrix2 class = self])
+		ifTrue: [coefficients replaceFrom: 1 to: coefficients size with: aMatrix1 coefficients startingAt: 1 minus: aMatrix2 coefficients startingAt: 1. ^ self].
+	1 to: self height do: [:i|
+		| i₀ j₀ k₀ |
+		i₀ := self rowIndexAt: i.
+		j₀ := aMatrix1 rowIndexAt: i.
+		k₀ := aMatrix2 rowIndexAt: i.
+		coefficients replaceFrom: i₀ to: i₀ + self width - 1 with: aMatrix1 coefficients startingAt: j₀ minus: aMatrix2 coefficients startingAt: k₀]! !
+
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 5/21/2023 17:09:53'!
+replaceWith: aMatrix1 plus: aMatrix2
+	(aMatrix1 class = self class and: [aMatrix2 class = self])
+		ifTrue: [coefficients replaceFrom: 1 to: coefficients size with: aMatrix1 coefficients startingAt: 1 plus: aMatrix2 coefficients startingAt: 1. ^ self].
+	1 to: self height do: [:i|
+		| i₀ j₀ k₀ |
+		i₀ := self rowIndexAt: i.
+		j₀ := aMatrix1 rowIndexAt: i.
+		k₀ := aMatrix2 rowIndexAt: i.
+		coefficients replaceFrom: i₀ to: i₀ + self width - 1 with: aMatrix1 coefficients startingAt: j₀ plus: aMatrix2 coefficients startingAt: k₀]! !
+
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/19/2022 10:24:22'!
+addRow: i₁ times: anElement to: i₂
+	self addRow: i₁ times: anElement to: i₂ startingAt: 1! !
+
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/19/2022 10:26:58'!
+addRow: i₁ times: anElement to: i₂ startingAt: startColumn
+	| width start₁ start₂ |
+	width _ self width.
+	start₁ _ i₁ - 1 * width + startColumn.
+	start₂ _ i₂ - 1 * width + startColumn.
+	coefficients
+		replaceFrom: start₂ to: i₂ * width
+		with: coefficients startingAt: start₂
+		plus: coefficients startingAt: start₁
+		timesScalar: anElement! !
+
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/29/2022 09:51:40'!
+cancelRow: i₁ and: i₂ with: mgcd
+	| s t u v A₁ A₂ |
+	s _ mgcd at: 2.
+	t _ mgcd at: 3.
+	u _ mgcd at: 4.
+	v _ mgcd at: 5.
+	self flag: #fixme. "optimize:"
+	A₁ _ (self rowAt: i₁) copy.
+	A₂ _ (self rowAt: i₂) copy.
+	self rowAt: i₁ put: A₁*s + (A₂*t).
+	self rowAt: i₂ put: A₁*u + (A₂*v)! !
+
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/29/2022 09:52:16'!
+copyRow: i₁ times: anElement to: i₂
+	self copyRow: i₁ times: anElement to: i₂ startingAt: 1! !
+
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/29/2022 09:53:17'!
+copyRow: i₁ times: anElement to: i₂ startingAt: startColumn
+	| width start₁ start₂ |
+	width _ self width.
+	start₁ _ i₁ - 1 * width + startColumn.
+	start₂ _ i₂ - 1 * width + startColumn.
+	coefficients
+		replaceFrom: start₂ to: i₂ * width
+		with: coefficients startingAt: start₁
+		timesScalar: anElement! !
+
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/29/2022 09:53:40'!
+copyRow: i₁ to: i₂
+	self copyRow: i₁ to: i₂ startingAt: 1! !
+
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/29/2022 09:54:41'!
+copyRow: i₁ to: i₂ startingAt: startColumn
+	| width start₁ start₂ |
+	width _ self width.
+	start₁ _ i₁ - 1 * width + startColumn.
+	start₂ _ i₂ - 1 * width + startColumn.
+	coefficients
+		replaceFrom: start₂ to: i₂ * width
+		with: coefficients startingAt: start₁! !
+
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/15/2022 11:53:33'!
+multiplyRow: i by: anElement
+	self multiplyRow: i by: anElement startingAt: 1! !
+
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 5/21/2023 20:44:20'!
+multiplyRow: i by: anElement startingAt: startColumn
+	| width start |
+	width := self width.
+	start := i - 1 * width + startColumn.
+	coefficients
+		replaceFrom: start to: i * width
+		with: coefficients startingAt: start
+		timesScalar: anElement! !
+
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 12/19/2022 10:28:49'!
+swapRow: i₁ with: i₂
+	| width start₁ start₂ |
+	width _ self width.
+	start₁ _ i₁ - 1 * width + 1.
+	start₂ _ i₂ - 1 * width + 1.
+	coefficients
+		swapFrom: start₁ to: i₁ * width
+		with: coefficients startingAt: start₂! !
+
+!DenseMatrix methodsFor: 'testing' stamp: 'len 5/20/2023 12:22:00'!
+isDense
+	^ true! !
+
+!DenseMatrix methodsFor: 'testing' stamp: 'len 4/21/2022 12:45:41'!
+isZero
+	^ coefficients isZero! !
+
+!DenseMatrix methodsFor: 'testing' stamp: 'len 4/21/2022 12:47:28'!
+isZeroAt: aPoint
+	^ coefficients isZeroAt: aPoint x - 1 * self width + aPoint y! !
+
+!DenseMatrix methodsFor: 'private' stamp: 'len 5/28/2020 09:57:19'!
+coefficients
+	^ coefficients! !
+
+!DenseMatrix methodsFor: 'private' stamp: 'len 5/8/2023 16:32:22'!
+coefficients: anArray
+	coefficients _ anArray! !
+
+!DenseMatrix methodsFor: 'private' stamp: 'len 5/18/2023 18:26:32'!
+rowIndexAt: anInteger
+	^ anInteger - 1 * self width + 1! !
+
+!DenseMatrix methodsFor: 'private' stamp: 'len 5/22/2023 17:21:22'!
+rowIndices
+	^ (1 to: self height - 1 * self width + 1 by: self width) as: DoubleByteArray! !
+
+!DenseMatrix methodsFor: 'private' stamp: 'len 5/14/2023 18:01:51'!
+validate
+	self assert: coefficients size = (domain rank * codomain rank).
+	self assert: (self scalars isValidArray: coefficients).
+	^ super validate! !
+
+!DenseMatrix class methodsFor: 'instance creation' stamp: 'len 4/20/2022 20:57:36'!
+from: aDomain to: aCodomain coefficients: anArray
+	^ self new domain: aDomain; codomain: aCodomain; coefficients: anArray! !
+
+!SparseMatrix methodsFor: 'accessing' stamp: 'len 5/3/2022 05:36:15'!
+atRow: i column: j ifAbsent: exceptionBlock
+	(rowPointers at: i) to: (rowPointers at: i+1) - 1 do: [:k| (columnIndices at: k) = j ifTrue: [^ coefficients at: k]].
+	^ exceptionBlock value! !
+
+!SparseMatrix methodsFor: 'operations' stamp: 'len 5/22/2023 16:42:50'!
+value: aTuple
+"	(self domain includes: aTuple) ifFalse: [^ DomainError signal]."
+	^ codomain fill: [:i|
+		| value |
+		value := self scalars zero.
+		(rowPointers at: i) to: (rowPointers at: i+1) - 1 do: [:j| value := (coefficients at: j) * (aTuple at: (columnIndices at: j)) + value].
+		value]! !
+
+!SparseMatrix methodsFor: 'private' stamp: 'len 5/3/2022 05:36:47'!
+coefficients: anArray columnIndices: anArray2 rowPointers: anArray3
+	coefficients _ anArray.
+	columnIndices _ anArray2.
+	rowPointers _ anArray3! !
+
+!SparseMatrix methodsFor: 'private' stamp: 'len 7/8/2022 11:15:49'!
+validate
+	self assert: coefficients size = columnIndices size.
+	self assert: rowPointers last - 1 = coefficients size.
+	self assert: (coefficients allSatisfy: [:each| self scalars includes: each]).
+	self assert: (columnIndices allSatisfy: [:each| each between: 1 and: domain rank]).
+	self assert: ((1 to: rowPointers size - 1) sum: [:i| (rowPointers at: i+1) - (rowPointers at: i)]) = coefficients size.
+	self assert: ((1 to: rowPointers size - 1) allSatisfy: [:i| (rowPointers at: i+1) >= (rowPointers at: i)]).
+	^ super validate! !
+
+!SparseMatrix class methodsFor: 'examples' stamp: 'len 5/3/2022 05:35:22'!
+example
+	^ self from: ℤ^5 to: ℤ^5
+		coefficients: #(1 -1 -3 -2 5 4 6 4 -4 2 7 8 -5)
+		columnIndices: #(1 2 4 1 2 3 4 5 1 3 4 2 5)
+		rowPointers: #(1 4 6 9 12 14)! !
+
+!SparseMatrix class methodsFor: 'instance creation' stamp: 'len 5/3/2022 05:35:06'!
+from: aDomain to: aCodomain coefficients: anArray columnIndices: anArray2 rowPointers: anArray3
+	^ self new domain: aDomain; codomain: aCodomain; coefficients: anArray columnIndices: anArray2 rowPointers: anArray3! !
+
+!Submatrix methodsFor: 'accessing' stamp: 'len 5/21/2023 17:05:47'!
+atAllPut: anElement
+	rowIndices do: [:i₀| coefficients from: i₀ to: i₀ + self width - 1 put: anElement]! !
+
+!Submatrix methodsFor: 'accessing' stamp: 'len 5/21/2023 17:06:07'!
+atRow: i column: j ifAbsent: exceptionBlock
+	(j between: 1 and: self width) ifFalse: [^ exceptionBlock value].
+	^ coefficients at: (rowIndices at: i) + j - 1! !
+
+!Submatrix methodsFor: 'accessing' stamp: 'len 5/21/2023 17:06:20'!
+atRow: i column: j put: anElement
+	(j between: 1 and: self width) ifFalse: [^ self  error: 'index out of bounds'].
+	^ coefficients at: (rowIndices at: i) + j - 1 put: anElement! !
+
+!Submatrix methodsFor: 'copying' stamp: 'len 6/11/2023 19:25:31'!
+copy
+	^ DenseMatrix
+		from: domain
+		to: codomain
+		coefficients:
+			((self scalars new: self width * self height)
+				replaceWithMatrix: coefficients rowIndices: rowIndices width: self width)! !
+
+!Submatrix methodsFor: 'operations' stamp: 'len 6/11/2023 19:40:01'!
+value: aTuple
+"	(self domain includes: aTuple) ifFalse: [^ DomainError signal]."
+	(coefficients isEmpty or: [aTuple isEmpty]) ifTrue: [^ codomain zero].
+	^ codomain coefficients:
+		((codomain scalars zeros: self height)
+			accumulateFrom: 1 to: self height
+			withMatrix: coefficients rowIndices: rowIndices
+			timesTuple: aTuple coefficients)! !
+
+!Submatrix methodsFor: 'operations-inplace' stamp: 'len 5/22/2023 17:21:59'!
+accumulateWith: aMatrix1 times: aMatrix2
+	(aMatrix1 isEmpty or: [aMatrix2 isEmpty])
+		ifTrue: [^ self atAllPut: self scalars zero].
+	coefficients
+		accumulateRowIndices: rowIndices
+		withMatrix: aMatrix1 coefficients width: aMatrix1 width rowIndices: aMatrix1 rowIndices
+		timesMatrix: aMatrix2 coefficients width: aMatrix2 width rowIndices: aMatrix2 rowIndices! !
+
+!Submatrix methodsFor: 'operations-inplace' stamp: 'len 5/21/2023 17:04:25'!
+from: start to: stop
+	"Answer the submatrix of the receiver from start to stop."
+	| h w newRowIndices |
+	self flag: #fixme. "duplicated code in DenseMatrix"
+	h := stop x - start x + 1 max: 0.
+	w := stop y - start y + 1 max: 0.
+	(w > 0 and: [h > 0]) ifFalse: [^ self class from: domain scalars ^ w to: codomain scalars ^ h coefficients: (self scalars new: 0)].
+	(stop x > self height or: [stop y > self width]) ifTrue: [^ self error: 'index out of bounds'].
+	newRowIndices := DoubleByteArray new: h.
+	1 to: h do: [:i| newRowIndices at: i put: (self rowIndexAt: i + start x - 1) + start y - 1].
+	^ Submatrix
+		from: domain scalars ^ w
+		to: codomain scalars ^ h
+		coefficients: coefficients
+		rowIndices: newRowIndices! !
+
+!Submatrix methodsFor: 'operations-inplace' stamp: 'len 5/21/2023 17:08:15'!
+replaceWith: aMatrix1 minus: aMatrix2
+	1 to: rowIndices size do: [:i|
+		| i₀ j₀ k₀ |
+		i₀ := rowIndices at: i.
+		j₀ := aMatrix1 rowIndexAt: i.
+		k₀ := aMatrix2 rowIndexAt: i.
+		coefficients replaceFrom: i₀ to: i₀ + self width - 1 with: aMatrix1 coefficients startingAt: j₀ minus: aMatrix2 coefficients startingAt: k₀]! !
+
+!Submatrix methodsFor: 'operations-inplace' stamp: 'len 5/21/2023 17:08:12'!
+replaceWith: aMatrix1 plus: aMatrix2
+	1 to: rowIndices size do: [:i|
+		| i₀ j₀ k₀ |
+		i₀ := rowIndices at: i.
+		j₀ := aMatrix1 rowIndexAt: i.
+		k₀ := aMatrix2 rowIndexAt: i.
+		coefficients replaceFrom: i₀ to: i₀ + self width - 1 with: aMatrix1 coefficients startingAt: j₀ plus: aMatrix2 coefficients startingAt: k₀]! !
+
+!Submatrix methodsFor: 'testing' stamp: 'len 5/20/2023 12:22:09'!
+isDense
+	^ true! !
+
+!Submatrix methodsFor: 'private' stamp: 'len 5/19/2023 14:54:43'!
+coefficients
+	^ coefficients! !
+
+!Submatrix methodsFor: 'private' stamp: 'len 5/21/2023 17:05:08'!
+coefficients: anArray rowIndices: anArray2
+	coefficients := anArray.
+	rowIndices := anArray2! !
+
+!Submatrix methodsFor: 'private' stamp: 'len 5/19/2023 14:56:24'!
+rowIndexAt: anInteger
+	^ rowIndices at: anInteger! !
+
+!Submatrix methodsFor: 'private' stamp: 'len 5/19/2023 20:46:30'!
+rowIndices
+	^ rowIndices! !
+
+!Submatrix class methodsFor: 'instance creation' stamp: 'len 5/21/2023 17:04:52'!
+from: aDomain to: aCodomain coefficients: anArray rowIndices: anArray2
+	^ self new domain: aDomain; codomain: aCodomain; coefficients: anArray rowIndices: anArray2! !
+
 !ChainMap methodsFor: 'accessing' stamp: 'len 10/5/2022 18:43:50'!
 at: anInteger
 	^ components at: components size - anInteger + self domain minDegree ifAbsent:
@@ -27315,14 +27725,10 @@ homology: k
 	(aChainMap isKindOf: ChainMap) ifFalse: [^ super + aChainMap].
 	^ self class from: self domain to: self codomain components: components + aChainMap components! !
 
-!ChainMap methodsFor: 'operations' stamp: 'len 4/22/2020 20:05:51'!
-- aChainMap
-	^ self + aChainMap negated! !
-
-!ChainMap methodsFor: 'operations' stamp: 'len 8/14/2022 10:48:25'!
-∘ aChainMap
-	(aChainMap isKindOf: ChainMap) ifFalse: [^ super ∘ aChainMap].
-	^ self class from: aChainMap domain to: self codomain components: (components with: aChainMap components collect: [:f :g| f ∘ g])! !
+!ChainMap methodsFor: 'operations' stamp: 'len 6/29/2023 19:19:40'!
+· aChainMap
+	(aChainMap isKindOf: ChainMap) ifFalse: [^ super · aChainMap].
+	^ self class from: aChainMap domain to: self codomain components: (components with: aChainMap components collect: [:f :g| f · g])! !
 
 !ChainMap methodsFor: 'operations' stamp: 'len 9/18/2022 07:13:54'!
 cokernel
@@ -27444,14 +27850,10 @@ hash
 	(aCochainMap isKindOf: CochainMap) ifFalse: [^ super + aCochainMap].
 	^ self class opposite: opposite + aCochainMap opposite! !
 
-!CochainMap methodsFor: 'operations' stamp: 'len 10/30/2020 11:25:37'!
-- aCochainMap
-	^ self + aCochainMap negated! !
-
-!CochainMap methodsFor: 'operations' stamp: 'len 8/14/2022 10:48:59'!
-∘ aCochainMap
-	(aCochainMap isKindOf: CochainMap) ifFalse: [^ super ∘ aCochainMap].
-	^ self class opposite: opposite ∘ aCochainMap! !
+!CochainMap methodsFor: 'operations' stamp: 'len 6/29/2023 19:18:48'!
+· aCochainMap
+	(aCochainMap isKindOf: CochainMap) ifFalse: [^ super · aCochainMap].
+	^ self class opposite: opposite · aCochainMap! !
 
 !CochainMap methodsFor: 'operations' stamp: 'len 10/30/2020 11:29:27'!
 cokernel
@@ -27510,6 +27912,415 @@ isSurjective
 isZero
 	^ opposite isZero! !
 
+!SheafMap methodsFor: 'accessing' stamp: 'len 6/27/2022 13:45:51'!
+category
+	^ self space Sheaves! !
+
+!SheafMap methodsFor: 'accessing' stamp: 'len 12/21/2021 20:44:01'!
+space
+	^ self domain space! !
+
+!SheafMap methodsFor: 'converting' stamp: 'len 12/13/2021 17:21:43'!
+asModuleMap
+	^ moduleMap! !
+
+!SheafMap methodsFor: 'operations' stamp: 'len 12/23/2021 14:49:34'!
+⊕ aSheafMap
+	^ self notYetImplemented! !
+
+!SheafMap methodsFor: 'operations' stamp: 'len 12/23/2021 14:49:40'!
+⊗ aSheafMap
+	^ self notYetImplemented! !
+
+!SheafMap methodsFor: 'operations' stamp: 'len 12/21/2021 20:43:39'!
+cokernel
+	^ Sheaf module: self asModuleMap cokernel on: self space! !
+
+!SheafMap methodsFor: 'operations' stamp: 'len 12/21/2021 20:43:46'!
+kernel
+	^ Sheaf module: self asModuleMap kernel on: self space! !
+
+!SheafMap methodsFor: 'printing' stamp: 'len 12/13/2021 18:14:29'!
+printOn: aStream
+	aStream print: self asModuleMap! !
+
+!SheafMap methodsFor: 'private' stamp: 'len 12/21/2021 20:38:03'!
+moduleMap: aModuleMap
+	moduleMap _ aModuleMap! !
+
+!SheafMap methodsFor: 'private' stamp: 'len 7/8/2022 11:01:48'!
+species
+	^ SheafMap! !
+
+!SheafMap class methodsFor: 'instance creation' stamp: 'len 6/26/2022 22:38:29'!
+from: aDomain to: aCodomain moduleMap: aModuleMap
+	self assert: aDomain space = aCodomain space.
+	self assert: (aModuleMap domain = self asModule and: [aModuleMap codomain = aCodomain asModule]).
+	^ self new domain: aDomain; codomain: aCodomain; moduleMap: aModuleMap! !
+
+!GeneralizedMorphism methodsFor: 'as yet unclassified' stamp: 'len 7/1/2023 11:33:02'!
+codefect
+	^ self generalizedDomain cokernel! !
+
+!GeneralizedMorphism methodsFor: 'as yet unclassified' stamp: 'len 6/30/2023 21:26:41'!
+generalizedCoimage
+	^ self generalizedKernel cokernel! !
+
+!GeneralizedMorphism methodsFor: 'as yet unclassified' stamp: 'len 6/30/2023 21:26:11'!
+generalizedCokernel
+	^ self generalizedImage cokernel! !
+
+!GeneralizedMorphism methodsFor: 'as yet unclassified' stamp: 'len 7/1/2023 15:50:58'!
+generalizedDomain
+	^ self pseudoInverse generalizedImage! !
+
+!GeneralizedMorphism methodsFor: 'as yet unclassified' stamp: 'len 6/30/2023 21:25:40'!
+generalizedKernel
+	^ self pseudoInverse defect! !
+
+!GeneralizedMorphism methodsFor: 'as yet unclassified' stamp: 'len 6/30/2023 21:15:15'!
+retraction
+	^ self isMonomorphism ifTrue: [self pseudoInverse]! !
+
+!GeneralizedMorphism methodsFor: 'as yet unclassified' stamp: 'len 6/30/2023 21:15:06'!
+section
+	^ self isEpimorphism ifTrue: [self pseudoInverse]! !
+
+!Cospan methodsFor: 'accessing' stamp: 'len 6/30/2023 14:20:47'!
+arrow
+	^ arrow! !
+
+!Cospan methodsFor: 'accessing' stamp: 'len 6/30/2023 14:20:49'!
+coarrow
+	^ coarrow! !
+
+!Cospan methodsFor: 'accessing' stamp: 'len 6/30/2023 01:12:46'!
+codomain
+	^ coarrow domain! !
+
+!Cospan methodsFor: 'accessing' stamp: 'len 6/30/2023 01:12:40'!
+domain
+	^ arrow domain! !
+
+!Cospan methodsFor: 'accessing' stamp: 'len 7/1/2023 16:47:05'!
+zero
+	^ (self domain ⇒ self codomain) zero asCospan! !
+
+!Cospan methodsFor: 'comparing' stamp: 'len 7/1/2023 20:27:33'!
+= anObject
+	"Answer true if the receiver is stably equivalent to the argument. [Pos17c, Definition 1.12]."
+	"If they are assumed normalized, we can just test equality of the arrows."
+	^ self class = anObject class and: [self relation = anObject relation]! !
+
+!Cospan methodsFor: 'comparing' stamp: 'len 7/1/2023 20:27:44'!
+hash
+	^ self relation hash! !
+
+!Cospan methodsFor: 'converting' stamp: 'len 6/30/2023 17:53:44'!
+asSpan
+	| ι |
+	ι := arrow ∧ coarrow ⇇ {arrow domain. coarrow domain}.
+	^ Span arrow: (ι at: 2) coarrow: (ι at: 1)! !
+
+!Cospan methodsFor: 'operations' stamp: 'len 7/1/2023 15:21:54'!
++ aMorphism
+	| ι |
+	ι := coarrow ∨ aMorphism coarrow ⇇ {coarrow codomain. aMorphism coarrow codomain}.
+	^ self class arrow: (ι at: 1) · arrow + ((ι at: 2) · aMorphism arrow) coarrow: coarrow · (ι at: 1)! !
+
+!Cospan methodsFor: 'operations' stamp: 'len 7/1/2023 18:51:43'!
+· aMorphism
+	| ι |
+	self checkCompatibleComposition: aMorphism.
+	ι := arrow ∨ aMorphism coarrow ⇇ {arrow codomain. aMorphism coarrow codomain}.
+	^ self class arrow: (ι at: 2) · aMorphism arrow coarrow: (ι at: 1) · coarrow! !
+
+!Cospan methodsFor: 'operations' stamp: 'len 7/1/2023 15:22:25'!
+negated
+	^ self class arrow: arrow negated coarrow: coarrow! !
+
+!Cospan methodsFor: 'operations' stamp: 'len 7/1/2023 00:56:52'!
+normalized
+	| π ι |
+	π := arrow ∧ coarrow ⇉ {arrow domain. coarrow domain}.
+	ι := (π at: 1) ∨ (π at: 2) ⇇ {(π at: 1) codomain. (π at: 2) codomain}.
+	^ self class arrow: (ι at: 1) coarrow: (ι at: 2)! !
+
+!Cospan methodsFor: 'operations' stamp: 'len 6/30/2023 01:26:09'!
+pseudoInverse
+	^ self class arrow: coarrow coarrow: arrow! !
+
+!Cospan methodsFor: 'operations' stamp: 'len 7/1/2023 20:28:14'!
+relation
+	"Answer the associated relation of this span. [Pos17c, Definition 1.11]."
+	^ (arrow ⊔ coarrow) coimage! !
+
+!Cospan methodsFor: 'operations' stamp: 'len 7/1/2023 11:55:30'!
+representative
+	"Assuming the receiver is honest (i.e., the coarrow is an isomorphism), answer a honest representative."
+	^ coarrow inverse · arrow! !
+
+!Cospan methodsFor: 'testing' stamp: 'len 6/30/2023 01:14:15'!
+isHonest
+	^ coarrow isIsomorphism! !
+
+!Cospan methodsFor: 'testing' stamp: 'len 6/30/2023 14:13:47'!
+isIdentity
+	^ arrow isIdentity and: [arrow = coarrow]! !
+
+!Cospan methodsFor: 'testing' stamp: 'len 6/30/2023 17:48:35'!
+isNormalized
+	"Answer true if the receiver is 'normalized' or 'stable'."
+	^ (arrow ⊔ coarrow) isEpimorphism! !
+
+!Cospan methodsFor: 'testing' stamp: 'len 7/1/2023 17:12:07'!
+isZero
+	^ arrow isZero! !
+
+!Cospan methodsFor: 'private' stamp: 'len 6/30/2023 14:24:26'!
+arrow: aMorphism coarrow: anotherMorphism
+	self assert: aMorphism codomain = anotherMorphism codomain.
+	arrow := aMorphism.
+	coarrow := anotherMorphism! !
+
+!Cospan class methodsFor: 'instance creation' stamp: 'len 6/30/2023 14:20:17'!
+arrow: aMorphism coarrow: anotherMorphism
+	^ self new arrow: aMorphism coarrow: anotherMorphism! !
+
+!Span methodsFor: 'accessing' stamp: 'len 6/30/2023 14:18:58'!
+arrow
+	^ arrow! !
+
+!Span methodsFor: 'accessing' stamp: 'len 6/30/2023 14:19:01'!
+coarrow
+	^ coarrow! !
+
+!Span methodsFor: 'accessing' stamp: 'len 7/1/2023 18:59:23'!
+codomain
+	^ arrow codomain! !
+
+!Span methodsFor: 'accessing' stamp: 'len 7/1/2023 18:59:37'!
+domain
+	^ coarrow codomain! !
+
+!Span methodsFor: 'accessing' stamp: 'len 7/1/2023 16:46:45'!
+zero
+	^ (self domain ⇒ self codomain) zero asSpan! !
+
+!Span methodsFor: 'comparing' stamp: 'len 6/30/2023 16:15:22'!
+= anObject
+	"Answer true if the receiver is stably equivalent to the argument. [Pos17c, Definition 1.12]."
+	"If they are assumed normalized, we can just test equality of the arrows."
+	^ self class = anObject class and: [self relation = anObject relation]! !
+
+!Span methodsFor: 'comparing' stamp: 'len 6/30/2023 16:12:53'!
+hash
+	^ self relation hash! !
+
+!Span methodsFor: 'converting' stamp: 'len 7/1/2023 18:31:02'!
+asCospan
+	| π |
+	π := arrow ∧ coarrow ⇉ {arrow codomain. coarrow codomain}.
+	^ Cospan arrow: (π at: 2) coarrow: (π at: 1)! !
+
+!Span methodsFor: 'operations' stamp: 'len 7/1/2023 15:31:21'!
++ aMorphism
+	| π |
+	π := coarrow ∧ aMorphism coarrow ⇉ {coarrow domain. aMorphism coarrow domain}.
+	^ self class arrow: arrow · (π at: 1) + (aMorphism arrow · (π at: 2)) coarrow: coarrow · (π at: 1)! !
+
+!Span methodsFor: 'operations' stamp: 'len 7/1/2023 19:02:48'!
+· aMorphism
+	| π |
+	self checkCompatibleComposition: aMorphism.
+	π := coarrow ∧ aMorphism arrow ⇉ {coarrow domain. aMorphism arrow domain}.
+	^ self class arrow: arrow · (π at: 1) coarrow: aMorphism coarrow · (π at: 2)! !
+
+!Span methodsFor: 'operations' stamp: 'len 7/1/2023 11:38:06'!
+generalizedImage
+	^ arrow image! !
+
+!Span methodsFor: 'operations' stamp: 'len 7/1/2023 15:32:18'!
+negated
+	^ self class arrow: arrow negated coarrow: coarrow! !
+
+!Span methodsFor: 'operations' stamp: 'len 7/1/2023 17:07:36'!
+normalized
+	| ι π |
+	ι := arrow ∨ coarrow ⇇ {arrow codomain. coarrow codomain}.
+	π := (ι at: 1) ∧ (ι at: 2) ⇉ {(ι at: 1) domain. (ι at: 2) domain}.
+	^ self class arrow: (π at: 1) coarrow: (π at: 2)! !
+
+!Span methodsFor: 'operations' stamp: 'len 6/30/2023 01:26:17'!
+pseudoInverse
+	^ self class arrow: coarrow coarrow: arrow! !
+
+!Span methodsFor: 'operations' stamp: 'len 6/30/2023 16:09:24'!
+relation
+	"Answer the associated relation of this span. [Pos17c, Definition 1.11]."
+	^ (arrow ⊓ coarrow) image! !
+
+!Span methodsFor: 'operations' stamp: 'len 7/1/2023 11:54:59'!
+representative
+	"Assuming the receiver is honest (i.e., the coarrow is an isomorphism), answer a honest representative."
+	^ arrow · coarrow inverse! !
+
+!Span methodsFor: 'testing' stamp: 'len 6/30/2023 01:18:57'!
+isHonest
+	^ coarrow isIsomorphism! !
+
+!Span methodsFor: 'testing' stamp: 'len 6/30/2023 14:13:27'!
+isIdentity
+	^ arrow isIdentity and: [arrow = coarrow]! !
+
+!Span methodsFor: 'testing' stamp: 'len 6/30/2023 17:48:44'!
+isNormalized
+	"Answer true if the receiver is 'normalized' or 'stable'."
+	^ (arrow ⊓ coarrow) isMonomorphism! !
+
+!Span methodsFor: 'testing' stamp: 'len 7/1/2023 17:11:52'!
+isZero
+	^ arrow isZero! !
+
+!Span methodsFor: 'private' stamp: 'len 6/30/2023 14:19:43'!
+arrow: aMorphism coarrow: anotherMorphism
+	self assert: aMorphism domain = anotherMorphism domain.
+	arrow := aMorphism.
+	coarrow := anotherMorphism! !
+
+!Span class methodsFor: 'instance creation' stamp: 'len 6/30/2023 14:20:02'!
+arrow: aMorphism coarrow: anotherMorphism
+	^ self new arrow: aMorphism coarrow: anotherMorphism! !
+
+!ThreeArrow methodsFor: 'accessing' stamp: 'len 7/1/2023 15:48:14'!
+aid
+	^ aid! !
+
+!ThreeArrow methodsFor: 'accessing' stamp: 'len 7/1/2023 15:48:10'!
+arrow
+	^ arrow! !
+
+!ThreeArrow methodsFor: 'accessing' stamp: 'len 7/1/2023 15:48:18'!
+coaid
+	^ coaid! !
+
+!ThreeArrow methodsFor: 'accessing' stamp: 'len 7/1/2023 20:49:51'!
+codomain
+	^ coaid domain! !
+
+!ThreeArrow methodsFor: 'accessing' stamp: 'len 7/1/2023 20:49:41'!
+domain
+	^ aid codomain! !
+
+!ThreeArrow methodsFor: 'accessing' stamp: 'len 7/1/2023 23:20:42'!
+zero
+	^ (self domain ⇒ self codomain) zero asThreeArrow! !
+
+!ThreeArrow methodsFor: 'comparing' stamp: 'len 7/2/2023 00:16:18'!
+= anObject
+	| μ ν |
+	self class = anObject class ifFalse: [^ false].
+	(self domain = anObject domain and: [self codomain = anObject codomain]) ifFalse: [^ false].
+	(μ := aid lift: anObject aid) ifNil: [^ false].
+	(ν := anObject coaid colift: coaid) ifNil: [^ false].
+	^ arrow · μ = (ν · anObject arrow)
+
+	"Assuming the receiver and argument are normalized, the aids are equivalent as subobjects and the coaids are equivalent as subquotients:"
+"	^ aid image = anObject aid image and: [coaid cokernel = anObject coaid cokernel]"! !
+
+!ThreeArrow methodsFor: 'comparing' stamp: 'len 7/1/2023 20:48:12'!
+hash
+	^ self domain hash + self codomain hash hashMultiply! !
+
+!ThreeArrow methodsFor: 'operations' stamp: 'len 7/2/2023 12:03:51'!
++ aMorphism
+	^ self class
+		aid: (self commonRestrictionAidWith: aMorphism)
+		arrow: arrow + aMorphism arrow
+		coaid: (self commonCoarseningCoaidWith: aMorphism)! !
+
+!ThreeArrow methodsFor: 'operations' stamp: 'len 7/2/2023 17:51:58'!
+· aMorphism
+	| α γ δ π η ι κ ϵ |
+	self checkCompatibleComposition: aMorphism.
+	α := aMorphism coaid · aid.
+	"Epi-mono factorization:"
+	ι := α image → α codomain.
+	π := ι \ α.
+	self assert: ι · π = α.
+	δ := arrow ∨ π ⇇ {arrow codomain. π codomain}.
+	γ := ι ∧ aMorphism arrow ⇉ {ι domain. aMorphism arrow domain}.
+	ϵ := aMorphism aid · (γ at: 2).
+	η := (δ at: 2) · (γ at: 1).
+	κ := (δ at: 1) · coaid.
+	^ self class aid: ϵ arrow: η coaid: κ
+
+"	| π ι |
+	self checkCompatibleComposition: aMorphism.
+	π := aid ∧ aMorphism aid ⇉ {aid domain. aMorphism aid domain}.
+	ι := coaid ∨ aMorphism coaid ⇇ {coaid codomain. aMorphism coaid codomain}.
+	^ self class
+		aid: aid · (π at: 1)
+		arrow: (ι at: 1) · arrow · (π at: 1) + ((ι at: 2) · aMorphism arrow · (π at: 2))
+		coaid: (ι at: 1) · aMorphism coaid
+"! !
+
+!ThreeArrow methodsFor: 'operations' stamp: 'len 7/2/2023 12:05:19'!
+commonCoarseningCoaidWith: aMorphism
+	| ι |
+	self assert: self codomain = aMorphism codomain.
+	ι := coaid ∨ aMorphism coaid ⇇ {coaid codomain. aMorphism coaid codomain}.
+	^ (ι at: 1) · coaid! !
+
+!ThreeArrow methodsFor: 'operations' stamp: 'len 7/2/2023 12:02:13'!
+commonRestrictionAidWith: aMorphism
+	| π |
+	self assert: self domain = aMorphism domain.
+	π := aid ∧ aMorphism aid ⇉ {aid domain. aMorphism aid domain}.
+	^ aid · (π at: 1)! !
+
+!ThreeArrow methodsFor: 'operations' stamp: 'len 7/2/2023 11:46:53'!
+negated
+	^ self class aid: aid arrow: arrow negated coaid: coaid! !
+
+!ThreeArrow methodsFor: 'operations' stamp: 'len 7/2/2023 17:46:34'!
+normalized
+	| γ γ₁ γ₂ δ ι |
+	ι := aid ∨ arrow ⇇ {aid codomain. arrow codomain}.
+	γ := (ι at: 2) · coaid.
+	γ₂ := γ image → γ codomain.
+	γ₁ := γ₂ \ γ.
+	δ := (ι at: 1) ∧ γ₂ ⇉ {(ι at: 1) domain. γ₂ domain}.
+	^ self class aid: (δ at: 1) arrow: (δ at: 2) coaid: γ₁! !
+
+!ThreeArrow methodsFor: 'operations' stamp: 'len 7/1/2023 11:57:52'!
+representative
+	^ coaid inverse · arrow · aid inverse! !
+
+!ThreeArrow methodsFor: 'testing' stamp: 'len 6/30/2023 11:55:01'!
+isHonest
+	^ aid isIsomorphism and: [coaid isIsomorphism]! !
+
+!ThreeArrow methodsFor: 'testing' stamp: 'len 6/30/2023 11:52:55'!
+isNormalized
+	^ aid isMonomorphism and: [coaid isEpimorphism]! !
+
+!ThreeArrow methodsFor: 'testing' stamp: 'len 7/2/2023 12:28:57'!
+isZero
+	^ arrow isZero! !
+
+!ThreeArrow methodsFor: 'private' stamp: 'len 7/2/2023 00:19:50'!
+aid: aidMorphism arrow: aMorphism coaid: coaidMorphism
+	aid := aidMorphism.
+	arrow := aMorphism.
+	coaid := coaidMorphism.
+	self assert: aid domain = arrow domain.
+	self assert: coaid codomain = arrow codomain! !
+
+!ThreeArrow class methodsFor: 'instance creation' stamp: 'len 7/1/2023 23:11:58'!
+aid: aidMorphism arrow: aMorphism coaid: coaidMorphism
+	^ self new aid: aidMorphism arrow: aMorphism coaid: coaidMorphism! !
+
 !SchemeMorphism methodsFor: 'accessing' stamp: 'len 6/27/2022 13:38:25'!
 category
 	^ Schemes! !
@@ -27530,9 +28341,9 @@ isAffine
 	"Affineness is affine-local on the target. See [Val17, 7.3.4]."
 	^ self notYetImplemented! !
 
-!SchemeMorphism methodsFor: 'testing' stamp: 'len 6/24/2022 09:17:34'!
+!SchemeMorphism methodsFor: 'testing' stamp: 'len 6/29/2023 19:50:21'!
 isFinite
-	"Finiteness is affine-local on the target. A morphism π:X -> Y is finite if there's a cover of Y by affine open sets Spec A such that π^-1(Spec A) is the spectrum of a finite A-algebra. See [Val17, 7.3.G].
+	"Finiteness is affine-local on the target. A morphism π:X→Y is finite if there's a cover of Y by affine open sets Spec A such that π^-1(Spec A) is the spectrum of a finite A-algebra. See [Val17, 7.3.G].
 	Also finite = integral + finite type [Val17, 7.3.P]."
 	^ self notYetImplemented! !
 
@@ -27540,9 +28351,9 @@ isFinite
 isFiniteType
 	^ self isLocallyOfFiniteType and: [self isQuasicompact]! !
 
-!SchemeMorphism methodsFor: 'testing' stamp: 'len 6/24/2022 09:14:06'!
+!SchemeMorphism methodsFor: 'testing' stamp: 'len 6/29/2023 19:50:37'!
 isIntegral
-	"A morphism π:X -> Y is integral is π is affine, and for every affine open subset Spec B <= Y, with π^-1(Spec B) = Spec A, the induced map B -> A is an integral ring homomorphism."
+	"A morphism π:X→Y is integral is π is affine, and for every affine open subset Spec B <= Y, with π^-1(Spec B) = Spec A, the induced map B → A is an integral ring homomorphism."
 	"Integrality is affine-local. See [Val17, 7.3.10]."
 	^ self notYetImplemented! !
 
@@ -27609,10 +28420,10 @@ asRingMap
 	"Answer the induced map on stalks."
 	^ (self asRingMap @ aPoint asIdeal) spec! !
 
-!AffineMorphism methodsFor: 'operations' stamp: 'len 5/8/2023 18:35:17'!
-∘ aMorphism
-	(aMorphism isKindOf: AffineMorphism) ifFalse: [^ super ∘ aMorphism].
-	^ (aMorphism asRingMap ∘ self asRingMap) spec! !
+!AffineMorphism methodsFor: 'operations' stamp: 'len 6/29/2023 19:19:08'!
+· aMorphism
+	(aMorphism isKindOf: AffineMorphism) ifFalse: [^ super · aMorphism].
+	^ (aMorphism asRingMap · self asRingMap) spec! !
 
 !AffineMorphism methodsFor: 'operations' stamp: 'len 6/26/2023 14:43:05'!
 image
@@ -27636,9 +28447,9 @@ projectiveClosure
 value: aPoint
 	^ self codomain !! (self asRingMap preimage: aPoint asIdeal)! !
 
-!AffineMorphism methodsFor: 'testing' stamp: 'len 5/8/2023 18:36:04'!
+!AffineMorphism methodsFor: 'testing' stamp: 'len 6/29/2023 19:51:00'!
 isClosedImmersion
-	"A morphism π:X -> Y is a closed embedding (or closed immersion) if it is an affine morphism, and for every affine open subset Spec B <= Y with π^-1(Spec B) ~ Spec A, the map B -> A is surjective."
+	"A morphism π:X→Y is a closed embedding (or closed immersion) if it is an affine morphism, and for every affine open subset Spec B <= Y with π^-1(Spec B) ~ Spec A, the map B → A is surjective."
 	^ self asRingMap isSurjective! !
 
 !AffineMorphism methodsFor: 'testing' stamp: 'len 5/8/2023 18:36:10'!
@@ -28009,60 +28820,6 @@ isZero
 	Points that are not neighbours are called 'distant'."
 
 	^ (coordinates x * aPoint coordinates y - (aPoint coordinates x * coordinates y)) isUnit not! !
-
-!SheafMap methodsFor: 'accessing' stamp: 'len 6/27/2022 13:45:51'!
-category
-	^ self space Sheaves! !
-
-!SheafMap methodsFor: 'accessing' stamp: 'len 12/21/2021 20:44:01'!
-space
-	^ self domain space! !
-
-!SheafMap methodsFor: 'converting' stamp: 'len 12/13/2021 17:21:43'!
-asModuleMap
-	^ moduleMap! !
-
-!SheafMap methodsFor: 'operations' stamp: 'len 12/23/2021 14:49:34'!
-⊕ aSheafMap
-	^ self notYetImplemented! !
-
-!SheafMap methodsFor: 'operations' stamp: 'len 12/23/2021 14:49:40'!
-⊗ aSheafMap
-	^ self notYetImplemented! !
-
-!SheafMap methodsFor: 'operations' stamp: 'len 12/21/2021 20:43:39'!
-cokernel
-	^ Sheaf module: self asModuleMap cokernel on: self space! !
-
-!SheafMap methodsFor: 'operations' stamp: 'len 12/21/2021 20:43:46'!
-kernel
-	^ Sheaf module: self asModuleMap kernel on: self space! !
-
-!SheafMap methodsFor: 'operations' stamp: 'len 8/12/2022 13:34:17'!
-∧ aSheafMap
-	^ self notYetImplemented! !
-
-!SheafMap methodsFor: 'operations' stamp: 'len 8/12/2022 13:35:07'!
-∨ aSheafMap
-	^ self notYetImplemented! !
-
-!SheafMap methodsFor: 'printing' stamp: 'len 12/13/2021 18:14:29'!
-printOn: aStream
-	aStream print: self asModuleMap! !
-
-!SheafMap methodsFor: 'private' stamp: 'len 12/21/2021 20:38:03'!
-moduleMap: aModuleMap
-	moduleMap _ aModuleMap! !
-
-!SheafMap methodsFor: 'private' stamp: 'len 7/8/2022 11:01:48'!
-species
-	^ SheafMap! !
-
-!SheafMap class methodsFor: 'instance creation' stamp: 'len 6/26/2022 22:38:29'!
-from: aDomain to: aCodomain moduleMap: aModuleMap
-	self assert: aDomain space = aCodomain space.
-	self assert: (aModuleMap domain = self asModule and: [aModuleMap codomain = aCodomain asModule]).
-	^ self new domain: aDomain; codomain: aCodomain; moduleMap: aModuleMap! !
 
 !Monomial methodsFor: 'accessing' stamp: 'len 11/21/2016 15:56:16'!
 at: anIndeterminate
@@ -29287,9 +30044,9 @@ syllables: anArray
 x: i
 	^ self x: i to: 1! !
 
-!Word class methodsFor: 'instance creation' stamp: 'len 3/3/2016 05:24'!
+!Word class methodsFor: 'instance creation' stamp: 'len 6/29/2023 19:51:50'!
 x: i to: k
-	"Answer a new instance of the receiver with only one indeterminate, xi, raised to n."
+	"Answer a new instance of the receiver with only one indeterminate, xᵢ, raised to n."
 	k = 0 ifTrue: [^ self empty].
 	^ self syllables: {i -> k}! !
 
@@ -29965,7 +30722,7 @@ raisedTo2: anInteger modulo: anElement
 		n := n bitShift: -1].
 	^ x * y \\ anElement! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 8/5/2022 09:52:43'!
+!RingElement methodsFor: 'operations' stamp: 'len 6/30/2023 14:32:52'!
 raisedTo: anInteger
 	^ self ^ anInteger! !
 
@@ -36646,9 +37403,9 @@ printOn: aStream
 	aStream print: opposite differentials first domain.
 	opposite differentials do: [:each| aStream nextPutAll: ' → '; print: each codomain]! !
 
-!CochainComplex methodsFor: 'accessing' stamp: 'len 10/30/2020 10:57:51'!
+!CochainComplex methodsFor: 'accessing' stamp: 'len 6/29/2023 19:52:49'!
 at: k
-	"Answer the k-th differential or boundary map d(k):C(k)->C(k-1)."
+	"Answer the k-th differential or boundary map d(k):C(k)→C(k-1)."
 	^ opposite at: k negated! !
 
 !CochainComplex methodsFor: 'accessing' stamp: 'len 10/30/2020 10:58:04'!
@@ -39813,23 +40570,6 @@ bitParity8
 raisedToInteger: anInteger
 	self == -1 ifTrue: [^ anInteger odd ifTrue: [-1] ifFalse: [1]].
 	^ super raisedToInteger: anInteger! !
-
-!Association methodsFor: '*algebra' stamp: 'len 8/14/2022 10:58:46'!
-* anAssociation
-	^ self ∘ anAssociation! !
-
-!Association methodsFor: '*algebra' stamp: 'len 8/14/2022 10:58:36'!
-· anAssociation
-	^ self ∘ anAssociation! !
-
-!Association methodsFor: '*algebra' stamp: 'len 8/14/2022 10:58:25'!
-∘ anAssociation
-	self value = anAssociation key ifFalse: [DomainError signal: 'domain and codomain don''t match'].
-	^ self class key: key value: anAssociation value! !
-
-!Association methodsFor: '*algebra' stamp: 'len 10/26/2020 10:45:16'!
-inverse
-	^ self class key: value value: key! !
 
 !Class methodsFor: '*algebra' stamp: 'len 12/1/2016 09:03:19'!
 newSubclass
