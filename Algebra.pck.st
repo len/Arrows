@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5878] on 3 July 2023 at 1:16:50 pm'!
+'From Cuis 6.0 [latest update: #5882] on 4 July 2023 at 5:16:20 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -80,12 +80,12 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 127!
-!requires: 'Complex' 1 7 nil!
+!provides: 'Algebra' 1 128!
+!requires: 'Transfinites' 1 2 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
+!requires: 'Complex' 1 7 nil!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
-!requires: 'Transfinites' 1 2 nil!
 SystemOrganization addCategory: #'Algebra-Categories'!
 SystemOrganization addCategory: #'Algebra-Categories-Abelian'!
 SystemOrganization addCategory: #'Algebra-Monoids'!
@@ -257,16 +257,6 @@ Structure subclass: #Category
 	category: 'Algebra-Categories'!
 !classDefinition: 'Category class' category: #'Algebra-Categories'!
 Category class
-	instanceVariableNames: ''!
-
-!classDefinition: #FreydCategory category: #'Algebra-Categories-Abelian'!
-Category subclass: #FreydCategory
-	instanceVariableNames: 'objects'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Categories-Abelian'!
-!classDefinition: 'FreydCategory class' category: #'Algebra-Categories-Abelian'!
-FreydCategory class
 	instanceVariableNames: ''!
 
 !classDefinition: #Modules category: #'Algebra-Modules'!
@@ -1529,16 +1519,6 @@ Morphism subclass: #AbelianMorphism
 AbelianMorphism class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreydMorphism category: #'Algebra-Categories-Abelian'!
-AbelianMorphism subclass: #FreydMorphism
-	instanceVariableNames: 'datum'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Categories-Abelian'!
-!classDefinition: 'FreydMorphism class' category: #'Algebra-Categories-Abelian'!
-FreydMorphism class
-	instanceVariableNames: ''!
-
 !classDefinition: #ModuleMap category: #'Algebra-Modules'!
 AbelianMorphism subclass: #ModuleMap
 	instanceVariableNames: 'domain codomain'
@@ -2675,9 +2655,6 @@ References:
 	https://ncatlab.org/nlab/show/single-sorted+definition+of+a+category
 !
 
-!FreydCategory commentStamp: '<historical>' prior: 0!
-The Freyd category A(C) of an additive category C with weak kernels, that equips C with cokernels in a universal way. The objects of A(C) are the morphisms of C, and the morphisms are FreydMorphisms. See [Pos17b].!
-
 !Modules commentStamp: '<historical>' prior: 0!
 Category of finitely presented right R-modules, for a unital ring R. See Module and ModuleMap.!
 
@@ -3231,9 +3208,6 @@ Morphisms of simplicial complexes. See SimplicialComplex.!
 
 !AbelianMorphism commentStamp: '<historical>' prior: 0!
 Abstract class for morphisms in abelian categories. See subclasses.!
-
-!FreydMorphism commentStamp: '<historical>' prior: 0!
-Morphisms of a Freyd category.!
 
 !ModuleMap commentStamp: '<historical>' prior: 0!
 Homomorphisms of R-modules. They are internally represented by a matrix (assuming a choice of finite presentations for the domain and codomain, or more concretely a choice of an ordered set of generators).
@@ -7053,34 +7027,6 @@ name: aString
 !Category methodsFor: 'private' stamp: 'len 5/2/2020 05:07:09'!
 species
 	^ Category! !
-
-!FreydCategory methodsFor: 'as yet unclassified' stamp: 'len 6/30/2023 15:08:34'!
-= anObject
-	^ self class = anObject class and: [objects = anObject objects]! !
-
-!FreydCategory methodsFor: 'as yet unclassified' stamp: 'len 6/30/2023 15:08:41'!
-hash
-	^ objects hash! !
-
-!FreydCategory methodsFor: 'as yet unclassified' stamp: 'len 6/30/2023 15:06:34'!
-isAbelian
-	^ true! !
-
-!FreydCategory methodsFor: 'as yet unclassified' stamp: 'len 6/30/2023 15:08:17'!
-objects
-	^ objects! !
-
-!FreydCategory methodsFor: 'as yet unclassified' stamp: 'len 6/30/2023 15:04:09'!
-objects: anAdditiveCategory
-	objects := anAdditiveCategory! !
-
-!FreydCategory methodsFor: 'as yet unclassified' stamp: 'len 7/1/2023 01:05:49'!
-printOn: aStream
-	aStream nextPutAll: 'Freyd('; print: objects; nextPut: $)! !
-
-!FreydCategory class methodsFor: 'as yet unclassified' stamp: 'len 6/30/2023 15:08:03'!
-on: anAdditiveCategory
-	^ self new objects: anAdditiveCategory! !
 
 !Modules methodsFor: 'accessing' stamp: 'len 10/26/2020 10:41:24'!
 name
@@ -17112,20 +17058,21 @@ size
 	self isFree ifTrue: [^ self scalars size ^ self rank].
 	^ super size! !
 
-!Module methodsFor: 'accessing' stamp: 'len 7/12/2022 06:25:39'!
+!Module methodsFor: 'accessing' stamp: 'len 7/3/2023 21:45:23'!
 torsion
 	"Answer the torsion submodule of the receiver, i.e. the set of elements e such that there is a non-zero-divisor scalar r with e*r = 0. For an abelian group, this is the submodule of elements of finite order."
+	self isFreelyGenerated ifTrue: [^ self null].
 	self isGroup ifFalse: [^ self notYetImplemented].
 	self isFinite ifTrue: [^ self].
-	self flag: #fix. "should answer a submodule:"
+	self flag: #fixme. "should answer a submodule:"
 	^ self invariants inject: ℤ^0 into: [:sum :each| each > 1 ifTrue: [sum ⊕ (ℤ/each) asAbelianGroup] ifFalse: [sum]]! !
 
-!Module methodsFor: 'accessing' stamp: 'len 8/6/2022 07:11:54'!
+!Module methodsFor: 'accessing' stamp: 'len 7/3/2023 21:35:29'!
 torsionFree
 	"Answer the torsion-free subgroup, i.e. the subgroup of elements of infinite order (plus the identity)."
 	self isGroup ifFalse: [^ Domain signal: 'not a ℤ-module'].
 	self isFinite ifTrue: [^ self null].
-	self flag: #fix. "should answer a submodule:"
+	self flag: #fixme. "should answer a submodule:"
 	^ ℤ^self rank! !
 
 !Module methodsFor: 'comparing' stamp: 'len 1/9/2022 09:51:49'!
@@ -17855,9 +17802,9 @@ isLocallyFree
 	self scalars isNoetherian ifFalse: [^ self notYetImplemented].
 	^ self isFlat! !
 
-!Module methodsFor: 'testing' stamp: 'len 10/20/2020 18:49:36'!
+!Module methodsFor: 'testing' stamp: 'len 7/3/2023 22:59:41'!
 isMixed
-	"An abelian group is mixed if it is nother a torsion group nor free."
+	"An abelian group is mixed if it is neither a torsion group nor free."
 	^ self isTorsion not and: [self isFree not]! !
 
 !Module methodsFor: 'testing' stamp: 'len 7/26/2021 15:23:04'!
@@ -17885,6 +17832,11 @@ isProjective
 	self isFlat ifFalse: [^ false].
 	^ self notYetImplemented! !
 
+!Module methodsFor: 'testing' stamp: 'len 7/3/2023 22:07:57'!
+isReflexive
+	"Answer true if the receiver is a reflexive module."
+	^ (self → self dual dual) isBijective! !
+
 !Module methodsFor: 'testing' stamp: 'len 7/18/2020 08:37:53'!
 isSemisimple
 	"A module over a (not necessarily commutative) unital ring is said to be 'semisimple' (or 'completely reducible') if it is the direct sum of simple (irreducible) submodules."
@@ -17905,11 +17857,16 @@ isTorsion
 	self isGroup ifTrue: [^ self invariants noneSatisfy: [:each| each = 0]].
 	^ self torsion = self! !
 
-!Module methodsFor: 'testing' stamp: 'len 1/2/2022 10:04:23'!
+!Module methodsFor: 'testing' stamp: 'len 7/3/2023 22:48:08'!
 isTorsionFree
-	"Answer true if the receiver is a torsion-free module.
+	"Answer true if the receiver is a torsion-free module, i.e. its torsion submodule is trivial.
 	An abelian group is called 'torsion-free' if every nonzero element has infinite order."
 	^ self torsion isTrivial! !
+
+!Module methodsFor: 'testing' stamp: 'len 7/3/2023 21:21:57'!
+isTorsionless
+	"Answer true if the receiver is a torsionless (or semi-reflexive) module."
+	^ (self → self dual dual) isInjective! !
 
 !Module methodsFor: 'testing' stamp: 'len 6/11/2022 08:22:43'!
 isTrivial
@@ -24716,25 +24673,23 @@ from: aSimplicialComplex to: anotherSimplicialComplex map: aBlock
 from: aSimplicialComplex to: anotherSimplicialComplex vertexMap: aDictionary
 	^ self new domain: aSimplicialComplex; codomain: anotherSimplicialComplex; vertexMap: aDictionary! !
 
-!AbelianMorphism methodsFor: 'accessing' stamp: 'len 6/30/2023 15:37:54'!
-id
-	"Answer the identity morphisms of the receiver in the Freyd category."
-	^ FreydMorphism from: self to: self datum: self codomain id! !
-
 !AbelianMorphism methodsFor: 'accessing' stamp: 'len 6/29/2023 22:58:59'!
 zero
 	^ self subclassResponsibility! !
 
-!AbelianMorphism methodsFor: 'converting' stamp: 'len 6/30/2023 01:16:14'!
+!AbelianMorphism methodsFor: 'converting' stamp: 'len 7/4/2023 15:41:03'!
 asCospan
+	"Answer the honest generalized morphism induced by the receiver as a cospan."
 	^ Cospan arrow: self coarrow: self codomain id! !
 
-!AbelianMorphism methodsFor: 'converting' stamp: 'len 6/30/2023 01:20:05'!
+!AbelianMorphism methodsFor: 'converting' stamp: 'len 7/4/2023 15:41:13'!
 asSpan
+	"Answer the honest generalized morphism induced by the receiver as a span."
 	^ Span arrow: self coarrow: self domain id! !
 
-!AbelianMorphism methodsFor: 'converting' stamp: 'len 7/1/2023 23:12:37'!
+!AbelianMorphism methodsFor: 'converting' stamp: 'len 7/4/2023 15:41:22'!
 asThreeArrow
+	"Answer the honest generalized morphism induced by the receiver as a 3-arrow."
 	^ ThreeArrow aid: self domain id arrow: self coaid: self codomain id! !
 
 !AbelianMorphism methodsFor: 'operations' stamp: 'len 6/29/2023 22:58:51'!
@@ -24890,64 +24845,6 @@ isMonomorphism
 !AbelianMorphism methodsFor: 'testing' stamp: 'len 7/2/2023 18:46:56'!
 isTrivial
 	^ self isZero! !
-
-!FreydMorphism methodsFor: 'accessing' stamp: 'len 6/30/2023 15:11:09'!
-category
-	^ self domain category Freyd! !
-
-!FreydMorphism methodsFor: 'accessing' stamp: 'len 6/29/2023 17:08:03'!
-datum
-	^ datum! !
-
-!FreydMorphism methodsFor: 'accessing' stamp: 'len 6/29/2023 19:37:14'!
-witness
-	^ self propertyAt: #witness ifAbsentPut: [self codomain \ (datum · self domain)]! !
-
-!FreydMorphism methodsFor: 'comparing' stamp: 'len 6/29/2023 17:07:56'!
-= anObject
-	anObject class = self class ifFalse: [^ false].
-	(self domain = anObject domain and: [self codomain = anObject codomain]) ifFalse: [^ false].
-	^ (self codomain lift: datum - anObject datum) notNil! !
-
-!FreydMorphism methodsFor: 'comparing' stamp: 'len 6/29/2023 17:08:27'!
-hash
-	^ self domain hash + self codomain hash hashMultiply! !
-
-!FreydMorphism methodsFor: 'operations' stamp: 'len 6/29/2023 19:19:26'!
-· aMorphism
-	self checkCompatibleComposition: aMorphism.
-	^ self class from: aMorphism domain to: self codomain datum: datum · aMorphism datum! !
-
-!FreydMorphism methodsFor: 'operations' stamp: 'len 6/29/2023 18:14:00'!
-cokernel
-	"Answer the cokernel projection of the receiver."
-	^ self class from: self codomain to: datum ⊔ self codomain datum: self codomain domain id! !
-
-!FreydMorphism methodsFor: 'operations' stamp: 'len 6/29/2023 18:16:01'!
-colift: aMorphism
-	self notYetImplemented! !
-
-!FreydMorphism methodsFor: 'operations' stamp: 'len 6/29/2023 18:14:10'!
-kernel
-	"Answer the kernel embedding of the receiver."
-	^ self notYetImplemented! !
-
-!FreydMorphism methodsFor: 'operations' stamp: 'len 6/29/2023 18:15:59'!
-lift: aMorphism
-	self notYetImplemented! !
-
-!FreydMorphism methodsFor: 'testing' stamp: 'len 6/30/2023 00:33:29'!
-isEpimorphism
-	^ datum isIdentity or: [super isEpimorphism]! !
-
-!FreydMorphism methodsFor: 'private' stamp: 'len 6/29/2023 17:27:27'!
-datum: aMorphism
-	datum := aMorphism! !
-
-!FreydMorphism class methodsFor: 'instance creation' stamp: 'len 6/29/2023 17:26:53'!
-from: aDomain to: aCodomain datum: aMorphism
-	self assert: (aMorphism domain = aDomain codomain and: [aMorphism codomain = aCodomain codomain]).
-	^ self new domain: aDomain; codomain: aCodomain; datum: aMorphism! !
 
 !ModuleMap methodsFor: 'accessing' stamp: 'len 4/1/2021 06:41:51'!
 bitSize
@@ -28016,17 +27913,17 @@ zero
 hash
 	^ self relation hash! !
 
-!Cospan methodsFor: 'converting' stamp: 'len 6/30/2023 17:53:44'!
+!Cospan methodsFor: 'converting' stamp: 'len 7/3/2023 22:38:58'!
 asSpan
-	| ι |
-	ι := arrow ∧ coarrow ⇇ {arrow domain. coarrow domain}.
-	^ Span arrow: (ι at: 2) coarrow: (ι at: 1)! !
+	| π |
+	π := arrow ∧ coarrow ⇉ {arrow domain. coarrow domain}.
+	^ Span arrow: (π at: 2) coarrow: (π at: 1)! !
 
-!Cospan methodsFor: 'operations' stamp: 'len 7/1/2023 15:21:54'!
+!Cospan methodsFor: 'operations' stamp: 'len 7/3/2023 22:40:28'!
 + aMorphism
 	| ι |
 	ι := coarrow ∨ aMorphism coarrow ⇇ {coarrow codomain. aMorphism coarrow codomain}.
-	^ self class arrow: (ι at: 1) · arrow + ((ι at: 2) · aMorphism arrow) coarrow: coarrow · (ι at: 1)! !
+	^ self class arrow: (ι at: 1) · arrow + ((ι at: 2) · aMorphism arrow) coarrow: (ι at: 1) · coarrow! !
 
 !Cospan methodsFor: 'operations' stamp: 'len 7/1/2023 18:51:43'!
 · aMorphism
@@ -28117,11 +28014,11 @@ zero
 hash
 	^ self relation hash! !
 
-!Span methodsFor: 'converting' stamp: 'len 7/1/2023 18:31:02'!
+!Span methodsFor: 'converting' stamp: 'len 7/3/2023 22:38:47'!
 asCospan
-	| π |
-	π := arrow ∧ coarrow ⇉ {arrow codomain. coarrow codomain}.
-	^ Cospan arrow: (π at: 2) coarrow: (π at: 1)! !
+	| ι |
+	ι := arrow ∨ coarrow ⇇ {arrow codomain. coarrow codomain}.
+	^ Cospan arrow: (ι at: 2) coarrow: (ι at: 1)! !
 
 !Span methodsFor: 'operations' stamp: 'len 7/1/2023 15:31:21'!
 + aMorphism
@@ -28216,7 +28113,7 @@ domain
 zero
 	^ (self domain ⇒ self codomain) zero asThreeArrow! !
 
-!ThreeArrow methodsFor: 'comparing' stamp: 'len 7/2/2023 00:16:18'!
+!ThreeArrow methodsFor: 'comparing' stamp: 'len 7/3/2023 22:33:44'!
 = anObject
 	| μ ν |
 	self class = anObject class ifFalse: [^ false].
@@ -28232,12 +28129,16 @@ zero
 hash
 	^ self domain hash + self codomain hash hashMultiply! !
 
-!ThreeArrow methodsFor: 'operations' stamp: 'len 7/2/2023 12:03:51'!
+!ThreeArrow methodsFor: 'operations' stamp: 'len 7/3/2023 22:26:18'!
 + aMorphism
+	| π ι |
+	self assert: (self domain = aMorphism domain and: [self codomain = aMorphism codomain]).
+	π := aid ∧ aMorphism aid ⇉ {aid domain. aMorphism aid domain}.	
+	ι := coaid ∨ aMorphism coaid ⇇ {coaid codomain. aMorphism coaid codomain}.
 	^ self class
-		aid: (self commonRestrictionAidWith: aMorphism)
-		arrow: arrow + aMorphism arrow
-		coaid: (self commonCoarseningCoaidWith: aMorphism)! !
+		aid: aid · (π at: 1)
+		arrow: (ι at: 1) · arrow · (π at: 1) + ((ι at: 2) · aMorphism arrow · (π at: 2))
+		coaid: (ι at: 1) · coaid! !
 
 !ThreeArrow methodsFor: 'operations' stamp: 'len 7/2/2023 17:51:58'!
 · aMorphism
@@ -28264,20 +28165,6 @@ hash
 		arrow: (ι at: 1) · arrow · (π at: 1) + ((ι at: 2) · aMorphism arrow · (π at: 2))
 		coaid: (ι at: 1) · aMorphism coaid
 "! !
-
-!ThreeArrow methodsFor: 'operations' stamp: 'len 7/2/2023 12:05:19'!
-commonCoarseningCoaidWith: aMorphism
-	| ι |
-	self assert: self codomain = aMorphism codomain.
-	ι := coaid ∨ aMorphism coaid ⇇ {coaid codomain. aMorphism coaid codomain}.
-	^ (ι at: 1) · coaid! !
-
-!ThreeArrow methodsFor: 'operations' stamp: 'len 7/2/2023 12:02:13'!
-commonRestrictionAidWith: aMorphism
-	| π |
-	self assert: self domain = aMorphism domain.
-	π := aid ∧ aMorphism aid ⇉ {aid domain. aMorphism aid domain}.
-	^ aid · (π at: 1)! !
 
 !ThreeArrow methodsFor: 'operations' stamp: 'len 7/2/2023 11:46:53'!
 negated

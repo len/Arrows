@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5878] on 3 July 2023 at 1:17:01 pm'!
+'From Cuis 6.0 [latest update: #5882] on 4 July 2023 at 5:16:33 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 82!
+!provides: 'Tests-Algebra' 1 83!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -39,16 +39,6 @@ TestCase subclass: #AlgebraicGraphTest
 	category: 'Tests-Algebra'!
 !classDefinition: 'AlgebraicGraphTest class' category: #'Tests-Algebra'!
 AlgebraicGraphTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #BilinearFormTest category: #'Tests-Algebra'!
-TestCase subclass: #BilinearFormTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'BilinearFormTest class' category: #'Tests-Algebra'!
-BilinearFormTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #ChainComplexTest category: #'Tests-Algebra'!
@@ -139,6 +129,16 @@ AbstractAbelianCategoryTest subclass: #IntegerModuleAbelianCategoryTest
 	category: 'Tests-Algebra'!
 !classDefinition: 'IntegerModuleAbelianCategoryTest class' category: #'Tests-Algebra'!
 IntegerModuleAbelianCategoryTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #BilinearFormTest category: #'Tests-Algebra'!
+RandomizedTestCase subclass: #BilinearFormTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'BilinearFormTest class' category: #'Tests-Algebra'!
+BilinearFormTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #GroupTest category: #'Tests-Algebra'!
@@ -3827,52 +3827,6 @@ testTuttePolynomialK4
 	T _ x^3 + (x^2*3) + (x*2) + (x*y*4) + (y*2) + (y^2*3) + (y^3).
 	self assert: G tuttePolynomial = T! !
 
-!BilinearFormTest methodsFor: 'as yet unclassified' stamp: 'len 7/27/2020 19:19:26'!
-testBilinearFormDecomposition
-	| V A B |
-	V _ ℚ^5 atRandom.
-	A _ V endomorphisms atRandomBits: 50.
-	B _ BilinearForm on: V matrix: A.
-	self assert: B symmetricPart isSymmetric.
-	self assert: B skewSymmetricPart isSkewSymmetric.
-	self assert: B symmetricPart + B skewSymmetricPart = B! !
-
-!BilinearFormTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 08:19:03'!
-testDotCrossAlternating
-	"This is an example of an alternating bilinear form."
-	| V u B |
-	V _ ℤ^3.
-	u _ V atRandomBits: 10.
-	B _ BilinearForm on: V mapWithArguments: [:x :y| u · (x × y)].
-	self assert: B isAlternating! !
-
-!BilinearFormTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 08:19:10'!
-testDotProductIsSymmetric
-	| V B |
-	V _ ℤ^5 atRandom.
-	B _ BilinearForm on: V mapWithArguments: [:x :y| x · y].
-	self assert: B isSymmetric! !
-
-!BilinearFormTest methodsFor: 'as yet unclassified' stamp: 'len 4/1/2021 06:46:48'!
-testMatrixAndLeft
-	"The matrix of the bilinear form matches the matrix of the left part because the convention we follow when defining B(v,w) := v · (A * w)."
-	| V A B |
-	V _ ℚ^5 atRandom.
-	A _ V endomorphisms atRandomBits: 50.
-	B _ BilinearForm on: V matrix: A.
-	self assert: A = B left asMatrix! !
-
-!BilinearFormTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 08:19:22'!
-testScalarSpaceMultiplication
-	| V B |
-	V _ ℤ asIdeal.
-	B _ BilinearForm on: V mapWithArguments: [:x :y| x*y].
-	self assert: B isSymmetric.
-	self assert: B isAlternating not.
-	V _ (ℤ/2) asIdeal.
-	B _ BilinearForm on: V mapWithArguments: [:x :y| x*y].
-	self assert: B isSkewSymmetric! !
-
 !ChainComplexTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 08:59:39'!
 newChainComplex
 	^ self newChainComplexOver: {ℤ. ℤ/64 atRandom nextPrime. ℚ} atRandom! !
@@ -6241,6 +6195,52 @@ newSmallFreeModule
 	M := (3 atRandom: random) = 1 ifTrue: [ℤ asIdeal] ifFalse: [ℤ ^ ((0 to: 3) atRandom: random)].
 	(3 atRandom: random) = 1 ifTrue: [^ M dual].
 	^ M! !
+
+!BilinearFormTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2023 01:16:55'!
+testBilinearFormDecomposition
+	| V A B |
+	V := ℚ^5 atRandom: random.
+	A := V endomorphisms atRandom: random bits: 50.
+	B := BilinearForm on: V matrix: A.
+	self assert: B symmetricPart isSymmetric.
+	self assert: B skewSymmetricPart isSkewSymmetric.
+	self assert: B symmetricPart + B skewSymmetricPart = B! !
+
+!BilinearFormTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2023 01:17:03'!
+testDotCrossAlternating
+	"This is an example of an alternating bilinear form."
+	| V u B |
+	V := ℤ^3.
+	u := V atRandom: random bits: 10.
+	B := BilinearForm on: V mapWithArguments: [:x :y| u · (x × y)].
+	self assert: B isAlternating! !
+
+!BilinearFormTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2023 01:17:10'!
+testDotProductIsSymmetric
+	| V B |
+	V := ℤ^5 atRandom: random.
+	B := BilinearForm on: V mapWithArguments: [:x :y| x · y].
+	self assert: B isSymmetric! !
+
+!BilinearFormTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2023 01:17:20'!
+testMatrixAndLeft
+	"The matrix of the bilinear form matches the matrix of the left part because the convention we follow when defining B(v,w) := v · (A * w)."
+	| V A B |
+	V := ℚ^5 atRandom: random.
+	A := V endomorphisms atRandom: random bits: 50.
+	B := BilinearForm on: V matrix: A.
+	self assert: A = B left asMatrix! !
+
+!BilinearFormTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 08:19:22'!
+testScalarSpaceMultiplication
+	| V B |
+	V _ ℤ asIdeal.
+	B _ BilinearForm on: V mapWithArguments: [:x :y| x*y].
+	self assert: B isSymmetric.
+	self assert: B isAlternating not.
+	V _ (ℤ/2) asIdeal.
+	B _ BilinearForm on: V mapWithArguments: [:x :y| x*y].
+	self assert: B isSkewSymmetric! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:11:58'!
 smallGroupAtRandom
@@ -12645,6 +12645,15 @@ testModuleGroebnerBasisReducedExample
 	A := Matrix rows: {f1. f2. f3. f4}.
 	self assert: A basis "reduced" width = 6 "it's already reduced"
 	"TODO: verify that it matches the book"! !
+
+!RationalMultivariatePolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 7/3/2023 21:30:33'!
+testTorsionFreeNotFlatExample
+	"The ideal ⟨x,y⟩ over K[x,y] is torsion-free but not flat."
+	| R I |
+	R := ℚ polynomialsIn: 2.
+	I := R * R generators.
+	self assert: I isTorsionFree.
+	self assert: I isFlat not! !
 
 !RationalPolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:26:13'!
 setUp
