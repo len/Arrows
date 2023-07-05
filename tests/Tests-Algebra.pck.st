@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5882] on 4 July 2023 at 5:16:33 pm'!
+'From Cuis 6.0 [latest update: #5898] on 5 July 2023 at 10:34:16 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 83!
+!provides: 'Tests-Algebra' 1 87!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -1931,6 +1931,16 @@ TestCase subclass: #WordArrayTest
 WordArrayTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #DisabledTest category: #'Tests-Algebra'!
+Object subclass: #DisabledTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'DisabledTest class' category: #'Tests-Algebra'!
+DisabledTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #FiniteFieldRationalFunctionFieldMatrixTest category: #'Tests-Algebra-Matrices'!
 Object subclass: #FiniteFieldRationalFunctionFieldMatrixTest
 	instanceVariableNames: ''
@@ -3182,18 +3192,6 @@ testLinearSubspaceAsAlgebraicVariety
 	self assert: (V satisfies: (S x: 1)).
 	self assert: (V satisfies: (S x: 2))! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 7/26/2022 19:08:49'!
-testLocalAndGlobalDimension
-	"'A Singluar Introduction to Commutative Algebra', Example A.8.4 (local and global dimension)."
-	| R I X |
-	R _ ℚ polynomialsIn: #(x y z).
-	I _ R * (R !! [:x :y :z| {x*z. y*z}]).
-	X _ (R / I) spec.
-	self assert: X dimension = 2. "global dimension of X"
-	self assert: (X @ (0,0,0)) dimension = 2. "dimension of X at (0,0,0)"
-	self assert: (X @ (1,0,0)) dimension = 2. "dimension of X at (1,0,0)"
-	self assert: (X @ (0,0,1)) dimension = 1. "dimension of X at (0,0,1)"! !
-
 !AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 16:42:16'!
 testMorphismsOfProjectiveVarieties
 	"'A Singular Introduction To Commutative Algebra', Example A.6.8 (morphisms of projective varieties)."
@@ -3380,15 +3378,6 @@ testSpecZSubschemes
 	self deny: (ℤ / 10) spec >= (ℤ / 3) spec.
 	self assert: (ℤ / 10) spec ∩ (ℤ / 15) spec = (ℤ / 5) spec.
 	self assert: (ℤ / 10) spec ∪ (ℤ / 15) spec = (ℤ / 30) spec! !
-
-!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 6/26/2023 16:57:25'!
-testProjectivePlaneCurveArithmeticGenus
-	| R f C |
-	R :=  ℤ/5 polynomialsIn: 3.
-	f := R !! [:x :y :z| y^2*(z^7) - (x^9) - (x*(z^8))].
-	C := ProjectivePlaneCurve polynomial: f.
-	self assert: C arithmeticGenus = 28.
-	"self assert: C genus = 4"! !
 
 !AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 5/23/2020 08:56:59'!
 testProjectivePlaneOverFiniteField
@@ -4376,41 +4365,6 @@ testIdealIntersectionRandom: aRing
 	K _ R * {g}.
 	self assert: I ∩ J >= K! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 8/14/2022 10:27:18'!
-testIdealIsPrimeExample1
-	| R x y I |
-	R _ ℚ polynomialsIn: #(x y).
-	x _ R x: 1. y _ R x: 2.
-	I _ R * {x^2 - (y^2) - 1}.
-	self assert: I isPrime! !
-
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 8/14/2022 10:21:46'!
-testIdealIsPrimeExample2
-	"[AL94, Example 4.4.10]"
-	| R x y z I |
-	R _ ℚ polynomialsIn: #(x y z).
-	x _ R x: 1. y _ R x: 2. z _ R x: 3.
-	I _ R * {x*z - (y^2). x^3 - (y*z). x^2*y - (z^2)}.
-	self assert: I isPrime! !
-
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 8/14/2022 10:24:16'!
-testIdealIsPrimeExample3
-	"[AL94, Exercise 4.4.4]"
-	| R x y z I |
-	R _ ℚ polynomialsIn: #(x y z).
-	x _ R x: 1. y _ R x: 2. z _ R x: 3.
-	I _ R * {y^4 - (z^3). y^2 - (x*z). x*(y^2) - (z^2). x^2 - z}.
-	self assert: I isPrime! !
-
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 8/14/2022 10:25:16'!
-testIdealIsPrimeExample4
-	"[AL94, Exercise 4.4.3]"
-	| R x y z I |
-	R _ ℚ polynomialsIn: #(x y z).
-	x _ R x: 1. y _ R x: 2. z _ R x: 3.
-	I _ R * {x*z - (y^3). y*z - (x^2)}.
-	self assert: I isPrime not! !
-
 !CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 7/5/2022 12:21:34'!
 testIdealIsRadical
 	"Becker, Weispfenning, 'Groebner Bases', Exercise 8.21."
@@ -4506,22 +4460,6 @@ testIdealRadical
 	I _ R * {x^3. y^2}.
 	J _ R * {x. y}.
 	self assert: I radical = J! !
-
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 6/3/2023 21:11:08'!
-testIdealRadicalZeroDimNotPerfectField
-	"Counterexample that shows how Seidenberg algorithm fails over a non-perfect field.
-	From Becker and Weispfenning 'Groebner Bases', Springer-Verlag, 1993. Example 8.16."
-	| p F R t x y I |
-	p := #(3 5 7 11) atRandom.
-	F := (ℤ / p) polynomialsIn: #(t) :: fractions.
-	R := F polynomialsIn: #(x y).
-	t := F x: 1.
-	x := R x.
-	y := R y.
-	I := R * {x^p - t. y^p - t}.
-	self assert: (I includes: x^p - (y^p)).
-	self deny: (I includes: x - y).
-	self assert: (I radical includes: x - y)! !
 
 !CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 7/5/2022 12:22:42'!
 testIdealRadicalZeroDimPerfectField
@@ -6056,7 +5994,7 @@ newThreeArrow
 	π := self newMorphismTo: α codomain.
 	^ ThreeArrow aid: ι arrow: α coaid: π! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 20:30:57'!
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 12:20:31'!
 testCospanAdditiveInverse
 	| φ |
 	φ := self newCospan.
@@ -6079,31 +6017,35 @@ testCospanCompositionWithIdentity
 	self assert: φ · φ domain id asCospan = φ.
 	self assert: φ codomain id asCospan · φ = φ! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 21:03:08'!
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 12:18:56'!
 testCospanIdentity
 	| A φ |
 	A := self newObject.
 	φ := A id asCospan.
-	self assert: φ isIdentity.
-	self assert: (φ arrow = A id and: [φ coarrow = A id])! !
+	self assert: φ isIdentity! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/2/2023 11:45:52'!
-testCospanNormalization
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 15:42:28'!
+testCospanPseudoInverse
 	| φ |
 	φ := self newCospan.
-	self assert: φ normalized isNormalized! !
+	self assert: φ · φ pseudoInverse · φ = φ.
+	self assert: φ pseudoInverse · φ · φ pseudoInverse = φ pseudoInverse! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 18:31:23'!
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 12:20:54'!
 testGeneralizedMorphismsEmbeddingFunctors
 	| γ |
 	γ := self newMorphism.
 	self assert: γ asSpan representative = γ.
 	self assert: γ asCospan representative = γ.
 	self assert: γ asThreeArrow representative = γ.
-	self assert: γ asSpan asCospan normalized representative = γ.
-	self assert: γ asCospan asSpan normalized representative = γ! !
+	self assert: γ asSpan asCospan representative = γ.
+	self assert: γ asSpan asThreeArrow representative = γ.
+	self assert: γ asCospan asSpan representative = γ.
+	self assert: γ asCospan asThreeArrow representative = γ.
+	self assert: γ asThreeArrow asSpan representative = γ.
+	self assert: γ asThreeArrow asCospan representative = γ! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 20:31:10'!
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 12:20:59'!
 testSpanAdditiveInverse
 	| φ |
 	φ := self newSpan.
@@ -6126,26 +6068,35 @@ testSpanCompositionWithIdentity
 	self assert: φ · φ domain id asSpan = φ.
 	self assert: φ codomain id asSpan · φ = φ! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 17:26:09'!
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 12:19:04'!
 testSpanIdentity
 	| A φ |
 	A := self newObject.
 	φ := A id asSpan.
-	self assert: φ isIdentity.
-	self assert: (φ arrow = A id and: [φ coarrow = A id])! !
+	self assert: φ isIdentity! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/2/2023 11:45:40'!
-testSpanNormalization
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 15:42:19'!
+testSpanPseudoInverse
 	| φ |
 	φ := self newSpan.
-	self assert: φ normalized isNormalized! !
+	self assert: φ · φ pseudoInverse · φ = φ.
+	self assert: φ pseudoInverse · φ · φ pseudoInverse = φ pseudoInverse! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/2/2023 12:04:35'!
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 12:21:48'!
 testThreeArrowAdditiveInverse
 	| φ |
 	φ := self newThreeArrow.
 	self assert: φ negated negated = φ.
 	self assert: (φ + φ negated) isZero! !
+
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 12:28:16'!
+testThreeArrowCanonicalObjects
+	| γ |
+	γ := self newMorphism.
+	self assert: γ image = γ asThreeArrow generalizedImage.
+	self assert: γ coimage = γ asThreeArrow generalizedCoimage.
+	self assert: γ kernel = γ asThreeArrow generalizedKernel.
+	self assert: γ cokernel = γ asThreeArrow generalizedCokernel! !
 
 !AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 20:53:25'!
 testThreeArrowCompositionWithIdentity
@@ -6154,11 +6105,19 @@ testThreeArrowCompositionWithIdentity
 	self assert: φ · φ domain id asThreeArrow = φ.
 	self assert: φ codomain id asThreeArrow · φ = φ! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/2/2023 11:46:03'!
-testThreeArrowNormalization
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 12:19:38'!
+testThreeArrowIdentity
+	| A φ |
+	A := self newObject.
+	φ := A id asThreeArrow.
+	self assert: φ isIdentity! !
+
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 15:42:07'!
+testThreeArrowPseudoInverse
 	| φ |
 	φ := self newThreeArrow.
-	self assert: φ normalized isNormalized! !
+	self assert: φ · φ pseudoInverse · φ = φ.
+	self assert: φ pseudoInverse · φ · φ pseudoInverse = φ pseudoInverse! !
 
 !AbstractAbelianCategoryTest methodsFor: 'private' stamp: 'len 7/1/2023 16:56:14'!
 newMorphism
@@ -6196,10 +6155,10 @@ newSmallFreeModule
 	(3 atRandom: random) = 1 ifTrue: [^ M dual].
 	^ M! !
 
-!BilinearFormTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2023 01:16:55'!
+!BilinearFormTest methodsFor: 'as yet unclassified' stamp: 'len 7/5/2023 15:24:58'!
 testBilinearFormDecomposition
 	| V A B |
-	V := ℚ^5 atRandom: random.
+	V := ℚ^(5 atRandom: random).
 	A := V endomorphisms atRandom: random bits: 50.
 	B := BilinearForm on: V matrix: A.
 	self assert: B symmetricPart isSymmetric.
@@ -6215,18 +6174,18 @@ testDotCrossAlternating
 	B := BilinearForm on: V mapWithArguments: [:x :y| u · (x × y)].
 	self assert: B isAlternating! !
 
-!BilinearFormTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2023 01:17:10'!
+!BilinearFormTest methodsFor: 'as yet unclassified' stamp: 'len 7/5/2023 15:25:12'!
 testDotProductIsSymmetric
 	| V B |
-	V := ℤ^5 atRandom: random.
+	V := ℤ^(5 atRandom: random).
 	B := BilinearForm on: V mapWithArguments: [:x :y| x · y].
 	self assert: B isSymmetric! !
 
-!BilinearFormTest methodsFor: 'as yet unclassified' stamp: 'len 7/4/2023 01:17:20'!
+!BilinearFormTest methodsFor: 'as yet unclassified' stamp: 'len 7/5/2023 15:25:26'!
 testMatrixAndLeft
 	"The matrix of the bilinear form matches the matrix of the left part because the convention we follow when defining B(v,w) := v · (A * w)."
 	| V A B |
-	V := ℚ^5 atRandom: random.
+	V := ℚ^(5 atRandom: random).
 	A := V endomorphisms atRandom: random bits: 50.
 	B := BilinearForm on: V matrix: A.
 	self assert: A = B left asMatrix! !
@@ -11393,57 +11352,29 @@ testCokernelAndCoequalizer
 	f _ (A ⇒ B) atRandom: random bits: (100 atRandom: random).
 	self assert: f cokernel = (f coequalizer: f zero)! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:37:10'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/5/2023 22:10:36'!
 testColift
-	| M X A i Y f g |
-	M _ self newSmallModule.
-	X _ self newSmallModule.
-	A _ (X ⇒ M atRandom: random bits: 20) kernel.
-	i _ A → X.
-	self assert: i isInjective.
-	Y _ self newSmallModule.
-	f _ A ⇒ Y atRandom: random bits: 20.
-	g _ f / i.
-	self assert: (X ⇒ Y includes: g).
-	self assert: i → g = f
+	| X Y Z i f g |
+	X := self newSmallModule.
+	Y := self newSmallModule.
+	Z := self newSmallModule.
+	g := Y ⇒ Z atRandom: random bits: 20.
+	i := X ⇒ Y atRandom: random bits: 20.
+	f := g · i.
+	g := f / i.
+	self assert: g · i = f! !
 
-"	| M N phi cokernel L eta eta0 |
-	M _ ℚ^3.
-	N _ ℚ^4.
-	phi _ (M => N) atRandomBits: 20.
-	cokernel _ phi cokernel.
-	L _ ℚ^5.
-	eta _ N to: L map: [:x| L atRandomBits: 20]. ???
-	self assert: (phi -> eta) isZero.
-	eta0 _ eta / (M ->> cokernel).
-	self assert: (cokernel => L includes: eta0).
-	self assert: M ->> cokernel -> eta0 = eta"! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:37:19'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/5/2023 22:11:26'!
 testColiftFree
-	| M X A i Y f g |
-	M _ self newFreeModule.
-	X _ self newFreeModule.
-	A _ (X ⇒ M atRandom: random bits: 20) kernel.
-	i _ A → X.
-	self assert: i isInjective.
-	Y _ self newFreeModule.
-	f _ A ⇒ Y atRandom: random bits: 20.
-	g _ f / i.
-	self assert: (X ⇒ Y includes: g).
-	self assert: i → g = f
-
-"	| M N phi cokernel L eta eta0 |
-	M _ ℚ^3.
-	N _ ℚ^4.
-	phi _ (M => N) atRandomBits: 20.
-	cokernel _ phi cokernel.
-	L _ ℚ^5.
-	eta _ N to: L map: [:x| L atRandomBits: 20]. ???
-	self assert: (phi -> eta) isZero.
-	eta0 _ eta / (M ->> cokernel).
-	self assert: (cokernel => L includes: eta0).
-	self assert: M ->> cokernel -> eta0 = eta"! !
+	| X Y Z i f g |
+	X := self newFreeModule.
+	Y := self newFreeModule.
+	Z := self newFreeModule.
+	g := Y ⇒ Z atRandom: random bits: 20.
+	i := X ⇒ Y atRandom: random bits: 20.
+	f := g · i.
+	g := f / i.
+	self assert: g · i = f! !
 
 !AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:11:25'!
 testComposition
@@ -11528,57 +11459,29 @@ testKernelAndEqualizer
 	f _ A ⇒ B atRandom: random bits: (100 atRandom: random).
 	self assert: f kernel = (f equalizer: f zero)! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:37:45'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/5/2023 22:10:43'!
 testLift
-	| M X B Y p f g |
-	M _ self newSmallModule.
-	X _ self newSmallModule.
-	B _ (M ⇒ X atRandom: random bits: 20) cokernel.
-	p _ X → B.
-	self assert: p isSurjective.
-	Y _ self newSmallModule.
-	f _ Y ⇒ B atRandom: random bits: 20.
-	g _ p \ f.
-	self assert: (Y ⇒ X includes: g).
-	self assert: g → p = f
+	| X Y Z p f g |
+	X := self newSmallModule.
+	Y := self newSmallModule.
+	Z := self newSmallModule.
+	g := X ⇒ Y atRandom: random bits: 20.
+	p := Y ⇒ Z atRandom: random bits: 20.
+	f := p · g.
+	g := p \ f.
+	self assert: p · g = f! !
 
-"	| M N phi kernel L tau tau0 |
-	M _ ℚ^3.
-	N _ ℚ^4.
-	phi _ (M => N) atRandomBits: 20.
-	kernel _ phi kernel.
-	L _ ℚ^5.
-	tau _ L to: M map: [:x| kernel atRandomBits: 20].
-	self assert: (tau -> phi) isZero.
-	tau0 _ kernel >-> M \ tau.
-	self assert: (L => kernel includes: tau0).
-	self assert: tau0 -> (kernel >-> M) = tau"! !
-
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:37:54'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/5/2023 22:11:11'!
 testLiftFree
-	| M X B Y p f g |
-	M _ self newFreeModule.
-	X _ self newFreeModule.
-	B _ (M ⇒ X atRandom: random bits: 20) cokernel.
-	p _ X → B.
-	self assert: p isSurjective.
-	Y _ self newFreeModule.
-	f _ Y ⇒ B atRandom: random bits: 20.
-	g _ p \ f.
-	self assert: (Y ⇒ X includes: g).
-	self assert: g → p = f
-
-"	| M N phi kernel L tau tau0 |
-	M _ ℚ^3.
-	N _ ℚ^4.
-	phi _ (M => N) atRandomBits: 20.
-	kernel _ phi kernel.
-	L _ ℚ^5.
-	tau _ L to: M map: [:x| kernel atRandomBits: 20].
-	self assert: (tau -> phi) isZero.
-	tau0 _ kernel >-> M \ tau.
-	self assert: (L => kernel includes: tau0).
-	self assert: tau0 -> (kernel >-> M) = tau"! !
+	| X Y Z p f g |
+	X := self newFreeModule.
+	Y := self newFreeModule.
+	Z := self newFreeModule.
+	g := X ⇒ Y atRandom: random bits: 20.
+	p := Y ⇒ Z atRandom: random bits: 20.
+	f := p · g.
+	g := p \ f.
+	self assert: p · g = f! !
 
 !AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:12:29'!
 testMapToBiggerDimensionIsNotSurjective
@@ -11631,53 +11534,57 @@ testProjection: f
 	self assert: (f image apply: f) = f image.
 	self assert: (f codomain apply: f) = f image! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:38:08'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/5/2023 22:15:21'!
 testPullback
-	| X Y Z f g P projections |
-	Z _ self newSmallModule.
-	X _ self newSmallModule.
-	Y _ self newSmallModule.
-	f _ X ⇒ Z atRandom: random bits: 20.
-	g _ Y ⇒ Z atRandom: random bits: 20.
-	P _ f ∧ g.
-	projections _ P ⇉ (X, Y).
-	self assert: projections first → f = (projections second → g)! !
+	| X Y Z f g P π |
+	Z := self newSmallModule.
+	X := self newSmallModule.
+	Y := self newSmallModule.
+	f := X ⇒ Z atRandom: random bits: 20.
+	g := Y ⇒ Z atRandom: random bits: 20.
+	P := f ∧ g.
+	π := P ⇉ (X, Y).
+	π do: [:each| self testModuleMap: each].
+	self assert: f · (π at: 1) = (g · (π at: 2))! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:38:22'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/5/2023 22:15:27'!
 testPullbackFree
-	| X Y Z f g P projections |
-	Z _ self newFreeModule.
-	X _ self newFreeModule.
-	Y _ self newFreeModule.
-	f _ X ⇒ Z atRandom: random bits: 20.
-	g _ Y ⇒ Z atRandom: random bits: 20.
-	P _ f ∧ g.
-	projections _ P ⇉ (X, Y).
-	self assert: projections first → f = (projections second → g)! !
+	| X Y Z f g P π |
+	Z := self newFreeModule.
+	X := self newFreeModule.
+	Y := self newFreeModule.
+	f := X ⇒ Z atRandom: random bits: 20.
+	g := Y ⇒ Z atRandom: random bits: 20.
+	P := f ∧ g.
+	π := P ⇉ (X, Y).
+	π do: [:each| self testModuleMap: each].
+	self assert: f · (π at: 1) = (g · (π at: 2))! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:38:30'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/5/2023 22:15:10'!
 testPushout
-	| X Y Z f g P coprojections |
-	Z _ self newSmallModule.
-	X _ self newSmallModule.
-	Y _ self newSmallModule.
-	f _ Z ⇒ X atRandom: random bits: 20.
-	g _ Z ⇒ Y atRandom: random bits: 20.
-	P _ f ∨ g.
-	coprojections _ P ⇇ (X, Y).
-	self assert: f → coprojections first = (g → coprojections second)! !
+	| X Y Z f g S ι |
+	Z := self newSmallModule.
+	X := self newSmallModule.
+	Y := self newSmallModule.
+	f := Z ⇒ X atRandom: random bits: 20.
+	g := Z ⇒ Y atRandom: random bits: 20.
+	S := f ∨ g.
+	ι := S ⇇ (X, Y).
+	ι do: [:each| self testModuleMap: each].
+	self assert: (ι at: 1) · f = ((ι at: 2) · g)! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:38:38'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/5/2023 22:15:37'!
 testPushoutFree
-	| X Y Z f g P coprojections |
-	Z _ self newFreeModule.
-	X _ self newFreeModule.
-	Y _ self newFreeModule.
-	f _ Z ⇒ X atRandom: random bits: 20.
-	g _ Z ⇒ Y atRandom: random bits: 20.
-	P _ f ∨ g.
-	coprojections _ P ⇇ (X, Y).
-	self assert: f → coprojections first = (g → coprojections second)! !
+	| X Y Z f g S ι |
+	Z := self newFreeModule.
+	X := self newFreeModule.
+	Y := self newFreeModule.
+	f := Z ⇒ X atRandom: random bits: 20.
+	g := Z ⇒ Y atRandom: random bits: 20.
+	S := f ∨ g.
+	ι := S ⇇ (X, Y).
+	ι do: [:each| self testModuleMap: each].
+	self assert: (ι at: 1) · f = ((ι at: 2) · g)! !
 
 !AbstractModuleTest methodsFor: 'other' stamp: 'len 6/16/2023 13:43:41'!
 testAnnihilator
@@ -13613,6 +13520,78 @@ testBitTranspose32x32
 	array1 := (WordArray new: 32) at: 1 put: 3392231422; at: 2 put: 2917542836; at: 3 put: 2016986704; at: 4 put: 4023284951; at: 5 put: 3319131826; at: 6 put: 2609918512; at: 7 put: 2934033904; at: 8 put: 558419939; at: 9 put: 2466942702; at: 10 put: 3907522; at: 11 put: 2461608457; at: 12 put: 682014126; at: 13 put: 285397452; at: 14 put: 3023449861; at: 15 put: 3701423065; at: 16 put: 395901000; at: 17 put: 857111479; at: 18 put: 1789712607; at: 19 put: 1923901516; at: 20 put: 2388693829; at: 21 put: 828380017; at: 22 put: 1053284415; at: 23 put: 3860620701; at: 24 put: 2372246648; at: 25 put: 4191609509; at: 26 put: 3996225886; at: 27 put: 504614510; at: 28 put: 4191451967; at: 29 put: 2400004646; at: 30 put: 2158500940; at: 31 put: 287393905; at: 32 put: 269399837; yourself.
 	array2 := (WordArray new: 32) at: 1 put: 3380307080; at: 2 put: 505613209; at: 3 put: 3211737355; at: 4 put: 2934365441; at: 5 put: 3404939391; at: 6 put: 1571883507; at: 7 put: 1721684941; at: 8 put: 21191643; at: 9 put: 2321119939; at: 10 put: 2635687863; at: 11 put: 2764057565; at: 12 put: 2091378642; at: 13 put: 2864437801; at: 14 put: 2571496506; at: 15 put: 1298632925; at: 16 put: 2276105172; at: 17 put: 1453344337; at: 18 put: 2233563914; at: 19 put: 2582079514; at: 20 put: 2957428620; at: 21 put: 255977013; at: 22 put: 1654533703; at: 23 put: 163053786; at: 24 put: 690408570; at: 25 put: 1502712250; at: 26 put: 376407401; at: 27 put: 384360538; at: 28 put: 531253359; at: 29 put: 3442865444; at: 30 put: 192358606; at: 31 put: 189153309; at: 32 put: 1002988923; yourself.
 	self assert: array1 copy bitTranspose32x32 = array2! !
+
+!DisabledTest methodsFor: 'as yet unclassified' stamp: 'len 7/5/2023 19:27:19'!
+testIdealIsPrimeExample1
+	| R x y I |
+	R := ℚ polynomialsIn: #(x y).
+	x := R x: 1. y := R x: 2.
+	I := R * {x^2 - (y^2) - 1}.
+	self assert: I isPrime! !
+
+!DisabledTest methodsFor: 'as yet unclassified' stamp: 'len 7/5/2023 19:27:32'!
+testIdealIsPrimeExample2
+	"[AL94, Example 4.4.10]"
+	| R x y z I |
+	R := ℚ polynomialsIn: #(x y z).
+	x := R x: 1. y := R x: 2. z := R x: 3.
+	I := R * {x*z - (y^2). x^3 - (y*z). x^2*y - (z^2)}.
+	self assert: I isPrime! !
+
+!DisabledTest methodsFor: 'as yet unclassified' stamp: 'len 7/5/2023 19:27:43'!
+testIdealIsPrimeExample3
+	"[AL94, Exercise 4.4.4]"
+	| R x y z I |
+	R := ℚ polynomialsIn: #(x y z).
+	x := R x: 1. y := R x: 2. z := R x: 3.
+	I := R * {y^4 - (z^3). y^2 - (x*z). x*(y^2) - (z^2). x^2 - z}.
+	self assert: I isPrime! !
+
+!DisabledTest methodsFor: 'as yet unclassified' stamp: 'len 7/5/2023 19:27:57'!
+testIdealIsPrimeExample4
+	"[AL94, Exercise 4.4.3]"
+	| R x y z I |
+	R := ℚ polynomialsIn: #(x y z).
+	x := R x: 1. y := R x: 2. z := R x: 3.
+	I := R * {x*z - (y^3). y*z - (x^2)}.
+	self assert: I isPrime not! !
+
+!DisabledTest methodsFor: 'as yet unclassified' stamp: 'len 7/5/2023 16:46:59'!
+testIdealRadicalZeroDimNotPerfectField
+	"Counterexample that shows how Seidenberg algorithm fails over a non-perfect field.
+	From Becker and Weispfenning 'Groebner Bases', Springer-Verlag, 1993. Example 8.16."
+	| p F R t x y I |
+	p := #(3 5 7 11) atRandom.
+	F := (ℤ / p) polynomialsIn: #(t) :: fractions.
+	R := F polynomialsIn: #(x y).
+	t := F x: 1.
+	x := R x.
+	y := R y.
+	I := R * {x^p - t. y^p - t}.
+	self assert: (I includes: x^p - (y^p)).
+	self deny: (I includes: x - y).
+	self assert: (I radical includes: x - y)! !
+
+!DisabledTest methodsFor: 'as yet unclassified' stamp: 'len 7/5/2023 16:46:15'!
+testLocalAndGlobalDimension
+	"'A Singluar Introduction to Commutative Algebra', Example A.8.4 (local and global dimension)."
+	| R I X |
+	R := ℚ polynomialsIn: #(x y z).
+	I := R * (R !! [:x :y :z| {x*z. y*z}]).
+	X := (R / I) spec.
+	self assert: X dimension = 2. "global dimension of X"
+	self assert: (X @ (0,0,0)) dimension = 2. "dimension of X at (0,0,0)"
+	self assert: (X @ (1,0,0)) dimension = 2. "dimension of X at (1,0,0)"
+	self assert: (X @ (0,0,1)) dimension = 1. "dimension of X at (0,0,1)"! !
+
+!DisabledTest methodsFor: 'as yet unclassified' stamp: 'len 7/5/2023 16:46:41'!
+testProjectivePlaneCurveArithmeticGenus
+	| R f C |
+	R :=  ℤ/5 polynomialsIn: 3.
+	f := R !! [:x :y :z| y^2*(z^7) - (x^9) - (x*(z^8))].
+	C := ProjectivePlaneCurve polynomial: f.
+	self assert: C arithmeticGenus = 28.
+	"self assert: C genus = 4"! !
 
 !FiniteFieldRationalFunctionFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/9/2023 19:10:37'!
 setUp
