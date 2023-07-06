@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5898] on 5 July 2023 at 10:36:40 pm'!
+'From Cuis 6.0 [latest update: #5898] on 6 July 2023 at 12:09:53 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -80,7 +80,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 133!
+!provides: 'Algebra' 1 134!
 !requires: 'Transfinites' 1 2 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -22874,9 +22874,9 @@ kernel
 		[self computeImageAndKernel.
 		self propertyAt: #kernel]! !
 
-!GroupMap methodsFor: 'operations' stamp: 'len 6/26/2023 13:00:42'!
+!GroupMap methodsFor: 'operations' stamp: 'len 7/6/2023 00:40:27'!
 preimage: aSubgroup
-	^ self domain ambient sub: (aSubgroup generators collect: [:each| self preimageRepresentative: each]) "+ self kernel?"! !
+	^ self domain ambient sub: (aSubgroup generators collect: [:each| self preimageRepresentative: each]) + self kernel! !
 
 !GroupMap methodsFor: 'operations' stamp: 'len 3/11/2020 12:35:29'!
 preimageRepresentative: anElement
@@ -33805,16 +33805,14 @@ xgcd: aPolynomial
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #-].
 	^ self class coefficients: coefficients - anElement coefficients parent: parent! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 6/1/2022 11:28:55'!
+!Polynomial methodsFor: 'operations' stamp: 'len 7/6/2023 00:55:28'!
 / anElement
 	"Answer x such that xa = b, where b is the receiver and a is the argument.
 	This is the right division of b by a, written b / a."
 	self isZero ifTrue: [^ self].
 	(anElement isKindOf: Monomial) ifTrue: [^ self dividedByMonomial: anElement].
 	(self scalars includes: anElement) ifTrue: [^ self dividedByScalar: anElement].
-	(parent includes: anElement) ifFalse: [^ self  adapt: anElement andSend: #/].
-	anElement isConstant ifTrue: [^ self dividedByScalar: anElement leadingCoefficient].
-	^ (anElement colift: self) ifNil: [DivisibilityError new signalReceiver: self selector: #/ argument: anElement]! !
+	^ super / anElement! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 1/5/2022 12:45:48'!
 // anObject
@@ -33874,10 +33872,12 @@ apply: aFunction
 
 	^ self class coefficients: (coefficients apply: aFunction) parent: (aFunction isBlock ifTrue: [parent] ifFalse: [parent over: aFunction codomain])! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 6/1/2022 11:30:18'!
+!Polynomial methodsFor: 'operations' stamp: 'len 7/6/2023 00:58:29'!
 colift: aPolynomial
 	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
 	This is the right division of b by a, written b / a."
+	self isConstant ifTrue: [^ aPolynomial dividedByScalar: self leadingCoefficient].
+	self isUnit ifTrue: [^ aPolynomial * self inverse].
 	^ (self asSingletonMatrix colift: aPolynomial asSingletonMatrix) ifNotNil: [:aMatrix| aMatrix asScalar]! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 6/28/2023 17:01:52'!
@@ -33953,16 +33953,16 @@ homogenizedIn: anIndeterminate to: degree
 	Assume the indeterminate exists (not a new indeterminate)."
 	^ self applyToMonomials: [:each| each homogenizedIn: anIndeterminate to: degree]! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 5/29/2022 19:39:19'!
+!Polynomial methodsFor: 'operations' stamp: 'len 7/6/2023 00:44:28'!
 inverse
-	| answer g g1 u |
+	| answer g g₁ u |
 	self isConstant ifTrue: [^ self parent constant: self independentCoefficient inverse].
 	self isUnit ifFalse: [^ DivisibilityError new signalReceiver: self one selector: #/ argument: self].
 	"Naive but general power series inversion algorithm:"
-	u _ self independentCoefficient inverse.
-	answer _ g _ self one.
-	g1 _ g - (self * u).
-	[g isZero] whileFalse: [answer _ answer + (g _ g * g1)].
+	u := self independentCoefficient inverse.
+	answer := g := self one.
+	g₁ := g - (self * u).
+	[g isZero] whileFalse: [answer := answer + (g := g * g₁)].
 	^ answer * u! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 5/2/2018 16:21:10'!
@@ -34964,14 +34964,15 @@ squarefreeFactorizationYun
 		self degree = anElement degree ifTrue: [^ self parent constant: self leadingCoefficient ÷ anElement leadingCoefficient]].
 	^ super ÷ anElement! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 8/12/2022 12:51:52'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/6/2023 00:58:49'!
 colift: aPolynomial
 	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
 	This is the right division of b by a, written b / a."
 	| division |
 	aPolynomial isZero ifTrue: [^ aPolynomial].
 	parent scalars isIntegralDomain ifFalse: [^ super colift: aPolynomial].
-	division _ self leadingCoefficient isUnit
+	self isConstant ifTrue: [^ aPolynomial dividedByScalar: self leadingCoefficient].
+	division := self leadingCoefficient isUnit
 		ifTrue: [aPolynomial coefficients polynomialDivisionBy: coefficients]
 		ifFalse: [aPolynomial coefficients polynomialPartialDivisionBy: coefficients].
 	^ division second isZero ifTrue: [self class coefficients: division first parent: parent]! !
