@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5898] on 7 July 2023 at 12:12:49 pm'!
+'From Cuis 6.0 [latest update: #5898] on 7 July 2023 at 11:39:49 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -80,7 +80,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 135!
+!provides: 'Algebra' 1 136!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -12205,6 +12205,10 @@ atRandom: aRandom
 atRandom: aRandom bits: bitSize
 	^ self project: (self cover atRandom: aRandom bits: bitSize)! !
 
+!QuotientRing methodsFor: 'testing' stamp: 'len 7/7/2023 19:06:25'!
+hasCanonicalAssociates
+	^ self cover isEuclidean or: [super hasCanonicalAssociates]! !
+
 !QuotientRing methodsFor: 'testing' stamp: 'len 6/10/2022 11:46:28'!
 hasCanonicalReduction
 	^ self isField or: [self cover hasCanonicalReduction]! !
@@ -12891,22 +12895,20 @@ modulus: anInteger
 	self assert: anInteger = 3.
 	super modulus: anInteger! !
 
-!AffineRing methodsFor: 'accessing' stamp: 'len 5/12/2023 22:39:20'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 7/7/2023 23:38:08'!
 basis
 	"Answer a basis of the receiver as vector space."
 	| G leadingMonomials maxExponents answer |
 	self propertyAt: #basis ifPresent: [:anArray| ^ anArray].
 	self isTrivial ifTrue: [^ self propertyAt: #basis put: #()].
 	"For the general case use a Groebner basis."
-	G _ self relations gradedBasis.
-	G _ G minimal. "is this necesary?"
-	leadingMonomials _ Set new.
+	G := self relations gradedBasis.
+	leadingMonomials := Set new.
 	G do: [:each| leadingMonomials add: each leadingMonomial].
-	maxExponents _ (Array new: self rank) atAllPut: Infinity positive.
-	leadingMonomials do: [:g| g isPurePower ifTrue: [| i | i _ g lastIndeterminate. maxExponents at: (i _ g lastIndeterminate) put: ((maxExponents at: i) min: (g at: i))]].
-	answer _ OrderedCollection new.
-	self monomialsBelow: maxExponents do: [:f|
-		(leadingMonomials anySatisfy: [:g| g | f]) ifFalse: [answer add: f]].
+	maxExponents := (Array new: self rank) atAllPut: Infinity positive.
+	leadingMonomials do: [:g| g isPurePower ifTrue: [| i | i := g lastIndeterminate. maxExponents at: (i := g lastIndeterminate) put: ((maxExponents at: i) min: (g at: i))]].
+	answer := OrderedCollection new.
+	self monomialsBelow: maxExponents do: [:f| (leadingMonomials anySatisfy: [:g| g | f]) ifFalse: [answer add: f]].
 	^ self propertyAt: #basis put: (answer sorted collect: [:each| self !! each])! !
 
 !AffineRing methodsFor: 'accessing' stamp: 'len 6/10/2022 11:49:26'!
@@ -12960,10 +12962,9 @@ rank
 	"Answer the number of indeterminates in the receiver."
 	^ self cover rank! !
 
-!AffineRing methodsFor: 'accessing' stamp: 'len 5/28/2022 20:14:51'!
+!AffineRing methodsFor: 'accessing' stamp: 'len 7/7/2023 17:33:52'!
 size
-	self isSimpleExtension ifTrue: [^ self propertyAt: #size ifAbsentPut: [self scalars size ^ self degree]].
-	^ super size! !
+	^ self propertyAt: #size ifAbsentPut: [(self isUnivariate and: [self relations generators size = 1 and: [self modulus isMonic]]) ifTrue: [self scalars size ^ self modulus degree] ifFalse: [super size]]! !
 
 !AffineRing methodsFor: 'accessing' stamp: 'len 8/12/2019 09:14:52'!
 vectorSpaceDimension
@@ -12981,12 +12982,13 @@ asFiniteAlgebra
 		addCoercionTo: self map: [:a| self !! (M !! a)];
 		yourself! !
 
-!AffineRing methodsFor: 'converting' stamp: 'len 11/23/2022 09:40:42'!
+!AffineRing methodsFor: 'converting' stamp: 'len 7/7/2023 23:22:57'!
 asModule
 	| answer |
 	self propertyAt: #asModule ifPresent: [:aModule| ^ aModule].
-	self isSimpleExtension ifFalse: [^ self notYetImplemented].
-	answer _ self scalars ^ self degree.
+	(self isUnivariate and: [self relations generators size = 1 and: [self modulus isMonic]])
+		ifFalse: [^ self notYetImplemented].
+	answer := self scalars ^ self modulus degree.
 	self
 		addCoercionTo: answer map: [:a| answer elementAt: a representative coefficients];
 		addCoercionFrom: answer map: [:v| (1 to: answer rank) sum: [:i| self x ^ (i-1) * (v at: i)]].
@@ -13134,10 +13136,6 @@ isArtinian
 !AffineRing methodsFor: 'testing' stamp: 'len 7/8/2022 08:50:28'!
 isFinitelyGenerated
 	^ true! !
-
-!AffineRing methodsFor: 'testing' stamp: 'len 7/25/2022 11:29:37'!
-isSimpleExtension
-	^ self isUnivariate and: [self generators size = 1 and: [self modulus isIrreducible]]! !
 
 !AffineRing methodsFor: 'testing' stamp: 'len 1/2/2022 09:55:36'!
 isZeroDimensional
@@ -13290,10 +13288,6 @@ atRandom: aRandom
 !ExtensionRing methodsFor: 'random' stamp: 'len 6/9/2023 14:52:45'!
 atRandom: aRandom bits: bitSize
 	^ self project: (self cover atRandom: aRandom bits: bitSize maxDegree: self degree - 1)! !
-
-!ExtensionRing methodsFor: 'testing' stamp: 'len 5/12/2023 21:51:44'!
-isSimpleExtension
-	^ true! !
 
 !ExtensionRing methodsFor: 'private' stamp: 'len 6/3/2023 16:30:09'!
 elementClass
@@ -30921,12 +30915,13 @@ isUnit
 isZero
 	^ self = self parent zero! !
 
-!RingElement methodsFor: 'testing' stamp: 'len 6/1/2022 12:26:27'!
+!RingElement methodsFor: 'testing' stamp: 'len 7/7/2023 23:28:32'!
 isZeroDivisor
 	"Answer true if there exists a nonzero element that multiplied by the receiver is zero."
 	self parent isIntegralDomain ifTrue: [^ self isZero].
 	self parent isFinite ifTrue: [^ self isUnit not].
-	^ self subclassResponsibility! !
+	self parent isPIR ifTrue: [^ self annihilator isZero not].
+	^ self annihilatorIdeal isTrivial not! !
 
 !Opposite methodsFor: 'accessing' stamp: 'len 4/26/2021 11:21:37'!
 opposite
