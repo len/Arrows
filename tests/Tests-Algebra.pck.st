@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 7 July 2023 at 11:39:57 pm'!
+'From Cuis 6.0 [latest update: #5898] on 8 July 2023 at 10:25:46 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 88!
+!provides: 'Tests-Algebra' 1 89!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -10334,6 +10334,26 @@ testEchelonization
 	U := A domain automorphisms atRandom: random.
 	self assert: (A * U) coechelon = E! !
 
+!AbstractEuclideanRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2023 14:54:56'!
+testSmithNormalForm
+	| A S |
+	A := self newMatrix: (6 atRandom: random) @ (6 atRandom: random).
+	S := A SNF.
+	self assert: S isSmithNormalForm! !
+
+!AbstractEuclideanRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2023 14:54:30'!
+testSmithNormalFormAndTransformations
+	| A SPQ S P Q |
+	A := self newMatrix: (6 atRandom: random) @ (6 atRandom: random).
+	SPQ := A SNFAndTransformations.
+	S := SPQ first.
+	P := SPQ second.
+	Q := SPQ third.
+	self assert: S isSmithNormalForm.
+	self assert: P isUnimodular.
+	self assert: Q isUnimodular.
+	self assert: P*A*Q = S! !
+
 !AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:09:14'!
 testAbstractRankNullity
 	| n m A |
@@ -11211,13 +11231,13 @@ testHermiteNormalFormExample
 	H _ (R^2) endomorphisms !! {R one. (x^3*4 + (x^2*47) - (x*76) + 20) / 49. R zero. x^4 + (x^3*12) - (x^2*13) - (x*12) - 11}.
 	self assert: A HNF = H! !
 
-!RationalPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:31'!
-testSmithNormalFormOverExample1
+!RationalPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2023 14:49:46'!
+testSmithNormalFormExample
 	"Example from Sage documentation."
 	| R x A |
-	R _ ℚ polynomials.
-	x _ R x.
-	A _ (R^2) id * x - (R !!!!!! #((3 -4) (1 -1))).
+	R := ℚ polynomials.
+	x := R x.
+	A := (R^2) id * x - (R !!!!!! #((3 -4) (1 -1))).
 	self assert: A SNF = ((R^2) endomorphisms diagonal: {R one. x^2 - (x*2) + 1})! !
 
 !BinaryPowerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2023 17:29:05'!

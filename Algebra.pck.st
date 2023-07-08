@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5898] on 7 July 2023 at 11:39:49 pm'!
+'From Cuis 6.0 [latest update: #5898] on 8 July 2023 at 10:25:35 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -80,7 +80,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 136!
+!provides: 'Algebra' 1 137!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -1979,18 +1979,8 @@ Residue subclass: #RegularFunction
 RegularFunction class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExtensionElement category: 'Algebra-Algebras-Affine'!
-RegularFunction subclass: #ExtensionElement
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'ExtensionElement class' category: 'Algebra-Algebras-Affine'!
-ExtensionElement class
-	instanceVariableNames: ''!
-
 !classDefinition: #GaloisRingElement category: 'Algebra-Rings-Finite'!
-ExtensionElement subclass: #GaloisRingElement
+RegularFunction subclass: #GaloisRingElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -2010,7 +2000,7 @@ GaloisFieldElement class
 	instanceVariableNames: ''!
 
 !classDefinition: #GaussianRational category: 'Algebra-Fields-Global-Quadratic'!
-ExtensionElement subclass: #GaussianRational
+RegularFunction subclass: #GaussianRational
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -9990,12 +9980,12 @@ matrix: B reductionBy: A
 	"Answer N such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
 	^ B - (A * (self matrix: B quotientBy: A))! !
 
-!Ring methodsFor: 'computing-matrices' stamp: 'len 7/7/2023 12:03:34'!
+!Ring methodsFor: 'computing-matrices' stamp: 'len 7/8/2023 22:24:30'!
 smithNormalFormAndTransformationsOf: aMatrix
 	"Answer the Smith normal form S of the argument A and the unique unimodular matrices P and Q such that P*A*Q = S.
 	This is a naive implementation of Kannan-Bachem algorithm."
 	| HT S a n P Q |
-"	self isEuclideanDomain ifFalse: [^ self notYetImplemented]."
+	self isEuclidean ifFalse: [^ self notYetImplemented].
 	"Repeatedly compute the Hermite normal form and transpose until a diagonal form is obtained:"
 	P := aMatrix codomain id.
 	Q := aMatrix domain id.
@@ -10003,37 +9993,49 @@ smithNormalFormAndTransformationsOf: aMatrix
 	S := HT first. P := HT second.
 	[S isDiagonal] whileFalse:
 		[HT := S transpose HNFAndTransformation.
-		Q := HT second transpose * Q.
-		HT := HT first transpose HNFAndTransformation.
-		S := HT first. P := P * HT second].
-	"Once in diagonal form, substitute neighboring diagonal elements by their GCD and LCM"
-	n := ((S width min: S height) to: 2 by: -1) detect: [:i| (S atRow: i column: i) isZero not] ifNone: [^ S].
-	"TODO: update P and Q"
-	[a := S atRow: 1 column: 1.
-	2 to: n do: [:i| | b gcd |
-		b := S atRow: i column: i.
-		S atRow: i-1 column: i-1 put: (gcd := a gcd: b). "GCD"
-		S atRow: i column: i put: (a := a // gcd * b) "LCM"].
+		S := HT first transpose. Q := HT second transpose * Q.
+		HT := S HNFAndTransformation.
+		S := HT first. P := HT second * P].
+	S isSmithNormalForm ifTrue: [^ {S. P. Q}].
+	"Once in diagonal form, substitute neighboring diagonal elements by their GCD and LCM:"
+	n := ((S width min: S height) to: 2 by: -1) detect: [:i| (S isZeroAt: i @ i) not].
+	[a := S at: 1 @ 1.
+	2 to: n do: [:i| | b xgcd g s t Pᵢ Qᵢ |
+		b := S at: i @ i.
+		xgcd := a xgcd: b.
+		g := xgcd at: 1.
+		s := xgcd at: 2.
+		t := xgcd at: 3.
+		Pᵢ := P domain id.
+		Pᵢ at: i-1 @ (i-1) put: s; at: i-1 @ i put: self one; at: i @ (i-1) put: b negated * t / g; at: i @ i put: a / g.
+		Qᵢ := Q codomain id.
+		Qᵢ at: i-1 @ (i-1) put: self one; at: i-1 @ i put: b negated / g; at: i @ (i-1) put: t; at: i @ i put: a * s / g.
+		"Update S:"
+		S at: i-1 @ (i-1) put: g. "GCD"
+		S at: i @ i put: (a := a // g * b) "LCM".
+		"And update P and Q:"
+		P := Pᵢ * P.
+		Q := Q * Qᵢ].
 	S isSmithNormalForm] whileFalse.
 	^ {S. P. Q}! !
 
-!Ring methodsFor: 'computing-matrices' stamp: 'len 7/7/2023 11:48:05'!
+!Ring methodsFor: 'computing-matrices' stamp: 'len 7/8/2023 22:23:56'!
 smithNormalFormOf: aMatrix
 	"Answer the Smith normal form of the aMatrix.
 	This is a naive implementation of Kannan-Bachem algorithm."
 	| S a n |
 	aMatrix isEmpty ifTrue: [^ aMatrix].
-"	self isEuclideanDomain ifFalse: [^ self notYetImplemented]."
+	self isEuclidean ifFalse: [^ self notYetImplemented].
 	"Repeatedly compute the Hermite normal form and transpose until a diagonal form is obtained:"
 	S := aMatrix HNF.
 	[S isDiagonal] whileFalse: [S := S transpose HNF transpose HNF].
-	"Once in diagonal form, substitute neighboring diagonal elements by their GCD and LCM"
-	n := ((S width min: S height) to: 2 by: -1) detect: [:i| (S atRow: i column: i) isZero not] ifNone: [^ S].
-	[a := S atRow: 1 column: 1.
+	"Once in diagonal form, substitute neighboring diagonal elements by their GCD and LCM:"
+	n := ((S width min: S height) to: 2 by: -1) detect: [:i| (S isZeroAt: i @ i) not] ifNone: [^ S].
+	[a := S at: 1 @ 1.
 	2 to: n do: [:i| | b gcd |
-		b := S atRow: i column: i.
-		S atRow: i-1 column: i-1 put: (gcd := a gcd: b). "GCD"
-		S atRow: i column: i put: (a := a // gcd * b) "LCM"].
+		b := S at: i @ i.
+		S at: i-1 @ (i-1) put: (gcd := a gcd: b). "GCD"
+		S at: i @ i put: (a := a // gcd * b) "LCM"].
 	S isSmithNormalForm] whileFalse.
 	^ S! !
 
@@ -13288,10 +13290,6 @@ atRandom: aRandom
 !ExtensionRing methodsFor: 'random' stamp: 'len 6/9/2023 14:52:45'!
 atRandom: aRandom bits: bitSize
 	^ self project: (self cover atRandom: aRandom bits: bitSize maxDegree: self degree - 1)! !
-
-!ExtensionRing methodsFor: 'private' stamp: 'len 6/3/2023 16:30:09'!
-elementClass
-	^ ExtensionElement! !
 
 !ExtensionRing methodsFor: 'private' stamp: 'len 5/27/2023 08:01:10'!
 isValidArray: anArray
@@ -22249,11 +22247,11 @@ parent
 hash
 	^ self domain hash hashMultiply + self codomain hash! !
 
-!Morphism methodsFor: 'operations' stamp: 'len 6/9/2022 07:17:47'!
+!Morphism methodsFor: 'operations' stamp: 'len 7/8/2023 20:45:09'!
 ^ anInteger
 	"Answer the receiver composed with itself anInteger times.
 	If the argument is another morphism, answer the conjugation."
-	anInteger isInteger ifFalse: [^ anInteger inverse · self · anInteger].
+	anInteger isInteger ifFalse: [^ anInteger · self · anInteger inverse].
 	anInteger = 1 ifTrue: [^ self].
 	anInteger = 0 ifTrue: [^ self identity].
 	anInteger < 0 ifTrue: [^ self inverse ^ anInteger negated].
@@ -29788,11 +29786,11 @@ order
 	This is the left division of b by a, written a \ b."
 	^ self inverse · anElement! !
 
-!GroupElement methodsFor: 'operations' stamp: 'len 8/11/2020 08:47:00'!
+!GroupElement methodsFor: 'operations' stamp: 'len 7/8/2023 20:45:28'!
 ^ anInteger
 	"Answer the receiver composed with itself anInteger times.
 	If the argument is another group element, answer the conjugation."
-	anInteger isInteger ifFalse: [^ anInteger inverse · self · anInteger].
+	anInteger isInteger ifFalse: [^ anInteger · self · anInteger inverse].
 	anInteger = 1 ifTrue: [^ self].
 	anInteger = 0 ifTrue: [^ self identity].
 	anInteger < 0 ifTrue: [^ self inverse ^ anInteger negated].
@@ -32432,6 +32430,10 @@ isZeroDivisor
 	"Answer true if there exists a nonzero element that multiplied by the receiver is zero."
 	^ self isZero! !
 
+!RegularFunction methodsFor: 'accessing' stamp: 'len 7/7/2023 23:48:07'!
+at: anIntegerOrMonomial
+	^ representative at: anIntegerOrMonomial! !
+
 !RegularFunction methodsFor: 'accessing' stamp: 'len 5/27/2023 08:05:04'!
 coefficients
 	| coefficients n |
@@ -32447,10 +32449,6 @@ denominator
 !RegularFunction methodsFor: 'accessing' stamp: 'len 1/17/2019 03:22:20'!
 numerator
 	^ self * self denominator! !
-
-!RegularFunction methodsFor: 'accessing' stamp: 'len 11/3/2016 04:41'!
-symmetricFunction: i
-	^ self notYetImplemented! !
 
 !RegularFunction methodsFor: 'converting' stamp: 'len 6/10/2022 11:53:54'!
 asRationalFunction
@@ -32527,6 +32525,11 @@ norm
 "alternatively:
 	^ self representation determinant"! !
 
+!RegularFunction methodsFor: 'printing' stamp: 'len 7/7/2023 23:48:51'!
+printOn: aStream
+	(parent isKindOf: ExtensionRing) ifTrue: [(representative orderedBy: #lgrevlex) printOn: aStream].
+	^ super printOn: aStream! !
+
 !RegularFunction methodsFor: 'testing' stamp: 'len 7/8/2021 12:02:31'!
 isIntegral
 	^ self minimalPolynomial coefficients allSatisfy: [:each| each isIntegral]! !
@@ -32559,14 +32562,6 @@ isZeroDivisor2
 	P0 _ P value: 0.
 	P1 _ P value: 1.
 	^ P0 size <= P1 size and: [P1 noneSatisfy: [:none| none isUnit]]! !
-
-!ExtensionElement methodsFor: 'accessing' stamp: 'len 6/11/2023 01:30:04'!
-at: anInteger
-	^ representative at: anInteger! !
-
-!ExtensionElement methodsFor: 'printing' stamp: 'len 6/3/2023 16:29:49'!
-printOn: aStream
-	(representative orderedBy: #lgrevlex) printOn: aStream! !
 
 !GaloisRingElement methodsFor: 'accessing' stamp: 'len 6/2/2023 15:01:11'!
 unitPart
