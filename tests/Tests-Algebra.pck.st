@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 8 July 2023 at 10:25:46 pm'!
+'From Cuis 6.0 [latest update: #5898] on 9 July 2023 at 6:18:16 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 89!
+!provides: 'Tests-Algebra' 1 90!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -3000,13 +3000,13 @@ testOrder
 	self assert: (ℤ/2 × (ℤ/3)) asAbelianGroup size = 6.
 	self assert: (ℤ × (ℤ/2) × (ℤ/3)) asAbelianGroup size isInfinite! !
 
-!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2020 09:10:40'!
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 7/9/2023 18:02:08'!
 testOrderOfElements
 	| G g |
-	G _ (ℤ × (ℤ/2) × (ℤ/3) × (ℤ/4) × (ℤ/5)) asAbelianGroup.
-	g _ G !! [:a :b :c :d :e| a + (b*2) + (d*4)].
+	G := (ℤ × (ℤ/2) × (ℤ/3) × (ℤ/4) × (ℤ/5)) asAbelianGroup.
+	g := G !! (0,1,2,0,3).
 	self assert: g order = 30.
-	g _ G !! [:a :b :c :d :e| a + e].
+	g := G !! (1,0,0,0,1).
 	self assert: g order = 0! !
 
 !AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2020 19:26:02'!

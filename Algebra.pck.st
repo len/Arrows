@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5898] on 8 July 2023 at 10:25:35 pm'!
+'From Cuis 6.0 [latest update: #5898] on 9 July 2023 at 6:18:04 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -80,7 +80,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 137!
+!provides: 'Algebra' 1 138!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -9980,9 +9980,9 @@ matrix: B reductionBy: A
 	"Answer N such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
 	^ B - (A * (self matrix: B quotientBy: A))! !
 
-!Ring methodsFor: 'computing-matrices' stamp: 'len 7/8/2023 22:24:30'!
+!Ring methodsFor: 'computing-matrices' stamp: 'len 7/8/2023 22:28:59'!
 smithNormalFormAndTransformationsOf: aMatrix
-	"Answer the Smith normal form S of the argument A and the unique unimodular matrices P and Q such that P*A*Q = S.
+	"Answer the Smith normal form S of the argument A and unimodular matrices P and Q such that P*A*Q = S.
 	This is a naive implementation of Kannan-Bachem algorithm."
 	| HT S a n P Q |
 	self isEuclidean ifFalse: [^ self notYetImplemented].
@@ -10019,7 +10019,7 @@ smithNormalFormAndTransformationsOf: aMatrix
 	S isSmithNormalForm] whileFalse.
 	^ {S. P. Q}! !
 
-!Ring methodsFor: 'computing-matrices' stamp: 'len 7/8/2023 22:23:56'!
+!Ring methodsFor: 'computing-matrices' stamp: 'len 7/9/2023 15:51:33'!
 smithNormalFormOf: aMatrix
 	"Answer the Smith normal form of the aMatrix.
 	This is a naive implementation of Kannan-Bachem algorithm."
@@ -10029,6 +10029,7 @@ smithNormalFormOf: aMatrix
 	"Repeatedly compute the Hermite normal form and transpose until a diagonal form is obtained:"
 	S := aMatrix HNF.
 	[S isDiagonal] whileFalse: [S := S transpose HNF transpose HNF].
+	S isSmithNormalForm ifTrue: [^ S].
 	"Once in diagonal form, substitute neighboring diagonal elements by their GCD and LCM:"
 	n := ((S width min: S height) to: 2 by: -1) detect: [:i| (S isZeroAt: i @ i) not] ifNone: [^ S].
 	[a := S at: 1 @ 1.
@@ -17067,12 +17068,13 @@ primaryBasis
 	See >>primaryInvariants."
 	self notYetImplemented! !
 
-!Module methodsFor: 'accessing' stamp: 'len 5/12/2023 21:09:43'!
+!Module methodsFor: 'accessing' stamp: 'len 7/9/2023 18:17:12'!
 primaryInvariants
-	"Answer the primary abelian invariants of the receiver, consisting of prime powers q(i) such that the torsion subgroup of the receiver is isomorphic to the direct sum of all the ℤ/q(i)ℤ. Each infinite cyclic factor is represented by 0."
+	"Answer the primary abelian invariants of the receiver, consisting of prime powers qᵢ such that the torsion subgroup of the receiver is isomorphic to the direct sum of all the ℤ/qᵢℤ. Each infinite cyclic factor is represented by 0."
 	| answer |
 	self propertyAt: #primaryInvariants ifPresent: [:aBag| ^ aBag].
-	answer _ Bag new.
+	answer := Bag new.
+	self flag: #fixme.
 	"this can be improved because each invariant divides the next:"
 	self invariants do: [:each|
 		each isZero
@@ -17139,22 +17141,30 @@ size
 	self isFree ifTrue: [^ self scalars size ^ self rank].
 	^ super size! !
 
-!Module methodsFor: 'accessing' stamp: 'len 7/3/2023 21:45:23'!
+!Module methodsFor: 'accessing' stamp: 'len 7/9/2023 18:16:36'!
 torsion
-	"Answer the torsion submodule of the receiver, i.e. the set of elements e such that there is a non-zero-divisor scalar r with e*r = 0. For an abelian group, this is the submodule of elements of finite order."
+	"Answer the torsion submodule of the receiver, i.e. the set of elements e such that there is a non-zero-divisor scalar r with e*r = 0.
+	For an abelian group, this is the submodule of elements of finite order."
+	| SPQ S P |
 	self isFreelyGenerated ifTrue: [^ self null].
-	self isGroup ifFalse: [^ self notYetImplemented].
+	self scalars isPID ifFalse: [^ self notYetImplemented].
 	self isFinite ifTrue: [^ self].
-	self flag: #fixme. "should answer a submodule:"
-	^ self invariants inject: ℤ^0 into: [:sum :each| each > 1 ifTrue: [sum ⊕ (ℤ/each) asAbelianGroup] ifFalse: [sum]]! !
+	SPQ := self relationsMatrix SNFAndTransformations.
+	S := SPQ first.
+	P := SPQ second.
+	^ self sub: (((1 to: S height) select: [:i| (S rowAt: i) isZero not]) collect: [:i| self elementAt: (P rowAt: i)])! !
 
-!Module methodsFor: 'accessing' stamp: 'len 7/3/2023 21:35:29'!
+!Module methodsFor: 'accessing' stamp: 'len 7/9/2023 18:16:30'!
 torsionFree
-	"Answer the torsion-free subgroup, i.e. the subgroup of elements of infinite order (plus the identity)."
-	self isGroup ifFalse: [^ Domain signal: 'not a ℤ-module'].
+	"Answer the torsion-free submodule.
+	For an abelian group, this is the subgroup of elements of infinite order (and the identity)."
+	| SPQ S P |
 	self isFinite ifTrue: [^ self null].
-	self flag: #fixme. "should answer a submodule:"
-	^ ℤ^self rank! !
+	self scalars isPID ifFalse: [^ self notYetImplemented].
+	SPQ := self relationsMatrix SNFAndTransformations.
+	S := SPQ first.
+	P := SPQ second.
+	^ self sub: (((1 to: S height) select: [:i| (S rowAt: i) isZero]) collect: [:i| self elementAt: (P rowAt: i)])! !
 
 !Module methodsFor: 'comparing' stamp: 'len 1/9/2022 09:51:49'!
 < aModule
@@ -17675,13 +17685,13 @@ leadingSubmodule
 	self basis do: [:each| | t | t := each leadingTerm. (t \\ leadingTerms) isZero ifFalse: [leadingTerms add: t]].
 	^ self ambient sub: leadingTerms! !
 
-!Module methodsFor: 'operations' stamp: 'len 6/10/2023 23:06:35'!
+!Module methodsFor: 'operations' stamp: 'len 7/9/2023 18:12:25'!
 orderOf: anElement
 	"Answer the order of the argument in the receiver, i.e. the minimum e such that x*e = 0."
 	| h factors id e g1 |
 	self isFinite ifFalse:
-		[(self torsionFree !! anElement) isZero ifFalse: [^ Infinity positive].
-		^ self torsion orderOf: self torsion !! anElement].
+		[(self torsion includes: anElement) ifFalse: [^ 0].
+		^ self torsion orderOf: anElement].
 	"[Coh96] Algorithm 1.4.3 (Order of an Element):"
 	h := self size.
 	factors := self propertyAt: #sizeFactorization ifAbsentPut: [h factorization].
@@ -25716,10 +25726,11 @@ RCF
 	The RCF of a matrix A reflects a minimal decomposition of the vector space into subspaces that are cyclic for A (i.e., spanned by some vector and its repeated images under A). A matrix B is similar to A iff it has the same rational canonical form as A. Unlike the PRCF, finding this form doesn't require factorization of polynomials or any operation that might change when extending the coefficients field (hence the 'rational'), showing that matrix similarity does not change upon field extensions."
 	^ self invariantFactors inject: (self scalars^0) id into: [:result :each| result ⊕ each companion]! !
 
-!Matrix methodsFor: 'normal forms' stamp: 'len 7/7/2023 11:39:14'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 7/9/2023 17:57:41'!
 SNF
 	"Answer the Smith normal form of the receiver, assuming the coefficient ring is an elementary divisor ring."
-	^ self scalars smithNormalFormOf: self! !
+	self propertyAt: #SNFAndTransformations ifPresent: [:anArray| ^ anArray first].
+	^ self propertyAt: #SNF ifAbsentPut: [self scalars smithNormalFormOf: self]! !
 
 !Matrix methodsFor: 'normal forms' stamp: 'len 12/13/2022 12:56:46'!
 SNFAfterHNF
@@ -25729,56 +25740,57 @@ SNFAfterHNF
 	n _ H diagonal findLast: [:each| each isZero not].
 	^ (H copyFrom: 1@1 to: n@n) SNF ⊕ (self scalars ^ ((H width max: H height) - n)) endomorphisms zero! !
 
-!Matrix methodsFor: 'normal forms' stamp: 'len 7/7/2023 11:39:40'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 7/9/2023 17:58:18'!
 SNFAndTransformations
 	"Answer the Smith normal form S of the receiver A and the unique unimodular matrices P and Q such that P*A*Q = S, assuming the coefficient ring is an elementary divisor ring."
-	^ self scalars smithNormalFormAndTransformationsOf: self! !
+	^ self propertyAt: #SNFAndTransformations ifAbsentPut: [self scalars smithNormalFormAndTransformationsOf: self]! !
 
-!Matrix methodsFor: 'normal forms' stamp: 'len 12/19/2022 10:12:26'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 7/9/2023 17:59:38'!
 SNFOneStep
 	| L S R zero one j k |
-	L _ self codomain id.
-	R _ self domain id.
+	self flag: #deprecated.
+	L := self codomain id.
+	R := self domain id.
 	(self isEmpty or: [self isZero]) ifTrue: [^ {L. self. R}].
-	S _ self copy.
-	zero _ self scalars zero.
-	one _ self scalars one.
+	S := self copy.
+	zero := self scalars zero.
+	one := self scalars one.
 
 	"put a nonzero column as first column"
-	j _ 1.
-	[(S columnAt: j) isZero] whileTrue: [j _ j + 1].
-	j > 1 ifTrue: [R at: 1@1 put: zero; at: j@j put: zero; at: 1@j put: one; at: j@1 put: one negated. S _ S * R].
+	j := 1.
+	[(S columnAt: j) isZero] whileTrue: [j := j + 1].
+	j > 1 ifTrue: [R at: 1@1 put: zero; at: j@j put: zero; at: 1@j put: one; at: j@1 put: one negated. S := S * R].
 
 	self assert: self * R = S.
 
 	"put a nonzero value at 1@1:"
-	k _ 1.
-	[(S at: k@1) isZero] whileTrue: [k _ k + 1].
-	k > 1 ifTrue: [L at: 1@1 put: zero; at: k@k put: zero; at: 1@k put: one; at: k@1 put: one negated. S _ L * S].
+	k := 1.
+	[(S at: k@1) isZero] whileTrue: [k := k + 1].
+	k > 1 ifTrue: [L at: 1@1 put: zero; at: k@k put: zero; at: 1@k put: one; at: k@1 put: one negated. S := L * S].
 
 	self assert: L * self * R = S.
 
 	2 to: S height do: [:i| | a1 ai euclid c d e f M |
-		a1 _ S at: 1@1.
-		ai _ S at: i@1.
+		a1 := S at: 1@1.
+		ai := S at: i@1.
 		ai | a1 ifFalse:
-			[euclid _ ExtendedEuclid on: {a1. ai}.
-			c _ euclid bezout at: 1.
-			d _ (euclid bezout at: 2) negated.
+			[euclid := ExtendedEuclid on: {a1. ai}.
+			c := euclid bezout at: 1.
+			d := (euclid bezout at: 2) negated.
 			self assert: a1*c - (ai*d) = euclid gcd.
-			e _ ai negated / euclid gcd.
-			f _ a1 / euclid gcd.
+			e := ai negated / euclid gcd.
+			f := a1 / euclid gcd.
 			self assert: d*e + (c*f) = self scalars one.
-			M _ S codomain id.
+			M := S codomain id.
 			M at: 1@1 put: c; at: 1@i put: d negated; at: i@1 put: e; at: i@i put: f.
 			self assert: M determinant = self scalars one.
-			S _ M * S.
-			L _ M * L.
+			S := M * S.
+			L := M * L.
 			self assert: L * self * R = S]].
 
 	"now everything in column 1 is divisible by the pivot at 1@1:"
 	2 to: S height do: [:i| | x |
-		x _ (S at: i@1) negated / (S at: 1@1).
+		x := (S at: i@1) negated / (S at: 1@1).
 		S addRow: 1 times: x to: i.
 		L addRow: 1 times: x to: i].
 
@@ -25789,33 +25801,34 @@ SNFOneStep
 	((j+1 to: self width) allSatisfy: [:jj| (S at: 1@jj) isZero])
 		ifFalse:
 			[| result |
-			result _ S transpose SNFOneStep.
-			L _ (result at: 3) * L.
-			S _ (result at: 2) transpose.
-			R _ R * (result at: 1) transpose].
+			result := S transpose SNFOneStep.
+			L := (result at: 3) * L.
+			S := (result at: 2) transpose.
+			R := R * (result at: 1) transpose].
 
 	^ {L. S. R}! !
 
-!Matrix methodsFor: 'normal forms' stamp: 'len 5/9/2023 13:17:39'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 7/9/2023 17:59:43'!
 SNFRecursive
 	| L S R LL SS RR I result |
-	L _ self codomain id.
-	R _ self domain id.
+	self flag: #deprecated.
+	L := self codomain id.
+	R := self domain id.
 	(self isEmpty or: [self isZero]) ifTrue: [^ {L. self. R}].
 
-	result _ self SNFOneStep.
-	L _ result at: 1.
-	S _ result at: 2.
-	R _ result at: 3.
-	result _ (S copyFrom: 2@2 to: S height @ S width) SNFRecursive.
-	LL _ result at: 1.
-	SS _ result at: 2.
-	RR _ result at: 3.
+	result := self SNFOneStep.
+	L := result at: 1.
+	S := result at: 2.
+	R := result at: 3.
+	result := (S copyFrom: 2@2 to: S height @ S width) SNFRecursive.
+	LL := result at: 1.
+	SS := result at: 2.
+	RR := result at: 3.
 	
-	I _ (self scalars^1) id.
-	L _ I ⊕ LL * L.
-	S _ (I * (S at: 1@1)) ⊕ SS.
-	R _ R * (I ⊕ RR).
+	I := (self scalars^1) id.
+	L := I ⊕ LL * L.
+	S := (I * (S at: 1@1)) ⊕ SS.
+	R := R * (I ⊕ RR).
 
 	"TODO: fix diagonal"
 	
