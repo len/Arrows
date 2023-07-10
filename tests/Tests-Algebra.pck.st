@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 10 July 2023 at 5:59:05 pm'!
+'From Cuis 6.0 [latest update: #5898] on 10 July 2023 at 8:11:42 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 91!
+!provides: 'Tests-Algebra' 1 92!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -10335,13 +10335,14 @@ testEchelonization
 	U := A domain automorphisms atRandom: random.
 	self assert: (A * U) coechelon = E! !
 
-!AbstractEuclideanRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2023 17:53:43'!
+!AbstractEuclideanRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2023 20:05:03'!
 testEchelonizationUniqueness
 	| A U |
-	100 timesRepeat:
+	10 timesRepeat:
 		[A := self newMatrix: (3 atRandom: random) @ (3 atRandom: random).
-		U := A codomain automorphisms atRandom: random.
-		self assert: A echelon = (U * A) echelon]! !
+		20 timesRepeat:
+			[U := A codomain automorphisms atRandom: random.
+			self assert: A echelon = (U * A) echelon]]! !
 
 !AbstractEuclideanRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2023 14:54:56'!
 testSmithNormalForm
@@ -10362,6 +10363,16 @@ testSmithNormalFormAndTransformations
 	self assert: P isUnimodular.
 	self assert: Q isUnimodular.
 	self assert: P*A*Q = S! !
+
+!AbstractEuclideanRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2023 20:03:25'!
+testSmithNormalFormUniqueness
+	| A U V |
+	5 timesRepeat:
+		[A := self newMatrix: (3 atRandom: random) @ (3 atRandom: random).
+		5 timesRepeat:
+			[U := A codomain automorphisms atRandom: random.
+			V := A domain automorphisms atRandom: random.
+			self assert: A SNF = (U * A * V) SNF]]! !
 
 !AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:09:14'!
 testAbstractRankNullity

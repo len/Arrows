@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5898] on 10 July 2023 at 5:58:54 pm'!
+'From Cuis 6.0 [latest update: #5898] on 10 July 2023 at 8:11:27 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -80,7 +80,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 139!
+!provides: 'Algebra' 1 140!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -9980,7 +9980,7 @@ matrix: B reductionBy: A
 	"Answer N such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
 	^ B - (A * (self matrix: B quotientBy: A))! !
 
-!Ring methodsFor: 'computing-matrices' stamp: 'len 7/8/2023 22:28:59'!
+!Ring methodsFor: 'computing-matrices' stamp: 'len 7/10/2023 19:36:39'!
 smithNormalFormAndTransformationsOf: aMatrix
 	"Answer the Smith normal form S of the argument A and unimodular matrices P and Q such that P*A*Q = S.
 	This is a naive implementation of Kannan-Bachem algorithm."
@@ -9996,6 +9996,14 @@ smithNormalFormAndTransformationsOf: aMatrix
 		S := HT first transpose. Q := HT second transpose * Q.
 		HT := S HNFAndTransformation.
 		S := HT first. P := HT second * P].
+	"Normalize the entries in the diagonal:"
+	1 to: (S width min: S height) do: [:i|
+		| aᵢ u |
+		aᵢ := S at: i @ i.
+		u := aᵢ normalization.
+		u isOne ifFalse:
+			[S at: i @ i put: aᵢ * u.
+			P multiplyRow: i by: u]].
 	S isSmithNormalForm ifTrue: [^ {S. P. Q}].
 	"Once in diagonal form, substitute neighboring diagonal elements by their GCD and LCM:"
 	n := ((S width min: S height) to: 2 by: -1) detect: [:i| (S isZeroAt: i @ i) not].
@@ -10019,7 +10027,7 @@ smithNormalFormAndTransformationsOf: aMatrix
 	S isSmithNormalForm] whileFalse.
 	^ {S. P. Q}! !
 
-!Ring methodsFor: 'computing-matrices' stamp: 'len 7/9/2023 15:51:33'!
+!Ring methodsFor: 'computing-matrices' stamp: 'len 7/10/2023 19:33:08'!
 smithNormalFormOf: aMatrix
 	"Answer the Smith normal form of the aMatrix.
 	This is a naive implementation of Kannan-Bachem algorithm."
@@ -10029,6 +10037,7 @@ smithNormalFormOf: aMatrix
 	"Repeatedly compute the Hermite normal form and transpose until a diagonal form is obtained:"
 	S := aMatrix HNF.
 	[S isDiagonal] whileFalse: [S := S transpose HNF transpose HNF].
+	1 to: (S width min: S height) do: [:i| S at: i @ i put: (S at: i @ i) normalized].
 	S isSmithNormalForm ifTrue: [^ S].
 	"Once in diagonal form, substitute neighboring diagonal elements by their GCD and LCM:"
 	n := ((S width min: S height) to: 2 by: -1) detect: [:i| (S isZeroAt: i @ i) not] ifNone: [^ S].
@@ -16996,11 +17005,15 @@ discriminant
 	^ (self rank // 2) even ifTrue: [self gramian determinant] ifFalse: [self gramian determinant negated]
 "! !
 
-!Module methodsFor: 'accessing' stamp: 'len 8/6/2022 07:11:46'!
+!Module methodsFor: 'accessing' stamp: 'len 7/10/2023 18:33:23'!
 exponent
 	"Answer the exponent of the receiver, i.e. the maximum order of an element."
-	self isGroup ifFalse: [^ DomainError signal: 'not a ℤ-module'].
-	^ self invariants inject: 1 into: [:answer :each| answer lcm: each]! !
+	self assert: self isGroup.
+	^ self invariants inject: 1 into: [:answer :each| answer lcm: each]
+
+"alternative:
+	^ (ℤ asAbelianGroup to: self endomorphisms asModule map: [:n| self to: self map: [:g| g*n]]) kernel generator"
+! !
 
 !Module methodsFor: 'accessing' stamp: 'len 3/13/2021 12:17:45'!
 generator
@@ -17684,15 +17697,19 @@ leadingSubmodule
 	self basis do: [:each| | t | t := each leadingTerm. (t \\ leadingTerms) isZero ifFalse: [leadingTerms add: t]].
 	^ self ambient sub: leadingTerms! !
 
-!Module methodsFor: 'operations' stamp: 'len 7/9/2023 18:12:25'!
+!Module methodsFor: 'operations' stamp: 'len 7/10/2023 18:29:33'!
 orderOf: anElement
 	"Answer the order of the argument in the receiver, i.e. the minimum e such that x*e = 0."
+	self assert: self isGroup.
+	^ (ℤ asAbelianGroup to: self map: [:n| anElement*n]) kernel generator
+
+"alternative:
 	| h factors id e g1 |
 	self isFinite ifFalse:
 		[(self torsion includes: anElement) ifFalse: [^ 0].
-		^ self torsion orderOf: anElement].
+		^ self torsion orderOf: anElement]."
 	"[Coh96] Algorithm 1.4.3 (Order of an Element):"
-	h := self size.
+"	h := self size.
 	factors := self propertyAt: #sizeFactorization ifAbsentPut: [h factorization].
 	e := h.
 	id := self identity.
@@ -17700,7 +17717,7 @@ orderOf: anElement
 		e := e / (p ^ (factors occurrencesOf: p)).
 		g1 := anElement * e.
 		[g1 = id] whileFalse: [g1 := g1 * p. e := e * p]].
-	^ e! !
+	^ e"! !
 
 !Module methodsFor: 'operations' stamp: 'len 8/12/2022 13:08:54'!
 radical
@@ -26944,19 +26961,20 @@ isSkewSymmetric
 	"Answer true if the receiver is a skew-symmetric (or anti-symmetric) matrix."
 	^ self negated = self transpose! !
 
-!Matrix methodsFor: 'testing' stamp: 'len 5/29/2020 07:30:05'!
+!Matrix methodsFor: 'testing' stamp: 'len 7/10/2023 19:39:47'!
 isSmithNormalForm
 	"Answer true if the receiver is in Smith normal form."
 	| diagonal previousEntry n0 |
 	self isDiagonal ifFalse: [^ false].
 	self isEmpty ifTrue: [^ true].
-	diagonal _ self diagonal.
-	previousEntry _ diagonal first.
-	n0 _ diagonal findLast: [:each| each isZero not].
+	diagonal := self diagonal.
+	diagonal do: [:each| each normalization isOne ifFalse: [^ false]].
+	previousEntry := diagonal first.
+	n0 := diagonal findLast: [:each| each isZero not].
 	2 to: n0 do: [:i| | thisEntry |
-		thisEntry _ diagonal at: i.
+		thisEntry := diagonal at: i.
 		previousEntry | thisEntry ifFalse: [^ false].
-		previousEntry _ thisEntry].
+		previousEntry := thisEntry].
 	n0+1 to: diagonal size do: [:i|
 		(diagonal at: i) isZero ifFalse: [^ false]].
 	^ true! !
@@ -32537,9 +32555,9 @@ norm
 "alternatively:
 	^ self representation determinant"! !
 
-!RegularFunction methodsFor: 'printing' stamp: 'len 7/7/2023 23:48:51'!
+!RegularFunction methodsFor: 'printing' stamp: 'len 7/10/2023 19:51:27'!
 printOn: aStream
-	(parent isKindOf: ExtensionRing) ifTrue: [(representative orderedBy: #lgrevlex) printOn: aStream].
+	(parent isKindOf: ExtensionRing) ifTrue: [(representative orderedBy: #lgrevlex) printOn: aStream. ^ self].
 	^ super printOn: aStream! !
 
 !RegularFunction methodsFor: 'testing' stamp: 'len 7/8/2021 12:02:31'!
