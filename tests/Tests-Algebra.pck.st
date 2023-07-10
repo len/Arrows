@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 9 July 2023 at 6:18:16 pm'!
+'From Cuis 6.0 [latest update: #5898] on 10 July 2023 at 5:59:05 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 90!
+!provides: 'Tests-Algebra' 1 91!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -10299,7 +10299,7 @@ setUp
 	random nextBoolean ifTrue: [n := n negated].
 	scalars := (QuadraticField new: n) integers! !
 
-!AbstractStandardRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2023 13:04:46'!
+!AbstractStandardRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2023 16:36:21'!
 testCanonicalBases
 	| basisAndTransformation A G T U |
 	A := self newMatrix: (6 atRandom: random) @ (6 atRandom: random).
@@ -10308,8 +10308,9 @@ testCanonicalBases
 	T := basisAndTransformation second.
 "	self assert: G isStandardBasis."
 	self assert: A * T = G.
-	U := A domain automorphisms atRandom: random.
-	self assert: (A * U) basis = G! !
+	10 timesRepeat:
+		[U := A domain automorphisms atRandom: random.
+		self assert: (A * U) basis = G]! !
 
 !AbstractStandardRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2023 13:04:55'!
 testHasCanonicalBases
@@ -10333,6 +10334,14 @@ testEchelonization
 	self assert: A * T = E.
 	U := A domain automorphisms atRandom: random.
 	self assert: (A * U) coechelon = E! !
+
+!AbstractEuclideanRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2023 17:53:43'!
+testEchelonizationUniqueness
+	| A U |
+	100 timesRepeat:
+		[A := self newMatrix: (3 atRandom: random) @ (3 atRandom: random).
+		U := A codomain automorphisms atRandom: random.
+		self assert: A echelon = (U * A) echelon]! !
 
 !AbstractEuclideanRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2023 14:54:56'!
 testSmithNormalForm

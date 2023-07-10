@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5898] on 9 July 2023 at 6:18:04 pm'!
+'From Cuis 6.0 [latest update: #5898] on 10 July 2023 at 5:58:54 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -80,7 +80,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 138!
+!provides: 'Algebra' 1 139!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -15137,11 +15137,10 @@ coefficients: anArray
 "	(scalars isValidArray: anArray) ifFalse: [^ self error: 'invalid array']."
 	^ UnivariatePolynomial coefficients: anArray parent: self! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 5/8/2023 16:50:33'!
+!PolynomialRing methodsFor: 'elements' stamp: 'len 7/10/2023 16:45:49'!
 constant: aScalar
-	aScalar isZero ifTrue: [^ self zero].
-	self isUnivariate ifTrue: [^ self coefficients: (scalars new: 1 fill: [:i| aScalar])].
-	^ self associations: {monomials identity -> aScalar}! !
+	self isUnivariate ifTrue: [^ aScalar isZero ifTrue: [self coefficients: (scalars new: 0)] ifFalse: [self coefficients: (scalars new: 1 fill: [:i| aScalar])]].
+	^ aScalar isZero ifTrue: [self associations: #()] ifFalse: [self associations: {monomials identity -> aScalar}]! !
 
 !PolynomialRing methodsFor: 'elements' stamp: 'len 5/2/2022 13:02:19'!
 findIrreducibleOfDegree: n
@@ -35827,20 +35826,24 @@ asComplex
 	"Answer a floating point approximation of the receiver in the complex plane, taking ω = (1 + √-3)/2."
 	^ (moduleElement at: 1) + ((moduleElement at: 2) * (1 + 3 sqrt i) / 2)! !
 
-!EisensteinInteger methodsFor: 'operations' stamp: 'len 10/17/2022 18:13:55'!
+!EisensteinInteger methodsFor: 'operations' stamp: 'len 7/10/2023 17:53:30'!
 // anElement
 	"Answer the quotient of the Euclidean division of the receiver by the argument."
-	| a b c d n |
+	| a b c d n x y xC xF yC yF |
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #//].
 	anElement isZero ifTrue: [^ DivisibilityError new signalReceiver: self selector: #// argument: anElement].
-	a _ moduleElement at: 1.
-	b _ moduleElement at: 2.
-	c _ anElement asModuleElement at: 1.
-	d _ anElement asModuleElement at: 2.
-	n _ c squared - (c*d) + d squared.
-	c _ c - d.
-	d _ d negated.
-	^ self class parent: parent moduleElement: (moduleElement parent elementAt: {(a*c - (b*d) / n) rounded. (b*c + (a*d) - (b*d) / n) rounded})! !
+	a := moduleElement at: 1.
+	b := moduleElement at: 2.
+	c := anElement asModuleElement at: 1.
+	d := anElement asModuleElement at: 2.
+	n := c squared - (c*d) + d squared.
+	c := c - d.
+	d := d negated.
+	x := a*c - (b*d) / n.
+	y := b*c + (a*d) - (b*d) / n.
+	xF := x floor. yF := y floor.
+	xC := x ceiling. yC := y ceiling.
+	^ ({{xF. yF}. {xC. yF}. {xF. yC}. {xC. yC}} collect: [:each| self class parent: parent moduleElement: (moduleElement parent elementAt: each)]) detectMin: [:each| (self - (anElement*each)) norm]! !
 
 !EisensteinInteger methodsFor: 'operations' stamp: 'len 10/17/2022 12:30:11'!
 conjugate
@@ -35939,18 +35942,22 @@ imaginary
 real
 	^ moduleElement at: 1! !
 
-!GaussianInteger methodsFor: 'operations' stamp: 'len 5/29/2022 19:39:19'!
+!GaussianInteger methodsFor: 'operations' stamp: 'len 7/10/2023 17:20:58'!
 // anElement
 	"Answer the quotient of the Euclidean division of the receiver by the argument."
-	| a b c d n |
+	| a b c d n x y xF yF xC yC |
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #//].
 	anElement isZero ifTrue: [^ DivisibilityError new signalReceiver: self selector: #// argument: anElement].
-	a _ self real.
-	b _ self imaginary.
-	c _ anElement real.
-	d _ anElement imaginary.
-	n _ c squared + d squared.
-	^ parent real: (a*c + (b*d) / n) rounded imaginary: (b*c - (a*d) / n) rounded! !
+	a := self real.
+	b := self imaginary.
+	c := anElement real.
+	d := anElement imaginary.
+	n := c squared + d squared.
+	x := a*c + (b*d) / n.
+	y := b*c - (a*d) / n.
+	xF := x floor. yF := y floor.
+	xC := x ceiling. yC := y ceiling.
+	^ {parent real: xF imaginary: yF. parent real: xC imaginary: yF. parent real: xF imaginary: yC. parent real: xC imaginary: yC} detectMin: [:each| (self - (anElement*each)) norm]! !
 
 !GaussianInteger methodsFor: 'operations' stamp: 'len 1/4/2022 15:10:04'!
 conjugate
