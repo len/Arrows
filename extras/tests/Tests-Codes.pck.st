@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5878] on 26 June 2023 at 2:07:29 pm'!
+'From Cuis 6.0 [latest update: #5898] on 11 July 2023 at 7:44:53 pm'!
 'Description '!
-!provides: 'Tests-Codes' 1 3!
+!provides: 'Tests-Codes' 1 4!
 !requires: 'Codes' 1 0 nil!
 SystemOrganization addCategory: 'Tests-Codes'!
 
@@ -36,6 +36,23 @@ testAugmentedCode
 	A _ C augmented.
 	self assert: (A includes: (A space fill: [:i| 1])).
 	(C includes: (C space fill: [:i| 1])) ifTrue: [self assert: C = A]! !
+
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 7/11/2023 19:44:18'!
+testCodeOverQuaternions
+	"Here we construct a linear code over a noncommutative ring. We construct the linear 3-quasi-cyclic rate-2/6 block code over ℍ(𝔽₃):"
+	| H i M C w x y |
+	H := QuaternionAlgebra over: ℤ/3 invariants: #(-1 -1).
+	i := H i.
+	M := H^6 sub: {{1. 1. i. i. 1+i. 1+i}. {i. 1+i. 1+i. 1. 1. i}}.
+	C := M asLinearCode.
+	"This code has 6561 codewords and minimum Hamming distance 5:"
+	self assert: C size = 6561.
+	self assert: C minimumDistance = 5.
+	"And the weight enumerator is  x⁶ + 480xy⁵ + 6080y⁶:"
+	w := C weightEnumerator.
+	x := w parent x.
+	y := w parent y.
+	self assert: w = (x^6 + (x*(y^5)*480) + (y^6 * 6080))! !
 
 !CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/3/2020 09:39:56'!
 testConstructionADeterminant
@@ -165,6 +182,19 @@ testMacWilliamsTheorem
 	x _ Wperp parent x.
 	y _ Wperp parent y.
 	self assert: Wperp = ((W value: {x+y. x-y}) / C size)! !
+
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 7/11/2023 19:38:54'!
+testOctacodeOverGaloisRing
+	"Here's an example with linear codes over rings."
+	| M C |
+	"We construct the octacode O₈ over ℤ/4ℤ as a module:"
+	M := ℤ/4^8 sub: #((1 0 0 0 3 1 2 1) (0 1 0 0 1 2 3 1) (0 0 1 0 3 3 3 2) (0 0 0 1 2 3 1 1)).
+	"We convert it to a LinearCode:"
+	C := M asLinearCode.
+	"This code has 256 codewords, minimum Hamming distance 4, and it is self-dual:"
+	self assert: C size = 256.
+	self assert: C minimumDistance = 4.
+	self assert: C = C dual! !
 
 !CodesTest methodsFor: 'as yet unclassified' stamp: 'len 8/10/2020 06:35:48'!
 testParityCheckMatrix
