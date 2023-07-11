@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5898] on 10 July 2023 at 8:11:27 pm'!
+'From Cuis 6.0 [latest update: #5898] on 11 July 2023 at 7:46:56 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -80,7 +80,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 140!
+!provides: 'Algebra' 1 141!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -13354,8 +13354,8 @@ residueField
 	^ self propertyAt: #residueField ifAbsentPut:
 		[GaloisField modulus: (self modulus apply: self scalars → self scalars residueField)]! !
 
-!GaloisRing methodsFor: 'accessing' stamp: 'len 6/5/2023 19:48:32'!
-teichmuller
+!GaloisRing methodsFor: 'accessing' stamp: 'len 7/11/2023 18:48:44'!
+teichmullerSet
 	"Answer a Teichmuller set of the receiver.
 	Any element of GR(p^n,r) can be written uniquely as a polynomial in p with coefficients in the Teichmuller set, and this is called the 'p-adic representation'."
 	| T ξ |
@@ -15796,39 +15796,41 @@ zero
 = anObject
 	^ (anObject isKindOf: FiniteAlgebra) and: [self ambient asModule = anObject ambient asModule and: [self asModule = anObject asModule]]! !
 
-!FiniteAlgebra methodsFor: 'computing-matrices' stamp: 'len 11/23/2022 21:24:52'!
-collapseMatrix: aMatrix
+!FiniteAlgebra methodsFor: 'computing-matrices' stamp: 'len 7/11/2023 18:06:28'!
+extendMatrix: aMatrix
+	"If the receiver is an R-algebra of degree d and the underlying module is free R^d, and given a n × m matrix over the receiver, answer a n*d × m*d matrix with coefficients in R seen as an n × m block matrix with each block equal to the representation matrix of the corresponding coefficient in the original matrix. This is a sort of extension of scalars."
+	| R d answer |
+	R := self scalars.
+	d := self rank.
+	answer := R^(aMatrix width*d) → (R^0).
+	1 to: aMatrix height do: [:i|
+		| a |
+		a := R^0 → (R^d).
+		1 to: aMatrix width do: [:j| a := a ⊔ (aMatrix at: i@j) representation asMatrix].
+		answer := answer ⊓ a].
+	^ answer! !
+
+!FiniteAlgebra methodsFor: 'computing-matrices' stamp: 'len 7/11/2023 18:03:16'!
+matrix: B quotientBy: A
+	"Answer X such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
+	^ self restrictMatrix: ((self extendMatrix: B) quotientBy: (self extendMatrix: A))! !
+
+!FiniteAlgebra methodsFor: 'computing-matrices' stamp: 'len 7/11/2023 18:02:07'!
+restrictMatrix: aMatrix
+	"If the receiver is an R-algebra of degree d and the underlying module is free R^d, and given a n*d × m*d matrix with coefficients in R, interpret the matrix as a n × m block matrix with each block corresponding to a representation matrix of an element in the receiver. Answer the corresponding n × m matrix over the receiver. This is a sort of restriction of scalars."
 	| d |
-	d _ self rank.
+	d := self rank.
 	^ self^(aMatrix width / d) ⇒ (self^(aMatrix height / d)) fill: [:i :j|
 		(self asModule endomorphisms fill: [:i0 :j0| aMatrix at: (i-1*d+i0) @ (j-1*d+j0)]) * (self one asModuleElement)]! !
 
-!FiniteAlgebra methodsFor: 'computing-matrices' stamp: 'len 10/5/2022 18:46:36'!
-expandMatrix: aMatrix
-	| R d answer |
-	R _ self scalars.
-	d _ self rank.
-	answer _ R^(aMatrix width*d) → (R^0).
-	1 to: aMatrix height do: [:i|
-		| a |
-		a _ R^0 → (R^d).
-		1 to: aMatrix width do: [:j| a _ a ⊔ (aMatrix at: i@j) representation asMatrix].
-		answer _ answer ⊓ a].
-	^ answer! !
-
-!FiniteAlgebra methodsFor: 'computing-matrices' stamp: 'len 6/1/2022 20:31:36'!
-matrix: B quotientBy: A
-	"Answer X such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
-	^ self collapseMatrix: ((self expandMatrix: B) quotientBy: (self expandMatrix: A))! !
-
-!FiniteAlgebra methodsFor: 'computing-matrices' stamp: 'len 11/23/2022 21:24:59'!
+!FiniteAlgebra methodsFor: 'computing-matrices' stamp: 'len 7/11/2023 18:03:30'!
 syzygiesOf: aMatrix
 	"Answer a matrix whose rows span the kernel of the given matrix.
 	For a matrix A, the output is X with AX = 0."
 	| X d |
 	aMatrix isZero ifTrue: [^ aMatrix domain id].
-	X _ (self expandMatrix: aMatrix) syzygies.
-	d _ self rank.
+	X := (self extendMatrix: aMatrix) syzygies.
+	d := self rank.
 	^ self^X width ⇒ (self^(X height / d)) fill: [:i :j|
 		self fromModuleElement: (self asModule elementAt: ((1 to: d) collect: [:k| X at: (i-1*d+k) @ j]))]! !
 
@@ -16577,30 +16579,30 @@ on: aHomModule
 degree
 	^ self space rank! !
 
-!MatrixAlgebra methodsFor: 'computing-matrices' stamp: 'len 11/23/2022 21:32:12'!
-collapseMatrix2: aMatrix
-	| d |
-	d _ self domain rank.
-	^ self^(aMatrix width / d) ⇒ (self^(aMatrix height / d)) fill: [:i :j|
-		(self asModule fill: [:i0 :j0| aMatrix at: (i-1*d+i0) @ (j-1*d+j0)])]! !
-
-!MatrixAlgebra methodsFor: 'computing-matrices' stamp: 'len 10/5/2022 18:37:10'!
-expandMatrix2: aMatrix
+!MatrixAlgebra methodsFor: 'computing-matrices' stamp: 'len 7/11/2023 18:08:25'!
+flattenMatrix: aMatrix
 	| R d answer |
-	R _ self scalars.
-	d _ self domain rank.
-	answer _ R^(aMatrix width*d) → (R^0).
+	R := self scalars.
+	d := self domain rank.
+	answer := R^(aMatrix width*d) → (R^0).
 	1 to: aMatrix height do: [:i|
 		| a |
-		a _ R^0 → (R^d).
-		1 to: aMatrix width do: [:j| a _ a ⊔ (aMatrix at: i@j)].
-		answer _ answer ⊓ a].
+		a := R^0 → (R^d).
+		1 to: aMatrix width do: [:j| a := a ⊔ (aMatrix at: i@j)].
+		answer := answer ⊓ a].
 	^ answer! !
 
-!MatrixAlgebra methodsFor: 'computing-matrices' stamp: 'len 6/1/2022 20:37:02'!
+!MatrixAlgebra methodsFor: 'computing-matrices' stamp: 'len 7/11/2023 18:09:13'!
 matrix: B quotientBy: A
 	"Answer X such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
-	^ self collapseMatrix2: ((self expandMatrix2: B) quotientBy: (self expandMatrix2: A))! !
+	^ self unflattenMatrix: ((self flattenMatrix: B) quotientBy: (self flattenMatrix: A))! !
+
+!MatrixAlgebra methodsFor: 'computing-matrices' stamp: 'len 7/11/2023 18:09:00'!
+unflattenMatrix: aMatrix
+	| d |
+	d := self domain rank.
+	^ self^(aMatrix width / d) ⇒ (self^(aMatrix height / d)) fill: [:i :j|
+		(self asModule fill: [:i0 :j0| aMatrix at: (i-1*d+i0) @ (j-1*d+j0)])]! !
 
 !MatrixAlgebra methodsFor: 'elements' stamp: 'len 7/22/2020 07:33:09'!
 columns: anArray
@@ -17005,7 +17007,7 @@ discriminant
 	^ (self rank // 2) even ifTrue: [self gramian determinant] ifFalse: [self gramian determinant negated]
 "! !
 
-!Module methodsFor: 'accessing' stamp: 'len 7/10/2023 18:33:23'!
+!Module methodsFor: 'accessing' stamp: 'len 7/10/2023 23:00:02'!
 exponent
 	"Answer the exponent of the receiver, i.e. the maximum order of an element."
 	self assert: self isGroup.
@@ -17013,7 +17015,9 @@ exponent
 
 "alternative:
 	^ (ℤ asAbelianGroup to: self endomorphisms asModule map: [:n| self to: self map: [:g| g*n]]) kernel generator"
-! !
+
+"alternative:
+	^ self annihilator generartor"! !
 
 !Module methodsFor: 'accessing' stamp: 'len 3/13/2021 12:17:45'!
 generator
@@ -17553,21 +17557,22 @@ to: aModule validMatrix: aMatrix
 		addProjections: (R codomain ⇉ {self cover. aModule cover} with: {self. aModule} collect: [:π :Y| answer to: Y map: [:x| Y elementAt: (π value: (ρ preimageRepresentative: x))]]).
 	^ answer! !
 
-!Module methodsFor: 'operations' stamp: 'len 6/15/2023 16:23:08'!
-⊗ aModule
-	"Answer the tensor product of the receiver with the argument."
+!Module methodsFor: 'operations' stamp: 'len 7/11/2023 17:40:38'!
+⊗ anObject
+	"Answer the tensor product of the receiver with the argument, if the argument is another module or a module homomorphism.
+	If the argument is a ring, answer the extension of scalars."
 	| answer M N |
-	"Use tensor product notation for extension of scalars too:"
-	aModule isRing ifTrue: [^ self apply: (self scalars → aModule ifNil: [^ self error: 'coercion failed'])].
-	self assert: self scalars = aModule scalars. "maybe could aloow modules with different scalars and do extension of scalars"
+	(anObject isKindOf: Ring) ifTrue: [^ self apply: (self scalars → anObject ifNil: [^ self error: 'coercion failed'])].
+	(anObject isKindOf: ModuleMap) ifTrue: [^ self id ⊗ anObject].
+	self assert: self scalars = anObject scalars. "maybe could allow modules with different scalars and do extension of scalars"
 	self scalars isCommutative ifFalse: [^ self notYetImplemented].
 "	(self isProjective and: [aModule isProjective]) ifTrue:"
-	(self isFreelyGenerated and: [aModule isFreelyGenerated]) ifTrue:
-		[answer := aModule dual ⇒ self.
-		answer addCoercionFrom: self, aModule mapWithArguments: [:f :g| answer map: [:h| f * (h value: g)]].
+	(self isFreelyGenerated and: [anObject isFreelyGenerated]) ifTrue:
+		[answer := anObject dual ⇒ self.
+		answer addCoercionFrom: (self, anObject) mapWithArguments: [:f :g| answer map: [:h| f * (h value: g)]].
 		^ answer].
 	M := self relationsMatrix.
-	N := aModule relationsMatrix.
+	N := anObject relationsMatrix.
 	"TODO: add composition"
 	^ (M ⊗ N codomain id ⊔ (M codomain id ⊗ N)) cokernel! !
 
@@ -23310,6 +23315,14 @@ kernel
 value: anElement
 	^ self codomain !! (self asModuleMap value: anElement asModuleElement)! !
 
+!FiniteAlgebraMap methodsFor: 'testing' stamp: 'len 7/10/2023 22:51:40'!
+isInjective
+	^ self asModuleMap isInjective! !
+
+!FiniteAlgebraMap methodsFor: 'testing' stamp: 'len 7/10/2023 22:50:39'!
+isSurjective
+	^ self asModuleMap isSurjective! !
+
 !FiniteAlgebraMap methodsFor: 'private' stamp: 'len 7/14/2020 10:07:31'!
 moduleMap: aModuleMap
 	self propertyAt: #moduleMap put: aModuleMap! !
@@ -25136,11 +25149,14 @@ asSingletonMatrix
 	(domain isFreelyGenerated and: [codomain isFreelyGenerated and: [aModuleMap domain isFreelyGenerated and: [aModuleMap codomain isFreelyGenerated]]]) ifFalse: [^ super ⊕ aModuleMap].
 	^ domain ⊕ aModuleMap domain to: codomain ⊕ aModuleMap codomain validMatrix: self asMatrix ⊕ aModuleMap asMatrix! !
 
-!ModuleMap methodsFor: 'operations' stamp: 'len 4/28/2021 11:29:01'!
-⊗ aModuleMap
-	"Answer the tensor product of the receiver with the argument."
-	(aModuleMap isKindOf: ModuleMap) ifFalse: [^ self notYetImplemented].
-	^ domain ⊗ aModuleMap domain to: codomain ⊗ aModuleMap codomain validMatrix: self asMatrix ⊗ aModuleMap asMatrix! !
+!ModuleMap methodsFor: 'operations' stamp: 'len 7/11/2023 17:43:38'!
+⊗ anObject
+	"Answer the tensor product of the receiver with the argument, if the argument is another module homomorphism in the same category.
+	If the argument is a ring, answer the extension of scalars."
+	(anObject isKindOf: Ring) ifTrue: [^ domain ⊗ anObject to: codomain ⊗ anObject validMatrix: self asMatrix ⊗ anObject].
+	(anObject isKindOf: Module) ifTrue: [^ self ⊗ anObject id].
+	(anObject isKindOf: ModuleMap) ifTrue: [^ domain ⊗ anObject domain to: codomain ⊗ anObject codomain validMatrix: self asMatrix ⊗ anObject asMatrix].
+	^ self notYetImplemented! !
 
 !ModuleMap methodsFor: 'operations' stamp: 'len 7/6/2023 21:36:37'!
 ⊓ aModuleMap
@@ -26044,22 +26060,25 @@ primaryInvariantFactors
 	aMatrix isMatrix ifFalse: [^ super ⊕ aMatrix].
 	^ self class from: domain ⊕ aMatrix domain to: codomain ⊕ aMatrix codomain fill: [:i :j| self at: i @ j ifAbsent: [aMatrix at: i - self height @ (j - self width) ifAbsent: [self scalars zero]]]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 11/23/2022 21:36:44'!
-⊗ aMatrix
-	"Answer the Kronecker product of the receiver by the argument."
+!Matrix methodsFor: 'operations' stamp: 'len 7/11/2023 17:41:15'!
+⊗ anObject
+	"Answer the Kronecker product of the receiver by the argument, if the argument is another matrix.
+	If the argument is a ring, answer the extension of scalars."
 	| m n p q |
-	aMatrix isTuple ifTrue: [^ self ⊗ aMatrix asMatrix].
-	aMatrix isMatrix ifFalse: [^ super ⊗ aMatrix].
-	self checkScalarsMatch: aMatrix.
-	m _ self height.
-	n _ self width.
-	p _ aMatrix height.
-	q _ aMatrix width.
+	anObject isMatrix ifFalse:
+		[anObject isTuple ifTrue: [^ self ⊗ anObject asMatrix].
+		(anObject isKindOf: Ring) ifTrue: [^ self apply: (self scalars → anObject ifNil: [^ self error: 'coercion failed'])].
+		^ super ⊗ anObject].
+	self checkScalarsMatch: anObject.
+	m := self height.
+	n := self width.
+	p := anObject height.
+	q := anObject width.
 	^ self scalars^(n*q)
 		to: self scalars^(m*p)
 		fill: [:i :j|
 			(self at: (i-1)*m//(m*p)+1 @ ((j-1)*n//(n*q)+1)) *
-			(aMatrix at: (i-1)\\p+1 @ ((j-1)\\q+1))]! !
+			(anObject at: (i-1)\\p+1 @ ((j-1)\\q+1))]! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 6/9/2022 07:21:39'!
 ⊓ aMatrix

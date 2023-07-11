@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 10 July 2023 at 8:11:42 pm'!
+'From Cuis 6.0 [latest update: #5898] on 11 July 2023 at 7:47:05 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 92!
+!provides: 'Tests-Algebra' 1 93!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -3008,6 +3008,13 @@ testOrderOfElements
 	self assert: g order = 30.
 	g := G !! (1,0,0,0,1).
 	self assert: g order = 0! !
+
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 7/11/2023 17:53:48'!
+testTensorProductExample
+	| G₁ G₂ |
+	G₁ := (ℤ/100) asAbelianGroup.
+	G₂ := (ℤ/125) asAbelianGroup.
+	self assert: G₁ ⊗ G₂ ~ (ℤ/25) asAbelianGroup! !
 
 !AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2020 19:26:02'!
 testTorsionAbelianGroup
@@ -6802,17 +6809,18 @@ testRingCanonicalAssociates: aRing
 		self assert: x * x normalization = x normalized.
 		self assert: x normalized = (x * u) normalized]! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/14/2022 08:38:35'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/11/2023 15:38:26'!
 testRingHomomorphism: φ
 	| A B x y |
-	A _ φ domain.
-	B _ φ codomain.
-	x _ A atRandom: random bits: 10.
-	y _ A atRandom: random bits: 10.
-	self assert: (φ value: A zero) = B zero.
-	self assert: (φ value: A one) = B one.
-	self assert: (φ value: x + y) = ((φ value: x) + (φ value: y)).
-	self assert: (φ value: x * y) = ((φ value: x) * (φ value: y))! !
+	A := φ domain.
+	B := φ codomain.
+	100 timesRepeat:
+		[x := A atRandom: random bits: 10.
+		y := A atRandom: random bits: 10.
+		self assert: (φ value: A zero) = B zero.
+		self assert: (φ value: A one) = B one.
+		self assert: (φ value: x + y) = ((φ value: x) + (φ value: y)).
+		self assert: (φ value: x * y) = ((φ value: x) * (φ value: y))]! !
 
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/8/2023 18:45:16'!
 testRingInvolution: aRing
@@ -8179,7 +8187,7 @@ testDivisionBug
 	a := A x * 3.
 	self assert: (a / a) isOne! !
 
-!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 21:53:26'!
+!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/11/2023 15:53:12'!
 testEmbeddingIntoOverring
 	"Canonical homomorphism from GR(p^n,m) to GR(p^n,m*k)."
 	| p n m k S |
@@ -8198,6 +8206,12 @@ testIsLocal
 !GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2023 17:44:19'!
 testNilradical
 	self assert: R nilradical = (R * R p)! !
+
+!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/11/2023 15:53:37'!
+testProjectionFromHigherExponent
+	| S |
+	S := GaloisRing new: R p to: R exponent + (5 atRandom: random) to: R degree.
+	self testRingHomomorphism: S → R! !
 
 !GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 20:51:43'!
 testProjectionToResidueField
@@ -9238,10 +9252,10 @@ setUp
 	super setUp.
 	scalars := ℤ / ((16r100000001 to: 16r100000001 + 1000) atRandom: random)! !
 
-!ModularByteArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:02:11'!
+!ModularByteArrayTest methodsFor: 'as yet unclassified' stamp: 'len 7/11/2023 18:16:13'!
 setUp
 	super setUp.
-	scalars := ℤ / ((3 to: 256) atRandom: random)! !
+	scalars := ℤ / ((4 to: 256) atRandom: random)! !
 
 !ModularByteArrayTest methodsFor: 'as yet unclassified' stamp: 'len 5/12/2023 14:38:04'!
 testRepresentativesUseByteArray
