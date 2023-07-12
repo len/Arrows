@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5898] on 12 July 2023 at 1:05:25 pm'!
+'From Cuis 6.0 [latest update: #5898] on 12 July 2023 at 2:42:47 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -80,7 +80,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 142!
+!provides: 'Algebra' 1 143!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -24030,7 +24030,7 @@ projectiveClosure
 		to: self codomain projectiveClosure
 		representatives: (self representatives collect: [:each| each homogenized])! !
 
-!RationalMap methodsFor: 'operations' stamp: 'len 7/12/2023 13:04:40'!
+!RationalMap methodsFor: 'operations' stamp: 'len 7/12/2023 14:36:24'!
 restriction
 	"If the receiver is a rational map between affine varieties defined over an algebraic field extension L/k, answer the Weil restriction."
 	| R L K d n S p α v representatives |
@@ -24048,8 +24048,9 @@ restriction
 	p := R scalars modulus value: α.
 	v := (1 to: n) collect: [:i| (0 to: d-1) sum: [:j| α^j * (S x: d*(i-1) + j + 1)]].
 	representatives := OrderedCollection new.
-	self representatives do: [:g|
-		((g numerator associations sum: [:each| (each key value: v) * (each value representative value: α)]) \\ p) asUnivariate coefficients do: [:each| representatives add: each]].
+	self representatives do: [:g| | f |
+		f := ((g numerator associations sum: [:each| (each key value: v) * (each value representative value: α)]) \\ p) asUnivariate.
+		0 to: d-1 do: [:i| representatives add: (f at: i)]].
 	^ self propertyAt: #restriction put: (self class from: self domain restriction to: self codomain restriction representatives: representatives)! !
 
 !RationalMap methodsFor: 'operations' stamp: 'len 5/8/2023 23:03:33'!

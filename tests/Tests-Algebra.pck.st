@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 11 July 2023 at 7:47:05 pm'!
+'From Cuis 6.0 [latest update: #5898] on 12 July 2023 at 2:43:02 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 93!
+!provides: 'Tests-Algebra' 1 94!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -3445,6 +3445,30 @@ testSpecZSubschemes
 	self deny: (ℤ / 10) spec >= (ℤ / 3) spec.
 	self assert: (ℤ / 10) spec ∩ (ℤ / 15) spec = (ℤ / 5) spec.
 	self assert: (ℤ / 10) spec ∪ (ℤ / 15) spec = (ℤ / 30) spec! !
+
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 7/12/2023 14:41:17'!
+testWeilRestriction1
+	| A |
+	A := ((QuadraticField new: 5) polynomialsIn: 2) spec.
+	self assert: A restriction scalars = ℚ.
+	self assert: A restriction rank = 4! !
+
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 7/12/2023 14:40:10'!
+testWeilRestriction2
+	| R V P |
+	R := (GaloisField new: 2 to: 2) polynomialsIn: 2.
+	V := (R / {R x * R y + 1. R scalars x * R x + 1}) spec.
+	P := V points asSet atRandom.
+	self assert: (V satisfies: P coordinates).
+	self assert: (V restriction satisfies: P restriction coordinates)! !
+
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 7/12/2023 14:42:12'!
+testWeilRestriction3
+	| A f P |
+	A := ((QuadraticField new: 5) polynomialsIn: 2) spec.
+	f := A id.
+	P := A points !! #(2 1).
+	self assert: (f value: P) restriction = (f restriction value: P restriction)! !
 
 !AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 5/23/2020 08:56:59'!
 testProjectivePlaneOverFiniteField
