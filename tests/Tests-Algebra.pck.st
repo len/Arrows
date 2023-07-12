@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 12 July 2023 at 2:43:02 pm'!
+'From Cuis 6.0 [latest update: #5898] on 12 July 2023 at 7:57:48 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 94!
+!provides: 'Tests-Algebra' 1 95!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -3587,7 +3587,7 @@ testRationalMap2
 	X := 𝔸³ sub: {x^3*z - (x*y^2*(3/4)) - (x*y*z*(3/2)) + (y^3) + (z^2*(1/4))}.
 	self assert: f image = X! !
 
-!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 6/26/2023 17:26:53'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 7/12/2023 17:04:14'!
 testRationalMapAffineExample
 	"From lecture notes MIT 18.782 Introduction to Arithmetic Geometry, Lecture #15, Fall 2013, 10/29/2013, Example 15.19."
 	| 𝔸² x y X 𝔸¹ φ φ₂ ψ |
@@ -3603,11 +3603,10 @@ testRationalMapAffineExample
 	self assert: (φ · ψ) isIdentity.
 	self assert: φ isRegular not.
 	self assert: φ isDominant.
-	self flag: #fixme. "implement RationalMap>>isSurjective"
-"	self assert: φ isSurjective."
+	self assert: φ isSurjective.
 	self assert: ψ isRegular not.
 	self assert: ψ isDominant.
-"	self assert: ψ isSurjective not"! !
+	self assert: ψ isSurjective not! !
 
 !AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 6/26/2023 17:27:51'!
 testRationalMapImage
@@ -8227,9 +8226,13 @@ testIsLocal
 	self assert: R isLocal.
 	self assert: R maximalIdeal = (R * R p)! !
 
-!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2023 17:44:19'!
+!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2023 19:52:43'!
 testNilradical
-	self assert: R nilradical = (R * R p)! !
+	| a |
+	self assert: R nilradical = (R * R p).
+	self assert: (R nilradical atRandom: random) isNilpotent.
+	[a := R atRandom: random. a isNilpotent] whileFalse.
+	self assert: (R nilradical includes: a)! !
 
 !GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/11/2023 15:53:37'!
 testProjectionFromHigherExponent
@@ -8827,6 +8830,14 @@ setUp
 	r := 3 atRandom: random.
 	n := (2 atRandom: random) + 1.
 	R := QuasiGaloisRing new: p to: r to: n! !
+
+!QuasiGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2023 19:54:08'!
+testNilradical
+	| a |
+	self assert: R nilradical = (R * R x).
+	self assert: (R nilradical atRandom: random) isNilpotent.
+	[a := R atRandom: random. a isNilpotent] whileFalse.
+	self assert: (R nilradical includes: a)! !
 
 !QuasiGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/30/2023 23:27:55'!
 testQuasiGaloisRingBasicProperties

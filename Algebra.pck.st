@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5898] on 12 July 2023 at 2:42:47 pm'!
+'From Cuis 6.0 [latest update: #5898] on 12 July 2023 at 7:57:35 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -80,7 +80,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 143!
+!provides: 'Algebra' 1 144!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -1999,6 +1999,16 @@ GaloisRingElement subclass: #GaloisFieldElement
 GaloisFieldElement class
 	instanceVariableNames: ''!
 
+!classDefinition: #QuasiGaloisRingElement category: 'Algebra-Rings-Finite'!
+RegularFunction subclass: #QuasiGaloisRingElement
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Rings-Finite'!
+!classDefinition: 'QuasiGaloisRingElement class' category: 'Algebra-Rings-Finite'!
+QuasiGaloisRingElement class
+	instanceVariableNames: ''!
+
 !classDefinition: #GaussianRational category: 'Algebra-Fields-Global-Quadratic'!
 RegularFunction subclass: #GaussianRational
 	instanceVariableNames: ''
@@ -3384,6 +3394,9 @@ Elements of Galois rings. See GaloisRing.!
 
 !GaloisFieldElement commentStamp: '<historical>' prior: 0!
 Elements of Galois fields. See GaloisField.!
+
+!QuasiGaloisRingElement commentStamp: '<historical>' prior: 0!
+Elements of a quasi-Galois ring. See QuasiGaloisRing.!
 
 !GaussianRational commentStamp: '<historical>' prior: 0!
 Elements of the field of Gaussian numbers ℚ[i]. See GaussianField.!
@@ -12410,16 +12423,16 @@ unitsSize
 hash
 	^ modulus hash! !
 
-!ModularIntegerRing methodsFor: 'converting' stamp: 'len 11/23/2022 09:46:45'!
-asModule
+!ModularIntegerRing methodsFor: 'converting' stamp: 'len 7/12/2023 14:48:51'!
+asAbelianGroup
 	"Answer the receiver as a ℤ-module."
 	| answer |
-	self propertyAt: #asModule ifPresent: [:aModule| ^ aModule].
-	answer _ self cover asModule / {self modulus}.
+	self propertyAt: #asAbelianGroup ifPresent: [:aModule| ^ aModule].
+	answer := self cover asAbelianGroup / {self modulus}.
 	self
 		addCoercionTo: answer map: [:each| answer !! {each representative}];
 		addCoercionFrom: answer map: [:each| self !! (each representative at: 1)].
-	^ self propertyAt: #asModule put: answer! !
+	^ self propertyAt: #asAbelianGroup put: answer! !
 
 !ModularIntegerRing methodsFor: 'elements' stamp: 'len 5/16/2023 20:42:02'!
 new: anInteger
@@ -13174,6 +13187,18 @@ monomialsBelow: exponents do: aBlock
 	self monomialsBelow: exponents allButLast do: [:each|
 		0 to: exponents last - 1 do: [:i| aBlock value: each*(self monomials x: exponents size to: i)]]! !
 
+!QuasiGaloisRing methodsFor: 'accessing' stamp: 'len 7/12/2023 19:46:50'!
+maximalIdeal
+	^ self * self x! !
+
+!QuasiGaloisRing methodsFor: 'operations' stamp: 'len 7/12/2023 19:46:23'!
+nilradical
+	^ self maximalIdeal! !
+
+!QuasiGaloisRing methodsFor: 'operations' stamp: 'len 7/12/2023 19:46:37'!
+zeroDivisors
+	^ self maximalIdeal! !
+
 !QuasiGaloisRing methodsFor: 'printing' stamp: 'len 5/9/2019 09:53:57'!
 printOn: aStream
 	aStream nextPutAll: 'A('; print: self scalars p; nextPutAll: self scalars degree printString super; nextPut: $,; print: self degree; nextPut: $)! !
@@ -13189,6 +13214,10 @@ isIntegralDomain
 !QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:48:39'!
 isLocal
 	^ true! !
+
+!QuasiGaloisRing methodsFor: 'private' stamp: 'len 7/12/2023 19:42:45'!
+elementClass
+	^ QuasiGaloisRingElement! !
 
 !QuasiGaloisRing class methodsFor: 'instance creation' stamp: 'len 7/15/2021 19:18:19'!
 new: p to: r to: n
@@ -19979,6 +20008,15 @@ pointsOver: aRing
 	"Answer the K-rational points on the receiver, where K is aRing."
 	^ RationalPointSet on: self over: aRing! !
 
+!Scheme methodsFor: 'random' stamp: 'len 7/12/2023 18:15:30'!
+pointOver: aRing atRandom: aRandom
+	| points P |
+	self isAmbient ifTrue: [^ self subclassResponsibility].
+	points := aRing spec ⇒ self ambient.
+	[P := points atRandom: aRandom.
+	self satisfies: P coordinates] whileFalse.
+	^ self !! P! !
+
 !Scheme methodsFor: 'testing' stamp: 'len 7/11/2022 12:48:51'!
 isAffine
 	^ false! !
@@ -20351,6 +20389,11 @@ coordinateRing: aRing
 species
 	^ AffineScheme! !
 
+!AffineScheme methodsFor: 'as yet unclassified' stamp: 'len 7/12/2023 18:07:13'!
+to: aCodomain atRandom: aRandom
+	aCodomain scalars → self coordinateRing ifNotNil: [^ aCodomain pointOver: self coordinateRing atRandom: aRandom].
+	^ super to: aCodomain atRandom: aRandom! !
+
 !AffineScheme class methodsFor: 'examples' stamp: 'len 5/23/2020 08:55:54'!
 example1
 	"Spec(Z), the prime spectrum of the rational integers.
@@ -20707,11 +20750,21 @@ pointsCountOver: aRing
 pointsOver: aRing do: aBlock
 	^ aRing ^ self rank do: [:each| aBlock value: (self pointAt: each)]! !
 
+!AffineSpace methodsFor: 'points' stamp: 'len 7/12/2023 18:04:39'!
+to: aCodomain atRandom: aRandom
+	(aCodomain isKindOf: AffineScheme) ifFalse: [^ super to: aCodomain atRandom: aRandom].
+	self scalars → aCodomain coordinateRing ifNil: [^ super to: aCodomain atRandom: aRandom].
+	^ self pointAt: ((aCodomain coordinateRing^self rank) atRandom: aRandom)! !
+
 !AffineSpace methodsFor: 'printing' stamp: 'len 10/8/2022 19:27:12'!
 printOn: aStream
 	aStream nextPut: $𝔸.
 	self rank = 1 ifFalse: [aStream nextPutAll: self rank printString super].
 	aStream nextPut: $(; print: self scalars; nextPut: $)! !
+
+!AffineSpace methodsFor: 'random' stamp: 'len 7/12/2023 18:08:05'!
+pointOver: aRing atRandom: aRandom
+	^ self pointAt: (aRing^self rank atRandom: aRandom)! !
 
 !AffineSpace methodsFor: 'testing' stamp: 'len 2/22/2017 07:54:37'!
 isPlane
@@ -21373,6 +21426,12 @@ printOn: aStream
 	aStream nextPut: $ℙ.
 	self rank = 2 ifFalse: [aStream nextPutAll: (self rank - 1) printString super].
 	aStream nextPut: $(; print: self scalars; nextPut: $)! !
+
+!ProjectiveSpace methodsFor: 'random' stamp: 'len 7/12/2023 18:09:53'!
+pointOver: aRing atRandom: aRandom
+	| coordinates |
+	[(coordinates := aRing^self rank atRandom: aRandom) isZero] whileTrue.
+	^ self pointAt: coordinates! !
 
 !ProjectiveSpace methodsFor: 'testing' stamp: 'len 7/6/2022 11:18:05'!
 isOrdinaryProjectiveSpace
@@ -23274,24 +23333,23 @@ implicitization
 	Magma uses the algorithm in p. 97 of [CLO96]."
 	self notYetImplemented! !
 
-!PolynomialMap methodsFor: 'operations' stamp: 'len 10/15/2022 09:32:08'!
+!PolynomialMap methodsFor: 'operations' stamp: 'len 7/12/2023 17:36:42'!
 kernel
 	"See RationalMap>>image."
-	| A B m n P t embedding generators I |
+	| A B m n P t ι generators I |
 	self propertyAt: #kernel ifPresent: [:anIdeal| ^ anIdeal].
 	self isAffineAlgebraHomomorphism ifFalse: [^ super kernel].
-	A _ self domain.
-	B _ self codomain.
-	n _ A rank.
-	m _ B rank.
-	P _ self codomain scalars polynomialsIn: n + m + 1.
-	embedding _ B to: P images: ((1 to: B rank) collect: [:i| P x: i+n]).
-	t _ P x: P rank.
-	generators _ OrderedCollection new.
-	1 to: n do: [:i|
-		generators add: (P x: i) - (embedding value: (self value: (A x: i)))].
+	A := self domain.
+	B := self codomain.
+	n := A rank.
+	m := B rank.
+	P := self codomain scalars polynomialsIn: n + m + 1.
+	ι := B to: P images: ((1 to: B rank) collect: [:i| P x: i+n]).
+	t := P x: P rank.
+	generators := OrderedCollection new.
+	1 to: n do: [:i| generators add: (P x: i) - (ι value: (self value: (A x: i)))].
 	generators add: P one - t.
-	I _ P * generators eliminateAll: (n+1 to: P rank).
+	I := P * generators eliminateAll: (n+1 to: P rank).
 	^ self propertyAt: #kernel put: A * (I generators collect: [:each| A !! each])! !
 
 !PolynomialMap methodsFor: 'operations' stamp: 'len 6/29/2023 19:47:27'!
@@ -23981,36 +24039,37 @@ asRingMap
 graph
 	^ self domain × self image! !
 
-!RationalMap methodsFor: 'operations' stamp: 'len 6/26/2023 14:42:57'!
+!RationalMap methodsFor: 'operations' stamp: 'len 7/12/2023 17:38:13'!
 image
 	"Answer (the Zeriski closure of) the image of the receiver. This is a subscheme of the codomain.
 	Performs ideal elimination (a Groebner basis computation with the lexicographical order).
 	See PolynomialMap>>kernel."
-	| A B m n P t embedding generators g I |
+	| A B m n P t ι generators g I |
+	self propertyAt: #image ifPresent: [:aScheme| ^ aScheme].
 	A := self domain ambient coordinateRing.
 	B := self codomain ambient coordinateRing.
 	m := A rank.
 	n := B rank.
 	P := self domain scalars polynomialsIn: n + m + 1.
-	"the embedding mapping the i-th indeterminate to the (i+n)-th indeterminate in the bigger ring:"
-	embedding := A to: P images: ((1 to: A rank) collect: [:i| P x: i+n]).
+	"The embedding maps the i-th indeterminate to the (i+n)-th indeterminate in the bigger ring:"
+	ι := A to: P images: ((1 to: A rank) collect: [:i| P x: i+n]).
 	t := P x: P rank.
 	generators := OrderedCollection new.
 	g := P one.
 	1 to: n do: [:i| | numerator denominator |
-		numerator := embedding value: (self representatives at: i) numerator.
-		denominator := embedding value: (self representatives at: i) denominator.
+		numerator := ι value: (self representatives at: i) numerator.
+		denominator := ι value: (self representatives at: i) denominator.
 		generators add: denominator * (P x: i) - numerator.
 		g := g * denominator].
-	self domain asIdeal generators do: [:each| generators add: (embedding value: each)].
+	self domain asIdeal generators do: [:each| generators add: (ι value: each)].
 	generators add: P one - (g * t).
 	I := P * generators eliminateAll: (n+1 to: P rank).
-	^ self codomain sub: (I generators collect: [:f| B !! f])! !
+	^ self propertyAt: #image put: (self codomain sub: (I generators collect: [:f| B !! f]))! !
 
-!RationalMap methodsFor: 'operations' stamp: 'len 11/23/2022 21:39:55'!
+!RationalMap methodsFor: 'operations' stamp: 'len 7/12/2023 17:39:06'!
 jacobian
 	"Answer the Jacobian matrix of the receiver."
-	^ self domain ambient coordinateRing
+	^ self domain ambient coordinateRing fractions
 		matrix: self codomain ambient rank @ self domain ambient rank
 		fill: [:i :j| (self representatives at: i) derivativeIn: j]! !
 
@@ -24106,6 +24165,10 @@ isRegular
 	self partialDomain isAffine ifTrue: [^ self isPolynomial].
 	self partialDomain isProjective ifTrue: [^ self base isEmpty].
 	^ DomainError signal! !
+
+!RationalMap methodsFor: 'testing' stamp: 'len 7/12/2023 17:03:37'!
+isSurjective
+	^ self codomain = self image! !
 
 !RationalMap methodsFor: 'private' stamp: 'len 7/11/2022 12:31:16'!
 partialDomain: aScheme
@@ -32176,44 +32239,44 @@ asRational
 	N _ (self modulus // 2) sqrtFloor.
 	^ self asRationalMaxNumerator: N maxDenominator: N! !
 
-!ModularInteger methodsFor: 'converting' stamp: 'len 7/30/2021 12:38:12'!
+!ModularInteger methodsFor: 'converting' stamp: 'len 7/12/2023 14:57:39'!
 asRational: T
 	"Answer the rational reconstruction of the receiver, or nil if not found.
 	This is the MQRR (Maximal Quotient Rational Reconstruction) algorithm.
 	The parameter T > 0 bounds the size of the possible outputs. If u is the representative of the receiver and m is the modulus, the algorithm returns a rational n/d = u mod m, d > 0, gcd(n,d) = 1 and T*|n|*d < m, or fails.
-	The algorithm is almost optimal in the sense that requires that the modulus be only a modest number bits longer than 2*|n|*d. The time complexity is O(log^2 m).
+	The algorithm is almost optimal in the sense that requires that the modulus be only a modest number bits longer than 2*|n|*d. The time complexity is O(log² m).
 	See [Mon04]."
-	| T2 n d t0 r0 t1 r1 temp answer |
-	representative == 0 ifTrue: [^ self modulus > T ifTrue: [0]].
-	n _ 0. d _ 0.
-	t0 _ 0. r0 _ self modulus.
-	t1 _ 1. r1 _ representative.
-	T2 _ T.
-	[r1 ~~ 0 and: [r0 > T2]]
+	| T₂ n d t₀ r₀ t₁ r₁ temp answer |
+	representative = 0 ifTrue: [^ self modulus > T ifTrue: [0]].
+	n := 0. d := 0.
+	t₀ := 0. r₀ := self modulus.
+	t₁ := 1. r₁ := representative.
+	T₂ := T.
+	[r₁ ~~ 0 and: [r₀ > T₂]]
 		whileTrue:
 			[| q |
-			(q _ r0 // r1) > T2
-				ifTrue: [n _ r1. d _ t1. T2 _ q].
-			temp _ r0 - (q * r1). r0 _ r1. r1 _ temp.
-			temp _ t0 - (q * t1). t0 _ t1. t1 _ temp].
-	^ (d ~~ 0 and: [(answer _ (n/d) asRational) numerator abs = n abs]) ifTrue: [answer]! !
+			(q := r₀ // r₁) > T₂
+				ifTrue: [n := r₁. d := t₁. T₂ := q].
+			temp := r₀ - (q * r₁). r₀ := r₁. r₁ := temp.
+			temp := t₀ - (q * t₁). t₀ := t₁. t₁ := temp].
+	^ (d ~~ 0 and: [(answer := (n/d) asRational) numerator abs = n abs]) ifTrue: [answer]! !
 
-!ModularInteger methodsFor: 'converting' stamp: 'len 3/11/2021 15:26:11'!
+!ModularInteger methodsFor: 'converting' stamp: 'len 7/12/2023 14:57:34'!
 asRationalMaxNumerator: N maxDenominator: D
 	"Answer the rational reconstruction of the receiver, or nil if it doesn't exist."
-	| n d t0 r0 t1 r1 temp answer |
-	representative == 0 ifTrue: [^ 0].
-	t0 _ 0. r0 _ self modulus.
-	t1 _ 1. r1 _ representative.
-	[r1 > N]
+	| n d t₀ r₀ t₁ r₁ temp answer |
+	representative = 0 ifTrue: [^ 0].
+	t₀ := 0. r₀ := self modulus.
+	t₁ := 1. r₁ := representative.
+	[r₁ > N]
 		whileTrue:
 			[| q |
-			q _ r0 // r1.
-			temp _ r0 - (q * r1). r0 _ r1. r1 _ temp.
-			temp _ t0 - (q * t1). t0 _ t1. t1 _ temp].
-	n _ r1. d _ t1.
-	d <= 0 ifTrue: [n _ n negated. d _ d negated].
-	^ (d <= D and: [(answer _ (n/d) asRational) numerator abs = n abs]) ifTrue: [answer]! !
+			q := r₀ // r₁.
+			temp := r₀ - (q * r₁). r₀ := r₁. r₁ := temp.
+			temp := t₀ - (q * t₁). t₀ := t₁. t₁ := temp].
+	n := r₁. d := t₁.
+	d <= 0 ifTrue: [n := n negated. d := d negated].
+	^ (d <= D and: [(answer := (n/d) asRational) numerator abs = n abs]) ifTrue: [answer]! !
 
 !ModularInteger methodsFor: 'operations' stamp: 'len 1/9/2022 20:54:19'!
 + anElement
@@ -32854,6 +32917,18 @@ isSquare
 isZeroDivisor
 	"Answer true if there exists a nonzero element that multiplied by the receiver is zero."
 	^ self isZero! !
+
+!QuasiGaloisRingElement methodsFor: 'testing' stamp: 'len 7/12/2023 19:40:54'!
+isNilpotent
+	^ self isZeroDivisor! !
+
+!QuasiGaloisRingElement methodsFor: 'testing' stamp: 'len 7/12/2023 19:41:54'!
+isUnit
+	^ self isZeroDivisor not! !
+
+!QuasiGaloisRingElement methodsFor: 'testing' stamp: 'len 7/12/2023 19:42:19'!
+isZeroDivisor
+	^ representative independentCoefficient isZero! !
 
 !GaussianRational methodsFor: 'accessing' stamp: 'len 1/4/2022 14:57:05'!
 imaginary
