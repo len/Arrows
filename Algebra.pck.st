@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5898] on 11 July 2023 at 7:46:56 pm'!
+'From Cuis 6.0 [latest update: #5898] on 12 July 2023 at 1:05:25 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -80,7 +80,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 141!
+!provides: 'Algebra' 1 142!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -11024,6 +11024,11 @@ integers
 numerators
 	^ ℤ! !
 
+!RationalField methodsFor: 'accessing' stamp: 'len 7/11/2023 20:43:47'!
+scalars
+	"Answer the coefficient field of the receiver as an algebraic extension (as a number field)."
+	^ self! !
+
 !RationalField methodsFor: 'accessing' stamp: 'len 12/29/2021 11:55:57'!
 size
 	^ Cardinal new! !
@@ -12636,6 +12641,11 @@ residueField
 		(answer _ PrimeField new: self p)
 			addMap: (self onto: answer map: [:x| answer !! x representative]); "TODO: add kernel and section"
 			yourself]! !
+
+!PrimePowerRing methodsFor: 'accessing' stamp: 'len 7/11/2023 20:43:12'!
+scalars
+	"Answer the coefficient ring of the receiver as an algebraic extension (as a Galois ring)."
+	^ self! !
 
 !PrimePowerRing methodsFor: 'accessing' stamp: 'len 5/30/2022 10:03:09'!
 unitsSize
@@ -20251,11 +20261,11 @@ toAll: anArray
 		[self coordinateRing ⇇ (anArray collect: [:each| each coordinateRing]) ifNotNil: [:anArrayOfMorphisms| ^ anArrayOfMorphisms collect: [:each| each spec]]].
 	^ super toAll: anArray! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 6/23/2023 20:05:54'!
-× anAffineScheme
+!AffineScheme methodsFor: 'operations' stamp: 'len 7/12/2023 01:04:57'!
+× aScheme
 	"Answer the fiber product of the receiver and the argument."
-	(anAffineScheme isKindOf: AffineScheme) ifFalse: [self notYetImplemented].
-	^ (self coordinateRing ⊗ anAffineScheme coordinateRing) spec! !
+	(aScheme isKindOf: AffineScheme) ifFalse: [^ super × aScheme].
+	^ (self coordinateRing ⊗ aScheme coordinateRing) spec! !
 
 !AffineScheme methodsFor: 'operations' stamp: 'len 6/26/2023 14:40:37'!
 decomposition
@@ -20451,6 +20461,25 @@ projectiveClosure
 projectivized
 	"Answer the projectivization of the receiver."
 	^ self coordinateRing proj! !
+
+!AffineVariety methodsFor: 'operations' stamp: 'len 7/12/2023 12:29:11'!
+restriction
+	"If the receiver is defined over an algebraic field extension L/k, answer the Weil restriction as a scheme over k."
+	| R L K d n S p α v generators |
+	self propertyAt: #restriction ifPresent: [:aScheme| ^ aScheme].
+	R := self coordinateRing.
+	L := R scalars.
+	(d := L degree) = 1 ifTrue: [^ self].
+	K := L scalars.
+	n := R cover rank.
+	S := K polynomialsIn: n*d + 1.
+	α := S generators last.
+	p := R scalars modulus value: α.
+	v := (1 to: n) collect: [:i| (0 to: d-1) sum: [:j| α^j * (S x: d*(i-1) + j + 1)]].
+	generators := OrderedCollection new.
+	R relations generators do: [:g|
+		((g associations sum: [:each| (each key value: v) * (each value representative value: α)]) \\ p) asUnivariate coefficients do: [:each| generators add: each]].
+	^ self propertyAt: #restriction put: (self ambient restriction coordinateRing / generators) spec! !
 
 !AffineVariety methodsFor: 'operations' stamp: 'len 6/26/2023 14:41:34'!
 singular
@@ -20659,6 +20688,12 @@ projectiveClosure
 	patches at: patches size put: self.
 	P propertyAt: #patches put: patches.
 	^ self propertyAt: #projectiveClosure put: P! !
+
+!AffineSpace methodsFor: 'operations' stamp: 'len 7/12/2023 12:29:01'!
+restriction
+	"If the receiver is defined over an algebraic field extension L/k, answer the Weil restriction as a scheme over k."
+	self scalars degree = 1 ifTrue: [^ self].
+	^ self propertyAt: #restriction ifAbsentPut: [self class new: self rank * self scalars degree over: self scalars scalars]! !
 
 !AffineSpace methodsFor: 'points' stamp: 'len 5/28/2020 14:53:40'!
 origin
@@ -23994,6 +24029,28 @@ projectiveClosure
 		from: self domain projectiveClosure
 		to: self codomain projectiveClosure
 		representatives: (self representatives collect: [:each| each homogenized])! !
+
+!RationalMap methodsFor: 'operations' stamp: 'len 7/12/2023 13:04:40'!
+restriction
+	"If the receiver is a rational map between affine varieties defined over an algebraic field extension L/k, answer the Weil restriction."
+	| R L K d n S p α v representatives |
+	(self domain isAffine and: [self codomain isAffine]) ifFalse: [^ self notYetImplemented].
+	self isPolynomial ifFalse: [^ self notYetImplemented].
+	self domain scalars degree = 1 ifTrue: [^ self].
+	self propertyAt: #restriction ifPresent: [:aRationalMap| ^ aRationalMap].
+	R := self domain ambient coordinateRing.
+	L := R scalars.
+	(d := L degree) = 1 ifTrue: [^ self].
+	K := L scalars.
+	n := R rank.
+	S := K polynomialsIn: n*d + 1.
+	α := S generators last.
+	p := R scalars modulus value: α.
+	v := (1 to: n) collect: [:i| (0 to: d-1) sum: [:j| α^j * (S x: d*(i-1) + j + 1)]].
+	representatives := OrderedCollection new.
+	self representatives do: [:g|
+		((g numerator associations sum: [:each| (each key value: v) * (each value representative value: α)]) \\ p) asUnivariate coefficients do: [:each| representatives add: each]].
+	^ self propertyAt: #restriction put: (self class from: self domain restriction to: self codomain restriction representatives: representatives)! !
 
 !RationalMap methodsFor: 'operations' stamp: 'len 5/8/2023 23:03:33'!
 value: aPoint
@@ -28486,6 +28543,11 @@ asRingMap
 	(aMorphism isKindOf: AffineMorphism) ifFalse: [^ super · aMorphism].
 	^ (aMorphism asRingMap · self asRingMap) spec! !
 
+!AffineMorphism methodsFor: 'operations' stamp: 'len 7/12/2023 01:04:05'!
+× aMorphism
+	(aMorphism isKindOf: AffineMorphism) ifFalse: [^ super × aMorphism].
+	^ (self asRingMap ⊗ aMorphism asRingMap) spec! !
+
 !AffineMorphism methodsFor: 'operations' stamp: 'len 6/26/2023 14:43:05'!
 image
 	"Answer (the Zeriski closure of) the image of the receiver. This is a closed subscheme of the codomain."
@@ -28626,6 +28688,14 @@ asTuple
 homogenized
 	"Answer the corresponding point in the projective closure."
 	^ self codomain → self codomain projectiveClosure value: self! !
+
+!AffinePoint methodsFor: 'operations' stamp: 'len 7/12/2023 12:42:20'!
+restriction
+	"Answer the corresponding point in the Weil restriction of the codomain."
+	| newCoordinates |
+	newCoordinates := self scalars scalars new: 0.
+	coordinates coefficients do: [:each| newCoordinates := newCoordinates, each coefficients].
+	^ self codomain restriction pointAt: (self scalars scalars !!!! newCoordinates)! !
 
 !AffinePoint methodsFor: 'printing' stamp: 'len 5/8/2023 23:28:07'!
 printOn: aStream
@@ -36760,6 +36830,10 @@ collect: aBlock
 !Tuple methodsFor: 'enumerating' stamp: 'len 5/5/2023 19:09:10'!
 count: aBlock
 	^ coefficients count: aBlock! !
+
+!Tuple methodsFor: 'enumerating' stamp: 'len 7/12/2023 13:00:42'!
+do: aBlock
+	coefficients do: aBlock! !
 
 !Tuple methodsFor: 'enumerating' stamp: 'len 6/3/2023 20:21:38'!
 keysAndValuesDo: aBinaryBlock
