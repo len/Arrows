@@ -1,97 +1,97 @@
-'From Cuis 6.0 [latest update: #5878] on 30 June 2023 at 9:08:53 pm'!
+'From Cuis 6.0 [latest update: #5898] on 13 July 2023 at 10:40:32 pm'!
 'Description '!
-!provides: 'Elliptic Curves' 1 17!
+!provides: 'Elliptic Curves' 1 18!
 !requires: 'Algebra' 1 0 nil!
-SystemOrganization addCategory: #'Elliptic Curves'!
+SystemOrganization addCategory: 'Elliptic Curves'!
 
 
-!classDefinition: #EllipticCurveGroup category: #'Elliptic Curves'!
+!classDefinition: #EllipticCurveGroup category: 'Elliptic Curves'!
 Group subclass: #EllipticCurveGroup
 	instanceVariableNames: 'scalars codomain'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveGroup class' category: #'Elliptic Curves'!
+!classDefinition: 'EllipticCurveGroup class' category: 'Elliptic Curves'!
 EllipticCurveGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurve category: #'Elliptic Curves'!
+!classDefinition: #EllipticCurve category: 'Elliptic Curves'!
 ProjectivePlaneCurve subclass: #EllipticCurve
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurve class' category: #'Elliptic Curves'!
+!classDefinition: 'EllipticCurve class' category: 'Elliptic Curves'!
 EllipticCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #WeierstrassCurve category: #'Elliptic Curves'!
+!classDefinition: #WeierstrassCurve category: 'Elliptic Curves'!
 EllipticCurve subclass: #WeierstrassCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'WeierstrassCurve class' category: #'Elliptic Curves'!
+!classDefinition: 'WeierstrassCurve class' category: 'Elliptic Curves'!
 WeierstrassCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurveMap category: #'Elliptic Curves'!
+!classDefinition: #EllipticCurveMap category: 'Elliptic Curves'!
 RationalMap subclass: #EllipticCurveMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveMap class' category: #'Elliptic Curves'!
+!classDefinition: 'EllipticCurveMap class' category: 'Elliptic Curves'!
 EllipticCurveMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurveFrobeniusIsogeny category: #'Elliptic Curves'!
+!classDefinition: #EllipticCurveFrobeniusIsogeny category: 'Elliptic Curves'!
 EllipticCurveMap subclass: #EllipticCurveFrobeniusIsogeny
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveFrobeniusIsogeny class' category: #'Elliptic Curves'!
+!classDefinition: 'EllipticCurveFrobeniusIsogeny class' category: 'Elliptic Curves'!
 EllipticCurveFrobeniusIsogeny class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurveIsogeny category: #'Elliptic Curves'!
+!classDefinition: #EllipticCurveIsogeny category: 'Elliptic Curves'!
 EllipticCurveMap subclass: #EllipticCurveIsogeny
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveIsogeny class' category: #'Elliptic Curves'!
+!classDefinition: 'EllipticCurveIsogeny class' category: 'Elliptic Curves'!
 EllipticCurveIsogeny class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurveIsomorphism category: #'Elliptic Curves'!
+!classDefinition: #EllipticCurveIsomorphism category: 'Elliptic Curves'!
 EllipticCurveMap subclass: #EllipticCurveIsomorphism
 	instanceVariableNames: 'u r s t'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveIsomorphism class' category: #'Elliptic Curves'!
+!classDefinition: 'EllipticCurveIsomorphism class' category: 'Elliptic Curves'!
 EllipticCurveIsomorphism class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurveScalingEndomorphism category: #'Elliptic Curves'!
+!classDefinition: #EllipticCurveScalingEndomorphism category: 'Elliptic Curves'!
 EllipticCurveMap subclass: #EllipticCurveScalingEndomorphism
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveScalingEndomorphism class' category: #'Elliptic Curves'!
+!classDefinition: 'EllipticCurveScalingEndomorphism class' category: 'Elliptic Curves'!
 EllipticCurveScalingEndomorphism class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurvePoint category: #'Elliptic Curves'!
+!classDefinition: #EllipticCurvePoint category: 'Elliptic Curves'!
 ProjectivePoint subclass: #EllipticCurvePoint
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurvePoint class' category: #'Elliptic Curves'!
+!classDefinition: 'EllipticCurvePoint class' category: 'Elliptic Curves'!
 EllipticCurvePoint class
 	instanceVariableNames: ''!
 
@@ -369,16 +369,18 @@ asShortWeierstrassModel
 over: aRing
 	^ self class coefficients: (coefficients over: aRing)! !
 
-!EllipticCurve methodsFor: 'frobenius' stamp: 'len 6/26/2023 01:44:21'!
+!EllipticCurve methodsFor: 'frobenius' stamp: 'len 7/13/2023 11:45:26'!
 frobenius
+	"Answer the Frobenius of the receiver as an element in the Frobenius quadratic order (or ℤ)."
 	^ self frobeniusOrder degree = 1 ifTrue: [self frobeniusPolynomial roots anyOne] ifFalse: [self frobeniusOrder x]! !
 
 !EllipticCurve methodsFor: 'frobenius' stamp: 'len 6/26/2023 01:43:07'!
 frobeniusDiscriminant
 	^ self frobeniusPolynomial discriminant! !
 
-!EllipticCurve methodsFor: 'frobenius' stamp: 'len 6/26/2023 01:43:20'!
-frobeniusEndomorphism
+!EllipticCurve methodsFor: 'frobenius' stamp: 'len 7/13/2023 11:44:24'!
+frobeniusMap
+	"Answer the Frobenius endomorphism as an isogeny."
 	^ self notYetImplemented! !
 
 !EllipticCurve methodsFor: 'frobenius' stamp: 'len 6/26/2023 01:46:43'!
@@ -1236,3 +1238,15 @@ divisionPolynomial: anInteger
 	is2Torsion := self = nP."
 	self isZero ifTrue: [^ self codomain divisionPolynomial: anInteger].
 	^ self notYetImplemented! !
+
+!EllipticCurvePoint methodsFor: 'as yet unclassified' stamp: 'len 7/13/2023 11:41:44'!
+frobenius
+	"Answer the Frobenius of this point."
+	^ self frobenius: 1! !
+
+!EllipticCurvePoint methodsFor: 'as yet unclassified' stamp: 'len 7/13/2023 11:41:28'!
+frobenius: anInteger
+	"Answer the n-th Frobenius of this point."
+	| e |
+	e := self scalars characteristic ^ anInteger.
+	^ self shallowCopy coordinates: (coordinates apply: [:each| each ^ e])! !

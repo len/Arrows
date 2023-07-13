@@ -1,36 +1,36 @@
-'From Cuis 6.0 [latest update: #5801] on 3 June 2023 at 9:58:39 pm'!
+'From Cuis 6.0 [latest update: #5898] on 13 July 2023 at 10:40:37 pm'!
 'Description '!
-!provides: 'Transfinites' 1 5!
-SystemOrganization addCategory: #Transfinites!
+!provides: 'Transfinites' 1 6!
+SystemOrganization addCategory: 'Transfinites'!
 
 
-!classDefinition: #Cardinal category: #Transfinites!
+!classDefinition: #Cardinal category: 'Transfinites'!
 Magnitude subclass: #Cardinal
 	instanceVariableNames: 'order'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Transfinites'!
-!classDefinition: 'Cardinal class' category: #Transfinites!
+!classDefinition: 'Cardinal class' category: 'Transfinites'!
 Cardinal class
 	instanceVariableNames: ''!
 
-!classDefinition: #Infinity category: #Transfinites!
+!classDefinition: #Infinity category: 'Transfinites'!
 Magnitude subclass: #Infinity
 	instanceVariableNames: 'sign'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Transfinites'!
-!classDefinition: 'Infinity class' category: #Transfinites!
+!classDefinition: 'Infinity class' category: 'Transfinites'!
 Infinity class
 	instanceVariableNames: ''!
 
-!classDefinition: #Ordinal category: #Transfinites!
+!classDefinition: #Ordinal category: 'Transfinites'!
 Magnitude subclass: #Ordinal
 	instanceVariableNames: 'terms'
 	classVariableNames: 'Zero'
 	poolDictionaries: ''
 	category: 'Transfinites'!
-!classDefinition: 'Ordinal class' category: #Transfinites!
+!classDefinition: 'Ordinal class' category: 'Transfinites'!
 Ordinal class
 	instanceVariableNames: ''!
 
@@ -58,6 +58,9 @@ The following are examples of undeterminations (they produce an error):
 	Infinity positive / Infinity positive.
 	Infinity positive raisedToInteger: 0.
 !
+
+!Ordinal commentStamp: '<historical>' prior: 0!
+Ordinal numbers, i.e. equivalence classes of well-ordered sets. This implementation is restricted to the ordinals that can be constructed from the natural numbers by a finite number of additions, multiplications and base-ω exponentiations.!
 
 !Cardinal methodsFor: 'accessing' stamp: 'len 4/22/2016 05:06'!
 order

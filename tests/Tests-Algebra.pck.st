@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 12 July 2023 at 7:57:48 pm'!
+'From Cuis 6.0 [latest update: #5898] on 13 July 2023 at 10:40:41 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 95!
+!provides: 'Tests-Algebra' 1 96!
 SystemOrganization addCategory: 'Tests-Algebra'!
 SystemOrganization addCategory: 'Tests-Algebra-Rings'!
 SystemOrganization addCategory: 'Tests-Algebra-Arrays'!
@@ -3169,6 +3169,31 @@ testProjectiveLineOverFiniteRing6
 	self assert: P points size = 18.
 	self assert: (Iterator on: P points performing: #do:) size = 18! !
 
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 7/13/2023 14:49:28'!
+testArithmeticGenusExample1
+	| R I C |
+	R :=  ℚ polynomialsIn: 4.
+	I := R !! [:x :y :z :w| {w*z - (x^2). w^2 + (y^2) + (z^2)}].
+	C := (R / I) proj asCurve.
+	self assert: C arithmeticGenus = 1! !
+
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 7/13/2023 14:49:54'!
+testArithmeticGenusExample2
+	| R I C |
+	R :=  ℤ/7 polynomialsIn: 5.
+	I := R !! [:x :y :z :w :t| {t^3 - (x*y*w). x^3 + (y^3) + (z^3). z - w}].
+	C := (R / I) proj asCurve.
+	self assert: C arithmeticGenus = 10! !
+
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 7/13/2023 14:56:37'!
+testArithmeticGenusExample3
+	| R f C |
+	R :=  ℤ/5 polynomialsIn: 3.
+	f := R !! [:x :y :z| y^2*(z^7) - (x^9) - (x*(z^8))].
+	C := (R / f) proj asCurve.
+	self assert: C arithmeticGenus = 28.
+	"self assert: C genus = 4"! !
+
 !AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 14:38:33'!
 testDifference
 	| A x y C X2 D O |
@@ -4272,6 +4297,42 @@ testAffineRingDimensionAsVectorSpace
 	b _ S x: 2.
 	I _ S * {a^6. a^3*b. a^2*(b^4). b^5}.
 	self assert: (S/I) vectorSpaceDimension = 17! !
+
+!CommutativeAlgebraTest methodsFor: 'hilbert series' stamp: 'len 7/13/2023 16:09:59'!
+testHilbertPolynomialExample1
+	| R I H |
+	R := ℚ polynomialsIn: #(x y z).
+	I := R * (R !! [:x :y :z| {x^3*(y^2) + (x^2*(y^2)*z*3) + (y^3*(z^2)) + (z^5)}]).
+	H := (R/I) hilbertPolynomial.
+	self assert: H = (H parent x * 5 - 5)! !
+
+!CommutativeAlgebraTest methodsFor: 'hilbert series' stamp: 'len 7/13/2023 16:10:08'!
+testHilbertPolynomialExample2
+	| R I H |
+	R := ℚ polynomialsIn: #(x y z).
+	I := R * (R !! [:x :y :z| {x^2*(y^3). x*z}]).
+	H := (R/I) hilbertPolynomial.
+	self assert: H = (H parent x + 5)! !
+
+!CommutativeAlgebraTest methodsFor: 'hilbert series' stamp: 'len 7/13/2023 16:09:33'!
+testHilbertSeriesExample1
+	"Example from Sage (but Sage defines this as the Hilbert series of the ideal I instead of the quotient R/I):"
+	| R I H t |
+	R := ℚ polynomialsIn: #(x y z).
+	I := R * (R !! [:x :y :z| {x^3*(y^2) + (x^2*(y^2)*z*3) + (y^3*(z^2)) + (z^5)}]).
+	H := (R/I) hilbertSeries.
+	t := H parent x.
+	self assert: H = (t^4 + (t^3) + (t^2) + t + 1 / (t^2 - (t*2) + 1))! !
+
+!CommutativeAlgebraTest methodsFor: 'hilbert series' stamp: 'len 7/13/2023 16:09:25'!
+testHilbertSeriesExample2
+	"Example from Sage (but Sage defines this as the Hilbert series of the ideal I instead of the quotient R/I):"
+	| R I H t |
+	R := ℚ polynomialsIn: #(a b).
+	I := R * (R !! [:a :b| {a^2*b. a*(b^2)}]).
+	H := (R/I) hilbertSeries.
+	t := H parent x.
+	self assert: H = (t^3 - (t^2) - t - 1 / (t - 1))! !
 
 !CommutativeAlgebraTest methodsFor: 'hilbert series' stamp: 'len 5/23/2020 09:33:01'!
 testHilbertSeriesOfPolynomialIdeal
@@ -8220,6 +8281,20 @@ testEmbeddingIntoOverring
 	k := 3 atRandom: random.
 	S := GaloisRing new: p to: n to: m * k.
 	self testRingHomomorphism:  R → S! !
+
+!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2023 21:46:01'!
+testGeneralizedFrobenius
+	self testRingHomomorphism: R generalizedFrobenius! !
+
+!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2023 21:45:10'!
+testGeneralizedFrobeniusFixesScalars
+	| a |
+	a := R !! R scalars atRandom.
+	self assert: a generalizedFrobenius = a! !
+
+!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2023 21:46:54'!
+testGeneralizedFrobeniusOrder
+	self assert: (R generalizedFrobenius ^ R degree) isIdentity! !
 
 !GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 21:52:59'!
 testIsLocal
