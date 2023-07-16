@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5898] on 13 July 2023 at 10:40:24 pm'!
+'From Cuis 6.0 [latest update: #5898] on 16 July 2023 at 11:40:28 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, p-adic fields, power series rings, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, finite distributive (not necessarily associative) algebras, schemes, and coherent sheaves.
 
 References:
@@ -29,6 +29,7 @@ References:
 [Fle69] Fletcher, C. R., "Unique Factorization Rings" (1969)
 [Gal78] Steven Galovich, "Unique Factorization Rings with Zero Divisors" (1978)
 [GM73] Ganske, G.; McDonald, B.R. "Finite local rings". Rocky Mountain J. Math. 3 (1973), no. 4, 521-540
+[GP97] Shuhong Gao; Daniel Panario; "Tests and Constructions of Irreducible Polynomials over Finite Fields" (1997)
 [GCL92] Keith O. Geddes, Stephen R. Czapor, and George Labahn; "Algorithms for Computer Algebra" (1992)
 [GP08] Gert-Martin Greuel; Gerhard Pfister; "A Singular Introduction to Commutative Algebra" (2008)
 [Gra53] Frank Gray, "Pulse Code Communication" (1953)
@@ -80,7 +81,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 145!
+!provides: 'Algebra' 1 147!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -672,7 +673,7 @@ PrimePowerRing class
 !classDefinition: #PrimeField category: 'Algebra-Rings-Finite'!
 PrimePowerRing subclass: #PrimeField
 	instanceVariableNames: ''
-	classVariableNames: ''
+	classVariableNames: 'ConwayPolynomials'
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
 !classDefinition: 'PrimeField class' category: 'Algebra-Rings-Finite'!
@@ -732,7 +733,7 @@ ExtensionRing class
 !classDefinition: #GaloisRing category: 'Algebra-Rings-Finite'!
 ExtensionRing subclass: #GaloisRing
 	instanceVariableNames: ''
-	classVariableNames: 'IrreduciblePolynomialsCache'
+	classVariableNames: 'IrreduciblePolynomialsCache PrimitivePolynomialsCache'
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
 !classDefinition: 'GaloisRing class' category: 'Algebra-Rings-Finite'!
@@ -742,7 +743,7 @@ GaloisRing class
 !classDefinition: #GaloisField category: 'Algebra-Rings-Finite'!
 GaloisRing subclass: #GaloisField
 	instanceVariableNames: ''
-	classVariableNames: 'ConwayPolynomials'
+	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings-Finite'!
 !classDefinition: 'GaloisField class' category: 'Algebra-Rings-Finite'!
@@ -2846,7 +2847,7 @@ The quasi-Galois ring A(p^r,n) is an extension of degree n of the Galois field G
 !GaloisRing commentStamp: '<historical>' prior: 0!
 The Galois ring GR(p^n,m) is a Galois extension of degree m of the prime power ring ℤ/(p^n)ℤ of characteristic p^n. This is the unique (up to isomorphism) extension of degree m of the ring ℤ/(p^n)ℤ of integers modulo p^n (see PrimePowerRing). When n=1 they are fields (see GaloisField).
 
-Galois rings GR(p^n,m) are local rings with maximal ideal <p>, and <p> is also the set of zero divisors. They are also Euclidean rings.
+Galois rings GR(p^n,m) are local rings with maximal ideal ⟨p⟩, and ⟨p⟩ is also the set of zero divisors. They are also Euclidean rings.
 
 The subrings of GR(p^n,m) correspond to the positive divisors of m.
 
@@ -10117,14 +10118,28 @@ syzygiesOverEuclideanDomainOf: aMatrix
 	E _ aMatrix coechelon.
 	^ Matrix to: aMatrix domain columns: (((1 to: E width) select: [:i| E isZeroAtColumn: i]) collect: [:i| T columnAt: i])! !
 
+!Ring methodsFor: 'computing-polynomials' stamp: 'len 7/16/2023 22:51:24'!
+findIrreduciblePolynomialOfDegree: n
+	"Answer a monic irreducible polynomial of degree n."
+	| P one x f random |
+	P := self polynomials.
+	one := P one.
+	x := P x.
+	1 to: n-1 do: [:k| (f := x^n + (x^k) + one) isIrreducible ifTrue: [^ f]].
+	random := Random new.
+	[f := (P atRandom: random maxDegree: n-1) + (x^n).
+	f isIrreducible] whileFalse.
+	^ f! !
+
 !Ring methodsFor: 'computing-polynomials' stamp: 'len 6/25/2023 09:46:40'!
 polynomial: aPolynomial factorizationDo: aBlock
 	self isFiniteField ifTrue: [^ self polynomialOverFiniteField: aPolynomial factorizationDo: aBlock].
 	^ self subclassResponsibility! !
 
-!Ring methodsFor: 'computing-polynomials' stamp: 'len 6/25/2023 17:01:38'!
+!Ring methodsFor: 'computing-polynomials' stamp: 'len 7/14/2023 18:18:31'!
 rootsOf: aPolynomial do: aBlock
-	"Enumerate the distinct roots of aPolynomial (without multiplicities)."
+	"Enumerate the distinct roots of aPolynomial (ignoring multiplicities)."
+	(self isUFR not and: [self isFinite]) ifTrue: [^ 	self do: [:each| (aPolynomial value: each) isZero ifTrue: [aBlock value: each]]].
 	self rootsOf: aPolynomial withMultiplicitiesDo: [:τ :m| aBlock value: τ]! !
 
 !Ring methodsFor: 'computing-polynomials' stamp: 'len 6/25/2023 11:40:58'!
@@ -10356,10 +10371,10 @@ extension: aPolynomial
 	aPolynomial parent isUnivariate ifFalse: [DomainError signal: 'not univariate poylnomial'].
 	^ self extensionClass modulus: (aPolynomial over: self)! !
 
-!Ring methodsFor: 'operations' stamp: 'len 10/31/2016 05:46'!
+!Ring methodsFor: 'operations' stamp: 'len 7/14/2023 11:33:10'!
 extensionDegree: anInteger
 	"Answer the algebraic extension of the receiver of the given degree. Choose any irreducible polynomial."
-	^ self extension: (self polynomials findIrreducibleOfDegree: anInteger)! !
+	^ self extension: (self findIrreduciblePolynomialOfDegree: anInteger)! !
 
 !Ring methodsFor: 'operations' stamp: 'len 5/7/2022 07:36:28'!
 fractions
@@ -12829,9 +12844,41 @@ syzygiesOf: aMatrix
 	For a matrix A, the output is X with AX = 0."
 	^ self syzygiesOverEuclideanDomainOf: aMatrix! !
 
-!PrimeField methodsFor: 'computing-polynomials' stamp: 'len 6/25/2023 17:08:03'!
+!PrimeField methodsFor: 'computing-polynomials' stamp: 'len 7/14/2023 12:32:41'!
+findIrreduciblePolynomialOfDegree: n
+	"Answer a monic irreducible polynomial of degree n."
+	(self p <= 255 and: [n <= 255]) ifTrue: [ConwayPolynomials at: {self p. n} asByteArray ifPresent: [:coefficients| ^ self polynomials !! coefficients]].
+	^ super findIrreduciblePolynomialOfDegree: n! !
+
+!PrimeField methodsFor: 'computing-polynomials' stamp: 'len 7/16/2023 15:43:07'!
+findPrimitivePolynomialOfDegree: n
+	"Answer a monic irreducible primitive polynomial of degree n."
+	| m factors P x random a₀ f F |
+	(self p <= 255 and: [n <= 255]) ifTrue: [ConwayPolynomials at: {self p. n} asByteArray ifPresent: [:coefficients| ^ self polynomials !! coefficients]].
+	m := self p^n - 1.
+	factors := m factorization.
+	P := self polynomials.
+	x := P x.
+	random := Random new.
+	[[[a₀ := self atRandom: random. (n even ifTrue: [a₀] ifFalse: [a₀ negated]) isPrimitiveRoot] whileFalse.
+	f := (P atRandom: random maxDegree: n-2) << 1 + (x^n) + a₀.
+	f isIrreducible] whileFalse.
+	F := GaloisField modulus: f.
+	(F units orderOf: F x multiple: m factorization: factors) = m] whileFalse.
+	^ f
+
+"
+alternative:
+	m := self p^n - 1.
+	factors := m factorization.
+	[f := self findIrreduciblePolynomialOfDegree: n.
+	F := GaloisField modulus: f.
+	(F units orderOf: F x multiple: m factorization: factors) = m] whileFalse.
+	^ f"! !
+
+!PrimeField methodsFor: 'computing-polynomials' stamp: 'len 7/14/2023 18:14:44'!
 rootsOf: aPolynomial do: aBlock
-	"Enumerate the distinct roots of aPolynomial (without multiplicities)."
+	"Enumerate the distinct roots of aPolynomial (ignoring multiplicities)."
 	^ super rootsOf: aPolynomial do: aBlock
 
 "alternative: (which turns out to be slower)"
@@ -12900,6 +12947,155 @@ squareRootOfRepresentative: anInteger
 	modulus = 2 ifTrue: [^ anInteger].
 	algorithm _ self propertyAt: #squareRootAlgorithm ifAbsentPut: [TonelliShanks new modulus: self modulus].
 	^ algorithm squareRootOf: anInteger! !
+
+!PrimeField class methodsFor: 'as yet unclassified' stamp: 'len 7/14/2023 11:41:09'!
+initialize
+	super initialize.
+	"Conway polynomials for all Galois fields of even order <= 2^64 and odd order < 2^16."
+	ConwayPolynomials := Dictionary new.
+	#(
+(#[2 2] #[1 1 1])
+(#[2 3] #[1 1 0 1])
+(#[2 4] #[1 1 0 0 1])
+(#[2 5] #[1 0 1 0 0 1])
+(#[2 6] #[1 1 0 1 1 0 1])
+(#[2 7] #[1 1 0 0 0 0 0 1])
+(#[2 8] #[1 0 1 1 1 0 0 0 1])
+(#[2 9] #[1 0 0 0 1 0 0 0 0 1])
+(#[2 10] #[1 1 1 1 0 1 1 0 0 0 1])
+(#[2 11] #[1 0 1 0 0 0 0 0 0 0 0 1])
+(#[2 12] #[1 1 0 1 0 1 1 1 0 0 0 0 1])
+(#[2 13] #[1 1 0 1 1 0 0 0 0 0 0 0 0 1])
+(#[2 14] #[1 0 0 1 0 1 0 1 0 0 0 0 0 0 1])
+(#[2 15] #[1 0 1 0 1 1 0 0 0 0 0 0 0 0 0 1])
+(#[2 16] #[1 0 1 1 0 1 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 17] #[1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 18] #[1 1 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 1])
+(#[2 19] #[1 1 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 20] #[1 1 0 0 1 1 1 1 0 1 1 0 0 0 0 0 0 0 0 0 1])
+(#[2 21] #[1 0 1 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 22] #[1 0 0 0 0 1 1 0 1 1 1 1 1 0 0 0 0 0 0 0 0 0 1])
+(#[2 23] #[1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 24] #[1 0 0 1 0 1 0 1 0 1 1 0 0 1 1 1 1 0 0 0 0 0 0 0 1])
+(#[2 25] #[1 0 1 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 26] #[1 1 0 0 1 0 1 1 1 0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 27] #[1 0 1 1 0 1 0 1 0 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 28] #[1 0 1 0 0 1 1 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 29] #[1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 30] #[1 1 1 1 0 1 0 1 0 0 0 1 0 1 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 31] #[1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 32] #[1 0 0 1 1 0 0 1 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 33] #[1 0 0 1 0 0 1 0 1 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 34] #[1 1 1 0 1 1 1 1 1 0 0 1 1 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 35] #[1 0 1 0 0 1 0 1 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 36] #[1 1 0 0 0 1 1 0 1 0 0 0 0 1 1 0 0 1 0 1 1 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 37] #[1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 38] #[1 1 1 0 0 1 0 0 1 1 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 39] #[1 0 1 0 0 1 1 1 0 1 1 1 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 40] #[1 1 0 1 0 1 0 0 1 0 0 0 1 1 0 1 1 0 1 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 41] #[1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 42] #[1 1 1 0 0 1 1 0 0 1 0 1 1 0 0 0 0 0 1 0 1 0 0 0 1 1 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 43] #[1 0 0 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 44] #[1 1 0 1 1 0 0 0 0 0 0 0 0 0 0 0 1 1 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 45] #[1 0 0 0 0 0 1 0 0 0 0 1 1 0 1 1 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 46] #[1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 0 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 47] #[1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 48] #[1 0 0 1 0 0 0 1 1 0 1 1 1 0 0 0 0 1 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 49] #[1 1 1 1 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 50] #[1 0 1 0 1 0 1 0 1 1 1 0 1 1 1 0 1 1 0 1 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 51] #[1 0 0 0 0 0 1 0 0 1 0 0 1 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 52] #[1 1 0 0 1 0 0 1 0 0 1 0 0 0 1 1 0 1 0 0 0 1 0 1 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 53] #[1 1 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 54] #[1 1 1 0 1 0 0 1 0 0 0 0 0 1 0 1 1 1 1 0 0 1 0 0 0 1 0 1 0 1 1 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 55] #[1 0 0 0 1 0 0 1 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 56] #[1 0 1 1 1 0 0 0 1 1 0 1 0 1 1 0 0 0 0 1 0 0 1 0 0 0 1 0 0 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 57] #[1 1 1 1 1 1 1 0 1 0 1 1 0 1 0 0 1 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 58] #[1 1 0 1 0 1 1 1 1 0 1 1 1 0 0 0 1 0 1 0 0 0 1 0 1 1 1 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 59] #[1 1 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 60] #[1 0 1 1 1 1 0 0 1 0 0 0 1 0 0 0 0 1 0 1 0 0 1 0 0 1 1 0 0 0 1 0 1 1 1 0 1 0 0 1 0 1 1 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 61] #[1 1 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 62] #[1 1 0 0 0 0 1 0 0 0 0 0 1 1 1 0 1 1 1 1 1 1 0 0 1 1 1 1 1 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 63] #[1 1 1 1 1 0 0 0 1 1 0 1 0 0 0 1 1 1 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[2 64] #[1 1 1 0 1 1 0 1 0 0 1 1 1 1 0 0 0 0 1 0 1 1 1 1 1 1 1 0 0 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
+(#[3 2] #[2 2 1])
+(#[3 3] #[1 2 0 1])
+(#[3 4] #[2 0 0 2 1])
+(#[3 5] #[1 2 0 0 0 1])
+(#[3 6] #[2 2 1 0 2 0 1])
+(#[3 7] #[1 0 2 0 0 0 0 1])
+(#[3 8] #[2 2 2 0 1 2 0 0 1])
+(#[3 9] #[1 1 2 2 0 0 0 0 0 1])
+(#[3 10] #[2 1 0 0 2 2 2 0 0 0 1])
+(#[5 2] #[2 4 1])
+(#[5 3] #[3 3 0 1])
+(#[5 4] #[2 4 4 0 1])
+(#[5 5] #[3 4 0 0 0 1])
+(#[5 6] #[2 0 1 4 1 0 1])
+(#[7 2] #[3 6 1])
+(#[7 3] #[4 0 6 1])
+(#[7 4] #[3 4 5 0 1])
+(#[7 5] #[4 1 0 0 0 1])
+(#[11 2] #[2 7 1])
+(#[11 3] #[9 2 0 1])
+(#[11 4] #[2 10 8 0 1])
+(#[13 2] #[2 12 1])
+(#[13 3] #[11 2 0 1])
+(#[13 4] #[2 12 3 0 1])
+(#[17 2] #[3 16 1])
+(#[17 3] #[14 1 0 1])
+(#[19 2] #[2 18 1])
+(#[19 3] #[17 4 0 1])
+(#[23 2] #[5 21 1])
+(#[23 3] #[18 2 0 1])
+(#[29 2] #[2 24 1])
+(#[29 3] #[27 2 0 1])
+(#[31 2] #[3 29 1])
+(#[31 3] #[28 1 0 1])
+(#[37 2] #[2 33 1])
+(#[37 3] #[35 6 0 1])
+(#[41 2] #[6 38 1])
+(#[43 2] #[3 42 1])
+(#[47 2] #[5 45 1])
+(#[53 2] #[2 49 1])
+(#[59 2] #[2 58 1])
+(#[61 2] #[2 60 1])
+(#[67 2] #[2 63 1])
+(#[71 2] #[7 69 1])
+(#[73 2] #[5 70 1])
+(#[79 2] #[3 78 1])
+(#[83 2] #[2 82 1])
+(#[89 2] #[3 82 1])
+(#[97 2] #[5 96 1])
+(#[101 2] #[2 97 1])
+(#[103 2] #[5 102 1])
+(#[107 2] #[2 103 1])
+(#[109 2] #[6 108 1])
+(#[113 2] #[3 101 1])
+(#[127 2] #[3 126 1])
+(#[131 2] #[2 127 1])
+(#[137 2] #[3 131 1])
+(#[139 2] #[2 138 1])
+(#[149 2] #[2 145 1])
+(#[151 2] #[6 149 1])
+(#[157 2] #[5 152 1])
+(#[163 2] #[2 159 1])
+(#[167 2] #[5 166 1])
+(#[173 2] #[2 169 1])
+(#[179 2] #[2 172 1])
+(#[181 2] #[2 177 1])
+(#[191 2] #[19 190 1])
+(#[193 2] #[5 192 1])
+(#[197 2] #[2 192 1])
+(#[199 2] #[3 193 1])
+(#[211 2] #[2 207 1])
+(#[223 2] #[3 221 1])
+(#[227 2] #[2 220 1])
+(#[229 2] #[6 228 1])
+(#[233 2] #[3 232 1])
+(#[239 2] #[7 237 1])
+(#[241 2] #[7 238 1])
+(#[251 2] #[6 242 1])
+	) do: [:each| ConwayPolynomials at: each first put: each second]! !
 
 !BinaryField methodsFor: 'elements' stamp: 'len 5/16/2023 21:37:14'!
 new: anInteger
@@ -13390,11 +13586,11 @@ maximalIdeal
 p
 	^ self scalars p! !
 
-!GaloisRing methodsFor: 'accessing' stamp: 'len 6/5/2023 19:46:46'!
+!GaloisRing methodsFor: 'accessing' stamp: 'len 7/16/2023 12:13:52'!
 primitiveElement
 	"Answer basic primitive element of the receiver.
 	For GR(p^n,r), a basic primitive element is an element of multiplicative order p^r - 1, which is a root of a basic primitive polynomial of degree r over ℤ/(p^n)ℤ and dividing x^(p^r - 1) - 1 in ℤ/(p^n)ℤ[x]. Powers of this element form a Teichmuller set.
-	For a Galois field GF(q) with q = p^r, this is a primitive (q-1)-th root of unity."
+	For a Galois field GF(q) with q = p^r, this is a primitive (q-1)-th root of unity and generates the group of units."
 	| order |
 	self propertyAt: #primitiveElement ifPresent: [:anElement| ^ anElement].
 	order := self p ^ self degree - 1.
@@ -13449,22 +13645,30 @@ generalizedFrobenius
 	"Answer the generalized Frobenius automorphism."
 	^ RingMap from: self to: self map: [:x| x generalizedFrobenius]! !
 
+!GaloisRing methodsFor: 'morphisms' stamp: 'len 7/14/2023 16:55:57'!
+overrings
+	^ Iterator on: [:aBlock| self propertyAt: #outputs ifPresent: [:aDictionary| aDictionary do: [:each| (each codomain isKindOf: GaloisRing) ifTrue: [aBlock value: each]]]]! !
+
 !GaloisRing methodsFor: 'morphisms' stamp: 'len 1/9/2022 20:52:58'!
 project: anElement
 	^ self representative: anElement \\ self modulus! !
 
-!GaloisRing methodsFor: 'morphisms' stamp: 'len 10/5/2022 18:34:23'!
+!GaloisRing methodsFor: 'morphisms' stamp: 'len 7/14/2023 16:55:30'!
+subrings
+	^ Iterator on: [:aBlock| self propertyAt: #inputs ifPresent: [:aDictionary| aDictionary do: [:each| (each domain isKindOf: GaloisRing) ifTrue: [aBlock value: each]]]]! !
+
+!GaloisRing methodsFor: 'morphisms' stamp: 'len 7/16/2023 12:03:50'!
 to: aCodomain
-	aCodomain isGaloisRing ifFalse: [^ nil].
-	"The subrings of GR(p^n,r) correspond to the positive divisors of r. If aCodomain is a suitable overring, answer an embedding of the receiver into the overring.
-	Note that currently this is not canonical, embeddings are not made compatible."
-	self flag: #fix.
-	(self ~= aCodomain and: [self characteristic = aCodomain characteristic and: [self degree | aCodomain degree]])
-		ifTrue: [^ self into: aCodomain map: [:x| aCodomain project: (x representative ^ (self p ^ (aCodomain degree / self degree)))]].
-	"Given GR(p^n,r), there's a projection to GR(p^m,r) for all m<=n, with kernel <p^m>. This accounts for all ideals."
-	(self p = aCodomain p and: [self degree = aCodomain degree])
-		ifTrue: [self scalars → aCodomain scalars ifNotNil: [:aMorphism| ^ self to: aCodomain map: [:x| aCodomain project: (x representative apply: aMorphism)]]].
-	^ super to: aCodomain! !
+	(super to: aCodomain) ifNotNil: [:aMorphism| ^ aMorphism].
+	((aCodomain isKindOf: GaloisRing) and: [self p = aCodomain p]) ifFalse: [^ nil].
+	"There's a projection from GR(p^n,r) to GR(p^m,r) for all m<=n, with kernel <p^m>. This accounts for all ideals.
+	Note: Here we assume both Galois rings are defined with the same basic irreducible polynomial."
+	self degree = aCodomain degree
+		ifTrue: [^ self scalars → aCodomain scalars ifNotNil: [:aMorphism| self to: aCodomain map: [:x| aCodomain project: (x representative apply: aMorphism)]]].
+	"The subrings of GR(p^n,r) are GR(p^n,k) where k divides r. If aCodomain is a suitable overring, answer an embedding of the receiver into the overring."
+	(self characteristic = aCodomain characteristic and: [self degree | aCodomain degree])
+		ifTrue: [^ self addEmbeddingInto: aCodomain].
+	^ nil! !
 
 !GaloisRing methodsFor: 'operations' stamp: 'len 5/21/2018 15:42:01'!
 nilradical
@@ -13526,6 +13730,13 @@ isIntegralDomain
 isLocal
 	^ true! !
 
+!GaloisRing methodsFor: 'private' stamp: 'len 7/16/2023 12:04:20'!
+addEmbeddingInto: aGaloisRing
+	| α |
+	self flag: #fixme. "make it compatible"
+	α := (self modulus apply: self scalars → aGaloisRing) roots anyOne.
+	^ self addMap: (self to: aGaloisRing map: [:x| x representative value: α])! !
+
 !GaloisRing methodsFor: 'private' stamp: 'len 5/9/2022 11:06:27'!
 elementClass
 	^ GaloisRingElement! !
@@ -13536,10 +13747,11 @@ inversionExponent
 	This means that the inverse of u can be computed as u^(N-1). See [EIP00]."
 	^ self propertyAt: #inversionExponent ifAbsentPut: [self p ^ self degree - 1 * (self p ^ (self exponent - 1)) - 1]! !
 
-!GaloisRing class methodsFor: 'class initialization' stamp: 'len 5/15/2019 10:35:45'!
+!GaloisRing class methodsFor: 'class initialization' stamp: 'len 7/14/2023 12:04:36'!
 initialize
 	super initialize.
-	IrreduciblePolynomialsCache _ WeakValueDictionary new! !
+	IrreduciblePolynomialsCache := WeakValueDictionary new.
+	PrimitivePolynomialsCache := WeakValueDictionary new! !
 
 !GaloisRing class methodsFor: 'examples' stamp: 'len 5/21/2018 07:19:51'!
 example1
@@ -13556,21 +13768,36 @@ new: q to: m
 	p _ factors anyOne.
 	^ self new: p to: n to: m! !
 
-!GaloisRing class methodsFor: 'instance creation' stamp: 'len 7/16/2021 10:25:36'!
+!GaloisRing class methodsFor: 'instance creation' stamp: 'len 7/16/2023 15:46:01'!
 new: p to: n to: m
 	"Answer the Galois ring of characteristic p^n and order p^(n*m)."
 	| F f |
 	n = 1 ifTrue: [^ GaloisField new: p to: m].
-	F _ PrimePowerRing new: p to: n.
+	F := PrimePowerRing new: p to: n.
 	m = 1 ifTrue: [^ F].
-	f _ self irreduciblePolynomialOfDegree: m mod: p.
-	"Hensel lift to F"
-	f _ f lift apply: F projection.
+	f := self primitivePolynomialOfDegree: m mod: p.
+	f := f lift apply: F projection.
 	^ self modulus: f! !
 
-!GaloisRing class methodsFor: 'private' stamp: 'len 5/12/2023 16:39:56'!
+!GaloisRing class methodsFor: 'private' stamp: 'len 7/14/2023 12:24:27'!
 irreduciblePolynomialOfDegree: r mod: p
-	^ (IrreduciblePolynomialsCache at: {p. r} ifAbsent: []) ifNil: [IrreduciblePolynomialsCache at: {p. r} put: ((PrimeField new: p) polynomials findIrreducibleOfDegree: r)]! !
+	| pair |
+	pair := {p. r}.
+	(PrimitivePolynomialsCache at: pair ifAbsent: []) ifNotNil: [:aPolynomial| ^ aPolynomial].
+	(IrreduciblePolynomialsCache at: pair ifAbsent: []) ifNotNil: [:aPolynomial| ^ aPolynomial].
+	^ IrreduciblePolynomialsCache at: pair put: ((PrimeField new: p) findIrreduciblePolynomialOfDegree: r)! !
+
+!GaloisRing class methodsFor: 'private' stamp: 'len 7/14/2023 12:24:36'!
+primitivePolynomialOfDegree: r mod: p
+	| pair |
+	pair := {p. r}.
+	(PrimitivePolynomialsCache at: pair ifAbsent: []) ifNotNil: [:aPolynomial| ^ aPolynomial].
+	^ PrimitivePolynomialsCache at: pair put: ((PrimeField new: p) findPrimitivePolynomialOfDegree: r)! !
+
+!GaloisField methodsFor: 'accessing' stamp: 'len 7/16/2023 12:16:33'!
+normalElement
+	"If the receiver is GF(p^n), answer an element α such that α^p, ..., α^(p^(n-1)) is a basis over GF(p)."
+	^ self notYetImplemented! !
 
 !GaloisField methodsFor: 'accessing' stamp: 'len 6/5/2023 19:45:16'!
 primitiveRoot
@@ -13638,6 +13865,14 @@ isField
 isFiniteField
 	^ true! !
 
+!GaloisField methodsFor: 'private' stamp: 'len 7/16/2023 15:57:12'!
+addEmbeddingInto: aGaloisField
+	| α |
+	(aGaloisField isKindOf: GaloisField) ifFalse: [^ super addEmbeddingInto: aGaloisField].
+	self flag: #fixme. "TODO"
+	α := (self modulus apply: self scalars → aGaloisField) roots anyOne.
+	^ self to: aGaloisField map: [:x| x representative value: α]! !
+
 !GaloisField methodsFor: 'private' stamp: 'len 5/9/2022 11:07:10'!
 elementClass
 	^ GaloisFieldElement! !
@@ -13690,165 +13925,15 @@ new: q
 	p _ factors anyOne.
 	^ self new: p to: n! !
 
-!GaloisField class methodsFor: 'instance creation' stamp: 'len 5/12/2023 18:44:39'!
+!GaloisField class methodsFor: 'instance creation' stamp: 'len 7/14/2023 12:09:32'!
 new: p to: r
 	"Answer the Galois field of order q = p^r."
 	r = 1 ifTrue: [^ PrimeField new: p].
 	^ self modulus: (self irreduciblePolynomialOfDegree: r mod: p)! !
 
-!GaloisField class methodsFor: 'class initialization' stamp: 'len 5/18/2023 15:04:55'!
-initialize
-	super initialize.
-	"Conway polynomials for all Galois fields of even order <= 2^64 and odd order < 2^16."
-	ConwayPolynomials _ Dictionary new.
-	#(
-(#[2 2] #[1 1 1])
-(#[2 3] #[1 1 0 1])
-(#[2 4] #[1 1 0 0 1])
-(#[2 5] #[1 0 1 0 0 1])
-(#[2 6] #[1 1 0 1 1 0 1])
-(#[2 7] #[1 1 0 0 0 0 0 1])
-(#[2 8] #[1 0 1 1 1 0 0 0 1])
-(#[2 9] #[1 0 0 0 1 0 0 0 0 1])
-(#[2 10] #[1 1 1 1 0 1 1 0 0 0 1])
-(#[2 11] #[1 0 1 0 0 0 0 0 0 0 0 1])
-(#[2 12] #[1 1 0 1 0 1 1 1 0 0 0 0 1])
-(#[2 13] #[1 1 0 1 1 0 0 0 0 0 0 0 0 1])
-(#[2 14] #[1 0 0 1 0 1 0 1 0 0 0 0 0 0 1])
-(#[2 15] #[1 0 1 0 1 1 0 0 0 0 0 0 0 0 0 1])
-(#[2 16] #[1 0 1 1 0 1 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 17] #[1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 18] #[1 1 0 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 1])
-(#[2 19] #[1 1 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 20] #[1 1 0 0 1 1 1 1 0 1 1 0 0 0 0 0 0 0 0 0 1])
-(#[2 21] #[1 0 1 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 22] #[1 0 0 0 0 1 1 0 1 1 1 1 1 0 0 0 0 0 0 0 0 0 1])
-(#[2 23] #[1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 24] #[1 0 0 1 0 1 0 1 0 1 1 0 0 1 1 1 1 0 0 0 0 0 0 0 1])
-(#[2 25] #[1 0 1 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 26] #[1 1 0 0 1 0 1 1 1 0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 27] #[1 0 1 1 0 1 0 1 0 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 28] #[1 0 1 0 0 1 1 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 29] #[1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 30] #[1 1 1 1 0 1 0 1 0 0 0 1 0 1 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 31] #[1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 32] #[1 0 0 1 1 0 0 1 0 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 33] #[1 0 0 1 0 0 1 0 1 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 34] #[1 1 1 0 1 1 1 1 1 0 0 1 1 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 35] #[1 0 1 0 0 1 0 1 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 36] #[1 1 0 0 0 1 1 0 1 0 0 0 0 1 1 0 0 1 0 1 1 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 37] #[1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 38] #[1 1 1 0 0 1 0 0 1 1 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 39] #[1 0 1 0 0 1 1 1 0 1 1 1 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 40] #[1 1 0 1 0 1 0 0 1 0 0 0 1 1 0 1 1 0 1 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 41] #[1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 42] #[1 1 1 0 0 1 1 0 0 1 0 1 1 0 0 0 0 0 1 0 1 0 0 0 1 1 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 43] #[1 0 0 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 44] #[1 1 0 1 1 0 0 0 0 0 0 0 0 0 0 0 1 1 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 45] #[1 0 0 0 0 0 1 0 0 0 0 1 1 0 1 1 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 46] #[1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 0 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 47] #[1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 48] #[1 0 0 1 0 0 0 1 1 0 1 1 1 0 0 0 0 1 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 49] #[1 1 1 1 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 50] #[1 0 1 0 1 0 1 0 1 1 1 0 1 1 1 0 1 1 0 1 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 51] #[1 0 0 0 0 0 1 0 0 1 0 0 1 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 52] #[1 1 0 0 1 0 0 1 0 0 1 0 0 0 1 1 0 1 0 0 0 1 0 1 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 53] #[1 1 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 54] #[1 1 1 0 1 0 0 1 0 0 0 0 0 1 0 1 1 1 1 0 0 1 0 0 0 1 0 1 0 1 1 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 55] #[1 0 0 0 1 0 0 1 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 56] #[1 0 1 1 1 0 0 0 1 1 0 1 0 1 1 0 0 0 0 1 0 0 1 0 0 0 1 0 0 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 57] #[1 1 1 1 1 1 1 0 1 0 1 1 0 1 0 0 1 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 58] #[1 1 0 1 0 1 1 1 1 0 1 1 1 0 0 0 1 0 1 0 0 0 1 0 1 1 1 0 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 59] #[1 1 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 60] #[1 0 1 1 1 1 0 0 1 0 0 0 1 0 0 0 0 1 0 1 0 0 1 0 0 1 1 0 0 0 1 0 1 1 1 0 1 0 0 1 0 1 1 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 61] #[1 1 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 62] #[1 1 0 0 0 0 1 0 0 0 0 0 1 1 1 0 1 1 1 1 1 1 0 0 1 1 1 1 1 1 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 63] #[1 1 1 1 1 0 0 0 1 1 0 1 0 0 0 1 1 1 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[2 64] #[1 1 1 0 1 1 0 1 0 0 1 1 1 1 0 0 0 0 1 0 1 1 1 1 1 1 1 0 0 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
-(#[3 2] #[2 2 1])
-(#[3 3] #[1 2 0 1])
-(#[3 4] #[2 0 0 2 1])
-(#[3 5] #[1 2 0 0 0 1])
-(#[3 6] #[2 2 1 0 2 0 1])
-(#[3 7] #[1 0 2 0 0 0 0 1])
-(#[3 8] #[2 2 2 0 1 2 0 0 1])
-(#[3 9] #[1 1 2 2 0 0 0 0 0 1])
-(#[3 10] #[2 1 0 0 2 2 2 0 0 0 1])
-(#[5 2] #[2 4 1])
-(#[5 3] #[3 3 0 1])
-(#[5 4] #[2 4 4 0 1])
-(#[5 5] #[3 4 0 0 0 1])
-(#[5 6] #[2 0 1 4 1 0 1])
-(#[7 2] #[3 6 1])
-(#[7 3] #[4 0 6 1])
-(#[7 4] #[3 4 5 0 1])
-(#[7 5] #[4 1 0 0 0 1])
-(#[11 2] #[2 7 1])
-(#[11 3] #[9 2 0 1])
-(#[11 4] #[2 10 8 0 1])
-(#[13 2] #[2 12 1])
-(#[13 3] #[11 2 0 1])
-(#[13 4] #[2 12 3 0 1])
-(#[17 2] #[3 16 1])
-(#[17 3] #[14 1 0 1])
-(#[19 2] #[2 18 1])
-(#[19 3] #[17 4 0 1])
-(#[23 2] #[5 21 1])
-(#[23 3] #[18 2 0 1])
-(#[29 2] #[2 24 1])
-(#[29 3] #[27 2 0 1])
-(#[31 2] #[3 29 1])
-(#[31 3] #[28 1 0 1])
-(#[37 2] #[2 33 1])
-(#[37 3] #[35 6 0 1])
-(#[41 2] #[6 38 1])
-(#[43 2] #[3 42 1])
-(#[47 2] #[5 45 1])
-(#[53 2] #[2 49 1])
-(#[59 2] #[2 58 1])
-(#[61 2] #[2 60 1])
-(#[67 2] #[2 63 1])
-(#[71 2] #[7 69 1])
-(#[73 2] #[5 70 1])
-(#[79 2] #[3 78 1])
-(#[83 2] #[2 82 1])
-(#[89 2] #[3 82 1])
-(#[97 2] #[5 96 1])
-(#[101 2] #[2 97 1])
-(#[103 2] #[5 102 1])
-(#[107 2] #[2 103 1])
-(#[109 2] #[6 108 1])
-(#[113 2] #[3 101 1])
-(#[127 2] #[3 126 1])
-(#[131 2] #[2 127 1])
-(#[137 2] #[3 131 1])
-(#[139 2] #[2 138 1])
-(#[149 2] #[2 145 1])
-(#[151 2] #[6 149 1])
-(#[157 2] #[5 152 1])
-(#[163 2] #[2 159 1])
-(#[167 2] #[5 166 1])
-(#[173 2] #[2 169 1])
-(#[179 2] #[2 172 1])
-(#[181 2] #[2 177 1])
-(#[191 2] #[19 190 1])
-(#[193 2] #[5 192 1])
-(#[197 2] #[2 192 1])
-(#[199 2] #[3 193 1])
-(#[211 2] #[2 207 1])
-(#[223 2] #[3 221 1])
-(#[227 2] #[2 220 1])
-(#[229 2] #[6 228 1])
-(#[233 2] #[3 232 1])
-(#[239 2] #[7 237 1])
-(#[241 2] #[7 238 1])
-(#[251 2] #[6 242 1])
-	) do: [:each| ConwayPolynomials at: each first put: each second]! !
-
-!GaloisField class methodsFor: 'private' stamp: 'len 5/18/2023 14:53:27'!
-irreduciblePolynomialOfDegree: r mod: p
-	(p <= 255 and: [r <= 255]) ifFalse: [^ super irreduciblePolynomialOfDegree: r mod: p].
-	^ (PrimeField new: p) polynomials !! (ConwayPolynomials at: {p. r} asByteArray ifAbsent: [^ super irreduciblePolynomialOfDegree: r mod: p])! !
+!GaloisField class methodsFor: 'instance creation' stamp: 'len 7/14/2023 12:27:13'!
+new: p to: n to: m
+	^ self shouldNotImplement! !
 
 !FunctionField methodsFor: 'accessing' stamp: 'len 6/23/2023 16:11:13'!
 constants
@@ -15215,21 +15300,6 @@ coefficients: anArray
 constant: aScalar
 	self isUnivariate ifTrue: [^ aScalar isZero ifTrue: [self coefficients: (scalars new: 0)] ifFalse: [self coefficients: (scalars new: 1 fill: [:i| aScalar])]].
 	^ aScalar isZero ifTrue: [self associations: #()] ifFalse: [self associations: {monomials identity -> aScalar}]! !
-
-!PolynomialRing methodsFor: 'elements' stamp: 'len 5/2/2022 13:02:19'!
-findIrreducibleOfDegree: n
-	"Answer a monic irreducible polynomial of degree n."
-	| one x p random |
-	one _ self scalars one.
-	x _ self x.
-	1 to: n-1 do: [:k|
-		p _ x^n + (x^k) + one.
-		p isIrreducible ifTrue: [^ p]].
-	"self error: 'irreducible polynomial not found'"
-	random _ Random new.
-	[p _ (self atRandom: random maxDegree: n-1) + (x^n).
-	p isIrreducible] whileFalse.
-	^ p! !
 
 !PolynomialRing methodsFor: 'elements' stamp: 'len 12/19/2015 03:38'!
 interpolate: aCollection
@@ -32477,11 +32547,11 @@ isPrime
 	p _ self normalized representative.
 	^ p < parent modulus and: [parent modulusFactors includes: p]! !
 
-!ModularInteger methodsFor: 'testing' stamp: 'len 5/12/2023 21:00:57'!
+!ModularInteger methodsFor: 'testing' stamp: 'len 7/16/2023 15:52:05'!
 isPrimitiveRoot
 	"Answer true if the receiver is a generator of the group of units.
 	For ℤ/pℤ this is a primitive (p-1)-th root of unity."
-	^ self isUnit and: [self multiplicativeOrder = self parent units size]! !
+	^ self multiplicativeOrder = self parent units size! !
 
 !ModularInteger methodsFor: 'testing' stamp: 'len 6/26/2023 01:34:54'!
 isSquare
@@ -32510,8 +32580,9 @@ isZeroDivisor
 representative: anInteger
 	representative _ anInteger! !
 
-!PrimePowerResidue methodsFor: 'accessing' stamp: 'len 7/13/2023 00:46:26'!
-adicCoefficients
+!PrimePowerResidue methodsFor: 'accessing' stamp: 'len 7/14/2023 12:28:45'!
+expansion
+	"Answer the coefficients of the p-adic expansion of the receiver."
 	| p q answer |
 	p := self parent p.
 	answer := OrderedCollection new.
@@ -32550,12 +32621,12 @@ gcd: anElement
 	anElement isZero ifTrue: [^ self normalized].
 	^ parent representative: parent p ^ (self valuation min: anElement valuation)! !
 
-!PrimePowerResidue methodsFor: 'operations' stamp: 'len 7/13/2023 00:50:52'!
+!PrimePowerResidue methodsFor: 'operations' stamp: 'len 7/14/2023 12:31:06'!
 generalizedFrobenius
-	"Answer the result of applying the generalized Frobenious automorphism to the receiver."
+	"Answer the result of applying the generalized Frobenius automorphism to the receiver."
 	| p |
 	p := self parent p.
-	^ self adicCoefficients reversed inject: self zero into: [:result :each| result * p + (self parent !! each ^ p)]! !
+	^ self expansion reversed inject: self zero into: [:result :each| result * p + (self parent !! each ^ p)]! !
 
 !PrimePowerResidue methodsFor: 'operations' stamp: 'len 6/1/2022 18:08:25'!
 lcm: anElement
@@ -32823,12 +32894,13 @@ isZeroDivisor2
 	P1 _ P value: 1.
 	^ P0 size <= P1 size and: [P1 noneSatisfy: [:none| none isUnit]]! !
 
-!GaloisRingElement methodsFor: 'accessing' stamp: 'len 7/13/2023 00:58:41'!
-adicCoefficients
+!GaloisRingElement methodsFor: 'accessing' stamp: 'len 7/14/2023 12:29:38'!
+expansion
+	"Answer the coefficients of the p-adic expansion of the receiver."
 	| answer |
 	answer := Array new: parent exponent withAll: self zero.
 	representative coefficients withIndexDo: [:a :i|
-		a adicCoefficients withIndexDo: [:b :j| answer at: j add: parent x^(i-1) * b]].
+		a expansion withIndexDo: [:b :j| answer at: j add: parent x^(i-1) * b]].
 	^ answer! !
 
 !GaloisRingElement methodsFor: 'accessing' stamp: 'len 6/2/2023 15:01:11'!
@@ -32887,12 +32959,12 @@ gcd: anElement
 	anElement isZero ifTrue: [^ self normalized].
 	^ parent representative: (parent cover constant: (representative content gcd: anElement representative content))! !
 
-!GaloisRingElement methodsFor: 'operations' stamp: 'len 7/12/2023 21:33:46'!
+!GaloisRingElement methodsFor: 'operations' stamp: 'len 7/14/2023 12:31:10'!
 generalizedFrobenius
-	"Answer the result of applying the generalized Frobenious automorphism to the receiver."
+	"Answer the result of applying the generalized Frobenius automorphism to the receiver."
 	| p |
 	p := self parent p.
-	^ self adicCoefficients reversed inject: self zero into: [:result :each| result*p + (each^p)]! !
+	^ self expansion reversed inject: self zero into: [:result :each| result*p + (each^p)]! !
 
 !GaloisRingElement methodsFor: 'operations' stamp: 'len 6/4/2023 14:33:26'!
 inverse
@@ -32998,6 +33070,12 @@ normalized
 sqrt
 	self parent characteristic = 2 ifTrue: [^ self ^ (self parent size // 2)]. "this could also be computed with lookup table like squares!!"
 	^ super sqrt! !
+
+!GaloisFieldElement methodsFor: 'testing' stamp: 'len 7/16/2023 15:51:36'!
+isPrimitiveRoot
+	"Answer true if the receiver is a generator of the group of units.
+	For GF(p^n) this is a primitive (p^n - 1)-th root of unity."
+	^ self multiplicativeOrder = self parent units size! !
 
 !GaloisFieldElement methodsFor: 'testing' stamp: 'len 6/26/2023 01:36:23'!
 isSquare
@@ -35751,25 +35829,28 @@ isInertial
 	coefficients last valuation = 0 ifFalse: [^ false].
 	^ (self apply: self scalars → self scalars residueField) isIrreducible! !
 
-!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 6/24/2023 20:31:33'!
+!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 7/16/2023 23:26:17'!
 isIrreducible
 	self isConstant ifTrue: [^ false]. "constant polynomials are not reducible nor irreducible"
 	self degree = 1 ifTrue: [^ true].
 	self independentCoefficient isZero ifTrue: [^ false].
-	self scalars isFiniteField ifTrue: [^ self isIrreducibleRabin].
+	self scalars isFiniteField ifTrue: [^ self isIrreducibleBenOr].
 	self scalars isAlgebraicallyClosed ifTrue: [^ false]. "because degree > 1"
 	(self scalars = ℝ and: [self degree > 2]) ifTrue: [^ false].
 	^ self factorization size = 1! !
 
-!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 4/16/2018 20:26:51'!
+!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 7/16/2023 23:27:45'!
 isIrreducibleBenOr
-	"Ben-Or Irreducibility Test algorithm for polynomials in field of characteristic q."
-	| q x one |
-	q _ self scalars characteristic.
-	x _ self parent x.
-	one _ self one.
+	"Ben-Or Irreducibility Test algorithm for polynomials over a finite field GF(q).
+	Although the wrost-case complexity of this algorithm is wrose than Rabin's, it performs faster on average. See [GP97]."
+	| q x one h |
+	q := self scalars size.
+	x := self parent x.
+	one := self one.
+	h := x.
 	1 to: self degree // 2 do: [:i|
-		(self gcd: x^(q^i) - x \\ self) = one ifTrue: [^ false]].
+		h := h raisedTo: q modulo: self.
+		(self gcd: h - x) = one ifFalse: [^ false]].
 	^ true! !
 
 !UnivariatePolynomial methodsFor: 'testing' stamp: 'len 7/17/2019 10:55:01'!
@@ -35834,23 +35915,37 @@ isIrreducibleHeuristic: anInteger
 	].
 	^ nil! !
 
-!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 8/5/2021 08:43:25'!
+!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 7/16/2023 23:32:19'!
 isIrreducibleRabin
-	| Fx x one f n h g q |
-	(self independentCoefficient isZero and: [self degree > 1]) ifTrue: [^ false].
-	"Rabin's algorithm:"
-	f _ self.
-	Fx _ f parent.
-	q _ Fx scalars size.
-	x _ Fx x.
-	one _ Fx one.
-	n _ f degree.
+	"This is Rabin's algorithm for irreducibility test. It works over any finite field GF(q)."
+	| x one n h q |
+	q := self scalars size.
+	x := self parent x.
+	one := self one.
+	n := self degree.
 	n factorization asSet do: [:p|
-		h _ (x raisedTo: q^(n/p) modulo: f) - x \\ f.
-		g _ f gcd: h.
-		g ~= one ifTrue: [^ false]].
-	g _ (x raisedTo: q^n modulo: f) - x \\ f.
-	g isZero ifFalse: [^ false].
+		h := (x raisedTo: q^(n/p) modulo: self) - x \\ self.
+		(self gcd: h) = one ifFalse: [^ false]].
+	((x raisedTo: q^n modulo: self) - x \\ self) isZero ifFalse: [^ false].
+	^ true! !
+
+!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 7/16/2023 23:32:38'!
+isIrreducibleRabin2
+	"This is variant of Rabin's algorithm for irreducibility test. It works over any finite field GF(q) with O(n M(n) log q) operations in GF(q). See [GP97]."
+	| x one n h q powers k₀ |
+	q := self scalars size.
+	x := self parent x.
+	one := self one.
+	n := self degree.
+	powers := n factorization asSet asArray collect: [:each| n // each].
+	powers sort.
+	h := x.
+	k₀ := 0.
+	powers do: [:k|
+		h := h raisedTo: q^(k - k₀) modulo: self.
+		k₀ := k.
+		(self gcd: h - x) = one ifFalse: [^ false]].
+	((h raisedTo: q^(n - k₀) modulo: self) - x \\ self) isZero ifFalse: [^ false].
 	^ true! !
 
 !UnivariatePolynomial methodsFor: 'testing' stamp: 'len 5/31/2022 19:04:02'!
@@ -42667,8 +42762,8 @@ zero
 BinaryArray initialize!
 TernaryArray initialize!
 ModularIntegerRing initialize!
+PrimeField initialize!
 GaloisRing initialize!
-GaloisField initialize!
 Function initialize!
 Functor initialize!
 MonoidMap initialize!
