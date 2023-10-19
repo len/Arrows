@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 3 October 2023 at 1:15:51 pm'!
+'From Cuis 6.0 [latest update: #5898] on 19 October 2023 at 10:28:13 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 97!
+!provides: 'Tests-Algebra' 1 98!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -4258,15 +4258,16 @@ testGroebnerTrivial
 	I _ Qx * {x + y. x^2 - 1. y^2 - (x*2)}.
 	self assert: I isOne! !
 
-!CommutativeAlgebraTest methodsFor: 'hilbert series' stamp: 'len 12/30/2021 17:28:47'!
+!CommutativeAlgebraTest methodsFor: 'hilbert series' stamp: 'len 10/9/2023 09:44:28'!
 testAffineRingDimensionAsVectorSpace
 	"Example from answer in math.stackexchange 'What does Hilbert series of monomial ideals describe?'."
 	| S a b I |
-	S _ ℤ/17 polynomialsIn: #(a b).
-	a _ S x: 1.
-	b _ S x: 2.
-	I _ S * {a^6. a^3*b. a^2*(b^4). b^5}.
-	self assert: (S/I) vectorSpaceDimension = 17! !
+	S := ℤ/17 polynomialsIn: #(a b).
+	a := S x: 1.
+	b := S x: 2.
+	I := S * {a^6. a^3*b. a^2*(b^4). b^5}.
+	self assert: (S/I) vectorSpaceDimension = 17.
+	self assert: (S/I) basis size = 17! !
 
 !CommutativeAlgebraTest methodsFor: 'hilbert series' stamp: 'len 7/13/2023 16:09:59'!
 testHilbertPolynomialExample1
@@ -6567,12 +6568,12 @@ testOrthogonalAtRandom
 	self assert: (O atRandom: random bits: 100) isOrthogonal.
 	self assert: (O includes: (O atRandom: random bits: 100))! !
 
-!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 4/1/2021 12:19:16'!
+!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 10/15/2023 13:23:18'!
 testRotationsBy90Degrees
 	"Group of rotations by 90 degrees in the plane, isomorphic to Z/4Z."
 	| V G |
-	V _ ℚ ^ 2.
-	G _ LinearGroup on: V generators: {V endomorphisms elementAt: (0, 1, -1, 0)}.
+	V := ℚ ^ 2.
+	G := LinearGroup on: V generators: {V endomorphisms !! #(0  1 -1 0)}.
 	self assert: G size = 4.
 	self assert: G isCyclic.
 	self flag: #todo.
@@ -6841,6 +6842,17 @@ testRingInvolution: aRing
 		self assert: (a + b) conjugate = (a conjugate + b conjugate).
 		self assert: (a * b) conjugate = (b conjugate * a conjugate).
 		self assert: a conjugate conjugate = a]! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/9/2023 09:29:22'!
+testRingPropertiesHierarchy
+	R isField ifTrue: [self assert: R isEuclidean & R isIntegralDomain & R isDivisionRing].
+	R isIntegralDomain ifTrue: [self assert: R isReduced].
+	R isPID ifTrue: [self assert: R isIntegralDomain & R isPIR & R isUFD & R isNoetherian & R isDedekindDomain].
+	R isEuclidean ifTrue: [self assert: R isPIR & R isBezout & R hasGCD & R isNoetherian].
+	R isEuclideanDomain ifTrue: [self assert: R isIntegralDomain & R isEuclidean & R isBezoutDomain].
+	R isDedekindDomain ifTrue: [self assert: R isIntegralDomain & R isNoetherian].
+	R isFinite ifTrue: [self assert: R isArtinian].
+	! !
 
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:01:09'!
 testRingUnits
@@ -7702,6 +7714,23 @@ setUp
 	super setUp.
 	R := CyclotomicField new: (3 atRandom: random) + 2! !
 
+!CyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/11/2023 08:25:00'!
+testComplexEmbedding
+	| a b |
+	100 timesRepeat:
+		[a := R atRandom: random.
+		b := R atRandom: random.
+		self assert: (a asComplex * b asComplex - (a*b) asComplex) abs < 0.000001.
+		self assert: (a asComplex + b asComplex - (a+b) asComplex) abs < 0.000001]! !
+
+!CyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/11/2023 08:30:22'!
+testComplexEmbeddingCompatibilityWithMaximalRealSubfield
+	| S a |
+	S := R maximalRealSubfield.
+	100 timesRepeat:
+		[a := S atRandom: random.
+		self assert: (a asComplex - (R !! a) asComplex) abs < 0.000001]! !
+
 !CyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 21:39:09'!
 testCyclotomicFieldDiscriminantExamples
 	self assert: (CyclotomicField new: 20) discriminant = 4000000.
@@ -7712,6 +7741,15 @@ setUp
 	super setUp.
 	R := GaussianField new! !
 
+!GaussianFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/11/2023 08:28:11'!
+testComplexEmbedding
+	| a b |
+	100 timesRepeat:
+		[a := R atRandom: random.
+		b := R atRandom: random.
+		self assert: (a asComplex * b asComplex - (a*b) asComplex) abs < 0.000001.
+		self assert: (a asComplex + b asComplex - (a+b) asComplex) abs < 0.000001]! !
+
 !QuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 11:22:58'!
 setUp
 	| n |
@@ -7719,6 +7757,15 @@ setUp
 	[(n := ((2 to: 100) atRandom: random) squarefreePart) > 1] whileFalse.
 	random nextBoolean ifTrue: [n := n negated].
 	R := QuadraticField new: n! !
+
+!QuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/11/2023 08:28:19'!
+testComplexEmbedding
+	| a b |
+	100 timesRepeat:
+		[a := R atRandom: random.
+		b := R atRandom: random.
+		self assert: (a asComplex * b asComplex - (a*b) asComplex) abs < 0.000001.
+		self assert: (a asComplex + b asComplex - (a+b) asComplex) abs < 0.000001]! !
 
 !QuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 11:23:10'!
 testQuadraticFieldFundamentalDiscriminantExamples
@@ -8015,10 +8062,11 @@ testDivisionBug
 	a := A x * 3.
 	self assert: (a / a) isOne! !
 
-!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:08:48'!
+!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2023 15:56:36'!
 testEmbeddingIntoOverring
 	"Canonical homomorphism from GR(p^n,m) to GR(p^n,m*k)."
 	| p n m k S |
+	self notYetImplemented.
 	p := R base.
 	n := R exponent.
 	m := R degree.
@@ -11499,12 +11547,12 @@ testModuleMap: f
 	x _ f domain scalars atRandom: random bits: 20.
 	self assert: (f value: a1 * x + a2) = (b1 * x + b2)! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/19/2022 11:17:19'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/14/2023 15:54:45'!
 testPreimage
 	| f w v |
-	f _ self newModuleMap.
-	w _ f image atRandom: random bits: 100.
-	v _ f preimageRepresentative: w.
+	f := self newModuleMap.
+	w := f image atRandom: random bits: 100.
+	v := f preimageElement: w.
 	self assert: (f value: v) = w! !
 
 !AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:10:07'!
