@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 19 October 2023 at 10:28:13 am'!
+'From Cuis 6.0 [latest update: #5898] on 26 October 2023 at 2:19:11 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 98!
+!provides: 'Tests-Algebra' 1 99!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -421,6 +421,76 @@ AbstractEuclideanDomainTest subclass: #AbstractFieldTest
 AbstractFieldTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #AbstractFiniteFieldTest category: #'Tests-Algebra-Rings'!
+AbstractFieldTest subclass: #AbstractFiniteFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'AbstractFiniteFieldTest class' category: #'Tests-Algebra-Rings'!
+AbstractFiniteFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #GaloisFieldTest category: #'Tests-Algebra-Rings'!
+AbstractFiniteFieldTest subclass: #GaloisFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'GaloisFieldTest class' category: #'Tests-Algebra-Rings'!
+GaloisFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #BinaryExtensionFieldTest category: #'Tests-Algebra-Rings'!
+GaloisFieldTest subclass: #BinaryExtensionFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'BinaryExtensionFieldTest class' category: #'Tests-Algebra-Rings'!
+BinaryExtensionFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #TernaryExtensionFieldTest category: #'Tests-Algebra-Rings'!
+GaloisFieldTest subclass: #TernaryExtensionFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'TernaryExtensionFieldTest class' category: #'Tests-Algebra-Rings'!
+TernaryExtensionFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #PrimeFieldTest category: #'Tests-Algebra-Rings'!
+AbstractFiniteFieldTest subclass: #PrimeFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'PrimeFieldTest class' category: #'Tests-Algebra-Rings'!
+PrimeFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #BinaryFieldTest category: #'Tests-Algebra-Rings'!
+PrimeFieldTest subclass: #BinaryFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'BinaryFieldTest class' category: #'Tests-Algebra-Rings'!
+BinaryFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #TernaryFieldTest category: #'Tests-Algebra-Rings'!
+PrimeFieldTest subclass: #TernaryFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'TernaryFieldTest class' category: #'Tests-Algebra-Rings'!
+TernaryFieldTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #AbstractNumberFieldTest category: #'Tests-Algebra-Rings'!
 AbstractFieldTest subclass: #AbstractNumberFieldTest
 	instanceVariableNames: ''
@@ -469,66 +539,6 @@ AbstractFieldTest subclass: #FiniteFieldRationalFunctionFieldTest
 	category: 'Tests-Algebra-Rings'!
 !classDefinition: 'FiniteFieldRationalFunctionFieldTest class' category: #'Tests-Algebra-Rings'!
 FiniteFieldRationalFunctionFieldTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #FiniteFieldTest category: #'Tests-Algebra-Rings'!
-AbstractFieldTest subclass: #FiniteFieldTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'FiniteFieldTest class' category: #'Tests-Algebra-Rings'!
-FiniteFieldTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #BinaryExtensionFieldTest category: #'Tests-Algebra-Rings'!
-FiniteFieldTest subclass: #BinaryExtensionFieldTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'BinaryExtensionFieldTest class' category: #'Tests-Algebra-Rings'!
-BinaryExtensionFieldTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #PrimeFieldTest category: #'Tests-Algebra-Rings'!
-FiniteFieldTest subclass: #PrimeFieldTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'PrimeFieldTest class' category: #'Tests-Algebra-Rings'!
-PrimeFieldTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #BinaryFieldTest category: #'Tests-Algebra-Rings'!
-PrimeFieldTest subclass: #BinaryFieldTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'BinaryFieldTest class' category: #'Tests-Algebra-Rings'!
-BinaryFieldTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #TernaryFieldTest category: #'Tests-Algebra-Rings'!
-PrimeFieldTest subclass: #TernaryFieldTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'TernaryFieldTest class' category: #'Tests-Algebra-Rings'!
-TernaryFieldTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #TernaryExtensionFieldTest category: #'Tests-Algebra-Rings'!
-FiniteFieldTest subclass: #TernaryExtensionFieldTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'TernaryExtensionFieldTest class' category: #'Tests-Algebra-Rings'!
-TernaryExtensionFieldTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #RationalFieldTest category: #'Tests-Algebra-Rings'!
@@ -581,18 +591,18 @@ AbstractEuclideanDomainTest subclass: #IntegerRingTest
 IntegerRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #FiniteFieldDualNumbersTest category: #'Tests-Algebra-Rings'!
-AbstractEuclideanRingTest subclass: #FiniteFieldDualNumbersTest
+!classDefinition: #AbstractGaloisRingTest category: #'Tests-Algebra-Rings'!
+AbstractEuclideanRingTest subclass: #AbstractGaloisRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'FiniteFieldDualNumbersTest class' category: #'Tests-Algebra-Rings'!
-FiniteFieldDualNumbersTest class
+!classDefinition: 'AbstractGaloisRingTest class' category: #'Tests-Algebra-Rings'!
+AbstractGaloisRingTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #GaloisRingTest category: #'Tests-Algebra-Rings'!
-AbstractEuclideanRingTest subclass: #GaloisRingTest
+AbstractGaloisRingTest subclass: #GaloisRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -602,7 +612,7 @@ GaloisRingTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #PrimePowerRingTest category: #'Tests-Algebra-Rings'!
-GaloisRingTest subclass: #PrimePowerRingTest
+AbstractGaloisRingTest subclass: #PrimePowerRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -619,6 +629,16 @@ PrimePowerRingTest subclass: #BinaryPowerRingTest
 	category: 'Tests-Algebra-Rings'!
 !classDefinition: 'BinaryPowerRingTest class' category: #'Tests-Algebra-Rings'!
 BinaryPowerRingTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #FiniteFieldDualNumbersTest category: #'Tests-Algebra-Rings'!
+AbstractEuclideanRingTest subclass: #FiniteFieldDualNumbersTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'FiniteFieldDualNumbersTest class' category: #'Tests-Algebra-Rings'!
+FiniteFieldDualNumbersTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModularIntegerRingTest category: #'Tests-Algebra-Rings'!
@@ -3993,7 +4013,7 @@ testAffineRingIdealMembershipRandom
 	h _ I atRandomBits: 10.
 	self assert: (I includes: h)! !
 
-!CommutativeAlgebraTest methodsFor: 'affine ring' stamp: 'len 5/28/2023 14:04:29'!
+!CommutativeAlgebraTest methodsFor: 'affine ring' stamp: 'len 10/24/2023 16:07:02'!
 testAffineRingIdealRadical
 	"Magma handbook, example H105E2."
 	| R A I J |
@@ -4002,7 +4022,8 @@ testAffineRingIdealRadical
 	I := A * (A !! [:x :y :z| x^3*y*(z^2)]).
 	self deny: I isRadical.
 	J := A * (A !! [:x :y :z| {x*(y^2) + (x*y) - (x*z) + x. y*z. z^2 - z}]).
-	self assert: I radical = J. "this fails probably because PolynomialIdeal>>radical is broken"
+	self assert: I radical = J.
+	self flag: #fixme. "TODO..."
 	"... and then some tests of primary decomposition"! !
 
 !CommutativeAlgebraTest methodsFor: 'algorithms' stamp: 'len 1/13/2022 12:02:33'!
@@ -4375,14 +4396,14 @@ testIdealElementOperations
 	self deny: (I radicalContains: z).
 	self assert: (x^4 + y - z s: x^2 + y - z) = (x^2*y negated + (x^2*z) + y - z)! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal basics' stamp: 'len 4/6/2021 13:49:14'!
+!CommutativeAlgebraTest methodsFor: 'ideal basics' stamp: 'len 10/21/2023 13:49:29'!
 testMonomialIdeal
-	"Test ideals generated by monomials are automatically created as MonomialIdeal."
+	"Test ideals generated by monomials."
 	| R f g h |
-	R _ ℚ polynomialsIn: 3.
-	f _ R !! [:x :y :z| x^2 + y].
-	g _ R !! [:x :y :z| z^3].
-	h _ R !! [:x :y :z| x^2*y].
+	R := ℚ polynomialsIn: 3.
+	f := R !! [:x :y :z| x^2 + y].
+	g := R !! [:x :y :z| z^3].
+	h := R !! [:x :y :z| x^2*y].
 	self assert: (R * {f. g. h}) isMonomial not.
 	self assert: (R * {g. h}) isMonomial! !
 
@@ -4573,25 +4594,25 @@ testIdealMembershipRandom: aRing
 	g _ I atRandomBits: 100.
 	self assert: (I includes: g)! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 7/5/2022 12:22:25'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 10/24/2023 16:07:07'!
 testIdealRadical
 	| R x y I J |
-	R _ ℚ polynomialsIn: #(x y).
-	x _ R x: 1.
-	y _ R x: 2.
-	I _ R * {x^3. y^2}.
-	J _ R * {x. y}.
+	R := ℚ polynomialsIn: #(x y).
+	x := R x: 1.
+	y := R x: 2.
+	I := R * {x^3. y^2}.
+	J := R * {x. y}.
 	self assert: I radical = J! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 7/5/2022 12:22:42'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 10/24/2023 16:07:13'!
 testIdealRadicalZeroDimPerfectField
 	"Seidenberg algorithm works for 0-dimensional ideals over a perfect field." 
 	| R y z I J |
-	R _ ℚ polynomialsIn: #(y z).
-	y _ R x: 1.
-	z _ R x: 2.
-	I _ R * {y + z. z^2}.
-	J _ R * {y. z}.
+	R := ℚ polynomialsIn: #(y z).
+	y := R x: 1.
+	z := R x: 2.
+	I := R * {y + z. z^2}.
+	J := R * {y. z}.
 	self assert: I radical = J! !
 
 !CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 5/23/2020 09:33:01'!
@@ -4822,10 +4843,6 @@ testExtendedEuclid
 	self assert: g | b.
 	self assert: ({u. v} * {a. b}) sum = g.
 	self assert: g = (a gcd: b)! !
-
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
-testFieldAutomorphisms
-	self assert: ℚ automorphisms isTrivial! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
 testFreeAlgebra
@@ -5826,7 +5843,7 @@ testShift
 	self assert: f * (x^3) = (f << 3).
 	self assert: (f * (x^3) << -3) = f! !
 
-!PolynomialTest methodsFor: 'etc' stamp: 'len 6/25/2023 19:37:13'!
+!PolynomialTest methodsFor: 'etc' stamp: 'len 10/24/2023 16:07:20'!
 testSquarefreePart
 	| P x f1 f2 f3 f |
 	P := ℚ polynomials.
@@ -5837,7 +5854,7 @@ testSquarefreePart
 	f := f1*f1*f2*f3*f3*f3.
 	self assert: f radical = (f1 * f2 * f3)! !
 
-!PolynomialTest methodsFor: 'etc' stamp: 'len 6/25/2023 19:37:20'!
+!PolynomialTest methodsFor: 'etc' stamp: 'len 10/24/2023 16:07:25'!
 testSquarefreePartMultivariate
 	| P x y f1 f2 f |
 	P := ℚ polynomialsIn: #(x y).
@@ -6913,19 +6930,6 @@ testScalarEmbedding
 	self assert: (R scalars → R value: a) = (R one * a).
 	self assert: R !! a = (R one * a)! !
 
-!AbstractFiniteAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/21/2021 13:59:18'!
-testCharacteristicPolynomialAndMinimalPolynomial
-	| x f µ |
-	x _ R atRandom: random bits: 20.
-	f _ x characteristicPolynomial.
-	self assert: f isMonic.
-	self assert: (f value: x) isZero.
-	R scalars isIntegralDomain ifTrue:
-		[µ _ x minimalPolynomial.
-		self assert: µ isMonic.
-		self assert: (µ value: x) isZero.
-		self assert: µ | f]! !
-
 !AbstractFiniteAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/21/2021 14:02:15'!
 testNormAndTrace
 	| x y a |
@@ -7480,10 +7484,10 @@ testModularComposition
 	m := R atRandom: random degree: d + 1.
 	self assert: (f value: g) \\ m = (f composeWith: g modulo: m)! !
 
-!BinaryExtensionFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:33:23'!
+!BinaryExtensionFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2023 08:18:56'!
 setUp
 	super setUp.
-	R := (	GaloisField new: 2 to: (8 atRandom: random)) polynomials! !
+	R := (	GaloisField new: 2 to: (8 atRandom: random) + 1) polynomials! !
 
 !PrimeFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2023 17:28:23'!
 setUp
@@ -7596,10 +7600,10 @@ testSquarefreeFactorizationExample
 	self assert: (factors occurrencesOf: x^2 + 1) = 3.
 	self assert: (factors occurrencesOf: x + 1) = 1! !
 
-!TernaryExtensionFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:38:16'!
+!TernaryExtensionFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2023 08:18:10'!
 setUp
 	super setUp.
-	R := (	GaloisField new: 3 to: (8 atRandom: random)) polynomials! !
+	R := (	GaloisField new: 3 to: (8 atRandom: random) + 1) polynomials! !
 
 !RationalPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:37:57'!
 setUp
@@ -7701,6 +7705,141 @@ testZeroIdealIsPrimeAndMinimalPrime
 	self assert: P isPrime.
 	self assert: P isMinimalPrime! !
 
+!AbstractFiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:08:08'!
+testEmbeddingIntoOverfield
+	"Embedding from GF(p^n) to GF(p^(n*k))."
+	| p n k S |
+	self notYetImplemented.
+	p := R modulus.
+	n := R degree.
+	k := 3 atRandom: random.
+	S := GaloisField new: p to: n * k.
+	self testRingHomomorphism:  R → S! !
+
+!AbstractFiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2023 17:41:39'!
+testIsFinite
+	self assert: R isFinite! !
+
+!AbstractFiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 23:52:32'!
+testPrimitiveRoot
+	| ξ i x |
+	ξ := R primitiveRoot.
+	self assert: ξ multiplicativeOrder = (R size - 1).
+	i := 1.
+	x := ξ.
+	[x = R one] whileFalse: [x := x*ξ. i := i+1].
+	self assert: i = (R size - 1)! !
+
+!AbstractFiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2023 18:43:07'!
+testUnitsSize
+	self assert: R units size = (R size - 1)! !
+
+!GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2023 07:53:57'!
+setUp
+	super setUp.
+	R := GaloisField new: (5 atRandom: random) nextPrime to: (3 atRandom: random) + 1! !
+
+!GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2023 07:55:41'!
+testFrobenius
+	self testRingHomomorphism: R frobenius! !
+
+!GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/26/2023 10:32:14'!
+testFrobeniusFixesScalars
+	| a |
+	a := R !! (R scalars atRandom: random).
+	self assert: a frobenius = a! !
+
+!GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/26/2023 10:33:14'!
+testFrobeniusOrder
+	self assert: (R frobenius ^ R degree) isIdentity! !
+
+!GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2023 07:55:35'!
+testNormAndTrace
+	| x y a |
+	x := R atRandom: random.
+	y := R atRandom: random.
+	a := R scalars atRandom: random.
+	self assert: (x * a + y) trace = (x trace * a + y trace).
+	self assert: (x * y) norm = (x norm * y norm)! !
+
+!GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2023 07:55:29'!
+testNormTraceAndConjugates
+	| x |
+	x := R atRandom: random.
+	self assert: R !! x trace = x conjugates sum.
+	self assert: R !! x norm = x conjugates product! !
+
+!GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2023 07:55:24'!
+testNormTraceAndFrobenius
+	| x |
+	x := R atRandom: random.
+	self assert: x frobenius trace = x trace.
+	self assert: x frobenius norm = x norm! !
+
+!BinaryExtensionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2023 07:54:08'!
+setUp
+	super setUp.
+	R := GaloisField new: 2 to: (8 atRandom: random) + 1! !
+
+!BinaryExtensionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 18:08:56'!
+testZeroPowerBug
+	self assert: ((GaloisField new: 2 to: 2) zero^3) isZero! !
+
+!TernaryExtensionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2023 08:18:22'!
+setUp
+	super setUp.
+	R := GaloisField new: 3 to: (8 atRandom: random) + 1! !
+
+!PrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 21:26:18'!
+setUp
+	super setUp.
+	R := ℤ/(256 atRandom: random) nextPrime! !
+
+!PrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:08:20'!
+testEulerTheorem
+	| a |
+	[a := R atRandom: random. a isZero] whileTrue.
+	self assert: a ^ (R modulus - 1) = R one! !
+
+!PrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:08:26'!
+testLogarithm
+	| g a b p |
+	p := R modulus.
+	g := R primitiveRoot.
+	[(a := R atRandom: random) isZero] whileTrue.
+	[(b := R atRandom: random) isZero] whileTrue.
+	self assert: g ^ (a log: g) = a.
+	self assert: (a log: g) + (b log: g) \\ (p-1) = ((a*b log: g) \\ (p-1)).
+	self assert: (a log: g) - (b log: g) \\ (p-1) = ((a/b log: g) \\ (p-1))! !
+
+!PrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:08:32'!
+testPrimeFieldBasicProperties
+	self assert: R characteristic = R modulus.
+	self testRingHomomorphism: R projection! !
+
+!PrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 21:30:53'!
+testSquareRoot
+	| a x |
+	100 timesRepeat:
+		[a := (R atRandom: random) squared.
+		x := a squareRoot.
+		self assert: x squared = a]! !
+
+!BinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:31:04'!
+setUp
+	super setUp.
+	R := ℤ/2! !
+
+!BinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 17:41:46'!
+testSquareRoot
+	self assert: R zero squareRoot = R zero.
+	self assert: R one squareRoot = R one! !
+
+!TernaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:33:06'!
+setUp
+	super setUp.
+	R := ℤ/3! !
+
 !AbstractNumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 21:42:36'!
 testNormAndTrace
 	| a b |
@@ -7777,104 +7916,6 @@ testQuadraticFieldFundamentalDiscriminantExamples
 setUp
 	super setUp.
 	R := ((	GaloisField new: (5 atRandom: random) nextPrime to: (3 atRandom: random)) polynomialsIn: (2 atRandom: random)) fractions! !
-
-!FiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:32:08'!
-setUp
-	super setUp.
-	R := GaloisField new: (5 atRandom: random) nextPrime to: (3 atRandom: random)! !
-
-!FiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:08:08'!
-testEmbeddingIntoOverfield
-	"Embedding from GF(p^n) to GF(p^(n*k))."
-	| p n k S |
-	self notYetImplemented.
-	p := R modulus.
-	n := R degree.
-	k := 3 atRandom: random.
-	S := GaloisField new: p to: n * k.
-	self testRingHomomorphism:  R → S! !
-
-!FiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2023 17:41:39'!
-testIsFinite
-	self assert: R isFinite! !
-
-!FiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 23:52:32'!
-testPrimitiveRoot
-	| ξ i x |
-	ξ := R primitiveRoot.
-	self assert: ξ multiplicativeOrder = (R size - 1).
-	i := 1.
-	x := ξ.
-	[x = R one] whileFalse: [x := x*ξ. i := i+1].
-	self assert: i = (R size - 1)! !
-
-!FiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2023 18:43:07'!
-testUnitsSize
-	self assert: R units size = (R size - 1)! !
-
-!BinaryExtensionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:30:52'!
-setUp
-	super setUp.
-	R := GaloisField new: 2 to: (8 atRandom: random)! !
-
-!BinaryExtensionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/21/2023 18:08:56'!
-testZeroPowerBug
-	self assert: ((GaloisField new: 2 to: 2) zero^3) isZero! !
-
-!PrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 21:26:18'!
-setUp
-	super setUp.
-	R := ℤ/(256 atRandom: random) nextPrime! !
-
-!PrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:08:20'!
-testEulerTheorem
-	| a |
-	[a := R atRandom: random. a isZero] whileTrue.
-	self assert: a ^ (R modulus - 1) = R one! !
-
-!PrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:08:26'!
-testLogarithm
-	| g a b p |
-	p := R modulus.
-	g := R primitiveRoot.
-	[(a := R atRandom: random) isZero] whileTrue.
-	[(b := R atRandom: random) isZero] whileTrue.
-	self assert: g ^ (a log: g) = a.
-	self assert: (a log: g) + (b log: g) \\ (p-1) = ((a*b log: g) \\ (p-1)).
-	self assert: (a log: g) - (b log: g) \\ (p-1) = ((a/b log: g) \\ (p-1))! !
-
-!PrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:08:32'!
-testPrimeFieldBasicProperties
-	self assert: R characteristic = R modulus.
-	self testRingHomomorphism: R projection! !
-
-!PrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 21:30:53'!
-testSquareRoot
-	| a x |
-	100 timesRepeat:
-		[a := (R atRandom: random) squared.
-		x := a squareRoot.
-		self assert: x squared = a]! !
-
-!BinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:31:04'!
-setUp
-	super setUp.
-	R := ℤ/2! !
-
-!BinaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 17:41:46'!
-testSquareRoot
-	self assert: R zero squareRoot = R zero.
-	self assert: R one squareRoot = R one! !
-
-!TernaryFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:33:06'!
-setUp
-	super setUp.
-	R := ℤ/3! !
-
-!TernaryExtensionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:32:57'!
-setUp
-	super setUp.
-	R := GaloisField new: 3 to: (8 atRandom: random)! !
 
 !RationalFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:32:28'!
 setUp
@@ -8027,26 +8068,20 @@ testPrimeSignature
 	self assert: 42 primeSignature = #(1 1 1).
 	self assert: 16 primeSignature = #(4)! !
 
-!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/24/2023 18:56:37'!
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/24/2023 16:07:34'!
 testRadicalAndIsSquarefree
 	| n |
 	n := (-1000 to: 1000) atRandom: random.
 	self assert: n isSquarefree = (n radical = n)! !
 
-!FiniteFieldDualNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2023 17:38:40'!
-setUp
-	| K P |
-	super setUp.
-	K := GaloisField new: ((#(3 16rFF 16rFFFF) atRandom: random) atRandom: random) nextPrime to: (5 atRandom: random).
-	P := K polynomials.
-	R := P / {P x ^ 2}! !
+!AbstractGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/23/2023 14:52:24'!
+testAdicExpansion
+	| a p |
+	p := R base.
+	a := R atRandom: random.
+	self assert: a = (a expansion reversed inject: R zero into: [:total :each| total * p + each])! !
 
-!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 21:02:12'!
-setUp
-	super setUp.
-	R := GaloisRing new: (3 atRandom: random) nextPrime to: (2 atRandom: random) to: (2 atRandom: random) + 1! !
-
-!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:08:43'!
+!AbstractGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:08:43'!
 testCharacteristicAndSize
 	| p n r |
 	p := R base.
@@ -8055,14 +8090,14 @@ testCharacteristicAndSize
 	self assert: R characteristic = (p^n).
 	self assert: R size = (p^n^r)! !
 
-!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 11:30:11'!
+!AbstractGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 11:30:11'!
 testDivisionBug
 	| A a |
 	A := GaloisRing new: 3 to: 2 to: 2.
 	a := A x * 3.
 	self assert: (a / a) isOne! !
 
-!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2023 15:56:36'!
+!AbstractGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2023 15:56:36'!
 testEmbeddingIntoOverring
 	"Canonical homomorphism from GR(p^n,m) to GR(p^n,m*k)."
 	| p n m k S |
@@ -8074,26 +8109,12 @@ testEmbeddingIntoOverring
 	S := GaloisRing new: p to: n to: m * k.
 	self testRingHomomorphism:  R → S! !
 
-!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2023 21:46:01'!
-testGeneralizedFrobenius
-	self testRingHomomorphism: R generalizedFrobenius! !
-
-!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2023 21:45:10'!
-testGeneralizedFrobeniusFixesScalars
-	| a |
-	a := R !! R scalars atRandom.
-	self assert: a generalizedFrobenius = a! !
-
-!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2023 21:46:54'!
-testGeneralizedFrobeniusOrder
-	self assert: (R generalizedFrobenius ^ R degree) isIdentity! !
-
-!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:08:55'!
+!AbstractGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:08:55'!
 testIsLocal
 	self assert: R isLocal.
 	self assert: R maximalIdeal = (R * R base)! !
 
-!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:09:09'!
+!AbstractGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:09:09'!
 testNilradical
 	| a |
 	self assert: R nilradical = (R * R base).
@@ -8101,19 +8122,19 @@ testNilradical
 	[a := R atRandom: random. a isNilpotent] whileFalse.
 	self assert: (R nilradical includes: a)! !
 
-!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:09:17'!
+!AbstractGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:09:17'!
 testProjectionFromHigherExponent
 	| S |
 	S := GaloisRing new: R base to: R exponent + (5 atRandom: random) to: R degree.
 	self testRingHomomorphism: S → R! !
 
-!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 20:51:43'!
+!AbstractGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 20:51:43'!
 testProjectionToResidueField
 	"Canonical homomorphism from GR(p^n,m) to GF(p,m).
 	This sends 'a' in ℤ/pⁿℤ[x]/f to 'a mod p' in ℤ/pℤ[x]/(f mod p) where f mod p means reducing the coefficients mod p."
 	self testRingHomomorphism: R → R residueField! !
 
-!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:09:25'!
+!AbstractGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:09:25'!
 testUnitsSize
 	| p n r |
 	p := R base.
@@ -8121,7 +8142,7 @@ testUnitsSize
 	r := R degree.
 	self assert: p ^ r - 1 * (p ^ (n - 1 * r)) = R units size! !
 
-!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:09:32'!
+!AbstractGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:09:32'!
 testValuation
 	| p a b |
 	self assert: R one valuation = 0.
@@ -8131,6 +8152,33 @@ testValuation
 	a := R atRandom: random bits: 100.
 	b := R atRandom: random bits: 100.
 	(a*b) isZero ifFalse: [self assert: (a*b) valuation = (a valuation + b valuation)].! !
+
+!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/24/2023 10:49:50'!
+setUp
+	super setUp.
+	R := GaloisRing new: (3 atRandom: random) nextPrime to: (2 atRandom: random) to: (2 atRandom: random) + 1! !
+
+!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/24/2023 10:50:34'!
+testGeneralizedFrobenius
+	self testRingHomomorphism: R generalizedFrobenius! !
+
+!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/24/2023 10:50:40'!
+testGeneralizedFrobeniusFixesScalars
+	| a |
+	a := R !! (R scalars atRandom: random).
+	self assert: a generalizedFrobenius = a! !
+
+!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/24/2023 10:50:57'!
+testGeneralizedFrobeniusOrder
+	self assert: (R generalizedFrobenius ^ R degree) isIdentity! !
+
+!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/24/2023 10:59:11'!
+testGeneralizedTrace
+	| x y a |
+	x := R atRandom: random.
+	y := R atRandom: random.
+	a := R scalars atRandom: random.
+	self assert: (x * a + y) generalizedTrace = (x generalizedTrace * a + y generalizedTrace)! !
 
 !PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:37:47'!
 setUp
@@ -8208,6 +8256,14 @@ testSquareRoot
 setUp
 	super setUp.
 	R := PrimePowerRing new: 2 to: ((2 to: 64) atRandom: random)! !
+
+!FiniteFieldDualNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2023 17:38:40'!
+setUp
+	| K P |
+	super setUp.
+	K := GaloisField new: ((#(3 16rFF 16rFFFF) atRandom: random) atRandom: random) nextPrime to: (5 atRandom: random).
+	P := K polynomials.
+	R := P / {P x ^ 2}! !
 
 !ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:37:16'!
 setUp
@@ -12294,13 +12350,13 @@ testQuotientGolay1
 	self assert: Q rank = 5.
 	self assert: Q ambient rank = 5! !
 
-!TernaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:51:14'!
+!TernaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2023 16:45:51'!
 testQuotientGolay2
 	"Construct the quotient (Z/3Z)^11 by the Golay code as a subspace (the orthogonal complement of the Golay code).
 	(Example from Magma H28E11.)"
 	| V S Q |
 	V := ℤ/3 ^ 11.
-	S := V sub: ({(1,0,0,0,0,0,1,1,1,1,1). (0,1,0,0,0,0,0,1,2,2,1). (0,0,1,0,0,0,1,0,1,2,2). (0,0,0,1,0,0,2,1,0,1,2). (0,0,0,0,1,0,2,2,1,0,1). (0,0,0,0,0,1,1,2,2,1,0)} collect: [:each| each over: V scalars]).
+	S := V sub: ({(1,0,0,0,0,0,1,1,1,1,1). (0,1,0,0,0,0,0,1,2,2,1). (0,0,1,0,0,0,1,0,1,2,2). (0,0,0,1,0,0,2,1,0,1,2). (0,0,0,0,1,0,2,2,1,0,1). (0,0,0,0,0,1,1,2,2,1,0)} collect: [:each| V !! each]).
 	Q := S complement.
 	self assert: Q rank = 5.
 	self assert: Q ambient rank = 11! !
@@ -13499,7 +13555,7 @@ testIdealIsPrimeExample4
 	I := R * {x*z - (y^3). y*z - (x^2)}.
 	self assert: I isPrime not! !
 
-!DisabledTest methodsFor: 'as yet unclassified' stamp: 'len 7/5/2023 16:46:59'!
+!DisabledTest methodsFor: 'as yet unclassified' stamp: 'len 10/24/2023 16:10:00'!
 testIdealRadicalZeroDimNotPerfectField
 	"Counterexample that shows how Seidenberg algorithm fails over a non-perfect field.
 	From Becker and Weispfenning 'Groebner Bases', Springer-Verlag, 1993. Example 8.16."

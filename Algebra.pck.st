@@ -1,7 +1,8 @@
-'From Cuis 6.0 [latest update: #5898] on 19 October 2023 at 10:28:01 am'!
+'From Cuis 6.0 [latest update: #5898] on 26 October 2023 at 2:19:21 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, schemes, and coherent sheaves.
 
 References:
+[ABPR19] John Abbott; Anna Maria Bigatti; Elisa Palezzato; Lorenzo Robbiano; "Computaing and Using Minimal Polynomials" (2019)
 [AL94] William W. Adams; Philippe Loustaunau; "An Introduction To Groebner Bases", GSM Vol 3, AMS (1994)
 [ABH08] Martin Albrecht, Gregory Bard, William Hard, "Efficient Multiplication of Dense Matrices over GF(2)" (2008)
 [Bar06] Gregory Bard, "Accelerating Cryptanalysis with th eMethod of Four Russians" (2006)
@@ -84,7 +85,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 149!
+!provides: 'Algebra' 1 150!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -659,18 +660,18 @@ PrimeField subclass: #TernaryField
 TernaryField class
 	instanceVariableNames: ''!
 
-!classDefinition: #PolynomialQuotientRing category: #'Algebra-Algebras-Affine'!
-QuotientRing subclass: #PolynomialQuotientRing
+!classDefinition: #AffineAlgebra category: #'Algebra-Algebras-Affine'!
+QuotientRing subclass: #AffineAlgebra
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'PolynomialQuotientRing class' category: #'Algebra-Algebras-Affine'!
-PolynomialQuotientRing class
+!classDefinition: 'AffineAlgebra class' category: #'Algebra-Algebras-Affine'!
+AffineAlgebra class
 	instanceVariableNames: ''!
 
 !classDefinition: #QuasiGaloisRing category: #'Algebra-Rings-Finite'!
-PolynomialQuotientRing subclass: #QuasiGaloisRing
+AffineAlgebra subclass: #QuasiGaloisRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -680,7 +681,7 @@ QuasiGaloisRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #ExtensionRing category: #'Algebra-Algebras-Affine'!
-PolynomialQuotientRing subclass: #ExtensionRing
+AffineAlgebra subclass: #ExtensionRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -760,7 +761,7 @@ GaussianField class
 	instanceVariableNames: ''!
 
 !classDefinition: #JetRing category: #'Algebra-Algebras-Affine'!
-PolynomialQuotientRing subclass: #JetRing
+AffineAlgebra subclass: #JetRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -770,7 +771,7 @@ JetRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #LaurentPolynomialRing category: #'Algebra-Algebras-Affine'!
-PolynomialQuotientRing subclass: #LaurentPolynomialRing
+AffineAlgebra subclass: #LaurentPolynomialRing
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -957,16 +958,6 @@ Ideal subclass: #PolynomialIdeal
 	category: 'Algebra-Algebras-Affine'!
 !classDefinition: 'PolynomialIdeal class' category: #'Algebra-Algebras-Affine'!
 PolynomialIdeal class
-	instanceVariableNames: ''!
-
-!classDefinition: #MonomialIdeal category: #'Algebra-Algebras-Affine'!
-PolynomialIdeal subclass: #MonomialIdeal
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Algebras-Affine'!
-!classDefinition: 'MonomialIdeal class' category: #'Algebra-Algebras-Affine'!
-MonomialIdeal class
 	instanceVariableNames: ''!
 
 !classDefinition: #FreeModule category: #'Algebra-Modules'!
@@ -2610,8 +2601,8 @@ Residue class field ℤ/2ℤ of integers modulo 2, or 𝔽₂.
 !TernaryField commentStamp: '<historical>' prior: 0!
 Residue class field ℤ/3ℤ of integers modulo 3, or 𝔽₃.!
 
-!PolynomialQuotientRing commentStamp: '<historical>' prior: 0!
-Finitely generated commutative (associative) algebras, implemented as quotients of polynomial rings. They are the coordinate rings of affine varieties (closed subschemes of affine space, see AffineVariety). They are also sometimes called the 'rings of regular functions' (on affine varieties).
+!AffineAlgebra commentStamp: '<historical>' prior: 0!
+Finitely generated commutative (associative) algebras, implemented as quotients of polynomial rings. They are the coordinate rings of affine varieties (closed subschemes of affine space, see AffineVariety), i.e. they are the rings of regular functions on affine varieties.
 
 When the coefficients ring is a field K and the relations ideal I is maximal, the affine algebra K[X]/I is a field. In this way, affine algebras are multivariate generalizations of number fields and algebraic function fields.
 
@@ -2620,6 +2611,9 @@ See also PolynomialRing.!
 !QuasiGaloisRing commentStamp: '<historical>' prior: 0!
 The quasi-Galois ring A(p^r,n) is an extension of degree n of the Galois field GF(p^r) isomorphic to GF(p^r)[x]/⟨x^n⟩. See also GaloisRing.
 !
+
+!ExtensionRing commentStamp: '<historical>' prior: 0!
+Univariate affine R-algebras of the form R[x]/⟨f⟩ where f is a monic irreducible polynomial in R[x].!
 
 !GaloisRing commentStamp: 'len 10/12/2023 20:55:59' prior: 0!
 The Galois ring GR(p^n,m) is a Galois extension of degree m of the prime power ring ℤ/(p^n)ℤ of characteristic p^n. This is the unique (up to isomorphism) extension of degree m of the ring ℤ/(p^n)ℤ of integers modulo p^n (see PrimePowerRing). When n=1 they are fields (see GaloisField).
@@ -2654,22 +2648,22 @@ Quadratic number fields, i.e. number fields with defining quadratic polynomial o
 !GaussianField commentStamp: '<historical>' prior: 0!
 The field of Gaussian rationals ℚ[i]. This is the same as the cyclotomic field of order 4. See GaussianRing.!
 
-!PolynomialRing commentStamp: 'len 10/12/2023 20:56:15' prior: 0!
+!PolynomialRing commentStamp: '<historical>' prior: 0!
 Polynomial ring R[x₁,..,xₙ] in one or many indeterminates over a commutative ring R. These are the finitely generated free commutative (associative) R-algebras.
 
 The number of indeterimnates is called the rank of the polynomial ring. The indeterminates are referred by index (positive integer numbers).
 
 Polynomial rings have an associated monoid of monomials (see FreeAbelianMonoid) with a fixed monomial ordering. This ordering definines the leading term of a polynomial and is used for multivariate division (normal form or reduction) and the computation of Groebner bases and standard bases.
 
-See also PolynomialMap, PolynomialIdeal, PolynomialQuotientRing, RationalFunctionField, AffineSpace.
+See also AffineAlgebra, RationalFunctionField, AffineSpace.
 !
 
 !FiniteAlgebra commentStamp: '<historical>' prior: 0!
-Finite (finitely generated as modules) associative unital algebras over a commutative ring R. Since they are implemented in the category of rings they are assumed to be associative and unital, but they don't need to be commutative.
+Finite (finitely generated as modules) algebras over a commutative ring R. Since they are implemented in the category of rings they are assumed to be associative and unital, but they don't need to be commutative.
 
 An R-algebra is constructed from a R-module, with multiplication given by an associative and unital R-bilinear map. When the module is free of rank n, the multiplication can be given by n³ structure constants (elements of R), or equivalently by n matrices of n×n.
 
-Note that a ring can be a finite algebra without being an instance of this class or any of its subclasses. For example, an affine algebra of Krull dimension 0 is a finite algebra. Being a finite R-algebra essentially means that it understands the message #asModule and returns a finitely generated R-module equipped with a bijection between the underlying sets of elements.!
+Note that a ring can be a finite algebra without being an instance of this class or any of its subclasses. For example, an affine algebra of Krull dimension 0 is a finite algebra. Being a finite R-algebra essentially means that it understands the message #asModule returning a finitely generated R-module equipped with coercion maps.!
 
 !Order commentStamp: '<historical>' prior: 0!
 Order in a global field, i.e. a subring of the global field that is also a full lattice (it generates the global field as a vector space).!
@@ -2717,7 +2711,7 @@ Algebras of noncommutative polynomials in a finite set of indeterminates. These 
 This is the noncommutative analogue of a polynomial ring.!
 
 !Module commentStamp: '<historical>' prior: 0!
-Finitely presented right R-modules, for a unital ring R. These include the particular cases of vector spaces over any computable field, finitely generated abelian groups (i.e. ℤ-modules), modules over polynomial rings or quotients of polynomial rings, and modules over finite associative algebras. Ideals are also modeled as modules.
+Finitely presented right R-modules, for a (unital) ring R. These include the particular cases of vector spaces over any computable field, finitely generated abelian groups (i.e. ℤ-modules), modules over polynomial rings or quotients of polynomial rings, and modules over finite associative algebras. Ideals are also modeled as modules.
 
 The implementation relies on the ability to solve systems of linear equations over the coefficients ring. As long as there are algorithms for solving AX = B and AX = 0 for matrices over R, many important computations with finitely presented R-modules are supported. See [BLH11].
 
@@ -2733,18 +2727,6 @@ Integral ideal of an order in a global field.!
 
 !PolynomialIdeal commentStamp: '<historical>' prior: 0!
 Ideal in a polynomial ring. See PolynomialRing.!
-
-!MonomialIdeal commentStamp: '<historical>' prior: 0!
-Ideal generated by monomials in a polynomial ring over a field.
-
-With monomial ideals computations are much easier than with general polynomial ideals, and in many cases problems in general polynomial ideals can be reduced to problems in simpler monomial ideals (for example, by using Groebner bases).
-
-Monomial ideals have a rich theory with connections to convex geometry and combinatorics. There's a one-to-one correspondences between:
-- Simplicial complexes on {1,2,...,n};
-- Squarefree monomial ideals in K[x₁,...,xₙ];
-- Unions of coordinate subspaces of K^n.
-
-See also SimplicialComplex.!
 
 !FreeModule commentStamp: '<historical>' prior: 0!
 Finite-rank free R-modules on free generators indexed by integers 1 to n. These are modules of n-tuples with coefficients in R.
@@ -3023,24 +3005,24 @@ Orderings are used in the computation of Groebner bases and more generally stand
 !BlockMonomialOrdering commentStamp: '<historical>' prior: 0!
 Block or product monomial orderings. They are used, for example, to define elimination orderings such that a subset of the indeterminates are always greater than the rest of the indeterminates.!
 
-!GradedLexicographicOrdering commentStamp: 'len 2/12/2017 06:08:59' prior: 0!
+!GradedLexicographicOrdering commentStamp: '<historical>' prior: 0!
 The graded (or total degree) lexicographic ordering first compares the total degree of the monomials, and takes the monomial with largest total degree. If two monomials have the same total degree, the lexicographic ordering is used to break the tie.
 
-The graded lexicographic ordering has the property that for each subring S[x1..xn] <= R, and each homogeneous polynomial f in R, f is in S iff its leading monomial is in S.
+The graded lexicographic ordering has the property that for each subring S[x₁...xₙ] <= R, and each homogeneous polynomial f in R, f is in S iff its leading monomial is in S.
 
 Elimination by the graded lexicographic ordering produces elements of an homogeneous ideal which are free of the first variable.!
 
-!GradedReverseLexicographicOrdering commentStamp: 'len 2/12/2017 06:09:26' prior: 0!
-The graded (or total degree) reverse lexicographic ordering first compares the total degree of the monomials, and takes the monomial with largest total degree. If two monomials have the same total degree, the reverse lexicographic ordering is used to break the tie (this is the lexicographic ordering on the reversed list of indeterminates (xn, ..., x1).
+!GradedReverseLexicographicOrdering commentStamp: '<historical>' prior: 0!
+The graded (or total degree) reverse lexicographic ordering first compares the total degree of the monomials, and takes the monomial with largest total degree. If two monomials have the same total degree, the reverse lexicographic ordering is used to break the tie (this is the lexicographic ordering on the reversed list of indeterminates (xₙ...x₁).
 
-The graded reverse lexicographic ordering has the property that for each subring S[x1..xn] <= R, and each homogeneous polynomial f in S[x1..xi], xi divides f iff it divides the leading monomial.
+The graded reverse lexicographic ordering has the property that for each subring S[x₁...xₙ] <= R, and each homogeneous polynomial f in S[x₁...xᵢ], xᵢ divides f iff it divides the leading monomial.
 
 Elimination by the graded reverse lexicographic ordering produces elements of a homogeneous ideal which are divisible by the last variable.!
 
 !LexicographicOrdering commentStamp: '<historical>' prior: 0!
 The lexicographic ordering is the 'dictionary' ordering. The first indeterminate is the greatest.
 
-The lexicographic ordering has the property that for each subring S[x1..xn] <= R, and each polynomial f in R, f is in S iff its leading monomial is in S.
+The lexicographic ordering has the property that for each subring S[x₁...xₙ] <= R, and each polynomial f in R, f is in S iff its leading monomial is in S.
 
 The lexicographic ordering is useful for solving systems of algebraic equations. Elimination by the lexicographic ordering produces elements of an ideal which are free of the first variable.!
 
@@ -3176,16 +3158,16 @@ Elements of quotient modules. See QuotientModule.
 !
 
 !Tuple commentStamp: '<historical>' prior: 0!
-Tuples with coefficients in a ring R, i.e. finite ordered lists of n elements of R indexed by integers 1 to n. They are elements of a free modules R^n (see FreeModule).
+Tuples with coefficients in a ring R, i.e. finite ordered lists of n elements of R indexed by integers 1 to n. They are elements of a free modules Rⁿ (see FreeModule).
 
-Different ways to create the 4-tuple (1,2,4,8) with integer coefficients:
+Different ways to create the tuple (1,2,4,8) with integer coefficients:
 	(1,2,4,8).
 	ℤ !!!! #(1 2 4 8).
 	ℤ^4 !! #(1 2 4 8).
 	ℤ^4 fill: [:i| 2^(i-1)]!
 
 !MultivariateTuple commentStamp: '<historical>' prior: 0!
-Tuples with coefficients in a polynomial ring R. They are elements of free modules R^n (see FreeModule).
+Tuples with coefficients in a polynomial ring R. They are elements of free modules Rⁿ (see FreeModule).
 !
 
 !ModuleMonomial commentStamp: '<historical>' prior: 0!
@@ -4175,14 +4157,6 @@ isZeroAt: anInteger
 	| n |
 	n _ scalars degree.
 	^ (coefficients findFirstNonzeroFrom: anInteger-1*n+1 to: anInteger*n) isNil! !
-
-!ExtensionPackedArray methodsFor: 'private' stamp: 'len 6/12/2023 16:04:15'!
-asSliced
-	| answer |
-	self flag: #deprecated. "remove this method"
-	answer := BinaryExtensionArray slices: ((1 to: scalars degree) collect: [:i| scalars scalars new: self size]) scalars: scalars.
-	1 to: self size do: [:i| answer at: i put: (self at: i)].
-	^ answer! !
 
 !ExtensionPackedArray methodsFor: 'private' stamp: 'len 5/4/2023 23:44:29'!
 coefficients
@@ -8884,12 +8858,12 @@ action
 degree
 	^ self space rank! !
 
-!LinearGroup methodsFor: 'accessing' stamp: 'len 11/23/2022 17:07:49'!
+!LinearGroup methodsFor: 'accessing' stamp: 'len 10/20/2023 16:48:50'!
 polynomialAction
-	"Answer the action of the receiver on the polynomial ring K[x1...xn]."
+	"Answer the action of the receiver on the polynomial ring K[x₁...xₙ]."
 	| R X |
-	R _ self space coordinateRing.
-	X _ R !!!! R generators.
+	R := self space coordinateRing.
+	X := R !!!! R generators.
 	^ GroupAction from: (self, R) to: R mapWithArguments: [:a :f| f value: (a asMatrix over: R) * X]! !
 
 !LinearGroup methodsFor: 'accessing' stamp: 'len 9/25/2018 17:07:38'!
@@ -9487,15 +9461,16 @@ category
 characteristic
 	^ self propertyAt: #characteristic! !
 
-!Ring methodsFor: 'accessing' stamp: 'len 3/16/2021 16:13:34'!
+!Ring methodsFor: 'accessing' stamp: 'len 10/21/2023 08:28:02'!
 dimension
 	"Answer the Krull dimension of the receiver.
 	This is the length of the longest ascending chain of prime ideals."
 	self isField ifTrue: [^ 0].
-	self isPID ifTrue: [^ 1].
-	self isIntegralDomain ifTrue: [^ 1].
+	self flag: #fixme.
+	"self isPID ifTrue: [^ 1]. <- included in isDedekindDomain"
+	"self isIntegralDomain ifTrue: [^ 1]. <- not true?"
 	self isDedekindDomain ifTrue: [^ 1]. "<- because it's not a field"
-	self isTrivial ifTrue: [^ -1].
+	self isTrivial ifTrue: [^ Infinity negative].
 	self isFinite ifTrue: [^ 0].
 	^ self propertyAt: #dimension! !
 
@@ -9884,21 +9859,26 @@ primesDo: aBlock
 unitsDo: aBlock
 	self do: [:each| each isUnit ifTrue: [aBlock value: each]]! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 10/18/2016 19:49'!
-conjugation
-	"Answer the companion automorphism of the receiver."
-	^ self id! !
+!Ring methodsFor: 'morphisms' stamp: 'len 10/19/2023 19:37:44'!
+corepresentation
+	"If the receiver is a finite algebra, answer the right regular representation. This is the algebra homomorphism from the receiver to the endomorphisms of the underlying module that takes an element to the endomorphism corresponding to right multiplication by the element."
+	^ self propertyAt: #corepresentation ifAbsentPut:
+		[| M |
+		M := self asModule.
+		AlgebraMap from: self to: M endomorphisms map: [:x| M to: M map: [:v| M !! (self !! v * x)]]]! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 9/16/2022 07:54:26'!
+!Ring methodsFor: 'morphisms' stamp: 'len 10/23/2023 09:40:46'!
 frobenius
 	"Answer the Frobenius endomorphism, assuming the receiver is of characteristic p prime."
-	^ self to: self map: self polynomials x ^ self characteristic! !
+	^ self to: self map: [:x| x ^ self characteristic]! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 10/14/2023 15:46:27'!
+!Ring methodsFor: 'morphisms' stamp: 'len 10/19/2023 19:35:54'!
 representation
-	"If the receiver is a finite algebra, answer the representation map from the receiver to the algebra of endomorphisms of the underlying module."
+	"If the receiver is a finite algebra, answer the left regular representation. This is the algebra homomorphism from the receiver to the endomorphisms of the underlying module that takes an element to the endomorphism corresponding to left multiplication by the element."
 	^ self propertyAt: #representation ifAbsentPut:
-		[AlgebraMap from: self to: self asModule endomorphisms map: [:x| self asModule to: self asModule map: [:v| self asModule !! (x * (self !! v))]]]! !
+		[| M |
+		M := self asModule.
+		AlgebraMap from: self to: M endomorphisms map: [:x| M to: M map: [:v| M !! (x * (self !! v))]]]! !
 
 !Ring methodsFor: 'morphisms' stamp: 'len 9/16/2022 07:54:36'!
 to: aCodomain
@@ -9919,10 +9899,10 @@ to: aRing map: aBlock
 "	(self isTrivial or: [(self characteristic = 0 and: [aRing characteristic = 0]) or: [aRing characteristic | self characteristic]]) ifFalse: [DomainError signal]."
 	^ RingMap from: self to: aRing map: aBlock! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 10/19/2023 10:09:27'!
+!Ring methodsFor: 'morphisms' stamp: 'len 10/19/2023 19:23:42'!
 ⇒ anObject
 	"This is the Hom(A,-) functor, where A is the receiver.
-	When the receiver is a finite R-algebra and the argument is an R-module or an R-module homomorphisms, this is the 'coextension of scalars' functor."
+	When the receiver is a finite R-algebra and the argument is an R-module or an R-module homomorphism, this is the 'coextension of scalars' functor. This is right adjoint to the 'restriction of scalars' functor (see #restriction), and dual to the 'extension of scalars' functor (see #⊗)."
 	(((anObject isKindOf: Module) or: [anObject isKindOf: ModuleMap]) and: [self isFiniteAlgebra and: [self scalars = anObject scalars]])
 		ifTrue: [^ self asModule ⇒ anObject].
 	^ super ⇒ anObject! !
@@ -10107,16 +10087,10 @@ localizationAwayFrom: anElement
 maximalIdeals
 	^ Iterator on: self performing: #maximalIdealsDo:! !
 
-!Ring methodsFor: 'operations' stamp: 'len 8/12/2022 13:36:05'!
+!Ring methodsFor: 'operations' stamp: 'len 10/24/2023 16:07:40'!
 nilradical
 	"Answer the ideal consisting of all nilpotent elements, i.e. all x such that there exists some n with x^n = 0. It is the intersection of all prime ideals. (See also >>radical.)"
-	^ self propertyAt: #nilradical ifAbsentPut: [self asIdeal null radical]
-
-"alternative:
-	| answer |
-	answer _ self oneIdeal.
-	self primeIdealsDo: [:each| answer _ answer ∩ each].
-	^ answer"! !
+	^ self propertyAt: #nilradical ifAbsentPut: [self asIdeal null radical]! !
 
 !Ring methodsFor: 'operations' stamp: 'len 12/20/2021 12:02:03'!
 opposite
@@ -10378,8 +10352,9 @@ isField
 	Warning: it might be a field, but in the constructive setting we may not have a way of testing if it is a field."
 	^ false "undefined"! !
 
-!Ring methodsFor: 'testing' stamp: 'len 9/8/2023 17:42:40'!
+!Ring methodsFor: 'testing' stamp: 'len 10/20/2023 11:06:21'!
 isFiniteAlgebra
+	"Answer true if the receiver is a finite algebra (i.e., the underlying module is finitely generated)."
 	^ false! !
 
 !Ring methodsFor: 'testing' stamp: 'len 7/15/2021 16:07:41'!
@@ -10776,9 +10751,11 @@ example1
 on: aRing
 	^ self new numerators: aRing! !
 
-!RationalField methodsFor: 'accessing' stamp: 'len 9/22/2018 18:58:22'!
+!RationalField methodsFor: 'accessing' stamp: 'len 10/26/2023 10:41:39'!
 degree
 	"Answer the degree of the receiver as an algebraic extension (as a number field)."
+	self flag: #deprecated.
+	self shouldNotImplement.
 	^ 1! !
 
 !RationalField methodsFor: 'accessing' stamp: 'len 5/23/2020 09:13:12'!
@@ -10788,11 +10765,6 @@ integers
 !RationalField methodsFor: 'accessing' stamp: 'len 11/20/2022 11:25:27'!
 numerators
 	^ ℤ! !
-
-!RationalField methodsFor: 'accessing' stamp: 'len 7/11/2023 20:43:47'!
-scalars
-	"Answer the coefficient field of the receiver as an algebraic extension (as a number field)."
-	^ self! !
 
 !RationalField methodsFor: 'accessing' stamp: 'len 12/29/2021 11:55:57'!
 size
@@ -10861,10 +10833,6 @@ positiveDo: aBlock
 	| q |
 	q _ 1.
 	[aBlock value: self !! q. q _ 1 / (2 * q floor - q + 1)] repeat! !
-
-!RationalField methodsFor: 'morphisms' stamp: 'len 5/6/2019 03:35:14'!
-automorphisms
-	^ Group new elements: {self id}! !
 
 !RationalField methodsFor: 'morphisms' stamp: 'len 7/14/2021 09:44:41'!
 embed: anInteger
@@ -11171,10 +11139,10 @@ base
 characteristic
 	^ self numerators characteristic! !
 
-!LocalRing methodsFor: 'accessing' stamp: 'len 9/8/2023 17:33:32'!
+!LocalRing methodsFor: 'accessing' stamp: 'len 10/20/2023 11:03:46'!
 maximalIdeal
 	"Answer the unique maximal ideal in the receiver."
-	^ self * (self baseIdeal generators collect: [:each| self embed: each])! !
+	^ self propertyAt: #maximalIdeal ifAbsentPut: [self baseIdeal ⊗ self]! !
 
 !LocalRing methodsFor: 'accessing' stamp: 'len 9/8/2023 17:33:39'!
 numerators
@@ -11291,6 +11259,25 @@ to: aCodomain
 	aCodomain = self fractions ifTrue: [^ self addMap: ((self onto: self fractions map: [:each| (self fractions !! each numerator) / (self fractions !! each denominator)]) name: 'ι')].
 	((aCodomain isKindOf: LocalRing) and: [aCodomain baseIdeal <= self baseIdeal]) ifTrue: [^ self to: aCodomain map: [:each| each copy parent: aCodomain]].
 	^ super to: aCodomain! !
+
+!LocalRing methodsFor: 'operations' stamp: 'len 10/20/2023 10:52:58'!
+/ anIdeal
+	"Answer the quotient by the given ideal.
+	For convenience, the argument can be a single element or a collection of elements as well.
+	We write quotients of localizations as localizations of quotients."
+	| answer I Q |
+	I := (anIdeal isKindOf: Ideal)
+		ifTrue: [anIdeal scalars = self ifTrue: [anIdeal] ifFalse: [self * anIdeal generators]]
+		ifFalse: [self * anIdeal].
+	Q := self numerators / I numerator.
+	answer := Q localizationAt: (self baseIdeal apply: self numerators → Q).
+	answer addMap:
+		((self onto: answer map: [:each| answer embed: (Q !! each numerator)])
+			name: 'π';
+			propertyAt: #kernel put: I;
+			propertyAt: #image put: answer;
+			yourself).
+	^ answer! !
 
 !LocalRing methodsFor: 'operations' stamp: 'len 11/20/2022 11:27:49'!
 fractions
@@ -11505,11 +11492,11 @@ characteristic
 components
 	^ components! !
 
-!ProductRing methodsFor: 'accessing' stamp: 'len 10/17/2023 15:54:12'!
+!ProductRing methodsFor: 'accessing' stamp: 'len 10/21/2023 08:21:40'!
 dimension
 	"Answer the Krull dimension of the receiver.
 	This is the length of the longest ascending chain of prime ideals."
-	^ (components ifEmpty: [^ -1]) max: [:each| each dimension]! !
+	^ (components ifEmpty: [^ Infinity negative]) max: [:each| each dimension]! !
 
 !ProductRing methodsFor: 'accessing' stamp: 'len 10/17/2023 16:04:33'!
 generators
@@ -11602,8 +11589,8 @@ syzygiesOf: aMatrix
 	results _ self ⇉ self components collect: [:p| (aMatrix apply: p) syzygies].
 	^ self matrix: aMatrix width @ (results max: [:each| each width]) fill: [:i :j| self compose: (results withIndexCollect: [:each :k| each at: i@j ifAbsent: [(self components at: k) zero]])]! !
 
-!ProductRing methodsFor: 'converting' stamp: 'len 10/14/2022 08:58:43'!
-asModule
+!ProductRing methodsFor: 'converting' stamp: 'len 10/20/2023 10:36:03'!
+asAbelianGroup
 	^ self components inject: ℤ^0 into: [:sum :each| sum ⊕ each asAbelianGroup]
 "
 	ℤ × (ℤ/3) × (ℤ/4) :: asAbelianGroup
@@ -11884,11 +11871,6 @@ primeIdealsDo: aBlock
 	I _ self relations.
 	self cover primeIdealsDo: [:each| each >= I ifTrue: [aBlock value: (each apply: projection)]]! !
 
-!QuotientRing methodsFor: 'morphisms' stamp: 'len 2/5/2016 19:52'!
-conjugation
-	"Answer the companion automorphism of the receiver, i.e. the Frobenius automorphism."
-	^ self frobenius! !
-
 !QuotientRing methodsFor: 'morphisms' stamp: 'len 6/28/2023 18:30:32'!
 from: aDomain
 	aDomain = self cover ifTrue: [^ self projection].
@@ -11912,15 +11894,15 @@ projection
 			propertyAt: #image put: self;
 			yourself]! !
 
-!QuotientRing methodsFor: 'operations' stamp: 'len 9/16/2022 08:10:09'!
+!QuotientRing methodsFor: 'operations' stamp: 'len 10/20/2023 10:51:23'!
 / anIdeal
 	"Answer the quotient by the given ideal.
 	For convenience, the argument can be a single element or a collection of elements as well."
 	| answer I |
-	I _ (anIdeal isKindOf: Ideal)
-		ifTrue: [anIdeal scalars = self ifTrue: [anIdeal] ifFalse: [anIdeal scalars = self cover ifTrue: [anIdeal apply: self projection] ifFalse: [^ DomainError signal]]]
+	I := (anIdeal isKindOf: Ideal)
+		ifTrue: [anIdeal scalars = self ifTrue: [anIdeal] ifFalse: [self * anIdeal generators]]
 		ifFalse: [self * anIdeal].
-	answer _ self cover / (self relations + I representative).
+	answer := self cover / (self relations + I representative).
 	answer addMap:
 		((self onto: answer map: [:each| answer project: each representative])
 			name: 'π';
@@ -12349,10 +12331,6 @@ exponent
 maximalIdeal
 	^ self * self base! !
 
-!PrimePowerRing methodsFor: 'accessing' stamp: 'len 6/25/2019 03:57:04'!
-primeSubfield
-	^ self residueField! !
-
 !PrimePowerRing methodsFor: 'accessing' stamp: 'len 9/8/2023 17:03:42'!
 residueField
 	"Answer the prime field ℤ/pℤ isomorphic to the residue field of the receiver, equipped with the canonical projection."
@@ -12361,11 +12339,6 @@ residueField
 		(answer := PrimeField new: self base)
 			addMap: (self onto: answer map: [:x| answer !! x representative]); "TODO: add kernel and section"
 			yourself]! !
-
-!PrimePowerRing methodsFor: 'accessing' stamp: 'len 7/11/2023 20:43:12'!
-scalars
-	"Answer the coefficient ring of the receiver as an algebraic extension (as a Galois ring)."
-	^ self! !
 
 !PrimePowerRing methodsFor: 'accessing' stamp: 'len 9/8/2023 17:04:39'!
 unitsSize
@@ -12484,10 +12457,6 @@ base
 !PrimeField methodsFor: 'accessing' stamp: 'len 6/19/2019 14:27:56'!
 exponent
 	^ 1! !
-
-!PrimeField methodsFor: 'accessing' stamp: 'len 9/22/2018 18:56:03'!
-primeSubfield
-	^ self! !
 
 !PrimeField methodsFor: 'accessing' stamp: 'len 5/30/2022 10:03:15'!
 unitsSize
@@ -12807,7 +12776,7 @@ modulus: anInteger
 	self assert: anInteger = 3.
 	super modulus: anInteger! !
 
-!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 10/14/2023 15:11:12'!
+!AffineAlgebra methodsFor: 'accessing' stamp: 'len 10/14/2023 15:11:12'!
 basis
 	"Answer a basis of the receiver as vector space."
 	| G leadingMonomials maxExponents answer |
@@ -12823,24 +12792,27 @@ basis
 	self monomialsBelow: maxExponents do: [:f| (leadingMonomials anySatisfy: [:g| g | f]) ifFalse: [answer add: f]].
 	^ self propertyAt: #basis put: (answer sorted collect: [:each| self !! each])! !
 
-!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 6/10/2022 11:49:26'!
+!AffineAlgebra methodsFor: 'accessing' stamp: 'len 10/24/2023 21:41:06'!
 characteristic
-	^ self cover characteristic! !
+	self isTrivial ifTrue: [^ 1].
+	self scalars isField ifTrue: [^ self scalars characteristic].
+	^ super characteristic! !
 
-!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 6/10/2022 11:49:29'!
+!AffineAlgebra methodsFor: 'accessing' stamp: 'len 10/26/2023 13:41:00'!
 dimension
-	"Answer the Krull dimension of the receiver. Seen as a field extension, this is its transcendence degree."
-	"Derksen, Kemper, 'Computational Invariant Theory', 2002, Algorithm 1.2.4 (Dimension of an ideal)."
+	"Answer the Krull dimension of the receiver.
+	Seen as a field extension, this is its transcendence degree."
+	"See [DK02, Algorithm 1.2.4 (Dimension of an ideal)]."
 	self relations isZero ifTrue: [^ self cover dimension].
-	self isTrivial ifTrue: [^ -1]. "i.e., the ideal is the whole polynomial ring"
+	self isTrivial ifTrue: [^ Infinity negative]. "i.e., the ideal is the whole polynomial ring"
 	self scalars isField ifTrue: [^ self maximallyIndependentIndeterminates size].
 	^ super dimension! !
 
-!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 6/10/2022 11:50:00'!
+!AffineAlgebra methodsFor: 'accessing' stamp: 'len 6/10/2022 11:50:00'!
 indeterminates
 	^ self cover indeterminates! !
 
-!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 6/29/2023 19:42:15'!
+!AffineAlgebra methodsFor: 'accessing' stamp: 'len 6/29/2023 19:42:15'!
 maximallyIndependentIndeterminates
 	"Answer a maximimally independent set of indeterminates.
 	A set of indeterminats Y is called independent modulo I if the canonical map K[Y] → P/I is injective.
@@ -12860,21 +12832,21 @@ maximallyIndependentIndeterminates
 				ifTrue: [^ indeterminates reject: [:any| combination includes: any]]]].
 	^ indeterminates! !
 
-!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 6/10/2022 11:50:25'!
+!AffineAlgebra methodsFor: 'accessing' stamp: 'len 6/10/2022 11:50:25'!
 monomials
 	"Answer the monoid of monomials of the receiver."
 	^ self cover monomials! !
 
-!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 6/10/2022 11:50:27'!
+!AffineAlgebra methodsFor: 'accessing' stamp: 'len 6/10/2022 11:50:27'!
 ordering
 	^ self cover ordering! !
 
-!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 6/10/2022 11:50:30'!
+!AffineAlgebra methodsFor: 'accessing' stamp: 'len 6/10/2022 11:50:30'!
 rank
 	"Answer the number of indeterminates in the receiver."
 	^ self cover rank! !
 
-!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 10/13/2023 16:02:27'!
+!AffineAlgebra methodsFor: 'accessing' stamp: 'len 10/13/2023 16:02:27'!
 size
 	self propertyAt: #size ifPresent: [:anInteger| ^ anInteger].
 	self isTrivial ifTrue: [^ 1].
@@ -12882,23 +12854,25 @@ size
 		[^ self isZeroDimensional ifTrue: [self scalars size ^ self basis size] ifFalse: [self cover size]].
 	^ super size! !
 
-!PolynomialQuotientRing methodsFor: 'accessing' stamp: 'len 10/10/2023 21:54:42'!
+!AffineAlgebra methodsFor: 'accessing' stamp: 'len 10/10/2023 21:54:42'!
 vectorSpaceDimension
 	"Answer the dimension of the receiver as vector space over the coefficients field."
 	self scalars isField ifFalse: [DomainError signal: 'not over a field'].
 	self isZeroDimensional ifFalse: [^ Infinity positive].
 	^ self hilbertSeries numerator coefficients sum! !
 
-!PolynomialQuotientRing methodsFor: 'converting' stamp: 'len 11/5/2022 13:26:35'!
+!AffineAlgebra methodsFor: 'converting' stamp: 'len 10/26/2023 13:38:38'!
 asFiniteAlgebra
+	"Answer the receiver as a finite algebra explicitly constructed from a bilinear map on the underlying module."
 	| M answer |
-	M _ self asModule.
-	^ (answer _ FiniteAlgebra one: M !! self one multiplication: (BilinearMap from: M, M to: M mapWithArguments: [:x :y| M !! (self !! x * (self !! y))]))
+	self flag: #deprecated. "or could implement it in Ring, or in FiniteAlgebra>>#newFrom:"
+	M := self asModule.
+	^ (answer := FiniteAlgebra one: M !! self one multiplication: (BilinearMap from: M, M to: M mapWithArguments: [:x :y| M !! (self !! x * (self !! y))]))
 		addCoercionFrom: self map: [:f| answer !! (M !! f)];
 		addCoercionTo: self map: [:a| self !! (M !! a)];
 		yourself! !
 
-!PolynomialQuotientRing methodsFor: 'converting' stamp: 'len 10/14/2023 15:27:01'!
+!AffineAlgebra methodsFor: 'converting' stamp: 'len 10/14/2023 15:27:01'!
 asModule
 	| answer |
 	self propertyAt: #asModule ifPresent: [:aModule| ^ aModule].
@@ -12910,11 +12884,11 @@ asModule
 		addCoercionFrom: answer map: [:v| self representative: (self cover coefficients: v coefficients)].
 	^ self propertyAt: #asModule put: answer! !
 
-!PolynomialQuotientRing methodsFor: 'converting' stamp: 'len 7/31/2019 08:21:30'!
+!AffineAlgebra methodsFor: 'converting' stamp: 'len 7/31/2019 08:21:30'!
 orderedBy: aMonomialOrdering
 	^ self class relations: (self relations orderedBy: aMonomialOrdering)! !
 
-!PolynomialQuotientRing methodsFor: 'elements' stamp: 'len 6/10/2022 11:49:23'!
+!AffineAlgebra methodsFor: 'elements' stamp: 'len 6/10/2022 11:49:23'!
 adapt: anElement
 	(self scalars includes: anElement)
 		ifTrue: [^ self project: (self cover constant: anElement)].
@@ -12922,39 +12896,39 @@ adapt: anElement
 		ifTrue: [^ self project: (self cover monomial: anElement)].
 	^ super adapt: anElement! !
 
-!PolynomialQuotientRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
+!AffineAlgebra methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
 x
 	^ self x: 1! !
 
-!PolynomialQuotientRing methodsFor: 'elements' stamp: 'len 6/10/2022 11:50:34'!
+!AffineAlgebra methodsFor: 'elements' stamp: 'len 6/10/2022 11:50:34'!
 x: anInteger
 	^ self project: (self cover x: anInteger)! !
 
-!PolynomialQuotientRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
+!AffineAlgebra methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
 y
 	^ self x: 2! !
 
-!PolynomialQuotientRing methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
+!AffineAlgebra methodsFor: 'elements' stamp: 'len 10/20/2016 10:50'!
 z
 	^ self x: 3! !
 
-!PolynomialQuotientRing methodsFor: 'morphisms' stamp: 'len 6/10/2022 11:49:42'!
+!AffineAlgebra methodsFor: 'morphisms' stamp: 'len 6/10/2022 11:49:42'!
 embed: anElement
 	"Answer the embedding of an element of the coefficients ring into the receiver."
 	^ self project: (self cover embed: anElement)! !
 
-!PolynomialQuotientRing methodsFor: 'morphisms' stamp: 'len 6/28/2023 18:31:11'!
+!AffineAlgebra methodsFor: 'morphisms' stamp: 'len 6/28/2023 18:31:11'!
 from: aDomain
 	aDomain == self scalars ifTrue: [^ self addMap: ((self scalars to: self map: [:x| self embed: x]) name: 'ι')].
 	aDomain → self scalars ifNotNil: [:aMorphism| ^ self scalars → self · aMorphism].
 	^ super from: aDomain! !
 
-!PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 10/7/2023 12:31:54'!
+!AffineAlgebra methodsFor: 'operations' stamp: 'len 10/7/2023 12:31:54'!
 \ anElement
 	"Answer anElement expressed as a word on the generators."
 	^ anElement representative! !
 
-!PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 6/23/2023 22:13:53'!
+!AffineAlgebra methodsFor: 'operations' stamp: 'len 10/20/2023 17:05:23'!
 ⊗ aRing
 	"Answer the tensor product of the receiver with the argument.
 	This is the coproduct in the category of commutative R-algebras."
@@ -12979,59 +12953,76 @@ from: aDomain
 	ι₁ := self into: answer images: (answer generators first: self rank).
 	ι₂ := aRing into: answer images: (answer generators last: aRing rank).
 	answer addCoprojections: {ι₁. ι₂}.
-	answer addCoercionFrom: self, aRing mapWithArguments: [:f :g| (ι₁ value: f) * (ι₂ value: g)].
+	answer addCoercionFrom: (self, aRing) mapWithArguments: [:f :g| (ι₁ value: f) * (ι₂ value: g)].
 	^ answer! !
 
-!PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 5/16/2023 22:15:26'!
+!AffineAlgebra methodsFor: 'operations' stamp: 'len 10/26/2023 13:41:18'!
 fractions
-	"Answer the total ring of fractions of the receiver, with the receiver an affine ring R = K[x₁,...,xₙ]/I over a field K. The ring of fractions is constructed as an affine ring over the rational function field whose indeterminates correspond to maximally independent indeterminates of R."
-	| K independentIndeterminates dependentIndeterminates F E images k localizationMap |
+	"Answer the total ring of fractions of the receiver, with the receiver an affine algebra R = K[x₁,...,xₙ]/I over a field K.
+	The ring of fractions is constructed as an affine algebra over the rational function field whose indeterminates correspond to maximally independent indeterminates of R."
+	| K independentIndeterminates dependentIndeterminates F E images k ι |
 	self propertyAt: #fractions ifPresent: [:aRing| ^ aRing].
-	K _ self scalars.
+	K := self scalars.
 	K isField ifFalse:
 		[K isIntegralDomain ifFalse: [^ super fractions].
-		^ self propertyAt: #fractions put: (self over: K fractions) fractions].
-	independentIndeterminates _ self maximallyIndependentIndeterminates.
+		^ self propertyAt: #fractions put: (self ⊗ K fractions) fractions].
+	independentIndeterminates := self maximallyIndependentIndeterminates.
 	independentIndeterminates isEmpty ifTrue: [^ self propertyAt: #fractions put: self]. "is this correct? is it a field?"
-	dependentIndeterminates _ (1 to: self rank) reject: [:i| independentIndeterminates includes: i].
-	F _ (K polynomialsIn: (independentIndeterminates collect: [:i| self cover names at: i])) fractions.
-	E _ F polynomialsIn: (dependentIndeterminates collect: [:i| self cover names at: i]).
-	images _ Array new: self rank.
-	k _ 0.
-	independentIndeterminates do: [:i| images at: i put: (E constant: (F x: (k _ k + 1)))].
-	k _ 0.
-	dependentIndeterminates do: [:i| images at: i put: (E x: (k _ k + 1))].
-	E addMap: (localizationMap _ self cover to: E map: [:f| f value: images]).
-	^ self propertyAt: #fractions put: E / (self relations apply: localizationMap)! !
+	dependentIndeterminates := (1 to: self rank) reject: [:i| independentIndeterminates includes: i].
+	F := (K polynomialsIn: (independentIndeterminates collect: [:i| self cover names at: i])) fractions.
+	E := F polynomialsIn: (dependentIndeterminates collect: [:i| self cover names at: i]).
+	images := Array new: self rank.
+	k := 0.
+	independentIndeterminates do: [:i| images at: i put: (E constant: (F x: (k := k + 1)))].
+	k := 0.
+	dependentIndeterminates do: [:i| images at: i put: (E x: (k := k + 1))].
+	E addMap: (ι := self cover to: E images: images).
+	^ self propertyAt: #fractions put: E / (self relations apply: ι)! !
 
-!PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 6/10/2022 11:49:57'!
+!AffineAlgebra methodsFor: 'operations' stamp: 'len 10/26/2023 13:42:43'!
+frobeniusSpace
+	"If the receiver is a zero-dimensional GF(q)-algebra, answer the q-Frobenius space.
+	This is a subspace of the receiver corresponding the the fixed-points of the q-Frobenius endomorphism,
+	namely the set {f ∈ R | f^q - f = 0}. See [ABPR19, Definition 4.12]."
+	| q M |
+	q := self scalars size.
+	M := self asModule.
+	^ (M endomorphisms map: [:v| | x | x := self !! v. M !! (x^q - x)]) kernel! !
+
+!AffineAlgebra methodsFor: 'operations' stamp: 'len 6/10/2022 11:49:57'!
 hilbertSeriesAt: t
 	"Answer the Hilbert series of the receiver."
 	^ (self cover hilbertSeriesAt: t) - (self relations hilbertSeriesAt: t)! !
 
-!PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 7/25/2022 11:33:02'!
+!AffineAlgebra methodsFor: 'operations' stamp: 'len 10/26/2023 13:43:20'!
+normalization
+	"Answer the integral closure of the receiver in its field of fractions."
+	^ self notYetImplemented
+	! !
+
+!AffineAlgebra methodsFor: 'operations' stamp: 'len 7/25/2022 11:33:02'!
 proj
 	"This is the Proj construction. Answer the subscheme of projective space with the receiver as its homogeneous coordinate ring."
 	self relations isHomogeneous ifFalse: [^ DomainError signal: 'not a quotient by a homogeneous ideal, not properly graded'].
 	^ self propertyAt: #proj ifAbsentPut: [ProjectiveVariety coordinateRing: self]! !
 
-!PolynomialQuotientRing methodsFor: 'operations' stamp: 'len 7/25/2022 11:32:48'!
+!AffineAlgebra methodsFor: 'operations' stamp: 'len 7/25/2022 11:32:48'!
 spec
 	"This is the Spec functor. Answer the spectrum of the receiver as a subscheme of affine space."
 	^ self propertyAt: #spec ifAbsentPut: [AffineVariety coordinateRing: self]! !
 
-!PolynomialQuotientRing methodsFor: 'printing' stamp: 'len 5/31/2023 09:18:14'!
+!AffineAlgebra methodsFor: 'printing' stamp: 'len 5/31/2023 09:18:14'!
 printOn: aStream
 	super printOn: aStream
 "	(self isUnivariate and: [self generators size = 1])
 		ifTrue: [aStream print: self scalars; nextPut: $(; print: self modulus; nextPut: $)]
 		ifFalse: [super printOn: aStream]"! !
 
-!PolynomialQuotientRing methodsFor: 'testing' stamp: 'len 10/13/2022 10:24:33'!
+!AffineAlgebra methodsFor: 'testing' stamp: 'len 10/13/2022 10:24:33'!
 isAffineAlgebra
 	^ true! !
 
-!PolynomialQuotientRing methodsFor: 'testing' stamp: 'len 10/10/2023 21:49:22'!
+!AffineAlgebra methodsFor: 'testing' stamp: 'len 10/10/2023 21:49:22'!
 isArtinian
 	"A ring is called Artinian if it satisfies the descending chain condition on ideals.
 	Given an affine K-algebra A, the following are equivalent:
@@ -13042,17 +13033,17 @@ isArtinian
 	self scalars isField ifTrue: [^ self isZeroDimensional].
 	^ super isArtinian! !
 
-!PolynomialQuotientRing methodsFor: 'testing' stamp: 'len 10/10/2023 21:54:25'!
+!AffineAlgebra methodsFor: 'testing' stamp: 'len 10/10/2023 21:54:25'!
 isFiniteAlgebra
 	"Answer true if the receiver is a finite algebra (i.e., the underlying module is finitely generated).
 	For an affine algebra over a field, being zero-dimensional (Krull dimension 0) means that it has nonzero finite dimension as vector space over the coefficients field."
 	^ self scalars isField and: [self isZeroDimensional]! !
 
-!PolynomialQuotientRing methodsFor: 'testing' stamp: 'len 7/8/2022 08:50:28'!
+!AffineAlgebra methodsFor: 'testing' stamp: 'len 7/8/2022 08:50:28'!
 isFinitelyGenerated
 	^ true! !
 
-!PolynomialQuotientRing methodsFor: 'private' stamp: 'len 7/19/2021 20:21:38'!
+!AffineAlgebra methodsFor: 'private' stamp: 'len 7/19/2021 20:21:38'!
 monomialsBelow: exponents do: aBlock
 	exponents isEmpty ifTrue: [^ aBlock value: self monomials identity].
 	self monomialsBelow: exponents allButLast do: [:each|
@@ -13105,6 +13096,11 @@ basis
 	"If the receiver is a simple algebraic field extension, answer the power basis of the receiver.
 	The coordinates of an element correspond to coefficients of the polynomial representing the element."
 	^ self propertyAt: #basis ifAbsentPut: [(0 to: self degree - 1) collect: [:k| self x ^ k]]! !
+
+!ExtensionRing methodsFor: 'accessing' stamp: 'len 10/25/2023 07:59:04'!
+characteristic
+	self isTrivial ifTrue: [^ 1].
+	^ self scalars characteristic! !
 
 !ExtensionRing methodsFor: 'accessing' stamp: 'len 6/3/2023 19:36:37'!
 degree
@@ -13188,10 +13184,11 @@ zeros: anInteger
 do: aBlock
 	^ self asModule do: [:each| aBlock value: self !! each]! !
 
-!ExtensionRing methodsFor: 'morphisms' stamp: 'len 5/27/2023 17:21:23'!
+!ExtensionRing methodsFor: 'morphisms' stamp: 'len 10/26/2023 13:47:29'!
 automorphisms
-	"Answer the Galous group of the receiver (assuming the receiver is a Galois extension)."
-	self isFinite ifTrue: [^ Group new generators: {self frobenius}].
+	"Answer the Galois group of the receiver (assuming the receiver is a Galois extension)."
+	self flag: #deprecated.
+	self notYetImplemented.
 	self flag: #fixme. "This is actually isomorphic to the Galois group, not the actual Galois group, it should act on elements of the extension and it's not the full symmetric group."
 	^ SymmetricGroup on: (self embeddings collect: [:each| each value: self x])! !
 
@@ -13255,10 +13252,12 @@ exponent
 maximalIdeal
 	^ self * self base! !
 
-!GaloisRing methodsFor: 'accessing' stamp: 'len 9/8/2023 17:10:12'!
+!GaloisRing methodsFor: 'accessing' stamp: 'len 10/26/2023 13:54:57'!
 primitiveElement
 	"Answer basic primitive element of the receiver.
-	For GR(p^n,r), a basic primitive element is an element of multiplicative order p^r - 1, which is a root of a basic primitive polynomial of degree r over ℤ/(p^n)ℤ and dividing x^(p^r - 1) - 1 in ℤ/(p^n)ℤ[x]. Powers of this element form a Teichmuller set.
+	For GR(p^n,r), a 'basic primitive element' is an element of multiplicative order p^r - 1,
+	which is a root of a basic primitive polynomial of degree r over ℤ/(p^n)ℤ dividing x^(p^r - 1) - 1.
+	Powers of this element form a Tëichmuller set.
 	For a Galois field GF(q) with q = p^r, this is a primitive (q-1)-th root of unity and generates the group of units."
 	| order |
 	self propertyAt: #primitiveElement ifPresent: [:anElement| ^ anElement].
@@ -13272,10 +13271,10 @@ residueField
 	^ self propertyAt: #residueField ifAbsentPut:
 		[GaloisField modulus: (self modulus apply: self scalars → self scalars residueField)]! !
 
-!GaloisRing methodsFor: 'accessing' stamp: 'len 7/11/2023 18:48:44'!
+!GaloisRing methodsFor: 'accessing' stamp: 'len 10/26/2023 11:25:59'!
 teichmullerSet
-	"Answer a Teichmuller set of the receiver.
-	Any element of GR(p^n,r) can be written uniquely as a polynomial in p with coefficients in the Teichmuller set, and this is called the 'p-adic representation'."
+	"Answer a Tëichmuller set of the receiver.
+	Any element of GR(p^n,r) can be written uniquely as a polynomial in p with coefficients in the Tëichmuller set, and this is called the 'multiplicative representation' or 'p-adic representation' (or 'p-adic expansion')."
 	| T ξ |
 	self propertyAt: #teichmullerSet ifPresent: [:anArray| ^ anArray].
 	T := OrderedCollection new: self characteristic.
@@ -13309,10 +13308,16 @@ automorphisms
 	This is the cyclic group generated by the generalized Frobenius automorphism."
 	^ Group new generators: {self generalizedFrobenius}! !
 
-!GaloisRing methodsFor: 'morphisms' stamp: 'len 7/12/2023 21:38:34'!
+!GaloisRing methodsFor: 'morphisms' stamp: 'len 10/24/2023 10:35:38'!
 generalizedFrobenius
 	"Answer the generalized Frobenius automorphism."
-	^ RingMap from: self to: self map: [:x| x generalizedFrobenius]! !
+	^ AlgebraMap from: self to: self map: [:x| x generalizedFrobenius]! !
+
+!GaloisRing methodsFor: 'morphisms' stamp: 'len 10/24/2023 10:46:29'!
+generalizedTrace
+	"Answer the generalized trace homomorphism."
+	self flag: #fixme. "should be an algebra map"
+	^ self to: self scalars map: [:x| x generalizedTrace]! !
 
 !GaloisRing methodsFor: 'morphisms' stamp: 'len 7/14/2023 16:55:57'!
 overrings
@@ -13545,6 +13550,11 @@ automorphisms
 	"Answer the Galois group of the receiver, i.e. the group of endomorphisms fixing the scalar field ℤ/pℤ.
 	This is the cyclic group generated by the Frobenius automorphism."
 	^ Group new generators: {self frobenius}! !
+
+!GaloisField methodsFor: 'morphisms' stamp: 'len 10/24/2023 10:36:02'!
+frobenius
+	"Answer the Frobenius automorphism."
+	^ AlgebraMap from: self to: self map: [:x| x frobenius]! !
 
 !GaloisField methodsFor: 'printing' stamp: 'len 5/6/2023 15:24:37'!
 printOn: aStream
@@ -13834,6 +13844,16 @@ maximalRealSubfield
 order
 	^ self propertyAt: #order! !
 
+!CyclotomicField methodsFor: 'accessing' stamp: 'len 10/20/2023 17:40:13'!
+quadraticSubfield
+	"If the receiver is the cyloctomic field ℚ(ζₚ) of prime order p, answer the unique quadratic subfield of the receiver."
+	self flag: #fixme. "add inclusion map"
+	^ self propertyAt: #quadraticSubfield ifAbsentPut:
+		[| p r d |
+		r := (p := self order) \\ 4.
+		d := r = 1 ifTrue: [p] ifFalse: [r = 4 ifTrue: [p negated] ifFalse: [^ self error: 'not prime order']].
+		QuadraticField new: d]! !
+
 !CyclotomicField methodsFor: 'morphisms' stamp: 'len 6/4/2023 14:54:55'!
 automorphisms
 	"Answer the Galois group of the receiver, i.e. the group of endomorphisms fixing the rationals."
@@ -14053,12 +14073,10 @@ new: anInteger over: aRing ordering: aMonomialOrdering
 characteristic
 	^ scalars characteristic! !
 
-!PolynomialRing methodsFor: 'accessing' stamp: 'len 1/14/2022 11:50:24'!
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 10/21/2023 08:20:01'!
 dimension
 	"Answer the Krull dimension of the receiver."
-	self ordering isLocal ifTrue: [^ -1].
-	self ordering isGlobal ifFalse: [^ self error: 'not a global ring'].
-	self scalars isNoetherian ifTrue: [^ self scalars dimension + self rank].
+	(self ordering isGlobal and: [self scalars isNoetherian]) ifTrue: [^ self scalars dimension + self rank].
 	^ super dimension! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 3/19/2021 16:17:21'!
@@ -14576,14 +14594,14 @@ from: aDomain
 						answer]]]].
 	^ super from: aDomain! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 10/12/2023 20:54:36'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 10/23/2023 09:04:47'!
 / anIdeal
 	"Answer the quotient by the given ideal.
 	For convenience, the argument can be a single element or a collection of elements as well."
 	(anIdeal isKindOf: Ideal) ifFalse: [^ self / (self * anIdeal)].
 	self assert: self = anIdeal scalars.
 	anIdeal isTrivial ifTrue: [^ self].
-	^ PolynomialQuotientRing relations: anIdeal! !
+	^ AffineAlgebra relations: anIdeal! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 5/4/2023 19:12:13'!
 << anInteger
@@ -14945,11 +14963,12 @@ new: anInteger over: aRing
 new: anInteger over: aRing ordering: aMonomialOrdering
 	^ self monomials: (FreeAbelianMonoid new: anInteger ordering: aMonomialOrdering) over: aRing! !
 
-!FiniteAlgebra methodsFor: 'accessing' stamp: 'len 7/11/2021 19:12:40'!
+!FiniteAlgebra methodsFor: 'accessing' stamp: 'len 10/24/2023 21:42:04'!
 characteristic
 	| P |
+	self isTrivial ifTrue: [^ 1].
 	self asModule isFree ifTrue: [^ self scalars characteristic].
-	^ (P _ self primeSubring) isFinite ifTrue: [P size] ifFalse: [0]! !
+	^ (P := self primeSubring) isFinite ifTrue: [P size] ifFalse: [0]! !
 
 !FiniteAlgebra methodsFor: 'accessing' stamp: 'len 10/14/2023 08:11:30'!
 generators
@@ -16121,8 +16140,10 @@ invariants
 		elementaryDivisors _ M elementaryDivisors.
 		((elementaryDivisors size + 1 to: M height) collect: [:each| self scalars zero]), (elementaryDivisors copyWithout: self scalars one)]! !
 
-!Module methodsFor: 'accessing' stamp: 'len 10/25/2020 10:14:35'!
+!Module methodsFor: 'accessing' stamp: 'len 10/23/2023 09:13:33'!
 length
+	"The 'length' of a module is the length of the longest chain of submodules.
+	The trivial module is the only module with length 0, and a simple modules are the modules with length 1."
 	self isVectorSpace ifTrue: [^ self rank].
 	self isTrivial ifTrue: [^ 0].
 	^ self notYetImplemented "^ self base length - self relations length ? or should we compute it as the length of the composition series?"! !
@@ -16430,11 +16451,11 @@ from: aDomain
 		[self isAmbient ifFalse: [aDomain → self ambient ifNotNil: [:aMorphism| ^ self → self ambient \ aMorphism]]].
 	^ super from: aDomain! !
 
-!Module methodsFor: 'morphisms' stamp: 'len 5/28/2023 15:51:18'!
+!Module methodsFor: 'morphisms' stamp: 'len 10/26/2023 14:02:07'!
 hom: aCodomain
 	"Answer the module of homomorphisms from the receiver to aCodomain. This is the internal hom."
 	aCodomain isModule ifFalse: [^ super hom: aCodomain].
-	self checkScalarsMatch: aCodomain.
+	self assert: self scalars = aCodomain scalars.
 	(self scalars isCommutative or: [self scalars isInvolutive]) ifTrue: [^ HomModule from: self to: aCodomain].
 	"TODO: if scalars are an R-algebra, answer an R-module"
 	^ super hom: aCodomain! !
@@ -16517,12 +16538,12 @@ to: aModule validMatrix: aMatrix
 "	(aMatrix * self relationsMatrix) image <= aModule relationsMatrix image ifFalse: [^ self halt]."
 	^ ModuleMap from: self to: aModule matrix: aMatrix! !
 
-!Module methodsFor: 'operations' stamp: 'len 6/26/2023 12:58:27'!
+!Module methodsFor: 'operations' stamp: 'len 10/26/2023 14:01:37'!
 * anIdeal
 	| newGenerators |
 	"If it's not an ideal, it must be a scalar:"
 	(anIdeal isKindOf: Ideal) ifFalse: [^ self * (self scalars * anIdeal)].
-	self checkScalarsMatch: anIdeal.
+	self assert: self scalars = anIdeal scalars.
 	anIdeal isTrivial ifTrue: [^ self null].
 	self isVectorSpace ifTrue: [^ self].
 	anIdeal isOne ifTrue: [^ self].
@@ -16705,19 +16726,19 @@ decomposition
 dual
 	^ self ⇒ self scalars asIdeal! !
 
-!Module methodsFor: 'operations' stamp: 'len 5/8/2023 19:53:04'!
+!Module methodsFor: 'operations' stamp: 'len 10/20/2023 16:52:24'!
 eliminate: anIndeterminate
 	"Answer the elimination submodule computed by eliminating anIndeterminate."
 	^ self eliminateAll: {anIndeterminate}
 
 "Alternative algorithm to compute eliminants of ideals:
-input: ideal I in K[x1..xn] and indet xi
+input: ideal I in K[x₁...xₙ] and indet xi
 output: univariate eliminant g(xi) or there's no eliminant
 1. compute groebner basis G of I in any monomial ordering
 2. if no initial term of any element of G is a pure power of xi, then halt, no eliminant
-3. compute the sequence 1 mod G, xi mod G, xi^2 mod G, ... until a linear dependence is found
-  anxi^n+...+a1xi+a0 mod G = 0
-where n is minimal, then output eliminant g(xi) = sum akxi^k
+3. compute the sequence 1 mod G, xᵢ mod G, xᵢ² mod G, ... until a linear dependence is found
+  aₙxᵢⁿ+...+a₁xᵢ+a₀ mod G = 0
+where n is minimal, then output eliminant g(xᵢ) = Σₖ aₖxᵢ^k
 "! !
 
 !Module methodsFor: 'operations' stamp: 'len 7/27/2021 08:27:56'!
@@ -16757,6 +16778,13 @@ grassmannian: r
 	self assert: (r <= self rank and: [r >= 0]).
 	^ Grassmannian new: r over: self! !
 
+!Module methodsFor: 'operations' stamp: 'len 10/24/2023 16:06:21'!
+jacobsonRadical
+	"Answer the Jacobson radical of the receiver, defined as the intersection of its maximal submodules.
+	This is dual to the 'socle' of a module, defined as the sum of its simple submodules.
+	Note: not to be confused with the radical √I of an ideal I."
+	^ self * self scalars radical! !
+
 !Module methodsFor: 'operations' stamp: 'len 6/26/2023 12:59:10'!
 leadingSubmodule
 	"Answer the initial submodule. This is the submodule of all leading terms of the receiver."
@@ -16787,10 +16815,6 @@ orderOf: anElement
 		[g1 = id] whileFalse: [g1 := g1 * p. e := e * p]].
 	^ e"! !
 
-!Module methodsFor: 'operations' stamp: 'len 8/12/2022 13:08:54'!
-radical
-	^ self ∩ self complement! !
-
 !Module methodsFor: 'operations' stamp: 'len 10/6/2022 11:50:40'!
 reduce: anElement
 	"Answer zero if anElement is in the receiver, and otherwise answer some representative of the coset 'anElement + self' (not necessarily a normal form).
@@ -16801,12 +16825,26 @@ reduce: anElement
 	self isTrivial ifTrue: [^ anElement].
 	^ self ambient elementAt: ((self ambient \ anElement) asMatrix reductionBy: self generatorMatrix modulo: self ambient relationsMatrix) asTuple! !
 
+!Module methodsFor: 'operations' stamp: 'len 10/19/2023 13:37:42'!
+restriction
+	"This is the 'restriction of scalars' functor.
+	If the receiver is a module over a finite R-algebra, answer a module over R.
+	This functor is right adjoint to 'extension of scalars' (see #⊗) and left adjoint to 'coextension of scalars' (see #⇒)."
+	^ self notYetImplemented! !
+
 !Module methodsFor: 'operations' stamp: 'len 6/26/2023 12:59:19'!
 saturation
 	"If the receiver is a submodule of Rⁿ for a Euclidean domain R, the saturation is the intersection of Rⁿ with the Frac(R)-span of any basis of the receiver. See [PS09, Section 8]."
 	(self scalars isEuclideanDomain and: [self ambient isFreelyGenerated])
 		ifFalse: [^ self error: 'not a submodule of a free module over a Euclidean domain'].
 	^ self ambient sub: (self basisMatrix HNF copyWithoutZeroRows \ self basisMatrix transpose) transpose! !
+
+!Module methodsFor: 'operations' stamp: 'len 10/26/2023 10:54:05'!
+socle
+	"The socle of a module is the sum of its simple submodules, i.e. it is the largest semisimple submodule. A module is semisimple if and only if its socle is the whole module.
+	This is dual to the Jacobson radical of a module, defined as the intersection of its maximal submodules.
+	If R is a finite-dimensional algebra and M is a finitely generated R-module, then the socle of M consists precisely of the elements annihilated by the Jacobson radical of R."
+	self notYetImplemented! !
 
 !Module methodsFor: 'operations' stamp: 'len 7/5/2023 16:28:48'!
 sub: aCollectionOrMatrix
@@ -16837,6 +16875,11 @@ support
 !Module methodsFor: 'operations' stamp: 'len 5/1/2021 11:25:59'!
 tensorAlgebra
 	^ self propertyAt: #tensorAlgebra ifAbsentPut: [self scalars freeAlgebraIn: (self coordinateNames ifNil: [self rank])]! !
+
+!Module methodsFor: 'operations' stamp: 'len 10/26/2023 10:47:41'!
+top
+	"Answer the top of the receiver M, defined as the quotient by the Jacobson radical M / J(M)."
+	^ self propertyAt: #top ifAbsentPut: [self / self jacobsonRadical]! !
 
 !Module methodsFor: 'operations' stamp: 'len 6/4/2022 12:57:03'!
 tor: aModule
@@ -17003,10 +17046,6 @@ isNoetherian
 	"A ring R is Noetherian if and only if every finitely generated R-module is a Noetherian module. Also, every finitely presented module is finitely generated:"
 	^ self scalars isNoetherian or: [self isTrivial]! !
 
-!Module methodsFor: 'testing' stamp: 'len 3/11/2020 18:57:48'!
-isNonDegenerate
-	^ self radical isTrivial! !
-
 !Module methodsFor: 'testing' stamp: 'len 6/5/2022 18:52:35'!
 isProjective
 	"Answer true if the receiver is a projective module."
@@ -17020,16 +17059,19 @@ isReflexive
 	"Answer true if the receiver is a reflexive module."
 	^ (self → self dual dual) isBijective! !
 
-!Module methodsFor: 'testing' stamp: 'len 7/18/2020 08:37:53'!
+!Module methodsFor: 'testing' stamp: 'len 10/24/2023 16:05:39'!
 isSemisimple
-	"A module over a (not necessarily commutative) unital ring is said to be 'semisimple' (or 'completely reducible') if it is the direct sum of simple (irreducible) submodules."
+	"A module is 'semisimple' (or 'completely reducible') if it is the direct sum of simple (irreducible) submodules.
+	A finitely generated module is semisimple if and only if it is artinian and its Jacobson radical is zero."
 	(self isAmbient not and: [self ambient isSemisimple]) ifTrue: [^ true].
 	self isVectorSpace ifTrue: [^ true].
-	^ self isArtinian and: [self radical isTrivial] "because the receiver is finitely generated"! !
+	^ self isArtinian and: [self jacobsonRadical isTrivial] "because the receiver is finitely generated"! !
 
-!Module methodsFor: 'testing' stamp: 'len 7/12/2022 06:23:50'!
+!Module methodsFor: 'testing' stamp: 'len 10/23/2023 09:21:25'!
 isSimple
-	"A module is 'simple' if it is nontrivial and has no nontrivial proper submodules. An abelian group is 'simple' if the only normal subgroups are the trivial group and itself."
+	"A nontrivial module is 'simple' if it has no nontrivial proper submodules, i.e. the only submodules are the trivial module and itself.
+	A nontrivial group is 'simple' if the only normal subgroups are the trivial group and itself."
+	self isTrivial ifTrue: [^ false]. "The trivial module is not simple."
 	self isGroup ifTrue: [^ self isTorsion and: [self isCyclic and: [self size isPrime]]].
 	^ self length = 1! !
 
@@ -17071,10 +17113,6 @@ isModule
 !Module methodsFor: 'testing-categories' stamp: 'len 3/5/2020 17:45:29'!
 isVectorSpace
 	^ self scalars isField or: [self isTrivial]! !
-
-!Module methodsFor: 'private' stamp: 'len 6/9/2022 07:01:10'!
-checkScalarsMatch: aModule
-	aModule scalars = self scalars ifFalse: [^ DomainError signal: 'scalars don''t match']! !
 
 !Module methodsFor: 'private' stamp: 'len 10/26/2020 16:25:33'!
 generatorMatrix: aMatrix
@@ -17208,13 +17246,12 @@ apply: aMorphism
 	self scalars isQuotient ifTrue: [^ self representative : anIdeal representative apply: self scalars projection].
 	^ super : anIdeal! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 3/6/2020 11:21:10'!
+!Ideal methodsFor: 'operations' stamp: 'len 10/21/2023 13:33:39'!
 ^ anInteger
 	"Answer the receiver raised to the power anInteger."
-	anInteger <= 0 ifTrue: [self error: 'exponent is not positive'].
+	anInteger = 0 ifTrue: [^ self scalars asIdeal].
 	anInteger = 1 ifTrue: [^ self].
-"	anInteger = 0 ifTrue: [^ self scalars oneIdeal].
-	anInteger < 0 ifTrue: [^ (self ^ anInteger negated) reciprocal]."
+	self assert: anInteger positive.
 	^ anInteger even ifTrue: [self squared ^ (anInteger // 2)] ifFalse: [self squared ^ (anInteger // 2) * self]! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 6/21/2022 09:17:05'!
@@ -17228,11 +17265,13 @@ leadingIdeal
 	"Answer the initial ideal. This is the ideal of all leading terms of the receiver."
 	^ self leadingSubmodule! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 10/13/2022 07:30:55'!
+!Ideal methodsFor: 'operations' stamp: 'len 10/24/2023 16:10:47'!
 radical
+	"Answer the radical ideal √I of the receiver I. This is the ideal such that an element x is in √I if and only if some power of x is in I.
+	Note: not to be confused with the Jacobson radical of a module."
 	self scalars isQuotient ifTrue: [^ self representative radical apply: self scalars projection].
 	((self isTrivial and: [self scalars isIntegralDomain]) or: [self isOne]) ifTrue: [^ self].
-	(self generators size = 1 and: [self scalars isUFR]) ifTrue: [^ self scalars * self generator factorization asSet product].
+	(self generators size = 1 and: [self scalars isUFR]) ifTrue: [^ self scalars * self generator radical].
 	^ self subclassResponsibility! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 10/6/2022 11:49:54'!
@@ -17395,8 +17434,9 @@ isPrincipal
 isProper
 	^ self isZero not and: [self isOne not]! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 2/13/2017 08:38:58'!
+!Ideal methodsFor: 'testing' stamp: 'len 10/24/2023 16:07:52'!
 isRadical
+	"Answer true if the receiver I is a radical ideal, i.e. I = √I."
 	^ self = self radical! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 2/14/2017 10:24:17'!
@@ -17415,10 +17455,9 @@ isZero
 	"Answer true if the receiver is the zero ideal {0}."
 	^ self isTrivial! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 7/10/2021 06:13:21'!
+!Ideal methodsFor: 'testing' stamp: 'len 10/24/2023 16:08:09'!
 radicalContains: anElement
-	"(Radical Membership Problem)
-	Answer true if the radical of the receiver includes anElement."
+	"Answer true if the radical of the receiver includes anElement, i.e. if some power of anElement is in the receiver."
 	^ self radical contains: anElement! !
 
 !Ideal methodsFor: 'private' stamp: 'len 7/15/2021 12:09:46'!
@@ -17527,7 +17566,7 @@ univariateExponent
 		answer _ answer + (mu - 1)].
 	^ answer! !
 
-!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 1/15/2018 18:57:42'!
+!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 10/24/2023 16:09:10'!
 variety
 	"Answer the algebraic variety that is the set of zeroes of all polynomials in the receiver."
 	^ self isHomogeneous ifTrue: [(self scalars / self radical) proj] ifFalse: [(self scalars / self radical) spec]! !
@@ -17573,9 +17612,9 @@ dehomogenizedIn: anIndeterminate
 	S _ R slice: (R indeterminates select: [:i| i ~= anIndeterminate]).
 	^ S * (self generators collect: [:each| S !! (each dehomogenizedIn: anIndeterminate)])! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 6/20/2023 21:21:55'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/21/2023 21:51:39'!
 eliminateAll: aCollection
-	"Answer the elimination ideal for the indeterminates in aCollection = {xi}, i.e. the subideal of polynomials without indeterminates {xi}."
+	"Answer the elimination ideal for the indeterminates in aCollection = {xᵢ}, i.e. the subideal of polynomials without indeterminates {xᵢ}."
 	| freeIndeterminates G newGenerators |
 	freeIndeterminates := self scalars ordering indeterminates reject: [:each| aCollection includes: each].
 	self scalars ordering isGlobal ifFalse: [self notYetImplemented].
@@ -17652,19 +17691,13 @@ primaryDecomposition
 	^ self asSimplicialComplex facets collect: [:each|
 		self scalars * (self scalars indeterminates \ each vertices collect: [:i| self scalars x: i])]! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/9/2023 08:39:52'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/24/2023 16:11:19'!
 radical
 	self isMonomial ifTrue: [^ self scalars * (self generators collect: [:each| each radical])]. "[HH11] Proposition 1.2.4"
 	(self scalars scalars characteristic > 0 and: [self scalars scalars isPerfectField]) ifTrue: [^ self radicalMatsumoto].
 	self isZeroDimensional ifTrue: [^ self radicalZeroDimensional].
-	self flag: #fixme. "this is not right, maybe only works for Q[x1..xn] and monomial ideals"
+	self flag: #fixme. "this is not right, maybe only works for ℚ[x₁...xₙ] and monomial ideals"
 	^ self scalars * (self generators collect: [:each| each radical])! !
-
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/9/2023 08:34:01'!
-radicalZeroDimensional
-	"Answer the radical of the receiver, assuming it is zero-dimensional.
-	See [BW93] Table 8.3, Algorithm ZRADICAL."
-	^ self scalars * (self scalars indeterminates collect: [:i| (self eliminateAllBut: i) generator radical])! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 6/3/2022 21:27:56'!
 reduce: anElement
@@ -17711,23 +17744,23 @@ singular
 	^ self scalars * ((J minors: n - d) collect: [:each| self reduce: each])
 but that seems to be wrong"! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 8/12/2022 13:09:42'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/26/2023 14:02:51'!
 ∩ anIdeal
 	| R S t |
-	self checkScalarsMatch: anIdeal.
+	self assert: self scalars = anIdeal scalars.
 	self isTrivial ifTrue: [^ self].
 	anIdeal isTrivial ifTrue: [^ anIdeal].
 	(self isMonomial and: [anIdeal isMonomial])
 		ifTrue: "[HH11] Proposition 1.2.1."
 			[| generators |
-			generators _ Set new.
+			generators := Set new.
 			self minimalMonomialGeneratingSet do: [:each|
 				anIdeal minimalMonomialGeneratingSet do: [:other| generators add: (each lcm: other)]].
 			^ self scalars * generators].
-	"To compute the intersection we introduce a new variable t, then eliminate it from the ideal I*t + J*(1-t):"
-	R _ self scalars.
-	S _ R scalars polynomialsIn: R rank + 1.
-	t _ S x: S rank.
+	"To compute I ∩ J we introduce a new variable t, then eliminate it from the ideal I·t + J·(1-t):"
+	R := self scalars.
+	S := R scalars polynomialsIn: R rank + 1.
+	t := S x: S rank.
 	^ R !! (S !! self * t + (S !! anIdeal * (t - S one)) eliminate: S rank)! !
 
 !PolynomialIdeal methodsFor: 'printing' stamp: 'len 1/13/2022 10:32:19'!
@@ -17748,11 +17781,34 @@ isIrreducible
 	self isMonomial ifTrue: [^ self minimalMonomialGeneratingSet allSatisfy: [:each| each monomials anyOne support size = 1]].
 	^ super isIrreducible! !
 
-!PolynomialIdeal methodsFor: 'testing' stamp: 'len 5/1/2021 12:25:46'!
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 10/25/2023 07:43:48'!
+isMaximal
+	"A proper ideal I of R is called 'maximal' if it is not contained in any other proper ideal.
+	See [ABPR19, Algorithm 4.16 IsMaximal]."
+	| K Q d μ ℓ |
+	(K := self scalars scalars) isPerfectField ifFalse: [^ super isMaximal].
+	self isZeroDimensional ifFalse: [^ false].
+	Q := self scalars / self.
+	d := Q asModule rank.
+	Q generators do: [:xᵢ|
+		μ := xᵢ minimalPolynomial.
+		μ isIrreducible ifFalse: [^ false].
+		μ degree = d ifTrue: [^ true]].
+	"If K is a finite field GF(q), compute the q-Frobenius space and check if dimension is 1:" 
+	K isFinite ifTrue: [^ Q frobeniusSpace rank = 1].
+	"If K is infinite, test random linear forms:"
+	[ℓ := Q generators sum: [:each| each * K atRandom].
+	μ := ℓ minimalPolynomial.
+	μ isIrreducible ifFalse: [^ false].
+	μ degree = d ifTrue: [^ true]] repeat! !
+
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 10/21/2023 13:44:37'!
 isPrimary
 	"An ideal I of a commutative ring is called 'primary' if for all x*y in I, x or y^n (n>0) is also in I."
+	self isZeroDimensional ifTrue: [^ self isPrimaryZeroDimensional].
 	"Primary monomial ideals are those containing powers of each of a certain subset of the variables, and generated by elements involving no further variables."
-	^ self notYetImplemented! !
+	self flag: #fixme. "TODO: implement for monomial ideals"
+	^ super isPrimary! !
 
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 8/14/2022 10:26:20'!
 isPrime
@@ -17761,20 +17817,11 @@ isPrime
 	"TODO: 	[AL94, Algorithm 4.4.1]"
 	^ super isPrime! !
 
-!PolynomialIdeal methodsFor: 'testing' stamp: 'len 10/9/2023 08:38:31'!
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 10/20/2023 10:04:21'!
 isRadical
-	self isZeroDimensional ifTrue: [^ self isRadicalZeroDimensional].
 	self isMonomial ifTrue: [^ self generators allSatisfy: [:each| each isSquarefree]].
+	self isZeroDimensional ifTrue: [^ self isRadicalZeroDimensional].
 	^ super isRadical! !
-
-!PolynomialIdeal methodsFor: 'testing' stamp: 'len 7/30/2021 12:34:27'!
-isRadicalZeroDimensional
-	"Answer true if the receiver is radical, assuming its quotient is zero-dimensional.
-	See [BW93], Table 8.2, Algorithm ZRADICALTEST."
-	self scalars indeterminates do: [:i| | f |
-		f _ (self eliminateAllBut: i) generator.
-		(f gcd: (f derivativeIn: i)) isConstant ifFalse: [^ false]].
-	^ true! !
 
 !PolynomialIdeal methodsFor: 'testing' stamp: 'len 10/10/2023 21:44:36'!
 isZeroDimensional
@@ -17794,6 +17841,55 @@ radicalContains: aPolynomial
 	X add: S !! aPolynomial * t - S one.
 	^ (S * X) isOne! !
 
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 10/25/2023 07:43:54'!
+isPrimaryZeroDimensional
+	"See [ABPR19, Algorithm 4.19 IsPrimary0Dim]."
+	| J Q d μ factorization K ℓ |
+	J := self.
+	Q := self scalars / J.
+	d := Q asModule rank.
+	Q generators do: [:xᵢ|
+		μ := xᵢ minimalPolynomial.
+		"If μ is not the power of an irreducible factor, return false:"
+		(factorization := μ factorization) asSet size = 1 ifFalse: [^ false].
+		μ degree = d ifTrue: [^ true].
+		factorization size = 1 ifFalse: "is it square-free?"
+			[μ := factorization anyOne. "get the square-free part"
+			J := J + (self scalars * (μ value: xᵢ)).
+			Q := self scalars / J.
+			d := Q asModule rank.
+			μ degree = d ifTrue: [^ true]]].
+	K := self scalars scalars.
+	"If K is a finite field GF(q), compute the q-Frobenius space and check if dimension is 1:" 
+	K isFinite ifTrue: [^ (self scalars / self) frobeniusSpace rank = 1].
+	"If K is infinite, test random linear forms:"
+	[ℓ := Q generators sum: [:each| each * K atRandom].
+	μ := ℓ minimalPolynomial.
+	μ isIrreducible ifFalse: [^ false].
+	μ degree = d ifTrue: [^ true]] repeat! !
+
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 7/30/2021 12:34:27'!
+isRadicalZeroDimensional
+	"Answer true if the receiver is radical, assuming its quotient is zero-dimensional.
+	See [BW93], Table 8.2, Algorithm ZRADICALTEST."
+	self scalars indeterminates do: [:i| | f |
+		f _ (self eliminateAllBut: i) generator.
+		(f gcd: (f derivativeIn: i)) isConstant ifFalse: [^ false]].
+	^ true! !
+
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 10/21/2023 13:55:23'!
+isRadicalZeroDimensional2
+	"Answer true if the receiver is radical, assuming it is zero-dimensional.
+	See [ABPR19, Algorithm 4.7 IsRadical0Dim]."
+	| Q d |
+	Q := self scalars / self.
+	d := Q asModule rank.
+	Q generators do: [:xᵢ| | μ |
+		μ := xᵢ minimalPolynomial.
+		μ isSquarefree ifFalse: [^ false].
+		μ degree = d ifTrue: [^ true]].
+	^ true! !
+
 !PolynomialIdeal methodsFor: 'private' stamp: 'len 6/20/2023 21:37:33'!
 radicalMatsumoto
 	"Matsumoto's algorithm for computing the radical ideal over a perfect field of characteristic p > 0.
@@ -17812,6 +17908,33 @@ radicalMatsumoto
 	I₂ <= I ifTrue: [^ I].
 	I := I₂] repeat! !
 
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 10/24/2023 16:08:47'!
+radicalZeroDimensional
+	"Answer the radical of the receiver, assuming it is zero-dimensional.
+	See [BW93] Table 8.3, Algorithm ZRADICAL."
+	^ self scalars * (self scalars indeterminates collect: [:i| (self eliminateAllBut: i) generator radical])! !
+
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 10/24/2023 16:08:55'!
+radicalZeroDimensional2
+	"Answer the radical of the receiver, assuming it is zero-dimensional over a perfect field.
+	See [ABPR19, Algorithm 4.8 Radical0Dim]."
+	| R n J Q d |
+	R := self scalars.
+	n := R rank.
+	J := self.
+	Q := R / J.
+	d := Q asModule rank.
+	1 to: n do: [:i| | xᵢ μ |
+		xᵢ := Q x: i.
+		μ := xᵢ minimalPolynomial.
+		μ isSquarefree ifFalse:
+			[μ := μ radical.
+			J := J + (R * (μ value: xᵢ)).
+			Q := Q / J.
+			d := Q asModule rank].
+		μ degree = d ifTrue: [^ J]].
+	^ J! !
+
 !PolynomialIdeal class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
 cyclic3
 	"The ideal of cyclic 3-roots."
@@ -17821,138 +17944,6 @@ cyclic3
 katsura3
 	"The Katsura ideal in 3 variables with rational coefficients."
 	^ (ℚ polynomialsIn: #(a b c)) katsuraIdeal! !
-
-!MonomialIdeal methodsFor: 'accessing' stamp: 'len 2/19/2017 09:27:47'!
-generatingMonomials
-	"Answer the set of monomials corresponding to the polynomials that generate the receiver."
-	^ self generators collect: [:each| each monomials anyOne]! !
-
-!MonomialIdeal methodsFor: 'operations' stamp: 'len 8/12/2022 13:10:11'!
-: anIdeal
-	"Answer the colon quotient I:J of the receiver I with the argument J.
-	This is defined as I:J := {r in R | rJ <= I}.
-	J. Herzog, 'Monomial Ideals', Proposition 1.2.2."
-	| R answer |
-	(anIdeal isKindOf: MonomialIdeal)
-		ifFalse: [^ super : anIdeal].
-	R _ self scalars.
-	R isIntegralDomain ifFalse: [^ super : anIdeal]. "is this needed?"
-	answer _ R asIdeal. "<1>"
-	anIdeal generators do: [:g|
-		answer _ answer ∩ (R * (self generators collect: [:each| each / (each gcd: g)]))].
-	^ answer! !
-
-!MonomialIdeal methodsFor: 'operations' stamp: 'len 4/14/2020 03:28:19'!
-alexanderDual
-	"Answer the Alexander dual of the receiver.
-	If I is the Stanley-Reisner ideal of a simplicial complex S, the Alexander dual of I is defined as the Stanley-Reisner ideal of the dual of S."
-	^ self asSimplicialComplex dual stanleyReisnerIdealIn: self scalars! !
-
-!MonomialIdeal methodsFor: 'operations' stamp: 'len 1/9/2022 08:32:02'!
-asSimplicialComplex
-	"Answer the Stanley-Reisner simplicial complex associated to the receiver.
-	This is the simplicial complex formed by the support of all squarefree monomials not in this ideal.
-	Fail if this ideal is not squarefree."
-	self isSquarefree ifFalse: [^ self error: 'not squarefree'].
-	^ (SimplicialComplex on: self scalars indeterminates facets: (self generatingMonomials collect: [:each| each indeterminates])) complement dual! !
-
-!MonomialIdeal methodsFor: 'operations' stamp: 'len 7/6/2022 11:20:28'!
-hilbertSeriesAt: t
-	"Answer the Hilbert series corresponding to the quotient by the receiver."
-	| R n m J int |
-	self isZero ifTrue: [^ t zero].
-	R _ self scalars.
-	n _ R rank.
-	m _ self generators asArray last.
-	J _ R * (self generators copyWithout: m).
-	int _ R * (J generators collect: [:each| each lcm: m]).
-	^ t ^ m degree / ((1 to: n) product: [:i| 1 - (t ^ (R ordering weightOf: i))])
-		+ (J hilbertSeriesAt: t)
-		- (int hilbertSeriesAt: t)! !
-
-!MonomialIdeal methodsFor: 'operations' stamp: 'len 2/19/2017 10:37:52'!
-polarization
-	"Answer the polarization of the receiver.
-	The polarization is a deformation that assigns to an arbitrary monomial ideal a squarefree monomial ideal in a new set of variables."
-	self notYetImplemented	! !
-
-!MonomialIdeal methodsFor: 'operations' stamp: 'len 1/9/2022 08:32:19'!
-primaryDecomposition
-	"Answer the standard primary decomposition of the receiver.
-	This is the unique primary decomposition obtained from an irredundant intersection of irreducible ideals."
-	self isSquarefree ifFalse: [^ super primaryDecomposition].
-	^ self asSimplicialComplex facets collect: [:each|
-		self scalars * (self scalars indeterminates \ each vertices collect: [:i| self scalars x: i])]! !
-
-!MonomialIdeal methodsFor: 'operations' stamp: 'len 6/25/2023 19:39:44'!
-radical
-	"J. Herzog, 'Monomial Ideals', Proposition 1.2.4."
-	^ self scalars * (self generators collect: [:each| each radical])! !
-
-!MonomialIdeal methodsFor: 'operations' stamp: 'len 7/2/2023 20:09:04'!
-sub: aCollection
-	| generators |
-	aCollection isCollection ifFalse: [^ super sub: aCollection].
-	generators := OrderedCollection new: aCollection size.
-	"Make sure the generating set is minimal (and thus unique):"
-	(aCollection asSortedCollection: [:a :b| a degree <= b degree])
-		do: [:each| (generators anySatisfy: [:any| any | each]) ifFalse: [generators add: each]].
-	^ super sub: generators! !
-
-!MonomialIdeal methodsFor: 'operations' stamp: 'len 8/12/2022 13:17:30'!
-∩ anIdeal
-	"Answer the intersection of the receiver and the argument."
-	"J. Herzog, 'Monomial Ideals', Proposition 1.2.1."
-	| intersection |
-	(anIdeal isKindOf: MonomialIdeal)
-		ifFalse: [^ super ∩ anIdeal].
-	self checkScalarsMatch: anIdeal.
-	intersection _ Set new.
-	self generators do: [:each|
-		anIdeal generators do: [:other| intersection add: (each lcm: other)]].
-	^ self scalars * intersection! !
-
-!MonomialIdeal methodsFor: 'printing' stamp: 'len 1/13/2022 10:31:28'!
-printStaircase
-	| w h matrix |
-	w _ self generators max: [:each| (each degreeIn: 1) + 1].
-	h _ self generators max: [:each| (each degreeIn: 2) + 1].
-	matrix _ (1 to: h) collect: [:x| (1 to: w) collect: [:y| ' ']].
-	self basis do: [:each| | x y |
-		x _ each degreeIn: 1.
-		y _ each degreeIn: 2.
-		(matrix at: h-y) at: x+1 put: 'X'].
-	^ String streamContents: [:aStream| matrix do: [:line| line do: [:dot| aStream nextPutAll: dot]] separatedBy: [aStream lf]]! !
-
-!MonomialIdeal methodsFor: 'testing' stamp: 'len 2/20/2017 07:46:57'!
-isIrreducible
-	"Irreducible monomial ideals are those generated by powers of some of the variables."
-	^ self generatingMonomials allSatisfy: [:each| each support size = 1]! !
-
-!MonomialIdeal methodsFor: 'testing' stamp: 'len 5/1/2021 12:25:41'!
-isPrimary
-	"An ideal I of a commutative ring is called 'primary' if for all x*y in I, x or y^n (n>0) is also in I."
-	"Primary monomial ideals are those containing powers of each of a certain subset of the variables, and generated by elements involving no further variables."
-	^ self notYetImplemented! !
-
-!MonomialIdeal methodsFor: 'testing' stamp: 'len 2/20/2017 07:47:09'!
-isPrime
-	"Prime monomial ideals are those generated by subsets of the variables."
-	^ self generatingMonomials allSatisfy: [:each| each degree = 1 and: [each support size = 1]]! !
-
-!MonomialIdeal methodsFor: 'testing' stamp: 'len 6/25/2023 19:41:02'!
-isRadical
-	"A monomial ideal is radical (or squarefree) iff each generator in the minimal generating set is squarefree."
-	^ self generators allSatisfy: [:each| each isSquarefree]! !
-
-!MonomialIdeal methodsFor: 'testing' stamp: 'len 1/9/2022 08:30:30'!
-isSquarefree
-	"A monomial ideal is squarefree iff each generator in the minimal generating set is squarefree."
-	^ self generators allSatisfy: [:each| each isSquarefree]! !
-
-!MonomialIdeal methodsFor: 'private' stamp: 'len 7/7/2016 07:39'!
-species
-	^ PolynomialIdeal! !
 
 !FreeModule methodsFor: 'accessing' stamp: 'len 3/19/2020 19:03:02'!
 ambient
@@ -17979,9 +17970,9 @@ components
 coordinateNames
 	^ self propertyAt: #coordinateNames ifAbsent: []! !
 
-!FreeModule methodsFor: 'accessing' stamp: 'len 8/13/2019 17:46:02'!
+!FreeModule methodsFor: 'accessing' stamp: 'len 10/20/2023 16:53:27'!
 coordinateRing
-	"The coordinate ring of a free R-module of rank n (or K-vector space of dimension n) is the polynomial ring R[x1..xn] (or K[x1..xn])."
+	"The coordinate ring of a free R-module of rank n (or K-vector space of dimension n) is the polynomial ring R[x₁...xₙ] (or K[x₁...xₙ])."
 	^ self propertyAt: #coordinateRing ifAbsentPut: [self scalars polynomialsIn: (self coordinateNames ifNil: [self rank])]! !
 
 !FreeModule methodsFor: 'accessing' stamp: 'len 6/10/2022 11:12:28'!
@@ -18245,24 +18236,25 @@ toAll: anArray
 	anInteger < 0 ifTrue: [^ DomainError signal].
 	^ scalars ^ (rank * anInteger)! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 6/9/2022 07:08:12'!
+!FreeModule methodsFor: 'operations' stamp: 'len 10/26/2023 14:03:09'!
 ⊕ aModule
 	"Answer the direct sum of the receiver and the argument."
 	(aModule isKindOf: FreeModule) ifFalse: [^ super ⊕ aModule].
-	self checkScalarsMatch: aModule.
+	self assert: self scalars = aModule scalars.
 	^ scalars ^ (rank + aModule rank)! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 6/9/2022 07:08:32'!
+!FreeModule methodsFor: 'operations' stamp: 'len 10/26/2023 14:03:25'!
 hom: aCodomain
 	"Answer the module of homomorphisms from the receiver to aCodomain. This is the internal hom."
 	(aCodomain isKindOf: FreeModule) ifFalse: [^ super hom: aCodomain].
-	self checkScalarsMatch: aCodomain.
+	self assert: self scalars = aCodomain scalars.
 	^ MatrixModule from: self to: aCodomain! !
 
-!FreeModule methodsFor: 'operations' stamp: 'len 9/16/2023 16:21:57'!
+!FreeModule methodsFor: 'operations' stamp: 'len 10/19/2023 13:35:54'!
 restriction
 	"This is the 'restriction of scalars' functor.
-	If the receiver is a module over a finite R-algebra, answer a module over R."
+	If the receiver is a module over a finite R-algebra, answer a module over R.
+	This functor is right adjoint to 'extension of scalars' (see #⊗) and left adjoint to 'coextension of scalars' (see #⇒)."
 	^ self scalars scalars ^ (self rank * self scalars asModule rank)! !
 
 !FreeModule methodsFor: 'printing' stamp: 'len 5/28/2020 17:56:15'!
@@ -19109,7 +19101,7 @@ decomposition
 	"Answer the irreducible components of the receiver."
 	^ self asIdeal associatedPrimes collect: [:each| self sub: each]! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 6/26/2023 14:40:44'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 10/24/2023 16:09:32'!
 reduced
 	"Answer the reduced subscheme of the receiver."
 	^ self propertyAt: #reducedSubscheme ifAbsentPut: [self ambient sub: self asIdeal radical]! !
@@ -19676,7 +19668,7 @@ affineCone
 	"If the receiver is defined by an homogeneous ideal I, the affine cone is the affine variety defined by I."
 	^ self coordinateRing spec! !
 
-!ProjectiveScheme methodsFor: 'operations' stamp: 'len 6/26/2023 14:41:59'!
+!ProjectiveScheme methodsFor: 'operations' stamp: 'len 10/24/2023 16:09:40'!
 reduced
 	"Answer the reduced subscheme of the receiver."
 	^ self propertyAt: #reducedSubscheme ifAbsentPut: [self ambient sub: self asIdeal radical]! !
@@ -21420,18 +21412,18 @@ example4CanonicalMorphism
 	I _ R * (x squared + 1).
 	^ R → (R / I)! !
 
-!Morphism class methodsFor: 'examples' stamp: 'len 5/12/2023 21:10:42'!
+!Morphism class methodsFor: 'examples' stamp: 'len 10/23/2023 09:47:03'!
 example5CanonicalMorphism
-	"The message f → B can be sent to a Morphism with a Domain as
-	argument, or to a Domain with a Morphism as argument.
+	"The message f → B can be sent to a morphism with an object as
+	argument, or to an object with a morphism as argument.
 	This yields canonical constructions.
 	For example, given an arbitrary ring homomorphism,
 	we can send it *canonically* to a quotient of its codomain."
 	| R φ x I |
-	R _ (ℤ/5) polynomials. "univariate polynomials over ℤ/5ℤ"
-	φ _ R frobenius. "the Frobenius endomorphism"
-	x _ R x.
-	I _ R * (x squared + 1).
+	R := (ℤ/5) polynomials. "univariate polynomials over ℤ/5ℤ"
+	φ := R frobenius. "the Frobenius endomorphism"
+	x := R x.
+	I := R * (x squared + 1).
 	^ φ → (R / I)! !
 
 !Morphism class methodsFor: 'examples' stamp: 'len 10/5/2022 17:01:34'!
@@ -22988,11 +22980,11 @@ isAlternating
 	matrix diagonalDo: [:each| each isZero ifFalse: [^ false]].
 	^ true! !
 
-!BilinearForm methodsFor: 'testing' stamp: 'len 1/8/2016 06:25'!
+!BilinearForm methodsFor: 'testing' stamp: 'len 10/21/2023 21:17:07'!
 isNonDegenerate
 	"A bilinear form B is called 'non-degenerate' if B(v,w) = 0 for all w implies v = 0.
 	B is non-degenerate iff the left and right radicals are trivial."
-	^ self rank = self domain dimension! !
+	^ self rank = self domain rank! !
 
 !BilinearForm methodsFor: 'testing' stamp: 'len 7/10/2020 07:46:31'!
 isPositiveDefinite
@@ -23310,11 +23302,11 @@ asRingMap
 graph
 	^ self domain × self image! !
 
-!RationalMap methodsFor: 'operations' stamp: 'len 7/12/2023 17:38:13'!
+!RationalMap methodsFor: 'operations' stamp: 'len 10/23/2023 09:07:13'!
 image
 	"Answer (the Zeriski closure of) the image of the receiver. This is a subscheme of the codomain.
 	Performs ideal elimination (a Groebner basis computation with the lexicographical order).
-	See PolynomialMap>>kernel."
+	See AlgebraMap>>kernel."
 	| A B m n P t ι generators g I |
 	self propertyAt: #image ifPresent: [:aScheme| ^ aScheme].
 	A := self domain ambient coordinateRing.
@@ -23986,10 +23978,20 @@ representation
 	"Assuming the receiver is an endomorphism, answer the module endomorphism corresponding to the left regular representation of the receiver."
 	^ self parent endomorphisms map: [:x| self * x]! !
 
-!ModuleMap methodsFor: 'operations' stamp: 'len 10/19/2023 10:14:19'!
+!ModuleMap methodsFor: 'operations' stamp: 'len 10/19/2023 13:36:49'!
 restriction
-	"This is the 'restriction of scalars' functor."
+	"This is the 'restriction of scalars' functor.
+	If the receiver is an homomorphism of modules over a finite R-algebra, answer an homomorphism between R-modules.
+	This functor is right adjoint to 'extension of scalars' (see #⊗) and left adjoint to 'coextension of scalars' (see #⇒)."
 	^ self domain restriction to: self codomain restriction validMatrix: self asMatrix restriction! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 10/26/2023 10:51:30'!
+top
+	"If the receiver is a module map from M to N, answer the induced map from the top of M to the top of N. See Module>>#top."
+	| π₁ π₂ |
+	π₁ := self domain → self domain top.
+	π₂ := self codomain → self codomain top.
+	^ self domain top to: self codomain top map: [:x| π₂ value: (self value: (π₁ preimageElement: x))]! !
 
 !ModuleMap methodsFor: 'operations' stamp: 'len 4/1/2021 06:43:21'!
 trace
@@ -24780,7 +24782,7 @@ primaryInvariantFactors
 	aMatrix isMatrix ifFalse: [^ super ⊕ aMatrix].
 	^ self class from: domain ⊕ aMatrix domain to: codomain ⊕ aMatrix codomain fill: [:i :j| self at: i @ j ifAbsent: [aMatrix at: i - self height @ (j - self width) ifAbsent: [self scalars zero]]]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 7/11/2023 17:41:15'!
+!Matrix methodsFor: 'operations' stamp: 'len 10/26/2023 14:03:46'!
 ⊗ anObject
 	"Answer the Kronecker product of the receiver by the argument, if the argument is another matrix.
 	If the argument is a ring, answer the extension of scalars."
@@ -24789,7 +24791,7 @@ primaryInvariantFactors
 		[anObject isTuple ifTrue: [^ self ⊗ anObject asMatrix].
 		(anObject isKindOf: Ring) ifTrue: [^ self apply: (self scalars → anObject ifNil: [^ self error: 'coercion failed'])].
 		^ super ⊗ anObject].
-	self checkScalarsMatch: anObject.
+	self assert: self scalars = anObject scalars.
 	m := self height.
 	n := self width.
 	p := anObject height.
@@ -24842,13 +24844,13 @@ apply: aFunction
 	aFunction isBlock ifTrue: [^ domain to: codomain fill: [:i :j| aFunction value: (self at: i@j)]].
 	^ (domain over: aFunction codomain) to: (codomain over: aFunction codomain) fill: [:i :j| aFunction value: (self at: i@j)]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 6/14/2023 15:10:47'!
+!Matrix methodsFor: 'operations' stamp: 'len 10/19/2023 19:27:32'!
 berkowitz
 	"Answer the coefficients of the characteristic polynomial of the receiver.
 	It's computed by the Berkowitz division-free algorithm and works over any commutative ring.
 	It uses small space in comparision with classic Gaussian elimination and performs O(n^4) scalar operations."
 	| n v C Ar R S Q one |
-	self isSquare ifFalse: [^ self error: 'not square'].
+	self assert: self isSquare.
 	one := self scalars one.
 	(n := self width) = 0 ifTrue: [^ self scalars !!!! {one}].
 	n = 1 ifTrue: [^ self scalars !!!! {one. (self at: 1@1) negated}].
@@ -25182,10 +25184,11 @@ rank
 	self flag: #fixme. "this is inefficient with dense matrices"
 	^ self echelon rows count: [:each| each isZero not]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 9/18/2023 12:17:41'!
+!Matrix methodsFor: 'operations' stamp: 'len 10/19/2023 13:37:14'!
 restriction
 	"This is the 'restriction of scalars' functor.
-	If the receiver is a n × m matrix over a finite R-algebra with underlying free module R^d, answer a n*d × m*d matrix with coefficients in R seen as an n × m block matrix with each block equal to the representation matrix of the corresponding coefficient in the original matrix."
+	If the receiver is a n × m matrix over a finite R-algebra with underlying free module R^d, answer a n*d × m*d matrix with coefficients in R seen as an n × m block matrix with each block equal to the representation matrix of the corresponding coefficient in the original matrix.
+	This functor is right adjoint to 'extension of scalars' (see #⊗) and left adjoint to 'coextension of scalars' (see #⇒)."
 	| R d answer |
 	self propertyAt: #restriction ifPresent: [:aMatrix| ^ aMatrix].
 	R := self scalars scalars.
@@ -25820,14 +25823,6 @@ isZeroAtColumn: anInteger
 	U₅ := U₄ + P₃. U₆ := U₃ - P₄. U₇ := U₃ + P₅.
 	^ U₁ ⊔ U₅ ⊓ (U₆ ⊔ U₇)! !
 
-!Matrix methodsFor: 'private' stamp: 'len 3/13/2021 12:32:27'!
-checkScalarsMatch: aMatrix
-	self scalars = aMatrix scalars ifFalse: [^ DomainError signal: 'base rings don''t match']! !
-
-!Matrix methodsFor: 'private' stamp: 'len 6/9/2022 07:45:08'!
-checkShapesMatch: aMatrix
-	(self width = aMatrix width and: [self height = aMatrix height]) ifFalse: [^ DomainError signal: 'matrix shapes don''t match']! !
-
 !Matrix methodsFor: 'private' stamp: 'len 12/13/2016 09:51:35'!
 hadamardBound
 	"Answer a bound N on the determinant of the receiver such that |det A| < 2^N.
@@ -26009,10 +26004,9 @@ withIndicesDo: aBlock
 		aBlock value: each value: i value: j.
 		(j _ j + 1) > width ifTrue: [j _ 1. i _ i + 1]].! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 6/1/2023 19:24:41'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 10/24/2023 16:29:27'!
 * anObject
-	(self scalars includes: anObject) ifTrue: [^ self class from: domain to: codomain coefficients: coefficients * anObject].
-	anObject isInteger ifTrue: [^ self * (self scalars !! anObject)].
+	((self scalars includes: anObject) or: [anObject isInteger]) ifTrue: [^ self class from: domain to: codomain coefficients: coefficients * anObject].
 	anObject isMatrix ifTrue: [^ self · anObject].
 	anObject isTuple ifTrue: [^ self value: anObject].
 	(anObject isKindOf: ModuleMap) ifTrue: [^ self · anObject].
@@ -29379,10 +29373,6 @@ centralizer
 	"Answer the subalgebra of the parent algebra commuting with the receiver."
 	^ self parent centralizerOf: (self parent sub: {self})! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 10/16/2022 10:28:30'!
-characteristicPolynomial
-	^ self representation characteristicPolynomial! !
-
 !RingElement methodsFor: 'operations' stamp: 'len 10/18/2023 10:00:58'!
 colift: anElement
 	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
@@ -29538,6 +29528,14 @@ quotientBy: anElement modulo: m
 	xgcd _ anElement xgcd: m.
 	^ self // (xgcd at: 1) * (xgcd at: 2) \\ m"! !
 
+!RingElement methodsFor: 'operations' stamp: 'len 10/24/2023 16:11:37'!
+radical
+	"Assuming the receiver is an element in a UFR, answer the radical or squarefree part."
+	| answer |
+	answer := self one.
+	self factorizationDo: [:p :e| answer := answer * p].
+	^ answer! !
+
 !RingElement methodsFor: 'operations' stamp: 'len 6/25/2023 20:45:19'!
 raisedTo2: anInteger modulo: anElement
 	"Answer the receiver raised to the power anInteger modulo anElement."
@@ -29680,6 +29678,10 @@ isIdempotent
 isIdentity
 	^ self isOne! !
 
+!RingElement methodsFor: 'testing' stamp: 'len 10/19/2023 19:41:42'!
+isIntegral
+	^ self minimalPolynomial coefficients allSatisfy: [:each| each isIntegral]! !
+
 !RingElement methodsFor: 'testing' stamp: 'len 10/17/2022 11:45:50'!
 isIrreducible
 	"A nonzero nonunit element 'a' is called irreducible if a=bc implies that a|b (and then c is a unit) or a|c (and then b is a unit)."
@@ -29729,22 +29731,24 @@ isSquare
 	"Answer true if the receiver is a perfect square, i.e. it has a square root."
 	^ (self parent polynomials x squared - self) roots notEmpty! !
 
-!RingElement methodsFor: 'testing' stamp: 'len 5/28/2022 11:46:57'!
+!RingElement methodsFor: 'testing' stamp: 'len 10/19/2023 19:44:16'!
 isUnit
 	"Answer true if the receiver is invertible."
 	self parent isDivisionRing ifTrue: [^ self isZero not].
+	"self parent isFiniteAlgebra ifTrue: [^ self norm isUnit]."
 	^ (self lift: self one) notNil! !
 
 !RingElement methodsFor: 'testing' stamp: 'len 9/24/2018 02:10:54'!
 isZero
 	^ self = self parent zero! !
 
-!RingElement methodsFor: 'testing' stamp: 'len 7/7/2023 23:28:32'!
+!RingElement methodsFor: 'testing' stamp: 'len 10/19/2023 19:46:13'!
 isZeroDivisor
 	"Answer true if there exists a nonzero element that multiplied by the receiver is zero."
 	self parent isIntegralDomain ifTrue: [^ self isZero].
 	self parent isFinite ifTrue: [^ self isUnit not].
 	self parent isPIR ifTrue: [^ self annihilator isZero not].
+	"self parent isFiniteAlgebra ifTrue: [^ self representation isZeroDivisor and: [self parent isCommutative or: [self corepresentation isZeroDivisor]]]."
 	^ self annihilatorIdeal isTrivial not! !
 
 !Opposite methodsFor: 'accessing' stamp: 'len 4/26/2021 11:21:37'!
@@ -30666,23 +30670,6 @@ tail
 hash
 	^ parent cover hasCanonicalReduction ifTrue: [representative hash] ifFalse: [parent hash]! !
 
-!Residue methodsFor: 'conjugation' stamp: 'len 8/9/2020 07:45:57'!
-conjugate
-	^ self ^ self parent characteristic! !
-
-!Residue methodsFor: 'conjugation' stamp: 'len 4/20/2016 20:23'!
-conjugates
-	^ Iterator on: [:aBlock| self conjugatesDo: aBlock]! !
-
-!Residue methodsFor: 'conjugation' stamp: 'len 6/10/2022 11:53:10'!
-conjugatesDo: aBlock
-	"Iterate over the conjugancy class of the receiver, i.e. all the conjugates including the receiver."
-	| alpha |
-	alpha _ self.
-	[aBlock value: alpha.
-	alpha _ alpha ^ parent cover characteristic.
-	alpha = self] whileFalse! !
-
 !Residue methodsFor: 'operations' stamp: 'len 8/14/2019 04:33:31'!
 * anElement
 	anElement isInteger ifTrue: [^ parent project: representative * anElement].
@@ -30888,10 +30875,6 @@ includes: anObject
 isHomogeneous
 	^ representative isHomogeneous! !
 
-!Residue methodsFor: 'testing' stamp: 'len 10/7/2023 12:24:40'!
-isIntegral
-	^ self minimalPolynomial coefficients allSatisfy: [:each| each isIntegral]! !
-
 !Residue methodsFor: 'testing' stamp: 'len 6/10/2022 11:53:28'!
 isUnit
 	"Answer true if the receiver is invertible."
@@ -31035,12 +31018,23 @@ gcd: anElement
 	anElement isZero ifTrue: [^ self normalized].
 	^ parent representative: (parent cover constant: (representative content gcd: anElement representative content))! !
 
-!GaloisRingElement methodsFor: 'operations' stamp: 'len 9/8/2023 17:12:15'!
+!GaloisRingElement methodsFor: 'operations' stamp: 'len 10/23/2023 14:33:15'!
 generalizedFrobenius
 	"Answer the result of applying the generalized Frobenius automorphism to the receiver."
 	| p |
 	p := self parent base.
-	^ self expansion reversed inject: self zero into: [:result :each| result*p + (each^p)]! !
+	^ self expansion reversed inject: self zero into: [:result :each| result * p + (each ^ p)]! !
+
+!GaloisRingElement methodsFor: 'operations' stamp: 'len 10/24/2023 10:45:17'!
+generalizedTrace
+	"Answer the generalized trace of the receiver. This is a generalization of the trace of Galois fields to Galois rings."
+	| answer x |
+	answer := self.
+	x := self.
+	self parent degree - 1 timesRepeat:
+		[x := x generalizedFrobenius.
+		answer := answer + x].
+	^ answer! !
 
 !GaloisRingElement methodsFor: 'operations' stamp: 'len 6/4/2023 14:33:26'!
 inverse
@@ -31114,6 +31108,24 @@ colift: anElement
 	This is the right division of b by a, written b / a."
 	anElement isZero ifTrue: [^ anElement].
 	^ self isZero ifFalse: [anElement * self inverse]! !
+
+!GaloisFieldElement methodsFor: 'operations' stamp: 'len 10/24/2023 21:12:42'!
+conjugates
+	"Answer the Galois conjugates of the receiver."
+	^ Iterator on: [:aBlock| self conjugatesDo: aBlock]! !
+
+!GaloisFieldElement methodsFor: 'operations' stamp: 'len 10/24/2023 21:27:14'!
+conjugatesDo: aBlock
+	"Iterate over the Galois conjugates of the receiver."
+	| p α |
+	p := self parent characteristic.
+	aBlock value: 	(α := self).
+	self parent degree - 1 timesRepeat: [aBlock value: (α := α ^ p)]! !
+
+!GaloisFieldElement methodsFor: 'operations' stamp: 'len 10/24/2023 10:29:52'!
+frobenius
+	"Answer the result of applying the Frobenius automorphism to the receiver."
+	^ self ^ self parent characteristic! !
 
 !GaloisFieldElement methodsFor: 'operations' stamp: 'len 6/9/2023 20:51:31'!
 inverse
@@ -31469,13 +31481,6 @@ gcd: anElement
 	self isZero ifTrue: [^ anElement normalized].
 	anElement isZero ifTrue: [^ self normalized].
 	^ parent representative: parent base ^ (self valuation min: anElement valuation)! !
-
-!PrimePowerResidue methodsFor: 'operations' stamp: 'len 9/8/2023 17:06:33'!
-generalizedFrobenius
-	"Answer the result of applying the generalized Frobenius automorphism to the receiver."
-	| p |
-	p := self parent base.
-	^ self expansion reversed inject: self zero into: [:result :each| result * p + (self parent !! each ^ p)]! !
 
 !PrimePowerResidue methodsFor: 'operations' stamp: 'len 10/16/2023 11:06:34'!
 inverse
@@ -32570,12 +32575,12 @@ pseudoRem: aPolynomial
 	self isUnivariate ifFalse: [^ (self pseudoDivisionBy: aPolynomial in: self leadingIndeterminate) remainder asMultivariate].
 	^ (self pseudoDivisionBy: aPolynomial) remainder! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 6/25/2023 20:44:06'!
+!Polynomial methodsFor: 'operations' stamp: 'len 10/24/2023 16:11:48'!
 radical
 	"Answer the maximal squarefree divisor of the receiver.
-	This is often called 'squarefree part', but we call it 'radical' to be consistent with integers."
+	This is often called 'squarefree part', but we call it 'radical' to be consistent with integers and ideals."
 	| g |
-	self parent scalars characteristic = 0 ifFalse: [^ self error: 'field must include ℚ (i.e., must be of characteristic 0)'].
+	self parent scalars characteristic = 0 ifFalse: [^ super radical].
 	g := self.
 	self indeterminates do: [:each| g := g gcd: (self derivativeIn: each)].
 	^ self / g! !
@@ -34146,37 +34151,6 @@ parent: anAlgebra moduleElement: anElement
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #+].
 	^ self class parent: parent moduleElement: moduleElement + anElement asModuleElement! !
 
-!FiniteAlgebraElement methodsFor: 'operations' stamp: 'len 10/18/2023 09:13:53'!
-annihilatorIdeal
-	"Answer the ideal of all elements that multiplied by the receiver are zero."
-	self flag: #deprecated.
-	^ super annihilatorIdeal
-"	self parent isIntegralDomain ifTrue: [^ self isZero ifTrue: [self parent asIdeal] ifFalse: [self parent asIdeal null]].
-	^ self parent * (self representation kernel generators collect: [:each| self parent !! each])"! !
-
-!FiniteAlgebraElement methodsFor: 'operations' stamp: 'len 10/18/2023 09:23:53'!
-colift: anElement
-	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
-	This is the right division of b by a, written b / a."
-	self flag: #deprecated.
-	^ super colift: anElement
-	"^ self parent !! ((self corepresentation preimageElement: anElement asModuleElement) ifNil: [^ nil])"! !
-
-!FiniteAlgebraElement methodsFor: 'operations' stamp: 'len 10/18/2023 09:15:08'!
-corepresentation
-	"Answer the module endomorphism corresponding to the right regular representation of the receiver."
-	self flag: #deprecated.
-	^ super corepresentation
-"	^ self parent asModule endomorphisms map: [:x| (self parent !! x * self) asModuleElement]"! !
-
-!FiniteAlgebraElement methodsFor: 'operations' stamp: 'len 10/18/2023 09:14:13'!
-lift: anElement
-	"Answer x such that ax = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
-	This is the left division of b by a, written a \ b."
-	self flag: #deprecated.
-	^ super lift: anElement
-"	^ self parent !! ((self representation preimageElement: anElement asModuleElement) ifNil: [^ nil])"! !
-
 !FiniteAlgebraElement methodsFor: 'operations' stamp: 'len 7/14/2020 09:54:04'!
 negated
 	^ self class parent: parent moduleElement: moduleElement negated! !
@@ -34196,10 +34170,6 @@ representation
 !FiniteAlgebraElement methodsFor: 'printing' stamp: 'len 7/14/2020 09:54:14'!
 printOn: aStream
 	aStream print: moduleElement! !
-
-!FiniteAlgebraElement methodsFor: 'testing' stamp: 'len 7/8/2021 12:02:57'!
-isIntegral
-	^ self minimalPolynomial coefficients allSatisfy: [:each| each isIntegral]! !
 
 !FiniteAlgebraElement methodsFor: 'testing' stamp: 'len 7/22/2021 18:35:04'!
 isNilpotent
@@ -34223,10 +34193,11 @@ isUnit
 "	self parent isDivisionRing ifTrue: [^ self isZero not]."
 	^ self norm isUnit! !
 
-!FiniteAlgebraElement methodsFor: 'testing' stamp: 'len 10/18/2022 06:28:00'!
+!FiniteAlgebraElement methodsFor: 'testing' stamp: 'len 10/19/2023 19:47:03'!
 isZeroDivisor
 	"Answer true if there exists a nonzero element that multiplied by the receiver is zero."
 	self parent isIntegralDomain ifTrue: [^ self isZero].
+	self flag: #fixme. "is this correct? both left and right?"
 	^ self representation isZeroDivisor and: [self parent isCommutative or: [self corepresentation isZeroDivisor]]! !
 
 !FiniteAlgebraElement class methodsFor: 'instance creation' stamp: 'len 7/14/2020 10:06:42'!
@@ -35196,9 +35167,9 @@ withSupportDo: aBlock
 	self scalars = ℤ ifFalse: [self error: 'not over the integers'].
 	^ self apply: (ℤ / anInteger) projection! !
 
-!Tuple methodsFor: 'operations' stamp: 'len 5/5/2023 00:31:14'!
+!Tuple methodsFor: 'operations' stamp: 'len 10/24/2023 16:30:34'!
 * anObject
-	(self scalars includes: anObject)
+	((self scalars includes: anObject) or: [anObject isInteger])
 		ifTrue: [^ self class coefficients: coefficients * anObject parent: parent].
 	anObject isMatrix
 		ifTrue: [^ (self asRowMatrix * anObject) asTuple].
@@ -38439,12 +38410,12 @@ quotientBy: anInteger modulo: m
 	q _ self // f.
 	^ fs * q \\ m! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 12/14/2016 14:48:30'!
+!Integer methodsFor: '*algebra' stamp: 'len 10/24/2023 16:10:31'!
 radical
-	"Answer the product of the prime divisors of the receiver."
+	"Answer the 'radical' or 'squarefree' part of the receiver. This is the product of the prime divisors."
 	| answer |
-	answer _ self sign.
-	self factorizationDo: [:p :e| answer _ answer * p].
+	answer := self sign.
+	self factorizationDo: [:p :e| answer := answer * p].
 	^ answer! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 6/25/2023 13:32:23'!
@@ -38817,15 +38788,6 @@ count
 	count _ 0.
 	self whileTrue: [count _ count + 1].
 	^ count! !
-
-!Collection methodsFor: '*algebra' stamp: 'len 2/19/2017 09:13:36'!
-\ aCollection
-	"Answer the complement of aCollection in the receiver."
-	^ self reject: [:each| aCollection includes: each]! !
-
-!Collection methodsFor: '*algebra' stamp: 'len 10/5/2022 15:44:38'!
-anyone
-	^ self anyOne! !
 
 !Collection methodsFor: '*algebra' stamp: 'len 4/27/2018 01:29:32'!
 apply: aFunction
