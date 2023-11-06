@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 26 October 2023 at 2:19:11 pm'!
+'From Cuis 6.0 [latest update: #5898] on 6 November 2023 at 11:08:07 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 99!
+!provides: 'Tests-Algebra' 1 100!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -4594,8 +4594,8 @@ testIdealMembershipRandom: aRing
 	g _ I atRandomBits: 100.
 	self assert: (I includes: g)! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 10/24/2023 16:07:07'!
-testIdealRadical
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 11/5/2023 15:08:05'!
+testIdealRadicalExample1
 	| R x y I J |
 	R := ℚ polynomialsIn: #(x y).
 	x := R x: 1.
@@ -4603,6 +4603,30 @@ testIdealRadical
 	I := R * {x^3. y^2}.
 	J := R * {x. y}.
 	self assert: I radical = J! !
+
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 11/5/2023 15:08:35'!
+testIdealRadicalExample2
+	| R I |
+	R := ℤ/2 polynomialsIn: #(x y z w).
+	I := R * (R !! [:x :y :z :w| {y+z. x*z squared * w. x squared*z squared}]).
+	self assert: I radical = (R * (R !! [:x :y :z :w| {y+z. x*z}]))
+! !
+
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 11/5/2023 15:10:04'!
+testIdealRadicalExample3
+	| R I |
+	R := ℚ polynomialsIn: #(x y z w).
+	I := R * (R !! [:x :y :z :w| {y+z. x*z squared * w. x squared*z squared}]).
+	self assert: I radical = (R * (R !! [:x :y :z :w| {y+z. x*z}]))
+! !
+
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 11/5/2023 15:12:22'!
+testIdealRadicalExample4
+	| R I |
+	R := ℚ polynomialsIn: #(y z).
+	I := R * (R !! [:y :z| {y+z. z squared}]).
+	self assert: I radical = (R * (R !! [:y :z| {y. z}]))
+! !
 
 !CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 10/24/2023 16:07:13'!
 testIdealRadicalZeroDimPerfectField
@@ -7475,6 +7499,18 @@ setUp
 	super setUp.
 	R := (	GaloisField new: (5 atRandom: random) nextPrime to: (3 atRandom: random)) polynomials! !
 
+!FiniteFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2023 10:20:07'!
+testFactorization
+	| factors f factorization |
+	factors := (1 to: (4 atRandom: random)) collect: [:i| (R atRandom: random maxDegree: 4) ^ (3 atRandom: random)].
+	f := factors product normalized.
+	factorization := f factorization.
+	self assert: factorization product = f.
+	factorization withOccurrencesDo: [:g :k|
+		self assert: g isMonic.
+		self assert: g isIrreducible.
+		self assert: (factors anySatisfy: [:h| g | h])]! !
+
 !FiniteFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/9/2023 23:15:48'!
 testModularComposition
 	| d f g m |
@@ -7488,6 +7524,24 @@ testModularComposition
 setUp
 	super setUp.
 	R := (	GaloisField new: 2 to: (8 atRandom: random) + 1) polynomials! !
+
+!BinaryExtensionFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2023 10:11:01'!
+testFactorizationExample
+	| x f factors |
+	x := R x.
+	f := x^4 - 1.
+	factors := f factorization.
+	self assert: factors size = 4.
+	self assert: (factors occurrencesOf: x+1) = 4! !
+
+!BinaryExtensionFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2023 10:39:53'!
+testSquarefreeFactorizationBug
+	| f g h |
+	100 timesRepeat:
+		[[f := R atRandom: random maxDegree: 1. f isConstant] whileTrue.
+		[g := R atRandom: random maxDegree: 1. g isConstant] whileTrue.
+		h := (f^2*g) normalized.
+		self assert: h squarefreeFactorization product = h]! !
 
 !PrimeFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2023 17:28:23'!
 setUp
@@ -7705,12 +7759,11 @@ testZeroIdealIsPrimeAndMinimalPrime
 	self assert: P isPrime.
 	self assert: P isMinimalPrime! !
 
-!AbstractFiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:08:08'!
+!AbstractFiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2023 10:02:20'!
 testEmbeddingIntoOverfield
 	"Embedding from GF(p^n) to GF(p^(n*k))."
 	| p n k S |
-	self notYetImplemented.
-	p := R modulus.
+	p := R characteristic.
 	n := R degree.
 	k := 3 atRandom: random.
 	S := GaloisField new: p to: n * k.
@@ -7752,6 +7805,20 @@ testFrobeniusFixesScalars
 !GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/26/2023 10:33:14'!
 testFrobeniusOrder
 	self assert: (R frobenius ^ R degree) isIdentity! !
+
+!GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/26/2023 14:27:10'!
+testGeneralizedFrobeniusIsFrobenius
+	| x |
+	100 timesRepeat:
+		[x := R atRandom: random.
+		self assert: x generalizedFrobenius = x frobenius]! !
+
+!GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/26/2023 14:26:35'!
+testGeneralizedTraceIsTrace
+	| x |
+	100 timesRepeat:
+		[x := R atRandom: random.
+		self assert: x generalizedTrace = x trace]! !
 
 !GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2023 07:55:35'!
 testNormAndTrace
@@ -7875,10 +7942,10 @@ testCyclotomicFieldDiscriminantExamples
 	self assert: (CyclotomicField new: 20) discriminant = 4000000.
 	self assert: (CyclotomicField new: 18) discriminant = -19683! !
 
-!GaussianFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:32:19'!
+!GaussianFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/5/2023 21:30:46'!
 setUp
 	super setUp.
-	R := GaussianField new! !
+	R := CyclotomicField new: 4! !
 
 !GaussianFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/11/2023 08:28:11'!
 testComplexEmbedding
@@ -7939,10 +8006,10 @@ testIsPrimary
 		[a := R atRandom: random.
 		a isPrimary ifTrue: [self assert: a norm \\ 3 = 1]]! !
 
-!GaussianRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:36:23'!
+!GaussianRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/5/2023 21:31:00'!
 setUp
 	super setUp.
-	R := GaussianField new integers! !
+	R := (CyclotomicField new: 4) integers! !
 
 !IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:36:33'!
 setUp
@@ -10478,10 +10545,10 @@ testEchelonExample
 	A _ K^3 ⇒ (K^4) !! {1. w. w^5. 0. w^3. w^4. w. 1. w^6. w^3. 1. w^4}.
 	self assert: A echelon = (A parent !! {1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0})! !
 
-!GaussianFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 21:51:01'!
+!GaussianFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/5/2023 21:31:15'!
 setUp
 	super setUp.
-	scalars := GaussianField new! !
+	scalars := CyclotomicField new: 4! !
 
 !QuadraticFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 11:23:16'!
 setUp
@@ -10783,10 +10850,10 @@ setUp
 	super setUp.
 	scalars := (CyclotomicField new: 3) integers! !
 
-!GaussianIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:12:00'!
+!GaussianIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/5/2023 21:31:24'!
 setUp
 	super setUp.
-	scalars := GaussianField new integers! !
+	scalars := (CyclotomicField new: 4) integers! !
 
 !IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:12:12'!
 setUp
@@ -12216,10 +12283,10 @@ setUp
 	super setUp.
 	scalars := GaloisField new: (10 atRandom: random) nextPrime to: (3 atRandom: random)! !
 
-!GaussianFieldVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 21:52:22'!
+!GaussianFieldVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 11/5/2023 21:31:30'!
 setUp
 	super setUp.
-	scalars := GaussianField new! !
+	scalars := CyclotomicField new: 4! !
 
 !QuadraticFieldVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 11:23:30'!
 setUp
@@ -12398,10 +12465,10 @@ setUp
 	super setUp.
 	scalars := (GaloisRing new: (3 atRandom: random) nextPrime to: (2 atRandom: random) to: (2 atRandom: random)) polynomialsIn: 2! !
 
-!GaussianIntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:23:10'!
+!GaussianIntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/5/2023 21:31:37'!
 setUp
 	super setUp.
-	scalars := GaussianField new integers! !
+	scalars := (CyclotomicField new: 4) integers! !
 
 !IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:23:23'!
 setUp
@@ -12431,18 +12498,18 @@ testHomBug2
 	W _ ℤ^(5 atRandom: random).
 	self assert: (V ⇒ W) isTrivial! !
 
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:24:03'!
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/30/2023 19:28:05'!
 testHomExample
 	| A B H |
-	A _ (ℤ/4) asAbelianGroup.
-	B _ (ℤ/2) asAbelianGroup.
-	H _ A ⇒ B.
+	A := (ℤ/4) asAbelianGroup.
+	B := (ℤ/2) asAbelianGroup.
+	H := A ⇒ B.
 	self assert: H generators size = 1.
-	self assert: H generator = (A to: B map: [:x| B elementAt: {x representative \\ 2}]).
+	self assert: H generator = (A to: B images: {B generator}).
 	self assert: H size = 2.
-	H _ B ⇒ A.
+	H := B ⇒ A.
 	self assert: H generators size = 1.
-	self assert: H generator = (B to: A map: [:x| A elementAt: {x representative * 2}]).
+	self assert: H generator = (B to: A images: {A generator * 2}).
 	self assert: H size = 2! !
 
 !IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:10:57'!
