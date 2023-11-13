@@ -1,97 +1,97 @@
-'From Cuis 6.0 [latest update: #5898] on 13 July 2023 at 10:40:32 pm'!
+'From Cuis 6.0 [latest update: #5898] on 13 November 2023 at 11:14:02 am'!
 'Description '!
-!provides: 'Elliptic Curves' 1 18!
+!provides: 'Elliptic Curves' 1 19!
 !requires: 'Algebra' 1 0 nil!
-SystemOrganization addCategory: 'Elliptic Curves'!
+SystemOrganization addCategory: #'Elliptic Curves'!
 
 
-!classDefinition: #EllipticCurveGroup category: 'Elliptic Curves'!
+!classDefinition: #EllipticCurveGroup category: #'Elliptic Curves'!
 Group subclass: #EllipticCurveGroup
 	instanceVariableNames: 'scalars codomain'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveGroup class' category: 'Elliptic Curves'!
+!classDefinition: 'EllipticCurveGroup class' category: #'Elliptic Curves'!
 EllipticCurveGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurve category: 'Elliptic Curves'!
+!classDefinition: #EllipticCurve category: #'Elliptic Curves'!
 ProjectivePlaneCurve subclass: #EllipticCurve
 	instanceVariableNames: 'coefficients'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurve class' category: 'Elliptic Curves'!
+!classDefinition: 'EllipticCurve class' category: #'Elliptic Curves'!
 EllipticCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #WeierstrassCurve category: 'Elliptic Curves'!
+!classDefinition: #WeierstrassCurve category: #'Elliptic Curves'!
 EllipticCurve subclass: #WeierstrassCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'WeierstrassCurve class' category: 'Elliptic Curves'!
+!classDefinition: 'WeierstrassCurve class' category: #'Elliptic Curves'!
 WeierstrassCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurveMap category: 'Elliptic Curves'!
+!classDefinition: #EllipticCurveMap category: #'Elliptic Curves'!
 RationalMap subclass: #EllipticCurveMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveMap class' category: 'Elliptic Curves'!
+!classDefinition: 'EllipticCurveMap class' category: #'Elliptic Curves'!
 EllipticCurveMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurveFrobeniusIsogeny category: 'Elliptic Curves'!
+!classDefinition: #EllipticCurveFrobeniusIsogeny category: #'Elliptic Curves'!
 EllipticCurveMap subclass: #EllipticCurveFrobeniusIsogeny
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveFrobeniusIsogeny class' category: 'Elliptic Curves'!
+!classDefinition: 'EllipticCurveFrobeniusIsogeny class' category: #'Elliptic Curves'!
 EllipticCurveFrobeniusIsogeny class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurveIsogeny category: 'Elliptic Curves'!
+!classDefinition: #EllipticCurveIsogeny category: #'Elliptic Curves'!
 EllipticCurveMap subclass: #EllipticCurveIsogeny
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveIsogeny class' category: 'Elliptic Curves'!
+!classDefinition: 'EllipticCurveIsogeny class' category: #'Elliptic Curves'!
 EllipticCurveIsogeny class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurveIsomorphism category: 'Elliptic Curves'!
+!classDefinition: #EllipticCurveIsomorphism category: #'Elliptic Curves'!
 EllipticCurveMap subclass: #EllipticCurveIsomorphism
 	instanceVariableNames: 'u r s t'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveIsomorphism class' category: 'Elliptic Curves'!
+!classDefinition: 'EllipticCurveIsomorphism class' category: #'Elliptic Curves'!
 EllipticCurveIsomorphism class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurveScalingEndomorphism category: 'Elliptic Curves'!
+!classDefinition: #EllipticCurveScalingEndomorphism category: #'Elliptic Curves'!
 EllipticCurveMap subclass: #EllipticCurveScalingEndomorphism
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurveScalingEndomorphism class' category: 'Elliptic Curves'!
+!classDefinition: 'EllipticCurveScalingEndomorphism class' category: #'Elliptic Curves'!
 EllipticCurveScalingEndomorphism class
 	instanceVariableNames: ''!
 
-!classDefinition: #EllipticCurvePoint category: 'Elliptic Curves'!
+!classDefinition: #EllipticCurvePoint category: #'Elliptic Curves'!
 ProjectivePoint subclass: #EllipticCurvePoint
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurvePoint class' category: 'Elliptic Curves'!
+!classDefinition: 'EllipticCurvePoint class' category: #'Elliptic Curves'!
 EllipticCurvePoint class
 	instanceVariableNames: ''!
 

@@ -1,26 +1,26 @@
-'From Cuis 6.0 [latest update: #5866] on 20 June 2023 at 8:30:11 pm'!
+'From Cuis 6.0 [latest update: #5898] on 13 November 2023 at 11:13:57 am'!
 'Description This package includes some extra methods for Collection and subclasses and some new collection classes.'!
-!provides: 'Collections-Extras' 1 11!
-SystemOrganization addCategory: 'Collections-Extras'!
+!provides: 'Collections-Extras' 1 12!
+SystemOrganization addCategory: #'Collections-Extras'!
 
 
-!classDefinition: #Iterator category: 'Collections-Extras'!
+!classDefinition: #Iterator category: #'Collections-Extras'!
 Collection subclass: #Iterator
 	instanceVariableNames: 'block'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Collections-Extras'!
-!classDefinition: 'Iterator class' category: 'Collections-Extras'!
+!classDefinition: 'Iterator class' category: #'Collections-Extras'!
 Iterator class
 	instanceVariableNames: ''!
 
-!classDefinition: #SortedDictionary category: 'Collections-Extras'!
+!classDefinition: #SortedDictionary category: #'Collections-Extras'!
 Collection subclass: #SortedDictionary
 	instanceVariableNames: 'associations'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Collections-Extras'!
-!classDefinition: 'SortedDictionary class' category: 'Collections-Extras'!
+!classDefinition: 'SortedDictionary class' category: #'Collections-Extras'!
 SortedDictionary class
 	instanceVariableNames: ''!
 
@@ -129,11 +129,12 @@ keysAndValuesDo: aBlock
 	index := 1.
 	self do: [:el | aBlock value: index value: el.  index := index + 1]! !
 
-!Iterator methodsFor: 'printing' stamp: 'len 10/11/2022 06:28:44'!
+!Iterator methodsFor: 'printing' stamp: 'len 10/20/2023 17:11:43'!
 printOn: aStream
 	| count |
-	count _ 0.
-	self do: [:element| aStream print: element] separatedBy: [(count _ count + 1) > 20 ifTrue: [aStream nextPutAll: '...'. ^ self] ifFalse: [aStream nextPutAll: ', ']]! !
+	self isEmpty ifTrue: [aStream nextPut: $∅. ^ self].
+	count := 0.
+	self do: [:element| aStream print: element] separatedBy: [(count := count + 1) > 20 ifTrue: [aStream nextPutAll: '...'. ^ self] ifFalse: [aStream nextPutAll: ', ']]! !
 
 !Iterator methodsFor: 'removing'!
 remove: oldObject ifAbsent: anExceptionBlock 
@@ -392,6 +393,11 @@ new
 new: anInteger
 	^ self associations: (OrderedCollection new: anInteger)! !
 
+!Collection methodsFor: '*collections-extras' stamp: 'len 10/20/2023 16:59:19'!
+\ aCollection
+	"Answer the subcollection of elements of the receiver that are not in aCollection."
+	^ self reject: [:each| aCollection includes: each]! !
+
 !Collection methodsFor: '*collections-extras' stamp: 'len 5/18/2023 14:33:46'!
 ^ anInteger
 	"Answer the receiver concatenated with itself anInteger times."
@@ -408,6 +414,10 @@ anyIfNone: aBlock
 
 	self do: [:each | ^ each].
 	^aBlock value! !
+
+!Collection methodsFor: '*collections-extras' stamp: 'len 10/5/2022 15:44:38'!
+anyone
+	^ self anyOne! !
 
 !Collection methodsFor: '*collections-extras' stamp: 'len 2/13/2003 23:19'!
 copyEmpty

@@ -1,36 +1,36 @@
-'From Cuis 6.0 [latest update: #5898] on 13 July 2023 at 10:40:37 pm'!
+'From Cuis 6.0 [latest update: #5898] on 26 October 2023 at 2:18:58 pm'!
 'Description '!
 !provides: 'Transfinites' 1 6!
-SystemOrganization addCategory: 'Transfinites'!
+SystemOrganization addCategory: #Transfinites!
 
 
-!classDefinition: #Cardinal category: 'Transfinites'!
+!classDefinition: #Cardinal category: #Transfinites!
 Magnitude subclass: #Cardinal
 	instanceVariableNames: 'order'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Transfinites'!
-!classDefinition: 'Cardinal class' category: 'Transfinites'!
+!classDefinition: 'Cardinal class' category: #Transfinites!
 Cardinal class
 	instanceVariableNames: ''!
 
-!classDefinition: #Infinity category: 'Transfinites'!
+!classDefinition: #Infinity category: #Transfinites!
 Magnitude subclass: #Infinity
 	instanceVariableNames: 'sign'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Transfinites'!
-!classDefinition: 'Infinity class' category: 'Transfinites'!
+!classDefinition: 'Infinity class' category: #Transfinites!
 Infinity class
 	instanceVariableNames: ''!
 
-!classDefinition: #Ordinal category: 'Transfinites'!
+!classDefinition: #Ordinal category: #Transfinites!
 Magnitude subclass: #Ordinal
 	instanceVariableNames: 'terms'
 	classVariableNames: 'Zero'
 	poolDictionaries: ''
 	category: 'Transfinites'!
-!classDefinition: 'Ordinal class' category: 'Transfinites'!
+!classDefinition: 'Ordinal class' category: #Transfinites!
 Ordinal class
 	instanceVariableNames: ''!
 
