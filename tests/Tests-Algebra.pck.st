@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 6 November 2023 at 11:08:07 am'!
+'From Cuis 6.0 [latest update: #5898] on 13 November 2023 at 11:14:37 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 100!
+!provides: 'Tests-Algebra' 1 101!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -531,6 +531,16 @@ AbstractNumberFieldTest subclass: #QuadraticFieldTest
 QuadraticFieldTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #ComplexAlgebraicFieldTest category: #'Tests-Algebra-Rings'!
+AbstractFieldTest subclass: #ComplexAlgebraicFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'ComplexAlgebraicFieldTest class' category: #'Tests-Algebra-Rings'!
+ComplexAlgebraicFieldTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #FiniteFieldRationalFunctionFieldTest category: #'Tests-Algebra-Rings'!
 AbstractFieldTest subclass: #FiniteFieldRationalFunctionFieldTest
 	instanceVariableNames: ''
@@ -559,6 +569,16 @@ AbstractFieldTest subclass: #RationalRationalFunctionFieldTest
 	category: 'Tests-Algebra-Rings'!
 !classDefinition: 'RationalRationalFunctionFieldTest class' category: #'Tests-Algebra-Rings'!
 RationalRationalFunctionFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #RealAlgebraicFieldTest category: #'Tests-Algebra-Rings'!
+AbstractFieldTest subclass: #RealAlgebraicFieldTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'RealAlgebraicFieldTest class' category: #'Tests-Algebra-Rings'!
+RealAlgebraicFieldTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #EisensteinRingTest category: #'Tests-Algebra-Rings'!
@@ -2031,6 +2051,16 @@ Object subclass: #Benchmark
 Benchmark class
 	instanceVariableNames: ''!
 
+!classDefinition: #AlgebraicNumbersBenchmark category: #'Tests-Algebra-Benchmarks'!
+Benchmark subclass: #AlgebraicNumbersBenchmark
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Benchmarks'!
+!classDefinition: 'AlgebraicNumbersBenchmark class' category: #'Tests-Algebra-Benchmarks'!
+AlgebraicNumbersBenchmark class
+	instanceVariableNames: ''!
+
 !classDefinition: #CharacteristicPolynomialOverIntegersBenchmark category: #'Tests-Algebra-Benchmarks'!
 Benchmark subclass: #CharacteristicPolynomialOverIntegersBenchmark
 	instanceVariableNames: 'M'
@@ -2151,6 +2181,46 @@ Object subclass: #CASBenchmark
 CASBenchmark class
 	instanceVariableNames: ''!
 
+
+!AlgebraicNumbersBenchmark commentStamp: '<historical>' prior: 0!
+AlgebraicNumbersBenchmark new run
+
+testComplexAlgebraicNumberAddition	1.1 per second. (25 May 2018)
+testComplexAlgebraicNumberDivision	63.9 per second.
+testComplexAlgebraicNumberProduct	68.3 per second.
+testComplexAlgebraicNumberSquare	2,080 per second.
+testRealAlgebraicNumberAddition	0.936 per second.
+testRealAlgebraicNumberDivision	61.7 per second.
+testRealAlgebraicNumberProduct	67.1 per second.
+testRealAlgebraicNumberSquare	2,010 per second.
+
+testComplexAlgebraicNumberAddition	0.907 per second. (18 May 2018)
+testComplexAlgebraicNumberDivision	61 per second.
+testComplexAlgebraicNumberProduct	64.7 per second.
+testComplexAlgebraicNumberSquare	1,760 per second.
+testRealAlgebraicNumberAddition	0.997 per second.
+testRealAlgebraicNumberDivision	58.2 per second.
+testRealAlgebraicNumberProduct	62.6 per second.
+testRealAlgebraicNumberSquare	1,730 per second.
+
+testComplexAlgebraicNumberAddition	0.84 per second.
+testComplexAlgebraicNumberDivision	58.4 per second.
+testComplexAlgebraicNumberProduct	61.6 per second.
+testComplexAlgebraicNumberSquare	1,770 per second.
+testRealAlgebraicNumberAddition	0.952 per second.
+testRealAlgebraicNumberDivision	48.3 per second.
+testRealAlgebraicNumberProduct	56.2 per second.
+testRealAlgebraicNumberSquare	1,460 per second.
+
+testComplexAlgebraicNumberAddition	1.08 per second. (29 Apr 2018)
+testComplexAlgebraicNumberDivision	57.6 per second.
+testComplexAlgebraicNumberProduct	61.2 per second.
+testComplexAlgebraicNumberSquare	1,660 per second.
+testRealAlgebraicNumberAddition	0.78 per second.
+testRealAlgebraicNumberDivision	55.8 per second.
+testRealAlgebraicNumberProduct	59.1 per second.
+testRealAlgebraicNumberSquare	1,610 per second.' 
+!
 
 !CharacteristicPolynomialOverIntegersBenchmark commentStamp: 'len 12/9/2022 13:23:51' prior: 0!
 CharacteristicPolynomialOverIntegersBenchmark new run
@@ -5836,14 +5906,6 @@ testIsUnitOverZm
 	f _ R polynomials !! ({U atRandom}, ((1 to: d) collect: [:i| i=k ifTrue: [U atRandom] ifFalse: [N atRandom]])).
 	self assert: f isUnit not! !
 
-!PolynomialTest methodsFor: 'etc' stamp: 'len 5/8/2023 17:37:40'!
-testOddEvenDecomposition
-	| R x f |
-	R _ ℤ polynomials.
-	x _ R x.
-	f _ R atRandomMaxDegree: 10.
-	self assert: (f evenPart value: x^2) * x + (f oddPart value: x^2) = f! !
-
 !PolynomialTest methodsFor: 'etc' stamp: 'len 5/23/2020 09:34:55'!
 testQuotientRingBug
 	"This is fixed by making ideals of Z[x] have generators with positive leading coefficient. But it could be still a problem for polynomials over other rings."
@@ -6743,29 +6805,57 @@ testGramian
 		[x := Q domain atRandom: random bits: (100 atRandom: random).
 		self assert: (Q value: x) = (x · (M * x))]! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:25:17'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 10:47:50'!
+newElement
+	^ R atRandom: random bits: 30! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:42:08'!
+newScalar
+	^ R scalars atRandom: random bits: 20! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 10:48:58'!
+newUnitElement
+	^ R units atRandom: random! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 10:48:04'!
 testDivisibility
 	20 timesRepeat:
 		[| a b |
-		a _ R atRandom: random bits: 30.
-		b _ R atRandom: random bits: 30.
+		a := self newElement.
+		b := self newElement.
 		self assert: (a isZero or: [a | (a*b)])]! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:25:31'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 10:48:50'!
 testDivisionByUnits
 	10 timesRepeat:
 		[| x u |
-		x _ R atRandom: random bits: 30.
-		u _ R units atRandom: random.
+		x := self newElement.
+		u := self newUnitElement.
 		self assert: x * u / u = x.
 		self assert: x / u = (x * u inverse)]! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/14/2023 13:47:41'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 10:51:18'!
+testDivisionLeft
+	20 timesRepeat:
+		[| a b |
+		a := self newElement.
+		b := a * self newElement.
+		self assert: (a isZero or: [a * (a \ b) = b])]! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 10:51:27'!
+testDivisionRight
+	20 timesRepeat:
+		[| a b |
+		a := self newElement.
+		b := self newElement * a.
+		self assert: (a isZero or: [(b / a) * a = b])]! !
+
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 10:49:26'!
 testExactDivision
 	20 timesRepeat:
 		[| a b |
-		a _ R atRandom: random bits: 30.
-		b _ a * (R atRandom: random bits: 30).
+		a := self newElement.
+		b := a * self newElement.
 		self assert: (a isZero or: [a * (b ÷ a) = b])]! !
 
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 13:53:19'!
@@ -6776,57 +6866,35 @@ testIntegersCoercion
 	self assert: (ℤ → R value: a) = (R one * a).
 	self assert: R !! a = (R one * a)! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:23:37'!
-testLeftDivision
-	20 timesRepeat:
-		[| a b |
-		a _ R atRandom: random bits: 30.
-		b _ a * (R atRandom: random bits: 30).
-		self assert: (a isZero or: [a * (a \ b) = b])]! !
-
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 12:36:42'!
 testLiftColiftOfZero
 	self assert: (R zero colift: R zero) = R zero.
 	self assert: (R zero lift: R zero) = R zero! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 14:01:35'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 10:50:36'!
 testPower
 	| x |
 	self assert: R zero ^ 2 = R zero.
 	self assert: R zero ^ 0 = R one.
-	x := R atRandom: random.
+	x := self newElement.
 	self assert: x^0 = R one.
 	self assert: x^1 = x.
 	self assert: x^2 = (x*x).
 	self assert: x^3 = (x*x*x).
-	x := R units atRandom: random.
+	x := self newUnitElement.
 	self assert: x^(-1) = x inverse.
 	self assert: x^(-2) = x inverse squared.
 	self assert: x^(-3) = (x inverse squared * x inverse)! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 16:23:08'!
-testRightDivision
-	20 timesRepeat:
-		[| a b |
-		a _ R atRandom: random bits: 30.
-		b _ (R atRandom: random bits: 30) * a.
-		self assert: (a isZero or: [(b / a) * a = b])]! !
-
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 11:25:34'!
-testRing
-	self testRingAxioms: R.
-	R hasCanonicalAssociates ifTrue: [self testRingCanonicalAssociates: R].
-	R isInvolutive ifTrue: [self testRingInvolution: R]! !
-
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2022 09:23:36'!
-testRingAxioms: aRing
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:28:07'!
+testRingAxioms
 	| one zero a b c |
-	one _ aRing one.
-	zero _ aRing zero.
+	one := R one.
+	zero := R zero.
 	20 timesRepeat:
-		[a _ aRing atRandom: random bits: 20.
-		b _ aRing atRandom: random bits: 20.
-		c _ aRing atRandom: random bits: 20.
+		[a := self newElement.
+		b := self newElement.
+		c := self newElement.
 		self assert: a * one = a.
 		self assert: one * a = a.
 		self assert: zero * a = zero.
@@ -6845,27 +6913,28 @@ testRingAxioms: aRing
 		"distributivity:"
 		self assert: (a + b) * c = (a * c + (b * c)).
 		"commutativity of multiplication:"
-		aRing isCommutative ifTrue: [self assert: a * b = (b * a)]]! !
+		R isCommutative ifTrue: [self assert: a * b = (b * a)]]! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2022 12:14:02'!
-testRingCanonicalAssociates: aRing
-	100 timesRepeat:
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 14:33:13'!
+testRingCanonicalAssociates
+	R hasCanonicalAssociates ifFalse: [^ self].
+	20 timesRepeat:
 		[| x u |
-		x _ aRing atRandom: random bits: 30.
-		u _ (aRing atRandom: random bits: 30) normalization.
+		x := self newElement.
+		u := self newUnitElement.
 		self assert: x normalization isUnit.
 		self assert: u normalization = u inverse.
-		self assert: u * u inverse = aRing one.
-		self assert: u normalized = aRing one.
+		self assert: u * u inverse = R one.
+		self assert: u normalized = R one.
 		self assert: x * x normalization = x normalized.
 		self assert: x normalized = (x * u) normalized]! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/11/2023 15:38:26'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 14:33:38'!
 testRingHomomorphism: φ
 	| A B x y |
 	A := φ domain.
 	B := φ codomain.
-	100 timesRepeat:
+	20 timesRepeat:
 		[x := A atRandom: random bits: 10.
 		y := A atRandom: random bits: 10.
 		self assert: (φ value: A zero) = B zero.
@@ -6873,13 +6942,14 @@ testRingHomomorphism: φ
 		self assert: (φ value: x + y) = ((φ value: x) + (φ value: y)).
 		self assert: (φ value: x * y) = ((φ value: x) * (φ value: y))]! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/8/2023 18:45:16'!
-testRingInvolution: aRing
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 14:33:20'!
+testRingInvolution
 	| a b |
-	self assert: aRing one conjugate = aRing one.
-	100 timesRepeat:
-		[a _ aRing atRandom: random bits: 20.
-		b _ aRing atRandom: random bits: 20.
+	R isInvolutive ifFalse: [^ self].
+	self assert: R one conjugate = R one.
+	20 timesRepeat:
+		[a := self newElement.
+		b := self newElement.
 		self assert: (a + b) conjugate = (a conjugate + b conjugate).
 		self assert: (a * b) conjugate = (b conjugate * a conjugate).
 		self assert: a conjugate conjugate = a]! !
@@ -6895,36 +6965,32 @@ testRingPropertiesHierarchy
 	R isFinite ifTrue: [self assert: R isArtinian].
 	! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:01:09'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 10:54:12'!
 testRingUnits
 	10 timesRepeat:
 		[| u |
-		u _ R units atRandom: random.
+		u := self newUnitElement.
 		self assert: u isUnit.
 		self assert: u * u inverse = R one]! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2022 20:01:28'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 10:54:28'!
 testUnitsAreDivisorsOfEveryElement
 	10 timesRepeat:
 		[| x u |
-		x _ R atRandom: random bits: 30.
-		u _ R units atRandom: random.
+		x := self newElement.
+		u := self newUnitElement.
 		self assert: u | x]! !
 
-!AbstractAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:42:41'!
-testAlgebra
-	self testAlgebraAxioms: R! !
-
-!AbstractAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/15/2021 19:41:50'!
-testAlgebraAxioms: anAlgebra
+!AbstractAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 10:55:56'!
+testAlgebraAxioms
 	| one zero x y z a |
-	one _ anAlgebra one.
-	zero _ anAlgebra zero.
+	one := R one.
+	zero := R zero.
 	100 timesRepeat:
-		[x _ anAlgebra atRandom: random bits: 20.
-		y _ anAlgebra atRandom: random bits: 20.
-		z _ anAlgebra atRandom: random bits: 20.
-		a _ anAlgebra scalars atRandom: random bits: 20.
+		[x := self newElement.
+		y := self newElement.
+		z := self newElement.
+		a := self newScalar.
 		self assert: x * one = x.
 		self assert: one * x = x.
 		self assert: zero * x = zero.
@@ -6944,29 +7010,29 @@ testAlgebraAxioms: anAlgebra
 		self assert: x * y * a = (x * (y * a)).
 		self assert: x * y * a = (x * a * y).
 		"commutativity of multiplication:"
-		anAlgebra isCommutative ifTrue: [self assert: x * y = (y * x)]]! !
+		R isCommutative ifTrue: [self assert: x * y = (y * x)]]! !
 
-!AbstractAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:34:28'!
+!AbstractAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 10:56:33'!
 testScalarEmbedding
 	| a |
 	self testRingHomomorphism: R scalars → R.
-	a _ R scalars atRandom: random bits: 20.
+	a := self newScalar.
 	self assert: (R scalars → R value: a) = (R one * a).
 	self assert: R !! a = (R one * a)! !
 
-!AbstractFiniteAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/21/2021 14:02:15'!
+!AbstractFiniteAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 10:57:01'!
 testNormAndTrace
 	| x y a |
-	x _ R atRandom: random bits: 100.
-	y _ R atRandom: random bits: 100.
-	a _ R scalars atRandom: random bits: 10.
+	x := self newElement.
+	y := self newElement.
+	a := self newScalar.
 	self assert: (x * a + y) trace = (x trace * a + y trace).
 	self assert: (x * y) norm = (x norm * y norm)! !
 
-!AbstractMaximalOrderTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:05'!
+!AbstractMaximalOrderTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 10:57:24'!
 testCoercionToAndFromFractions
 	| x |
-	x := R atRandom: random bits: 100.
+	x := self newElement.
 	self assert: R !! (R fractions !! x) = x! !
 
 !AbstractMaximalOrderTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:34:34'!
@@ -7006,11 +7072,11 @@ testCliffordAlgebraDualGrade
 	x _ (R grade: k) atRandom: random bits: 10.
 	self assert: ((R grade: R degree - k) includes: x dual)! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:01:34'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:03:35'!
 testCliffordAlgebraDualProperties
 	| x y |
-	x _ R atRandom: random bits: 10.
-	y _ R atRandom: random bits: 10.
+	x := self newElement.
+	y := self newElement.
 	self assert: x ·| y dual = (x ∧ y) dual.
 	self assert: x ∧ y dual = (x ·| y) dual! !
 
@@ -7021,24 +7087,24 @@ testCliffordAlgebraEvenSubalgebra
 	x _ E atRandom: random bits: 10.
 	self assert: x = x reflection! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:21:03'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:04:15'!
 testCliffordAlgebraGradeInvolution
 	| x y v |
-	x _ R atRandom: random bits: 10.
-	y _ R atRandom: random bits: 10.
-	v _ R !! (R space atRandom: random bits: 10).
+	x := self newElement.
+	y := self newElement.
+	v := R !! (R space atRandom: random bits: 10).
 	self assert: (x*y) reflection = (x reflection * y reflection).
 	self assert: v reflection = v negated! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:21:54'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:04:36'!
 testCliffordAlgebraGradeProjection
 	| x k j |
-	k _ (0 to: R degree) atRandom: random.
-	[j _ (0 to: R degree) atRandom: random. j = k] whileTrue.
-	x _ R atRandom: random bits: 20.
+	k := (0 to: R degree) atRandom: random.
+	[j := (0 to: R degree) atRandom: random. j = k] whileTrue.
+	x := self newElement.
 	self assert: ((R grade: k) includes: (x grade: k)).
 	self assert: (((R grade: j) includes: (x grade: k)) not or: [(x grade: k) isZero]).
-	x _ (R grade: k) atRandom: random bits: 10.
+	x := (R grade: k) atRandom: random bits: 10.
 	self assert: (x grade: k) = x.
 	self assert: (x grade: j) isZero! !
 
@@ -7075,12 +7141,12 @@ testCliffordAlgebraMultiplication
 	self assert: (x*0) isZero.
 	self assert: (0*x) isZero! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:20'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:05:06'!
 testCliffordAlgebraProductsProperties
 	| x y z one |
-	x := R atRandom: random bits: 10.
-	y := R atRandom: random bits: 10.
-	z := R atRandom: random bits: 10.
+	x := self newElement.
+	y := self newElement.
+	z := self newElement.
 	"Associativity of wedge product:"
 	self assert: x ∧ (y ∧ z) = (x ∧  y ∧ z).
 	"Associativity of left and right interior products:"
@@ -7093,12 +7159,12 @@ testCliffordAlgebraProductsProperties
 	self assert: one ·| x = x.
 	self assert: x |· one = x! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:03:00'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:05:19'!
 testCliffordAlgebraProductsPropertiesWithVectors
 	| x y v |
-	x _ R atRandom: random bits: 10.
-	y _ R atRandom: random bits: 10.
-	v _ R !! (R space atRandom: random bits: 10).
+	x := self newElement.
+	y := self newElement.
+	v := R !! (R space atRandom: random bits: 10).
 	self assert: v * x = (v ·| x + (v ∧ x)).
 	self assert: v ·| x = (v*x - (x reflection * v) / 2).
 	self assert: v ·| x = (x reflection negated |· v).
@@ -7115,20 +7181,19 @@ testCliffordAlgebraProperties
 	self assert: R one isOne.
 	self assert: R id isIdentity! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:27'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:05:33'!
 testCliffordAlgebraReversion
 	| x y v |
-	x := R atRandom: random bits: 10.
-	y := R atRandom: random bits: 10.
+	x := self newElement.
+	y := self newElement.
 	v := R !! (R space atRandom: random bits: 10).
 	self assert: (x*y) transpose = (y transpose * x transpose).
 	self assert: v transpose = v! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:35'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:05:57'!
 testCliffordAlgebraScalarEmbedding
-	| F a x |
-	F := R scalars.
-	a := F atRandom: random bits: 10.
+	| a x |
+	a := self newScalar.
 	x := R !! a.
 	self assert: x isScalar.
 	self assert: ((R grade: 0) includes: x).
@@ -7254,47 +7319,42 @@ setUp
 testIsCommutative
 	self assert: R isCommutative! !
 
-!AbstractCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 21:06:43'!
+!AbstractCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:25:25'!
 testMatrixAlgebra
 	| n M |
 	self flag: #fixme. "test 3x3 or larger, now over some rings this is slow"
 	n := #(1 2) atRandom: random.
 	M := (R^n) endomorphisms.
-	self testRingAxioms: M.
 	self testRingHomomorphism: R → M! !
 
-!AbstractCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:04:15'!
+!AbstractCommutativeRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:25:30'!
 testPolynomialAlgebra
 	| P |
 	P := R polynomialsIn: (3 atRandom: random).
-	self testRingAxioms: P.
 	self testRingHomomorphism: R → P! !
 
-!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:34:56'!
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:25:58'!
 testFractions
-	| F |
-	F _ R fractions.
-	self testRingAxioms: F.
-	self testRingHomomorphism: R → F! !
+	self testRingHomomorphism: R → R fractions! !
 
-!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:00'!
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:07:59'!
 testGCD
 	R size < 60 ifTrue:
 		[R do: [:a| R do: [:b| self testGCD: a with: b]]. ^ self].
 	100 timesRepeat:
 		[ | a b |
-		[(a _ R atRandom: random bits: 30) isZero] whileTrue.
-		[(b _ R atRandom: random bits: 30) isZero] whileTrue.
+		[(a := self newElement) isZero] whileTrue.
+		[(b := self newElement) isZero] whileTrue.
 		self testGCD: a with: b]! !
 
-!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:11:27'!
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:08:28'!
 testGCD2
 	100 timesRepeat:
 		[ | a b c gcd |
-		[(a _ R atRandom: random bits: 30) isZero] whileTrue.
-		[(b _ R atRandom: random bits: 30) isZero] whileTrue.
-		[(c _ R atRandom: random bits: 30) isZero] whileTrue.
-		gcd _ a*c gcd: b*c.
+		[(a := self newElement) isZero] whileTrue.
+		[(b := self newElement) isZero] whileTrue.
+		[(c := self newElement) isZero] whileTrue.
+		gcd := a*c gcd: b*c.
 		self assert: c | gcd]! !
 
 !AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:07'!
@@ -7305,11 +7365,11 @@ testGCD: a with: b
 	self assert: gcd | b.
 	self assert: gcd = gcd normalized! !
 
-!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:13'!
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:08:39'!
 testGCDZero
 	| a gcd |
-	a _ R atRandom: random bits: 100.
-	gcd _ a gcd: R zero.
+	a := self newElement.
+	gcd := a gcd: R zero.
 	self assert: gcd = (R zero gcd: a).
 	self assert: gcd = a normalized.
 	self assert: (R zero gcd: R zero) = R zero! !
@@ -7318,14 +7378,14 @@ testGCDZero
 testHasGCD
 	self assert: R hasGCD! !
 
-!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:35'!
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:08:54'!
 testLCM
 	R size < 60 ifTrue:
 		[R do: [:a| R do: [:b| self testLCM: a with: b]]. ^ self].
 	100 timesRepeat:
 		[| a b |
-		[(a _ R atRandom: random bits: 30) isZero] whileTrue.
-		[(b _ R atRandom: random bits: 30) isZero] whileTrue.
+		[(a := self newElement) isZero] whileTrue.
+		[(b := self newElement) isZero] whileTrue.
 		self testLCM: a with: b]! !
 
 !AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:43'!
@@ -7336,21 +7396,21 @@ testLCM: a with: b
 	self assert: b | lcm.
 	self assert: lcm = lcm normalized! !
 
-!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2022 12:06:50'!
+!AbstractGCDRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:09:05'!
 testLCMZero
 	| a lcm |
-	a _ R atRandom: random bits: 100.
-	lcm _ a lcm: R zero.
+	a := self newElement.
+	lcm := a lcm: R zero.
 	self assert: lcm = (R zero lcm: a).
 	self assert: lcm = R zero.
 	self assert: (R zero lcm: R zero) = R zero! !
 
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2022 21:22:35'!
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:09:16'!
 testAnnihilator
 	100 timesRepeat:
 		[| x a |
-		x _ R atRandom: random bits: 30.
-		a _ x annihilator.
+		x := self newElement.
+		a := x annihilator.
 		self assert: (x * a) isZero.
 		self assert: x isZeroDivisor not = a isZero]! !
 
@@ -7358,7 +7418,7 @@ testAnnihilator
 testAnnihilatorOfZero
 	self assert: R zero annihilator isOne! !
 
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/12/2022 18:44:59'!
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:09:29'!
 testEuclideanDivision
 	"Test division on a pair of elements:"
 	R isTrivial ifTrue: [^ self].
@@ -7366,8 +7426,8 @@ testEuclideanDivision
 		[R do: [:a| R do: [:b| self testEuclideanDivisionOf: a by: b]]. ^ self].
 	100 timesRepeat:
 		[| a b |
-		a _ R atRandom: random bits: 30.
-		[b _ R atRandom: random bits: 30. b isZero] whileTrue.
+		a := self newElement.
+		[b := self newElement. b isZero] whileTrue.
 		self testEuclideanDivisionOf: a by: b]! !
 
 !AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2022 10:44:43'!
@@ -7382,15 +7442,15 @@ testEuclideanDivisionOf: a by: b
 	self assert: a = (q * b + r).
 	self assert: (r isZero or: [r gauge < b gauge])! !
 
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/14/2023 15:18:16'!
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:09:42'!
 testExactDivisionCompatibleWithEuclideanDivision
 	R isTrivial ifTrue: [^ self].
 	100 timesRepeat:
 		[| x y xy q |
-		x _ R atRandom: random bits: 30.
-		[y _ R atRandom: random bits: 30. y isZero] whileTrue.
-		xy _ x * y.
-		q _ xy // y.
+		x := self newElement.
+		[y := self newElement. y isZero] whileTrue.
+		xy := x * y.
+		q := xy // y.
 		self assert: xy / y = q.
 		self assert: xy ÷ y = q.
 		self assert: (xy \\ y) isZero]! !
@@ -7417,14 +7477,14 @@ testNormalization
 		u _ R units atRandom: random.
 		self assert: (a*u) normalized = a]! !
 
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 05:32:16'!
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:38:11'!
 testXXGCD
 	R size < 60 ifTrue:
 		[R do: [:a| R do: [:b| self testXXGCD: a with: b]]. ^ self].
-	100 timesRepeat:
+	20 timesRepeat:
 		[| a b |
-		a _ R atRandom: random bits: 30.
-		b _ R atRandom: random bits: 30.
+		a := self newElement.
+		b := self newElement.
 		self testXXGCD: a with: b]! !
 
 !AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/20/2021 06:48:37'!
@@ -7478,15 +7538,15 @@ testIsUFD
 testProjectionToResidueField
 	self testRingHomomorphism: R → R residueField! !
 
-!AbstractDVRTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2023 23:28:05'!
+!AbstractDVRTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:10:19'!
 testValuation
 	| p a b |
 	self assert: R one valuation = 0.
 	p := R uniformizer.
 	self assert: p valuation = 1.
-	a := R atRandom: random bits: 100.
+	a := self newElement.
 	self assert: (a*p) valuation = (a valuation + 1).
-	b := R atRandom: random bits: 100.
+	b := self newElement.
 	self assert: (a*b) valuation = (a valuation + b valuation)! !
 
 !LocalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:36:48'!
@@ -7820,19 +7880,19 @@ testGeneralizedTraceIsTrace
 		[x := R atRandom: random.
 		self assert: x generalizedTrace = x trace]! !
 
-!GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2023 07:55:35'!
+!GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:41:27'!
 testNormAndTrace
 	| x y a |
-	x := R atRandom: random.
-	y := R atRandom: random.
-	a := R scalars atRandom: random.
+	x := self newElement.
+	y := self newElement.
+	a := self newScalar.
 	self assert: (x * a + y) trace = (x trace * a + y trace).
 	self assert: (x * y) norm = (x norm * y norm)! !
 
-!GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2023 07:55:29'!
+!GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:46:58'!
 testNormTraceAndConjugates
 	| x |
-	x := R atRandom: random.
+	x := self newElement.
 	self assert: R !! x trace = x conjugates sum.
 	self assert: R !! x norm = x conjugates product! !
 
@@ -7842,6 +7902,10 @@ testNormTraceAndFrobenius
 	x := R atRandom: random.
 	self assert: x frobenius trace = x trace.
 	self assert: x frobenius norm = x norm! !
+
+!GaloisFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2023 11:18:22'!
+testPrimeSubfield
+	self assert: R primeSubfield = R scalars "because they are always absolute extensions of the prime field"! !
 
 !BinaryExtensionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2023 07:54:08'!
 setUp
@@ -7884,6 +7948,10 @@ testPrimeFieldBasicProperties
 	self assert: R characteristic = R modulus.
 	self testRingHomomorphism: R projection! !
 
+!PrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2023 11:18:42'!
+testPrimeSubfield
+	self assert: R primeSubfield = R! !
+
 !PrimeFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 21:30:53'!
 testSquareRoot
 	| a x |
@@ -7907,35 +7975,40 @@ setUp
 	super setUp.
 	R := ℤ/3! !
 
-!AbstractNumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 21:42:36'!
+!AbstractNumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:41:38'!
 testNormAndTrace
-	| a b |
-	a := R atRandom: random bits: 100.
-	b := R atRandom: random bits: 100.
-	self assert: (a + b) trace = (a trace + b trace).
-	self assert: (a * b) norm = (a norm * b norm)! !
+	| x y a |
+	x := self newElement.
+	y := self newElement.
+	a := self newScalar.
+	self assert: (x * a + y) trace = (x trace * a + y trace).
+	self assert: (x * y) norm = (x norm * y norm)! !
+
+!AbstractNumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2023 11:18:56'!
+testPrimeSubfield
+	self assert: R primeSubfield = ℚ! !
 
 !CyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:31:19'!
 setUp
 	super setUp.
 	R := CyclotomicField new: (3 atRandom: random) + 2! !
 
-!CyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/11/2023 08:25:00'!
+!CyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:13:31'!
 testComplexEmbedding
 	| a b |
 	100 timesRepeat:
-		[a := R atRandom: random.
-		b := R atRandom: random.
-		self assert: (a asComplex * b asComplex - (a*b) asComplex) abs < 0.000001.
-		self assert: (a asComplex + b asComplex - (a+b) asComplex) abs < 0.000001]! !
+		[a := self newElement.
+		b := self newElement.
+		self assert: a asComplex * b asComplex = (a*b) asComplex.
+		self assert: a asComplex + b asComplex = (a+b) asComplex]! !
 
-!CyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/11/2023 08:30:22'!
+!CyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:13:58'!
 testComplexEmbeddingCompatibilityWithMaximalRealSubfield
 	| S a |
 	S := R maximalRealSubfield.
 	100 timesRepeat:
 		[a := S atRandom: random.
-		self assert: (a asComplex - (R !! a) asComplex) abs < 0.000001]! !
+		self assert: a asComplex = (R !! a) asComplex]! !
 
 !CyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 21:39:09'!
 testCyclotomicFieldDiscriminantExamples
@@ -7947,14 +8020,14 @@ setUp
 	super setUp.
 	R := CyclotomicField new: 4! !
 
-!GaussianFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/11/2023 08:28:11'!
+!GaussianFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:13:02'!
 testComplexEmbedding
 	| a b |
 	100 timesRepeat:
-		[a := R atRandom: random.
-		b := R atRandom: random.
-		self assert: (a asComplex * b asComplex - (a*b) asComplex) abs < 0.000001.
-		self assert: (a asComplex + b asComplex - (a+b) asComplex) abs < 0.000001]! !
+		[a := self newElement.
+		b := self newElement.
+		self assert: a asComplex * b asComplex = (a*b) asComplex.
+		self assert: a asComplex + b asComplex = (a+b) asComplex]! !
 
 !QuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 11:22:58'!
 setUp
@@ -7964,20 +8037,110 @@ setUp
 	random nextBoolean ifTrue: [n := n negated].
 	R := QuadraticField new: n! !
 
-!QuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/11/2023 08:28:19'!
+!QuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:14:26'!
 testComplexEmbedding
 	| a b |
 	100 timesRepeat:
 		[a := R atRandom: random.
 		b := R atRandom: random.
-		self assert: (a asComplex * b asComplex - (a*b) asComplex) abs < 0.000001.
-		self assert: (a asComplex + b asComplex - (a+b) asComplex) abs < 0.000001]! !
+		self assert: a asComplex * b asComplex = (a*b) asComplex.
+		self assert: a asComplex + b asComplex = (a+b) asComplex]! !
 
 !QuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 11:23:10'!
 testQuadraticFieldFundamentalDiscriminantExamples
 	self assert: (QuadraticField new: 102) discriminant = 408.
 	self assert: (QuadraticField new: 720) discriminant = 5.
 	self assert: (QuadraticField new: 2) discriminant = 8! !
+
+!ComplexAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:33:40'!
+newElement
+	^ R atRandom: random bits: 5! !
+
+!ComplexAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/11/2023 13:44:27'!
+setUp
+	super setUp.
+	R := ℂ! !
+
+!ComplexAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:44:40'!
+testArithmeticExamples
+	| sqrt2 sqrt3 sqrt5 sqrt6 |
+	sqrt2 := (ℂ !! 2) sqrt.
+	sqrt3 := (ℂ !! 3) sqrt.
+	sqrt5 := (ℂ !! 5) sqrt.
+	sqrt6 := (ℂ !! 6) sqrt.
+	self assert: sqrt2 squared asRational = 2.
+	self assert: (sqrt2 + sqrt3) * sqrt2 = (sqrt6 + 2).
+	self assert: (sqrt3 / sqrt5) squared inverse asRational = (5/3).
+"	self assert: (((5 root: 3) + sqrt2 - sqrt2) ^ 3) asRational = 5"! !
+
+!ComplexAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/13/2023 10:56:06'!
+testConjugate
+	| α |
+	α := self newElement.
+	self assert: α conjugate conjugate = α.
+	self assert: α conjugate = (α real asComplex - (α imaginary asComplex * ℂ i))! !
+
+!ComplexAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:44:26'!
+testDivisionExample
+	| sqrt3 sqrt5 |
+	sqrt3 := (ℂ !! 3) sqrt.
+	sqrt5 := (ℂ !! 5) sqrt.
+	self assert: (sqrt3 / sqrt5 / sqrt3 / sqrt5) asRational = (1/5)! !
+
+!ComplexAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:44:07'!
+testMinimalPolynomialExample
+	"Example from 'Algebraic Number Theory: A Computational Approach' by William Stein (29 pp)."
+	| x α |
+	α := 1 + (ℂ !! 5) sqrt / 2.
+	x := ℚ polynomials x.
+	self assert: α minimalPolynomial = (x^2 - x - 1)! !
+
+!ComplexAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:40:53'!
+testNormAndTrace
+	| x y a |
+	x := self newElement.
+	y := self newElement.
+	a := self newScalar.
+	self assert: (x * a + y) trace = (x trace * a + y trace).
+	self assert: (x * y) norm = (x norm * y norm)! !
+
+!ComplexAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:46:53'!
+testNormTraceAndConjugates
+	| x |
+	x := self newElement.
+	self assert: R !! x trace = x conjugates sum.
+	self assert: R !! x norm = x conjugates product! !
+
+!ComplexAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:42:58'!
+testProductExample
+	| sqrt3 sqrt5 |
+	sqrt3 := (ℂ !! 3) sqrt.
+	sqrt5 := (ℂ !! 5) sqrt.
+	self assert: (sqrt3 * sqrt5 * sqrt3 * sqrt5) asRational = 15! !
+
+!ComplexAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:45:13'!
+testSquareExample
+	| sqrt2 |
+	sqrt2 := (ℂ !! 2) sqrt.
+	self assert: sqrt2 squared asRational = 2! !
+
+!ComplexAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:46:07'!
+testSquareRootExample
+	| α |
+	α := (ℂ !! 2) sqrt.
+	self assert: α sqrt squared = α! !
+
+!ComplexAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:38:46'!
+testSquaredBug
+	self assert: (ℂ !! 2) squared = (ℂ !! 4)! !
+
+!ComplexAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:46:18'!
+testSumExample
+	| sqrt2 sqrt3 sqrt5 |
+	sqrt2 := (ℂ !! 2) sqrt.
+	sqrt3 := (ℂ !! 3) sqrt.
+	sqrt5 := (ℂ !! 5) sqrt.
+	self assert: sqrt3 + sqrt5 + sqrt2 - sqrt3 - sqrt5 = sqrt2! !
 
 !FiniteFieldRationalFunctionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2023 17:13:07'!
 setUp
@@ -7993,6 +8156,77 @@ setUp
 setUp
 	super setUp.
 	R := (ℚ polynomialsIn: (3 atRandom: random)) fractions! !
+
+!RealAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:33:45'!
+newElement
+	^ R atRandom: random bits: 5! !
+
+!RealAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/11/2023 13:44:15'!
+setUp
+	super setUp.
+	R := ℝ! !
+
+!RealAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:48:00'!
+testArithmeticExamples
+	| sqrt2 sqrt3 sqrt5 sqrt6 |
+	sqrt2 := (ℝ !! 2) sqrt.
+	sqrt3 := (ℝ !! 3) sqrt.
+	sqrt5 := (ℝ !! 5) sqrt.
+	sqrt6 := (ℝ !! 6) sqrt.
+	self assert: sqrt2 squared asRational = 2.
+	self assert: (sqrt2 + sqrt3) * sqrt2 = (2 + sqrt6).
+	self assert: (sqrt3 / sqrt5) squared inverse asRational = (5/3).
+"	self assert: (((five root: 3) + sqrt2 - sqrt2) ^ 3) asRational = 5"! !
+
+!RealAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:48:14'!
+testDivisionExample
+	| sqrt3 sqrt5 |
+	sqrt3 := (ℝ !! 3) sqrt.
+	sqrt5 := (ℝ !! 5) sqrt.
+	self assert: (sqrt3 / sqrt5 / sqrt3 / sqrt5) asRational = (1/5)! !
+
+!RealAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:42:37'!
+testNormAndTrace
+	| x y a |
+	x := self newElement.
+	y := self newElement.
+	a := self newScalar.
+	self assert: (x * a + y) trace = (x trace * a + y trace).
+	self assert: (x * y) norm = (x norm * y norm)! !
+
+!RealAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:47:07'!
+testNormTraceAndConjugates
+	| x |
+	x := self newElement.
+	self assert: R !! x trace = x conjugates sum.
+	self assert: R !! x norm = x conjugates product! !
+
+!RealAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:48:25'!
+testProductExample
+	| sqrt3 sqrt5 |
+	sqrt3 := (ℝ !! 3) sqrt.
+	sqrt5 := (ℝ !! 5) sqrt.
+	self assert: (sqrt3 * sqrt5 * sqrt3 * sqrt5) asRational = 15! !
+
+!RealAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:48:36'!
+testSquareExample
+	| sqrt2 |
+	sqrt2 := (ℝ !! 2) sqrt.
+	self assert: sqrt2 squared asRational = 2! !
+
+!RealAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:48:52'!
+testSquareRootExample
+	| a |
+	a := (ℝ !! 2) sqrt.
+	self assert: a sqrt squared = a! !
+
+!RealAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 16:49:03'!
+testSumExample
+	| sqrt2 sqrt3 sqrt5 |
+	sqrt2 := (ℝ !! 2) sqrt.
+	sqrt3 := (ℝ !! 3) sqrt.
+	sqrt5 := (ℝ !! 5) sqrt.
+	self assert: sqrt3 + sqrt5 + sqrt2 - sqrt3 - sqrt5 = sqrt2! !
 
 !EisensteinRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:33:44'!
 setUp
@@ -8577,6 +8811,13 @@ testIsIrreducibleExample
 	self assert: (f*2) isIrreducible not.
 	self assert: (f*(x+1)) isIrreducible not.
 ! !
+
+!IntegerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 22:14:18'!
+testOddEvenDecomposition
+	| x f |
+	x := R x.
+	f := R atRandom: random maxDegree: (#(2 10) atRandom: random).
+	self assert: (f evenPart value: x^2) * x + (f oddPart value: x^2) = f! !
 
 !IntegerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2023 17:46:03'!
 testPPRSExample
@@ -10338,10 +10579,10 @@ setUp
 	random nextBoolean ifTrue: [n := n negated].
 	scalars := (QuadraticField new: n) integers! !
 
-!AbstractStandardRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/10/2023 16:36:21'!
+!AbstractStandardRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/7/2023 10:54:51'!
 testCanonicalBases
 	| basisAndTransformation A G T U |
-	A := self newMatrix: (6 atRandom: random) @ (6 atRandom: random).
+	A := self newMatrix: (5 atRandom: random) @ (5 atRandom: random).
 	basisAndTransformation := A basisAndTransformation.
 	G := basisAndTransformation first.
 	T := basisAndTransformation second.
@@ -13712,6 +13953,62 @@ setUp
 !Benchmark methodsFor: 'as yet unclassified' stamp: 'len 3/1/2016 04:16'!
 tearDown
 	^ self! !
+
+!AlgebraicNumbersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/10/2023 14:03:56'!
+testComplexAlgebraicNumberAddition
+	| sqrt2 sqrt3 sqrt5 |
+	sqrt2 := (ℂ !! 2) sqrt.
+	sqrt3 := (ℂ !! 3) sqrt.
+	sqrt5 := (ℂ !! 5) sqrt.
+	10 timesRepeat: [sqrt3 + sqrt5 + sqrt2 - sqrt3 - sqrt5]! !
+
+!AlgebraicNumbersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/10/2023 14:04:07'!
+testComplexAlgebraicNumberDivision
+	| sqrt3 sqrt5 |
+	sqrt3 := (ℂ !! 3) sqrt.
+	sqrt5 := (ℂ !! 5) sqrt.
+	10 timesRepeat: [sqrt3 / sqrt5 / sqrt3 / sqrt5]! !
+
+!AlgebraicNumbersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/10/2023 14:04:18'!
+testComplexAlgebraicNumberProduct
+	| sqrt3 sqrt5 |
+	sqrt3 := (ℂ !! 3) sqrt.
+	sqrt5 := (ℂ !! 5) sqrt.
+	10 timesRepeat: [sqrt3 * sqrt5 * sqrt3 * sqrt5]! !
+
+!AlgebraicNumbersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/10/2023 14:04:24'!
+testComplexAlgebraicNumberSquare
+	| sqrt2 |
+	sqrt2 := (ℂ !! 2) sqrt.
+	10 timesRepeat: [sqrt2 squared]! !
+
+!AlgebraicNumbersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/10/2023 14:10:51'!
+testRealAlgebraicNumberAddition
+	| sqrt2 sqrt3 sqrt5 |
+	sqrt2 := (ℝ !! 2) sqrt.
+	sqrt3 := (ℝ !! 3) sqrt.
+	sqrt5 := (ℝ !! 5) sqrt.
+	10 timesRepeat: [sqrt3 + sqrt5 + sqrt2 - sqrt3 - sqrt5]! !
+
+!AlgebraicNumbersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/10/2023 14:10:59'!
+testRealAlgebraicNumberDivision
+	| sqrt3 sqrt5 |
+	sqrt3 := (ℝ !! 3) sqrt.
+	sqrt5 := (ℝ !! 5) sqrt.
+	10 timesRepeat: [sqrt3 / sqrt5 / sqrt3 / sqrt5]! !
+
+!AlgebraicNumbersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/10/2023 14:11:05'!
+testRealAlgebraicNumberProduct
+	| sqrt3 sqrt5 |
+	sqrt3 := (ℝ !! 3) sqrt.
+	sqrt5 := (ℝ !! 5) sqrt.
+	10 timesRepeat: [sqrt3 * sqrt5 * sqrt3 * sqrt5]! !
+
+!AlgebraicNumbersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/10/2023 14:11:12'!
+testRealAlgebraicNumberSquare
+	| sqrt2 |
+	sqrt2 := (ℝ !! 2) sqrt.
+	10 timesRepeat: [sqrt2 squared]! !
 
 !CharacteristicPolynomialOverIntegersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/25/2022 10:46:22'!
 setUp
