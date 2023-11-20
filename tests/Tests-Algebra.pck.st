@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 13 November 2023 at 11:14:37 am'!
+'From Cuis 6.0 [latest update: #5898] on 20 November 2023 at 4:24:44 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 101!
+!provides: 'Tests-Algebra' 1 102!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -5395,27 +5395,27 @@ testSignature
 	F _ NumberField modulus: x^3 + (x^2) - (x*5) - 1.
 	self assert: F signature = #(3 0)! !
 
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 7/16/2021 10:26:32'!
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/19/2023 11:28:31'!
 testTotallyImaginary
 	| x E |
-	x _ ℚ polynomials x.
-	E _ NumberField modulus: x^2 + 2.
-	self assert: E isImaginary.
-	E _ NumberField modulus: x^2 - 2.
-	self assert: E isImaginary not.
-	E _ NumberField modulus: x^4 - 2.
-	self assert: E isImaginary not! !
+	x := ℚ polynomials x.
+	E := NumberField modulus: x^2 + 2.
+	self assert: E isTotallyImaginary.
+	E := NumberField modulus: x^2 - 2.
+	self assert: E isTotallyImaginary not.
+	E := NumberField modulus: x^4 - 2.
+	self assert: E isTotallyImaginary not! !
 
-!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 7/16/2021 10:26:44'!
+!NumberFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/19/2023 11:29:02'!
 testTotallyReal
 	| x E |
-	x _ ℚ polynomials x.
-	E _ NumberField modulus: x^2 + 2.
-	self assert: E isReal not.
-	E _ NumberField modulus: x^2 - 2.
-	self assert: E isReal.
-	E _ NumberField modulus: x^4 - 2.
-	self assert: E isReal not! !
+	x := ℚ polynomials x.
+	E := NumberField modulus: x^2 + 2.
+	self assert: E isTotallyReal not.
+	E := NumberField modulus: x^2 - 2.
+	self assert: E isTotallyReal.
+	E := NumberField modulus: x^4 - 2.
+	self assert: E isTotallyReal not! !
 
 !PolynomialTest methodsFor: 'arithmetic' stamp: 'len 4/25/2018 21:52:52'!
 testArithmeticOver: R
@@ -6929,16 +6929,16 @@ testRingCanonicalAssociates
 		self assert: x * x normalization = x normalized.
 		self assert: x normalized = (x * u) normalized]! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 14:33:38'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 19:18:25'!
 testRingHomomorphism: φ
 	| A B x y |
 	A := φ domain.
 	B := φ codomain.
+	self assert: (φ value: A zero) = B zero.
+	self assert: (φ value: A one) = B one.
 	20 timesRepeat:
 		[x := A atRandom: random bits: 10.
 		y := A atRandom: random bits: 10.
-		self assert: (φ value: A zero) = B zero.
-		self assert: (φ value: A one) = B one.
 		self assert: (φ value: x + y) = ((φ value: x) + (φ value: y)).
 		self assert: (φ value: x * y) = ((φ value: x) * (φ value: y))]! !
 
@@ -7993,22 +7993,32 @@ setUp
 	super setUp.
 	R := CyclotomicField new: (3 atRandom: random) + 2! !
 
-!CyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:13:31'!
+!CyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/17/2023 10:28:12'!
+testComplexConjugation
+	| a |
+	self assert: R zero conjugate = R zero.
+	self assert: R one conjugate = R one.
+	10 timesRepeat:
+		[a := self newElement.
+		self assert: a conjugate conjugate = a.
+		self assert: (ℂ !! a conjugate) = (ℂ !! a) conjugate]! !
+
+!CyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/17/2023 16:53:07'!
 testComplexEmbedding
 	| a b |
-	100 timesRepeat:
+	20 timesRepeat:
 		[a := self newElement.
 		b := self newElement.
-		self assert: a asComplex * b asComplex = (a*b) asComplex.
-		self assert: a asComplex + b asComplex = (a+b) asComplex]! !
+		self assert: (ℂ !! a) * (ℂ !! b) = (ℂ !! (a*b)).
+		self assert: (ℂ !! a) + (ℂ !! b) = (ℂ !! (a+b))]! !
 
-!CyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:13:58'!
+!CyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 19:03:34'!
 testComplexEmbeddingCompatibilityWithMaximalRealSubfield
 	| S a |
 	S := R maximalRealSubfield.
 	100 timesRepeat:
 		[a := S atRandom: random.
-		self assert: a asComplex = (R !! a) asComplex]! !
+		self assert: (ℂ !! a) = (ℂ !! (R !! a))]! !
 
 !CyclotomicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 21:39:09'!
 testCyclotomicFieldDiscriminantExamples
@@ -8020,14 +8030,24 @@ setUp
 	super setUp.
 	R := CyclotomicField new: 4! !
 
-!GaussianFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:13:02'!
+!GaussianFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/17/2023 10:32:51'!
+testComplexConjugation
+	| a |
+	self assert: R zero conjugate = R zero.
+	self assert: R one conjugate = R one.
+	10 timesRepeat:
+		[a := self newElement.
+		self assert: a conjugate conjugate = a.
+		self assert: (ℂ !! a conjugate) = (ℂ !! a) conjugate]! !
+
+!GaussianFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 19:04:16'!
 testComplexEmbedding
 	| a b |
 	100 timesRepeat:
 		[a := self newElement.
 		b := self newElement.
-		self assert: a asComplex * b asComplex = (a*b) asComplex.
-		self assert: a asComplex + b asComplex = (a+b) asComplex]! !
+		self assert: (ℂ !! a) * (ℂ !! b) = (ℂ !! (a*b)).
+		self assert: (ℂ !! a) + (ℂ !! b) = (ℂ !! (a+b))]! !
 
 !QuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 11:22:58'!
 setUp
@@ -8037,14 +8057,14 @@ setUp
 	random nextBoolean ifTrue: [n := n negated].
 	R := QuadraticField new: n! !
 
-!QuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:14:26'!
+!QuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 19:04:19'!
 testComplexEmbedding
 	| a b |
 	100 timesRepeat:
-		[a := R atRandom: random.
-		b := R atRandom: random.
-		self assert: a asComplex * b asComplex = (a*b) asComplex.
-		self assert: a asComplex + b asComplex = (a+b) asComplex]! !
+		[a := self newElement.
+		b := self newElement.
+		self assert: (ℂ !! a) * (ℂ !! b) = (ℂ !! (a*b)).
+		self assert: (ℂ !! a) + (ℂ !! b) = (ℂ !! (a+b))]! !
 
 !QuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 11:23:10'!
 testQuadraticFieldFundamentalDiscriminantExamples
@@ -8073,8 +8093,8 @@ testArithmeticExamples
 	self assert: (sqrt3 / sqrt5) squared inverse asRational = (5/3).
 "	self assert: (((5 root: 3) + sqrt2 - sqrt2) ^ 3) asRational = 5"! !
 
-!ComplexAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/13/2023 10:56:06'!
-testConjugate
+!ComplexAlgebraicFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/17/2023 10:34:22'!
+testConjugation
 	| α |
 	α := self newElement.
 	self assert: α conjugate conjugate = α.
@@ -8398,11 +8418,10 @@ testDivisionBug
 	a := A x * 3.
 	self assert: (a / a) isOne! !
 
-!AbstractGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2023 15:56:36'!
+!AbstractGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2023 10:47:49'!
 testEmbeddingIntoOverring
 	"Canonical homomorphism from GR(p^n,m) to GR(p^n,m*k)."
 	| p n m k S |
-	self notYetImplemented.
 	p := R base.
 	n := R exponent.
 	m := R degree.
@@ -8481,7 +8500,7 @@ testGeneralizedTrace
 	a := R scalars atRandom: random.
 	self assert: (x * a + y) generalizedTrace = (x generalizedTrace * a + y generalizedTrace)! !
 
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:37:47'!
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:54:00'!
 setUp
 	| k p |
 	super setUp.
@@ -8489,7 +8508,7 @@ setUp
 	k := 10 atRandom: random.
 	R := PrimePowerRing new: p to: k! !
 
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 13:49:49'!
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:53:48'!
 testEuclideanDivisionCompatibleWithModularIntegerRing
 	| S r1 r2 s1 s2 |
 	"Hacky way to instantiate a ModularIntegerRing, otherwise we might get the cached original one"
@@ -8501,7 +8520,7 @@ testEuclideanDivisionCompatibleWithModularIntegerRing
 		s2 := S !! r2 representative.
 		self assert: (r1 // r2) representative = (s1 // s2) representative]! !
 
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 13:49:53'!
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:53:48'!
 testEuclideanFunctionCompatibleWithModularIntegerRing
 	| S r s |
 	"Hacky way to instantiate a ModularIntegerRing, otherwise we might get the cached original one"
@@ -8511,7 +8530,7 @@ testEuclideanFunctionCompatibleWithModularIntegerRing
 		s := S !! r representative.
 		self assert: r gauge = s gauge]! !
 
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 13:49:58'!
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:53:48'!
 testGCDCompatibleWithModularIntegerRing
 	| S r1 r2 s1 s2 |
 	"Hacky way to instantiate a ModularIntegerRing, otherwise we might get the cached original one"
@@ -8523,7 +8542,7 @@ testGCDCompatibleWithModularIntegerRing
 		s2 := S !! r2 representative.
 		self assert: (r1 gcd: r2) representative = (s1 gcd: s2) representative]! !
 
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 13:50:02'!
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:53:48'!
 testLCMCompatibleWithModularIntegerRing
 	| S r1 r2 s1 s2 |
 	"Hacky way to instantiate a ModularIntegerRing, otherwise we might get the cached original one"
@@ -8535,7 +8554,7 @@ testLCMCompatibleWithModularIntegerRing
 		s2 := S !! r2 representative.
 		self assert: (r1 lcm: r2) representative = (s1 lcm: s2) representative]! !
 
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/28/2023 13:49:17'!
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:53:48'!
 testNormalizationCompatibleWithModularIntegerRing
 	| S r s |
 	"Hacky way to instantiate a ModularIntegerRing, otherwise we might get the cached original one"
@@ -8553,7 +8572,7 @@ testSquareRoot
 		x := a squareRoot.
 		self assert: x squared = a]! !
 
-!BinaryPowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2023 17:25:47'!
+!BinaryPowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:54:00'!
 setUp
 	super setUp.
 	R := PrimePowerRing new: 2 to: ((2 to: 64) atRandom: random)! !
@@ -8812,12 +8831,12 @@ testIsIrreducibleExample
 	self assert: (f*(x+1)) isIrreducible not.
 ! !
 
-!IntegerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 22:14:18'!
+!IntegerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/17/2023 11:18:18'!
 testOddEvenDecomposition
 	| x f |
 	x := R x.
 	f := R atRandom: random maxDegree: (#(2 10) atRandom: random).
-	self assert: (f evenPart value: x^2) * x + (f oddPart value: x^2) = f! !
+	self assert: (f oddPart value: x^2) * x + (f evenPart value: x^2) = f! !
 
 !IntegerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2023 17:46:03'!
 testPPRSExample
@@ -9023,7 +9042,7 @@ setUp
 	super setUp.
 	R := (	GaloisRing new: (5 atRandom: random) nextPrime to: (3 atRandom: random) to: (2 atRandom: random)) polynomials! !
 
-!PrimePowerRingPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2023 17:46:50'!
+!PrimePowerRingPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:54:00'!
 setUp
 	| k p |
 	super setUp.
@@ -9031,18 +9050,10 @@ setUp
 	k := 10 atRandom: random.
 	R := (PrimePowerRing new: p to: k) polynomials! !
 
-!BinaryPowerRingPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2023 19:02:55'!
+!BinaryPowerRingPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:54:00'!
 setUp
 	super setUp.
 	R := (PrimePowerRing new: 2 to: ((2 to: 64) atRandom: random)) polynomials! !
-
-!BinaryPowerRingPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/16/2023 19:11:38'!
-setUpTemp
-	self flag: #fixme. "remove this method"
-	self setUp.
-	R := (PrimePowerRing new: 2 to: 64) polynomials.
-	seed := 12345.
-	random := Random seed: seed! !
 
 !ModularIntegerMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:40:33'!
 setUp
@@ -9498,7 +9509,7 @@ setUp
 	super setUp.
 	scalars := GaloisField new: 2 to: ((2 to: 7) atRandom: random)! !
 
-!BinaryPowerArrayTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2023 17:29:25'!
+!BinaryPowerArrayTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:54:00'!
 setUp
 	super setUp.
 	scalars := PrimePowerRing new: 2 to: ((2 to: 64) atRandom: random)! !
@@ -9760,7 +9771,7 @@ testTuple: a operation: aSymbol modulo: modulus
 testTuple: a with: b operation: aSymbol modulo: modulus
 	self assert: (a perform: aSymbol with: b) % modulus = (a % modulus perform: aSymbol with: b % modulus)! !
 
-!BinaryPowerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2023 17:29:54'!
+!BinaryPowerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:54:00'!
 setUp
 	super setUp.
 	scalars := PrimePowerRing new: 2 to: ((2 to: 64) atRandom: random)! !
@@ -11540,7 +11551,7 @@ testSmithNormalFormExample
 	A := (R^2) id * x - (R !!!!!! #((3 -4) (1 -1))).
 	self assert: A SNF = ((R^2) endomorphisms diagonal: {R one. x^2 - (x*2) + 1})! !
 
-!BinaryPowerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/5/2023 17:29:05'!
+!BinaryPowerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:54:00'!
 setUp
 	super setUp.
 	scalars := PrimePowerRing new: 2 to: ((2 to: 64) atRandom: random)! !
@@ -11594,7 +11605,7 @@ testHowellNormalForm3
 	H _ R !!!!!! #((2 1) (0 3)).
 	self assert: A echelon = H! !
 
-!PrimePowerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:17:24'!
+!PrimePowerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:54:00'!
 setUp
 	super setUp.
 	scalars := PrimePowerRing new: (10 atRandom: random) nextPrime to: (3 atRandom: random)! !
@@ -13308,13 +13319,13 @@ testPrimePowerRingCanonicalProjections
 	self assert: a representative \\ (p^m) = b representative.
 	self testRingHomomorphism: φ! !
 
-!RingTest methodsFor: 'finite rings' stamp: 'len 5/28/2023 13:47:37'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 11/16/2023 21:54:00'!
 testPrimePowerRingNilradicalAndUnits
 	| R |
 	R := PrimePowerRing new: #(2 3 5) atRandom to: 5 atRandom.
 	self assert: R units size + R nilradical size = R size	! !
 
-!RingTest methodsFor: 'finite rings' stamp: 'len 7/30/2021 10:49:15'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 11/16/2023 21:54:00'!
 testPrimePowerRingValuationAndUnit
 	| R x |
 	R _ PrimePowerRing new: 3 to: 5.
