@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 20 November 2023 at 4:24:44 pm'!
+'From Cuis 6.0 [latest update: #5898] on 22 November 2023 at 4:31:42 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 102!
+!provides: 'Tests-Algebra' 1 103!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -541,6 +541,16 @@ AbstractFieldTest subclass: #ComplexAlgebraicFieldTest
 ComplexAlgebraicFieldTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #FiniteFieldAlgebraicClosureTest category: #'Tests-Algebra-Rings'!
+AbstractFieldTest subclass: #FiniteFieldAlgebraicClosureTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'FiniteFieldAlgebraicClosureTest class' category: #'Tests-Algebra-Rings'!
+FiniteFieldAlgebraicClosureTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #FiniteFieldRationalFunctionFieldTest category: #'Tests-Algebra-Rings'!
 AbstractFieldTest subclass: #FiniteFieldRationalFunctionFieldTest
 	instanceVariableNames: ''
@@ -549,6 +559,16 @@ AbstractFieldTest subclass: #FiniteFieldRationalFunctionFieldTest
 	category: 'Tests-Algebra-Rings'!
 !classDefinition: 'FiniteFieldRationalFunctionFieldTest class' category: #'Tests-Algebra-Rings'!
 FiniteFieldRationalFunctionFieldTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #RationalAbelianClosureTest category: #'Tests-Algebra-Rings'!
+AbstractFieldTest subclass: #RationalAbelianClosureTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'RationalAbelianClosureTest class' category: #'Tests-Algebra-Rings'!
+RationalAbelianClosureTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #RationalFieldTest category: #'Tests-Algebra-Rings'!
@@ -8162,10 +8182,20 @@ testSumExample
 	sqrt5 := (ℂ !! 5) sqrt.
 	self assert: sqrt3 + sqrt5 + sqrt2 - sqrt3 - sqrt5 = sqrt2! !
 
+!FiniteFieldAlgebraicClosureTest methodsFor: 'as yet unclassified' stamp: 'len 11/22/2023 10:57:22'!
+setUp
+	super setUp.
+	R := (ℤ/(7 atRandom: random) nextPrime) algebraicClosure! !
+
 !FiniteFieldRationalFunctionFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2023 17:13:07'!
 setUp
 	super setUp.
 	R := ((	GaloisField new: (5 atRandom: random) nextPrime to: (3 atRandom: random)) polynomialsIn: (2 atRandom: random)) fractions! !
+
+!RationalAbelianClosureTest methodsFor: 'as yet unclassified' stamp: 'len 11/22/2023 10:58:08'!
+setUp
+	super setUp.
+	R := ℚ abelianClosure! !
 
 !RationalFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:32:28'!
 setUp
@@ -9065,13 +9095,15 @@ setUp
 	super setUp.
 	R := (ℤ/((2 to: ({2^8. 2^16.  2^32. 2^40} atRandom: random)) atRandom: random)) polynomials! !
 
-!QuasiGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/30/2023 23:31:25'!
+!QuasiGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/21/2023 15:26:31'!
 setUp
+	| F |
 	super setUp.
 	p := #(2 3) atRandom: random.
 	r := 3 atRandom: random.
 	n := (2 atRandom: random) + 1.
-	R := QuasiGaloisRing new: p to: r to: n! !
+	F := GaloisField new: p to: r.
+	R := JetRing new: n baseIdeal: (F polynomials x asIdeal)! !
 
 !QuasiGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2023 19:54:08'!
 testNilradical

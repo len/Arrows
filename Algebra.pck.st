@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5898] on 20 November 2023 at 4:24:32 pm'!
+'From Cuis 6.0 [latest update: #5898] on 22 November 2023 at 4:31:29 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, schemes, and coherent sheaves.
 
 References:
@@ -87,7 +87,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 153!
+!provides: 'Algebra' 1 155!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -101,11 +101,10 @@ SystemOrganization addCategory: #'Algebra-Groups'!
 SystemOrganization addCategory: #'Algebra-Groups-Permutations'!
 SystemOrganization addCategory: #'Algebra-Groups-Linear'!
 SystemOrganization addCategory: #'Algebra-Rings'!
-SystemOrganization addCategory: #'Algebra-Rings-Finite'!
-SystemOrganization addCategory: #'Algebra-Fields'!
+SystemOrganization addCategory: #'Algebra-Fields-Finite'!
+SystemOrganization addCategory: #'Algebra-Fields-Algebraic'!
 SystemOrganization addCategory: #'Algebra-Fields-Cyclotomic'!
 SystemOrganization addCategory: #'Algebra-Fields-Quadratic'!
-SystemOrganization addCategory: #'Algebra-Fields-Functions'!
 SystemOrganization addCategory: #'Algebra-Modules'!
 SystemOrganization addCategory: #'Algebra-Modules-Orderings'!
 SystemOrganization addCategory: #'Algebra-Modules-Multilinear'!
@@ -533,23 +532,23 @@ Ring subclass: #FractionRing
 FractionRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalField category: #'Algebra-Fields'!
+!classDefinition: #RationalField category: #'Algebra-Fields-Algebraic'!
 FractionRing subclass: #RationalField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Fields'!
-!classDefinition: 'RationalField class' category: #'Algebra-Fields'!
+	category: 'Algebra-Fields-Algebraic'!
+!classDefinition: 'RationalField class' category: #'Algebra-Fields-Algebraic'!
 RationalField class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalFunctionField category: #'Algebra-Fields-Functions'!
+!classDefinition: #RationalFunctionField category: #'Algebra-Fields-Algebraic'!
 FractionRing subclass: #RationalFunctionField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Fields-Functions'!
-!classDefinition: 'RationalFunctionField class' category: #'Algebra-Fields-Functions'!
+	category: 'Algebra-Fields-Algebraic'!
+!classDefinition: 'RationalFunctionField class' category: #'Algebra-Fields-Algebraic'!
 RationalFunctionField class
 	instanceVariableNames: ''!
 
@@ -603,53 +602,53 @@ Ring subclass: #QuotientRing
 QuotientRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerRing category: #'Algebra-Rings-Finite'!
+!classDefinition: #ModularIntegerRing category: #'Algebra-Fields-Finite'!
 QuotientRing subclass: #ModularIntegerRing
 	instanceVariableNames: 'modulus'
 	classVariableNames: 'Cache'
 	poolDictionaries: ''
-	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'ModularIntegerRing class' category: #'Algebra-Rings-Finite'!
+	category: 'Algebra-Fields-Finite'!
+!classDefinition: 'ModularIntegerRing class' category: #'Algebra-Fields-Finite'!
 ModularIntegerRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimePowerRing category: #'Algebra-Rings-Finite'!
+!classDefinition: #PrimePowerRing category: #'Algebra-Fields-Finite'!
 ModularIntegerRing subclass: #PrimePowerRing
 	instanceVariableNames: 'base'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'PrimePowerRing class' category: #'Algebra-Rings-Finite'!
+	category: 'Algebra-Fields-Finite'!
+!classDefinition: 'PrimePowerRing class' category: #'Algebra-Fields-Finite'!
 PrimePowerRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimeField category: #'Algebra-Rings-Finite'!
+!classDefinition: #PrimeField category: #'Algebra-Fields-Finite'!
 PrimePowerRing subclass: #PrimeField
 	instanceVariableNames: ''
 	classVariableNames: 'ConwayPolynomials'
 	poolDictionaries: ''
-	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'PrimeField class' category: #'Algebra-Rings-Finite'!
+	category: 'Algebra-Fields-Finite'!
+!classDefinition: 'PrimeField class' category: #'Algebra-Fields-Finite'!
 PrimeField class
 	instanceVariableNames: ''!
 
-!classDefinition: #BinaryField category: #'Algebra-Rings-Finite'!
+!classDefinition: #BinaryField category: #'Algebra-Fields-Finite'!
 PrimeField subclass: #BinaryField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'BinaryField class' category: #'Algebra-Rings-Finite'!
+	category: 'Algebra-Fields-Finite'!
+!classDefinition: 'BinaryField class' category: #'Algebra-Fields-Finite'!
 BinaryField class
 	instanceVariableNames: ''!
 
-!classDefinition: #TernaryField category: #'Algebra-Rings-Finite'!
+!classDefinition: #TernaryField category: #'Algebra-Fields-Finite'!
 PrimeField subclass: #TernaryField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'TernaryField class' category: #'Algebra-Rings-Finite'!
+	category: 'Algebra-Fields-Finite'!
+!classDefinition: 'TernaryField class' category: #'Algebra-Fields-Finite'!
 TernaryField class
 	instanceVariableNames: ''!
 
@@ -663,16 +662,6 @@ QuotientRing subclass: #AffineAlgebra
 AffineAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuasiGaloisRing category: #'Algebra-Rings-Finite'!
-AffineAlgebra subclass: #QuasiGaloisRing
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'QuasiGaloisRing class' category: #'Algebra-Rings-Finite'!
-QuasiGaloisRing class
-	instanceVariableNames: ''!
-
 !classDefinition: #ExtensionRing category: #'Algebra-Algebras-Affine'!
 AffineAlgebra subclass: #ExtensionRing
 	instanceVariableNames: 'modulus'
@@ -683,33 +672,43 @@ AffineAlgebra subclass: #ExtensionRing
 ExtensionRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisRing category: #'Algebra-Rings-Finite'!
+!classDefinition: #GaloisRing category: #'Algebra-Fields-Finite'!
 ExtensionRing subclass: #GaloisRing
 	instanceVariableNames: ''
 	classVariableNames: 'IrreduciblePolynomialsCache PrimitivePolynomialsCache'
 	poolDictionaries: ''
-	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'GaloisRing class' category: #'Algebra-Rings-Finite'!
+	category: 'Algebra-Fields-Finite'!
+!classDefinition: 'GaloisRing class' category: #'Algebra-Fields-Finite'!
 GaloisRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisField category: #'Algebra-Rings-Finite'!
+!classDefinition: #GaloisField category: #'Algebra-Fields-Finite'!
 GaloisRing subclass: #GaloisField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'GaloisField class' category: #'Algebra-Rings-Finite'!
+	category: 'Algebra-Fields-Finite'!
+!classDefinition: 'GaloisField class' category: #'Algebra-Fields-Finite'!
 GaloisField class
 	instanceVariableNames: ''!
 
-!classDefinition: #NumberField category: #'Algebra-Fields'!
+!classDefinition: #FunctionField category: #'Algebra-Fields-Algebraic'!
+ExtensionRing subclass: #FunctionField
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Fields-Algebraic'!
+!classDefinition: 'FunctionField class' category: #'Algebra-Fields-Algebraic'!
+FunctionField class
+	instanceVariableNames: ''!
+
+!classDefinition: #NumberField category: #'Algebra-Fields-Algebraic'!
 ExtensionRing subclass: #NumberField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Fields'!
-!classDefinition: 'NumberField class' category: #'Algebra-Fields'!
+	category: 'Algebra-Fields-Algebraic'!
+!classDefinition: 'NumberField class' category: #'Algebra-Fields-Algebraic'!
 NumberField class
 	instanceVariableNames: ''!
 
@@ -733,16 +732,6 @@ NumberField subclass: #QuadraticField
 QuadraticField class
 	instanceVariableNames: ''!
 
-!classDefinition: #FunctionField category: #'Algebra-Fields-Functions'!
-ExtensionRing subclass: #FunctionField
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Fields-Functions'!
-!classDefinition: 'FunctionField class' category: #'Algebra-Fields-Functions'!
-FunctionField class
-	instanceVariableNames: ''!
-
 !classDefinition: #JetRing category: #'Algebra-Algebras-Affine'!
 AffineAlgebra subclass: #JetRing
 	instanceVariableNames: ''
@@ -763,24 +752,44 @@ AffineAlgebra subclass: #LaurentPolynomialRing
 LaurentPolynomialRing class
 	instanceVariableNames: ''!
 
-!classDefinition: #ComplexAlgebraicField category: #'Algebra-Fields'!
+!classDefinition: #AlgebraicClosureField category: #'Algebra-Fields-Finite'!
+Ring subclass: #AlgebraicClosureField
+	instanceVariableNames: 'scalars'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Fields-Finite'!
+!classDefinition: 'AlgebraicClosureField class' category: #'Algebra-Fields-Finite'!
+AlgebraicClosureField class
+	instanceVariableNames: ''!
+
+!classDefinition: #ComplexAlgebraicField category: #'Algebra-Fields-Algebraic'!
 Ring subclass: #ComplexAlgebraicField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Fields'!
-!classDefinition: 'ComplexAlgebraicField class' category: #'Algebra-Fields'!
+	category: 'Algebra-Fields-Algebraic'!
+!classDefinition: 'ComplexAlgebraicField class' category: #'Algebra-Fields-Algebraic'!
 ComplexAlgebraicField class
 	instanceVariableNames: ''!
 
-!classDefinition: #RealAlgebraicField category: #'Algebra-Fields'!
+!classDefinition: #RealAlgebraicField category: #'Algebra-Fields-Algebraic'!
 Ring subclass: #RealAlgebraicField
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Fields'!
-!classDefinition: 'RealAlgebraicField class' category: #'Algebra-Fields'!
+	category: 'Algebra-Fields-Algebraic'!
+!classDefinition: 'RealAlgebraicField class' category: #'Algebra-Fields-Algebraic'!
 RealAlgebraicField class
+	instanceVariableNames: ''!
+
+!classDefinition: #AbelianClosureField category: #'Algebra-Fields-Cyclotomic'!
+Ring subclass: #AbelianClosureField
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Fields-Cyclotomic'!
+!classDefinition: 'AbelianClosureField class' category: #'Algebra-Fields-Cyclotomic'!
+AbelianClosureField class
 	instanceVariableNames: ''!
 
 !classDefinition: #PolynomialRing category: #'Algebra-Algebras-Affine'!
@@ -803,23 +812,23 @@ Ring subclass: #FiniteAlgebra
 FiniteAlgebra class
 	instanceVariableNames: ''!
 
-!classDefinition: #Order category: #'Algebra-Fields'!
+!classDefinition: #Order category: #'Algebra-Fields-Algebraic'!
 FiniteAlgebra subclass: #Order
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Fields'!
-!classDefinition: 'Order class' category: #'Algebra-Fields'!
+	category: 'Algebra-Fields-Algebraic'!
+!classDefinition: 'Order class' category: #'Algebra-Fields-Algebraic'!
 Order class
 	instanceVariableNames: ''!
 
-!classDefinition: #MaximalOrder category: #'Algebra-Fields'!
+!classDefinition: #MaximalOrder category: #'Algebra-Fields-Algebraic'!
 Order subclass: #MaximalOrder
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Fields'!
-!classDefinition: 'MaximalOrder class' category: #'Algebra-Fields'!
+	category: 'Algebra-Fields-Algebraic'!
+!classDefinition: 'MaximalOrder class' category: #'Algebra-Fields-Algebraic'!
 MaximalOrder class
 	instanceVariableNames: ''!
 
@@ -943,13 +952,13 @@ Module subclass: #Ideal
 Ideal class
 	instanceVariableNames: ''!
 
-!classDefinition: #IntegralIdeal category: #'Algebra-Fields'!
+!classDefinition: #IntegralIdeal category: #'Algebra-Fields-Algebraic'!
 Ideal subclass: #IntegralIdeal
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Fields'!
-!classDefinition: 'IntegralIdeal class' category: #'Algebra-Fields'!
+	category: 'Algebra-Fields-Algebraic'!
+!classDefinition: 'IntegralIdeal class' category: #'Algebra-Fields-Algebraic'!
 IntegralIdeal class
 	instanceVariableNames: ''!
 
@@ -1693,13 +1702,13 @@ GroupElement subclass: #Permutation
 Permutation class
 	instanceVariableNames: ''!
 
-!classDefinition: #FractionalIdeal category: #'Algebra-Fields'!
+!classDefinition: #FractionalIdeal category: #'Algebra-Fields-Algebraic'!
 GroupElement subclass: #FractionalIdeal
 	instanceVariableNames: 'numerator denominator'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Fields'!
-!classDefinition: 'FractionalIdeal class' category: #'Algebra-Fields'!
+	category: 'Algebra-Fields-Algebraic'!
+!classDefinition: 'FractionalIdeal class' category: #'Algebra-Fields-Algebraic'!
 FractionalIdeal class
 	instanceVariableNames: ''!
 
@@ -1753,23 +1762,23 @@ Ratio subclass: #Germ
 Germ class
 	instanceVariableNames: ''!
 
-!classDefinition: #Rational category: #'Algebra-Fields'!
+!classDefinition: #Rational category: #'Algebra-Fields-Algebraic'!
 Ratio subclass: #Rational
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Fields'!
-!classDefinition: 'Rational class' category: #'Algebra-Fields'!
+	category: 'Algebra-Fields-Algebraic'!
+!classDefinition: 'Rational class' category: #'Algebra-Fields-Algebraic'!
 Rational class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalFunction category: #'Algebra-Fields-Functions'!
+!classDefinition: #RationalFunction category: #'Algebra-Fields-Algebraic'!
 Ratio subclass: #RationalFunction
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Fields-Functions'!
-!classDefinition: 'RationalFunction class' category: #'Algebra-Fields-Functions'!
+	category: 'Algebra-Fields-Algebraic'!
+!classDefinition: 'RationalFunction class' category: #'Algebra-Fields-Algebraic'!
 RationalFunction class
 	instanceVariableNames: ''!
 
@@ -1783,73 +1792,63 @@ RingElement subclass: #Residue
 Residue class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisRingElement category: #'Algebra-Rings-Finite'!
+!classDefinition: #GaloisRingElement category: #'Algebra-Fields-Finite'!
 Residue subclass: #GaloisRingElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'GaloisRingElement class' category: #'Algebra-Rings-Finite'!
+	category: 'Algebra-Fields-Finite'!
+!classDefinition: 'GaloisRingElement class' category: #'Algebra-Fields-Finite'!
 GaloisRingElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #GaloisFieldElement category: #'Algebra-Rings-Finite'!
+!classDefinition: #GaloisFieldElement category: #'Algebra-Fields-Finite'!
 GaloisRingElement subclass: #GaloisFieldElement
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'GaloisFieldElement class' category: #'Algebra-Rings-Finite'!
+	category: 'Algebra-Fields-Finite'!
+!classDefinition: 'GaloisFieldElement class' category: #'Algebra-Fields-Finite'!
 GaloisFieldElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularInteger category: #'Algebra-Rings-Finite'!
+!classDefinition: #ModularInteger category: #'Algebra-Fields-Finite'!
 Residue subclass: #ModularInteger
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'ModularInteger class' category: #'Algebra-Rings-Finite'!
+	category: 'Algebra-Fields-Finite'!
+!classDefinition: 'ModularInteger class' category: #'Algebra-Fields-Finite'!
 ModularInteger class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimePowerResidue category: #'Algebra-Rings-Finite'!
+!classDefinition: #PrimePowerResidue category: #'Algebra-Fields-Finite'!
 ModularInteger subclass: #PrimePowerResidue
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'PrimePowerResidue class' category: #'Algebra-Rings-Finite'!
+	category: 'Algebra-Fields-Finite'!
+!classDefinition: 'PrimePowerResidue class' category: #'Algebra-Fields-Finite'!
 PrimePowerResidue class
 	instanceVariableNames: ''!
 
-!classDefinition: #PrimeResidue category: #'Algebra-Rings-Finite'!
+!classDefinition: #PrimeResidue category: #'Algebra-Fields-Finite'!
 PrimePowerResidue subclass: #PrimeResidue
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'PrimeResidue class' category: #'Algebra-Rings-Finite'!
+	category: 'Algebra-Fields-Finite'!
+!classDefinition: 'PrimeResidue class' category: #'Algebra-Fields-Finite'!
 PrimeResidue class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuasiGaloisRingElement category: #'Algebra-Rings-Finite'!
-Residue subclass: #QuasiGaloisRingElement
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Rings-Finite'!
-!classDefinition: 'QuasiGaloisRingElement class' category: #'Algebra-Rings-Finite'!
-QuasiGaloisRingElement class
-	instanceVariableNames: ''!
-
-!classDefinition: #AlgebraicRational category: #'Algebra-Fields'!
+!classDefinition: #AlgebraicRational category: #'Algebra-Fields-Algebraic'!
 Residue subclass: #AlgebraicRational
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Fields'!
-!classDefinition: 'AlgebraicRational class' category: #'Algebra-Fields'!
+	category: 'Algebra-Fields-Algebraic'!
+!classDefinition: 'AlgebraicRational class' category: #'Algebra-Fields-Algebraic'!
 AlgebraicRational class
 	instanceVariableNames: ''!
 
@@ -1863,6 +1862,16 @@ AlgebraicRational subclass: #CyclotomicRational
 CyclotomicRational class
 	instanceVariableNames: ''!
 
+!classDefinition: #Jet category: #'Algebra-Algebras-Affine'!
+Residue subclass: #Jet
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algebras-Affine'!
+!classDefinition: 'Jet class' category: #'Algebra-Algebras-Affine'!
+Jet class
+	instanceVariableNames: ''!
+
 !classDefinition: #LaurentPolynomial category: #'Algebra-Algebras-Affine'!
 Residue subclass: #LaurentPolynomial
 	instanceVariableNames: ''
@@ -1873,24 +1882,44 @@ Residue subclass: #LaurentPolynomial
 LaurentPolynomial class
 	instanceVariableNames: ''!
 
-!classDefinition: #ComplexAlgebraicNumber category: #'Algebra-Fields'!
+!classDefinition: #AlgebraicClosureElement category: #'Algebra-Fields-Finite'!
+RingElement subclass: #AlgebraicClosureElement
+	instanceVariableNames: 'representative'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Fields-Finite'!
+!classDefinition: 'AlgebraicClosureElement class' category: #'Algebra-Fields-Finite'!
+AlgebraicClosureElement class
+	instanceVariableNames: ''!
+
+!classDefinition: #ComplexAlgebraicNumber category: #'Algebra-Fields-Algebraic'!
 RingElement subclass: #ComplexAlgebraicNumber
 	instanceVariableNames: 'minimalPolynomial bounds'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Fields'!
-!classDefinition: 'ComplexAlgebraicNumber class' category: #'Algebra-Fields'!
+	category: 'Algebra-Fields-Algebraic'!
+!classDefinition: 'ComplexAlgebraicNumber class' category: #'Algebra-Fields-Algebraic'!
 ComplexAlgebraicNumber class
 	instanceVariableNames: ''!
 
-!classDefinition: #RealAlgebraicNumber category: #'Algebra-Fields'!
+!classDefinition: #RealAlgebraicNumber category: #'Algebra-Fields-Algebraic'!
 ComplexAlgebraicNumber subclass: #RealAlgebraicNumber
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Fields'!
-!classDefinition: 'RealAlgebraicNumber class' category: #'Algebra-Fields'!
+	category: 'Algebra-Fields-Algebraic'!
+!classDefinition: 'RealAlgebraicNumber class' category: #'Algebra-Fields-Algebraic'!
 RealAlgebraicNumber class
+	instanceVariableNames: ''!
+
+!classDefinition: #AbelianClosureElement category: #'Algebra-Fields-Cyclotomic'!
+RingElement subclass: #AbelianClosureElement
+	instanceVariableNames: 'representative'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Fields-Cyclotomic'!
+!classDefinition: 'AbelianClosureElement class' category: #'Algebra-Fields-Cyclotomic'!
+AbelianClosureElement class
 	instanceVariableNames: ''!
 
 !classDefinition: #Polynomial category: #'Algebra-Algebras-Affine'!
@@ -1933,13 +1962,13 @@ RingElement subclass: #FiniteAlgebraElement
 FiniteAlgebraElement class
 	instanceVariableNames: ''!
 
-!classDefinition: #AlgebraicInteger category: #'Algebra-Fields'!
+!classDefinition: #AlgebraicInteger category: #'Algebra-Fields-Algebraic'!
 FiniteAlgebraElement subclass: #AlgebraicInteger
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Fields'!
-!classDefinition: 'AlgebraicInteger class' category: #'Algebra-Fields'!
+	category: 'Algebra-Fields-Algebraic'!
+!classDefinition: 'AlgebraicInteger class' category: #'Algebra-Fields-Algebraic'!
 AlgebraicInteger class
 	instanceVariableNames: ''!
 
@@ -2647,12 +2676,8 @@ When the coefficients ring is a field K and the relations ideal I is maximal, th
 
 See also PolynomialRing.!
 
-!QuasiGaloisRing commentStamp: '<historical>' prior: 0!
-The quasi-Galois ring A(p^r,n) is an extension of degree n of the Galois field GF(p^r) isomorphic to GF(p^r)[x]/⟨x^n⟩. See also GaloisRing.
-!
-
 !ExtensionRing commentStamp: '<historical>' prior: 0!
-Univariate affine R-algebras of the form R[x]/⟨f⟩ where f is a monic irreducible polynomial in R[x].!
+Univariate affine R-algebras of the form R[x]/⟨f⟩ where f is a monic irreducible polynomial in R[x]. They are also finite R-algebras with underlying module R^n, where n is the degree of f.!
 
 !GaloisRing commentStamp: '<historical>' prior: 0!
 The Galois ring GR(p^n,m) is a Galois extension of degree m of the prime power ring ℤ/(p^n)ℤ of characteristic p^n. This is the unique (up to isomorphism) extension of degree m of the ring ℤ/(p^n)ℤ of integers modulo p^n (see PrimePowerRing). When n=1 they are fields (see GaloisField).
@@ -2673,9 +2698,11 @@ Finite fields GF(p^r) with r>1. These are finite algebraic extensions of prime f
 Galois fields GF(p^r) of a given characteristic p form a lattice of compatibly embedded fields.
 GF(p^r) comes with an embedding into GF)(p^s) for every r | s, and the embeddings are compatible. See [BCS97].!
 
+!FunctionField commentStamp: '<historical>' prior: 0!
+Algebraic function fields, i.e. finite algebraic extensions (absolute or relative) of univariate rational function fields K(t).!
+
 !NumberField commentStamp: '<historical>' prior: 0!
-Algebraic number fields, i.e. a finite algebraic (absolute or relative) extensions of the rational numbers. Number fields can also be viewed as vector spaces over the rational numbers, and thus are also finite-dimensional ℚ-algebras.
-!
+Algebraic number fields, i.e. a finite algebraic (absolute or relative) extensions of the rational numbers.!
 
 !CyclotomicField commentStamp: '<historical>' prior: 0!
 Cyclotomic fields, i.e. number fields obtained by adjoining a complex primitive root of unity to ℚ. The n-th cyclotomic field is obtained by adjoining a primitive n-th root of unity ζₙ to ℚ, and it is represented uniquely as the extension of ℚ by the n-th cyclotomic polynomial.
@@ -2687,17 +2714,22 @@ The 3-th cyclotomic field is the field of Eisenstein rationals ℚ(ω), and the 
 !QuadraticField commentStamp: '<historical>' prior: 0!
 Quadratic number fields, i.e. number fields with defining quadratic polynomial of the form x^2 - d, with d a squarefree integer.!
 
-!FunctionField commentStamp: '<historical>' prior: 0!
-Algebraic function fields, i.e. finite algebraic extensions K(t)[x]/⟨f⟩ of univariate rational function fields K(t).!
+!JetRing commentStamp: 'len 11/21/2023 15:30:59' prior: 0!
+Affine R-algebras of the form R[x₁,...,xₙ]/⟨x₁,...,xₙ⟩^k for an integer k > 0. These are local rings with maximal ideal ⟨x₁,...,xₙ⟩, and their inverse limit is the ring of formal power series R[[x₁,...,xₙ]]. They are analogous to the prime power rings ℤ/(p^k)ℤ, whose inverse limit is the ring of p-adic integers ℤₚ.
 
-!JetRing commentStamp: '<historical>' prior: 0!
-Affine R-algebras of the form R[x₁,...,xₙ]/⟨x₁,...,xₙ⟩ⁱ for an integer i > 0. These are local rings with maximal ideal ⟨x₁,...,xₙ⟩, and their inverse limit is the ring of formal power series R[[x₁,...,xₙ]]. They are analogous to the prime power rings ℤ/pⁱℤ, whose inverse limit is the ring of p-adic integers ℤₚ.!
+In the particular case of R = ℤ/(p^i)ℤ and n=1, this is the quasi-Galois ring A(p^i,k) = (ℤ/(p^i)ℤ)[x]/⟨x^k⟩.!
+
+!AlgebraicClosureField commentStamp: '<historical>' prior: 0!
+This is the algebraic closure of the finite field 𝔽ₚ constructed as the union of all Galois fields of characteristic p (considered in a lattice of compatibly embedded fields).!
 
 !ComplexAlgebraicField commentStamp: '<historical>' prior: 0!
 The field of complex algebraic numbers, i.e. the complex roots of polynomials with rational coefficients.!
 
 !RealAlgebraicField commentStamp: '<historical>' prior: 0!
 The field of real algebraic numbers, i.e. the real roots of polynomials with rational coefficients.!
+
+!AbelianClosureField commentStamp: 'len 11/22/2023 10:25:24' prior: 0!
+Elements of the abelian closure of ℚ, constructed as the union of all cyclotomic fields ℚ(ζₙ). This is the maximal abelian extension of ℚ and it includes all n-th roots of unity.!
 
 !PolynomialRing commentStamp: '<historical>' prior: 0!
 Polynomial ring R[x₁,..,xₙ] in one or many indeterminates over a commutative ring R. These are the finitely generated free commutative (associative) R-algebras.
@@ -3146,20 +3178,23 @@ Elements of Galois fields. See GaloisField.!
 !ModularInteger commentStamp: '<historical>' prior: 0!
 Residue classes of integers modulo n, i.e. elements of the quotient ring ℤ/nℤ.!
 
-!QuasiGaloisRingElement commentStamp: '<historical>' prior: 0!
-Elements of a quasi-Galois ring. See QuasiGaloisRing.!
-
 !AlgebraicRational commentStamp: '<historical>' prior: 0!
 Elements of number fields or function fields. See NumberField and FunctionField.!
 
 !CyclotomicRational commentStamp: '<historical>' prior: 0!
 Elements of the field of Gaussian numbers ℚ[i] that corresponds to the 4-th cyclotomic field. See CyclotomicField.!
 
+!AlgebraicClosureElement commentStamp: '<historical>' prior: 0!
+Elements of the algebraic closure of the finite field 𝔽ₚ.!
+
 !ComplexAlgebraicNumber commentStamp: '<historical>' prior: 0!
 Complex roots of polynomials with rational coefficients, represented as their minimal polynomial over ℚ and a ball (a closed disk in the complex plane) isolating the root from its conjugates.!
 
 !RealAlgebraicNumber commentStamp: '<historical>' prior: 0!
 Real roots of polynomials with rational coefficients, represented as their minimal polynomial over ℚ and a ball (a closed real interval) isolating the root from its conjugates.!
+
+!AbelianClosureElement commentStamp: 'len 11/22/2023 10:25:49' prior: 0!
+Elements of the abelian closure of ℚ.!
 
 !Polynomial commentStamp: '<historical>' prior: 0!
 Polynomials in one or many indeterminates, with coefficients in a commutative ring. These are elements of a PolynomialRing.
@@ -9481,9 +9516,9 @@ scalars
 space
 	^ space! !
 
-!DivisorGroup methodsFor: 'elements' stamp: 'len 6/19/2023 15:33:25'!
+!DivisorGroup methodsFor: 'elements' stamp: 'len 11/21/2023 20:15:32'!
 adapt: anElement
-	(anElement isKindOf: ProjectivePoint)
+	((anElement isKindOf: ProjectivePoint) and: [anElement codomain = space])
 		ifTrue: [^ Divisor coefficients: (Dictionary new at: anElement put: scalars one; yourself) parent: self].
 	"The divisor associated to a rational function is the sum of the order of the rational function at each point:"
 	(space functionField includes: anElement)
@@ -10344,8 +10379,9 @@ units
 	This is the natural functor from the cateogry of rings to the category of groups which sends each ring R to its group of units U(R) and each ring homomorphism to the restriction to U(R). This functor has a left adjoint which sends each group G to the integral group ring Z[G]."
 	^ UnitsGroup on: self! !
 
-!Ring methodsFor: 'operations' stamp: 'len 5/7/2022 07:35:22'!
+!Ring methodsFor: 'operations' stamp: 'len 11/22/2023 11:11:20'!
 zeroDivisors
+	self isIntegralDomain ifTrue: [^ {self zero}].
 	^ self select: [:each| each isZeroDivisor]! !
 
 !Ring methodsFor: 'operations' stamp: 'len 10/18/2023 09:48:50'!
@@ -10994,6 +11030,10 @@ to: aCodomain
 		ifTrue: [^ self to: aCodomain map: [:x| aCodomain one * x numerator / (aCodomain one * x denominator)]].
 	^ super to: aCodomain! !
 
+!RationalField methodsFor: 'operations' stamp: 'len 11/22/2023 16:26:29'!
+abelianClosure
+	^ self propertyAt: #abelianClosure ifAbsentPut: [AbelianClosureField new]! !
+
 !RationalField methodsFor: 'operations' stamp: 'len 11/20/2023 10:35:21'!
 adjoin: aNumber
 	| α answer |
@@ -11006,6 +11046,20 @@ adjoin: aNumber
 !RationalField methodsFor: 'operations' stamp: 'len 11/8/2023 13:56:31'!
 algebraicClosure
 	^ ℂ! !
+
+!RationalField methodsFor: 'operations' stamp: 'len 11/22/2023 10:42:54'!
+∧ aCyclotomicField
+	"Answer the intersection or meet of the receiver and the argument in the lattice of cyclotomic fields, i.e. the maximal cyclotomic subfield of both the receiver and the argument."
+	self = aCyclotomicField ifTrue: [^ self].
+	self assert: (aCyclotomicField isKindOf: CyclotomicField).
+	^ aCyclotomicField ∧ self! !
+
+!RationalField methodsFor: 'operations' stamp: 'len 11/22/2023 10:43:57'!
+∨ aCyclotomicField
+	"Answer the join of the receiver and the argument in the lattice of cyclotomic fields, i.e. the minimal cyclotomic field that includes both the receiver and the argument as subfields."
+	self = aCyclotomicField ifTrue: [^ self].
+	self assert: (aCyclotomicField isKindOf: CyclotomicField).
+	^ aCyclotomicField ∨ self! !
 
 !RationalField methodsFor: 'printing' stamp: 'len 5/23/2020 07:41:18'!
 printOn: aStream
@@ -12638,10 +12692,24 @@ nilradical
 	A finite ring is a Galois ring iff its nilradical is of the form <p> for some prime p. This is also the unique maximal ideal."
 	^ self maximalIdeal! !
 
-!PrimePowerRing methodsFor: 'operations' stamp: 'len 5/7/2022 07:37:20'!
+!PrimePowerRing methodsFor: 'operations' stamp: 'len 11/21/2023 15:11:52'!
 zeroDivisors
-	"The zero divisors of a Galois ring ℤ/<p^k> constitute the unique maximal ideal <p>."
+	"The zero divisors of a Galois ring ℤ/(p^k)ℤ constitute the unique maximal ideal ⟨p⟩."
 	^ self maximalIdeal! !
+
+!PrimePowerRing methodsFor: 'operations' stamp: 'len 11/22/2023 10:45:10'!
+∧ aGaloisRing
+	"Answer the intersection or meet of the receiver and the argument in the lattice of Galois rings of a given characteristic p^n, i.e. the maximal subring of both the receiver and the argument."
+	self = aGaloisRing ifTrue: [^ self].
+	self assert: (aGaloisRing isKindOf: GaloisRing).
+	^ aGaloisRing ∧ self! !
+
+!PrimePowerRing methodsFor: 'operations' stamp: 'len 11/22/2023 10:44:44'!
+∨ aGaloisRing
+	"Answer the join of the receiver and the argument in the lattice of Galois rings of a given characteristic p^n, i.e. the minimal Galois ring that includes both the receiver and the argument as subrings."
+	self = aGaloisRing ifTrue: [^ self].
+	self assert: (aGaloisRing isKindOf: GaloisRing).
+	^ aGaloisRing ∨ self! !
 
 !PrimePowerRing methodsFor: 'printing' stamp: 'len 9/8/2023 17:03:18'!
 printOn: aStream
@@ -12834,6 +12902,10 @@ unitsDo: aBlock
 !PrimeField methodsFor: 'morphisms' stamp: 'len 11/5/2023 09:31:58'!
 frobenius
 	^ self id! !
+
+!PrimeField methodsFor: 'operations' stamp: 'len 11/22/2023 16:27:11'!
+algebraicClosure
+	^ self propertyAt: #algebraicClosure ifAbsentPut: [AlgebraicClosureField over: self]! !
 
 !PrimeField methodsFor: 'operations' stamp: 'len 5/7/2022 07:34:57'!
 zeroDivisors
@@ -13346,47 +13418,6 @@ monomialsBelow: exponents do: aBlock
 	self monomialsBelow: exponents allButLast do: [:each|
 		0 to: exponents last - 1 do: [:i| aBlock value: each*(self monomials x: exponents size to: i)]]! !
 
-!QuasiGaloisRing methodsFor: 'accessing' stamp: 'len 7/12/2023 19:46:50'!
-maximalIdeal
-	^ self * self x! !
-
-!QuasiGaloisRing methodsFor: 'operations' stamp: 'len 7/12/2023 19:46:23'!
-nilradical
-	^ self maximalIdeal! !
-
-!QuasiGaloisRing methodsFor: 'operations' stamp: 'len 7/12/2023 19:46:37'!
-zeroDivisors
-	^ self maximalIdeal! !
-
-!QuasiGaloisRing methodsFor: 'printing' stamp: 'len 9/8/2023 17:13:12'!
-printOn: aStream
-	aStream nextPutAll: 'A('; print: self scalars base; nextPutAll: self scalars degree printString super; nextPut: $,; print: self degree; nextPut: $)! !
-
-!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:48:43'!
-isFinite
-	^ true! !
-
-!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:54:52'!
-isIntegralDomain
-	^ false! !
-
-!QuasiGaloisRing methodsFor: 'testing' stamp: 'len 5/9/2019 09:48:39'!
-isLocal
-	^ true! !
-
-!QuasiGaloisRing methodsFor: 'private' stamp: 'len 7/12/2023 19:42:45'!
-elementClass
-	^ QuasiGaloisRingElement! !
-
-!QuasiGaloisRing class methodsFor: 'instance creation' stamp: 'len 7/15/2021 19:18:19'!
-new: p to: r to: n
-	"Answer the quasi-Galois ring of characteristic p and order p^(r*n)."
-	| F f |
-	F _ GaloisField new: p to: r.
-	n = 1 ifTrue: [^ F].
-	f _ F polynomials x: 1 to: n.
-	^ self relations: f parent * f! !
-
 !ExtensionRing methodsFor: 'accessing' stamp: 'len 5/12/2023 22:40:20'!
 basis
 	"Answer a basis of the receiver as vector space."
@@ -13703,19 +13734,27 @@ nilradical
 zeroDivisors
 	^ self maximalIdeal! !
 
-!GaloisRing methodsFor: 'operations' stamp: 'len 11/4/2023 16:00:43'!
+!GaloisRing methodsFor: 'operations' stamp: 'len 11/22/2023 10:45:31'!
 ∧ aGaloisRing
-	"Answer the intersection or meet of the receiver and the argument, i.e. the maximal subring of both the receiver and the argument."
-	self scalars = aGaloisRing ifTrue: [^ self].
+	"Answer the intersection or meet of the receiver and the argument in the lattice of Galois rings of a given characteristic p^n, i.e. the maximal subring of both the receiver and the argument."
+	| n |
+	(self = aGaloisRing or: [self scalars = aGaloisRing]) ifTrue: [^ aGaloisRing].
 	self assert: self scalars = aGaloisRing scalars.
-	^ self class new: self base to: self exponent to: (self degree gcd: aGaloisRing degree)! !
+	n := self degree gcd: aGaloisRing degree.
+	n = self degree ifTrue: [^ self].
+	n = aGaloisRing degree ifTrue: [^ aGaloisRing].
+	^ self class new: self base to: self exponent to: n! !
 
-!GaloisRing methodsFor: 'operations' stamp: 'len 10/11/2023 20:34:57'!
+!GaloisRing methodsFor: 'operations' stamp: 'len 11/22/2023 10:45:44'!
 ∨ aGaloisRing
-	"Answer the join of the receiver and the argument, i.e. the minimal Galois ring that includes both the receiver and the argument as subrings."
-	self scalars = aGaloisRing ifTrue: [^ self].
+	"Answer the join of the receiver and the argument in the lattice of Galois rings of a given characteristic p^n, i.e. the minimal Galois ring that includes both the receiver and the argument as subrings."
+	| n |
+	(self = aGaloisRing or: [self scalars = aGaloisRing]) ifTrue: [^ self].
 	self assert: self scalars = aGaloisRing scalars.
-	^ self class new: self base to: self exponent to: (self degree lcm: aGaloisRing degree)! !
+	n := self degree lcm: aGaloisRing degree.
+	n = self degree ifTrue: [^ self].
+	n = aGaloisRing degree ifTrue: [^ aGaloisRing].
+	^ self class new: self base to: self exponent to: n! !
 
 !GaloisRing methodsFor: 'printing' stamp: 'len 11/14/2023 13:40:12'!
 indeterminateName
@@ -13921,6 +13960,10 @@ to: aCodomain
 	((aCodomain isKindOf: GaloisField) and: [self characteristic = aCodomain characteristic and: [self degree | aCodomain degree]]) ifFalse: [^ nil].
 	^ self addEmbeddingInto: aCodomain! !
 
+!GaloisField methodsFor: 'operations' stamp: 'len 11/21/2023 15:45:57'!
+algebraicClosure
+	^ self scalars algebraicClosure! !
+
 !GaloisField methodsFor: 'printing' stamp: 'len 5/6/2023 15:24:37'!
 printOn: aStream
 	aStream nextPut: $𝔽; nextPutAll: (self characteristic printString, self degree printStringSuperscript) sub
@@ -14061,6 +14104,27 @@ new: p to: r
 new: p to: n to: r
 	self assert: n = 1.
 	^ self new: p to: r! !
+
+!FunctionField methodsFor: 'accessing' stamp: 'len 11/5/2023 18:20:03'!
+constants
+	"Answer the constant field of the receiver."
+	^ self scalars constants! !
+
+!FunctionField methodsFor: 'accessing' stamp: 'len 1/5/2017 19:50:45'!
+genus
+	^ self notYetImplemented! !
+
+!FunctionField methodsFor: 'testing' stamp: 'len 6/9/2019 09:35:47'!
+isField
+	^ true! !
+
+!FunctionField methodsFor: 'private' stamp: 'len 11/5/2023 08:05:19'!
+elementClass
+	^ AlgebraicRational! !
+
+!FunctionField methodsFor: 'private' stamp: 'len 7/15/2021 19:12:04'!
+extensionClass
+	^ FunctionField! !
 
 !NumberField methodsFor: 'accessing' stamp: 'len 7/12/2021 13:17:44'!
 classNumber
@@ -14258,25 +14322,32 @@ automorphisms
 		self endomorphisms 	addCoercionFrom: answer space map: [:a| self to: self images: {self x ^ a representative}].
 		answer]! !
 
-!CyclotomicField methodsFor: 'morphisms' stamp: 'len 11/13/2023 10:50:19'!
+!CyclotomicField methodsFor: 'morphisms' stamp: 'len 11/21/2023 21:34:54'!
 to: aCodomain
 	((aCodomain isKindOf: CyclotomicField) and: [self order | aCodomain order])
 		ifTrue: [^ (self into: aCodomain images: {aCodomain x ^ (aCodomain order / self order)}) name: 'ι'].
-	aCodomain = ℂ ifTrue: [^ self into: aCodomain map: [:x| x asComplex]].
+	aCodomain = ℂ ifTrue: [^ self into: aCodomain images: {self generatorAsComplex}].
 	^ super to: aCodomain! !
 
-!CyclotomicField methodsFor: 'operations' stamp: 'len 10/11/2023 20:38:05'!
+!CyclotomicField methodsFor: 'operations' stamp: 'len 11/22/2023 10:46:38'!
 ∧ aCyclotomicField
-	"Answer the intersection or meet of the receiver and the argument, i.e. the maximal cyclotomic subfield of both the receiver and the argument."
-	| m |
-	ℚ = aCyclotomicField ifTrue: [^ ℚ].
-	^ (m := self order gcd: aCyclotomicField order) > 2 ifTrue: [self class new: m] ifFalse: [ℚ]! !
+	"Answer the intersection or meet of the receiver and the argument in the lattice of cyclotomic fields, i.e. the maximal cyclotomic subfield of both the receiver and the argument."
+	| n |
+	(self = aCyclotomicField or: [ℚ = aCyclotomicField]) ifTrue: [^ aCyclotomicField].
+	n := self order gcd: aCyclotomicField order.
+	n = self order ifTrue: [^ self].
+	n = aCyclotomicField order ifTrue: [^ aCyclotomicField].
+	^ n > 2 ifTrue: [self class new: n] ifFalse: [ℚ]! !
 
-!CyclotomicField methodsFor: 'operations' stamp: 'len 10/11/2023 20:38:21'!
+!CyclotomicField methodsFor: 'operations' stamp: 'len 11/22/2023 10:46:48'!
 ∨ aCyclotomicField
-	"Answer the join of the receiver and the argument, i.e. the minimal cyclotomic field that includes both the receiver and the argument as subfields."
-	ℚ = aCyclotomicField ifTrue: [^ self].
-	^ self class new: (self order lcm: aCyclotomicField order)! !
+	"Answer the join of the receiver and the argument in the lattice of cyclotomic fields, i.e. the minimal cyclotomic field that includes both the receiver and the argument as subfields."
+	| n |
+	(self = aCyclotomicField or: [ℚ = aCyclotomicField]) ifTrue: [^ self].
+	n := self order lcm: aCyclotomicField order.
+	n = self order ifTrue: [^ self].
+	n = aCyclotomicField order ifTrue: [^ aCyclotomicField].
+	^ self class new: n! !
 
 !CyclotomicField methodsFor: 'printing' stamp: 'len 11/17/2023 16:32:07'!
 indeterminateName
@@ -14345,10 +14416,10 @@ integralBasis
 maximalRealSubfield
 	^ self isTotallyReal ifTrue: [self] ifFalse: [self scalars maximalRealSubfield "or just ℚ if we assume all quadratic fields are absolute"]! !
 
-!QuadraticField methodsFor: 'morphisms' stamp: 'len 11/19/2023 11:29:56'!
+!QuadraticField methodsFor: 'morphisms' stamp: 'len 11/21/2023 21:35:39'!
 to: aCodomain
-	aCodomain = ℂ ifTrue: [^ self into: aCodomain map: [:x| x asComplex]].
-	(aCodomain = ℝ and: [self isTotallyReal]) ifTrue: [^ self into: aCodomain map: [:x| x asComplex asReal]].
+	aCodomain = ℂ ifTrue: [^ self into: aCodomain images: {self generatorAsComplex}].
+	(aCodomain = ℝ and: [self isTotallyReal]) ifTrue: [^ self into: aCodomain images: {self generatorAsComplex asReal}].
 	^ super to: aCodomain! !
 
 !QuadraticField methodsFor: 'printing' stamp: 'len 11/14/2023 13:47:23'!
@@ -14388,27 +14459,6 @@ new: anInteger
 "	P := ℚ polynomialsIn: {d = -1 ifTrue: ['i' italic] ifFalse: ['√', d printString]}."
 	^ self modulus: ℚ polynomials x squared - d! !
 
-!FunctionField methodsFor: 'accessing' stamp: 'len 11/5/2023 18:20:03'!
-constants
-	"Answer the constant field of the receiver."
-	^ self scalars constants! !
-
-!FunctionField methodsFor: 'accessing' stamp: 'len 1/5/2017 19:50:45'!
-genus
-	^ self notYetImplemented! !
-
-!FunctionField methodsFor: 'testing' stamp: 'len 6/9/2019 09:35:47'!
-isField
-	^ true! !
-
-!FunctionField methodsFor: 'private' stamp: 'len 11/5/2023 08:05:19'!
-elementClass
-	^ AlgebraicRational! !
-
-!FunctionField methodsFor: 'private' stamp: 'len 7/15/2021 19:12:04'!
-extensionClass
-	^ FunctionField! !
-
 !JetRing methodsFor: 'as yet unclassified' stamp: 'len 9/6/2023 16:10:38'!
 baseIdeal
 	^ self propertyAt: #baseIdeal! !
@@ -14417,6 +14467,10 @@ baseIdeal
 baseIdeal: anIdeal order: anInteger
 	self propertyAt: #baseIdeal put: anIdeal.
 	self propertyAt: #order put: anInteger! !
+
+!JetRing methodsFor: 'as yet unclassified' stamp: 'len 11/21/2023 15:18:44'!
+elementClass
+	^ Jet! !
 
 !JetRing methodsFor: 'as yet unclassified' stamp: 'len 10/2/2023 19:36:26'!
 from: aDomain
@@ -14435,9 +14489,18 @@ isIntegralDomain
 isLocal
 	^ true! !
 
+!JetRing methodsFor: 'as yet unclassified' stamp: 'len 11/21/2023 15:20:59'!
+isQuasiGaloisRing
+	^ self rank = 1 and: [self scalars isKindOf: PrimePowerRing]! !
+
 !JetRing methodsFor: 'as yet unclassified' stamp: 'len 9/6/2023 16:23:07'!
 maximalIdeal
 	^ self * self generators! !
+
+!JetRing methodsFor: 'as yet unclassified' stamp: 'len 11/21/2023 15:19:50'!
+nilradical
+	self isQuasiGaloisRing ifTrue: [^ self maximalIdeal].
+	^ super nilradical! !
 
 !JetRing methodsFor: 'as yet unclassified' stamp: 'len 9/6/2023 16:11:23'!
 order
@@ -14450,6 +14513,11 @@ printOn: aStream
 !JetRing methodsFor: 'as yet unclassified' stamp: 'len 9/6/2023 16:11:57'!
 relations
 	^ self propertyAt: #relations ifAbsentPut: [self baseIdeal ^ self order]! !
+
+!JetRing methodsFor: 'as yet unclassified' stamp: 'len 11/21/2023 15:20:16'!
+zeroDivisors
+	self isQuasiGaloisRing ifTrue: [^ self maximalIdeal].
+	^ super zeroDivisors! !
 
 !JetRing class methodsFor: 'as yet unclassified' stamp: 'len 9/6/2023 16:32:38'!
 new: anInteger baseIdeal: anIdeal
@@ -14486,6 +14554,78 @@ new: anInteger over: aRing
 !LaurentPolynomialRing class methodsFor: 'as yet unclassified' stamp: 'len 1/15/2022 18:02:43'!
 new: anInteger over: aRing ordering: aMonomialOrdering
 	^ self monomials: (FreeAbelianMonoid new: anInteger*2 ordering: aMonomialOrdering) over: aRing! !
+
+!AlgebraicClosureField methodsFor: 'accessing' stamp: 'len 11/21/2023 15:42:31'!
+characteristic
+	^ scalars characteristic! !
+
+!AlgebraicClosureField methodsFor: 'accessing' stamp: 'len 11/22/2023 16:27:31'!
+one
+	^ AlgebraicClosureElement representative: self scalars one! !
+
+!AlgebraicClosureField methodsFor: 'accessing' stamp: 'len 11/21/2023 15:43:54'!
+primeSubring
+	^ self scalars! !
+
+!AlgebraicClosureField methodsFor: 'accessing' stamp: 'len 11/21/2023 15:40:29'!
+scalars
+	^ scalars! !
+
+!AlgebraicClosureField methodsFor: 'accessing' stamp: 'len 11/21/2023 15:42:37'!
+size
+	^ ℕ size! !
+
+!AlgebraicClosureField methodsFor: 'accessing' stamp: 'len 11/22/2023 16:27:31'!
+zero
+	^ AlgebraicClosureElement representative: self scalars zero! !
+
+!AlgebraicClosureField methodsFor: 'comparing' stamp: 'len 11/21/2023 15:42:24'!
+= anObject
+	^ self class = anObject class and: [scalars = anObject scalars]! !
+
+!AlgebraicClosureField methodsFor: 'comparing' stamp: 'len 11/21/2023 15:51:44'!
+hash
+	^ scalars hash! !
+
+!AlgebraicClosureField methodsFor: 'morphisms' stamp: 'len 11/22/2023 16:27:31'!
+from: aDomain
+	(aDomain isFiniteField and: [self characteristic = aDomain characteristic]) ifTrue: [^ (aDomain into: self map: [:x| AlgebraicClosureElement representative: x]) name: 'ι'].
+	^ super from: aDomain! !
+
+!AlgebraicClosureField methodsFor: 'printing' stamp: 'len 11/21/2023 15:51:14'!
+printOn: aStream
+	aStream nextPutAll: '𝔽̄'; nextPutAll: self characteristic printString sub! !
+
+!AlgebraicClosureField methodsFor: 'random' stamp: 'len 11/22/2023 16:27:31'!
+atRandom: aRandom bits: bitSize
+	| K n |
+	n := bitSize // self characteristic max: 1.
+	K := GaloisField new: self characteristic to: n.
+	^ AlgebraicClosureElement representative: (K atRandom: aRandom)! !
+
+!AlgebraicClosureField methodsFor: 'testing' stamp: 'len 11/22/2023 16:27:31'!
+includes: anElement
+	^ anElement class = AlgebraicClosureElement and: [anElement representative parent characteristic = self characteristic]! !
+
+!AlgebraicClosureField methodsFor: 'testing' stamp: 'len 11/21/2023 15:40:43'!
+isAlgebraicallyClosed
+	^ true! !
+
+!AlgebraicClosureField methodsFor: 'testing' stamp: 'len 11/22/2023 11:08:43'!
+isCommutative
+	^ true! !
+
+!AlgebraicClosureField methodsFor: 'testing' stamp: 'len 11/22/2023 11:12:33'!
+isField
+	^ true! !
+
+!AlgebraicClosureField methodsFor: 'private' stamp: 'len 11/21/2023 15:40:23'!
+scalars: aPrimeField
+	scalars := aPrimeField! !
+
+!AlgebraicClosureField class methodsFor: 'instance creation' stamp: 'len 11/21/2023 15:40:06'!
+over: aPrimeField
+	^ self new scalars: aPrimeField! !
 
 !ComplexAlgebraicField methodsFor: 'accessing' stamp: 'len 11/7/2023 14:35:41'!
 characteristic
@@ -14650,6 +14790,55 @@ isOrdered
 
 !RealAlgebraicField methodsFor: 'testing' stamp: 'len 11/7/2023 14:35:03'!
 isReal
+	^ true! !
+
+!AbelianClosureField methodsFor: 'accessing' stamp: 'len 11/21/2023 16:12:11'!
+characteristic
+	^ 0! !
+
+!AbelianClosureField methodsFor: 'accessing' stamp: 'len 11/22/2023 16:26:50'!
+one
+	^ AbelianClosureElement representative: self scalars one! !
+
+!AbelianClosureField methodsFor: 'accessing' stamp: 'len 11/21/2023 16:10:26'!
+scalars
+	^ ℚ! !
+
+!AbelianClosureField methodsFor: 'accessing' stamp: 'len 11/21/2023 16:10:36'!
+size
+	^ ℕ size! !
+
+!AbelianClosureField methodsFor: 'accessing' stamp: 'len 11/22/2023 16:26:50'!
+zero
+	^ AbelianClosureElement representative: self scalars zero! !
+
+!AbelianClosureField methodsFor: 'morphisms' stamp: 'len 11/22/2023 16:26:50'!
+from: aDomain
+	(aDomain isKindOf: CyclotomicField) ifTrue: [^ (aDomain into: self map: [:x| AbelianClosureElement representative: x]) name: 'ι'].
+	^ super from: aDomain! !
+
+!AbelianClosureField methodsFor: 'printing' stamp: 'len 11/21/2023 16:08:02'!
+printOn: aStream
+	aStream nextPutAll: 'ℚ', 'ab' super! !
+
+!AbelianClosureField methodsFor: 'random' stamp: 'len 11/22/2023 16:26:50'!
+atRandom: aRandom bits: bitSize
+	| K n |
+	n := 2.
+	[(2 atRandom: aRandom) = 1] whileTrue: [n := n + 1].
+	K := n > 2 ifTrue: [CyclotomicField new: n] ifFalse: [ℚ].
+	^ AbelianClosureElement representative: (K atRandom: aRandom bits: bitSize)! !
+
+!AbelianClosureField methodsFor: 'testing' stamp: 'len 11/22/2023 16:26:50'!
+includes: anElement
+	^ anElement class = AbelianClosureElement! !
+
+!AbelianClosureField methodsFor: 'testing' stamp: 'len 11/22/2023 11:08:34'!
+isCommutative
+	^ true! !
+
+!AbelianClosureField methodsFor: 'testing' stamp: 'len 11/22/2023 11:12:21'!
+isField
 	^ true! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 1/2/2017 10:08:58'!
@@ -21905,8 +22094,9 @@ squared
 	This is a contravariant functor, and it is often called the 'functor of points' of B."
 	^ self codomain ⇒ aCodomain to: self domain ⇒ aCodomain map: [:f| f · self]! !
 
-!Morphism methodsFor: 'printing' stamp: 'len 9/20/2022 06:04:16'!
+!Morphism methodsFor: 'printing' stamp: 'len 11/21/2023 16:01:39'!
 arrowPrintOn: aStream
+	self flag: #fixme. "improve this, maybe just set a property #arrowPrintString in into: and onto:, or set #isSurjective/#isInjective"
 	aStream
 		print: self domain;
 		nextPut:
@@ -29952,12 +30142,12 @@ asSingletonMatrix
 	(self parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #/].
 	^ (anElement colift: self) ifNil: [DivisibilityError new signalReceiver: self selector: #/ argument: anElement]! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 5/26/2022 12:21:06'!
+!RingElement methodsFor: 'operations' stamp: 'len 11/22/2023 16:08:29'!
 // anElement
 	"Answer the quotient of the division of the receiver by the argument.
 	In Euclidean rings, this is the quotient of the Euclidean division.
 	See also #\\ and #gauge."
-	^ self subclassResponsibility! !
+	^ self / anElement! !
 
 !RingElement methodsFor: 'operations' stamp: 'len 5/29/2022 19:39:19'!
 \ anElement
@@ -32296,6 +32486,10 @@ lcm: anElement
 	representative = 0 ifTrue: [^ parent zero].
 	^ anElement normalized! !
 
+!PrimeResidue methodsFor: 'operations' stamp: 'len 11/22/2023 16:11:23'!
+minimalPolynomial
+	^ self parent polynomials x - self! !
+
 !PrimeResidue methodsFor: 'operations' stamp: 'len 7/30/2021 10:26:29'!
 normalized
 	"Answer a unique choice of associate. See >>normalization."
@@ -32330,18 +32524,6 @@ isZeroDivisor
 	"Answer true if there exists a nonzero element that multiplied by the receiver is zero."
 	^ self isZero! !
 
-!QuasiGaloisRingElement methodsFor: 'testing' stamp: 'len 7/12/2023 19:40:54'!
-isNilpotent
-	^ self isZeroDivisor! !
-
-!QuasiGaloisRingElement methodsFor: 'testing' stamp: 'len 7/12/2023 19:41:54'!
-isUnit
-	^ self isZeroDivisor not! !
-
-!QuasiGaloisRingElement methodsFor: 'testing' stamp: 'len 7/12/2023 19:42:19'!
-isZeroDivisor
-	^ representative independentCoefficient isZero! !
-
 !AlgebraicRational methodsFor: 'accessing' stamp: 'len 11/5/2023 08:01:42'!
 denominator
 	^ self minimalPolynomial denominator! !
@@ -32349,12 +32531,6 @@ denominator
 !AlgebraicRational methodsFor: 'accessing' stamp: 'len 11/5/2023 08:02:17'!
 numerator
 	^ self * self denominator! !
-
-!AlgebraicRational methodsFor: 'converting' stamp: 'len 10/10/2023 22:01:18'!
-asComplex
-	"Answer the receiver as a complex number.
-	Assumes the receiver is an element of a number field with a default embedding into the complex numbers."
-	^ representative value: parent generatorAsComplex! !
 
 !CyclotomicRational methodsFor: 'operations' stamp: 'len 11/17/2023 10:20:11'!
 conjugate
@@ -32367,6 +32543,18 @@ conjugate
 !CyclotomicRational methodsFor: 'testing' stamp: 'len 11/7/2023 11:29:39'!
 isReal
 	^ self conjugate = self! !
+
+!Jet methodsFor: 'testing' stamp: 'len 11/21/2023 15:18:06'!
+isNilpotent
+	^ self isZeroDivisor! !
+
+!Jet methodsFor: 'testing' stamp: 'len 11/21/2023 15:18:01'!
+isUnit
+	^ self isZeroDivisor not! !
+
+!Jet methodsFor: 'testing' stamp: 'len 11/21/2023 15:18:17'!
+isZeroDivisor
+	^ representative independentCoefficient isZeroDivisor! !
 
 !LaurentPolynomial methodsFor: 'as yet unclassified' stamp: 'len 5/8/2023 00:43:28'!
 printCoefficient: coefficient monomial: m on: aStream
@@ -32416,6 +32604,107 @@ printOn: aStream
 			ifTrue: [aStream nextPutAll: ' - '. c := c negated]
 			ifFalse: [aStream nextPutAll: ' + '].
 		self printCoefficient: c monomial: m on: aStream]! !
+
+!AlgebraicClosureElement methodsFor: 'accessing' stamp: 'len 11/21/2023 15:38:30'!
+representative
+	^ representative! !
+
+!AlgebraicClosureElement methodsFor: 'comparing' stamp: 'len 11/22/2023 10:54:12'!
+= anObject
+	| K |
+	self class = anObject class ifFalse: [^ false].
+	representative parent characteristic = anObject representative parent characteristic ifFalse: [^ self].
+	K := representative parent ∨ anObject representative parent.
+	^ K !! representative = (K !! anObject representative)! !
+
+!AlgebraicClosureElement methodsFor: 'comparing' stamp: 'len 11/22/2023 10:54:36'!
+hash
+	^ self minimalPolynomial hash! !
+
+!AlgebraicClosureElement methodsFor: 'operations' stamp: 'len 11/22/2023 10:21:26'!
+* anElement
+	| K |
+	anElement isInteger ifTrue: [^ self class representative: representative * anElement].
+	self class = anElement class ifFalse: [^ self adapt: anElement andSend: #*].
+	K := representative parent ∨ anElement representative parent.
+	^ self class representative: (K !! representative * (K !! anElement representative))! !
+
+!AlgebraicClosureElement methodsFor: 'operations' stamp: 'len 11/22/2023 10:18:58'!
++ anElement
+	| K |
+	self class = anElement class ifFalse: [^ self  adapt: anElement andSend: #+].
+	K := representative parent ∨ anElement representative parent.
+	^ self class representative: (K !! representative + (K !! anElement representative))! !
+
+!AlgebraicClosureElement methodsFor: 'operations' stamp: 'len 11/21/2023 21:53:53'!
+^ anInteger
+	"Answer the receiver raised to the power anInteger."
+	anInteger = 0 ifTrue: [^ self one].
+	self isZero ifTrue: [^ self].
+	anInteger isFraction ifTrue: [^ (self root: anInteger denominator) ^ anInteger numerator].
+	^ self class representative: representative ^ anInteger! !
+
+!AlgebraicClosureElement methodsFor: 'operations' stamp: 'len 11/22/2023 16:02:41'!
+colift: anElement
+	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
+	This is the right division of b by a, written b / a."
+	anElement isZero ifTrue: [^ anElement].
+	^ self isZero ifFalse: [anElement * self inverse]! !
+
+!AlgebraicClosureElement methodsFor: 'operations' stamp: 'len 11/21/2023 21:50:27'!
+frobenius
+	"Answer the result of applying the Frobenius automorphism to the receiver."
+	^ self class representative: representative frobenius! !
+
+!AlgebraicClosureElement methodsFor: 'operations' stamp: 'len 11/21/2023 21:50:46'!
+inverse
+	^ self class representative: representative inverse! !
+
+!AlgebraicClosureElement methodsFor: 'operations' stamp: 'len 11/21/2023 21:46:26'!
+minimalPolynomial
+	^ representative minimalPolynomial! !
+
+!AlgebraicClosureElement methodsFor: 'operations' stamp: 'len 11/21/2023 21:51:05'!
+negated
+	^ self class representative: representative negated! !
+
+!AlgebraicClosureElement methodsFor: 'operations' stamp: 'len 11/21/2023 21:48:07'!
+norm
+	"Answer the absolute norm of the receiver."
+	^ self absoluteNorm! !
+
+!AlgebraicClosureElement methodsFor: 'operations' stamp: 'len 11/21/2023 21:47:49'!
+trace
+	"Answer the absolute trace of the receiver."
+	^ self absoluteTrace! !
+
+!AlgebraicClosureElement methodsFor: 'printing' stamp: 'len 11/21/2023 15:39:13'!
+printOn: aStream
+	aStream print: representative! !
+
+!AlgebraicClosureElement methodsFor: 'testing' stamp: 'len 11/21/2023 15:39:30'!
+isOne
+	^ representative isOne! !
+
+!AlgebraicClosureElement methodsFor: 'testing' stamp: 'len 11/21/2023 21:48:40'!
+isSquare
+	^ true! !
+
+!AlgebraicClosureElement methodsFor: 'testing' stamp: 'len 11/21/2023 15:39:25'!
+isZero
+	^ representative isZero! !
+
+!AlgebraicClosureElement methodsFor: 'private' stamp: 'len 11/21/2023 15:46:46'!
+parent
+	^ representative parent algebraicClosure! !
+
+!AlgebraicClosureElement methodsFor: 'private' stamp: 'len 11/21/2023 15:38:49'!
+representative: aGaloisFieldElement
+	representative := aGaloisFieldElement! !
+
+!AlgebraicClosureElement class methodsFor: 'instance creation' stamp: 'len 11/21/2023 15:45:06'!
+representative: aGaloisFieldElement
+	^ self new representative: aGaloisFieldElement! !
 
 !ComplexAlgebraicNumber methodsFor: 'accessing' stamp: 'len 11/10/2023 14:43:33'!
 bounds
@@ -32468,9 +32757,9 @@ refine: aNumber to: ε
 	2 timesRepeat: [x := x - ((P value: x) / (dP value: x))].
 	^​ Ball center: x radius: ε! !
 
-!ComplexAlgebraicNumber methodsFor: 'comparing' stamp: 'len 11/8/2023 18:02:59'!
+!ComplexAlgebraicNumber methodsFor: 'comparing' stamp: 'len 11/22/2023 15:56:23'!
 = anObject
-	^ anObject class = self class and: [minimalPolynomial = anObject minimalPolynomial and: [self bounds overlaps: anObject bounds]]! !
+	^ anObject class = self class and: [minimalPolynomial = anObject minimalPolynomial and: [bounds overlaps: anObject bounds]]! !
 
 !ComplexAlgebraicNumber methodsFor: 'comparing' stamp: 'len 4/29/2018 20:09:45'!
 hash
@@ -32819,6 +33108,89 @@ parent
 !RealAlgebraicNumber methodsFor: 'private' stamp: 'len 11/10/2023 14:18:30'!
 rootIsolatorClass
 	^ RealRootIsolator! !
+
+!AbelianClosureElement methodsFor: 'accessing' stamp: 'len 11/21/2023 16:08:34'!
+representative
+	^ representative! !
+
+!AbelianClosureElement methodsFor: 'comparing' stamp: 'len 11/22/2023 10:55:09'!
+= anObject
+	| K |
+	self class = anObject class ifFalse: [^ false].
+	K := representative parent ∨ anObject representative parent.
+	^ K !! representative = (K !! anObject representative)! !
+
+!AbelianClosureElement methodsFor: 'comparing' stamp: 'len 11/22/2023 10:54:56'!
+hash
+	^ self minimalPolynomial hash! !
+
+!AbelianClosureElement methodsFor: 'operations' stamp: 'len 11/22/2023 10:21:37'!
+* anElement
+	| K |
+	anElement isInteger ifTrue: [^ self class representative: representative * anElement].
+	self class = anElement class ifFalse: [^ self adapt: anElement andSend: #*].
+	K := representative parent ∨ anElement representative parent.
+	^ self class representative: (K !! representative * (K !! anElement representative))! !
+
+!AbelianClosureElement methodsFor: 'operations' stamp: 'len 11/22/2023 10:21:43'!
++ anElement
+	| K |
+	self class = anElement class ifFalse: [^ self  adapt: anElement andSend: #+].
+	K := representative parent ∨ anElement representative parent.
+	^ self class representative: (K !! representative + (K !! anElement representative))! !
+
+!AbelianClosureElement methodsFor: 'operations' stamp: 'len 11/22/2023 16:02:53'!
+colift: anElement
+	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
+	This is the right division of b by a, written b / a."
+	anElement isZero ifTrue: [^ anElement].
+	^ self isZero ifFalse: [anElement * self inverse]! !
+
+!AbelianClosureElement methodsFor: 'operations' stamp: 'len 11/22/2023 10:21:55'!
+inverse
+	^ self class representative: representative inverse! !
+
+!AbelianClosureElement methodsFor: 'operations' stamp: 'len 11/22/2023 10:20:38'!
+minimalPolynomial
+	^ representative minimalPolynomial! !
+
+!AbelianClosureElement methodsFor: 'operations' stamp: 'len 11/22/2023 10:22:03'!
+negated
+	^ self class representative: representative negated! !
+
+!AbelianClosureElement methodsFor: 'operations' stamp: 'len 11/22/2023 10:22:11'!
+norm
+	"Answer the absolute norm of the receiver."
+	^ self absoluteNorm! !
+
+!AbelianClosureElement methodsFor: 'operations' stamp: 'len 11/22/2023 10:22:15'!
+trace
+	"Answer the absolute trace of the receiver."
+	^ self absoluteTrace! !
+
+!AbelianClosureElement methodsFor: 'printing' stamp: 'len 11/21/2023 16:09:07'!
+printOn: aStream
+	aStream print: representative! !
+
+!AbelianClosureElement methodsFor: 'testing' stamp: 'len 11/22/2023 10:22:34'!
+isOne
+	^ representative isOne! !
+
+!AbelianClosureElement methodsFor: 'testing' stamp: 'len 11/22/2023 10:22:44'!
+isZero
+	^ representative isZero! !
+
+!AbelianClosureElement methodsFor: 'private' stamp: 'len 11/21/2023 16:12:38'!
+parent
+	^ ℚ abelianClosure! !
+
+!AbelianClosureElement methodsFor: 'private' stamp: 'len 11/21/2023 16:08:51'!
+representative: aCyclotomicRational
+	representative := aCyclotomicRational! !
+
+!AbelianClosureElement class methodsFor: 'instance creation' stamp: 'len 11/21/2023 16:11:14'!
+representative: aCyclotomicRational
+	^ self new representative: aCyclotomicRational! !
 
 !Polynomial methodsFor: 'accessing' stamp: 'len 10/30/2023 19:03:53'!
 denominator
@@ -35168,12 +35540,6 @@ isZeroDivisor
 parent: anAlgebra moduleElement: anElement
 	^ self new parent: anAlgebra moduleElement: anElement! !
 
-!AlgebraicInteger methodsFor: 'converting' stamp: 'len 10/10/2023 22:02:03'!
-asComplex
-	"Answer the receiver as a complex number.
-	Assumes the receiver is an element of the ring of integers of a number field with a default embedding into the complex numbers."
-	^ (parent fractions !! self) asComplex! !
-
 !AlgebraicInteger methodsFor: 'operations' stamp: 'len 5/30/2022 12:40:32'!
 colift: anElement
 	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
@@ -35195,11 +35561,6 @@ printOn: aStream
 !AlgebraicInteger methodsFor: 'testing' stamp: 'len 7/11/2021 11:19:13'!
 isIntegral
 	^ true! !
-
-!EisensteinInteger methodsFor: 'converting' stamp: 'len 10/11/2023 08:50:12'!
-asComplex
-	"Answer a floating point approximation of the receiver in the complex plane, taking ω = (1 + √-3)/2."
-	^ (moduleElement at: 1) asNumber + ((moduleElement at: 2) asNumber * (1 + 3 sqrt i) / 2)! !
 
 !EisensteinInteger methodsFor: 'operations' stamp: 'len 7/10/2023 17:53:30'!
 // anElement
@@ -35296,10 +35657,6 @@ imaginary
 !GaussianInteger methodsFor: 'accessing' stamp: 'len 3/24/2021 07:45:16'!
 real
 	^ moduleElement at: 1! !
-
-!GaussianInteger methodsFor: 'converting' stamp: 'len 10/11/2023 08:50:42'!
-asComplex
-	^ self real asNumber + self imaginary asNumber i! !
 
 !GaussianInteger methodsFor: 'operations' stamp: 'len 7/10/2023 17:20:58'!
 // anElement
