@@ -38,21 +38,21 @@ Instance Variables:
 adaptToLargeFloat: rcvr andSend: selector
 	^ (self isInfinite or: [self isNaN])
 		ifTrue: [rcvr asFloat perform: selector with: self]
-		ifFalse: [rcvr perform: selector with: (self asLargeFloatPrecision: rcvr precision)]! !
+		ifFalse: [rcvr perform: selector with: (self asFloat: rcvr precision)]! !
 
 !Float methodsFor: '*LargeFloat' stamp: 'len 12/4/2016 14:22:46'!
-asLargeFloatPrecision: anInteger
-	self isZero ifTrue: [^ 0 asLargeFloatPrecision: anInteger].
+asFloat: anInteger
+	self isZero ifTrue: [^ 0 asFloat: anInteger].
 	^ self partValues: [:sign :exponent :mantissa| LargeFloat mantissa: mantissa * sign exponent: (exponent max: -1022) - 52 precision: anInteger]! !
 
 !Fraction methodsFor: '*LargeFloat' stamp: 'nice 7/25/2013 23:08'!
-asLargeFloatPrecision: n
+asFloat: n
 	"Answer a Floating point with arbitrary precision
 	close to the receiver."
 
 	"Note: form below would not be the closest approximation
-	^ (numerator asLargeFloatPrecision: n)
-		inPlaceDivideBy: (denominator asLargeFloatPrecision: n)"
+	^ (numerator asFloat: n)
+		inPlaceDivideBy: (denominator asFloat: n)"
 
 	| a b mantissa exponent nBits ha hb hm hasTruncatedBits |
 	a _ numerator abs.
@@ -65,8 +65,8 @@ asLargeFloatPrecision: n
 	nBits _ n + 1.
 	(ha < nBits and: [hb < nBits]) 
 		ifTrue: 
-			[^(numerator asLargeFloatPrecision: n) 
-				inPlaceDivideBy: (denominator asLargeFloatPrecision: n)].
+			[^(numerator asFloat: n) 
+				inPlaceDivideBy: (denominator asFloat: n)].
 
 	"Shift the fraction by a power of two exponent so as to obtain a mantissa with n+1 bits.
 	First guess is rough, the mantissa might have n+2 bits."
@@ -87,18 +87,18 @@ asLargeFloatPrecision: n
 
 	"Check if mantissa must be rounded upward.
 	The case of tie (mantissa odd & hasTruncatedBits not)
-	will be handled by Integer>>asLargeFloatPrecision:."
+	will be handled by Integer>>asFloat:."
 	(hasTruncatedBits and: [mantissa odd])
 		ifTrue: [mantissa _ mantissa + 1].
 
 	"build the LargeFloat from mantissa and exponent"
 	^(self positive 
-		ifTrue: [mantissa asLargeFloatPrecision: n]
-		ifFalse: [mantissa negated asLargeFloatPrecision: n]) 
+		ifTrue: [mantissa asFloat: n]
+		ifFalse: [mantissa negated asFloat: n]) 
 			inPlaceTimesTwoPower: exponent! !
 
 !Integer methodsFor: '*LargeFloat' stamp: 'len 12/4/2016 14:23:42'!
-asLargeFloatPrecision: anInteger
+asFloat: anInteger
 	^ LargeFloat mantissa: self exponent: 0 precision: anInteger! !
 
 !LargeFloat methodsFor: 'arithmetic' stamp: 'nice 7/30/2013 01:45'!
@@ -107,8 +107,8 @@ asLargeFloatPrecision: anInteger
 	aNumber class = self class
 		ifFalse: [^ aNumber adaptToLargeFloat: self andSend: #*].
 	n _ precision max: aNumber precision.
-	^ (self asLargeFloatPrecision: n)
-		copy inPlaceMultiplyBy: (aNumber asLargeFloatPrecision: n)! !
+	^ (self asFloat: n)
+		copy inPlaceMultiplyBy: (aNumber asFloat: n)! !
 
 !LargeFloat methodsFor: 'arithmetic' stamp: 'nice 7/30/2013 01:45'!
 + aNumber 
@@ -116,8 +116,8 @@ asLargeFloatPrecision: anInteger
 	aNumber class = self class
 		ifFalse: [^ aNumber adaptToLargeFloat: self andSend: #+].
 	n _ precision max: aNumber precision.
-	^ (self asLargeFloatPrecision: n)
-		copy inPlaceAdd: (aNumber asLargeFloatPrecision: n)! !
+	^ (self asFloat: n)
+		copy inPlaceAdd: (aNumber asFloat: n)! !
 
 !LargeFloat methodsFor: 'arithmetic' stamp: 'nice 7/30/2013 01:45'!
 - aNumber 
@@ -125,8 +125,8 @@ asLargeFloatPrecision: anInteger
 	aNumber class = self class
 		ifFalse: [^ aNumber adaptToLargeFloat: self andSend: #-].
 	n _ precision max: aNumber precision.
-	^ (self asLargeFloatPrecision: n)
-		copy inPlaceSubtract: (aNumber asLargeFloatPrecision: n)! !
+	^ (self asFloat: n)
+		copy inPlaceSubtract: (aNumber asFloat: n)! !
 
 !LargeFloat methodsFor: 'arithmetic' stamp: 'nice 7/30/2013 01:45'!
 / aNumber 
@@ -134,8 +134,8 @@ asLargeFloatPrecision: anInteger
 	aNumber class = self class
 		ifFalse: [^ aNumber adaptToLargeFloat: self andSend: #/].
 	n _ precision max: aNumber precision.
-	^ (self asLargeFloatPrecision: n)
-		copy inPlaceDivideBy: (aNumber asLargeFloatPrecision: n)! !
+	^ (self asFloat: n)
+		copy inPlaceDivideBy: (aNumber asFloat: n)! !
 
 !LargeFloat methodsFor: 'comparing' stamp: 'len 12/4/2016 20:56:10'!
 < aNumber
@@ -253,13 +253,13 @@ absPrintExactlyOn: aStream base: base
 adaptToFloat: rcvr andCompare: selector
 	^ (rcvr isInfinite or: [ rcvr isNaN ])
 		ifTrue: [ rcvr perform: selector with: self asFloat ]
-		ifFalse: [ (rcvr asLargeFloatPrecision: 53) perform: selector with: self ]! !
+		ifFalse: [ (rcvr asFloat: 53) perform: selector with: self ]! !
 
 !LargeFloat methodsFor: 'converting' stamp: 'WernerKassens 4/11/2016 09:28'!
 adaptToFloat: rcvr andSend: selector
 	^ (rcvr isInfinite or: [ rcvr isNaN ])
 		ifTrue: [ rcvr perform: selector with: self asFloat ]
-		ifFalse: [ (rcvr asLargeFloatPrecision: 53) perform: selector with: self ]! !
+		ifFalse: [ (rcvr asFloat: 53) perform: selector with: self ]! !
 
 !LargeFloat methodsFor: 'converting' stamp: 'nice 4/29/2006 01:18'!
 adaptToFraction: rcvr andCompare: selector 
@@ -270,7 +270,7 @@ adaptToFraction: rcvr andCompare: selector
 
 !LargeFloat methodsFor: 'converting' stamp: 'nice 4/29/2006 00:09'!
 adaptToFraction: rcvr andSend: selector
-	^(rcvr asLargeFloatPrecision: precision) perform: selector with: self! !
+	^(rcvr asFloat: precision) perform: selector with: self! !
 
 !LargeFloat methodsFor: 'converting' stamp: 'nice 4/29/2006 01:19'!
 adaptToInteger: rcvr andCompare: selector 
@@ -281,7 +281,7 @@ adaptToInteger: rcvr andCompare: selector
 
 !LargeFloat methodsFor: 'converting' stamp: 'nice 4/29/2006 00:09'!
 adaptToInteger: rcvr andSend: selector
-	^(rcvr asLargeFloatPrecision: precision) perform: selector with: self! !
+	^(rcvr asFloat: precision) perform: selector with: self! !
 
 !LargeFloat methodsFor: 'mathematical functions' stamp: 'nice 2/10/2007 00:57'!
 agm: aNumber 
@@ -304,7 +304,7 @@ arCosh
 	"Evaluate the area hyperbolic cosine of the receiver."
 
 	| arCosh x one y two |
-	x _ self asLargeFloatPrecision: 16 + precision.
+	x _ self asFloat: 16 + precision.
 	one _ x one.
 	x < one ifTrue: [DomainError signal: 'cannot compute arCosh of a number less than 1'].
 	x = one ifTrue: [^self zero].
@@ -317,7 +317,7 @@ arCosh
 					[two _ one timesTwoPower: 1.
 					arCosh _ ((y * (y + two)) sqrt + y + one) ln]]
 		ifFalse: [arCosh _ ((x squared - one) sqrt + x) ln].
-	^arCosh asLargeFloatPrecision: precision! !
+	^arCosh asFloat: precision! !
 
 !LargeFloat methodsFor: 'mathematical functions' stamp: 'nice 2/9/2015 01:53'!
 arSinh
@@ -326,7 +326,7 @@ arSinh
 	| arSinh x one |
 	self isZero ifTrue: [^self].
 	self exponent negated > precision ifTrue: [^self].
-	x _ self asLargeFloatPrecision: 16 + precision.
+	x _ self asFloat: 16 + precision.
 	x inPlaceAbs.
 	self exponent * -4 >= precision
 		ifTrue: [arSinh _ x powerExpansionArSinhPrecision: x precision]
@@ -334,7 +334,7 @@ arSinh
 			[one _ x one.
 			arSinh _ ((x squared + one) sqrt + x) ln].
 	self negative ifTrue: [arSinh inPlaceNegated].
-	^arSinh asLargeFloatPrecision: precision! !
+	^arSinh asFloat: precision! !
 
 !LargeFloat methodsFor: 'mathematical functions' stamp: 'nice 2/9/2015 00:24'!
 arTanh
@@ -342,7 +342,7 @@ arTanh
 
 	| arTanh x one |
 	self isZero ifTrue: [^self].
-	x _ self asLargeFloatPrecision: 16 + precision.
+	x _ self asFloat: 16 + precision.
 	x inPlaceAbs.
 	one _ x one.
 	x >= one ifTrue: [DomainError signal: 'cannot evaluate arTanh of number of magnitude >= 1'].
@@ -352,7 +352,7 @@ arTanh
 			[arTanh _ ((one + x) / (one - x)) ln.
 			arTanh inPlaceTimesTwoPower: -1].
 	self negative ifTrue: [arTanh inPlaceNegated].
-	^arTanh asLargeFloatPrecision: precision! !
+	^arTanh asFloat: precision! !
 
 !LargeFloat methodsFor: 'mathematical functions' stamp: 'nice 2/8/2015 20:57'!
 arcCos
@@ -360,7 +360,7 @@ arcCos
 
 	| arcCos x one |
 	self isZero ifTrue: [^(self pi timesTwoPower: -1)].
-	x _ self asLargeFloatPrecision: 16 + precision.
+	x _ self asFloat: 16 + precision.
 	x inPlaceAbs.
 	one _ x one.
 	x > one ifTrue: [DomainError signal: 'cannot compute arcCos of a number greater than 1'].
@@ -368,7 +368,7 @@ arcCos
 		ifTrue: [self zero]
 		ifFalse: [((one - x squared) sqrt / x) arcTan].
 	self negative ifTrue: [arcCos _ x pi - arcCos].
-	^arcCos asLargeFloatPrecision: precision! !
+	^arcCos asFloat: precision! !
 
 !LargeFloat methodsFor: 'mathematical functions' stamp: 'nice 2/9/2015 01:57'!
 arcSin
@@ -376,7 +376,7 @@ arcSin
 
 	| arcSin x one |
 	self isZero ifTrue: [^self].
-	x _ self asLargeFloatPrecision: 16 + precision.
+	x _ self asFloat: 16 + precision.
 	x inPlaceAbs.
 	one _ x one.
 	x > one ifTrue: [DomainError signal: 'cannot compute arcSin of a number greater than 1'].
@@ -386,7 +386,7 @@ arcSin
 			ifTrue: [x powerExpansionArcSinPrecision: x precision]
 			ifFalse: [(x / (one - x squared) sqrt) arcTan]].
 	self negative ifTrue: [arcSin inPlaceNegated].
-	^arcSin asLargeFloatPrecision: precision! !
+	^arcSin asFloat: precision! !
 
 !LargeFloat methodsFor: 'mathematical functions' stamp: 'nice 2/8/2015 23:25'!
 arcTan
@@ -396,19 +396,19 @@ arcTan
 	self isZero ifTrue: [^self].
 	self > 1
 		ifTrue:
-			[x _ self asLargeFloatPrecision: precision * 2 + 2.
+			[x _ self asFloat: precision * 2 + 2.
 			x inPlaceAbs.
 			arcTan _ (x pi timesTwoPower: -1) - x reciprocal arcTan]
 		ifFalse:
 			[power _ ((precision bitShift: -1) + self exponent max: 4) highBit.
-			x _ self asLargeFloatPrecision: precision + (1 bitShift: 1 + power).
+			x _ self asFloat: precision + (1 bitShift: 1 + power).
 			x inPlaceAbs.
 			one _ x one.
 			power timesRepeat: [x _ x / (one + (one + x squared) sqrt)].
 			arcTan _ x powerExpansionArcTanPrecision: x precision + 6.
 			arcTan inPlaceTimesTwoPower: power].
 	self negative ifTrue: [arcTan inPlaceNegated].
-	^arcTan asLargeFloatPrecision: precision! !
+	^arcTan asFloat: precision! !
 
 !LargeFloat methodsFor: 'mathematical functions' stamp: 'nice 11/12/2010 22:21'!
 arcTan: denominator
@@ -427,12 +427,12 @@ arcTan: denominator
 			ifFalse:
 				[ | precision arcTan |
 				precision _ (self + denominator) precision.
-				arcTan _ ((self asLargeFloatPrecision: precision * 2) / (denominator asLargeFloatPrecision: precision * 2)) arcTan.
+				arcTan _ ((self asFloat: precision * 2) / (denominator asFloat: precision * 2)) arcTan.
 				^(denominator > 0
 					ifTrue: [ arcTan ]
 					ifFalse: [ self > 0
 						ifTrue: [ arcTan + arcTan pi ]
-						ifFalse: [ arcTan - arcTan pi ]]) asLargeFloatPrecision: precision]]! !
+						ifFalse: [ arcTan - arcTan pi ]]) asFloat: precision]]! !
 
 !LargeFloat methodsFor: 'converting' stamp: 'nice 3/19/2014 01:09'!
 asFloat
@@ -446,7 +446,7 @@ asFraction
 	^self asTrueFraction! !
 
 !LargeFloat methodsFor: 'converting' stamp: 'nice 4/28/2006 23:19'!
-asLargeFloatPrecision: n 
+asFloat: n 
 	^ precision = n
 		ifTrue: [self]
 		ifFalse: [self copy setPrecisionTo: n]! !
@@ -572,7 +572,7 @@ cos
 			x _ self sin: x]
 		ifFalse: [x := self cos: x].
 	neg ifTrue: [x inPlaceNegated].
-	^x asLargeFloatPrecision: precision! !
+	^x asFloat: precision! !
 
 !LargeFloat methodsFor: 'private' stamp: 'len 12/4/2016 20:39:49'!
 cos: x
@@ -595,14 +595,14 @@ cosh
 	| e x |
 	self isZero ifTrue: [^self one].
 	self exponent negated > precision ifTrue: [^self one].
-	x _ self asLargeFloatPrecision: precision + 16.
+	x _ self asFloat: precision + 16.
 	self exponent * -4 >= precision
-		ifTrue: [^(x powerExpansionCoshPrecision: x precision) asLargeFloatPrecision: precision].
+		ifTrue: [^(x powerExpansionCoshPrecision: x precision) asFloat: precision].
 	e _ x exp.
 	^e
 		inPlaceAdd: e reciprocal;
 		inPlaceTimesTwoPower: -1;
-		asLargeFloatPrecision: precision! !
+		asFloat: precision! !
 
 !LargeFloat methodsFor: 'accessing' stamp: 'SergeStinckwich 6/28/2015 21:30'!
 decimalPrecision
@@ -644,7 +644,7 @@ exp
 	we compute (r/(2**p)) exp ** (2**p) in order to have faster convergence"
 	p _ 10 min: precision // 2.
 	r _ r timesTwoPower: p negated.
-	ri _ one asLargeFloatPrecision: precision + 16.
+	ri _ one asFloat: precision + 16.
 	res _ ri copy.
 	n _ 0.
 	maxIter _ 1 + ((precision + 16) / p) ceiling.
@@ -659,13 +659,13 @@ exp
 	res = res * (self - res ln + 1)"
 	[| oldres delta |
 	oldres _ res.
-	res _ res asLargeFloatPrecision: res precision + 32.
+	res _ res asFloat: res precision + 32.
 	res inPlaceMultiplyBy: self - res ln + 1.
 	delta _ (res - oldres) exponent.
 	delta = 0 or: [delta <= (res exponent - precision - 8)]] 
 			whileFalse.
 	
-	^res asLargeFloatPrecision: precision! !
+	^res asFloat: precision! !
 
 !LargeFloat methodsFor: 'accessing' stamp: 'nice 2/7/2007 22:24'!
 exponent
@@ -763,8 +763,8 @@ inPlaceDivideBy: y
 	"ALGO 4
 	| zh r zl |
 	zh _ b reciprocal.
-	r _ b negated inPlaceMultiplyBy: zh andAccumulate: (1 asLargeFloatPrecision: precision).
-	zl _ (b asLargeFloatPrecision: precision + 1) reciprocal inPlaceMultiplyBy: r.
+	r _ b negated inPlaceMultiplyBy: zh andAccumulate: (1 asFloat: precision).
+	zl _ (b asFloat: precision + 1) reciprocal inPlaceMultiplyBy: r.
 	self inPlaceMultiplyBy: zh andAccumulate: (zl inPlaceMultiplyBy: self)"! !
 
 !LargeFloat methodsFor: 'private' stamp: 'nice 2/7/2007 22:44'!
@@ -926,18 +926,18 @@ ln
 		ifFalse:
 			[p _ prec - e.
 			prec _ prec + p highBit].
-	selfHighRes _ self asLargeFloatPrecision: prec.
-	(selfHighRes - one) exponent * -4 >= precision ifTrue: [^(selfHighRes powerExpansionLnPrecision: prec) asLargeFloatPrecision: precision].
+	selfHighRes _ self asFloat: prec.
+	(selfHighRes - one) exponent * -4 >= precision ifTrue: [^(selfHighRes powerExpansionLnPrecision: prec) asFloat: precision].
 	self < one ifTrue: [selfHighRes inPlaceReciprocal].	"Use ln(1/x) => - ln(x)"
-	x4 _ (4 asLargeFloatPrecision: prec) 
+	x4 _ (4 asFloat: prec) 
 				inPlaceDivideBy: selfHighRes;
 				inPlaceTimesTwoPower: p negated.
 	res _ selfHighRes pi / (one agm: x4) timesTwoPower: -1.
 	res _ selfHighRes = two 
 		ifTrue: [res / (p + 1)]
-		ifFalse: [p = 0 ifTrue: [res] ifFalse: [res - ((two asLargeFloatPrecision: prec) ln * p)]].
+		ifFalse: [p = 0 ifTrue: [res] ifFalse: [res - ((two asFloat: prec) ln * p)]].
 	self < one ifTrue: [res inPlaceNegated].
-	^res asLargeFloatPrecision: precision! !
+	^res asFloat: precision! !
 
 !LargeFloat methodsFor: 'accessing' stamp: 'nice 4/28/2006 22:38'!
 mantissa
@@ -955,20 +955,20 @@ moduloNegPiToPi
 	"answer a copy of the receiver modulo 2*pi, with doubled precision"
 
 	| x pi twoPi quo |
-	x _ (self asLargeFloatPrecision: precision * 2).
+	x _ (self asFloat: precision * 2).
 	self negative ifTrue: [x inPlaceNegated].
 	pi _ x pi.
 	twoPi _ pi timesTwoPower: 1.
 	x > pi ifTrue:
 		[quo _ x + pi quo: twoPi.
 		quo highBitOfMagnitude > precision ifTrue:
-			[x _ (self abs asLargeFloatPrecision: precision + quo highBitOfMagnitude).
+			[x _ (self abs asFloat: precision + quo highBitOfMagnitude).
 			pi _ x pi.
 			twoPi _ pi timesTwoPower: 1.
 			quo _ x + pi quo: twoPi].
 		x inPlaceSubtract: twoPi * quo.
 		self negative ifTrue: [x inPlaceNegated]].
-	^x asLargeFloatPrecision: precision * 2! !
+	^x asFloat: precision * 2! !
 
 !LargeFloat methodsFor: 'arithmetic' stamp: 'nice 2/7/2015 00:40'!
 naiveRaisedToInteger: n
@@ -977,7 +977,7 @@ naiveRaisedToInteger: n
 	| m e |
 	m _ mantissa raisedToInteger: n. 
 	e _ biasedExponent * n.
-	^(m asLargeFloatPrecision: precision) timesTwoPower: e
+	^(m asFloat: precision) timesTwoPower: e
 	! !
 
 !LargeFloat methodsFor: 'arithmetic' stamp: 'nice 4/29/2006 02:26'!
@@ -1043,7 +1043,7 @@ pi
 	Note: use the Brent-Salamin Arithmetic Geometric Mean algorithm"
 
 	| a b c k pi oldpi oldExpo expo |
-	a _ self one asLargeFloatPrecision: precision + 16.
+	a _ self one asFloat: precision + 16.
 	b _ (a timesTwoPower: 1) sqrt reciprocal.
 	c _ a timesTwoPower: -1.
 	k _ 1.
@@ -1064,7 +1064,7 @@ pi
 				[oldpi _ pi.
 				oldExpo _ expo.
 				k _ k + 1].
-	^pi asLargeFloatPrecision: precision! !
+	^pi asFloat: precision! !
 
 !LargeFloat methodsFor: 'arithmetic' stamp: 'len 12/4/2016 21:54:12'!
 piDoublePrecision
@@ -1405,7 +1405,7 @@ raisedToInteger: anInteger
 	(n < 5 or: [n * precision < 512])
 		ifTrue: [^ self naiveRaisedToInteger: anInteger].
 	bitProbe _ 1 bitShift: n highBit - 1.
-	highPrecisionSelf _ self asLargeFloatPrecision: n highBit * 2 + precision + 2.
+	highPrecisionSelf _ self asFloat: n highBit * 2 + precision + 2.
 	result _ highPrecisionSelf one.
 	
 	[(n bitAnd: bitProbe) = 0 ifFalse: [result _ result * highPrecisionSelf].
@@ -1415,7 +1415,7 @@ raisedToInteger: anInteger
 	^ (anInteger negative
 		ifTrue: [result reciprocal]
 		ifFalse: [result])
-		asLargeFloatPrecision: precision! !
+		asFloat: precision! !
 
 !LargeFloat methodsFor: 'arithmetic' stamp: 'nice 4/29/2006 00:46'!
 reciprocal
@@ -1500,7 +1500,7 @@ sin
 			x _ self cos: x]
 		ifFalse: [x := self sin: x].
 	neg ifTrue: [x inPlaceNegated].
-	^x asLargeFloatPrecision: precision! !
+	^x asFloat: precision! !
 
 !LargeFloat methodsFor: 'private' stamp: 'len 12/4/2016 20:40:40'!
 sin: x
@@ -1508,7 +1508,7 @@ sin: x
 	
 	| sin sin2 sin4 fifth five |
 	x isZero ifTrue: [^x zero].
-	five _ 5 asLargeFloatPrecision: x precision.
+	five _ 5 asFloat: x precision.
 	fifth _ x / five.
 	sin _ fifth powerExpansionSinPrecision: precision + 8.
 	sin2 _ sin squared.
@@ -1541,7 +1541,7 @@ sincos
 			[sincos _ self sincos: x].
 	sinneg ifTrue: [sincos first inPlaceNegated].
 	cosneg ifTrue: [sincos last inPlaceNegated].
-	^sincos collect: [:e| e asLargeFloatPrecision: precision]! !
+	^sincos collect: [:e| e asFloat: precision]! !
 
 !LargeFloat methodsFor: 'private' stamp: 'len 12/4/2016 20:41:38'!
 sincos: x
@@ -1568,14 +1568,14 @@ sinh
 	| e x |
 	self isZero ifTrue: [^self].
 	self exponent negated > precision ifTrue: [^self].
-	x _ self asLargeFloatPrecision: precision + 16.
+	x _ self asFloat: precision + 16.
 	self exponent * -4 >= precision
-		ifTrue: [^(x powerExpansionSinhPrecision: x precision) asLargeFloatPrecision: precision].
+		ifTrue: [^(x powerExpansionSinhPrecision: x precision) asFloat: precision].
 	e _ x exp.
 	^e
 		inPlaceSubtract: e reciprocal;
 		inPlaceTimesTwoPower: -1;
-		asLargeFloatPrecision: precision! !
+		asFloat: precision! !
 
 !LargeFloat methodsFor: 'mathematical functions' stamp: 'nice 4/22/2011 02:29'!
 sqrt
@@ -1589,7 +1589,7 @@ sqrt
 
 	"use additional bits"
 	decimalPlaces _ precision + 16.
-	n _ self asLargeFloatPrecision: decimalPlaces.
+	n _ self asFloat: decimalPlaces.
 	
 	"constants"
 	one _ n one.
@@ -1627,7 +1627,7 @@ sqrt
 	"multiply by n and un-normalize"
 	guess inPlaceMultiplyBy: n.
 	guess inPlaceTimesTwoPower: norm.
-	^guess asLargeFloatPrecision: precision! !
+	^guess asFloat: precision! !
 
 !LargeFloat methodsFor: 'arithmetic' stamp: 'nice 11/1/2010 19:52'!
 squared
@@ -1677,16 +1677,16 @@ tan
 			sincos first inPlaceDivideBy: sincos last.
 			tan := sincos first].
 	neg ifTrue: [tan inPlaceNegated].
-	^tan asLargeFloatPrecision: precision! !
+	^tan asFloat: precision! !
 
 !LargeFloat methodsFor: 'mathematical functions' stamp: 'nice 2/9/2015 04:20'!
 tanh
 	| e x ep one |
 	self isZero ifTrue: [^self].
 	self exponent negated > precision ifTrue: [^self].
-	x _ self asLargeFloatPrecision: precision + 16.
+	x _ self asFloat: precision + 16.
 	self exponent * -4 >= precision
-		ifTrue: [^(x powerExpansionTanhPrecision: x precision) asLargeFloatPrecision: precision].
+		ifTrue: [^(x powerExpansionTanhPrecision: x precision) asFloat: precision].
 	e _ x exp.
 	one :=x one.
 	e inPlaceMultiplyBy: e.
@@ -1694,7 +1694,7 @@ tanh
 	^e
 		inPlaceSubtract: one;
 		inPlaceDivideBy: ep;
-		asLargeFloatPrecision: precision! !
+		asFloat: precision! !
 
 !LargeFloat methodsFor: 'arithmetic' stamp: 'nice 4/29/2006 02:43'!
 timesTwoPower: n 

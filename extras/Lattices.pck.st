@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 4 June 2023 at 2:37:21 pm'!
+'From Cuis 6.0 [latest update: #5898] on 23 November 2023 at 10:27:19 am'!
 'Description '!
-!provides: 'Lattices' 1 13!
+!provides: 'Lattices' 1 14!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Lattices!
 
@@ -338,14 +338,14 @@ basis: aCollection innerProduct: aBilinearForm
 species
 	^ Lattice! !
 
-!Lattice class methodsFor: 'examples' stamp: 'len 5/31/2020 20:34:03'!
+!Lattice class methodsFor: 'examples' stamp: 'len 11/22/2023 20:55:18'!
 A: n
-	"Answer the lattice A_n = {(x0,...,xn) in Z^{n+1} : x0 + ... + xn = 0}."
+	"Answer the lattice Aₙ = {(x₀,..,xₙ) in Z^(n+1) : x₀ + ... + xₙ = 0}."
 	| V t B |
-	V _ ℚ^(n+1).
-	t _ (V x: 2) - (V x: 1).
-	B _ OrderedCollection new.
-	n timesRepeat: [B add: t. t _ t >> 1].
+	V := ℚ^(n+1).
+	t := (V x: 2) - (V x: 1).
+	B := OrderedCollection new.
+	n timesRepeat: [B add: t. t := t >> 1].
 	^ self basis: B! !
 
 !Lattice class methodsFor: 'examples' stamp: 'len 11/23/2022 21:26:24'!
@@ -365,16 +365,16 @@ D4
 	V _ ℚ^4.
 	^ self basis: {V !! (1,0,0,0). V !! (0,1,0,0). V !! (0,0,1,0). V !! (1,1,1,1) / 2}! !
 
-!Lattice class methodsFor: 'examples' stamp: 'len 5/31/2020 20:35:11'!
+!Lattice class methodsFor: 'examples' stamp: 'len 11/22/2023 20:54:40'!
 D: n
-	"Answer the checkboard lattice D_n = {(x1,...,xn) in Z^n : x0 + ... + xn is even}."
+	"Answer the checkboard lattice Dₙ = {(x₁,..,xₙ) in Z^n : x₁ + ... + xₙ is even}."
 	| V t0 t B |
-	V _ ℚ^n.
-	B _ OrderedCollection new.
-	t0 _ ((V x: 1) + (V x: 2)) negated.
+	V := ℚ^n.
+	B := OrderedCollection new.
+	t0 := ((V x: 1) + (V x: 2)) negated.
 	B add: t0.
-	t _ (V x: 1) - (V x: 2).
-	n-1 timesRepeat: [B add: t. t _ t >> 1].
+	t := (V x: 1) - (V x: 2).
+	n-1 timesRepeat: [B add: t. t := t >> 1].
 	^ self basis: B! !
 
 !Lattice class methodsFor: 'examples' stamp: 'len 11/23/2022 21:26:30'!

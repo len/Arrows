@@ -1,17 +1,17 @@
-'From Cuis 6.0 [latest update: #5878] on 26 June 2023 at 2:06:45 pm'!
+'From Cuis 6.0 [latest update: #5898] on 23 November 2023 at 10:27:11 am'!
 'Description '!
-!provides: 'Codes' 1 11!
+!provides: 'Codes' 1 12!
 !requires: 'Algebra' 1 0 nil!
-SystemOrganization addCategory: 'Codes'!
+SystemOrganization addCategory: #Codes!
 
 
-!classDefinition: #LinearCode category: 'Codes'!
+!classDefinition: #LinearCode category: #Codes!
 Structure subclass: #LinearCode
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Codes'!
-!classDefinition: 'LinearCode class' category: 'Codes'!
+!classDefinition: 'LinearCode class' category: #Codes!
 LinearCode class
 	instanceVariableNames: ''!
 
@@ -401,10 +401,10 @@ H8
 			(0,0,1,0, 1,1,0,1) % 2.
 			(0,0,0,1, 1,1,1,0) % 2})! !
 
-!LinearCode class methodsFor: 'examples' stamp: 'len 6/26/2023 12:59:51'!
+!LinearCode class methodsFor: 'examples' stamp: 'len 11/22/2023 20:52:01'!
 RM: parameters
 	"Answer the Reed-Muller code RM(r, m).
-	First we build the 2^m Sierpinski matrix by taking the m-fold Kronecher product of the 2x2 matrix
+	First we build the 2^m Sierpinski matrix by taking the m-fold Kronecher product of the 2×2 matrix
 		[1 0]
 		[1 1]
 	over ℤ/2ℤ. Then we construct the RM(r,m) code as the span of the rows with Hamming weight >= 2^(m-r)."

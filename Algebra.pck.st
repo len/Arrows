@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5898] on 22 November 2023 at 4:31:29 pm'!
+'From Cuis 6.0 [latest update: #5898] on 23 November 2023 at 10:27:02 am'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, schemes, and coherent sheaves.
 
 References:
@@ -87,7 +87,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 155!
+!provides: 'Algebra' 1 156!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -492,14 +492,14 @@ LinearGroup subclass: #SpecialScalarGroup
 SpecialScalarGroup class
 	instanceVariableNames: ''!
 
-!classDefinition: #UnitsGroup category: #'Algebra-Rings'!
-Group subclass: #UnitsGroup
+!classDefinition: #UnitGroup category: #'Algebra-Rings'!
+Group subclass: #UnitGroup
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Rings'!
-!classDefinition: 'UnitsGroup class' category: #'Algebra-Rings'!
-UnitsGroup class
+!classDefinition: 'UnitGroup class' category: #'Algebra-Rings'!
+UnitGroup class
 	instanceVariableNames: ''!
 
 !classDefinition: #DivisorGroup category: #'Algebra-Schemes'!
@@ -2593,7 +2593,7 @@ This is the group of scalar linear maps of a free R-module over a commutative ri
 !SpecialLinearGroup commentStamp: 'len 9/27/2018 21:48:40' prior: 0!
 SL(V), the Special Linear Group of automorphisms with determinant 1.!
 
-!UnitsGroup commentStamp: '<historical>' prior: 0!
+!UnitGroup commentStamp: '<historical>' prior: 0!
 Given a ring R, the group of units of R is the set of elements of R that have multiplicative inverse, and they form a group under multiplication. For a field F (or more generally a division ring), the units are all the nonzero elements F \ {0}.
 
 Categorically, this construction is a functor from the cateogory of rings to the category of groups. This functor has a left adjoint which is the integral group ring construction (see GroupAlgebra).!
@@ -2728,8 +2728,8 @@ The field of complex algebraic numbers, i.e. the complex roots of polynomials wi
 !RealAlgebraicField commentStamp: '<historical>' prior: 0!
 The field of real algebraic numbers, i.e. the real roots of polynomials with rational coefficients.!
 
-!AbelianClosureField commentStamp: 'len 11/22/2023 10:25:24' prior: 0!
-Elements of the abelian closure of ℚ, constructed as the union of all cyclotomic fields ℚ(ζₙ). This is the maximal abelian extension of ℚ and it includes all n-th roots of unity.!
+!AbelianClosureField commentStamp: '<historical>' prior: 0!
+Abelian closure of ℚ, constructed as the union of all cyclotomic fields ℚ(ζₙ). This is the maximal abelian extension of ℚ and it includes all n-th roots of unity.!
 
 !PolynomialRing commentStamp: '<historical>' prior: 0!
 Polynomial ring R[x₁,..,xₙ] in one or many indeterminates over a commutative ring R. These are the finitely generated free commutative (associative) R-algebras.
@@ -6298,23 +6298,25 @@ inclusion
 	"Answer the inclusion of the receiver into its ambient."
 	^ self propertyAt: #inclusion ifAbsentPut: [(self into: self ambient map: [:x| x]) name: 'ι']! !
 
-!Structure methodsFor: 'morphisms' stamp: 'len 9/16/2022 06:56:24'!
+!Structure methodsFor: 'morphisms' stamp: 'len 11/22/2023 20:46:20'!
 into: aCodomain images: aList
-	^ self to: aCodomain images: aList! !
+	"Answer an embedding (an injective morphism) into the specified codomain mapping each generator to the corresponding element in aList."
+	^ (self to: aCodomain images: aList) propertyAt: #arrowCharacter put: $↪; yourself! !
 
-!Structure methodsFor: 'morphisms' stamp: 'len 9/16/2022 06:57:53'!
+!Structure methodsFor: 'morphisms' stamp: 'len 11/22/2023 20:46:51'!
 into: aCodomain map: aBlock
-	"Answer an embedding (an injective morphism) into the specified codomain evaluating as the given block."
-	^ self to: aCodomain map: aBlock! !
+	"Answer an embedding (an injective morphism) onto the specified codomain evaluating as the given block."
+	^ (self to: aCodomain map: aBlock) propertyAt: #arrowCharacter put: $↪; yourself! !
 
-!Structure methodsFor: 'morphisms' stamp: 'len 9/16/2022 06:56:05'!
+!Structure methodsFor: 'morphisms' stamp: 'len 11/22/2023 20:45:52'!
 onto: aCodomain images: aList
-	^ self to: aCodomain images: aList! !
+	"Answer a projection (a surjective morphism) onto the specified codomain mapping each generator to the corresponding element in aList."
+	^ (self to: aCodomain images: aList) propertyAt: #arrowCharacter put: $↠; yourself! !
 
-!Structure methodsFor: 'morphisms' stamp: 'len 9/16/2022 06:58:26'!
+!Structure methodsFor: 'morphisms' stamp: 'len 11/22/2023 20:44:03'!
 onto: aCodomain map: aBlock
 	"Answer a projection (a surjective morphism) onto the specified codomain evaluating as the given block."
-	^ self to: aCodomain map: aBlock! !
+	^ (self to: aCodomain map: aBlock) propertyAt: #arrowCharacter put: $↠; yourself! !
 
 !Structure methodsFor: 'morphisms' stamp: 'len 6/28/2023 17:09:30'!
 to: aCodomain
@@ -9445,66 +9447,66 @@ contains: aMatrix
 isCommutative
 	^ self scalars isCommutative! !
 
-!UnitsGroup methodsFor: 'accessing' stamp: 'len 9/16/2022 08:16:03'!
+!UnitGroup methodsFor: 'accessing' stamp: 'len 9/16/2022 08:16:03'!
 action
 	"Answer the natural action that sends (u, x) to x*u, i.e. multiplies ring elements by units."
 	^ GroupAction from: (self, self space) to: self space mapWithArguments: [:u :x| x*u]! !
 
-!UnitsGroup methodsFor: 'accessing' stamp: 'len 5/30/2022 09:26:54'!
+!UnitGroup methodsFor: 'accessing' stamp: 'len 5/30/2022 09:26:54'!
 size
 	^ self space unitsSize! !
 
-!UnitsGroup methodsFor: 'accessing' stamp: 'len 5/6/2019 02:38:35'!
+!UnitGroup methodsFor: 'accessing' stamp: 'len 5/6/2019 02:38:35'!
 space
 	^ self propertyAt: #space! !
 
-!UnitsGroup methodsFor: 'elements' stamp: 'len 11/17/2023 16:22:28'!
+!UnitGroup methodsFor: 'elements' stamp: 'len 11/17/2023 16:22:28'!
 adapt: anElement
 	(self space adapt: anElement) ifNotNil: [:anotherElement|
 		self assert: anotherElement isUnit.
 		^ anotherElement].
 	^ super adapt: anElement! !
 
-!UnitsGroup methodsFor: 'elements' stamp: 'len 6/19/2022 12:29:30'!
+!UnitGroup methodsFor: 'elements' stamp: 'len 6/19/2022 12:29:30'!
 identity
 	"Answer the identity element of the receiver."
 	^ self space one! !
 
-!UnitsGroup methodsFor: 'enumerating' stamp: 'len 5/6/2019 02:41:07'!
+!UnitGroup methodsFor: 'enumerating' stamp: 'len 5/6/2019 02:41:07'!
 do: aBlock
 	self space unitsDo: aBlock! !
 
-!UnitsGroup methodsFor: 'printing' stamp: 'len 5/23/2020 07:19:34'!
+!UnitGroup methodsFor: 'printing' stamp: 'len 5/23/2020 07:19:34'!
 printOn: aStream
 	aStream print: self space; nextPutAll: '×' super ! !
 
-!UnitsGroup methodsFor: 'random' stamp: 'len 5/23/2022 13:36:10'!
+!UnitGroup methodsFor: 'random' stamp: 'len 5/23/2022 13:36:10'!
 atRandom: aRandom
 	^ self space unitAtRandom: aRandom! !
 
-!UnitsGroup methodsFor: 'random' stamp: 'len 5/23/2022 13:36:21'!
+!UnitGroup methodsFor: 'random' stamp: 'len 5/23/2022 13:36:21'!
 atRandom: aRandom bits: bitSize
 	^ self space unitAtRandom: aRandom bits: bitSize! !
 
-!UnitsGroup methodsFor: 'testing' stamp: 'len 5/4/2020 10:09:03'!
+!UnitGroup methodsFor: 'testing' stamp: 'len 5/4/2020 10:09:03'!
 contains: anElement
 	^ anElement isUnit! !
 
-!UnitsGroup methodsFor: 'testing' stamp: 'len 5/4/2020 10:09:22'!
+!UnitGroup methodsFor: 'testing' stamp: 'len 5/4/2020 10:09:22'!
 includes: anElement
 	^ (self space includes: anElement) and: [anElement isUnit]! !
 
-!UnitsGroup methodsFor: 'private' stamp: 'len 11/16/2023 21:53:48'!
+!UnitGroup methodsFor: 'private' stamp: 'len 11/16/2023 21:53:48'!
 computeGenerators
 	(self space isFiniteField or: [(self space isKindOf: ModularIntegerRing) and: [self space hasPrimitiveRoot]])
 		 ifTrue: [^ {self space primitiveRoot}].
 	^ super computeGenerators! !
 
-!UnitsGroup methodsFor: 'private' stamp: 'len 5/6/2019 02:38:58'!
+!UnitGroup methodsFor: 'private' stamp: 'len 5/6/2019 02:38:58'!
 space: aRing
 	self propertyAt: #space put: aRing! !
 
-!UnitsGroup class methodsFor: 'instance creation' stamp: 'len 5/6/2019 02:39:49'!
+!UnitGroup class methodsFor: 'instance creation' stamp: 'len 5/6/2019 02:39:49'!
 on: aRing
 	^ self new space: aRing! !
 
@@ -10373,11 +10375,11 @@ sub: aCollection
 		ifTrue: [^ FiniteAlgebra new ambient: self; module: aCollection].
 	^ FiniteAlgebra new ambient: self; module: (self asModule sub: aCollection)! !
 
-!Ring methodsFor: 'operations' stamp: 'len 5/30/2022 09:02:57'!
+!Ring methodsFor: 'operations' stamp: 'len 11/22/2023 21:07:39'!
 units
 	"Answer the multiplicative group of units of the receiver (i.e., elements that have multiplicative inverse).
 	This is the natural functor from the cateogry of rings to the category of groups which sends each ring R to its group of units U(R) and each ring homomorphism to the restriction to U(R). This functor has a left adjoint which sends each group G to the integral group ring Z[G]."
-	^ UnitsGroup on: self! !
+	^ UnitGroup on: self! !
 
 !Ring methodsFor: 'operations' stamp: 'len 11/22/2023 11:11:20'!
 zeroDivisors
@@ -13527,9 +13529,8 @@ zeros: anInteger
 do: aBlock
 	^ self asModule do: [:each| aBlock value: self !! each]! !
 
-!ExtensionRing methodsFor: 'morphisms' stamp: 'len 10/26/2023 13:47:29'!
+!ExtensionRing methodsFor: 'morphisms' stamp: 'len 11/22/2023 20:16:19'!
 automorphisms
-	"Answer the Galois group of the receiver (assuming the receiver is a Galois extension)."
 	self flag: #deprecated.
 	self notYetImplemented.
 	self flag: #fixme. "This is actually isomorphic to the Galois group, not the actual Galois group, it should act on elements of the extension and it's not the full symmetric group."
@@ -13572,9 +13573,19 @@ atRandom: aRandom
 atRandom: aRandom bits: bitSize
 	^ self coefficients: (self scalars new: self degree atRandom: aRandom bits: bitSize)! !
 
+!ExtensionRing methodsFor: 'testing' stamp: 'len 11/22/2023 20:30:55'!
+isAbelianExtension
+	"An abelian extension is a Galois extension with abelian Galois group."
+	^ self isGaloisExtension and: [self automorphisms isCommutative]! !
+
 !ExtensionRing methodsFor: 'testing' stamp: 'len 11/14/2023 14:13:07'!
 isAbsolute
 	^ self isRelative not! !
+
+!ExtensionRing methodsFor: 'testing' stamp: 'len 11/22/2023 20:30:37'!
+isCyclicExtension
+	"A cyclic extension is a Galois extension with cyclic Galois group."
+	^ self isGaloisExtension and: [self automorphisms isCyclic]! !
 
 !ExtensionRing methodsFor: 'testing' stamp: 'len 10/27/2023 10:38:37'!
 isField
@@ -13583,6 +13594,11 @@ isField
 !ExtensionRing methodsFor: 'testing' stamp: 'len 9/8/2023 17:42:07'!
 isFiniteAlgebra
 	^ true! !
+
+!ExtensionRing methodsFor: 'testing' stamp: 'len 11/22/2023 20:30:12'!
+isGaloisExtension
+	"A Galois extension is an algebraic field extension E/F that is normal and separable, or equivalently E/F is algebraic and the field fixed by the automorphism group Aut(E/F) is the base field F. The significance of being a Galois extension is that it has a Galois group and obeys the fundamental theorem of Galois theory."
+	^ false "undefined"! !
 
 !ExtensionRing methodsFor: 'testing' stamp: 'len 11/6/2023 09:57:42'!
 isGlobalField
@@ -13691,9 +13707,9 @@ idealsDo: aBlock
 		[aBlock value: self * a.
 		a := a * self base]! !
 
-!GaloisRing methodsFor: 'morphisms' stamp: 'len 7/13/2023 01:14:20'!
+!GaloisRing methodsFor: 'morphisms' stamp: 'len 11/22/2023 20:15:56'!
 automorphisms
-	"Answer the Galois group of the receiver, i.e. the group of endomorphisms fixing the scalar ring ℤ/pⁿℤ.
+	"Answer the Galois group of the receiver over  ℤ/pⁿℤ, i.e. the group of ℤ/pⁿℤ-algebra automorphisms.
 	This is the cyclic group generated by the generalized Frobenius automorphism."
 	^ Group new generators: {self generalizedFrobenius}! !
 
@@ -13768,6 +13784,10 @@ printOn: aStream
 hasCanonicalAssociates
 	^ true! !
 
+!GaloisRing methodsFor: 'testing' stamp: 'len 11/22/2023 20:11:16'!
+isAbelianExtension
+	^ true! !
+
 !GaloisRing methodsFor: 'testing' stamp: 'len 12/21/2022 13:27:47'!
 isBezout
 	"Answer true if the receiver is a Bézout ring, i.e. every finitely generated ideal is principal."
@@ -13778,6 +13798,10 @@ isBezout
 isChainRing
 	"A chain ring is a ring whose ideals form a chain under inclusion.
 	Galois rings are chain rings."
+	^ true! !
+
+!GaloisRing methodsFor: 'testing' stamp: 'len 11/22/2023 20:09:08'!
+isCyclicExtension
 	^ true! !
 
 !GaloisRing methodsFor: 'testing' stamp: 'len 6/3/2022 07:05:55'!
@@ -13943,9 +13967,9 @@ zeros: anInteger
 	(self characteristic = 2 and: [self degree < 8]) ifTrue: [^ BinaryExtensionArray slices: ((1 to: self degree) collect: [:i| self scalars zeros: anInteger]) scalars: self].
 	^ super zeros: anInteger! !
 
-!GaloisField methodsFor: 'morphisms' stamp: 'len 7/13/2023 01:15:23'!
+!GaloisField methodsFor: 'morphisms' stamp: 'len 11/22/2023 20:15:44'!
 automorphisms
-	"Answer the Galois group of the receiver, i.e. the group of endomorphisms fixing the scalar field ℤ/pℤ.
+	"Answer the Galois group of the receiver over 𝔽ₚ, i.e. the group of 𝔽ₚ-algebra automorphisms.
 	This is the cyclic group generated by the Frobenius automorphism."
 	^ Group new generators: {self frobenius}! !
 
@@ -13968,11 +13992,6 @@ algebraicClosure
 printOn: aStream
 	aStream nextPut: $𝔽; nextPutAll: (self characteristic printString, self degree printStringSuperscript) sub
 "	aStream nextPutAll: 'GF('; print: self characteristic; nextPutAll: self degree printString super; nextPut: $)"! !
-
-!GaloisField methodsFor: 'testing' stamp: 'len 12/14/2016 10:15:29'!
-isAbelianExtension
-	"Galois fields are Abelian extensions."
-	^ true! !
 
 !GaloisField methodsFor: 'testing' stamp: 'len 6/9/2019 09:35:56'!
 isField
@@ -14256,35 +14275,34 @@ elementClass
 extensionClass
 	^ NumberField! !
 
-!CyclotomicField methodsFor: 'accessing' stamp: 'len 7/12/2021 13:17:27'!
+!CyclotomicField methodsFor: 'accessing' stamp: 'len 11/23/2023 09:56:29'!
 classNumber
-	self order <= 22 ifTrue: [^ 1].
-	self order = 23 ifTrue: [^ 3].
-	self order <= 28 ifTrue: [^ 1].
+	self conductor <= 22 ifTrue: [^ 1].
+	self conductor = 23 ifTrue: [^ 3].
+	self conductor <= 28 ifTrue: [^ 1].
 	^ super classNumber! !
 
-!CyclotomicField methodsFor: 'accessing' stamp: 'len 6/3/2023 11:04:33'!
+!CyclotomicField methodsFor: 'accessing' stamp: 'len 11/23/2023 09:55:56'!
 conductor
-	"Answer the order of the smallest cyclotomic field containing the receiver."
-	^ self order! !
+	^ self propertyAt: #conductor! !
 
-!CyclotomicField methodsFor: 'accessing' stamp: 'len 8/5/2021 08:37:32'!
+!CyclotomicField methodsFor: 'accessing' stamp: 'len 11/23/2023 09:56:39'!
 discriminant
 	| n phi |
-	n _ self order.
-	phi _ n phi.
+	n := self conductor.
+	phi := n phi.
 	^ -1 ^ (phi / 2) * (n ^ phi) / (n factorization asSet product: [:p| p ^ (phi / (p - 1))])! !
 
-!CyclotomicField methodsFor: 'accessing' stamp: 'len 11/6/2023 07:22:19'!
+!CyclotomicField methodsFor: 'accessing' stamp: 'len 11/23/2023 10:03:22'!
 i
-	self order = 4 ifTrue: [^ self x].
-	^ self notYetImplemented! !
+	self assert: 4 | self conductor.
+	^ self x ^ (self conductor / 4)! !
 
-!CyclotomicField methodsFor: 'accessing' stamp: 'len 11/5/2023 21:23:25'!
+!CyclotomicField methodsFor: 'accessing' stamp: 'len 11/23/2023 09:57:25'!
 integers
 	"Answer the ring of integers of the receiver."
 	^ self propertyAt: #integers ifAbsentPut: [
-		(self order = 3 ifTrue: [EisensteinRing] ifFalse: [ self order = 4 ifTrue: [GaussianRing] ifFalse: [CyclotomicRing]]) on: self]! !
+		(self conductor = 3 ifTrue: [EisensteinRing] ifFalse: [self conductor = 4 ifTrue: [GaussianRing] ifFalse: [CyclotomicRing]]) on: self]! !
 
 !CyclotomicField methodsFor: 'accessing' stamp: 'len 7/10/2021 12:10:16'!
 integralBasis
@@ -14300,67 +14318,66 @@ maximalRealSubfield
 	answer addMap: ((answer into: self images: {α}) name: 'ι').
 	^ answer! !
 
-!CyclotomicField methodsFor: 'accessing' stamp: 'len 12/28/2016 12:13:09'!
-order
-	^ self propertyAt: #order! !
-
-!CyclotomicField methodsFor: 'accessing' stamp: 'len 11/16/2023 19:11:07'!
+!CyclotomicField methodsFor: 'accessing' stamp: 'len 11/23/2023 09:57:55'!
 quadraticSubfield
 	"If the receiver is the cyloctomic field ℚ(ζₚ) of prime order p, answer the unique quadratic subfield of the receiver."
 	^ self propertyAt: #quadraticSubfield ifAbsentPut:
 		[| p r d |
-		r := (p := self order) \\ 4.
+		r := (p := self conductor) \\ 4.
 		d := r = 1 ifTrue: [p] ifFalse: [r = 3 ifTrue: [p negated] ifFalse: [^ self error: 'not prime order']].
 		QuadraticField new: d]! !
 
-!CyclotomicField methodsFor: 'morphisms' stamp: 'len 6/4/2023 14:54:55'!
+!CyclotomicField methodsFor: 'morphisms' stamp: 'len 11/23/2023 09:56:13'!
 automorphisms
-	"Answer the Galois group of the receiver, i.e. the group of endomorphisms fixing the rationals."
+	"Answer the Galois group of the receiver over ℚ, i.e. the group of ℚ-algebra automorphisms."
 	^ self propertyAt: #automorphisms ifAbsentPut:
 		[| answer |
-		answer := (ℤ / self order) units.
+		answer := (ℤ / self conductor) units.
 		self endomorphisms 	addCoercionFrom: answer space map: [:a| self to: self images: {self x ^ a representative}].
 		answer]! !
 
-!CyclotomicField methodsFor: 'morphisms' stamp: 'len 11/21/2023 21:34:54'!
+!CyclotomicField methodsFor: 'morphisms' stamp: 'len 11/23/2023 09:58:15'!
 to: aCodomain
-	((aCodomain isKindOf: CyclotomicField) and: [self order | aCodomain order])
-		ifTrue: [^ (self into: aCodomain images: {aCodomain x ^ (aCodomain order / self order)}) name: 'ι'].
+	((aCodomain isKindOf: CyclotomicField) and: [self conductor | aCodomain conductor])
+		ifTrue: [^ self into: aCodomain images: {aCodomain x ^ (aCodomain conductor / self conductor)}].
 	aCodomain = ℂ ifTrue: [^ self into: aCodomain images: {self generatorAsComplex}].
 	^ super to: aCodomain! !
 
-!CyclotomicField methodsFor: 'operations' stamp: 'len 11/22/2023 10:46:38'!
+!CyclotomicField methodsFor: 'operations' stamp: 'len 11/23/2023 09:58:36'!
 ∧ aCyclotomicField
 	"Answer the intersection or meet of the receiver and the argument in the lattice of cyclotomic fields, i.e. the maximal cyclotomic subfield of both the receiver and the argument."
 	| n |
 	(self = aCyclotomicField or: [ℚ = aCyclotomicField]) ifTrue: [^ aCyclotomicField].
-	n := self order gcd: aCyclotomicField order.
-	n = self order ifTrue: [^ self].
-	n = aCyclotomicField order ifTrue: [^ aCyclotomicField].
+	n := self conductor gcd: aCyclotomicField conductor.
+	n = self conductor ifTrue: [^ self].
+	n = aCyclotomicField conductor ifTrue: [^ aCyclotomicField].
 	^ n > 2 ifTrue: [self class new: n] ifFalse: [ℚ]! !
 
-!CyclotomicField methodsFor: 'operations' stamp: 'len 11/22/2023 10:46:48'!
+!CyclotomicField methodsFor: 'operations' stamp: 'len 11/23/2023 09:58:52'!
 ∨ aCyclotomicField
 	"Answer the join of the receiver and the argument in the lattice of cyclotomic fields, i.e. the minimal cyclotomic field that includes both the receiver and the argument as subfields."
 	| n |
 	(self = aCyclotomicField or: [ℚ = aCyclotomicField]) ifTrue: [^ self].
-	n := self order lcm: aCyclotomicField order.
-	n = self order ifTrue: [^ self].
-	n = aCyclotomicField order ifTrue: [^ aCyclotomicField].
+	n := self conductor lcm: aCyclotomicField conductor.
+	n = self conductor ifTrue: [^ self].
+	n = aCyclotomicField conductor ifTrue: [^ aCyclotomicField].
 	^ self class new: n! !
 
-!CyclotomicField methodsFor: 'printing' stamp: 'len 11/17/2023 16:32:07'!
+!CyclotomicField methodsFor: 'printing' stamp: 'len 11/23/2023 09:57:11'!
 indeterminateName
 	| n |
-	^ (n := self order) = 3 ifTrue: ['ω'] ifFalse: [n = 4 ifTrue: ['i' italic] ifFalse: ['ζ', n printString sub]]! !
+	^ (n := self conductor) = 3 ifTrue: ['ω'] ifFalse: [n = 4 ifTrue: ['i' italic] ifFalse: ['ζ', n printString sub]]! !
 
 !CyclotomicField methodsFor: 'printing' stamp: 'len 5/6/2023 15:10:09'!
 printOn: aStream
 	aStream print: self scalars; nextPut: $(; print: self x; nextPut: $)! !
 
-!CyclotomicField methodsFor: 'testing' stamp: 'len 12/10/2016 20:13:22'!
+!CyclotomicField methodsFor: 'testing' stamp: 'len 11/22/2023 20:11:35'!
 isAbelianExtension
-	"Cyclotomic fields are Abelian extensions."
+	^ true! !
+
+!CyclotomicField methodsFor: 'testing' stamp: 'len 11/22/2023 20:31:53'!
+isCyclicExtension
 	^ true! !
 
 !CyclotomicField methodsFor: 'testing' stamp: 'len 12/10/2016 20:16:17'!
@@ -14379,19 +14396,19 @@ isMonogenic
 elementClass
 	^ CyclotomicRational! !
 
-!CyclotomicField methodsFor: 'private' stamp: 'len 11/14/2023 10:26:52'!
+!CyclotomicField methodsFor: 'private' stamp: 'len 11/23/2023 09:56:54'!
 generatorAsComplex
-	^ self propertyAt: #generatorAsComplex ifAbsentPut: [ComplexAlgebraicNumber minimalPolynomial: self modulus bounds: (Ball center: (Float pi * 2 i / self order) exp radius: Float pi / self order)]! !
+	^ self propertyAt: #generatorAsComplex ifAbsentPut: [ComplexAlgebraicNumber minimalPolynomial: self modulus bounds: (Ball center: (Float pi * 2 i / self conductor) exp radius: Float pi / self conductor)]! !
 
 !CyclotomicField class methodsFor: 'examples' stamp: 'len 12/12/2016 17:12:54'!
 example
 	^ CyclotomicField new: 7! !
 
-!CyclotomicField class methodsFor: 'instance creation' stamp: 'len 11/14/2023 13:41:38'!
+!CyclotomicField class methodsFor: 'instance creation' stamp: 'len 11/23/2023 09:57:37'!
 new: anInteger
 	anInteger > 2 ifFalse: [^ self error: 'the order of a cyclotomic field must be > 2'].
 	^ (self modulus: (ℚ polynomials cyclotomic: anInteger))
-		propertyAt: #order put: anInteger;
+		propertyAt: #conductor put: anInteger;
 		yourself! !
 
 !QuadraticField methodsFor: 'accessing' stamp: 'len 11/16/2023 19:11:25'!
@@ -14433,6 +14450,10 @@ indeterminateName
 !QuadraticField methodsFor: 'printing' stamp: 'len 12/23/2016 16:31:16'!
 printOn: aStream
 	aStream print: self scalars; nextPut: $(; print: self x; nextPut: $)! !
+
+!QuadraticField methodsFor: 'testing' stamp: 'len 11/22/2023 20:23:20'!
+isAbelianExtension
+	^ true! !
 
 !QuadraticField methodsFor: 'testing' stamp: 'len 12/18/2016 21:54:14'!
 isMonogenic
@@ -14587,9 +14608,9 @@ zero
 hash
 	^ scalars hash! !
 
-!AlgebraicClosureField methodsFor: 'morphisms' stamp: 'len 11/22/2023 16:27:31'!
+!AlgebraicClosureField methodsFor: 'morphisms' stamp: 'len 11/22/2023 21:09:21'!
 from: aDomain
-	(aDomain isFiniteField and: [self characteristic = aDomain characteristic]) ifTrue: [^ (aDomain into: self map: [:x| AlgebraicClosureElement representative: x]) name: 'ι'].
+	(aDomain isFiniteField and: [self characteristic = aDomain characteristic]) ifTrue: [^ aDomain into: self map: [:x| AlgebraicClosureElement representative: x]].
 	^ super from: aDomain! !
 
 !AlgebraicClosureField methodsFor: 'printing' stamp: 'len 11/21/2023 15:51:14'!
@@ -14812,20 +14833,30 @@ size
 zero
 	^ AbelianClosureElement representative: self scalars zero! !
 
-!AbelianClosureField methodsFor: 'morphisms' stamp: 'len 11/22/2023 16:26:50'!
+!AbelianClosureField methodsFor: 'morphisms' stamp: 'len 11/22/2023 20:24:59'!
 from: aDomain
-	(aDomain isKindOf: CyclotomicField) ifTrue: [^ (aDomain into: self map: [:x| AbelianClosureElement representative: x]) name: 'ι'].
+	(aDomain isKindOf: CyclotomicField) ifTrue: [^ aDomain into: self map: [:x| AbelianClosureElement representative: x]].
+	((aDomain isKindOf: NumberField) and: [aDomain scalars = self scalars and: [aDomain isAbelianExtension]])
+		ifTrue: [^ aDomain → (CyclotomicField new: aDomain conductor) → self].
 	^ super from: aDomain! !
+
+!AbelianClosureField methodsFor: 'morphisms' stamp: 'len 11/22/2023 20:34:35'!
+to: aCodomain
+	aCodomain = ℂ ifTrue: [^ self into: aCodomain map: [:x| ℂ !! x representative]].
+	^ super to: aCodomain! !
+
+!AbelianClosureField methodsFor: 'operations' stamp: 'len 11/23/2023 09:48:59'!
+algebraicClosure
+	^ self scalars algebraicClosure! !
 
 !AbelianClosureField methodsFor: 'printing' stamp: 'len 11/21/2023 16:08:02'!
 printOn: aStream
 	aStream nextPutAll: 'ℚ', 'ab' super! !
 
-!AbelianClosureField methodsFor: 'random' stamp: 'len 11/22/2023 16:26:50'!
+!AbelianClosureField methodsFor: 'random' stamp: 'len 11/23/2023 10:11:31'!
 atRandom: aRandom bits: bitSize
 	| K n |
-	n := 2.
-	[(2 atRandom: aRandom) = 1] whileTrue: [n := n + 1].
+	n := [aRandom nextBoolean] count + 2.
 	K := n > 2 ifTrue: [CyclotomicField new: n] ifFalse: [ℚ].
 	^ AbelianClosureElement representative: (K atRandom: aRandom bits: bitSize)! !
 
@@ -16104,12 +16135,12 @@ fractions: aNumberField
 on: aNumberField
 	^ self new fractions: aNumberField! !
 
-!CyclotomicRing methodsFor: 'operations' stamp: 'len 11/17/2023 16:25:40'!
+!CyclotomicRing methodsFor: 'operations' stamp: 'len 11/23/2023 09:59:17'!
 cyclotomicUnits
 	"Answer the group of cyclotomic units of the receiver.
 	This is a finite index subgroup of the unit group."
 	| m ζ C d |
-	m := self fractions order.
+	m := self fractions conductor.
 	m isPrimePower ifFalse: [^ self notYetImplemented].
 	ζ := self !! self fractions x.
 	C := Set new.
@@ -16123,10 +16154,10 @@ cyclotomicUnits
 printOn: aStream
 	aStream print: ℤ; nextPut: $[; print: self fractions x; nextPut: $]! !
 
-!CyclotomicRing methodsFor: 'testing' stamp: 'len 6/3/2023 11:57:02'!
+!CyclotomicRing methodsFor: 'testing' stamp: 'len 11/23/2023 09:59:23'!
 isPID
 	"See [MM76]."
-	^ #(1 3 4 5 7 8 9 11 12 13 15 16 17 19 20 21 24 25 27 28 32 33 35 36 40 44 45 48 60 84) includes: self fractions order! !
+	^ #(1 3 4 5 7 8 9 11 12 13 15 16 17 19 20 21 24 25 27 28 32 33 35 36 40 44 45 48 60 84) includes: self fractions conductor! !
 
 !CyclotomicRing class methodsFor: 'instance creation' stamp: 'len 6/3/2023 11:17:31'!
 new: anInteger
@@ -16685,11 +16716,11 @@ isCommutative
 	"Quaternion algebras are always noncommutative."
 	^ false! !
 
-!QuaternionAlgebra methodsFor: 'testing' stamp: 'len 6/6/2022 17:30:48'!
+!QuaternionAlgebra methodsFor: 'testing' stamp: 'len 11/22/2023 20:51:51'!
 isDivisionRing
 	"A division ring, or skewfield, is a ring where division is possible, i.e. every nonzero element has a multiplicative inverse. The only difference with a field is that a division ring is not requiered to be commutative.
 	An algebra is called a 'division algebra' if ax=b and xa=b have unique solutions for nonzero a.
-	If the receiver is not a division algebra, it is isomorphic to the algebra of 2x2 matrices."
+	If the receiver is not a division algebra, it is isomorphic to the algebra of 2×2 matrices."
 	self scalars = ℚ ifTrue: [^ self discriminant ~= self scalars one].
 	^ super isDivisionRing! !
 
@@ -21004,10 +21035,10 @@ dimension
 rank
 	^ self coordinateRing rank! !
 
-!ProjectiveSpace methodsFor: 'morphisms' stamp: 'len 12/30/2016 20:22:12'!
+!ProjectiveSpace methodsFor: 'morphisms' stamp: 'len 11/22/2023 20:16:53'!
 automorphisms
 	"Answer the group of automorphisms PGL(P), i.e. the linear automorphisms. These are the only regular automorphisms.
-	Note that there are more rational automorphisms, the Cremona maps, but they are not included in this group. In the projective plane, the group of birational automorphisms is generated by the linear automorphisms plus the standard quadratic transformation (that takes each coordinate to its reciprocal xi -> 1/xi)."
+	Note that there are more rational automorphisms, the Cremona maps, but they are not included in this group. In the projective plane, the group of birational automorphisms is generated by the linear automorphisms plus the standard quadratic transformation (that takes each coordinate to its reciprocal xᵢ ↦ 1/xᵢ)."
 	self notYetImplemented! !
 
 !ProjectiveSpace methodsFor: 'morphisms' stamp: 'len 9/16/2022 07:59:07'!
@@ -22094,22 +22125,13 @@ squared
 	This is a contravariant functor, and it is often called the 'functor of points' of B."
 	^ self codomain ⇒ aCodomain to: self domain ⇒ aCodomain map: [:f| f · self]! !
 
-!Morphism methodsFor: 'printing' stamp: 'len 11/21/2023 16:01:39'!
-arrowPrintOn: aStream
-	self flag: #fixme. "improve this, maybe just set a property #arrowPrintString in into: and onto:, or set #isSurjective/#isInjective"
-	aStream
-		print: self domain;
-		nextPut:
-			((self propertyAt: #inverse ifAbsent: []) notNil
-				ifTrue: [$↔]
-				ifFalse:
-					[(self propertyAt: #retraction ifAbsent: []) notNil
-						ifTrue: [$↣]
-						ifFalse:
-							[(self propertyAt: #section ifAbsent: []) notNil
-								ifTrue: [$↠]
-								ifFalse: [$→]]]);
-		print: self codomain! !
+!Morphism methodsFor: 'printing' stamp: 'len 11/22/2023 21:03:13'!
+arrowCharacter
+	self propertyAt: #arrowCharacter ifPresent: [:aCharacter| ^ aCharacter].
+	(self propertyAt: #inverse ifAbsent: []) ifNotNil: [^ $↔].
+	(self propertyAt: #retraction ifAbsent: []) ifNotNil: [^ $↣]. "or ↪"
+	(self propertyAt: #section ifAbsent: []) ifNotNil: [^ $↠].
+	^ $→! !
 
 !Morphism methodsFor: 'printing' stamp: 'len 4/22/2020 14:36:36'!
 name
@@ -22119,11 +22141,11 @@ name
 name: aString
 	self propertyAt: #name put: aString! !
 
-!Morphism methodsFor: 'printing' stamp: 'len 5/1/2020 22:17:52'!
+!Morphism methodsFor: 'printing' stamp: 'len 11/22/2023 20:43:22'!
 printOn: aStream
 	(self propertyAt: #isIdentity ifAbsent: [false]) ifTrue: [aStream nextPutAll: 'id'. ^ self].
 	aStream nextPutAll: self name; nextPut: $:.
-	self arrowPrintOn: aStream! !
+	aStream print: self domain; nextPut: self arrowCharacter; print: self codomain! !
 
 !Morphism methodsFor: 'properties' stamp: 'len 4/22/2020 14:34:34'!
 hasProperty: aSymbol
@@ -30948,11 +30970,11 @@ hash
 	self flag: #fix. "this looks wrong:"
 	^ self parent numerator: numerator * anElement denominator // anElement numerator denominator: denominator! !
 
-!Ratio methodsFor: 'operations' stamp: 'len 6/25/2023 13:24:31'!
+!Ratio methodsFor: 'operations' stamp: 'len 11/22/2023 21:01:46'!
 ^ anInteger
 	anInteger = 1 ifTrue: [^ self].
 	anInteger < 0 ifTrue: [^ self inverse ^ anInteger negated].
-	^self parent reducedNumerator: numerator ^ anInteger denominator: denominator ^ anInteger! !
+	^ self parent numerator: numerator ^ anInteger denominator: denominator ^ anInteger! !
 
 !Ratio methodsFor: 'operations' stamp: 'len 8/12/2022 12:50:58'!
 colift: anElement
@@ -32664,6 +32686,10 @@ inverse
 minimalPolynomial
 	^ representative minimalPolynomial! !
 
+!AlgebraicClosureElement methodsFor: 'operations' stamp: 'len 11/23/2023 09:53:03'!
+multiplicativeOrder
+	^ representative multiplicativeOrder! !
+
 !AlgebraicClosureElement methodsFor: 'operations' stamp: 'len 11/21/2023 21:51:05'!
 negated
 	^ self class representative: representative negated! !
@@ -33146,6 +33172,11 @@ colift: anElement
 	anElement isZero ifTrue: [^ anElement].
 	^ self isZero ifFalse: [anElement * self inverse]! !
 
+!AbelianClosureElement methodsFor: 'operations' stamp: 'len 11/22/2023 20:58:24'!
+conjugate
+	"Answer the complex conjugate of the receiver."
+	^ self class representative: representative conjugate! !
+
 !AbelianClosureElement methodsFor: 'operations' stamp: 'len 11/22/2023 10:21:55'!
 inverse
 	^ self class representative: representative inverse! !
@@ -33153,6 +33184,10 @@ inverse
 !AbelianClosureElement methodsFor: 'operations' stamp: 'len 11/22/2023 10:20:38'!
 minimalPolynomial
 	^ representative minimalPolynomial! !
+
+!AbelianClosureElement methodsFor: 'operations' stamp: 'len 11/23/2023 09:52:45'!
+multiplicativeOrder
+	^ representative multiplicativeOrder! !
 
 !AbelianClosureElement methodsFor: 'operations' stamp: 'len 11/22/2023 10:22:03'!
 negated
@@ -38507,9 +38542,9 @@ heuristicDetectOneRootBetween: leftBound and: rightBound
 on: aPolynomial
 	^ self new polynomial: aPolynomial! !
 
-!SchreierSims methodsFor: 'accessing' stamp: 'len 6/30/2016 09:02'!
+!SchreierSims methodsFor: 'accessing' stamp: 'len 11/22/2023 20:53:33'!
 base
-	"A base of a group G acting on X is a finite sequence of distinct points B={x1,..,xn} such that the stabilizer of B is {id}, i.e. the only element that fixes all xi is the identity."
+	"A base of a group G acting on X is a finite sequence of distinct points B={x₁,..,xₙ} such that the stabilizer of B is {id}, i.e. the only element that fixes all xᵢ is the identity."
 	base ifNil: [self run].
 	^ base! !
 

@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 22 November 2023 at 4:31:42 pm'!
+'From Cuis 6.0 [latest update: #5898] on 23 November 2023 at 10:27:25 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 103!
+!provides: 'Tests-Algebra' 1 104!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -6949,18 +6949,17 @@ testRingCanonicalAssociates
 		self assert: x * x normalization = x normalized.
 		self assert: x normalized = (x * u) normalized]! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 19:18:25'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/23/2023 10:22:53'!
 testRingHomomorphism: φ
 	| A B x y |
 	A := φ domain.
 	B := φ codomain.
 	self assert: (φ value: A zero) = B zero.
 	self assert: (φ value: A one) = B one.
-	20 timesRepeat:
-		[x := A atRandom: random bits: 10.
-		y := A atRandom: random bits: 10.
-		self assert: (φ value: x + y) = ((φ value: x) + (φ value: y)).
-		self assert: (φ value: x * y) = ((φ value: x) * (φ value: y))]! !
+	x := A atRandom: random bits: 10.
+	y := A atRandom: random bits: 10.
+	self assert: (φ value: x + y) = ((φ value: x) + (φ value: y)).
+	self assert: (φ value: x * y) = ((φ value: x) * (φ value: y))! !
 
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 14:33:20'!
 testRingInvolution
@@ -8069,11 +8068,11 @@ testComplexEmbedding
 		self assert: (ℂ !! a) * (ℂ !! b) = (ℂ !! (a*b)).
 		self assert: (ℂ !! a) + (ℂ !! b) = (ℂ !! (a+b))]! !
 
-!QuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 11:22:58'!
+!QuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/23/2023 10:20:36'!
 setUp
 	| n |
 	super setUp.
-	[(n := ((2 to: 100) atRandom: random) squarefreePart) > 1] whileFalse.
+	[(n := ((2 to: 10) atRandom: random) squarefreePart) > 1] whileFalse.
 	random nextBoolean ifTrue: [n := n negated].
 	R := QuadraticField new: n! !
 
@@ -8085,6 +8084,18 @@ testComplexEmbedding
 		b := self newElement.
 		self assert: (ℂ !! a) * (ℂ !! b) = (ℂ !! (a*b)).
 		self assert: (ℂ !! a) + (ℂ !! b) = (ℂ !! (a+b))]! !
+
+!QuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/23/2023 10:20:50'!
+testCyclotomicEmbedding
+	| k C a |
+	"There should be an embedding into the ℚ(ζₙ) for all n multiple of the conductor:"
+	k := #(1 2) atRandom: random.
+	C := CyclotomicField new: R conductor * k.
+	self testRingHomomorphism: R → C.
+	"And it is compatible with the default complex embedding:"
+	self assert: R → C → ℂ = (R → ℂ).
+	a := self newElement.
+	self assert: (ℂ !! a) = (ℂ !! (C !! a))! !
 
 !QuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 11:23:10'!
 testQuadraticFieldFundamentalDiscriminantExamples

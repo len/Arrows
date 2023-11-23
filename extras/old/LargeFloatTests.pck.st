@@ -20,7 +20,7 @@ checkDoublePrecision: y forFunction: func precision: n
 	"Check that doubling the precision, then rounding would lead to the same result"
 	
 	| anLargeFloat singlePrecisionResult |
-	anLargeFloat _ y asLargeFloatPrecision: n.
+	anLargeFloat _ y asFloat: n.
 	singlePrecisionResult _ anLargeFloat perform: func.
 	self checkThatEvaluatingFunction: func toDoublePrecisionOf: anLargeFloat equals: singlePrecisionResult.
 	^singlePrecisionResult! !
@@ -46,7 +46,7 @@ checkThatEvaluatingFunction: func toDoublePrecisionOf: anLargeFloat equals: sing
 	
 	| n doublePrecision doublePrecisionResult lowBits |
 	n _ anLargeFloat precision.
-	doublePrecision _ anLargeFloat asLargeFloatPrecision: n * 2.
+	doublePrecision _ anLargeFloat asFloat: n * 2.
 	doublePrecisionResult _ doublePrecision perform: func.
 	
 	"Note: the test must be guarded against double rounding error condition.
@@ -62,7 +62,7 @@ checkThatEvaluatingFunction: func toDoublePrecisionOf: anLargeFloat equals: sing
 		ifTrue:
 			["double precision is ambiguous - retry with quadruple..."
 			^self checkThatEvaluatingFunction: func toQuadruplePrecisionOf: anLargeFloat equals: singlePrecisionResult].
-	self assert: ((doublePrecisionResult asLargeFloatPrecision: n)- singlePrecisionResult) isZero
+	self assert: ((doublePrecisionResult asFloat: n)- singlePrecisionResult) isZero
 	
 ! !
 
@@ -72,7 +72,7 @@ checkThatEvaluatingFunction: func toQuadruplePrecisionOf: anLargeFloat equals: s
 	
 	| n quadruplePrecision quadruplePrecisionResult lowBits |
 	n _ anLargeFloat precision.
-	quadruplePrecision _ anLargeFloat asLargeFloatPrecision: n * 4.
+	quadruplePrecision _ anLargeFloat asFloat: n * 4.
 	quadruplePrecisionResult _ quadruplePrecision perform: func.
 	
 	"Guard against double rounding error condition (exact tie)"
@@ -82,7 +82,7 @@ checkThatEvaluatingFunction: func toQuadruplePrecisionOf: anLargeFloat equals: s
 		ifTrue:
 			["quadruple precision is ambiguous - give up..."
 			^self].
-	self assert: ((quadruplePrecisionResult asLargeFloatPrecision: n)- singlePrecisionResult) isZero.! !
+	self assert: ((quadruplePrecisionResult asFloat: n)- singlePrecisionResult) isZero.! !
 
 !LargeFloatTest methodsFor: 'testing-hyperbolic' stamp: 'nice 11/13/2010 19:16'!
 hyperbolicSerie
@@ -98,13 +98,13 @@ largeTrigonometricSerie
 
 !LargeFloatTest methodsFor: 'setup' stamp: 'nice 4/29/2006 01:43'!
 setUp
-	zero _ 0 asLargeFloatPrecision: 53.
-	one _ 1 asLargeFloatPrecision: 53.
-	two _ 2 asLargeFloatPrecision: 53.
-	half _ 1/2 asLargeFloatPrecision: 53.
-	minusOne _ -1 asLargeFloatPrecision: 53.
-	minusTwo _ -2 asLargeFloatPrecision: 53.
-	huge _ (10 raisedTo: 100) asLargeFloatPrecision: 53.! !
+	zero _ 0 asFloat: 53.
+	one _ 1 asFloat: 53.
+	two _ 2 asFloat: 53.
+	half _ 1/2 asFloat: 53.
+	minusOne _ -1 asFloat: 53.
+	minusTwo _ -2 asFloat: 53.
+	huge _ (10 raisedTo: 100) asFloat: 53.! !
 
 !LargeFloatTest methodsFor: 'testing-hyperbolic' stamp: 'nice 4/23/2011 00:59'!
 testArCosh
@@ -115,7 +115,7 @@ testArCosh
 
 !LargeFloatTest methodsFor: 'testing-hyperbolic' stamp: 'nice 3/3/2012 20:45'!
 testArCoshDomainError
-	self should: [(1/2 asLargeFloatPrecision: 24) arCosh] raise: DomainError.! !
+	self should: [(1/2 asFloat: 24) arCosh] raise: DomainError.! !
 
 !LargeFloatTest methodsFor: 'testing-hyperbolic' stamp: 'nice 4/23/2011 00:59'!
 testArSinh
@@ -133,8 +133,8 @@ testArTanh
 
 !LargeFloatTest methodsFor: 'testing-hyperbolic' stamp: 'nice 3/3/2012 20:45'!
 testArTanhDomainError
-	self should: [(2 asLargeFloatPrecision: 24) arTanh] raise: DomainError.
-	self should: [(-3 asLargeFloatPrecision: 24) arTanh] raise: DomainError.! !
+	self should: [(2 asFloat: 24) arTanh] raise: DomainError.
+	self should: [(-3 asFloat: 24) arTanh] raise: DomainError.! !
 
 !LargeFloatTest methodsFor: 'testing-trigonometry' stamp: 'nice 11/13/2010 19:21'!
 testArcCos
@@ -145,8 +145,8 @@ testArcCos
 
 !LargeFloatTest methodsFor: 'testing-trigonometry' stamp: 'nice 3/3/2012 20:45'!
 testArcCosDomainError
-	self should: [(2 asLargeFloatPrecision: 24) arcCos] raise: DomainError.
-	self should: [(-3 asLargeFloatPrecision: 24) arcCos] raise: DomainError.! !
+	self should: [(2 asFloat: 24) arcCos] raise: DomainError.
+	self should: [(-3 asFloat: 24) arcCos] raise: DomainError.! !
 
 !LargeFloatTest methodsFor: 'testing-trigonometry' stamp: 'nice 11/13/2010 19:21'!
 testArcSin
@@ -157,8 +157,8 @@ testArcSin
 
 !LargeFloatTest methodsFor: 'testing-trigonometry' stamp: 'nice 3/3/2012 20:45'!
 testArcSinDomainError
-	self should: [(2 asLargeFloatPrecision: 24) arcSin] raise: DomainError.
-	self should: [(-3 asLargeFloatPrecision: 24) arcSin] raise: DomainError.! !
+	self should: [(2 asFloat: 24) arcSin] raise: DomainError.
+	self should: [(-3 asFloat: 24) arcSin] raise: DomainError.! !
 
 !LargeFloatTest methodsFor: 'testing-trigonometry' stamp: 'nice 11/13/2010 19:20'!
 testArcTan
@@ -173,24 +173,24 @@ testArcTan2
 	<timeout: 30 "seconds">
 	-5 to: 5 by: 4/10 do: [:y |
 		| yf yd |
-		yf _ y asLargeFloatPrecision: Float precision.
-		yd _ yf asLargeFloatPrecision: Float precision * 2.
+		yf _ y asFloat: Float precision.
+		yd _ yf asFloat: Float precision * 2.
 		-5 to: 5 by: 4/10 do: [:x |
 			| xf xd  |
-			xf _ x asLargeFloatPrecision: Float precision.
-			xd _ xf asLargeFloatPrecision: Float precision * 2.
+			xf _ x asFloat: Float precision.
+			xd _ xf asFloat: Float precision * 2.
 			self assert: ((yd arcTan: xd) asFloat - (yf arcTan: xf) asFloat) isZero]].! !
 
 !LargeFloatTest methodsFor: 'testing-converting' stamp: 'nice 3/3/2012 20:40'!
 testAsFloat
-	self assert: (half asLargeFloatPrecision: Float precision) asFloat = 0.5e0.
-	self assert: (half asLargeFloatPrecision: Float precision * 2) asFloat = 0.5e0.! !
+	self assert: (half asFloat: Float precision) asFloat = 0.5e0.
+	self assert: (half asFloat: Float precision * 2) asFloat = 0.5e0.! !
 
 !LargeFloatTest methodsFor: 'testing-converting' stamp: 'nice 3/3/2012 20:40'!
 testAsFloatWithUnderflow
 	| fmin fminA |
 	fmin _ Float fmin.
-	fminA _ fmin asLargeFloatPrecision: one precision.
+	fminA _ fmin asFloat: one precision.
 	Float emin - Float precision + 1 to: Float emin + 1 do: [:n |
 		self assert: ((one timesTwoPower: n) + fminA) asFloat = ((1.0e0 timesTwoPower: n) + fmin)].! !
 
@@ -206,14 +206,14 @@ testAsMinimalDecimalFraction
 	emin to: emax do: [:e | 
 		significands do: [:s |
 			| f |
-			f _ (leadingOne + s asLargeFloatPrecision: 11) timesTwoPower: e - 10.
-			self assert: (f asMinimalDecimalFraction asLargeFloatPrecision: 11) = f]].
+			f _ (leadingOne + s asFloat: 11) timesTwoPower: e - 10.
+			self assert: (f asMinimalDecimalFraction asFloat: 11) = f]].
 	
 	"Test all subnormal finite half precision float"
 	significands do: [:s |
 		| f |
-		f _ (s asLargeFloatPrecision: s highBit) timesTwoPower: emin - 10.
-		self assert: (f asMinimalDecimalFraction asLargeFloatPrecision: s highBit) = f].! !
+		f _ (s asFloat: s highBit) timesTwoPower: emin - 10.
+		self assert: (f asMinimalDecimalFraction asFloat: s highBit) = f].! !
 
 !LargeFloatTest methodsFor: 'testing-coercing' stamp: 'len 12/4/2016 21:01:48'!
 testCoercingDivide
@@ -344,11 +344,11 @@ testDivide
 	serie do: [:num |
 		| nf na |
 		nf _ num asFloat.
-		na _ num asLargeFloatPrecision: Float precision.
+		na _ num asFloat: Float precision.
 		serie do:[:den |
 			| df da ff fa |
 			df _ den asFloat.
-			da _ den asLargeFloatPrecision: Float precision.
+			da _ den asFloat: Float precision.
 			ff _ nf / df.
 			fa _ na / da.
 			self assert: ff = fa]].! !
@@ -358,7 +358,7 @@ testEqual
 	self assert: zero = zero.
 	self assert: one = one.
 	self assert: one = one copy.
-	self assert: one = (one asLargeFloatPrecision: one precision * 2).
+	self assert: one = (one asFloat: one precision * 2).
 
 	self deny: zero = one.
 	self deny: minusOne = one.
@@ -387,11 +387,11 @@ testExp
 !LargeFloatTest methodsFor: 'testing-functions' stamp: 'WernerKassens 4/11/2016 19:24'!
 testExpLn
 	|n|
-	self assert: (1 asLargeFloatPrecision: 53) exp asFloat = 1 asFloat exp.
+	self assert: (1 asFloat: 53) exp asFloat = 1 asFloat exp.
 	n _ 5 exp.
-	self assert: ((5 asLargeFloatPrecision: 53) exp - n)abs <= n ulp.
-	"self assert: (5 asLargeFloatPrecision: 53) exp asFloat = 5 asFloat exp."
-	self assert: ((5 asLargeFloatPrecision: 53) exp ln asFloat - n ln)abs <= 5.0 ulp.
+	self assert: ((5 asFloat: 53) exp - n)abs <= n ulp.
+	"self assert: (5 asFloat: 53) exp asFloat = 5 asFloat exp."
+	self assert: ((5 asFloat: 53) exp ln asFloat - n ln)abs <= 5.0 ulp.
 	"this test was skipped. changed that & loosened 2. test,
 	 since '5 exp' seems to round up instead of down here,
 	 which results in an error of almost one ulp in '5 exp'"! !
@@ -422,9 +422,9 @@ testIEEEArithmeticVersusFloat
 				do: [:f1 | floats
 						do: [:f2 | 
 							ref _ f1 perform: op with: f2.
-							new _ (f1 asLargeFloatPrecision: 53)
+							new _ (f1 asFloat: 53)
 										perform: op
-										with: (f2 asLargeFloatPrecision: 53).
+										with: (f2 asFloat: 53).
 							self assert: new = ref]]]! !
 
 !LargeFloatTest methodsFor: 'testing-arithmetic' stamp: 'len 12/4/2016 21:05:32'!
@@ -450,28 +450,28 @@ testIEEEArithmeticVersusIntegerAndFraction
 					intAndFractions do: 
 							[:f2 | 
 							ref _ f1 perform: op with: f2 asFloat.
-							new _ (f1 asLargeFloatPrecision: 53) perform: op
-										with: (f2 asLargeFloatPrecision: 53).
+							new _ (f1 asFloat: 53) perform: op
+										with: (f2 asFloat: 53).
 							self assert: new = ref.
 							new _ f1 perform: op
-										with: (f2 asLargeFloatPrecision: 53).
+										with: (f2 asFloat: 53).
 							self assert: new = ref.
 							
 							ref _ f1 perform: op with: f2.
-							new _ (f1 asLargeFloatPrecision: 53) perform: op
+							new _ (f1 asFloat: 53) perform: op
 										with: f2.
 							self assert: new = ref.
 							
 							ref _ f2 asFloat perform: op with: f1.
-							new _ (f2 asLargeFloatPrecision: 53) perform: op
-										with: (f1 asLargeFloatPrecision: 53).
+							new _ (f2 asFloat: 53) perform: op
+										with: (f1 asFloat: 53).
 							self assert: new = ref.
-							new _ (f2 asLargeFloatPrecision: 53) perform: op with: f1.
+							new _ (f2 asFloat: 53) perform: op with: f1.
 							self assert: new = ref.
 							
 							ref _ f2 perform: op with: f1.
 							new _ f2 perform: op
-										with: (f1 asLargeFloatPrecision: 53).
+										with: (f1 asFloat: 53).
 							self assert: new = ref]]]! !
 
 !LargeFloatTest methodsFor: 'testing-coercing' stamp: 'WernerKassens 4/11/2016 15:58'!
@@ -537,7 +537,7 @@ testLn
 
 !LargeFloatTest methodsFor: 'testing-functions' stamp: 'nice 3/3/2012 20:44'!
 testLnDomainError
-	self should: [(-2 asLargeFloatPrecision: 24) ln] raise: DomainError.! !
+	self should: [(-2 asFloat: 24) ln] raise: DomainError.! !
 
 !LargeFloatTest methodsFor: 'testing-arithmetic' stamp: 'nice 4/29/2006 03:21'!
 testMultiply
@@ -574,7 +574,7 @@ testNegative
 testPi
 	"check computation of pi"
 
-	self assert: (1 asLargeFloatPrecision: 53) pi = Float pi.! !
+	self assert: (1 asFloat: 53) pi = Float pi.! !
 
 !LargeFloatTest methodsFor: 'testing-compare' stamp: 'nice 4/5/2008 02:13'!
 testPositive
@@ -596,14 +596,14 @@ testPrintAndEvaluate
 	emin to: emax do: [:e | 
 		significands do: [:s |
 			| f |
-			f _ (leadingOne + s asLargeFloatPrecision: 11) timesTwoPower: e - 10.
+			f _ (leadingOne + s asFloat: 11) timesTwoPower: e - 10.
 			self assert: (Compiler evaluate: f storeString) = f.
 			self assert: (Compiler evaluate: f printString) = f.]].
 	
 	"Test all subnormal finite half precision float"
 	significands do: [:s |
 		| f |
-		f _ (s asLargeFloatPrecision: s highBit) timesTwoPower: emin - 10.
+		f _ (s asFloat: s highBit) timesTwoPower: emin - 10.
 		self assert: (Compiler evaluate: f storeString) = f.
 		self assert: (Compiler evaluate: f printString) = f].! !
 
@@ -612,16 +612,16 @@ testRaisedToNegativeInteger
 	| n |
 	n _ 11.
 	1 to: 1<<n-1 do: [:i |
-		self assert: ((i asLargeFloatPrecision: n) raisedToInteger: -49)
-			equals: ((i raisedToInteger: -49) asLargeFloatPrecision: n) ].! !
+		self assert: ((i asFloat: n) raisedToInteger: -49)
+			equals: ((i raisedToInteger: -49) asFloat: n) ].! !
 
 !LargeFloatTest methodsFor: 'testing-arithmetic' stamp: 'nice 2/7/2015 01:37'!
 testRaisedToPositiveInteger
 	| n |
 	n _ 11.
 	1 to: 1<<n-1 do: [:i |
-		self assert: ((i asLargeFloatPrecision: n) raisedToInteger: 49)
-			equals: ((i raisedToInteger: 49) asLargeFloatPrecision: n) ].! !
+		self assert: ((i asFloat: n) raisedToInteger: 49)
+			equals: ((i raisedToInteger: 49) asFloat: n) ].! !
 
 !LargeFloatTest methodsFor: 'testing-arithmetic' stamp: 'nice 7/18/2014 13:29'!
 testReciprocal
@@ -629,7 +629,7 @@ testReciprocal
 	b _ 1 << (Float precision - 1).
 	1 to: 10000 do: [:i |
 		| a |
-		a _ i asLargeFloatPrecision: Float precision.
+		a _ i asFloat: Float precision.
 		self assert: a reciprocal = i asFloat reciprocal.
 		self assert: (a+b) reciprocal = (i+b) asFloat reciprocal.
 		self assert: a negated reciprocal = i asFloat negated reciprocal.]! !
@@ -669,7 +669,7 @@ testSincos
 	<timeout: 30 "seconds">
 	self trigonometricSerie do: [:aFloat |
 		| x sc s c |
-		x _ aFloat asLargeFloatPrecision: 53.
+		x _ aFloat asFloat: 53.
 		sc _ x sincos.
 		s _ x sin.
 		c _ x cos.
@@ -688,7 +688,7 @@ testSqrt
 	<timeout: 10 "seconds">
 	| badSqrt serie |
 	"knowing that (10**3) < (2**10), 100 bits are enough for representing 10**30 exactly"
-	self assert: ((10 raisedTo: 30) asLargeFloatPrecision: 100) sqrt = (10 raisedTo: 15).
+	self assert: ((10 raisedTo: 30) asFloat: 100) sqrt = (10 raisedTo: 15).
 
 	serie _ ((0 to: 20) collect: [:e | e asFloat]) , ((2 to: 20) collect: [:e | e reciprocal asFloat]).
 	badSqrt _ self checkDoublePrecisionSerieVsFloat: serie forFunction: #sqrt.
@@ -696,7 +696,7 @@ testSqrt
 
 !LargeFloatTest methodsFor: 'testing-functions' stamp: 'nice 3/3/2012 20:44'!
 testSqrtDomainError
-	self should: [(-2 asLargeFloatPrecision: 24) sqrt] raise: DomainError.! !
+	self should: [(-2 asFloat: 24) sqrt] raise: DomainError.! !
 
 !LargeFloatTest methodsFor: 'testing-arithmetic' stamp: 'nice 11/13/2010 09:51'!
 testSubtract
@@ -756,11 +756,11 @@ testVeryLargeTan
 !LargeFloatTest methodsFor: 'testing-arithmetic' stamp: 'nice 11/13/2010 21:18'!
 testZeroOne
 
-	self assert: (312 asLargeFloatPrecision: 53) one = 1.
-	self assert: (312 asLargeFloatPrecision: 24) zero isZero.
+	self assert: (312 asFloat: 53) one = 1.
+	self assert: (312 asFloat: 24) zero isZero.
 
-	self assert: (312 asLargeFloatPrecision: 53) one asInteger = 1.
-	self assert: (312 asLargeFloatPrecision: 24) zero asInteger isZero.! !
+	self assert: (312 asFloat: 53) one asInteger = 1.
+	self assert: (312 asFloat: 24) zero asInteger isZero.! !
 
 !LargeFloatTest methodsFor: 'testing-trigonometry' stamp: 'nice 11/13/2010 15:57'!
 trigonometricSerie
