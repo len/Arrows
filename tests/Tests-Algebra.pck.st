@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 23 November 2023 at 10:27:25 am'!
+'From Cuis 6.0 [latest update: #5898] on 29 November 2023 at 10:51:50 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 104!
+!provides: 'Tests-Algebra' 1 105!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -4930,19 +4930,19 @@ testCartesianProduct
 	x _ {(P at: 1) atRandom. (P at: 2) atRandom. (P at: 3) atRandom}.
 	self assert: (P elements includes: x)! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 11/28/2023 08:52:17'!
 testCyclotomicPolynomials
 	| P |
-	P _ ℚ polynomials.
-	1 to: 20 do: [:n| self assert: (P cyclotomic: n) degree = n phi]! !
+	P := ℚ polynomials.
+	1 to: 20 do: [:n| self assert: (P cyclotomicOfOrder: n) degree = n phi]! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 11/28/2023 08:52:23'!
 testCyclotomicPolynomials2
 	| P x n |
-	P _ ℚ polynomials.
-	x _ P x.
-	n _ 100 atRandom.
-	self assert: (n divisors product: [:d| P cyclotomic: d]) = (x^n - 1)! !
+	P := ℚ polynomials.
+	x := P x.
+	n := 100 atRandom.
+	self assert: (n divisors product: [:d| P cyclotomicOfOrder: d]) = (x^n - 1)! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/9/2020 14:00:45'!
 testExtendedEuclid
@@ -7578,11 +7578,11 @@ setUp
 	super setUp.
 	R := (	GaloisField new: (5 atRandom: random) nextPrime to: (3 atRandom: random)) polynomials! !
 
-!FiniteFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/6/2023 10:20:07'!
+!FiniteFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/26/2023 13:27:06'!
 testFactorization
 	| factors f factorization |
-	factors := (1 to: (4 atRandom: random)) collect: [:i| (R atRandom: random maxDegree: 4) ^ (3 atRandom: random)].
-	f := factors product normalized.
+	[factors := (1 to: (4 atRandom: random)) collect: [:i| (R atRandom: random maxDegree: 4) ^ (3 atRandom: random)].
+	(f := factors product normalized) isZero] whileTrue. "make sure we choose a random f ≠ 0" 
 	factorization := f factorization.
 	self assert: factorization product = f.
 	factorization withOccurrencesDo: [:g :k|
@@ -7743,13 +7743,13 @@ setUp
 	super setUp.
 	R := ℚ polynomials! !
 
-!RationalPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2023 17:16:34'!
+!RationalPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/29/2023 10:03:24'!
 testCompanionMatrixExample
 	| x p |
 	x := R x.
 	p := x^2 + (x*2) - 1.
-	self assert: p companion characteristicPolynomial = p.
-	self assert: p companion minimalPolynomial = p! !
+	self assert: p companionMatrix characteristicPolynomial = p.
+	self assert: p companionMatrix minimalPolynomial = p! !
 
 !RationalPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2023 17:18:03'!
 testExtendedEuclidBug
@@ -8085,17 +8085,24 @@ testComplexEmbedding
 		self assert: (ℂ !! a) * (ℂ !! b) = (ℂ !! (a*b)).
 		self assert: (ℂ !! a) + (ℂ !! b) = (ℂ !! (a+b))]! !
 
-!QuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/23/2023 10:20:50'!
+!QuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/29/2023 10:18:56'!
 testCyclotomicEmbedding
 	| k C a |
 	"There should be an embedding into the ℚ(ζₙ) for all n multiple of the conductor:"
-	k := #(1 2) atRandom: random.
+	k := #(1 2 3) atRandom: random.
 	C := CyclotomicField new: R conductor * k.
 	self testRingHomomorphism: R → C.
 	"And it is compatible with the default complex embedding:"
 	self assert: R → C → ℂ = (R → ℂ).
 	a := self newElement.
-	self assert: (ℂ !! a) = (ℂ !! (C !! a))! !
+	self assert: (ℂ !! a) = (ℂ !! (C !! a))
+	
+"Tries to factorize big polynomial, too slow:
+F := QuadraticField new: 7.
+C := CyclotomicField new: F conductor * 2.
+F → C
+"
+! !
 
 !QuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 11:23:10'!
 testQuadraticFieldFundamentalDiscriminantExamples
@@ -8459,7 +8466,7 @@ testDivisionBug
 	a := A x * 3.
 	self assert: (a / a) isOne! !
 
-!AbstractGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/20/2023 10:47:49'!
+!AbstractGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/29/2023 10:44:07'!
 testEmbeddingIntoOverring
 	"Canonical homomorphism from GR(p^n,m) to GR(p^n,m*k)."
 	| p n m k S |
@@ -10881,13 +10888,13 @@ testBackslashExample
 	self assert: X = (ℚ^2 ⇒ (ℚ^3) !! {-1/7. -11/7. 4/7. 23/7. 0. 0}).
 	self assert: A * X = B! !
 
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/29/2023 16:49:14'!
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/29/2023 10:19:27'!
 testBackslashExampleNoSolution
 	"Example from Sage documentation."
 	| A v |
 	A := ℚ^3 ⇒ (ℚ^2) !! #(1 2 3 2 4 6).
 	v := ℚ^2 !! #(1 1).
-	self should: [A \ v] raise: DivisibilityError! !
+	self assert: (A \ v) isNil! !
 
 !RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:09:40'!
 testBackslashExampleNonSquare
@@ -10988,13 +10995,13 @@ testInverseExample
 	self assert: A inverse * A = I.
 	self assert: A * A inverse = I! !
 
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:16:50'!
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/29/2023 10:03:24'!
 testInverseExample2
 	| Qx x f A |
 	Qx _ ℚ polynomials.
 	x _ Qx x.
 	f _ x^8 + (x^6) - (3*(x^4)) - (3*(x^3)) + (8*(x^2)) + (2*x) - 5.
-	A _ f companion.
+	A _ f companionMatrix.
 	self assert: (A * A inverse) isIdentity! !
 
 !RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:12'!
@@ -11965,12 +11972,12 @@ testModuleMap: f
 	x _ f domain scalars atRandom: random bits: 20.
 	self assert: (f value: a1 * x + a2) = (b1 * x + b2)! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/14/2023 15:54:45'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 11/29/2023 10:08:35'!
 testPreimage
 	| f w v |
 	f := self newModuleMap.
 	w := f image atRandom: random bits: 100.
-	v := f preimageElement: w.
+	v := f \ w.
 	self assert: (f value: v) = w! !
 
 !AbstractModuleTest methodsFor: 'maps' stamp: 'len 3/24/2021 08:10:07'!
