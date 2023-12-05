@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 13 November 2023 at 11:13:57 am'!
+'From Cuis 6.0 [latest update: #5898] on 5 December 2023 at 2:01:53 pm'!
 'Description This package includes some extra methods for Collection and subclasses and some new collection classes.'!
-!provides: 'Collections-Extras' 1 12!
+!provides: 'Collections-Extras' 1 13!
 SystemOrganization addCategory: #'Collections-Extras'!
 
 
@@ -431,6 +431,10 @@ count: aBlock
 	self do: [:each| (aBlock value: each) ifTrue: [count _ count + 1]].
 	^ count! !
 
+!Collection methodsFor: '*collections-extras' stamp: 'len 2/19/2017 10:40:52'!
+intersects: aCollection
+	^ self anySatisfy: [:any| aCollection includes: any]! !
+
 !Collection methodsFor: '*collections-extras' stamp: 'len 5/10/2020 12:26:12'!
 isSingleton
 	"Answer true if the receiver contains exactly one element."
@@ -438,6 +442,30 @@ isSingleton
 	seenOneElement _ false.
 	self do: [:each| seenOneElement ifTrue: [^ false]. seenOneElement _ true].
 	^ seenOneElement! !
+
+!Collection methodsFor: '*collections-extras' stamp: 'len 8/12/2022 13:14:15'!
+∩ aCollection
+	^ self intersection: aCollection! !
+
+!Collection methodsFor: '*collections-extras' stamp: 'len 8/12/2022 13:14:27'!
+∪ aCollection
+	^ self union: aCollection! !
+
+!Collection methodsFor: '*collections-extras' stamp: 'len 12/4/2023 19:52:39'!
+⊂ aCollection
+	^ aCollection includesAllOf: self! !
+
+!Collection methodsFor: '*collections-extras' stamp: 'len 12/4/2023 19:53:22'!
+⊃ aCollection
+	^ aCollection ⊂ self! !
+
+!Collection methodsFor: '*collections-extras' stamp: 'len 12/4/2023 19:52:40'!
+⊊ aCollection
+	^ self ~= aCollection and: [self ⊂ aCollection]! !
+
+!Collection methodsFor: '*collections-extras' stamp: 'len 12/4/2023 09:55:40'!
+⊋ aCollection
+	^ aCollection ⊊ self! !
 
 !Collection class methodsFor: '*collections-extras'!
 accumulate: iteratorBlock
@@ -454,6 +482,51 @@ accumulate: iteratorBlock
 	collection := self new.
 	iteratorBlock value: [ :element | collection add: element].
 	^collection! !
+
+!SequenceableCollection methodsFor: '*collections-extras' stamp: 'len 5/28/2023 19:13:41'!
+<= aCollection
+	"Answer true if the receiver is before aCollection in lexicographic order."
+	1 to: (self size min: aCollection size) do: [:i|
+		| a b |
+		a := self at: i.
+		b := aCollection at: i.
+		a > b ifTrue: [^ false].
+		a = b ifFalse: [^ true]].
+	^ self size <= aCollection size! !
+
+!SequenceableCollection methodsFor: '*collections-extras' stamp: 'len 2/21/2017 18:59:40'!
+combinations: r
+	^ Iterator on: [:aBlock| self combinations: r atATimeDo: [:each| aBlock value: each copy]]! !
+
+!SequenceableCollection methodsFor: '*collections-extras' stamp: 'len 3/3/2016 23:07'!
+copyWithoutIndex: index 
+	| answer |
+	answer _ self species new: self size - 1.
+	answer replaceFrom: 1 to: index - 1 with: self startingAt: 1.
+	answer replaceFrom: index to: answer size with: self startingAt: index + 1.
+	^ answer! !
+
+!SequenceableCollection methodsFor: '*collections-extras' stamp: 'len 6/4/2023 17:45:41'!
+indexOf: anElement ifPresent: aBlock
+	^ aBlock value: (self indexOf: anElement ifAbsent: [^ 0])! !
+
+!SequenceableCollection methodsFor: '*collections-extras' stamp: 'len 2/21/2017 19:00:52'!
+permutations
+	^ Iterator on: [:aBlock| self permutationsDo: [:each| aBlock value: each copy]]! !
+
+!SequenceableCollection methodsFor: '*collections-extras' stamp: 'len 11/18/2016 08:58:16'!
+sum
+	| answer |
+	answer _ self at: 1.
+	2 to: self size do: [:i| answer _ answer + (self at: i)].
+	^ answer! !
+
+!SequenceableCollection methodsFor: '*collections-extras' stamp: 'len 12/4/2023 19:52:40'!
+⊂ aCollection
+	"Answer true if the receiver is a subcollection of aCollection."
+	(aCollection isKindOf: self species) ifFalse: [^ super ⊂ aCollection].
+	self size <= aCollection size ifFalse: [^ false].
+	^ (aCollection indexOfSubCollection: self startingAt: 1) > 0! !
 
 !Bag methodsFor: '*collections-extras' stamp: 'len 5/1/2022 10:25:40'!
 collect: aBlock 

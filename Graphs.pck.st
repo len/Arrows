@@ -1,147 +1,147 @@
-'From Cuis 6.0 [latest update: #5438] on 14 August 2022 at 11:20:38 am'!
+'From Cuis 6.0 [latest update: #5898] on 5 December 2023 at 2:01:44 pm'!
 'Description The package implements directed and undirected graphs.'!
-!provides: 'Graphs' 1 3!
+!provides: 'Graphs' 1 4!
 !requires: 'Collections-Extras' 1 1 nil!
-SystemOrganization addCategory: 'Graphs'!
+SystemOrganization addCategory: #Graphs!
 
 
-!classDefinition: #MutualAssociation category: 'Graphs'!
+!classDefinition: #MutualAssociation category: #Graphs!
 Association subclass: #MutualAssociation
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Graphs'!
-!classDefinition: 'MutualAssociation class' category: 'Graphs'!
+!classDefinition: 'MutualAssociation class' category: #Graphs!
 MutualAssociation class
 	instanceVariableNames: ''!
 
-!classDefinition: #Graph category: 'Graphs'!
+!classDefinition: #Graph category: #Graphs!
 Collection subclass: #Graph
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Graphs'!
-!classDefinition: 'Graph class' category: 'Graphs'!
+!classDefinition: 'Graph class' category: #Graphs!
 Graph class
 	instanceVariableNames: ''!
 
-!classDefinition: #Digraph category: 'Graphs'!
+!classDefinition: #Digraph category: #Graphs!
 Graph subclass: #Digraph
 	instanceVariableNames: 'nodes nodeCreator type'
 	classVariableNames: 'InitializationBlocks'
 	poolDictionaries: ''
 	category: 'Graphs'!
-!classDefinition: 'Digraph class' category: 'Graphs'!
+!classDefinition: 'Digraph class' category: #Graphs!
 Digraph class
 	instanceVariableNames: ''!
 
-!classDefinition: #RootedDigraph category: 'Graphs'!
+!classDefinition: #RootedDigraph category: #Graphs!
 Digraph subclass: #RootedDigraph
 	instanceVariableNames: 'roots'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Graphs'!
-!classDefinition: 'RootedDigraph class' category: 'Graphs'!
+!classDefinition: 'RootedDigraph class' category: #Graphs!
 RootedDigraph class
 	instanceVariableNames: ''!
 
-!classDefinition: #UndirectedGraph category: 'Graphs'!
+!classDefinition: #UndirectedGraph category: #Graphs!
 Graph subclass: #UndirectedGraph
 	instanceVariableNames: 'digraph'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Graphs'!
-!classDefinition: 'UndirectedGraph class' category: 'Graphs'!
+!classDefinition: 'UndirectedGraph class' category: #Graphs!
 UndirectedGraph class
 	instanceVariableNames: ''!
 
-!classDefinition: #DAGFrontier category: 'Graphs'!
+!classDefinition: #DAGFrontier category: #Graphs!
 Object subclass: #DAGFrontier
 	instanceVariableNames: 'frontier bag'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Graphs'!
-!classDefinition: 'DAGFrontier class' category: 'Graphs'!
+!classDefinition: 'DAGFrontier class' category: #Graphs!
 DAGFrontier class
 	instanceVariableNames: ''!
 
-!classDefinition: #Dijkstra category: 'Graphs'!
+!classDefinition: #Dijkstra category: #Graphs!
 Object subclass: #Dijkstra
 	instanceVariableNames: 'graph source predecessor distance'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Graphs'!
-!classDefinition: 'Dijkstra class' category: 'Graphs'!
+!classDefinition: 'Dijkstra class' category: #Graphs!
 Dijkstra class
 	instanceVariableNames: ''!
 
-!classDefinition: #FloydWarshall category: 'Graphs'!
+!classDefinition: #FloydWarshall category: #Graphs!
 Object subclass: #FloydWarshall
 	instanceVariableNames: 'graph distances'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Graphs'!
-!classDefinition: 'FloydWarshall class' category: 'Graphs'!
+!classDefinition: 'FloydWarshall class' category: #Graphs!
 FloydWarshall class
 	instanceVariableNames: ''!
 
-!classDefinition: #GraphNode category: 'Graphs'!
+!classDefinition: #GraphNode category: #Graphs!
 Object subclass: #GraphNode
 	instanceVariableNames: 'value'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Graphs'!
-!classDefinition: 'GraphNode class' category: 'Graphs'!
+!classDefinition: 'GraphNode class' category: #Graphs!
 GraphNode class
 	instanceVariableNames: ''!
 
-!classDefinition: #ExplicitGraphNode category: 'Graphs'!
+!classDefinition: #ExplicitGraphNode category: #Graphs!
 GraphNode subclass: #ExplicitGraphNode
 	instanceVariableNames: 'inNeighbors outNeighbors'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Graphs'!
-!classDefinition: 'ExplicitGraphNode class' category: 'Graphs'!
+!classDefinition: 'ExplicitGraphNode class' category: #Graphs!
 ExplicitGraphNode class
 	instanceVariableNames: ''!
 
-!classDefinition: #LabeledExplicitGraphNode category: 'Graphs'!
+!classDefinition: #LabeledExplicitGraphNode category: #Graphs!
 ExplicitGraphNode subclass: #LabeledExplicitGraphNode
 	instanceVariableNames: 'label'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Graphs'!
-!classDefinition: 'LabeledExplicitGraphNode class' category: 'Graphs'!
+!classDefinition: 'LabeledExplicitGraphNode class' category: #Graphs!
 LabeledExplicitGraphNode class
 	instanceVariableNames: ''!
 
-!classDefinition: #ImplicitGraphNode category: 'Graphs'!
+!classDefinition: #ImplicitGraphNode category: #Graphs!
 GraphNode subclass: #ImplicitGraphNode
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Graphs'!
-!classDefinition: 'ImplicitGraphNode class' category: 'Graphs'!
+!classDefinition: 'ImplicitGraphNode class' category: #Graphs!
 ImplicitGraphNode class
 	instanceVariableNames: ''!
 
-!classDefinition: #ImplicitCollectionGraphNode category: 'Graphs'!
+!classDefinition: #ImplicitCollectionGraphNode category: #Graphs!
 ImplicitGraphNode subclass: #ImplicitCollectionGraphNode
 	instanceVariableNames: 'collectionBlock'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Graphs'!
-!classDefinition: 'ImplicitCollectionGraphNode class' category: 'Graphs'!
+!classDefinition: 'ImplicitCollectionGraphNode class' category: #Graphs!
 ImplicitCollectionGraphNode class
 	instanceVariableNames: ''!
 
-!classDefinition: #ImplicitIteratorGraphNode category: 'Graphs'!
+!classDefinition: #ImplicitIteratorGraphNode category: #Graphs!
 ImplicitGraphNode subclass: #ImplicitIteratorGraphNode
 	instanceVariableNames: 'iterator'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Graphs'!
-!classDefinition: 'ImplicitIteratorGraphNode class' category: 'Graphs'!
+!classDefinition: 'ImplicitIteratorGraphNode class' category: #Graphs!
 ImplicitIteratorGraphNode class
 	instanceVariableNames: ''!
 
@@ -352,47 +352,42 @@ removeEdgeFrom: src to: dest
 	pre: the edge must be in the graph."
 	^self removeEdgeFrom: src to: dest ifAbsent: [self errorNotFound: src -> dest]! !
 
-!Graph methodsFor: 'comparing' stamp: 'len 8/12/2016 21:18'!
-< aGraph
-	"Answer true if the receiver is a proper subgraph of aGraph."
-	(aGraph isKindOf: self species) ifFalse: [^ aGraph >= self].
-	self size < aGraph size ifFalse: [^ false].
-	self nodesDo: [:each|
-		| node |
-		(aGraph includes: each value) ifFalse: [^ false].
-		node _ aGraph nodeAt: each value.
-		each neighborsDo: [:n| (node hasEdgeTo: n value) ifFalse: [^ false]]].
-	^ true! !
-
-!Graph methodsFor: 'comparing' stamp: 'len 8/12/2016 21:45'!
-<= aGraph
-	"Answer true if the receiver is a subgraph of aGraph."
-	(aGraph isKindOf: self species) ifFalse: [^ aGraph >= self].
-	self size <= aGraph size ifFalse: [^ false].
-	self nodesDo: [:each|
-		| node |
-		(aGraph includes: each value) ifFalse: [^ false].
-		node _ aGraph nodeAt: each value.
-		each neighborsDo: [:n| (node hasEdgeTo: n value) ifFalse: [^ false]]].
-	^ true! !
-
 !Graph methodsFor: 'comparing' stamp: 'len 7/21/2016 00:07'!
 = aGraph
 	^ (aGraph isKindOf: self species) and: [self nodes = aGraph nodes and: [self edges asBag = aGraph edges asBag]]! !
 
-!Graph methodsFor: 'comparing' stamp: 'len 8/12/2016 21:47'!
-> aGraph
-	"Answer true if aGraph is a proper subgraph of the receiver."
-	^ aGraph < self! !
-
-!Graph methodsFor: 'comparing' stamp: 'len 8/12/2016 21:47'!
->= aGraph
-	"Answer true if aGraph is a subgraph of the receiver."
-	^ aGraph <= self! !
-
 !Graph methodsFor: 'comparing' stamp: 'len 7/13/2016 21:58'!
 hash
 	^ self nodes hash! !
+
+!Graph methodsFor: 'comparing' stamp: 'len 12/4/2023 19:52:40'!
+⊂ aGraph
+	"Answer true if the receiver is a subgraph of aGraph."
+	(aGraph isKindOf: self species) ifFalse: [^ super ⊂ aGraph].
+	self size <= aGraph size ifFalse: [^ false].
+	self nodesDo: [:each|
+		| node |
+		(aGraph includes: each value) ifFalse: [^ false].
+		node := aGraph nodeAt: each value.
+		each neighborsDo: [:n| (node hasEdgeTo: n value) ifFalse: [^ false]]].
+	^ true! !
+
+!Graph methodsFor: 'comparing' stamp: 'len 12/4/2023 19:53:22'!
+⊃ aGraph
+	"Answer true if aGraph is a subgraph of the receiver."
+	^ aGraph ⊂ self! !
+
+!Graph methodsFor: 'comparing' stamp: 'len 12/4/2023 10:18:04'!
+⊊ aGraph
+	"Answer true if the receiver is a proper subgraph of aGraph."
+	(aGraph isKindOf: self species) ifFalse: [^ super ⊊ self].
+	self size < aGraph size ifFalse: [^ false].
+	self nodesDo: [:each|
+		| node |
+		(aGraph includes: each value) ifFalse: [^ false].
+		node := aGraph nodeAt: each value.
+		each neighborsDo: [:n| (node hasEdgeTo: n value) ifFalse: [^ false]]].
+	^ true! !
 
 !Graph methodsFor: 'converting' stamp: 'len 7/21/2016 02:12'!
 asStandard

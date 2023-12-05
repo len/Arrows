@@ -1,17 +1,17 @@
-'From Cuis 6.0 [latest update: #5898] on 11 July 2023 at 7:44:53 pm'!
+'From Cuis 6.0 [latest update: #5898] on 5 December 2023 at 2:01:40 pm'!
 'Description '!
-!provides: 'Tests-Codes' 1 4!
+!provides: 'Tests-Codes' 1 5!
 !requires: 'Codes' 1 0 nil!
-SystemOrganization addCategory: 'Tests-Codes'!
+SystemOrganization addCategory: #'Tests-Codes'!
 
 
-!classDefinition: #CodesTest category: 'Tests-Codes'!
+!classDefinition: #CodesTest category: #'Tests-Codes'!
 TestCase subclass: #CodesTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Codes'!
-!classDefinition: 'CodesTest class' category: 'Tests-Codes'!
+!classDefinition: 'CodesTest class' category: #'Tests-Codes'!
 CodesTest class
 	instanceVariableNames: ''!
 
@@ -232,15 +232,15 @@ testReedMuller
 	self assert: C minimumDistance = (2^(m-r)).
 	self assert: C dimension = ((0 to: r) sum: [:k| m choose: k])! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 10/2/2022 17:41:37'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 12/4/2023 19:52:40'!
 testReedMuller2
 	| m i j Ci Cj |
-	m _ (0 to: 4) atRandom.
-	j _ (0 to: m) atRandom.
-	i _ (0 to: j) atRandom.
-	Ci _ LinearCode RM: {i. m}.
-	Cj _ LinearCode RM: {j. m}.
-	self assert: Ci <= Cj! !
+	m := (0 to: 4) atRandom.
+	j := (0 to: m) atRandom.
+	i := (0 to: j) atRandom.
+	Ci := LinearCode RM: {i. m}.
+	Cj := LinearCode RM: {j. m}.
+	self assert: Ci ⊂ Cj! !
 
 !CodesTest methodsFor: 'as yet unclassified' stamp: 'len 10/2/2022 17:41:37'!
 testReedMuller3
