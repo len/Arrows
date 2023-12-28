@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 26 October 2023 at 2:18:58 pm'!
+'From Cuis 6.0 [latest update: #5898] on 23 December 2023 at 11:14:42 am'!
 'Description '!
-!provides: 'Transfinites' 1 6!
+!provides: 'Transfinites' 1 7!
 SystemOrganization addCategory: #Transfinites!
 
 
@@ -484,6 +484,10 @@ validate
 		b _ terms at: i+1.
 		self assert: (a key > b key and: [a value > 0 and: [a value < b value]])]! !
 
+!Ordinal class methodsFor: 'instance creation' stamp: 'len 12/7/2023 16:58:22'!
+ω
+	^ Zero exp exp! !
+
 !Ordinal class methodsFor: 'instance creation' stamp: 'len 12/31/2021 11:28:03'!
 fromInteger: anInteger
 	anInteger = 0 ifTrue: [^ Zero].
@@ -494,11 +498,10 @@ fromInteger: anInteger
 terms: anArray
 	^ self new terms: anArray! !
 
-!Ordinal class methodsFor: 'class initialization' stamp: 'len 12/31/2021 11:28:10'!
+!Ordinal class methodsFor: 'class initialization' stamp: 'len 12/7/2023 16:58:04'!
 initialize
 	super initialize.
-	Zero _ self terms: #().
-	Smalltalk at: #ω put: Zero exp exp! !
+	Zero := self terms: #()! !
 
 !Object methodsFor: '*transfinites' stamp: 'len 11/19/2015 17:01'!
 isInfinity

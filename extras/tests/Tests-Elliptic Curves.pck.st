@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5878] on 30 June 2023 at 9:09:12 pm'!
+'From Cuis 6.0 [latest update: #5898] on 23 December 2023 at 11:14:30 am'!
 'Description '!
-!provides: 'Tests-Elliptic Curves' 1 7!
+!provides: 'Tests-Elliptic Curves' 1 8!
 !requires: 'Elliptic Curves' 1 2 nil!
 SystemOrganization addCategory: #'Tests-Elliptic Curves'!
 
@@ -271,12 +271,11 @@ testMillerAlgorithmExample7
 	self assert: (EK satisfies: Q coordinates).
 	self assert: (P miller: Q torsion: 127) = (K !! #(275 20 233 355 39 371))! !
 
-!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 21:32:30'!
+!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2023 19:02:59'!
 testMillerLineSubrutineExamples
 	"Examples from Sage:"
 	| F E O a P Q |
 	F := GaloisField new: 2 to: 5.
-	F cover names: #(a).
 	E := EllipticCurve coefficients: F !!!! {0. 0. 1. 1. 1}.
 	O := E zero.
 	a := F x.
@@ -364,13 +363,12 @@ testTatePairingExample
 	self assert: (P tatePairing: P torsion: n embeddingDegree: k) = (F !! 1).
 	self assert: (P tatePairing: Q torsion: n embeddingDegree: k) = (F !! 1)! !
 
-!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 6/20/2023 18:57:13'!
+!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2023 19:03:11'!
 testWeilPairingExample
 	"Example from Sage:"
 	| R F E a P Q x |
 	R := (ℤ/19) polynomials.
 	F := GaloisField modulus: (R !! #(2 11 2 0 1)).
-	F cover names: #(a).
 	E := EllipticCurve coefficients: F !!!! #(-1 0).
 	a := F x.
 	P := E !! (F !!!! {a^3*15 + (a^2*17) + (a*14) + 13. a^3*16 + (a^2*7) + a + 18}).

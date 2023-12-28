@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 5 December 2023 at 2:01:44 pm'!
+'From Cuis 6.0 [latest update: #5898] on 23 December 2023 at 11:14:01 am'!
 'Description The package implements directed and undirected graphs.'!
-!provides: 'Graphs' 1 4!
+!provides: 'Graphs' 1 5!
 !requires: 'Collections-Extras' 1 1 nil!
 SystemOrganization addCategory: #Graphs!
 
@@ -360,10 +360,10 @@ removeEdgeFrom: src to: dest
 hash
 	^ self nodes hash! !
 
-!Graph methodsFor: 'comparing' stamp: 'len 12/4/2023 19:52:40'!
-⊂ aGraph
+!Graph methodsFor: 'comparing' stamp: 'len 12/10/2023 10:36:24'!
+⊆ aGraph
 	"Answer true if the receiver is a subgraph of aGraph."
-	(aGraph isKindOf: self species) ifFalse: [^ super ⊂ aGraph].
+	(aGraph isKindOf: self species) ifFalse: [^ super ⊆ aGraph].
 	self size <= aGraph size ifFalse: [^ false].
 	self nodesDo: [:each|
 		| node |
@@ -371,11 +371,6 @@ hash
 		node := aGraph nodeAt: each value.
 		each neighborsDo: [:n| (node hasEdgeTo: n value) ifFalse: [^ false]]].
 	^ true! !
-
-!Graph methodsFor: 'comparing' stamp: 'len 12/4/2023 19:53:22'!
-⊃ aGraph
-	"Answer true if aGraph is a subgraph of the receiver."
-	^ aGraph ⊂ self! !
 
 !Graph methodsFor: 'comparing' stamp: 'len 12/4/2023 10:18:04'!
 ⊊ aGraph

@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 5 December 2023 at 2:01:40 pm'!
+'From Cuis 6.0 [latest update: #5898] on 23 December 2023 at 11:14:20 am'!
 'Description '!
-!provides: 'Tests-Codes' 1 5!
+!provides: 'Tests-Codes' 1 6!
 !requires: 'Codes' 1 0 nil!
 SystemOrganization addCategory: #'Tests-Codes'!
 
@@ -232,7 +232,7 @@ testReedMuller
 	self assert: C minimumDistance = (2^(m-r)).
 	self assert: C dimension = ((0 to: r) sum: [:k| m choose: k])! !
 
-!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 12/4/2023 19:52:40'!
+!CodesTest methodsFor: 'as yet unclassified' stamp: 'len 12/10/2023 10:36:24'!
 testReedMuller2
 	| m i j Ci Cj |
 	m := (0 to: 4) atRandom.
@@ -240,7 +240,7 @@ testReedMuller2
 	i := (0 to: j) atRandom.
 	Ci := LinearCode RM: {i. m}.
 	Cj := LinearCode RM: {j. m}.
-	self assert: Ci ⊂ Cj! !
+	self assert: Ci ⊆ Cj! !
 
 !CodesTest methodsFor: 'as yet unclassified' stamp: 'len 10/2/2022 17:41:37'!
 testReedMuller3

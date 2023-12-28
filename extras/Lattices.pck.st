@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 23 November 2023 at 10:27:19 am'!
+'From Cuis 6.0 [latest update: #5898] on 23 December 2023 at 11:14:07 am'!
 'Description '!
-!provides: 'Lattices' 1 14!
+!provides: 'Lattices' 1 15!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Lattices!
 
@@ -70,9 +70,9 @@ coordinateLattice
 degree
 	^ self space rank! !
 
-!Lattice methodsFor: 'accessing' stamp: 'len 6/10/2022 11:17:01'!
+!Lattice methodsFor: 'accessing' stamp: 'len 12/12/2023 20:09:12'!
 generatorMatrix
-	^ self propertyAt: #generatorMatrix ifAbsentPut: [Matrix to: self space cover columns: (self basis collect: [:each| self space \ each])]! !
+	^ self propertyAt: #generatorMatrix ifAbsentPut: [Matrix to: self space freeCover columns: (self basis collect: [:each| self space \ each])]! !
 
 !Lattice methodsFor: 'accessing' stamp: 'len 7/29/2020 06:35:41'!
 generators

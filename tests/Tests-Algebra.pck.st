@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 5 December 2023 at 1:57:55 pm'!
+'From Cuis 6.0 [latest update: #5898] on 23 December 2023 at 11:14:14 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 106!
+!provides: 'Tests-Algebra' 1 107!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -3543,11 +3543,11 @@ testSpecZ
 	self assert: (ℤ spec includes: ℤ * 5).
 	self assert: (ℤ spec includes: ℤ * 6) not! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 12/4/2023 19:53:22'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 12/10/2023 10:35:50'!
 testSpecZSubschemes
-	self assert: ℤ spec ⊃ (ℤ / 2) spec.
-	self assert: (ℤ / 10) spec ⊃ (ℤ / 5) spec.
-	self deny: (ℤ / 10) spec ⊃ (ℤ / 3) spec.
+	self assert: ℤ spec ⊇ (ℤ / 2) spec.
+	self assert: (ℤ / 10) spec ⊇ (ℤ / 5) spec.
+	self deny: (ℤ / 10) spec ⊇ (ℤ / 3) spec.
 	self assert: (ℤ / 10) spec ∩ (ℤ / 15) spec = (ℤ / 5) spec.
 	self assert: (ℤ / 10) spec ∪ (ℤ / 15) spec = (ℤ / 30) spec! !
 
@@ -3917,12 +3917,12 @@ testAutomorphismsK3
 	self assert: A = A ambient
 ! !
 
-!AlgebraicGraphTest methodsFor: 'as yet unclassified' stamp: 'len 4/16/2022 13:08:37'!
+!AlgebraicGraphTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2023 11:21:28'!
 testAutomorphismsP3
 	"Aut(P3) = {id, (1 3)}"
 	| G A |
-	G _ Graph P: 3.
-	A _ G automorphisms.
+	G := Graph P: 3.
+	A := G automorphisms.
 	self assert: A = (PermutationGroup on: G values generators: {#((1 3))})! !
 
 !AlgebraicGraphTest methodsFor: 'as yet unclassified' stamp: 'len 4/16/2022 13:08:46'!
@@ -4586,7 +4586,7 @@ testIdealIntersection
 testIdealIntersectionRandom
 	self testIdealIntersectionRandom: (ℚ polynomialsIn: #(x y))! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 12/4/2023 19:53:22'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 12/10/2023 10:35:50'!
 testIdealIntersectionRandom: aRing
 	| R f1 f2 g I J K |
 	R := aRing.
@@ -4596,7 +4596,7 @@ testIdealIntersectionRandom: aRing
 	I := R * {f1. g}.
 	J := R * {f2. g}.
 	K := R * {g}.
-	self assert: I ∩ J ⊃ K! !
+	self assert: I ∩ J ⊇ K! !
 
 !CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 7/5/2022 12:21:34'!
 testIdealIsRadical
@@ -4755,7 +4755,7 @@ testIdealSaturation2
 	S := R * {a*b - (c*d). a^2*c - (b^2*d). b^3 - (a*(c^2)). a^3 - (b*(d^2))}.
 	self assert: I saturation = S! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 12/4/2023 19:52:40'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 12/10/2023 10:36:24'!
 testLocalIdeals
 	"Magma handbook, example H104E4."
 	| R I J A M |
@@ -4773,7 +4773,7 @@ testLocalIdeals
 	M := R * (R !! [:x :y :z| {x + y. y^2. z}]).
 	self assert: I ∩ J = M.
 	self deny: A = M.
-	self assert: A ⊂ M! !
+	self assert: A ⊆ M! !
 
 !CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 10/14/2022 08:40:24'!
 testPolynomialRingHomomorphismKernel
@@ -6408,10 +6408,10 @@ smallGroupAtRandom
 	[PermutationGroup klein].
 	[LinearGroup klein]} atRandom: random) value! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 2/1/2018 23:02:45'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2023 20:41:31'!
 testActionOrbitOf
 	| G |
-	G _ PermutationGroup on: (1 to: 8) generators: {#((1 3 2) (4 6 5)). #((1 2 3) (4 5 6)). #((7 8))}.
+	G := PermutationGroup new: 8 generators: {#((1 3 2) (4 6 5)). #((1 2 3) (4 5 6)). #((7 8))}.
 	self assert: (G action orbitOf: 1) = #(1 2 3) asSet.
 	self assert: (G action orbitOf: 4) = #(4 6 5) asSet.
 	self assert: (G action orbitOf: 7) = #(7 8) asSet! !
@@ -6456,13 +6456,12 @@ testBigOrder2
 	This is the Mathieu group on 12 points, the second smallest of the 26 sporadic simple groups, with order 95040."
 	self assert: PermutationGroup M12 size = 95040! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/29/2023 13:42:30'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2023 20:40:27'!
 testCauchyFrobeniusLemma
 	"Also called Brunside's lemma, Burnside counting theorem, or orbit-counting theorem."
-	| X G φ sum |
-	X := 1 to: 3.
-	G := AlternatingGroup on: X.
-	φ := G on: X action: [:f :x| f value: x].
+	| G φ sum |
+	G := AlternatingGroup new: 3.
+	φ := G action.
 	sum := G sum: [:g| (φ fixedPointsOf: g) size].
 	self assert: φ orbits size * G size = sum! !
 
@@ -6597,15 +6596,15 @@ testIsSolvableNot
 	G _ AlternatingGroup new: 5.
 	self assert: G isSolvable not! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2020 06:38:34'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/7/2023 16:49:06'!
 testKleinFour
 	| V S A |
-	V _ PermutationGroup klein.
+	V := PermutationGroup klein.
 	self testGroup: V.
-	S _ V ambient.
-	self assert: (V isNormalIn: S).
-	A _ S commutator.
-	self assert: (V isNormalIn: A)! !
+	S := V ambient.
+	self assert: V ⊲ S.
+	A := S commutator.
+	self assert: V ⊲ A! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:48:35'!
 testLagrangeTheorem
@@ -6624,13 +6623,12 @@ testModularIntegersUnits
 	self assert: U size = (Sequence phi value: m).
 	self testGroup: U! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/29/2023 13:41:47'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2023 20:41:07'!
 testOrbitStabilizerTheorem
-	| X G φ p |
-	X := 1 to: 4.
-	G := AlternatingGroup on: X.
-	φ := G on: X action: [:f :x| f value: x].
-	p := X atRandom: random.
+	| G φ p |
+	G := AlternatingGroup new: 4.
+	φ := G action.
+	p := G space atRandom: random.
 	self assert: (φ stabilizerOf: p) size * (φ orbitOf: p) size = G size! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 1/30/2018 21:34:39'!
@@ -10785,14 +10783,14 @@ testColumnEquivalence
 	P _ A domain automorphisms atRandom: random bits: 10*n*n.
 	self assert: A * P ~ A! !
 
-!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/4/2023 19:52:40'!
+!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/10/2023 10:36:24'!
 testColumnExtended
 	| A B |
 	A := self newMatrix.
 	B := A columnExtended.
 	self assert: B height = A height.
 	self assert: B isSquare.
-	self assert: A image ⊂ B image! !
+	self assert: A image ⊆ B image! !
 
 !AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 11:45:50'!
 testCongruence
@@ -11792,17 +11790,17 @@ setUp
 	super setUp.
 	scalars := QuaternionAlgebra over: ℚ invariants: #(1 1)! !
 
-!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 12/4/2023 19:53:22'!
+!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 12/10/2023 10:35:50'!
 testFirstIsomorphismTheorem
 	| M N f |
 	M := self newFreeModule.
 	N := self newFreeModule.
 	f := M ⇒ N atRandom: random bits: 100.
-	self assert: f codomain ⊃ f image.
-	self assert: f domain ⊃ f kernel.
+	self assert: f codomain ⊇ f image.
+	self assert: f domain ⊇ f kernel.
 	self assert: f domain / f kernel ~ f image! !
 
-!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 12/4/2023 19:52:40'!
+!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 12/10/2023 10:36:24'!
 testSecondIsomorphismTheorem
 	| M k S T |
 	M := self newFreeModule.
@@ -11810,18 +11808,18 @@ testSecondIsomorphismTheorem
 	S := M sub: ((1 to: k) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
 	k := M rank > 0 ifTrue: [M rank atRandom: random] ifFalse: [0].
 	T := M sub: ((1 to: k) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
-	self assert: S+T ⊂ M.
-	self assert: S ∩ T ⊂ M.
+	self assert: S+T ⊆ M.
+	self assert: S ∩ T ⊆ M.
 	self assert: (S+T)/T ~ (S/(S ∩ T))! !
 
-!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 12/4/2023 19:52:40'!
+!AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 12/10/2023 10:36:24'!
 testThirdIsomorphismTheorem
 	| M S T k |
 	M := self newFreeModule.
 	k := M rank > 0 ifTrue: [M rank atRandom: random] ifFalse: [0].
 	S := M sub: ((1 to: k) collect: [:i| M atRandom: random bits: (10 atRandom: random)]).
 	T := S sub: ((1 to: (k > 0 ifTrue: [k atRandom: random] ifFalse: [0])) collect: [:i| S atRandom: random bits: (10 atRandom: random)]).
-	self assert: S/T ⊂ (M/T).
+	self assert: S/T ⊆ (M/T).
 	self assert: (M/T)/(S/T) ~ (M/S)! !
 
 !AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:36:58'!
@@ -11884,7 +11882,7 @@ testColiftFree
 	g := f / i.
 	self assert: g · i = f! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 12/4/2023 19:53:22'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 12/10/2023 10:35:50'!
 testComposition
 	| X Y Z f g x |
 	X := self newModule.
@@ -11895,14 +11893,14 @@ testComposition
 	x := X atRandom: random bits: 1000.
 	self assert: (X ⇒ Z includes: g · f).
 	self assert: (g · f value: x) = (g value: (f value: x)).
-	X ⊃ Z ifFalse: [self should: [f · g] raise: Error]! !
+	X ⊇ Z ifFalse: [self should: [f · g] raise: Error]! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 12/4/2023 19:53:22'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 12/10/2023 10:35:50'!
 testCompositionError
 	| X Y Z f g |
 	X := self newModule.
 	Y := self newModule.
-	[Z := self newModule. X ⊃ Z] whileTrue.
+	[Z := self newModule. X ⊇ Z] whileTrue.
 	f := X ⇒ Y atRandom: random bits: 1000.
 	g := Y ⇒ Z atRandom: random bits: 1000.
 	self should: [f · g] raise: DomainError! !
@@ -12143,7 +12141,7 @@ testFreeModule: M
 	t _ (M \ x) * c + (M \ y).
 	self assert: v = (M elementAt: t)! !
 
-!AbstractModuleTest methodsFor: 'other' stamp: 'len 12/4/2023 19:53:22'!
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 12/10/2023 10:36:24'!
 testSubmoduleInclusion
 	| V S P v w |
 	[[V := self newModule.
@@ -12151,12 +12149,12 @@ testSubmoduleInclusion
 	S := V sub: {v}.
 	w := V atRandom: random bits: 10. S includes: w] whileTrue.
 	P := V sub: {w*(V scalars atRandom: random bits: 10)-v. w}.
-	self assert: S ⊂ P.
-	self assert: P ⊃ S.
+	self assert: S ⊆ P.
+	self assert: P ⊇ S.
 	self assert: S ~= P.
 	self assert: P ~= S.
-	self assert: (S ⊃ P) not.
-	self assert: (P ⊂ S) not! !
+	self assert: (S ⊇ P) not.
+	self assert: (P ⊆ S) not! !
 
 !AbstractModuleTest methodsFor: 'other' stamp: 'len 6/26/2023 12:50:08'!
 testSubmoduleSum
@@ -12363,20 +12361,20 @@ testMapDirectSumAndTensorProductBug
 	self assert: (f⊗g) domain = (f⊗g) domain.
 	self assert: (f⊕g) domain = (f⊕g) domain! !
 
-!AbstractCommutativeRingModuleTest methodsFor: 'other' stamp: 'len 12/4/2023 19:52:40'!
+!AbstractCommutativeRingModuleTest methodsFor: 'other' stamp: 'len 12/10/2023 10:36:24'!
 testFittingIdealsAndAnnihilator
 	| M A i |
 	M :=self newModule.
 	A := M annihilator.
-	self assert: (M fittingIdeal: 0) ⊂ A.
+	self assert: (M fittingIdeal: 0) ⊆ A.
 	i := 3 atRandom: random.
-	A * (M fittingIdeal: i) ⊂ (M fittingIdeal: i-1)! !
+	A * (M fittingIdeal: i) ⊆ (M fittingIdeal: i-1)! !
 
-!AbstractCommutativeRingModuleTest methodsFor: 'other' stamp: 'len 12/4/2023 19:52:40'!
+!AbstractCommutativeRingModuleTest methodsFor: 'other' stamp: 'len 12/10/2023 10:36:24'!
 testFittingIdealsIncreasing
 	| M |
 	M := self newModule.
-	0 to: 2 do: [:i| self assert: (M fittingIdeal: i) ⊂ (M fittingIdeal: i+1)]! !
+	0 to: 2 do: [:i| self assert: (M fittingIdeal: i) ⊆ (M fittingIdeal: i+1)]! !
 
 !AbstractCommutativeRingModuleTest methodsFor: 'other' stamp: 'len 6/15/2023 14:20:53'!
 testFittingIdealsOfFreeModule
@@ -12436,7 +12434,7 @@ testAnnihilatorSpace
 	self assert: S0 rank = S corank.
 	S0 generators do: [:f| self assert: (f value: v) isZero]! !
 
-!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 12/4/2023 19:53:22'!
+!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 12/10/2023 10:36:24'!
 testAnnihilatorSpaceProperties
 	| V n m S T |
 	V := self newVectorSpace.
@@ -12444,8 +12442,8 @@ testAnnihilatorSpaceProperties
 	S := (V grassmannian: n) atRandom: random bits: (100 atRandom: random).
 	m := (0 to: n) atRandom: random.
 	T := (S grassmannian: m) atRandom: random bits: (100 atRandom: random).
-	self assert: T ⊂ S.
-	self assert: T annihilatorSpace ⊃ S annihilatorSpace. "reverses inclusions"
+	self assert: T ⊆ S.
+	self assert: T annihilatorSpace ⊇ S annihilatorSpace. "reverses inclusions"
 	self assert: (S + T) annihilatorSpace = (S annihilatorSpace ∩ T annihilatorSpace).
 	self assert: S rank + S annihilatorSpace rank = V rank.
 	self assert: V annihilatorSpace isTrivial.
@@ -12491,15 +12489,15 @@ testSubspaceOfSubspace
 	self assert: (S includes: t).
 	self assert: (T includes: t)! !
 
-!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 12/4/2023 19:52:40'!
+!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 12/10/2023 10:36:24'!
 testSubspaceSumRandom
 	| V S T U |
 	V := self newVectorSpace.
 	S := (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (100 atRandom: random).
 	T := (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (100 atRandom: random).
 	U := S + T.
-	self assert: S ⊂ U.
-	self assert: T ⊂ U! !
+	self assert: S ⊆ U.
+	self assert: T ⊆ U! !
 
 !AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 3/24/2021 09:06:07'!
 testOrthogonalProjection
@@ -12712,7 +12710,7 @@ testPerpExample
 	p := S orthogonalProjection.
 	self assert: p kernel = perp! !
 
-!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 12/4/2023 19:52:40'!
+!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 12/10/2023 10:36:24'!
 testPerpProperties
 	| V S T |
 	V := ℚ ^ 3.
@@ -12721,7 +12719,7 @@ testPerpProperties
 	self assert: S + S complement = V.
 	self assert: T + T complement = V.
 	self assert: (S ∩ S complement) isTrivial.
-	self assert: S ⊂ S complement complement.
+	self assert: S ⊆ S complement complement.
 	self assert: S complement ⊊ T complement "because S ⊋ T"! !
 
 !RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:38:55'!
@@ -12894,14 +12892,14 @@ testModuleMapBug
 	f _ M dual atRandom: random bits: 100.
 	self testModuleMap: f! !
 
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 9/18/2022 06:08:16'!
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2023 20:45:05'!
 testModuleMapBug2
 	| M N |
-	M _ ℤ^1/{3}.
-	N _ ℤ^1.
+	M := ℤ^1/{3}.
+	N := ℤ^1.
 	"these are not valid module homomorphisms:"
-	self should: [M to: N images: #(1)] raise: DomainError withMessageText: 'invalid morphism'.
-	self should: [M to: N images: #(2)] raise: DomainError withMessageText: 'invalid morphism'! !
+	self should: [M to: N images: #(1)] raise: Error withMessageText: 'invalid morphism'.
+	self should: [M to: N images: #(2)] raise: Error withMessageText: 'invalid morphism'! !
 
 !IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:51:33'!
 testQuotientModuleAnnihilator
@@ -13838,12 +13836,12 @@ testSimplexComplement
 	self assert: ((Simplex vertices: #(0 1 3 4)) complementIn: V) = (Simplex vertices: #(2 5)).
 	self assert: ((Simplex vertices: #(0 4 1 3 )) complementIn: V) = (Simplex vertices: #(2 5))! !
 
-!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 12/4/2023 19:52:40'!
+!SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 12/10/2023 10:36:24'!
 testSimplexInclusion
 	| S T |
 	S := Simplex new: (2 to: 10) atRandom.
 	T:= Simplex new: (0 to: S dimension) atRandom.
-	self assert: T ⊂ S! !
+	self assert: T ⊆ S! !
 
 !SimplicialComplexTest methodsFor: 'as yet unclassified' stamp: 'len 2/15/2017 16:21:54'!
 testSimplexJoin

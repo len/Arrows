@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 5 December 2023 at 2:01:53 pm'!
+'From Cuis 6.0 [latest update: #5898] on 23 December 2023 at 11:13:55 am'!
 'Description This package includes some extra methods for Collection and subclasses and some new collection classes.'!
-!provides: 'Collections-Extras' 1 13!
+!provides: 'Collections-Extras' 1 14!
 SystemOrganization addCategory: #'Collections-Extras'!
 
 
@@ -140,6 +140,24 @@ printOn: aStream
 remove: oldObject ifAbsent: anExceptionBlock 
 	"Iterators are read-only."
 	self shouldNotImplement! !
+
+!Iterator methodsFor: 'testing' stamp: 'len 12/19/2023 18:28:19'!
+isPair
+	"Answer true if the receiver contains exactly two elements."
+	^ self sizeEquals: 2! !
+
+!Iterator methodsFor: 'testing' stamp: 'len 12/19/2023 18:28:14'!
+isSingleton
+	"Answer true if the receiver contains exactly one element."
+	^ self sizeEquals: 1! !
+
+!Iterator methodsFor: 'testing' stamp: 'len 12/19/2023 18:26:41'!
+sizeEquals: anInteger
+	"Answer true if the receiver contains exactly anInteger elements."
+	| count |
+	count := 0.
+	self do: [:each| (count := count + 1) > anInteger ifTrue: [^ false]].
+	^ count = anInteger! !
 
 !Iterator methodsFor: 'private'!
 block: aBlock
@@ -435,13 +453,15 @@ count: aBlock
 intersects: aCollection
 	^ self anySatisfy: [:any| aCollection includes: any]! !
 
-!Collection methodsFor: '*collections-extras' stamp: 'len 5/10/2020 12:26:12'!
+!Collection methodsFor: '*collections-extras' stamp: 'len 12/19/2023 18:28:29'!
+isPair
+	"Answer true if the receiver contains exactly two elements."
+	^ self size = 2! !
+
+!Collection methodsFor: '*collections-extras' stamp: 'len 12/19/2023 18:28:36'!
 isSingleton
 	"Answer true if the receiver contains exactly one element."
-	| seenOneElement |
-	seenOneElement _ false.
-	self do: [:each| seenOneElement ifTrue: [^ false]. seenOneElement _ true].
-	^ seenOneElement! !
+	^ self size = 1! !
 
 !Collection methodsFor: '*collections-extras' stamp: 'len 8/12/2022 13:14:15'!
 ∩ aCollection
@@ -451,17 +471,17 @@ isSingleton
 ∪ aCollection
 	^ self union: aCollection! !
 
-!Collection methodsFor: '*collections-extras' stamp: 'len 12/4/2023 19:52:39'!
-⊂ aCollection
+!Collection methodsFor: '*collections-extras' stamp: 'len 12/10/2023 10:36:24'!
+⊆ aCollection
 	^ aCollection includesAllOf: self! !
 
-!Collection methodsFor: '*collections-extras' stamp: 'len 12/4/2023 19:53:22'!
-⊃ aCollection
-	^ aCollection ⊂ self! !
+!Collection methodsFor: '*collections-extras' stamp: 'len 12/10/2023 10:36:24'!
+⊇ aCollection
+	^ aCollection ⊆ self! !
 
-!Collection methodsFor: '*collections-extras' stamp: 'len 12/4/2023 19:52:40'!
+!Collection methodsFor: '*collections-extras' stamp: 'len 12/10/2023 10:36:24'!
 ⊊ aCollection
-	^ self ~= aCollection and: [self ⊂ aCollection]! !
+	^ self ~= aCollection and: [self ⊆ aCollection]! !
 
 !Collection methodsFor: '*collections-extras' stamp: 'len 12/4/2023 09:55:40'!
 ⊋ aCollection
@@ -521,10 +541,10 @@ sum
 	2 to: self size do: [:i| answer _ answer + (self at: i)].
 	^ answer! !
 
-!SequenceableCollection methodsFor: '*collections-extras' stamp: 'len 12/4/2023 19:52:40'!
-⊂ aCollection
+!SequenceableCollection methodsFor: '*collections-extras' stamp: 'len 12/10/2023 10:36:24'!
+⊆ aCollection
 	"Answer true if the receiver is a subcollection of aCollection."
-	(aCollection isKindOf: self species) ifFalse: [^ super ⊂ aCollection].
+	(aCollection isKindOf: self species) ifFalse: [^ super ⊆ aCollection].
 	self size <= aCollection size ifFalse: [^ false].
 	^ (aCollection indexOfSubCollection: self startingAt: 1) > 0! !
 

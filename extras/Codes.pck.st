@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 5 December 2023 at 2:01:49 pm'!
+'From Cuis 6.0 [latest update: #5898] on 23 December 2023 at 11:13:49 am'!
 'Description '!
-!provides: 'Codes' 1 13!
+!provides: 'Codes' 1 14!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Codes!
 
@@ -133,9 +133,9 @@ weightEnumerator
 hash
 	^ self asModule hash! !
 
-!LinearCode methodsFor: 'comparing' stamp: 'len 12/4/2023 19:52:40'!
-⊂ aCode
-	^ self asModule ⊂ aCode asModule! !
+!LinearCode methodsFor: 'comparing' stamp: 'len 12/10/2023 10:36:24'!
+⊆ aCode
+	^ self asModule ⊆ aCode asModule! !
 
 !LinearCode methodsFor: 'converting' stamp: 'len 8/3/2020 07:16:22'!
 asIdeal
@@ -318,9 +318,9 @@ isSelfDual
 	self dimension = (self length / 2) ifFalse: [^ false].
 	^ self = self dual! !
 
-!LinearCode methodsFor: 'testing' stamp: 'len 12/4/2023 19:52:40'!
+!LinearCode methodsFor: 'testing' stamp: 'len 12/10/2023 10:36:24'!
 isSelfOrthogonal
-	^ self asModule ⊂ self dual asModule! !
+	^ self asModule ⊆ self dual asModule! !
 
 !LinearCode methodsFor: 'testing' stamp: 'len 8/2/2020 12:05:56'!
 isTrivial
