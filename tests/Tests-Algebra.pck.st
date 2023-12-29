@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 23 December 2023 at 11:14:14 am'!
+'From Cuis 6.0 [latest update: #5898] on 29 December 2023 at 11:16:44 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 107!
+!provides: 'Tests-Algebra' 1 108!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -4958,6 +4958,23 @@ testExtendedEuclid
 	self assert: ({u. v} * {a. b}) sum = g.
 	self assert: g = (a gcd: b)! !
 
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/27/2023 10:58:51'!
+testFFT_example1
+	| fft n F f g fg a b c |
+	fft := FFT example2.
+	n := fft size.
+	F := ℤ / fft modulus.
+	f := F polynomials atRandomDegree: 200.
+	g := F polynomials atRandomDegree: 200.
+	fg := f*g.
+	a := f coefficients , (F zeros: n - f coefficients size).
+	b := g coefficients , (F zeros: n - g coefficients size).
+	fft transform: a representatives.
+	fft transform: b representatives.
+	c := a * b.
+	fft inverseTransform: c representatives.
+	self assert: (fg coefficients - c) isZero! !
+
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
 testFreeAlgebra
 	| A f g h |
@@ -6069,14 +6086,14 @@ testFiniteFieldFactorization3
 	self assert: (factors occurrencesOf: x-1) = 2.
 	self assert: (factors occurrencesOf: x-2) = 1! !
 
-!PolynomialTest methodsFor: 'gcd' stamp: 'len 5/4/2022 22:05:52'!
-testContentAndPrimitive
+!PolynomialTest methodsFor: 'gcd' stamp: 'len 12/23/2023 15:07:07'!
+testContentAndPrimitivePart
 	| Zx Zxy x y f |
-	Zx _ ℤ polynomialsIn: #(x).
-	Zxy _ Zx polynomialsIn: #(y).
-	x _ Zx x.
-	y _ Zxy x.
-	f _ y*(2*x) + (2*(x^2)).
+	Zx := ℤ polynomialsIn: #(x).
+	Zxy := Zx polynomialsIn: #(y).
+	x := Zx x.
+	y := Zxy x.
+	f := y*(2*x) + (2*(x^2)).
 	self assert: f primitivePart * f content = f! !
 
 !PolynomialTest methodsFor: 'gcd' stamp: 'len 5/23/2020 09:34:55'!
@@ -8866,8 +8883,8 @@ setUp
 	super setUp.
 	R := ℤ polynomials! !
 
-!IntegerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2023 17:34:03'!
-testContentAndPrimitive
+!IntegerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/23/2023 15:06:50'!
+testContentAndPrimitivePart
 	| f |
 	f := R atRandom: random bits: 100 maxDegree: (1 to: 10) atRandom.
 	self assert: f primitivePart * f content = f! !

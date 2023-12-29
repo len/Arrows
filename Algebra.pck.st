@@ -1,4 +1,4 @@
-'From Cuis 6.0 [latest update: #5898] on 23 December 2023 at 11:13:41 am'!
+'From Cuis 6.0 [latest update: #5898] on 29 December 2023 at 11:16:35 am'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, schemes, and coherent sheaves.
 
 References:
@@ -87,7 +87,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 159!
+!provides: 'Algebra' 1 160!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
@@ -3533,6 +3533,10 @@ size
 hash
 	^ words hash! !
 
+!BinaryArray methodsFor: 'converting' stamp: 'len 12/28/2023 11:39:15'!
+asForm
+	^ Form extent: self size @ 1 depth: -1 bits: words! !
+
 !BinaryArray methodsFor: 'converting' stamp: 'len 5/7/2023 17:41:52'!
 asInteger
 	| answer |
@@ -3690,64 +3694,62 @@ weight
 	1 to: (words size min: otherWords size) do: [:i| newWords at: i put: ((words at: i ifAbsent: [0]) bitOr: (otherWords at: i ifAbsent: [0]))].
 	^ self class new: (size max: anArray size) words: newWords! !
 
-!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/11/2023 18:38:06'!
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 12/27/2023 15:40:34'!
 · anArray
 	| sum |
 	self class = anArray class ifFalse: [^ super · anArray].
-	sum _ 0.
+	sum := 0.
 	1 to: (words size min: anArray words size) do: [:i|
-		sum _ ((words at: i) bitAnd: (anArray words at: i)) bitXor: sum].
-	^ sum bitParity = 0 ifTrue: [Zero] ifFalse: [One]! !
+		sum := ((words at: i) bitAnd: (anArray words at: i)) bitXor: sum].
+	^ sum bitParity32 = 0 ifTrue: [Zero] ifFalse: [One]! !
 
-!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/22/2023 17:13:36'!
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 12/27/2023 15:46:57'!
 accumulateFrom: start to: stop withMatrix: anArray1 rowIndices: rowIndices timesTuple: anArray2
 	| width k ℓ bits |
-	self flag: #fixme. "this implementation is not much faster than super"
-	"TODO: use parallel bit parity"
+	self flag: #fixme. "TODO: compute bit parity in parallel"
 	(width := anArray2 size) = 0 ifTrue: [^ self].
 	k := 1.
 	start to: stop by: 32 do: [:i|
 		ℓ := stop-i+1 min: 32.
 		bits := 0.
 		0 to: ℓ-1 do: [:j|
-			| n t s sum r |
+			| n t s sum |
 			n := width.
 			t := rowIndices at: k.
 			s := 1.
 			sum := 0.
-			[n > 0] whileTrue:
-				[r := n min: 32.
-				sum := ((anArray1 bits: r at: t) bitAnd: (anArray2 words at: s)) bitXor: sum.
-				t := t + r.
+			[n >= 32] whileTrue:
+				[sum := ((anArray1 bits: 32 at: t) bitAnd: (anArray2 words at: s)) bitXor: sum.
+				t := t + 32.
 				s := s + 1.
-				n := n - r].
-			bits := bits bitXor: (sum bitParity32 bitShift: j).
+				n := n - 32].
+			n > 0 ifTrue: [sum := ((anArray1 bits: n at: t) bitAnd: (anArray2 words at: s)) bitXor: sum].
+			sum bitParity32 = 1 ifTrue: [bits := bits bitXor: (1 bitShift: j)].
 			k := k + 1].
 		self bits: ℓ at: i xor: bits]! !
 
-!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/22/2023 18:21:26'!
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 12/27/2023 15:47:07'!
 accumulateFrom: start to: stop withMatrix: anArray1 timesTuple: anArray2
 	| width k ℓ bits |
-	self flag: #fixme. "this implementation is not much faster than super"
-	"TODO: use parallel bit parity"
+	self flag: #fixme. "TODO: compute bit parity in parallel"
 	(width := anArray2 size) = 0 ifTrue: [^ self].
 	k := 1.
 	start to: stop by: 32 do: [:i|
 		ℓ := stop-i+1 min: 32.
 		bits := 0.
 		0 to: ℓ-1 do: [:j|
-			| n t s sum r |
+			| n t s sum |
 			n := width.
 			t := k.
 			s := 1.
 			sum := 0.
-			[n > 0] whileTrue:
-				[r := n min: 32.
-				sum := ((anArray1 bits: r at: t) bitAnd: (anArray2 words at: s)) bitXor: sum.
-				t := t + r.
+			[n >= 32] whileTrue:
+				[sum := ((anArray1 bits: 32 at: t) bitAnd: (anArray2 words at: s)) bitXor: sum.
+				t := t + 32.
 				s := s + 1.
-				n := n - r].
-			bits := bits bitXor: (sum bitParity32 bitShift: j).
+				n := n - 32].
+			n > 0 ifTrue: [sum := ((anArray1 bits: n at: t) bitAnd: (anArray2 words at: s)) bitXor: sum].
+			sum bitParity32 = 1 ifTrue: [bits := bits bitXor: (1 bitShift: j)].
 			k := k + width].
 		self bits: ℓ at: i xor: bits]! !
 
@@ -3819,14 +3821,15 @@ accumulateRowIndices: rowIndices withMatrix: anArray1 width: width1 rowIndices: 
 			self accumulateFrom: j₀ to: j₀ + width2 - 1 with: (T at: (G indexOf: bits)) startingAt: 1].
 		i := i + ℓ]! !
 
-!BinaryArray methodsFor: 'operations-low level' stamp: 'len 6/13/2023 23:22:27'!
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 12/28/2023 09:40:08'!
 accumulateWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2
 	"Matrix multiplication in O(n^3 / log n) with the Method of Four Russians. See [ABH08], [Bar06]."
 	| ℓ G T m i |
+	m := anArray1 size // width1.
+	width2 = 1 ifTrue: [^ self accumulateFrom: 1 to: m withMatrix: anArray1 timesTuple: anArray2].
 	ℓ := (width2 highBit * 0.75) rounded min: GrayCode cacheSize max: 1.
 	G := GrayCode new: ℓ.
 	T := (1 to: G size) collect: [:each| self species new: width2].
-	m := anArray1 size // width1.
 	i := 0.
 	[i < width1] whileTrue:
 		[width1 - i < ℓ ifTrue: [ℓ := width1 - i. G := GrayCode new: ℓ].
@@ -3837,12 +3840,33 @@ accumulateWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2
 			self accumulateFrom: j₀ to: j₀ + width2 - 1 with: (T at: (G indexOf: bits)) startingAt: 1].
 		i := i + ℓ]! !
 
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 12/28/2023 20:17:29'!
+findFirstNonzeroFrom: start to: stop
+	"Answer the index of the first nonzero entry between start and stop, or nil."
+	^ words lowBitFrom: start to: stop! !
+
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 12/29/2023 11:05:48'!
+findLastNonzeroFrom: start to: stop
+	"Answer the index of the last nonzero entry between start and stop, or nil."
+	^ words highBitFrom: start to: stop! !
+
 !BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 21:32:16'!
 karatsubaThreshold
 	^ 256! !
 
-!BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/15/2023 12:22:20'!
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 12/27/2023 16:03:23'!
+reduceBy: g
+	| n m |
+	m := g size "lastNonzeroIndex".
+	n := self size + 1.
+	[(n := self findLastNonzeroFrom: m to: n-1) notNil]
+		whileTrue:
+			[self accumulateFrom: n-m+1 to: n with: g startingAt: 1]! !
+
+!BinaryArray methodsFor: 'operations-low level' stamp: 'len 12/28/2023 14:30:12'!
 replaceFrom: start to: stop with: replacement startingAt: repStart	
+	self assert: stop <= self size.
+	self assert: repStart + stop - start <= replacement size.
 	words replaceBitsFrom: start to: stop with: replacement words startingAt: repStart! !
 
 !BinaryArray methodsFor: 'operations-low level' stamp: 'len 5/4/2023 23:40:46'!
@@ -4631,6 +4655,10 @@ hash
 	representatives do: [:each| each = 0 ifFalse: [answer _ answer hashMultiply + each hash]].
 	^ answer! !
 
+!ModularArray methodsFor: 'converting' stamp: 'len 12/28/2023 11:15:47'!
+asForm
+	^ representatives asForm! !
+
 !ModularArray methodsFor: 'copying' stamp: 'len 5/4/2023 23:44:53'!
 postCopy
 	super postCopy.
@@ -5322,10 +5350,11 @@ accumulateRowIndices: rowIndices withMatrix: anArray1 width: width1 rowIndices: 
 				self replaceFrom: j₀ to: jₙ with: self startingAt: j₀ minus: anArray2 startingAt: (rowIndices2 at: k)]].
 		i := i + ℓ]! !
 
-!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/22/2023 18:12:09'!
+!TernaryArray methodsFor: 'operations-low level' stamp: 'len 12/28/2023 09:48:43'!
 accumulateWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2
 	| ℓ m i |
 	m := anArray1 size // width1.
+	width2 = 1 ifTrue: [^ self accumulateFrom: 1 to: m withMatrix: anArray1 timesTuple: anArray2].
 	i := 0.
 	[i < width1] whileTrue:
 		[ℓ := 32 min: width1 - i.
@@ -5342,6 +5371,16 @@ accumulateWithMatrix: anArray1 width: width1 timesMatrix: anArray2 width: width2
 			(x₁ bitAnd: x₀) bitSupportDo: [:k|
 				self replaceFrom: j₀ to: jₙ with: self startingAt: j₀ minus: anArray2 startingAt: k-1*width2 + 1]].
 		i := i + ℓ]! !
+
+!TernaryArray methodsFor: 'operations-low level' stamp: 'len 12/29/2023 11:12:06'!
+findFirstNonzeroFrom: start to: stop
+	"Answer the index of the first nonzero entry between start and stop, or nil."
+	^ words₀ lowBitFrom: start to: stop! !
+
+!TernaryArray methodsFor: 'operations-low level' stamp: 'len 12/29/2023 11:12:18'!
+findLastNonzeroFrom: start to: stop
+	"Answer the index of the last nonzero entry between start and stop, or nil."
+	^ words₀ highBitFrom: start to: stop! !
 
 !TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/17/2023 23:31:47'!
 replaceFrom: start to: stop with: replacement startingAt: repStart
@@ -10233,10 +10272,12 @@ polynomial: aPolynomial squarefreeFactorizationDo: aBlock
 	self isUFD ifTrue: [^ (aPolynomial primitivePart over: self fractions) squarefreeFactorizationDo: [:f :r| aBlock value: aPolynomial parent !! f integralPrimitivePart value: r]].
 	^ self notYetImplemented! !
 
-!Ring methodsFor: 'computing-polynomials' stamp: 'len 7/14/2023 18:18:31'!
+!Ring methodsFor: 'computing-polynomials' stamp: 'len 12/29/2023 10:12:11'!
 rootsOf: aPolynomial do: aBlock
 	"Enumerate the distinct roots of aPolynomial (ignoring multiplicities)."
-	(self isUFR not and: [self isFinite]) ifTrue: [^ 	self do: [:each| (aPolynomial value: each) isZero ifTrue: [aBlock value: each]]].
+	self flag: #fixme. "TODO: fine tune this, how big?"
+	(self isFinite and: [self isUFD not or: [self size <= 1024]])
+		ifTrue: [^ 	self do: [:each| (aPolynomial value: each) isZero ifTrue: [aBlock value: each]]].
 	self rootsOf: aPolynomial withMultiplicitiesDo: [:τ :m| aBlock value: τ]! !
 
 !Ring methodsFor: 'computing-polynomials' stamp: 'len 12/23/2023 09:48:00'!
@@ -11451,39 +11492,27 @@ hash
 polynomial: aPolynomial factorizationDo: aBlock
 	aPolynomial numerator primitivePart factorizationDo: [:f :r| aBlock value: aPolynomial parent !! f value: r]! !
 
-!RationalField methodsFor: 'computing-polynomials' stamp: 'len 12/23/2023 10:29:18'!
+!RationalField methodsFor: 'computing-polynomials' stamp: 'len 12/23/2023 16:21:31'!
 rootsOf: aPolynomial withMultiplicitiesDo: aBlock
 	"Enumerate the (real) rational roots of aPolynomial with multiplicities."
-	| f n k count τ visited fourier m |
-	self flag: #fixme. "aPolynomial is not necessarily over ℚ or ℤ!!"
-	f := aPolynomial integralPrimitivePart over: ℤ.
+	| f n count τ visited fourier m |
+	f := aPolynomial scalars = ℚ ifTrue: [aPolynomial integralPrimitivePart over: ℤ] ifFalse: [aPolynomial scalars = ℤ ifTrue: [aPolynomial primitivePart] ifFalse: [^ super rootsOf: aPolynomial withMultiplicitiesDo: aBlock]].
 	n := f degree.
-	(k := f order) > 0 ifTrue: [aBlock value: 0 asRational value: k. f := f >> k].
+	(count := f order) > 0 ifTrue: [aBlock value: 0 asRational value: count. f := f >> count].
 	f isConstant ifTrue: [^ self].
-	count := k.
 	visited := Set new.
-	fourier := OrderedCollection with: f.
+	fourier := OrderedCollection with: f derivative.
 	f independentCoefficient divisorsDo: [:each|
 		f leadingCoefficient divisorsDo: [:one|
 			τ := each / one.
 			visited add: τ ifAbsent:
 					[(f value: τ) isZero ifTrue:
-						[aBlock value: τ value: (m := self multiplicityAt: τ fourier: fourier).
+						[aBlock value: τ value: (m := f multiplicityAt: τ fourier: fourier).
 						(count := count + m) = n ifTrue: [^ self]].
 					τ := τ negated.
 					(f value: τ) isZero ifTrue:
-						[aBlock value: τ value: (m := self multiplicityAt: τ fourier: fourier).
+						[aBlock value: τ value: (m := f multiplicityAt: τ fourier: fourier).
 						(count := count + m) = n ifTrue: [^ self]]]]]! !
-
-!RationalField methodsFor: 'computing-polynomials-private' stamp: 'len 7/13/2021 15:03:04'!
-multiplicityAt: aRoot fourier: fourier
-	| count |
-	count _ 0.
-	fourier do: [:each| (each value: aRoot) isZero ifFalse: [^ count]. count _ count + 1].
-	[fourier last isConstant]
-		whileFalse:
-			[((fourier add: fourier last derivative) value: aRoot) isZero ifFalse: [^ count]. count _ count + 1].
-	^ count! !
 
 !RationalField methodsFor: 'elements' stamp: 'len 7/14/2021 09:50:04'!
 reducedNumerator: anInteger denominator: anotherInteger
@@ -11675,7 +11704,7 @@ zero
 hash
 	^ self class hash! !
 
-!IntegerRing methodsFor: 'computing-matrices' stamp: 'len 11/16/2023 21:54:00'!
+!IntegerRing methodsFor: 'computing-matrices' stamp: 'len 12/28/2023 09:27:59'!
 matrix: B quotientBy: A
 	"Answer X such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero.
 	Attempt to use Dixon's p-adic method [Dix82] for non-singular square matrices, and fallback to the general method for Euclidean domains if this fails."
@@ -11689,12 +11718,10 @@ matrix: B quotientBy: A
 	𝔽ₚ := PrimeField new: p.
 	[C := (A over: 𝔽ₚ) inverse] on: Error do: [^ self matrixOverEuclideanDomain: B quotientBy: A].
 	lengths := OrderedCollection new: A width + 1.
-"	lengths add: (B columns max: [:b| b length])."
-	lengths add: (B columns max: [:b| b norm sqrtFloor + 1]).
-"	A columnsDo: [:each| lengths add: each length]."
+	lengths add: (B columns max: [:b| b norm sqrtFloor + 1]). "each entry is >= Euclidean length"
 	A columnsDo: [:each| lengths add: each norm sqrtFloor + 1].
-"	δ _ lengths sorted allButFirst product.
-	λ _ 0.6180339887498949. ""root of x^2 + x - 1""
+"	δ := lengths sorted allButFirst product.
+	λ := 0.6180339887498949. ""root of x^2 + x - 1""
 	m _ ((δ / λ) log / p log * 2) ceiling."
 	m := ((lengths sorted allButFirst sum: [:each| each log]) + 0.20898764024997868 / p log * 2) ceiling. "the constant is -log(λ)"
 	M := (PrimePowerRing new: p to: m)^B height.
@@ -11765,6 +11792,23 @@ polynomial: aPolynomial factorizationZassenhaussDo: aBlock
 				[aBlock value: g.
 				(f := division quotient) isConstant ifTrue: [^ self]]]].
 	^ aBlock value: f! !
+
+!IntegerRing methodsFor: 'computing-polynomials' stamp: 'len 12/23/2023 16:21:28'!
+rootsOf: aPolynomial withMultiplicitiesDo: aBlock
+	"Enumerate the integer roots of aPolynomial with multiplicities."
+	| f n count fourier m |
+	f := aPolynomial scalars = ℚ ifTrue: [aPolynomial integralPrimitivePart over: ℤ] ifFalse: [aPolynomial scalars = ℤ ifTrue: [aPolynomial primitivePart] ifFalse: [^ super rootsOf: aPolynomial withMultiplicitiesDo: aBlock]].
+	n := f degree.
+	(count := f order) > 0 ifTrue: [aBlock value: 0 asRational value: count. f := f >> count].
+	f isConstant ifTrue: [^ self].
+	fourier := OrderedCollection with: f derivative.
+	f independentCoefficient divisorsDo: [:τ|
+		(f value: τ) isZero ifTrue:
+			[aBlock value: τ value: (m := f multiplicityAt: τ fourier: fourier).
+			(count := count + m) = n ifTrue: [^ self]].
+		(f value: τ negated) isZero ifTrue:
+			[aBlock value: τ negated value: (m := f multiplicityAt: τ negated fourier: fourier).
+			(count := count + m) = n ifTrue: [^ self]]]! !
 
 !IntegerRing methodsFor: 'converting' stamp: 'len 4/30/2021 13:12:57'!
 asModule
@@ -13611,6 +13655,13 @@ initialize
 (#[241 2] #[7 238 1])
 (#[251 2] #[6 242 1])
 	) do: [:each| ConwayPolynomials at: each first put: each second]! !
+
+!BinaryField methodsFor: 'computing-polynomials' stamp: 'len 12/29/2023 10:03:28'!
+rootsOf: aPolynomial do: aBlock
+	"Enumerate the distinct roots of aPolynomial (ignoring multiplicities)."
+	aPolynomial isZero ifTrue: [^ self do: aBlock].
+	aPolynomial independentCoefficient isZero ifTrue: [aBlock value: self zero].
+	(aPolynomial parent scalars = self ifTrue: [aPolynomial coefficients sum] ifFalse: [aPolynomial coefficients sum: [:each| self !! each]]) isZero ifTrue: [aBlock value: self one]! !
 
 !BinaryField methodsFor: 'elements' stamp: 'len 5/16/2023 21:37:14'!
 new: anInteger
@@ -15608,10 +15659,10 @@ homogenization
 lift
 	^ self propertyAt: #lift ifAbsentPut: [self class monomials: monomials over: scalars cover]! !
 
-!PolynomialRing methodsFor: 'converting' stamp: 'len 6/9/2023 09:40:42'!
+!PolynomialRing methodsFor: 'converting' stamp: 'len 12/23/2023 15:23:39'!
 numerators
-	self scalars isLocalization ifFalse: [^ self].
-	^ self propertyAt: #numerators ifAbsentPut: [self over: self scalars numerators]! !
+	scalars isLocalization ifFalse: [^ self].
+	^ self propertyAt: #numerators ifAbsentPut: [self over: scalars numerators]! !
 
 !PolynomialRing methodsFor: 'converting' stamp: 'len 5/13/2019 22:13:37'!
 orderedBy: aMonomialOrdering
@@ -16113,9 +16164,9 @@ unitAtRandom: aRandom bits: bitSize
 		answer _ (self coefficient: (self scalars nilradical atRandom: aRandom bits: bitSize) monomial: m) + answer].
 	^ answer! !
 
-!PolynomialRing methodsFor: 'testing' stamp: 'len 6/4/2016 05:13'!
+!PolynomialRing methodsFor: 'testing' stamp: 'len 12/24/2023 08:38:23'!
 has: anIndeterminate
-	^ self indeterminates includes: anIndeterminate! !
+	^ anIndeterminate between: 1 and: self rank! !
 
 !PolynomialRing methodsFor: 'testing' stamp: 'len 6/3/2023 20:39:03'!
 hasCanonicalAssociates
@@ -19428,6 +19479,11 @@ asVectorSpace
 lift
 	^ self propertyAt: #lift ifAbsentPut: [scalars cover ^ rank]! !
 
+!FreeModule methodsFor: 'converting' stamp: 'len 12/23/2023 15:23:26'!
+numerators
+	scalars isLocalization ifFalse: [^ self].
+	^ self propertyAt: #numerators ifAbsentPut: [scalars numerators ^ rank]! !
+
 !FreeModule methodsFor: 'converting' stamp: 'len 5/5/2023 00:59:35'!
 orderedBy: aModuleMonomialOrdering
 	^ self class new: self rank over: self scalars ordering: aModuleMonomialOrdering! !
@@ -19743,6 +19799,11 @@ asRing
 	self assert: self isEndomorphisms.
 	^ domain endomorphisms! !
 
+!HomModule methodsFor: 'converting' stamp: 'len 12/23/2023 15:27:04'!
+numerators
+	self scalars isLocalization ifFalse: [^ self].
+	^ self propertyAt: #numerators ifAbsentPut: [domain numerators ⇒ codomain numerators]! !
+
 !HomModule methodsFor: 'converting' stamp: 'len 12/2/2022 14:38:36'!
 over: aRing
 	"Answer the change of base ring of the receiver."
@@ -19931,11 +19992,6 @@ relationsMatrix
 !MatrixModule methodsFor: 'accessing' stamp: 'len 7/16/2020 09:43:28'!
 width
 	^ self domain rank! !
-
-!MatrixModule methodsFor: 'converting' stamp: 'len 6/9/2023 10:04:15'!
-numerators
-	self scalars isLocalization ifFalse: [^ self].
-	^ self propertyAt: #numerators ifAbsentPut: [self over: self scalars numerators]! !
 
 !MatrixModule methodsFor: 'elements' stamp: 'len 10/15/2023 13:19:05'!
 coefficients: anArray
@@ -29303,10 +29359,9 @@ isSquarefree
 isUnivariateIn: anIndeterminate
 	^ exponents isEmpty or: [(self at: anIndeterminate) = self degree]! !
 
-!Monomial methodsFor: 'private' stamp: 'len 11/30/2023 14:22:55'!
+!Monomial methodsFor: 'private' stamp: 'len 12/24/2023 09:18:38'!
 exponents: anArray parent: aFreeAbelianMonoid
 	exponents := anArray.
-	self assert: (exponents allSatisfy: [:each| each isInteger]).
 	parent := aFreeAbelianMonoid! !
 
 !Monomial methodsFor: 'private' stamp: 'len 2/26/2017 10:37:42'!
@@ -33779,13 +33834,13 @@ denominator
 	self scalars isLocalization ifFalse: [^ self scalars one].
 	^ self coefficients inject: self scalars numerators one into: [:d :each| each denominator lcm: d]! !
 
-!Polynomial methodsFor: 'accessing' stamp: 'len 6/9/2023 09:41:11'!
+!Polynomial methodsFor: 'accessing' stamp: 'len 12/23/2023 15:19:36'!
 numerator
 	"If the coefficients ring is a localization, answer the product of the receiver by the LCM of the denominators of the coefficients. The answer is a polynomial over the ring of numerators of the localization ring."
 	| d |
 	self scalars isLocalization ifFalse: [^ self].
 	d := self scalars !! self denominator.
-	^ self parent numerators associations: (self associations collect: [:each| each key -> (each value * d) numerator])! !
+	^ parent numerators associations: (self associations collect: [:each| each key -> (each value * d) numerator])! !
 
 !Polynomial methodsFor: 'accessing' stamp: 'len 10/6/2016 15:34'!
 parent
@@ -33951,10 +34006,10 @@ asQuadraticForm
 			coeff add: (self at: ((self parent monomials x: i) * (self parent monomials x: j)))]].
 	^ QuadraticForm from: self scalars ^ self parent rank coefficients: self parent scalars !!!! coeff asArray! !
 
-!Polynomial methodsFor: 'converting' stamp: 'len 12/21/2017 20:09:56'!
+!Polynomial methodsFor: 'converting' stamp: 'len 12/24/2023 09:13:26'!
 asScalar
 	self isConstant ifFalse: [^ self error: 'not a constant polynomial'].
-	^ self leadingCoefficient! !
+	^ self independentCoefficient! !
 
 !Polynomial methodsFor: 'converting' stamp: 'len 5/8/2023 17:00:17'!
 asUnivariate
@@ -34018,26 +34073,19 @@ content
 	self coefficients do: [:each| answer := answer gcd: each. answer isOne ifTrue: [^ answer]].
 	^ answer! !
 
-!Polynomial methodsFor: 'factorization' stamp: 'len 12/23/2023 10:49:26'!
-integralContent
-	"Answer the normalized integral content of the receiver.
-	NOTE: assumes the receiver is a polynomial over a localization of an integral domain with a GCD algorithm."
+!Polynomial methodsFor: 'factorization' stamp: 'len 12/23/2023 16:34:25'!
+integralPrimitivePart
+	"Answer the normalized integral primitive polynomial associated to the receiver.
+	Remove the integral content (including normalization unit).
+	NOTE: assumes the receiver is a polynomial over the fraction field of an integral domain with a GCD algorithm."
 	| a b |
-	self isZero ifTrue: [^ self scalars zero].
+	self isZero ifTrue: [^ self].
 	a := self leadingCoefficient numerator normalized.
 	b := self leadingCoefficient denominator.
 	self coefficients do: [:each|
 		a := a gcd: each numerator.
 		b := b lcm: each denominator].
-	^ self scalars numerator: a / self leadingCoefficient numerator normalization denominator: b! !
-
-!Polynomial methodsFor: 'factorization' stamp: 'len 12/23/2023 10:49:36'!
-integralPrimitivePart
-	"Answer the normalized integral primitive polynomial associated to the receiver.
-	Remove the integral content (including normalization unit).
-	NOTE: assumes the receiver is a polynomial over a localization of an integral domain with a GCD algorithm."
-	self isZero ifTrue: [^ self].
-	^ self / self integralContent! !
+	^ self * (self scalars reducedNumerator: b * self leadingCoefficient numerator normalization denominator: a)! !
 
 !Polynomial methodsFor: 'factorization' stamp: 'len 12/23/2023 10:10:04'!
 primitivePart
@@ -34402,11 +34450,11 @@ apply: aFunction
 
 	^ self class coefficients: (coefficients apply: aFunction) parent: (aFunction isBlock ifTrue: [parent] ifFalse: [parent over: aFunction codomain])! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 7/6/2023 00:58:29'!
+!Polynomial methodsFor: 'operations' stamp: 'len 12/24/2023 09:13:35'!
 colift: aPolynomial
 	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
 	This is the right division of b by a, written b / a."
-	self isConstant ifTrue: [^ aPolynomial dividedByScalar: self leadingCoefficient].
+	self isConstant ifTrue: [^ aPolynomial dividedByScalar: self independentCoefficient].
 	self isUnit ifTrue: [^ aPolynomial * self inverse].
 	^ (self asSingletonMatrix colift: aPolynomial asSingletonMatrix) ifNotNil: [:aMatrix| aMatrix asScalar]! !
 
@@ -34966,6 +35014,10 @@ isUnivariateIn: anInteger
 	self monomialsDo: [:each| (each isUnivariateIn: anInteger) ifFalse: [^ false]].
 	^ true! !
 
+!Polynomial methodsFor: 'testing' stamp: 'len 12/24/2023 08:34:06'!
+isZero
+	^ coefficients isEmpty! !
+
 !Polynomial methodsFor: 'testing' stamp: 'len 5/23/2022 19:25:00'!
 isZeroDivisor
 	"Answer true if there exists a nonzero element that multiplied by the receiver is zero."
@@ -35101,10 +35153,6 @@ isUnit
 	^ true
 	"Also: for a local ring R with residue field K, a polynomial in R[x] is a unit iff its projection to K[x] is a unit."! !
 
-!MultivariatePolynomial methodsFor: 'testing' stamp: 'len 4/27/2022 13:41:09'!
-isZero
-	^ coefficients isEmpty! !
-
 !MultivariatePolynomial methodsFor: 'private' stamp: 'len 4/28/2022 06:42:20'!
 applyToMonomials: aBlock
 	^ self class coefficients: (coefficients collectByKey: aBlock) parent: parent! !
@@ -35139,6 +35187,14 @@ lift
 	"If the coefficients ring is a quotient R/I, answer a representative of the receiver over R. See >>%."
 	parent scalars cover = ℤ ifTrue: [^ parent lift coefficients: coefficients lift].
 	^ self notYetImplemented! !
+
+!UnivariatePolynomial methodsFor: 'accessing' stamp: 'len 12/23/2023 15:19:24'!
+numerator
+	"If the coefficients ring is a localization, answer the product of the receiver by the LCM of the denominators of the coefficients. The answer is a polynomial over the ring of numerators of the localization ring."
+	| d |
+	self scalars isLocalization ifFalse: [^ self].
+	d := self scalars !! self denominator.
+	^ parent numerators coefficients: (self scalars numerators new: coefficients size fill: [:i| ((coefficients at: i) * d) numerator])! !
 
 !UnivariatePolynomial methodsFor: 'accessing' stamp: 'len 5/15/2023 17:30:10'!
 representative
@@ -35379,17 +35435,20 @@ gcd: aPolynomial
 		self degree = anElement degree ifTrue: [^ self parent constant: self leadingCoefficient ÷ anElement leadingCoefficient]].
 	^ super ÷ anElement! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 7/6/2023 00:58:49'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 12/24/2023 09:14:15'!
 colift: aPolynomial
 	"Answer x such that xa = b, where a is the receiver and b is the argument. Answer nil if there's no solution.
 	This is the right division of b by a, written b / a."
 	| division |
 	aPolynomial isZero ifTrue: [^ aPolynomial].
-	parent scalars isIntegralDomain ifFalse: [^ super colift: aPolynomial].
-	self isConstant ifTrue: [^ aPolynomial dividedByScalar: self leadingCoefficient].
-	division := self leadingCoefficient isUnit
-		ifTrue: [aPolynomial coefficients polynomialDivisionBy: coefficients]
-		ifFalse: [aPolynomial coefficients polynomialPartialDivisionBy: coefficients].
+	self isConstant ifTrue: [^ aPolynomial dividedByScalar: self independentCoefficient].
+	self leadingCoefficient isUnit
+		ifTrue:
+			[division := aPolynomial coefficients polynomialDivisionBy: coefficients]
+		ifFalse:
+			[self isUnit ifTrue: [^ aPolynomial * self inverse].
+			parent scalars isIntegralDomain ifFalse: [^ (self asSingletonMatrix colift: aPolynomial asSingletonMatrix) ifNotNil: [:aMatrix| aMatrix asScalar]].
+			division := aPolynomial coefficients polynomialPartialDivisionBy: coefficients].
 	^ division second isZero ifTrue: [self class coefficients: division first parent: parent]! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/29/2023 10:03:24'!
@@ -35673,6 +35732,20 @@ multiplicityAt: aPoint
 			f _ f derivative].
 	^ answer! !
 
+!UnivariatePolynomial methodsFor: 'roots' stamp: 'len 12/23/2023 15:55:35'!
+multiplicityAt: aPoint fourier: fourier
+	"Like >>#multiplicityAt: but caches the derivatives in an OrderedCollection provided by the caller."
+	| count |
+	self isZero ifTrue: [^ Infinity positive].
+	(self value: aPoint) isZero ifFalse: [^ 0].
+	count := 1.
+	fourier isEmpty ifTrue: [fourier add: self derivative].
+	fourier do: [:each| (each value: aPoint) isZero ifFalse: [^ count]. count := count + 1].
+	[fourier last isConstant]
+		whileFalse:
+			[((fourier add: fourier last derivative) value: aPoint) isZero ifFalse: [^ count]. count := count + 1].
+	^ count! !
+
 !UnivariatePolynomial methodsFor: 'roots' stamp: 'len 2/6/2017 06:44:06'!
 orderAt: aPoint
 	^ self multiplicityAt: aPoint! !
@@ -35785,9 +35858,9 @@ zeroSquared
 	f₁ := self oddPart.
 	^ f₁ squared << 1 - f₀ squared! !
 
-!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 1/23/2017 11:47:49'!
+!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 12/24/2023 08:38:01'!
 has: anIndeterminate
-	^ self degree > 0 and: [self parent has: anIndeterminate]! !
+	^ anIndeterminate = 1 and: [self isConstant not]! !
 
 !UnivariatePolynomial methodsFor: 'testing' stamp: 'len 4/28/2022 11:53:24'!
 isConstant
@@ -35922,22 +35995,20 @@ isIrreducibleRabin2
 	((h raisedTo: q^(n - k₀) modulo: self) - x \\ self) isZero ifFalse: [^ false].
 	^ true! !
 
-!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 5/31/2022 19:04:02'!
+!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 12/24/2023 09:21:53'!
 isUnit
 	"Answer true if the receiver is invertible."
 	self isConstant ifTrue: [^ self independentCoefficient isUnit].
 	parent scalars isIntegralDomain ifTrue: [^ false].
 	self independentCoefficient isUnit ifFalse: [^ false].
-	^ (1 to: self degree) allSatisfy: [:i| (self at: i) isNilpotent]
+	2 to: coefficients size do: [:i| (coefficients at: i) isNilpotent ifFalse: [^ false]].
+	^ true
+
 	"Also: for a local ring R with residue field K, a polynomial in R[x] is a unit iff its projection to K[x] is a unit."! !
 
 !UnivariatePolynomial methodsFor: 'testing' stamp: 'len 3/27/2016 07:56'!
 isUnivariate
 	^ true! !
-
-!UnivariatePolynomial methodsFor: 'testing' stamp: 'len 12/21/2017 18:40:41'!
-isZero
-	^ coefficients isZero! !
 
 !UnivariatePolynomial methodsFor: 'private' stamp: 'len 5/14/2023 18:23:42'!
 coefficients: anArray parent: aPolynomialRing
@@ -37041,13 +37112,13 @@ lift
 	parent scalars cover = ℤ ifTrue: [^ parent lift coefficients: coefficients lift].
 	^ parent lift fill: [:i| (coefficients at: i) lift]! !
 
-!Tuple methodsFor: 'accessing' stamp: 'len 6/27/2023 18:22:58'!
+!Tuple methodsFor: 'accessing' stamp: 'len 12/23/2023 15:24:59'!
 numerator
 	"If the coefficients ring is a localization, answer the product of the receiver by the LCM of the denominators of the coefficients. The answer is a tuple over the ring of numerators of the localization ring."
 	| d |
 	self scalars isLocalization ifFalse: [^ self].
 	d := self scalars !! self denominator.
-	^ self scalars numerators !!!! (coefficients asArray collect: [:each| (each * d) numerator])! !
+	^ parent numerators coefficients: (self scalars numerators new: coefficients size fill: [:i| ((coefficients at: i) * d) numerator])! !
 
 !Tuple methodsFor: 'accessing' stamp: 'len 5/5/2023 00:13:36'!
 scalars
@@ -38634,7 +38705,7 @@ modulus
 size
 	^ powers size! !
 
-!FFT methodsFor: 'operations' stamp: 'len 5/25/2023 13:39:34'!
+!FFT methodsFor: 'operations' stamp: 'len 12/27/2023 10:42:40'!
 inverseTransform: anArray
 	"Inverse-NTT based on the Gentleman-Sade butterfly.
 	It takes an input in bit-reversed ordering and produces an output in standard ordering.
@@ -38642,6 +38713,7 @@ inverseTransform: anArray
 	| n k m j₁ j₂ S U V h |
 	self flag: #fixme. "TODO: implement K-RED and K-RED-2x (algorithm 4)"
 	n := anArray size.
+	self assert: n = self size.
 	k := 1.
 	m := n.
 	[m > 1] whileTrue:
@@ -38661,7 +38733,7 @@ inverseTransform: anArray
 	1 to: n do: [:j| anArray at: j put: (anArray at: j) * inverseN \\ modulus].
 	^ anArray! !
 
-!FFT methodsFor: 'operations' stamp: 'len 5/25/2023 13:39:25'!
+!FFT methodsFor: 'operations' stamp: 'len 12/27/2023 10:42:46'!
 transform: anArray
 	"NTT based on the Cooley-Tukey butterfly.
 	It takes an input in standard ordering and produces an output in bit-reversed ordering.
@@ -38669,6 +38741,7 @@ transform: anArray
 	| n k m j₁ j₂ S U V |
 	self flag: #fixme. "TODO: implement K-RED and K-RED-2x (algorithm 3)"
 	n := anArray size.
+	self assert: n = self size.
 	k := n.
 	m := 1.
 	[m < n] whileTrue:
@@ -38685,7 +38758,7 @@ transform: anArray
 		m := m * 2].
 	^ anArray! !
 
-!FFT methodsFor: 'printing' stamp: 'len 5/24/2023 13:48:35'!
+!FFT methodsFor: 'printing' stamp: 'len 12/27/2023 09:55:52'!
 printOn: aStream
 	| factorization |
 	aStream nextPutAll: self class name.
@@ -38696,10 +38769,10 @@ printOn: aStream
 			(eᵢ := factorization occurrencesOf: pᵢ) > 1
 				ifTrue: [aStream nextPutAll: eᵢ printStringSuperscript sub]]
 		separatedBy: [aStream nextPutAll: '·' sub].
-	aStream nextPutAll: ' + 1' sub.
+	aStream nextPutAll: '+1' sub.
 	aStream nextPutAll: '(2'; nextPutAll: (self size highBit - 1) printString super; nextPut: $)! !
 
-!FFT methodsFor: 'private' stamp: 'len 5/25/2023 13:36:14'!
+!FFT methodsFor: 'private' stamp: 'len 12/27/2023 10:55:50'!
 modulus: mod size: n
 	| R x φ ω |
 	modulus := mod.
@@ -38713,9 +38786,9 @@ modulus: mod size: n
 	inverseN := (R !! n) inverse representative.
 	powers := WordArray new: n.
 	inversePowers := WordArray new: n.
-	1 to: n do: [:i|
+	0 to: n-1 do: [:i|
 		| iᵣ |
-		iᵣ := (i - 1 bitReverse: n highBit - 1) + 1.
+		iᵣ := (i bitReverse: n highBit - 1) + 1.
 		powers at: iᵣ put: (φ ^ i) representative.
 		inversePowers at: iᵣ put: (φ inverse ^ i) representative]! !
 
@@ -39880,7 +39953,7 @@ transformation
 	combinations isNil ifTrue: [self run].
 	^ matrix scalars^combinations size to: matrix domain fill: [:i :j| (combinations at: j) at: i]! !
 
-!ExtendedStrongBuchberger methodsFor: 'computing' stamp: 'len 6/17/2023 14:40:16'!
+!ExtendedStrongBuchberger methodsFor: 'computing' stamp: 'len 12/24/2023 08:19:51'!
 autoreduce
 	"Make the basis a reduced basis.
 	Based on [BW93], algorithm REDGROEBNER (p. 216) and REDUCTION (p. 203)."
@@ -39905,47 +39978,47 @@ autoreduce
 		(r := division remainder) isZero ifFalse:
 			[u := r normalization.
 			generators add: r*u.
-			combinations add: (T at: i) - ((T copyWithoutIndex: i) * division quotients) sum * u]]! !
+			combinations add: (T at: i) - ((T copyWithoutIndex: i) · division quotients) * u]]! !
 
-!ExtendedStrongBuchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
+!ExtendedStrongBuchberger methodsFor: 'computing' stamp: 'len 12/24/2023 08:03:30'!
 process: anArray
 	| i0 division queue |
-	i0 _ generators size + 1.
+	i0 := generators size + 1.
 	"Full reduction in this step produces a reduced basis:"
 	anArray do: [:f|
-		(division _ f key divisionBy: generators) remainder isZero ifFalse:
+		(division := f key divisionBy: generators) remainder isZero ifFalse:
 			[| u |
-			u _ division remainder normalization.
+			u := division remainder normalization.
 			generators add: division remainder * u.
-			combinations add: (combinations isEmpty ifTrue: [f value] ifFalse: [f value - (combinations * division quotients) sum])*u]].
-	queue _ OrderedCollection new.
+			combinations add: (combinations isEmpty ifTrue: [f value] ifFalse: [f value - (combinations · division quotients)])*u]].
+	queue := OrderedCollection new.
 	1 to: generators size do: [:i| | fi hi ci ai ann |
-		fi _ generators at: i.
-		hi _ fi leadingMonomial.
-		ci _ fi leadingCoefficient.
-		ai _ combinations at: i.
+		fi := generators at: i.
+		hi := fi leadingMonomial.
+		ci := fi leadingCoefficient.
+		ai := combinations at: i.
 		"Add A-polynomial:"
-		ann _ ci annihilator.
-		(division _ fi * ann divisionBy: generators) remainder isZero ifFalse:
-			[queue add: (Association key: division remainder value: ai * ann - (combinations * division quotients) sum)].
+		ann := ci annihilator.
+		(division := fi * ann divisionBy: generators) remainder isZero ifFalse:
+			[queue add: (Association key: division remainder value: ai * ann - (combinations · division quotients))].
 		(i+1 max: i0) to: generators size do: [:k| | fk hk |
-			fk _ generators at: k.
-			hk _ fk leadingMonomial.
+			fk := generators at: k.
+			hk := fk leadingMonomial.
 			(hi lcm: hk) ifNotNil: [:m| | ck ak c s xgcd g |
-				ck _ fk leadingCoefficient.
-				ak _ combinations at: k.
-				c _ ci lcm: ck.
+				ck := fk leadingCoefficient.
+				ak := combinations at: k.
+				c := ci lcm: ck.
 				"Add S-polynomial. Apply Buchberger Product Criterion (only applicable to rank 1) and Chain Criterion:"
 				((self isRankOne not or: [hi * hk ~= m or: [ci * ck ~= c]]) and: [(1 to: i-1) noneSatisfy: [:j| (generators at: j) leadingMonomial | m and: [(generators at: j) leadingCoefficient | c]]]) ifTrue:
-					[s _ fi * (m / hi) * (c / ci) + (fk * (m / hk) * (c negated / ck)).
-					(division _ s divisionBy: generators) remainder isZero ifFalse:
-						[queue add: (Association key: division remainder value: ((ai * (matrix scalars one * (m / hi) * (c / ci)) + (ak * (matrix scalars one * (m / hk) * (c negated / ck)))) - (combinations * division quotients) sum))]].
-				xgcd _ ci xgcd: ck.
+					[s := fi * (m / hi) * (c / ci) + (fk * (m / hk) * (c negated / ck)).
+					(division := s divisionBy: generators) remainder isZero ifFalse:
+						[queue add: (Association key: division remainder value: ((ai * (matrix scalars one * (m / hi) * (c / ci)) + (ak * (matrix scalars one * (m / hk) * (c negated / ck)))) - (combinations · division quotients)))]].
+				xgcd := ci xgcd: ck.
 				"Add G-polynomial. Apply Chain Criterion for GCD:"
 				((1 to: i-1) noneSatisfy: [:j| (generators at: j) leadingMonomial | m and: [(generators at: j) leadingCoefficient | (xgcd at: 1)]]) ifTrue:
-					[g _ fi * (m / hi) * (xgcd at: 2) + (fk * (m / hk) * (xgcd at: 3)).
-					(division _ g divisionBy: generators) remainder isZero ifFalse:
-						[queue add: (Association key: division remainder value: ((ai * (matrix scalars one * (m / hi) * (xgcd at: 2)) + (ak * (matrix scalars one * (m / hk) * (xgcd at: 3)))) - (combinations * division quotients) sum))]]]]].
+					[g := fi * (m / hi) * (xgcd at: 2) + (fk * (m / hk) * (xgcd at: 3)).
+					(division := g divisionBy: generators) remainder isZero ifFalse:
+						[queue add: (Association key: division remainder value: ((ai * (matrix scalars one * (m / hi) * (xgcd at: 2)) + (ak * (matrix scalars one * (m / hk) * (xgcd at: 3)))) - (combinations · division quotients)))]]]]].
 	^ queue! !
 
 !ExtendedStrongBuchberger methodsFor: 'computing' stamp: 'len 6/17/2023 14:51:10'!
@@ -39976,61 +40049,61 @@ validate
 	super validate.
 	matrix * self transformation = self basis ifFalse: [self error: 'change of basis failed']! !
 
-!ExtendedBuchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
+!ExtendedBuchberger methodsFor: 'computing' stamp: 'len 12/24/2023 08:20:06'!
 autoreduce
 	"Make the basis a reduced basis.
 	Based on [BW93], algorithm REDGROEBNER (p. 216) and REDUCTION (p. 203)."
 	| H T |
-	H _ OrderedCollection new.
-	T _ OrderedCollection new.
+	H := OrderedCollection new.
+	T := OrderedCollection new.
 	1 to: generators size do: [:i| | f m |
-		f _ generators at: i.
-		m _ f leadingMonomial.
+		f := generators at: i.
+		m := f leadingMonomial.
 		(((i+1 to: generators size) noneSatisfy: [:j| (generators at: j) leadingMonomial | m])
 			and: [H noneSatisfy: [:h| h leadingMonomial | m]])
 				ifTrue: [H add: f. T add: (combinations at: i)]].
-	H _ H asArray.
-	T _ T asArray.
-	H size > 1 ifFalse: [generators _ H. combinations _ T. ^ self].
-	generators _ OrderedCollection new.
-	combinations _ OrderedCollection new.
+	H := H asArray.
+	T := T asArray.
+	H size > 1 ifFalse: [generators := H. combinations := T. ^ self].
+	generators := OrderedCollection new.
+	combinations := OrderedCollection new.
 	1 to: H size do: [:i| | h division r u |
-		h _ H at: i.
-		division _ h divisionBy: (H copyWithoutIndex: i).
-		(r _ division remainder) isZero ifFalse:
-			[u _ r normalization.
+		h := H at: i.
+		division := h divisionBy: (H copyWithoutIndex: i).
+		(r := division remainder) isZero ifFalse:
+			[u := r normalization.
 			generators add: r*u.
-			combinations add: (T at: i) - ((T copyWithoutIndex: i) * division quotients) sum * u]]! !
+			combinations add: (T at: i) - ((T copyWithoutIndex: i) · division quotients) * u]]! !
 
-!ExtendedBuchberger methodsFor: 'computing' stamp: 'len 12/17/2022 10:01:15'!
+!ExtendedBuchberger methodsFor: 'computing' stamp: 'len 12/24/2023 08:20:55'!
 process: anArray
 	| i0 division queue |
-	i0 _ generators size + 1.
+	i0 := generators size + 1.
 	"Full reduction in this step produces a reduced basis:"
 	anArray do: [:f|
-		(division _ f key divisionBy: generators) remainder isZero ifFalse:
+		(division := f key divisionBy: generators) remainder isZero ifFalse:
 			[| u |
-			u _ division remainder normalization.
+			u := division remainder normalization.
 			generators add: division remainder * u.
-			combinations add: (combinations isEmpty ifTrue: [f value] ifFalse: [f value - (combinations * division quotients) sum])*u]].
-	queue _ OrderedCollection new.
+			combinations add: (combinations isEmpty ifTrue: [f value] ifFalse: [f value - (combinations · division quotients)])*u]].
+	queue := OrderedCollection new.
 	1 to: generators size do: [:i| | fi hi ci ai |
-		fi _ generators at: i.
-		hi _ fi leadingMonomial.
-		ci _ fi leadingCoefficient.
-		ai _ combinations at: i.
+		fi := generators at: i.
+		hi := fi leadingMonomial.
+		ci := fi leadingCoefficient.
+		ai := combinations at: i.
 		(i+1 max: i0) to: generators size do: [:k| | fk hk ck s ak |
-			fk _ generators at: k.
-			hk _ fk leadingMonomial.
+			fk := generators at: k.
+			hk := fk leadingMonomial.
 			(hi lcm: hk) ifNotNil: [:m|
 				"Add S-polynomial. Apply Buchberger Product Criterion (only applicable to rank 1) and Chain Criterion:"
 				((self isRankOne not or: [m ~= (hi * hk)]) and: [((1 to: i-1) noneSatisfy: [:j| (generators at: j) leadingMonomial | m])])
 					ifTrue:
-						[ck _ fk leadingCoefficient.
-						ak _ combinations at: k.
-						s _ fi * (m / hi) / ci - (fk * (m / hk) / ck).
-						(division _ s divisionBy: generators) remainder isZero ifFalse:
-							[queue add: (Association key: division remainder value: ((ai * (matrix scalars one * (m / hi) / ci) - (ak * (matrix scalars one * (m / hk) / ck))) - (combinations * division quotients) sum))]]]]].
+						[ck := fk leadingCoefficient.
+						ak := combinations at: k.
+						s := fi * (m / hi) / ci - (fk * (m / hk) / ck).
+						(division := s divisionBy: generators) remainder isZero ifFalse:
+							[queue add: (Association key: division remainder value: ((ai * (matrix scalars one * (m / hi) / ci) - (ak * (matrix scalars one * (m / hk) / ck))) - (combinations · division quotients)))]]]]].
 	^ queue! !
 
 !ExtendedBuchberger methodsFor: 'private' stamp: 'len 12/3/2023 21:22:32'!
@@ -40566,6 +40639,100 @@ factorizationFermatSievingOddAndEven
 		y := x squared - self].
 	y := y sqrt.
 	^ {x + y. x - y}! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 12/26/2023 10:38:42'!
+gf16_mul: anInteger
+	"Multiplication in 𝔽₁₆ := 𝔽₄[y]/(y²+y+x)."
+	| a₀ a₁ b₀ b₁ a₀b₀ a₁b₁ a₀pa₁b₀pb₁ma₀b₀ rd₀ |
+	a₀ := self bitAnd: 3.
+	a₁ := (self bitShift: -2) bitAnd: 3.
+	b₀ := anInteger bitAnd: 3.
+	b₁ := (anInteger bitShift: -2) bitAnd: 3.
+	a₀b₀ := a₀ gf4_mul: b₀.
+	a₁b₁ := a₁ gf4_mul: b₁.
+	a₀pa₁b₀pb₁ma₀b₀ := ((a₀ bitXor: a₁) gf4_mul: (b₀ bitXor: b₁)) bitXor: a₀b₀.
+	rd₀ := a₁b₁ gf4_mul: 2.
+	^ (a₀b₀ bitXor: rd₀) bitOr: (a₀pa₁b₀pb₁ma₀b₀ bitShift: 2)! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 12/26/2023 10:28:46'!
+gf256_mul: anInteger
+	"Multiplication in 𝔽₂₅₆ := 𝔽₁₆[x]/(x²+x+8)."
+	| a₀ a₁ b₀ b₁ ab₀ ab₁ ab₂ |
+	a₀ := self bitAnd: 15.
+	a₁ := (self bitShift: -4) bitAnd: 15.
+	b₀ := anInteger bitAnd: 15.
+	b₁ := (anInteger bitShift: -4) bitAnd: 15.
+	ab₀ := a₀ gf16_mul: b₀.
+	ab₁ := (a₁ gf16_mul: b₀) bitXor: (a₀ gf16_mul: b₁).
+	ab₂ := a₁ gf16_mul: b₁.
+	ab₀ := ab₀ bitXor: (ab₂ gf16_mul: 8).
+	ab₁ := ab₁ bitXor: ab₂.
+	ab₀ := ab₀ bitXor: (ab₁ bitShift: 4).
+	^ ab₀! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 12/27/2023 09:47:30'!
+gf2to16_mul: anInteger
+	"Multiplication in GF(2^16)."
+	| a₀ a₁ b₀ b₁ a₀b₀ a₁b₁ a₀pa₁b₀pb₁ma₀b₀ rd₀ |
+	a₀ := self bitAnd: 16rFF.
+	a₁ := (self bitShift: -8) bitAnd: 16rFF.
+	b₀ := anInteger bitAnd: 16rFF.
+	b₁ := (anInteger bitShift: -8) bitAnd: 16rFF.
+	a₀b₀ := a₀ gf256_mul: b₀.
+	a₁b₁ := a₁ gf256_mul: b₁.
+	a₀pa₁b₀pb₁ma₀b₀ := ((a₀ bitXor: a₁) gf256_mul: (b₀ bitXor: b₁)) bitXor: a₀b₀.
+	rd₀ := a₁b₁ gf256_mul: 16r80.
+	^ (a₀b₀ bitXor: rd₀) bitOr: (a₀pa₁b₀pb₁ma₀b₀ bitShift: 8)! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 12/27/2023 09:48:41'!
+gf2to32_inv
+	"Multiplicative inverse in GF(2^32) := 𝔽₆₅₅₃₆[x]/(x²+x+16r8000)."
+	| r |
+	r := self.
+	30 timesRepeat: [r := r gf2to32_mul: r. r := r gf2to32_mul: self].
+	^ r gf2to32_mul: r! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 12/27/2023 09:48:19'!
+gf2to32_mul: anInteger
+	"Multiplication in GF(2^32) := 𝔽₆₅₅₃₆[x]/(x²+x+16r8000)."
+	| a₀ a₁ b₀ b₁ ab₀ ab₁ ab₂ |
+	a₀ := self bitAnd: 16rFFFF.
+	a₁ := (self bitShift: -16) bitAnd: 16rFFFF.
+	b₀ := anInteger bitAnd: 16rFFFF.
+	b₁ := (anInteger bitShift: -16) bitAnd: 16rFFFF.
+	ab₀ := a₀ gf65536_mul: b₀.
+	ab₁ := ((a₀ bitXor: a₁) gf65536_mul: (b₀ bitXor: b₁)) bitXor: ab₀.
+	ab₂ := a₁ gf65536_mul: b₁.
+	^ (ab₁ bitShift: 16) bitXor: (ab₀ bitXor: (ab₂ gf65536_mul: 16r8000))! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 12/26/2023 10:14:41'!
+gf4_mul: anInteger
+	"Multiplication in 𝔽₄ := 𝔽₂[x]/(x²+x+1)."
+	| a₀ a₁ b₀ b₁ ab₀ ab₁ ab₂ |
+	a₀ := self bitAnd: 1.
+	a₁ := (self bitShift: -1) bitAnd: 1.
+	b₀ := anInteger bitAnd: 1.
+	b₁ := (anInteger bitShift: -1) bitAnd: 1.
+	ab₀ := a₀ bitAnd: b₀.
+	ab₁ := (a₁ bitAnd: b₀) bitXor: (a₀ bitAnd: b₁).
+	ab₂ := a₁ bitAnd: b₁.
+	ab₀ := ab₀ bitXor: ab₂.
+	ab₁ := ab₁ bitXor: ab₂.
+	ab₀ := ab₀ bitXor: (ab₁ bitShift: 1).
+	^ ab₀! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 12/26/2023 10:46:30'!
+gf65536_mul: anInteger
+	"Multiplication in 𝔽₆₅₅₃₆ := 𝔽₂₅₆[x]/(x²+x+16r80)."
+	| a₀ a₁ b₀ b₁ ab₀ ab₁ ab₂ |
+	a₀ := self bitAnd: 16rFF.
+	a₁ := (self bitShift: -8) bitAnd: 16rFF.
+	b₀ := anInteger bitAnd: 16rFF.
+	b₁ := (anInteger bitShift: -8) bitAnd: 16rFF.
+	ab₀ := a₀ gf256_mul: b₀.
+	ab₁ := ((a₀ bitXor: a₁) gf256_mul: (b₀ bitXor: b₁)) bitXor: ab₀.
+	ab₂ := a₁ gf256_mul: b₁.
+	^ (ab₁ bitShift: 8) bitXor: (ab₀ bitXor: (ab₂ gf256_mul: 16r80))! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 11/19/2016 21:03:03'!
 height
@@ -41368,11 +41535,13 @@ upTo: max do: aBlock
 		aBlock value: each.
 		k _ k+1]! !
 
-!SequenceableCollection methodsFor: '*algebra' stamp: 'len 12/6/2022 12:17:04'!
+!SequenceableCollection methodsFor: '*algebra' stamp: 'len 12/24/2023 08:17:30'!
 · aCollection
 	| answer |
-	answer _ 0.
-	1 to: (self size min: aCollection size) do: [:i| answer _ (self at: i) * (aCollection at: i) + answer].
+	self isEmpty ifTrue: [^ aCollection first zero].
+	aCollection isEmpty ifTrue: [^ self first zero].
+	answer := self first * aCollection first.
+	2 to: (self size min: aCollection size) do: [:i| answer := (self at: i) * (aCollection at: i) + answer].
 	^ answer! !
 
 !SequenceableCollection methodsFor: '*algebra' stamp: 'len 10/3/2023 12:33:00'!
@@ -42455,6 +42624,10 @@ printOn: aStream
 			[aStream withParentheses: [:aStream2|
 				self do: [:each| aStream2 print: each] separatedBy: [aStream2 nextPutAll: ', ']]]! !
 
+!ByteArray methodsFor: '*algebra' stamp: 'len 12/28/2023 11:16:34'!
+asForm
+	^ Form extent: self size @ 1 depth: 8 bits: self! !
+
 !ByteArray methodsFor: '*algebra' stamp: 'len 5/11/2023 15:28:48'!
 weight
 	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
@@ -42463,6 +42636,10 @@ weight
 !FloatArray methodsFor: '*algebra' stamp: 'len 5/13/2019 21:32:12'!
 · anObject
 	^ self dot: anObject! !
+
+!WordArray methodsFor: '*algebra' stamp: 'len 12/28/2023 11:16:49'!
+asForm
+	^ Form extent: self size @ 1 depth: 32 bits: self! !
 
 !WordArray methodsFor: '*algebra-low level' stamp: 'len 5/15/2023 12:56:47'!
 bitAt: anInteger
@@ -42479,27 +42656,27 @@ bitAt: anInteger put: aBit
 bitCount
 	^ self sum: [:each| each bitCount32] ifEmpty: [0]! !
 
-!WordArray methodsFor: '*algebra-low level' stamp: 'len 5/22/2023 14:36:44'!
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 12/27/2023 15:59:38'!
 bitParityParallel
-	"Compute the parity of each of the words of the receiver, and returns the result in a single integer."
+	"Compute the parity of each of the words of the receiver, and return the result in a single integer."
 	self notYetImplemented! !
 
 !WordArray methodsFor: '*algebra-low level' stamp: 'len 5/22/2023 18:04:14'!
 bitSupport
 	^ Iterator on: self performing: #bitSupportDo:! !
 
-!WordArray methodsFor: '*algebra-low level' stamp: 'len 5/16/2023 13:05:21'!
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 12/28/2023 20:13:21'!
 bitSupportDo: aBlock
 	| i j word |
-	i _ 1.
+	i := 1.
 	self do: [:each|
-		word _ each.
-		j _ 0.
+		word := each.
+		j := i.
 		[word = 0] whileFalse:
-			[word odd ifTrue: [aBlock value: i+j].
-			j _ j + 1.
-			word _ word bitShift: -1].
-		i _ i + 32]! !
+			[word odd ifTrue: [aBlock value: j].
+			j := j + 1.
+			word := word bitShift: -1].
+		i := i + 32]! !
 
 !WordArray methodsFor: '*algebra-low level' stamp: 'len 5/22/2023 14:19:56'!
 bitTranspose32x32
@@ -42570,100 +42747,337 @@ bits: length at: index xor: bits
 	self at: i put: ((self at: i) bitXor: ((bits bitShift: r negated) bitAnd: mask)).
 	^ bits! !
 
-!WordArray methodsFor: '*algebra-low level' stamp: 'len 6/9/2023 12:27:44'!
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 12/29/2023 09:48:04'!
 clearBitsFrom: start to: stop
-	| n i₀ i r |
+	"Set to 0 the bits from start to stop."
+	| n i₀ i r q |
 	(n := stop - start + 1) > 0 ifFalse: [^ self].
 	i₀ := start - 1.
 	i := (i₀ bitShift: -5) + 1.
-	r := i*32 - i₀ min: n. "r ∈ [1..32]"
+	r := i*32 - i₀ min: n. "r ∈ [1..32], number of high bits of the first word included in the range"
 	r = 32 ifFalse:
 		[self bits: r at: start put: 0.
 		n := n - r. i := i + 1].
-"	(j bitAnd: 31) = 1
-		ifTrue:
-			[q _ n // 32.
-			self replaceFrom: i to: i + q - 1 with: replacement startingAt: j - 1 // 32 + 1.
-			i _ i + q. q _ q * 32. n _ n - q. j _ j + q]
-		ifFalse:
-			["[n >= 32] whileTrue:
-				[self at: i put: 0.
-				n := n - 32. i := i + 1]"]".
+	n >= 32 ifTrue:
+		[q := n // 32.
+		self from: i to: i + q - 1 put: 0.
+		i := i + q.
+		n := n - (q * 32)].
 	n > 0 ifTrue:
 		[self bits: n at: i-1*32 + 1 put: 0]! !
 
-!WordArray methodsFor: '*algebra-low level' stamp: 'len 5/17/2023 16:39:30'!
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 12/29/2023 11:00:45'!
+highBitFrom: start to: stop
+	"Answer the index of the last 1 bit between start and stop, or nil."
+	| n i₀ i r q bits |
+	(n := stop - start + 1) > 0 ifFalse: [^ nil].
+	i₀ := stop - 1.
+	i := (i₀ bitShift: -5) + 1.
+	r := i₀ - (i-1*32) + 1 min: n. "r ∈ [1..32], number of low bits of the last word that are included in the range"
+	r = 32 ifFalse:
+		[(bits := self bits: r at: stop - r + 1) = 0 ifFalse: [^ stop - r + bits highBit].
+		n := n - r. i := i - 1].
+	n >= 32 ifTrue:
+		[q := n // 32.
+		i to: i - q + 1 by: -1 do: [:j| (bits := self at: j) = 0 ifFalse: [^ j-1*32 + bits highBit]].
+		i := i - q.
+		n := n - (q * 32)].
+	n > 0 ifTrue:
+		[(bits := self bits: n at: start) = 0 ifFalse: [^ start - 1 + bits highBit]].
+	^ nil! !
+
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 12/29/2023 09:40:41'!
+lowBitFrom: start to: stop
+	"Answer the index of the first 1 bit between start and stop, or nil."
+	| n i₀ i r q bits |
+	(n := stop - start + 1) > 0 ifFalse: [^ nil].
+	i₀ := start - 1.
+	i := (i₀ bitShift: -5) + 1.
+	r := i*32 - i₀ min: n. "r ∈ [1..32], number of high bits of the first word included in the range"
+	r = 32 ifFalse:
+		[(bits := self bits: r at: start) = 0 ifFalse: [^ start + bits lowBit - 1].
+		n := n - r. i := i + 1].
+	n >= 32 ifTrue:
+		[q := n // 32.
+		i to: i + q - 1 do: [:j| (bits := self at: j) = 0 ifFalse: [^ j-1*32 + bits lowBit]].
+		i := i + q.
+		n := n - (q * 32)].
+	n > 0 ifTrue:
+		[(bits := self bits: n at: i-1*32 + 1) = 0 ifFalse: [^ i-1*32 + bits lowBit]].
+	^ nil! !
+
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 12/28/2023 22:28:45'!
 replaceBitsFrom: start to: stop with: replacement startingAt: repStart	
-	| n i₀ i r j |
-	(n _ stop - start + 1) > 0 ifFalse: [^ self].
-	i₀ _ start - 1.
-	i _ (i₀ bitShift: -5) + 1.
-	r _ i*32 - i₀ min: n. "r ∈ [1..32]"
-	j _ repStart.
+	| dst src |
+	stop >= start ifFalse: [^ self].
+"	self assert: (start > 0 and: [stop <= (self size * 32)])."
+	"Since WordArray>>replaceFrom:to:with:startingAt: is faster than BitBlt,
+	when the indices are aligned it is better to fallback to the old method:"
+	start - repStart \\ 32 = 0 ifTrue: [^ self replaceBitsFromOld: start to: stop with: replacement startingAt: repStart	].
+"	self assert: repStart + stop - start <= (replacement size * 32)."
+	dst := Form extent: self size * 32 @ 1 depth: -1 bits: self.
+	src := Form extent: replacement size * 32 @ 1 depth: -1 bits: replacement.
+	(BitBlt toForm: dst)
+		sourceForm: src;
+		combinationRule: Form over;
+		sourceX: repStart - 1; sourceY: 0;
+		destX: start - 1; destY: 0;
+		width: stop - start + 1; height: 1;
+		copyBits! !
+
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 12/29/2023 09:21:34'!
+replaceBitsFrom: start to: stop with: anArray1 startingAt: start1 and: anArray2 startingAt: start2	
+	| dst src1 src2 |
+	stop >= start ifFalse: [^ self].
+	self flag: #fixme. "TODO: fine tune this"
+	stop - start > 64 ifFalse: [^ self replaceBitsFromOld: start to: stop with: anArray1 startingAt: start1 and: anArray2 startingAt: start2	].	
+"	self assert: (start > 0 and: [stop <= (self size * 32)]).
+	self assert: start1 + stop - start <= (anArray1 size * 32).
+	self assert: start2 + stop - start <= (anArray2 size * 32)."
+	dst := Form extent: self size * 32 @ 1 depth: -1 bits: self.
+	(self == anArray1 and: [start = start1]) ifTrue:
+		[src2 := Form extent: anArray2 size * 32 @ 1 depth: -1 bits: anArray2.
+		(BitBlt toForm: dst)
+			sourceForm: src2;
+			combinationRule: Form and; "dst := dst and src2"
+			sourceX: start2 - 1; sourceY: 0;
+			destX: start - 1; destY: 0;
+			width: stop - start + 1; height: 1;
+			copyBits.
+		^ self].
+	src1 := Form extent: anArray1 size * 32 @ 1 depth: -1 bits: anArray1.
+	(self == anArray2 and: [start = start2]) ifTrue:
+		[(BitBlt toForm: dst)
+			sourceForm: src1;
+			combinationRule: Form and; "dst := dst and src1"
+			sourceX: start1 - 1; sourceY: 0;
+			destX: start - 1; destY: 0;
+			width: stop - start + 1; height: 1;
+			copyBits.
+		^ self].
+	src2 := Form extent: anArray2 size * 32 @ 1 depth: -1 bits: anArray2.
+	(BitBlt toForm: dst)
+		sourceForm: src1;
+		combinationRule: Form over; "dst := src1"
+		sourceX: start1 - 1; sourceY: 0;
+		destX: start - 1; destY: 0;
+		width: stop - start + 1; height: 1;
+		copyBits;
+		sourceForm: src2;
+		combinationRule: Form and; "dst := dst and src2"
+		sourceX: start2 - 1;
+		copyBits! !
+
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 12/29/2023 09:19:38'!
+replaceBitsFrom: start to: stop with: anArray1 startingAt: start1 xor: anArray2 startingAt: start2	
+	| dst src1 src2 |
+	stop >= start ifFalse: [^ self].
+	self flag: #fixme. "TODO: fine tune this"
+	stop - start > 64 ifFalse: [^ self replaceBitsFromOld: start to: stop with: anArray1 startingAt: start1 xor: anArray2 startingAt: start2	].	
+"	self assert: (start > 0 and: [stop <= (self size * 32)]).
+	self assert: start1 + stop - start <= (anArray1 size * 32).
+	self assert: start2 + stop - start <= (anArray2 size * 32)."
+	dst := Form extent: self size * 32 @ 1 depth: -1 bits: self.
+	(self == anArray1 and: [start = start1]) ifTrue:
+		[src2 := Form extent: anArray2 size * 32 @ 1 depth: -1 bits: anArray2.
+		(BitBlt toForm: dst)
+			sourceForm: src2;
+			combinationRule: Form reverse; "dst := dst xor src2"
+			sourceX: start2 - 1; sourceY: 0;
+			destX: start - 1; destY: 0;
+			width: stop - start + 1; height: 1;
+			copyBits.
+		^ self].
+	src1 := Form extent: anArray1 size * 32 @ 1 depth: -1 bits: anArray1.
+	(self == anArray2 and: [start = start2]) ifTrue:
+		[(BitBlt toForm: dst)
+			sourceForm: src1;
+			combinationRule: Form reverse; "dst := dst xor src1"
+			sourceX: start1 - 1; sourceY: 0;
+			destX: start - 1; destY: 0;
+			width: stop - start + 1; height: 1;
+			copyBits.
+		^ self].
+	src2 := Form extent: anArray2 size * 32 @ 1 depth: -1 bits: anArray2.
+	(BitBlt toForm: dst)
+		sourceForm: src1;
+		combinationRule: Form over; "dst := src1"
+		sourceX: start1 - 1; sourceY: 0;
+		destX: start - 1; destY: 0;
+		width: stop - start + 1; height: 1;
+		copyBits;
+		sourceForm: src2;
+		combinationRule: Form reverse; "dst := dst xor src2"
+		sourceX: start2 - 1;
+		copyBits! !
+
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 12/28/2023 17:23:44'!
+replaceBitsFromNew: start to: stop with: replacement startingAt: repStart	
+	| dst src |
+	stop >= start ifFalse: [^ self].
+	"Since WordArray>>replaceFrom:to:with:startingAt: is faster than BitBlt,
+	when the indices are aligned it is better to fallback to the old method:"
+"	start - repStart \\ 32 = 0 ifTrue: [^ self replaceBitsFromOld: start to: stop with: replacement startingAt: repStart	]."
+	self assert: repStart + stop - start <= (replacement size * 32).
+	dst := Form extent: self size * 32 @ 1 depth: -1 bits: self.
+	src := Form extent: replacement size * 32 @ 1 depth: -1 bits: replacement.
+	(BitBlt toForm: dst)
+		sourceForm: src;
+		combinationRule: Form over;
+		sourceX: repStart - 1; sourceY: 0;
+		destX: start - 1; destY: 0;
+		height: 1; width: stop - start + 1;
+		copyBits! !
+
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 12/28/2023 20:42:57'!
+replaceBitsFromNew: start to: stop with: anArray1 startingAt: start1 and: anArray2 startingAt: start2	
+	| dst src1 src2 |
+	stop >= start ifFalse: [^ self].
+	self assert: start1 + stop - start <= (anArray1 size * 32).
+	self assert: start2 + stop - start <= (anArray2 size * 32).
+	dst := Form extent: self size * 32 @ 1 depth: -1 bits: self.
+	src1 := Form extent: anArray1 size * 32 @ 1 depth: -1 bits: anArray1.
+	src2 := Form extent: anArray2 size * 32 @ 1 depth: -1 bits: anArray2.
+	(BitBlt toForm: dst)
+		sourceForm: src1;
+		combinationRule: Form over; "dst := src1"
+		sourceX: start1 - 1; sourceY: 0;
+		destX: start - 1; destY: 0;
+		height: 1; width: stop - start + 1;
+		copyBits;
+		sourceForm: src2;
+		combinationRule: Form and; "dst := dst and src2"
+		sourceX: start2 - 1;
+		copyBits! !
+
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 12/28/2023 20:42:26'!
+replaceBitsFromNew: start to: stop with: anArray1 startingAt: start1 xor: anArray2 startingAt: start2	
+	| dst src1 src2 |
+	stop >= start ifFalse: [^ self].
+	self assert: start1 + stop - start <= (anArray1 size * 32).
+	self assert: start2 + stop - start <= (anArray2 size * 32).
+	dst := Form extent: self size * 32 @ 1 depth: -1 bits: self.
+	src1 := Form extent: anArray1 size * 32 @ 1 depth: -1 bits: anArray1.
+	src2 := Form extent: anArray2 size * 32 @ 1 depth: -1 bits: anArray2.
+	(BitBlt toForm: dst)
+		sourceForm: src1;
+		combinationRule: Form over; "dst := src1"
+		sourceX: start1 - 1; sourceY: 0;
+		destX: start - 1; destY: 0;
+		height: 1; width: stop - start + 1;
+		copyBits;
+		sourceForm: src2;
+		combinationRule: Form reverse; "dst := dst xor src2"
+		sourceX: start2 - 1;
+		copyBits! !
+
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 12/29/2023 09:41:05'!
+replaceBitsFromOld: start to: stop with: replacement startingAt: repStart	
+	| n i₀ i r j q |
+	(n := stop - start + 1) > 0 ifFalse: [^ self].
+	i₀ := start - 1.
+	i := (i₀ bitShift: -5) + 1.
+	r := i*32 - i₀ min: n. "r ∈ [1..32], number of high bits of the first word included in the range"
+	j := repStart.
 	r = 32 ifFalse:
 		[self bits: r at: start put: (replacement bits: r at: j).
-		n _ n - r. j _ j + r. i _ i + 1].
-"	(j bitAnd: 31) = 1
-		ifTrue:
-			[q _ n // 32.
+		n := n - r. j := j + r. i := i + 1].
+	n > 0 ifFalse: [^ self].
+	(n >= 32 and: [(j bitAnd: 31) = 1])
+		ifTrue: "j is aligned"
+			[q := n // 32.
 			self replaceFrom: i to: i + q - 1 with: replacement startingAt: j - 1 // 32 + 1.
-			i _ i + q. q _ q * 32. n _ n - q. j _ j + q]
+			i := i + q. q := q * 32. n := n - q. j := j + q]
 		ifFalse:
-			["[n >= 32] whileTrue:
+			[[n >= 32] whileTrue:
 				[self at: i put: (replacement bits: 32 at: j).
-				n _ n - 32. j _ j + 32. i _ i + 1]"]".
+				n := n - 32. j := j + 32. i := i + 1]].
 	n > 0 ifTrue:
 		[self bits: n at: i-1*32 + 1 put: (replacement bits: n at: j)]! !
 
-!WordArray methodsFor: '*algebra-low level' stamp: 'len 5/17/2023 16:38:05'!
-replaceBitsFrom: start to: stop with: anArray1 startingAt: start1 and: anArray2 startingAt: start2	
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 12/29/2023 09:41:14'!
+replaceBitsFromOld: start to: stop with: anArray1 startingAt: start1 and: anArray2 startingAt: start2	
 	| n i₀ i r j k |
-	(n _ stop - start + 1) > 0 ifFalse: [^ self].
-	i₀ _ start - 1.
-	i _ (i₀ bitShift: -5) + 1.
-	r _ i*32 - i₀ min: n. "r ∈ [1..32]"
-	j _ start1.
-	k _ start2.
+	(n := stop - start + 1) > 0 ifFalse: [^ self].
+	i₀ := start - 1.
+	i := (i₀ bitShift: -5) + 1.
+	r := i*32 - i₀ min: n. "r ∈ [1..32], number of high bits of the first word included in the range"
+	j := start1.
+	k := start2.
 	r = 32 ifFalse:
 		[self bits: r at: start put: ((anArray1 bits: r at: j) bitAnd: (anArray2 bits: r at: k)).
-		n _ n - r. j _ j + r. k _ k + r. i _ i + 1].
-	((j bitAnd: 31) = 1 and: [(k bitAnd: 31) = 1])
+		n := n - r. j := j + r. k := k + r. i := i + 1].
+	n > 0 ifFalse: [^ self].
+	(j bitAnd: 31) = 1
 		ifTrue:
-			[j _ j - 1 // 32 + 1. k _ k - 1 // 32 + 1.
-			[n >= 32] whileTrue:
-				[self at: i put: ((anArray1 at: j) bitAnd: (anArray2 at: k)).
-				n _ n - 32. j _ j + 1. k _ k + 1. i _ i + 1].
-			j _ j - 1 * 32 + 1. k _ k - 1 * 32 + 1]
+			[(k bitAnd: 31) = 1
+				ifTrue: "both j and k are aligned"
+					[j := j - 1 // 32 + 1. k := k - 1 // 32 + 1.
+					[n >= 32] whileTrue:
+						[self at: i put: ((anArray1 at: j) bitAnd: (anArray2 at: k)).
+						n := n - 32. j := j + 1. k := k + 1. i := i + 1].
+					j := j - 1 * 32 + 1. k := k - 1 * 32 + 1]
+				ifFalse: "only j is aligned"
+					[j := j - 1 // 32 + 1.
+					[n >= 32] whileTrue:
+						[self at: i put: ((anArray1 at: j) bitAnd: (anArray2 bits: 32 at: k)).
+						n := n - 32. j := j + 1. k := k + 32. i := i + 1].
+					j := j - 1 * 32 + 1]]
 		ifFalse:
-			[[n >= 32] whileTrue:
-				[self at: i put: ((anArray1 bits: 32 at: j) bitAnd: (anArray2 bits: 32 at: k)).
-				n _ n - 32. j _ j + 32. k _ k + 32. i _ i + 1]].
+			[(k bitAnd: 31) = 1
+				ifTrue: "only k is aligned"
+					[k := k - 1 // 32 + 1.
+					[n >= 32] whileTrue:
+						[self at: i put: ((anArray1 bits: 32 at: j) bitAnd: (anArray2 at: k)).
+						n := n - 32. j := j + 32. k := k + 1. i := i + 1].
+					k := k - 1 * 32 + 1]
+				ifFalse: "none is aligned"
+					[[n >= 32] whileTrue:
+					[self at: i put: ((anArray1 bits: 32 at: j) bitAnd: (anArray2 bits: 32 at: k)).
+					n := n - 32. j := j + 32. k := k + 32. i := i + 1]]].
 	n > 0 ifTrue:
 		[self bits: n at: i-1*32 + 1 put: ((anArray1 bits: n at: j) bitAnd: (anArray2 bits: n at: k))]! !
 
-!WordArray methodsFor: '*algebra-low level' stamp: 'len 5/17/2023 16:36:13'!
-replaceBitsFrom: start to: stop with: anArray1 startingAt: start1 xor: anArray2 startingAt: start2	
+!WordArray methodsFor: '*algebra-low level' stamp: 'len 12/29/2023 09:41:20'!
+replaceBitsFromOld: start to: stop with: anArray1 startingAt: start1 xor: anArray2 startingAt: start2	
 	| n i₀ r i j k |
-	(n _ stop - start + 1) > 0 ifFalse: [^ self].
-	i₀ _ start - 1.
-	i _ (i₀ bitShift: -5) + 1.
-	r _ i*32 - i₀ min: n. "r ∈ [1..32]"
-	j _ start1.
-	k _ start2.
+	(n := stop - start + 1) > 0 ifFalse: [^ self].
+	i₀ := start - 1.
+	i := (i₀ bitShift: -5) + 1.
+	r := i*32 - i₀ min: n. "r ∈ [1..32], number of high bits of the first word included in the range"
+	j := start1.
+	k := start2.
 	r = 32 ifFalse:
 		[self bits: r at: start put: ((anArray1 bits: r at: j) bitXor: (anArray2 bits: r at: k)).
-		n _ n - r. j _ j + r. k _ k + r. i _ i + 1].
-	((j bitAnd: 31) = 1 and: [(k bitAnd: 31) = 1])
+		n := n - r. j := j + r. k := k + r. i := i + 1].
+	n > 0 ifFalse: [^ self].
+	(j bitAnd: 31) = 1
 		ifTrue:
-			[j _ j - 1 // 32 + 1. k _ k - 1 // 32 + 1.
-			[n >= 32] whileTrue:
-				[self at: i put: ((anArray1 at: j) bitXor: (anArray2 at: k)).
-				n _ n - 32. j _ j + 1. k _ k + 1. i _ i + 1].
-			j _ j - 1 * 32 + 1. k _ k - 1 * 32 + 1]
+			[(k bitAnd: 31) = 1
+				ifTrue: "both j and k are aligned"
+					[j := j - 1 // 32 + 1. k := k - 1 // 32 + 1.
+					[n >= 32] whileTrue:
+						[self at: i put: ((anArray1 at: j) bitXor: (anArray2 at: k)).
+						n := n - 32. j := j + 1. k := k + 1. i := i + 1].
+					j := j - 1 * 32 + 1. k := k - 1 * 32 + 1]
+				ifFalse: "only j is aligned"
+					[j := j - 1 // 32 + 1.
+					[n >= 32] whileTrue:
+						[self at: i put: ((anArray1 at: j) bitXor: (anArray2 bits: 32 at: k)).
+						n := n - 32. j := j + 1. k := k + 32. i := i + 1].
+					j := j - 1 * 32 + 1]]
 		ifFalse:
-			[[n >= 32] whileTrue:
-				[self at: i put: ((anArray1 bits: 32 at: j) bitXor: (anArray2 bits: 32 at: k)).
-				n _ n - 32. j _ j + 32. k _ k + 32. i _ i + 1]].
+			[(k bitAnd: 31) = 1
+				ifTrue: "only k is aligned"
+					[k := k - 1 // 32 + 1.
+					[n >= 32] whileTrue:
+						[self at: i put: ((anArray1 bits: 32 at: j) bitXor: (anArray2 at: k)).
+						n := n - 32. j := j + 32. k := k + 1. i := i + 1].
+					k := k - 1 * 32 + 1]
+				ifFalse: "none is aligned"
+					[[n >= 32] whileTrue:
+					[self at: i put: ((anArray1 bits: 32 at: j) bitXor: (anArray2 bits: 32 at: k)).
+					n := n - 32. j := j + 32. k := k + 32. i := i + 1]]].
 	n > 0 ifTrue:
 		[self bits: n at: i-1*32 + 1 put: ((anArray1 bits: n at: j) bitXor: (anArray2 bits: n at: k))]! !
 
@@ -42671,6 +43085,10 @@ replaceBitsFrom: start to: stop with: anArray1 startingAt: start1 xor: anArray2 
 weight
 	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
 	^ self count: [:each| each ~~ 0]! !
+
+!DoubleByteArray methodsFor: '*algebra' stamp: 'len 12/28/2023 11:17:06'!
+asForm
+	^ Form extent: self size @ 1 depth: 16 bits: self! !
 
 !DoubleByteArray methodsFor: '*algebra' stamp: 'len 5/12/2023 14:35:24'!
 weight
