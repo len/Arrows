@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 29 December 2023 at 11:16:44 am'!
+'From Cuis 6.0 [latest update: #5898] on 13 January 2024 at 10:39:49 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 108!
+!provides: 'Tests-Algebra' 1 109!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -10196,6 +10196,15 @@ testInplaceAddition
 	C replaceWith: A plus: B.
 	self assert: A + B = C! !
 
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/9/2024 11:02:41'!
+testInplaceMatrixTimesLowerTriangular
+	| A L C |
+	A := self newMatrix.
+	L := A domain to: A domain fill: [:i :j| i < j ifTrue: [0] ifFalse: [scalars atRandom: random]].
+	C := (A*L) parent atRandom: random.
+	C replaceWith: A timesLowerTriangular: L.
+	self assert: A * L = C! !
+
 !AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 18:54:46'!
 testInplaceMultiplication
 	| A B C |
@@ -10213,6 +10222,24 @@ testInplaceSubstraction
 	C := self newMatrix: A height @ A width.
 	C replaceWith: A minus: B.
 	self assert: A - B = C! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/5/2024 10:27:15'!
+testInplaceUpperTriangularTimesLowerTriangular
+	| U L C |
+	U := scalars^(10 atRandom: random) :: endomorphisms fill: [:i :j| i > j ifTrue: [0] ifFalse: [scalars atRandom: random]].
+	L := U domain endomorphisms fill: [:i :j| i < j ifTrue: [0] ifFalse: [scalars atRandom: random]].
+	C := (U*L) parent atRandom: random.
+	C replaceWithUpperTriangular: U timesLowerTriangular: L.
+	self assert: U * L = C! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/5/2024 10:23:26'!
+testInplaceUpperTriangularTimesMatrix
+	| A U C |
+	A := self newMatrix.
+	U := A codomain endomorphisms fill: [:i :j| i > j ifTrue: [0] ifFalse: [scalars atRandom: random]].
+	C := (U*A) parent atRandom: random.
+	C replaceWithUpperTriangular: U times: A.
+	self assert: U * A = C! !
 
 !AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/22/2023 09:47:17'!
 testMatrixTupleMultiplication
@@ -11213,6 +11240,15 @@ setUp
 setUp
 	super setUp.
 	scalars := ℤ/3! !
+
+!TernaryMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/8/2024 15:14:22'!
+testTernaryInplaceMatrixMatrixProductBug
+	| A B C |
+	A := 𝔽₃ !!!!!! #((0 0 2 1 0) (0 0 0 2 2) (0 0 0 1 1) (0 0 1 0 0) (1 1 0 2 0)) from: 1@1 to: 2@2.
+	B := 𝔽₃ !!!!!! #((0 0) (0 2)).
+	C := B copy.
+	C replaceWith: A times: B.
+	self assert: C = (A*B)! !
 
 !EisensteinIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:11:46'!
 setUp
