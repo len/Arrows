@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 23 December 2023 at 11:13:55 am'!
+'From Cuis6.3 [latest update: #6222] on 25 March 2024 at 7:42:13 am'!
 'Description This package includes some extra methods for Collection and subclasses and some new collection classes.'!
-!provides: 'Collections-Extras' 1 14!
+!provides: 'Collections-Extras' 1 16!
 SystemOrganization addCategory: #'Collections-Extras'!
 
 
@@ -416,11 +416,11 @@ new: anInteger
 	"Answer the subcollection of elements of the receiver that are not in aCollection."
 	^ self reject: [:each| aCollection includes: each]! !
 
-!Collection methodsFor: '*collections-extras' stamp: 'len 5/18/2023 14:33:46'!
+!Collection methodsFor: '*collections-extras' stamp: 'len 2/6/2024 22:28:37'!
 ^ anInteger
 	"Answer the receiver concatenated with itself anInteger times."
 	anInteger = 1 ifTrue: [^ self].
-	anInteger = 0 ifTrue: [^ self copyEmpty].
+	anInteger = 0 ifTrue: [^ self copyBlank].
 	anInteger < 0 ifTrue: [^ self error: 'negative exponent'].
 	^ anInteger even ifTrue: [self , self ^ (anInteger // 2)] ifFalse: [self , self ^ (anInteger // 2) , self]! !
 
@@ -437,8 +437,8 @@ anyIfNone: aBlock
 anyone
 	^ self anyOne! !
 
-!Collection methodsFor: '*collections-extras' stamp: 'len 2/13/2003 23:19'!
-copyEmpty
+!Collection methodsFor: '*collections-extras' stamp: 'len 2/6/2024 22:28:37'!
+copyBlank
 	^ self species new! !
 
 !Collection methodsFor: '*collections-extras' stamp: 'len 5/1/2022 07:51:04'!
@@ -548,6 +548,14 @@ sum
 	self size <= aCollection size ifFalse: [^ false].
 	^ (aCollection indexOfSubCollection: self startingAt: 1) > 0! !
 
+!OrderedCollection class methodsFor: '*collections-extras' stamp: 'len 2/9/2024 10:00:49'!
+new: anInteger
+	^self basicNew setCollection: (Array new: anInteger)! !
+
+!Text methodsFor: '*collections-extras' stamp: 'len 2/7/2024 15:42:27'!
+copyBlank: anInteger
+	^ Text fromString: (string class new: anInteger)! !
+
 !Bag methodsFor: '*collections-extras' stamp: 'len 5/1/2022 10:25:40'!
 collect: aBlock 
 	"Evaluate aBlock with each of the receiver's elements as the argument. Collect the resulting values into a collection that is like the receiver and nswer the new collection.
@@ -613,3 +621,7 @@ at: anObject ifAbsentPut: aBlock
 	anObject ifNil: [self error: 'Sets cannot meaningfully contain nil as an element'].
 	index _ self findElementOrNil: anObject.
 	^ (array at: index) ifNil: [self atNewIndex: index put: aBlock value]! !
+
+!Set class methodsFor: '*collections-extras' stamp: 'len 2/9/2024 10:03:42'!
+new: anInteger
+	^self newWithRoomForMoreThan: anInteger! !

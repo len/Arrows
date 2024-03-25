@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 23 December 2023 at 11:14:01 am'!
+'From Cuis6.3 [latest update: #6206] on 9 February 2024 at 9:41:44 am'!
 'Description The package implements directed and undirected graphs.'!
-!provides: 'Graphs' 1 5!
+!provides: 'Graphs' 1 6!
 !requires: 'Collections-Extras' 1 1 nil!
 SystemOrganization addCategory: #Graphs!
 
@@ -392,20 +392,20 @@ asStandard
 asStandard: verticesArray
 	^ self collect: [:each| verticesArray indexOf: each]! !
 
-!Graph methodsFor: 'enumerating' stamp: 'len 7/13/2016 22:03'!
+!Graph methodsFor: 'enumerating' stamp: 'len 2/6/2024 22:28:37'!
 collect: aBlock
 	"Answer a new graph like the receiver but with vertices values mapped by aBlock."
 	| answer |
-	answer _ self copyEmpty.
+	answer _ self copyBlank.
 	self nodesDo: [:each| answer add: (aBlock value: each value)].
 	self edgesDo: [:each| answer addEdgeFrom: (aBlock value: each key) to: (aBlock value: each value)].
 	^ answer! !
 
-!Graph methodsFor: 'enumerating' stamp: 'len 7/20/2016 23:50'!
+!Graph methodsFor: 'enumerating' stamp: 'len 2/6/2024 22:28:37'!
 collect: aBlock labels: labelBlock
 	"Answer a new graph like the receiver but with vertices values mapped by aBlock."
 	| answer |
-	answer _ self copyEmpty.
+	answer _ self copyBlank.
 	self do: [:each| answer add: (aBlock value: each)].
 	self edgesAndLabelsDo: [:each :label| answer addEdgeFrom: (aBlock value: each key) to: (aBlock value: each value) label: (labelBlock value: label)].
 	^ answer! !
@@ -415,11 +415,11 @@ do: aBlock
 	"Iterate over the vertices of the receiver (the values, not GraphNodes)."
 	self nodesDo: [:each| aBlock value: each value]! !
 
-!Graph methodsFor: 'enumerating' stamp: 'len 7/20/2016 23:54'!
+!Graph methodsFor: 'enumerating' stamp: 'len 2/6/2024 22:28:37'!
 select: aBlock
 	"Answer the subgraph of the receiver whose vertices satisfy aBlock."
 	| answer |
-	answer _ self copyEmpty.
+	answer _ self copyBlank.
 	self do: [:each| (aBlock value: each) ifTrue: [answer add: each]].
 	self edgesDo: [:each|
 		((aBlock value: each key) and: [aBlock value: each value])
@@ -445,13 +445,13 @@ select: aBlock
 	(self hasEdge: anEdge)
 		ifTrue: [^ self copy removeEdge: anEdge; yourself]! !
 
-!Graph methodsFor: 'operations' stamp: 'len 7/13/2016 22:05'!
+!Graph methodsFor: 'operations' stamp: 'len 2/6/2024 22:28:37'!
 / anEdge
 	"Answer the graph obtained by contracting the given edge a -> b, by removing the edge and collapsing a with b in a single node."
 
 	| answer newNode found |
 	(self hasEdge: anEdge) ifFalse: [^ self].
-	answer _ self copyEmpty.
+	answer _ self copyBlank.
 	newNode _ anEdge.
 	answer add: newNode.
 	self nodesDo: [:each| (each = anEdge key or: [each = anEdge value]) ifFalse: [answer add: each]].
@@ -469,25 +469,14 @@ select: aBlock
 				answer addEdge: e]].
 	^ answer! !
 
-!Graph methodsFor: 'operations' stamp: 'len 12/30/2017 16:16:58'!
+!Graph methodsFor: 'operations' stamp: 'len 2/6/2024 22:28:37'!
 × aGraph
 	"Answer the cartesian product of the receiver with the argument. This is a commutative and associative operation (for unlabeled graphs)."
 	| G |
-	G _ self copyEmpty.
+	G _ self copyBlank.
 	self do: [:x| aGraph do: [:y| G add: (x, y)]].
 	self do: [:x| aGraph edgesDo: [:e| G addEdgeFrom: (x, e key) to: (x, e value)]].
 	self edgesDo: [:e| aGraph do: [:y| G addEdgeFrom: (e key, y) to: (e value, y)]].
-	^ G! !
-
-!Graph methodsFor: 'operations' stamp: 'len 5/14/2019 20:49:36'!
-⊗ aGraph
-	"Answer the tensor product (or direct graph product, categorical graph product, cardinal graph product, Kronecker graph product) of the receiver with the argument. This is a commutative operation (for unlabeled graphs)."
-	| G |
-	G _ self class ordered.
-	self do: [:x| aGraph do: [:y| G add: (x, y)]].
-	self edgesDo: [:e1|
-		aGraph edgesDo: [:e2|
-			G addEdgeFrom: (e1 key, e2 key) to: (e1 value, e2 value)]].
 	^ G! !
 
 !Graph methodsFor: 'operations' stamp: 'len 7/13/2016 23:13'!
@@ -576,23 +565,23 @@ girth
 	"Answer the length of the shortest cycle."
 	^ self notYetImplemented! !
 
-!Graph methodsFor: 'operations' stamp: 'len 7/20/2016 23:19'!
+!Graph methodsFor: 'operations' stamp: 'len 2/6/2024 22:28:37'!
 join: aGraph
 	"Answer the graph with all edges that connect the vertices of the receiver with the vertices of the argument. This is a commutative operation (for unlabeled graphs)."
 	| answer |
-	answer _ self copyEmpty.
+	answer _ self copyBlank.
 	self edgesDo: [:each| (aGraph includes: each value) ifTrue: [answer addEdge: each]].
 	aGraph edgesDo: [:each| (self includes: each key) ifTrue: [answer addEdge: each]].
 	^ answer! !
 
-!Graph methodsFor: 'operations' stamp: 'len 7/20/2016 23:54'!
+!Graph methodsFor: 'operations' stamp: 'len 2/6/2024 22:28:37'!
 line
 	"Answer the line graph of the receiver, i.e. the graph L(G) such that:
 	 - each edge of G is a vertex of L(G);
 	 - if two edges of G share a common endpoint, the correspondng vertices in L(G) are connected." 
 	| answer |
 	self flag: #fix.
-	answer _ self copyEmpty.
+	answer _ self copyBlank.
 	self fullEdgesDo: [:each| "each contains GraphNodes, not values"
 		each value neighborsDo: [:n|
 			answer addEdgeFrom: each to: (Association key: each value value value: n value)]].
@@ -619,11 +608,11 @@ neighborhoodOf: node
 	"Answer the subgraph of everything that is reachable from the given vertex."
 	^ self subgraphInducedBy: (self nodeAt: node) neighbors! !
 
-!Graph methodsFor: 'operations' stamp: 'len 2/7/2022 10:08:11'!
+!Graph methodsFor: 'operations' stamp: 'len 2/6/2024 22:28:37'!
 quotient
 	| Q |
 	self isLabeled ifFalse: [self error: 'not a labeled graph'].
-	Q _ self copyEmpty.
+	Q _ self copyBlank.
 	self nodesDo: [:each| Q add: each label].
 	self fullEdgesAndLabelsDo: [:each :label| Q addEdgeFrom: each key label to: each value label label: label].
 	^ Q! !
@@ -682,19 +671,19 @@ topologicalSort
 	G isEdgeless ifFalse: [^ self error: 'the graph has at least one cycle'].
 	^ answer! !
 
-!Graph methodsFor: 'operations' stamp: 'len 8/9/2020 07:48:33'!
+!Graph methodsFor: 'operations' stamp: 'len 2/6/2024 22:28:37'!
 transpose
 	"Answer the transpose of the receiver. This is the graphs where edges a->b are inverted as b->a."
 	| answer |
-	answer _ self copyEmpty.
+	answer _ self copyBlank.
 	self edgesDo: [:each | answer addEdge: (Association key: each value value: each key)].
 	^ answer! !
 
-!Graph methodsFor: 'operations' stamp: 'len 8/12/2022 13:14:49'!
+!Graph methodsFor: 'operations' stamp: 'len 2/6/2024 22:28:37'!
 ∩ aGraph
 	"Answer the graph whose vertices and edges is the intersection of the vertices and edges of the receiver and the argument."
 	| answer |
-	answer _ self copyEmpty.
+	answer _ self copyBlank.
 	aGraph nodesDo: [:each|
 		(self nodeAt: each ifAbsent: [])
 			ifNotNil: [:node|
@@ -712,6 +701,17 @@ transpose
 	aGraph do: [:each| answer add: each].
 	aGraph edgesDo: [:each| answer addEdgeFrom: each key to: each value].
 	^ answer! !
+
+!Graph methodsFor: 'operations' stamp: 'len 5/14/2019 20:49:36'!
+⊗ aGraph
+	"Answer the tensor product (or direct graph product, categorical graph product, cardinal graph product, Kronecker graph product) of the receiver with the argument. This is a commutative operation (for unlabeled graphs)."
+	| G |
+	G _ self class ordered.
+	self do: [:x| aGraph do: [:y| G add: (x, y)]].
+	self edgesDo: [:e1|
+		aGraph edgesDo: [:e2|
+			G addEdgeFrom: (e1 key, e2 key) to: (e1 value, e2 value)]].
+	^ G! !
 
 !Graph methodsFor: 'random' stamp: 'len 7/13/2016 23:14'!
 edgeAtRandom
@@ -1223,14 +1223,14 @@ asUndirected
 copy
 	^ self collect: [:each| each]! !
 
-!Digraph methodsFor: 'copying' stamp: 'len 2/16/2016 22:19'!
-copyEmpty
+!Digraph methodsFor: 'copying' stamp: 'len 2/6/2024 22:28:37'!
+copyBlank
 	"Return a graph of the same type with no nodes or edges."
 	^self isImplicit
 		ifTrue: [self class ordered]
 		ifFalse: [super copy initialize]! !
 
-!Digraph methodsFor: 'enumerating' stamp: 'len 7/13/2016 22:25'!
+!Digraph methodsFor: 'enumerating' stamp: 'len 2/6/2024 22:28:37'!
 componentsDo: aBlock
 	"Iterate over the Strongly Connected Components of the receiver."
 	| component remainingNodes node |
@@ -1238,7 +1238,7 @@ componentsDo: aBlock
 	[remainingNodes isEmpty]
 		whileFalse:
 			[node _ remainingNodes anyOne.
-			component _ self copyEmpty.
+			component _ self copyBlank.
 			node markDo: [:each|
 				component nodes add: each.
 				remainingNodes remove: each ifAbsent: []].
@@ -1320,11 +1320,11 @@ unorderedLabeled
 	type _ #(#unordered #labeled).
 	nodeCreator _ InitializationBlocks at: #unorderedLabeled! !
 
-!Digraph methodsFor: 'operations' stamp: 'len 2/19/2017 17:57:54'!
+!Digraph methodsFor: 'operations' stamp: 'len 2/6/2024 22:28:37'!
 complement
 	"Answer the complement graph, i.e. the graph where two vertices are connected iff they are *not* connected in the receiver."
 	| answer |
-	answer _ self copyEmpty.
+	answer _ self copyBlank.
 	self nodesDo: [:x|
 		| neighbors |
 		answer add: x.
@@ -1592,10 +1592,10 @@ roots: rootNodes childrenMsg: msg
 	^self roots: rootNodes childrenGenerator:
 		[ :node | [ :iterationBlock | (node perform: msg) do: iterationBlock]]! !
 
-!RootedDigraph methodsFor: 'copying' stamp: 'len 2/19/2016 21:38'!
-copyEmpty
+!RootedDigraph methodsFor: 'copying' stamp: 'len 2/6/2024 22:28:37'!
+copyBlank
 	"Return a new graph of the same type, with the same roots, but no edges."
-	^ super copyEmpty roots: roots copy asSet! !
+	^ super copyBlank roots: roots copy asSet! !
 
 !RootedDigraph methodsFor: 'enumerating' stamp: 'timestamp) (no'!
 breadthFirstDo: aBlock
@@ -1610,23 +1610,23 @@ breadthFirstDo: aBlock
 		[aBlock value: current.
 		df removeAll: current]! !
 
-!RootedDigraph methodsFor: 'enumerating' stamp: 'len 7/21/2016 00:02'!
+!RootedDigraph methodsFor: 'enumerating' stamp: 'len 2/6/2024 22:28:37'!
 collect: aBlock
 	"Answer a new graph like the receiver but with vertices values mapped by aBlock.
 	Note that aBlock is evaluated on the nodes, not the values."
 	| answer |
-	answer _ super copyEmpty.
+	answer _ super copyBlank.
 	answer roots: (roots collect: aBlock).
 	self do: [:each| answer add: (aBlock value: each)].
 	self edgesDo: [:each| answer addEdgeFrom: (aBlock value: each key) to: (aBlock value: each value)].
 	^ answer! !
 
-!RootedDigraph methodsFor: 'enumerating' stamp: 'len 7/21/2016 00:02'!
+!RootedDigraph methodsFor: 'enumerating' stamp: 'len 2/6/2024 22:28:37'!
 collect: aBlock labels: labelBlock
 	"Answer a new graph like the receiver but with vertices values mapped by aBlock.
 	Note that aBlock is evaluated on the nodes, not the values."
 	| answer |
-	answer _ super copyEmpty.
+	answer _ super copyBlank.
 	self rootNodes do: [:each| answer addRoot: (aBlock value: each)].
 	self do: [:each| answer add: (aBlock value: each)].
 	self edgesAndLabelsDo: [:each :label| answer addEdgeFrom: (aBlock value: each key) to: (aBlock value: each value) label: (labelBlock value: label)].
@@ -1949,9 +1949,9 @@ asDirected
 copy
 	^ self class digraph: digraph copy! !
 
-!UndirectedGraph methodsFor: 'copying' stamp: 'len 7/13/2016 22:30'!
-copyEmpty
-	^ self class digraph: digraph copyEmpty! !
+!UndirectedGraph methodsFor: 'copying' stamp: 'len 2/6/2024 22:28:37'!
+copyBlank
+	^ self class digraph: digraph copyBlank! !
 
 !UndirectedGraph methodsFor: 'enumerating' stamp: 'len 7/13/2016 22:58'!
 componentsDo: aBlock
