@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 13 January 2024 at 10:39:49 am'!
+'From Cuis6.3 [latest update: #6222] on 3 April 2024 at 9:11:22 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 109!
+!provides: 'Tests-Algebra' 1 110!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -4922,12 +4922,12 @@ testCRT
 	crt _ CRT moduli: #(2 5 7).
 	self assert: (crt solve: #(0 2 0)) = 42! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/16/2016 13:35:30'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 4/1/2024 10:03:36'!
 testCartesianProduct
 	| P x |
-	P _ CartesianProduct components: {PrimeField new: 3. GaloisField new: 4. SymmetricGroup new: 5}.
+	P := (PrimeField new: 3), (GaloisField new: 4), (SymmetricGroup new: 5).
 	self assert: P elements size = (3*4*5 factorial).
-	x _ {(P at: 1) atRandom. (P at: 2) atRandom. (P at: 3) atRandom}.
+	x := {(P at: 1) atRandom. (P at: 2) atRandom. (P at: 3) atRandom}.
 	self assert: (P elements includes: x)! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 11/28/2023 08:52:17'!
@@ -6473,13 +6473,13 @@ testBigOrder2
 	This is the Mathieu group on 12 points, the second smallest of the 26 sporadic simple groups, with order 95040."
 	self assert: PermutationGroup M12 size = 95040! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2023 20:40:27'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 4/1/2024 13:38:52'!
 testCauchyFrobeniusLemma
 	"Also called Brunside's lemma, Burnside counting theorem, or orbit-counting theorem."
 	| G φ sum |
 	G := AlternatingGroup new: 3.
 	φ := G action.
-	sum := G sum: [:g| (φ fixedPointsOf: g) size].
+	sum := G elements sum: [:g| (φ fixedPointsOf: g) size].
 	self assert: φ orbits size * G size = sum! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 1/28/2018 08:37:03'!
@@ -9068,9 +9068,9 @@ setUp
 	C := {ℤ. ℚ. ℤ/(64 atRandom: random)} atRandom: random.
 	R := A × B × C! !
 
-!ProductRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:17:28'!
+!ProductRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/2/2024 06:41:18'!
 testProjections
-	1 to: R arity do: [:i| self testRingHomomorphism: (R projection: i)]! !
+	1 to: R components size do: [:i| self testRingHomomorphism: (R projection: i)]! !
 
 !RationalMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:39:23'!
 setUp
@@ -13396,12 +13396,12 @@ testModularIntegersAnnihilator
 testModularIntegersLift
 	self assert: ((2 to: 100) allSatisfy: [:m| (1 to: m) allSatisfy: [:x| (x % m) lift % m = (x % m)]])! !
 
-!RingTest methodsFor: 'finite rings' stamp: 'len 5/23/2020 09:34:55'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 4/3/2024 08:58:25'!
 testModularIntegersPrimitiveRoots
 	| X |
 	"number of primitive roots in Z/nZ for n=2 to 17:"
-	X _ #(1 1 1 2 1 2 0 2 2 4 0 4 2 0 0 8).
-	self assert: ((2 to: 17) collect: [:m| (ℤ/m) count: [:x| x isPrimitiveRoot]]) = X.
+	X := #(1 1 1 2 1 2 0 2 2 4 0 4 2 0 0 8).
+	self assert: ((2 to: 17) collect: [:m| (ℤ/m) elements count: [:x| x isPrimitiveRoot]]) = X.
 	X withIndexDo: [:n :i|
 		n > 0
 			ifTrue: [self assert: (ℤ/(i+1)) primitiveRoot isPrimitiveRoot]
