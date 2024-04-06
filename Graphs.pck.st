@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6206] on 9 February 2024 at 9:41:44 am'!
+'From Cuis6.3 [latest update: #6222] on 5 April 2024 at 7:14:09 pm'!
 'Description The package implements directed and undirected graphs.'!
-!provides: 'Graphs' 1 6!
+!provides: 'Graphs' 1 7!
 !requires: 'Collections-Extras' 1 1 nil!
 SystemOrganization addCategory: #Graphs!
 

@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 23 December 2023 at 11:13:49 am'!
+'From Cuis6.3 [latest update: #6222] on 5 April 2024 at 7:13:58 pm'!
 'Description '!
-!provides: 'Codes' 1 14!
+!provides: 'Codes' 1 15!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Codes!
 
@@ -158,9 +158,9 @@ asLattice
 asModule
 	^ self propertyAt: #asModule! !
 
-!LinearCode methodsFor: 'converting' stamp: 'len 8/2/2020 12:06:21'!
+!LinearCode methodsFor: 'converting' stamp: 'len 4/5/2024 19:03:05'!
 asVectorSpace
-	self scalars isField ifFalse: [^ DomainError signal].
+	self assert: self scalars isField.
 	^ self asModule! !
 
 !LinearCode methodsFor: 'enumerating' stamp: 'len 8/2/2020 12:11:08'!
@@ -210,11 +210,6 @@ isometries
 	"Answer the direct product of the receiver and the argument."
 	^ self class generatorMatrix: self generatorMatrix ⊗ aCode generatorMatrix! !
 
-!LinearCode methodsFor: 'operations' stamp: 'len 8/3/2020 20:35:57'!
-⊕ aCode
-	"Answer the direct sum of the receiver and the argument."
-	^ self class generatorMatrix: self generatorMatrix ⊕ aCode generatorMatrix! !
-
 !LinearCode methodsFor: 'operations' stamp: 'len 6/26/2023 12:59:55'!
 augmented
 	"Answer a code like the receiver but including the all-ones vector amoung its codewords."
@@ -250,6 +245,11 @@ sub: aCollection
 !LinearCode methodsFor: 'operations' stamp: 'len 8/12/2022 13:12:21'!
 ∩ aCode
 	^ self class on: self asModule ∩ aCode asModule! !
+
+!LinearCode methodsFor: 'operations' stamp: 'len 8/3/2020 20:35:57'!
+⊕ aCode
+	"Answer the direct sum of the receiver and the argument."
+	^ self class generatorMatrix: self generatorMatrix ⊕ aCode generatorMatrix! !
 
 !LinearCode methodsFor: 'printing' stamp: 'len 7/31/2020 08:46:28'!
 printOn: aStream

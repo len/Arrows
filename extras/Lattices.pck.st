@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 23 December 2023 at 11:14:07 am'!
+'From Cuis6.3 [latest update: #6222] on 5 April 2024 at 7:14:13 pm'!
 'Description '!
-!provides: 'Lattices' 1 15!
+!provides: 'Lattices' 1 16!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Lattices!
 
@@ -232,14 +232,6 @@ packingSphereVolume
 	"Answer the sum of the receiver and the argument, assuming they are compatible."
 	^ self notYetImplemented! !
 
-!Lattice methodsFor: 'operations' stamp: 'len 8/1/2020 19:08:46'!
-⊕ aLattice
-	self notYetImplemented! !
-
-!Lattice methodsFor: 'operations' stamp: 'len 8/1/2020 19:08:50'!
-⊗ aLattice
-	self notYetImplemented! !
-
 !Lattice methodsFor: 'operations' stamp: 'len 3/14/2021 12:47:15'!
 dual
 	"Answer the dual lattice of the receiver (or reciprocal lattice, or polar lattice).
@@ -253,6 +245,14 @@ dual
 ∩ aLattice
 	"Answer the intersection of the receiver and the argument, assuming they are compatible."
 	^ self notYetImplemented! !
+
+!Lattice methodsFor: 'operations' stamp: 'len 8/1/2020 19:08:46'!
+⊕ aLattice
+	self notYetImplemented! !
+
+!Lattice methodsFor: 'operations' stamp: 'len 8/1/2020 19:08:50'!
+⊗ aLattice
+	self notYetImplemented! !
 
 !Lattice methodsFor: 'printing' stamp: 'len 5/29/2023 13:59:52'!
 printOn: aStream
@@ -614,9 +614,9 @@ asVector
 	coordinates with: parent basis do: [:ai :xi| answer _ xi * ai + answer].
 	^ answer! !
 
-!LatticeElement methodsFor: 'operations' stamp: 'len 7/29/2020 06:42:14'!
+!LatticeElement methodsFor: 'operations' stamp: 'len 4/5/2024 18:57:21'!
 * anInteger
-	anInteger isInteger ifFalse: [^ DomainError signal].
+	self assert: anInteger isInteger.
 	^ self class coordinates: coordinates * anInteger parent: parent! !
 
 !LatticeElement methodsFor: 'operations' stamp: 'len 7/29/2020 06:42:23'!
@@ -628,9 +628,9 @@ asVector
 - anElement
 	^ self + anElement negated! !
 
-!LatticeElement methodsFor: 'operations' stamp: 'len 7/29/2020 06:42:36'!
+!LatticeElement methodsFor: 'operations' stamp: 'len 4/5/2024 18:57:13'!
 // anInteger
-	anInteger isInteger ifFalse: [^ DomainError signal].
+	self assert: anInteger isInteger.
 	^ self class coordinates: coordinates // anInteger parent: parent! !
 
 !LatticeElement methodsFor: 'operations' stamp: 'len 6/4/2023 14:13:53'!

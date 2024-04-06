@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 23 December 2023 at 11:14:42 am'!
+'From Cuis6.3 [latest update: #6222] on 5 April 2024 at 7:14:29 pm'!
 'Description '!
-!provides: 'Transfinites' 1 7!
+!provides: 'Transfinites' 1 8!
 SystemOrganization addCategory: #Transfinites!
 
 
@@ -71,10 +71,10 @@ order
 	anObject = 0 ifTrue: [^ self errorUndetermined].
 	^ self max: anObject! !
 
-!Cardinal methodsFor: 'arithmetic' stamp: 'len 1/22/2017 08:12:39'!
+!Cardinal methodsFor: 'arithmetic' stamp: 'len 4/5/2024 19:11:04'!
 ^ aNumber
 	(aNumber isInteger and: [aNumber > 0]) ifTrue: [^ self].
-	DomainError signal: 'only integer positive exponents allowed'! !
+	self error: 'only integer positive exponents allowed'! !
 
 !Cardinal methodsFor: 'comparing' stamp: 'len 4/22/2016 05:06'!
 < anObject
@@ -392,18 +392,6 @@ asOrdinal
 	anOrdinal isInteger ifTrue: [^ self × anOrdinal asOrdinal].
 	^ self notYetImplemented! !
 
-!Ordinal methodsFor: 'operations' stamp: 'len 12/28/2021 12:40:02'!
-⊕ anOrdinal
-	"Answer the natural (or Hessenberg) addition of the receiver with the argument."
-	anOrdinal isInteger ifTrue: [^ self ⊕ anOrdinal asOrdinal].
-	^ self notYetImplemented! !
-
-!Ordinal methodsFor: 'operations' stamp: 'len 12/28/2021 12:40:15'!
-⊗ anOrdinal
-	"Answer the natural (or Hessenberg) multiplication of the receiver with the argument."
-	anOrdinal isInteger ifTrue: [^ self ⊗ anOrdinal asOrdinal].
-	^ self notYetImplemented! !
-
 !Ordinal methodsFor: 'operations' stamp: 'len 12/31/2021 11:27:57'!
 exp
 	^ self class terms: {self -> 1}! !
@@ -423,6 +411,18 @@ raisedToInteger: anInteger
 !Ordinal methodsFor: 'operations' stamp: 'len 12/31/2021 11:26:52'!
 truncatedAt: anOrdinal
 	^ self class terms: (terms first: (terms findLast: [:x| x key >= anOrdinal]))! !
+
+!Ordinal methodsFor: 'operations' stamp: 'len 12/28/2021 12:40:02'!
+⊕ anOrdinal
+	"Answer the natural (or Hessenberg) addition of the receiver with the argument."
+	anOrdinal isInteger ifTrue: [^ self ⊕ anOrdinal asOrdinal].
+	^ self notYetImplemented! !
+
+!Ordinal methodsFor: 'operations' stamp: 'len 12/28/2021 12:40:15'!
+⊗ anOrdinal
+	"Answer the natural (or Hessenberg) multiplication of the receiver with the argument."
+	anOrdinal isInteger ifTrue: [^ self ⊗ anOrdinal asOrdinal].
+	^ self notYetImplemented! !
 
 !Ordinal methodsFor: 'printing' stamp: 'len 12/31/2021 11:26:42'!
 printOn: aStream
@@ -484,10 +484,6 @@ validate
 		b _ terms at: i+1.
 		self assert: (a key > b key and: [a value > 0 and: [a value < b value]])]! !
 
-!Ordinal class methodsFor: 'instance creation' stamp: 'len 12/7/2023 16:58:22'!
-ω
-	^ Zero exp exp! !
-
 !Ordinal class methodsFor: 'instance creation' stamp: 'len 12/31/2021 11:28:03'!
 fromInteger: anInteger
 	anInteger = 0 ifTrue: [^ Zero].
@@ -497,6 +493,10 @@ fromInteger: anInteger
 !Ordinal class methodsFor: 'instance creation' stamp: 'len 12/31/2021 11:28:58'!
 terms: anArray
 	^ self new terms: anArray! !
+
+!Ordinal class methodsFor: 'instance creation' stamp: 'len 12/7/2023 16:58:22'!
+ω
+	^ Zero exp exp! !
 
 !Ordinal class methodsFor: 'class initialization' stamp: 'len 12/7/2023 16:58:04'!
 initialize

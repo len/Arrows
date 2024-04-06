@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 3 April 2024 at 9:11:22 am'!
+'From Cuis6.3 [latest update: #6222] on 6 April 2024 at 4:22:57 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 110!
+!provides: 'Tests-Algebra' 1 112!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -5005,12 +5005,12 @@ testFunctionComposition2
 	self assert: (f · g value: a asRational) = (f value: (g value: a asRational)).
 	self assert: (g · f value: a) = (g value: (f value: a))! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 07:38:55'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2024 19:09:42'!
 testFunctionComposition3
 	| f g |
-	f _ ℤ carrier to: ℚ carrier map: [:x| x / 2].
-	g _ ℤ carrier to: ℤ carrier map: [:x| x + 1].
-	self should: [g · f] raise: DomainError! !
+	f := ℤ carrier to: ℚ carrier map: [:x| x / 2].
+	g := ℤ carrier to: ℤ carrier map: [:x| x + 1].
+	self should: [g · f] raise: Error! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:34:55'!
 testIteratorCovering
@@ -6336,17 +6336,17 @@ testThreeArrowPseudoInverse
 	self assert: φ · φ pseudoInverse · φ = φ.
 	self assert: φ pseudoInverse · φ · φ pseudoInverse = φ pseudoInverse! !
 
-!AbstractAbelianCategoryTest methodsFor: 'private' stamp: 'len 7/1/2023 16:56:14'!
+!AbstractAbelianCategoryTest methodsFor: 'private' stamp: 'len 4/6/2024 16:09:45'!
 newMorphism
-	^ self newObject ⇒ self newObject atRandom: random! !
+	^ self newObject to: self newObject atRandom: random! !
 
-!AbstractAbelianCategoryTest methodsFor: 'private' stamp: 'len 7/1/2023 16:56:00'!
+!AbstractAbelianCategoryTest methodsFor: 'private' stamp: 'len 4/6/2024 16:09:54'!
 newMorphismFrom: aDomain
-	^ aDomain ⇒ self newObject atRandom: random! !
+	^ aDomain to: self newObject atRandom: random! !
 
-!AbstractAbelianCategoryTest methodsFor: 'private' stamp: 'len 7/1/2023 16:56:07'!
+!AbstractAbelianCategoryTest methodsFor: 'private' stamp: 'len 4/6/2024 16:10:00'!
 newMorphismTo: aCodomain
-	^ self newObject ⇒ aCodomain atRandom: random! !
+	^ self newObject to: aCodomain atRandom: random! !
 
 !IntegerModuleAbelianCategoryTest methodsFor: 'as yet unclassified' stamp: 'len 7/2/2023 16:51:10'!
 newFreeModule
@@ -11948,7 +11948,7 @@ testComposition
 	self assert: (g · f value: x) = (g value: (f value: x)).
 	X ⊇ Z ifFalse: [self should: [f · g] raise: Error]! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 12/10/2023 10:35:50'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 4/5/2024 19:09:34'!
 testCompositionError
 	| X Y Z f g |
 	X := self newModule.
@@ -11956,7 +11956,7 @@ testCompositionError
 	[Z := self newModule. X ⊇ Z] whileTrue.
 	f := X ⇒ Y atRandom: random bits: 1000.
 	g := Y ⇒ Z atRandom: random bits: 1000.
-	self should: [f · g] raise: DomainError! !
+	self should: [f · g] raise: Error! !
 
 !AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:37:35'!
 testEqualizer
