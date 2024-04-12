@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 6 April 2024 at 4:22:57 pm'!
+'From Cuis6.3 [latest update: #6222] on 12 April 2024 at 6:14:34 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 112!
+!provides: 'Tests-Algebra' 1 113!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -10196,12 +10196,12 @@ testInplaceAddition
 	C replaceWith: A plus: B.
 	self assert: A + B = C! !
 
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/9/2024 11:02:41'!
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 4/9/2024 08:04:16'!
 testInplaceMatrixTimesLowerTriangular
 	| A L C |
 	A := self newMatrix.
 	L := A domain to: A domain fill: [:i :j| i < j ifTrue: [0] ifFalse: [scalars atRandom: random]].
-	C := (A*L) parent atRandom: random.
+	C := A domain to: A codomain atRandom: random.
 	C replaceWith: A timesLowerTriangular: L.
 	self assert: A * L = C! !
 
@@ -10223,21 +10223,21 @@ testInplaceSubstraction
 	C replaceWith: A minus: B.
 	self assert: A - B = C! !
 
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/5/2024 10:27:15'!
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 4/9/2024 08:04:45'!
 testInplaceUpperTriangularTimesLowerTriangular
 	| U L C |
 	U := scalars^(10 atRandom: random) :: endomorphisms fill: [:i :j| i > j ifTrue: [0] ifFalse: [scalars atRandom: random]].
 	L := U domain endomorphisms fill: [:i :j| i < j ifTrue: [0] ifFalse: [scalars atRandom: random]].
-	C := (U*L) parent atRandom: random.
+	C := U domain to: U codomain atRandom: random.
 	C replaceWithUpperTriangular: U timesLowerTriangular: L.
 	self assert: U * L = C! !
 
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/5/2024 10:23:26'!
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 4/9/2024 08:42:40'!
 testInplaceUpperTriangularTimesMatrix
 	| A U C |
 	A := self newMatrix.
 	U := A codomain endomorphisms fill: [:i :j| i > j ifTrue: [0] ifFalse: [scalars atRandom: random]].
-	C := (U*A) parent atRandom: random.
+	C := A domain to: A codomain atRandom: random.
 	C replaceWithUpperTriangular: U times: A.
 	self assert: U * A = C! !
 
@@ -10695,16 +10695,16 @@ testCharacteristicMatrixAndPolynomial
 	A _ self newSquareMatrix.
 	self assert: A characteristicPolynomial = A characteristicMatrix determinant! !
 
-!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 13:04:31'!
+!AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/9/2024 08:33:52'!
 testCharacteristicPolynomial
 	| A p B |
-	A _ self newSquareMatrix.
-	p _ A characteristicPolynomial.
+	A := self newSquareMatrix.
+	p := A characteristicPolynomial.
 	self assert: (p value: A) isZero.
 	self assert: p degree = A width.
 	self assert: p isMonic.
 	self assert: A transpose characteristicPolynomial = p.
-	B _ A parent atRandom: random bits: 100.
+	B := A domain to: A domain atRandom: random bits: 100.
 	self assert: (A*B) characteristicPolynomial = (B*A) characteristicPolynomial! !
 
 !AbstractCommutativeRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:17:39'!
@@ -10932,14 +10932,14 @@ testCharacteristicPolynomialBug
 	A _ (ℤ/2^3) endomorphisms !! #(1 1 1 1 0 0 1 1 1).
 	self assert: (A characteristicPolynomial value: A) isZero! !
 
-!FiniteFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:09:19'!
+!FiniteFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/10/2024 04:28:12'!
 testEchelonExample
 	"From Magma Handbook example H26E10."
 	| K w A |
-	K _ GaloisField new: 8.
-	w _ K x.
-	A _ K^3 ⇒ (K^4) !! {1. w. w^5. 0. w^3. w^4. w. 1. w^6. w^3. 1. w^4}.
-	self assert: A echelon = (A parent !! {1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0})! !
+	K := GaloisField new: 8.
+	w := K x.
+	A := K^3 ⇒ (K^4) !! {1. w. w^5. 0. w^3. w^4. w. 1. w^6. w^3. 1. w^4}.
+	self assert: A echelon = (A domain ⇒ A codomain !! {1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0})! !
 
 !GaussianFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/5/2023 21:31:15'!
 setUp
@@ -11134,15 +11134,15 @@ testLeftInverseRational
 	[A _ ℚ^3 ⇒ (ℚ^5) atRandom: random bits: 1000. A rank = 3] whileFalse.
 	self assert: (A retraction * A) isIdentity! !
 
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:22:53'!
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/10/2024 11:53:55'!
 testRCFAndInvariantFactorsExample
 	"Example from Magma documentation."
 	| K A R x |
-	K _ ℤ/5.
-	A _ (K^5) endomorphisms !! #(0 2 4 2 0 2 2 2 3 3 3 4 4 1 3 0 0 0 0 1 0 0 0 1 0).
-	R _ A parent !! #(1 0 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0 1 0).
+	K := ℤ/5.
+	A := (K^5) endomorphisms !! #(0 2 4 2 0 2 2 2 3 3 3 4 4 1 3 0 0 0 0 1 0 0 0 1 0).
+	R := A domain endomorphisms !! #(1 0 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 1 0 0 0 1 0).
 	self assert: A RCF = R.
-	x _ K polynomials x.
+	x := K polynomials x.
 	self assert: A invariantFactors = {x - 1. x^2 - 1. x^2 - 1}
 	"TODO: test transformation T such that T*A*T inverse = R"! !
 
@@ -11206,13 +11206,13 @@ testSimilarityExample
 	self assert: A ≃ B.
 	self deny: A ≃ C! !
 
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:10:16'!
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/10/2024 11:54:26'!
 testSlashWithMatrixExample
 	| A B X  |
-	A _ (ℚ^3) endomorphisms !! #(1 1 3 2 0 4 -1 6 -1).
-	B _ ℚ^3 ⇒ (ℚ^1) !! #(2 19 8).
-	X _ B / A.
-	self assert: X = (B parent !! #(1 2 3)).
+	A := (ℚ^3) endomorphisms !! #(1 1 3 2 0 4 -1 6 -1).
+	B := ℚ^3 ⇒ (ℚ^1) !! #(2 19 8).
+	X := B / A.
+	self assert: X = (B domain ⇒ B codomain !! #(1 2 3)).
 	self assert: X * A = B! !
 
 !RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:25:07'!
@@ -12721,14 +12721,14 @@ testLinearForm2
 	self assert: f kernel rank = 2.
 	self assert: f image rank = 1! !
 
-!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:41:14'!
+!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 4/10/2024 11:55:01'!
 testLinearFormAsPolynomial
 	| V f x |
-	V _ ℚ ^ (5 atRandom: random).
-	f _ V dual atRandom: random bits: 100.
-	x _ V atRandom: random bits: 100.
+	V := ℚ ^ (5 atRandom: random).
+	f := V dual atRandom: random bits: 100.
+	x := V atRandom: random bits: 100.
 	self assert: (f value: x) = (f asPolynomial value: x).
-	self assert: f parent !! f asPolynomial = f! !
+	self assert: f domain ⇒ f codomain !! f asPolynomial = f! !
 
 !RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:23:57'!
 testMapsInducedByHom
