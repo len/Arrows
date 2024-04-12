@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 5 April 2024 at 7:14:09 pm'!
+'From Cuis6.3 [latest update: #6222] on 12 April 2024 at 6:14:24 am'!
 'Description The package implements directed and undirected graphs.'!
-!provides: 'Graphs' 1 7!
+!provides: 'Graphs' 1 8!
 !requires: 'Collections-Extras' 1 1 nil!
 SystemOrganization addCategory: #Graphs!
 
@@ -237,13 +237,6 @@ Implicit graphs nodes that access the collection of edges by evaluating a block.
 !ImplicitIteratorGraphNode commentStamp: '<historical>' prior: 0!
 Implicit graph nodes that iterate over the collection of edges by evaluating the iterator.!
 
-!MutualAssociation methodsFor: 'printing' stamp: 'len 7/13/2016 07:31'!
-printOn: aStream
-	aStream
-		print: key;
-		nextPutAll: ' <-> ';
-		print: value! !
-
 !MutualAssociation methodsFor: 'comparing' stamp: 'len 7/13/2016 07:55'!
 = anAssociation
 	(anAssociation isKindOf: Association)
@@ -255,6 +248,13 @@ printOn: aStream
 !MutualAssociation methodsFor: 'comparing' stamp: 'len 7/13/2016 07:31'!
 hash
 	^ key hash bitXor: value hash! !
+
+!MutualAssociation methodsFor: 'printing' stamp: 'len 7/13/2016 07:31'!
+printOn: aStream
+	aStream
+		print: key;
+		nextPutAll: ' <-> ';
+		print: value! !
 
 !MutualAssociation class methodsFor: 'instance creation' stamp: 'len 7/23/2016 06:39'!
 newFrom: anAssociation
@@ -622,8 +622,8 @@ radius
 	^ self nodes min: [:each| self eccentricityOf: each]
 "	^ (FloydWarshall graph: self) radius"! !
 
-!Graph methodsFor: 'operations' stamp: 'len 7/20/2016 23:47'!
-reflexive
+!Graph methodsFor: 'operations' stamp: 'len 4/11/2024 07:57:14'!
+reflexiveClosure
 	"Answer the reflexive closure of the receiver."
 	| answer |
 	answer _ self copy.
@@ -644,8 +644,8 @@ subgraphInducedBy: aSet
 			ifTrue: [answer addEdge: each]].
 	^ answer! !
 
-!Graph methodsFor: 'operations' stamp: 'len 7/13/2016 23:06'!
-symmetric
+!Graph methodsFor: 'operations' stamp: 'len 4/11/2024 07:57:52'!
+symmetricClosure
 	"Answer the symmetric closure of the receiver."
 	| answer |
 	answer _ self copy.
@@ -1215,9 +1215,9 @@ asRooted
 	answer findRoots.
 	^ answer! !
 
-!Digraph methodsFor: 'converting' stamp: 'len 11/16/2016 09:54'!
+!Digraph methodsFor: 'converting' stamp: 'len 4/11/2024 07:57:52'!
 asUndirected
-	^ UndirectedGraph digraph: self symmetric! !
+	^ UndirectedGraph digraph: self symmetricClosure! !
 
 !Digraph methodsFor: 'copying' stamp: 'len 7/13/2016 22:56'!
 copy
@@ -1370,10 +1370,10 @@ isTransitive
 isUnordered
 	^ self type includes: #unordered! !
 
-!Digraph methodsFor: 'testing' stamp: 'len 2/17/2016 02:42'!
+!Digraph methodsFor: 'testing' stamp: 'len 4/11/2024 07:57:52'!
 isWeaklyConnected
 	"A graph is said to be 'weakly connected' when its symmetric closure is connected."
-	^ self symmetric isConnected! !
+	^ self symmetricClosure isConnected! !
 
 !Digraph methodsFor: 'private' stamp: 'len 7/13/2016 22:37'!
 isDirected
@@ -2005,8 +2005,8 @@ digraph: aDigraph
 complement
 	^ self class digraph: digraph complement! !
 
-!UndirectedGraph methodsFor: 'operations' stamp: 'len 7/13/2016 22:13'!
-symmetric
+!UndirectedGraph methodsFor: 'operations' stamp: 'len 4/11/2024 07:57:52'!
+symmetricClosure
 	^ self! !
 
 !UndirectedGraph methodsFor: 'operations' stamp: 'len 8/9/2020 07:49:51'!
@@ -2072,7 +2072,7 @@ remove: frontierObject
 removeAll: collection
 	collection do: [ :n | self remove: n]! !
 
-!DAGFrontier methodsFor: 'initialization' stamp: 'timestamp) (no'!
+!DAGFrontier methodsFor: 'private' stamp: 'timestamp) (no'!
 frontier: f bag: remaining
 	frontier := f.
 	bag := remaining! !
@@ -2110,7 +2110,7 @@ shortestPathTo: anObject
 		whileFalse: [node _ predecessorNode].
 	^ answer reversed! !
 
-!Dijkstra methodsFor: 'initialization' stamp: 'len 2/15/2003 18:52'!
+!Dijkstra methodsFor: 'private' stamp: 'len 2/15/2003 18:52'!
 graph: aGraph source: aNode
 	graph _ aGraph.
 	source _ aNode.
@@ -2154,7 +2154,7 @@ distanceFrom: source to: target
 radius
 	^ distances min! !
 
-!FloydWarshall methodsFor: 'initialization' stamp: 'len 2/17/2016 07:04'!
+!FloydWarshall methodsFor: 'private' stamp: 'len 2/17/2016 07:04'!
 graph: aGraph
 	graph _ aGraph.
 	self run! !
@@ -2175,10 +2175,6 @@ run
 !FloydWarshall class methodsFor: 'instance creation' stamp: 'len 2/17/2016 07:22'!
 graph: aGraph
 	^ self new graph: aGraph! !
-
-!GraphNode methodsFor: 'printing' stamp: 'len 2/14/2003 23:38'!
-printOn: aStream
-	aStream nextPut: $[; print: value; nextPut: $]! !
 
 !GraphNode methodsFor: 'accessing edges' stamp: 'timestamp) (no'!
 degree
@@ -2252,6 +2248,10 @@ span
 	tree roots: (Set with: self).
 	self markDo: [:each| tree add: each].
 	^ tree! !
+
+!GraphNode methodsFor: 'printing' stamp: 'len 2/14/2003 23:38'!
+printOn: aStream
+	aStream nextPut: $[; print: value; nextPut: $]! !
 
 !GraphNode methodsFor: 'statistics' stamp: 'len 5/7/2016 04:09'!
 clusteringCoefficient
@@ -2565,13 +2565,13 @@ degree
 neighbors
 	^collectionBlock value! !
 
-!ImplicitCollectionGraphNode methodsFor: 'initialisation' stamp: 'len 2/28/2016 20:32'!
-collectionBlock: aBlock
-	collectionBlock _ aBlock! !
-
 !ImplicitCollectionGraphNode methodsFor: 'testing edges' stamp: 'len 5/7/2016 04:10'!
 hasEdgeTo: anObject 
 	^self neighbors includes: anObject! !
+
+!ImplicitCollectionGraphNode methodsFor: 'private' stamp: 'len 2/28/2016 20:32'!
+collectionBlock: aBlock
+	collectionBlock _ aBlock! !
 
 !ImplicitCollectionGraphNode class methodsFor: 'instance creation' stamp: 'len 2/15/2016 05:20'!
 on: aValue collectionBlock: aBlock 
@@ -2585,13 +2585,13 @@ degree
 neighborsDo: aBlock
 	iterator do: aBlock! !
 
-!ImplicitIteratorGraphNode methodsFor: 'initialisation' stamp: 'len 2/28/2016 20:32'!
-iterator: anIterator
-	iterator _ anIterator! !
-
 !ImplicitIteratorGraphNode methodsFor: 'testing edges' stamp: 'timestamp) (no'!
 hasEdgeTo: anObject
 	^iterator includes: anObject! !
+
+!ImplicitIteratorGraphNode methodsFor: 'private' stamp: 'len 2/28/2016 20:32'!
+iterator: anIterator
+	iterator _ anIterator! !
 
 !ImplicitIteratorGraphNode class methodsFor: 'instance creation' stamp: 'timestamp) (no'!
 on: aValue iterator: anIterator

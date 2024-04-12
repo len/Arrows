@@ -1,17 +1,17 @@
-'From Cuis 6.0 [latest update: #5438] on 14 August 2022 at 11:20:57 am'!
+'From Cuis6.3 [latest update: #6222] on 12 April 2024 at 6:14:29 am'!
 'Description '!
-!provides: 'Tests-Graphs' 1 2!
+!provides: 'Tests-Graphs' 1 3!
 !requires: 'Graphs' 1 1 nil!
-SystemOrganization addCategory: 'Tests-Graphs'!
+SystemOrganization addCategory: #'Tests-Graphs'!
 
 
-!classDefinition: #GraphTest category: 'Tests-Graphs'!
+!classDefinition: #GraphTest category: #'Tests-Graphs'!
 TestCase subclass: #GraphTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Graphs'!
-!classDefinition: 'GraphTest class' category: 'Tests-Graphs'!
+!classDefinition: 'GraphTest class' category: #'Tests-Graphs'!
 GraphTest class
 	instanceVariableNames: ''!
 
@@ -78,12 +78,12 @@ testIntersection
 	self assert: (I hasEdge: #b -> #c).
 	self assert: (I hasEdge: #d -> #e)! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:40'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 4/11/2024 07:57:14'!
 testIsComplete
 	| G |
 	G _ Digraph unordered.
 	G addEdges: {#a -> #b. #b -> #a. #b -> #c. #a -> #c. #c -> #a}.
-	G _ G reflexive.
+	G _ G reflexiveClosure.
 	self assert: G isComplete not.
 	G addEdge: #c -> #b.
 	self assert: G isComplete! !
@@ -162,8 +162,8 @@ testUndirectedEdgeContraction
 	self assert: (G / (1->2)) edges size = 4.
 	self assert: (G / (1->2) / ((1->2)->3)) edges size = 3! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2022 13:18:28'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 4/11/2024 07:57:52'!
 testUnion
 	| G |
 	G _ Digraph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e. #x -> #b}; yourself.
-	self assert: (G ∪ G transpose) = G symmetric! !
+	self assert: (G ∪ G transpose) = G symmetricClosure! !
