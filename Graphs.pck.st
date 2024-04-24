@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 12 April 2024 at 6:14:24 am'!
+'From Cuis6.3 [latest update: #6222] on 24 April 2024 at 5:31:22 am'!
 'Description The package implements directed and undirected graphs.'!
-!provides: 'Graphs' 1 8!
+!provides: 'Graphs' 1 9!
 !requires: 'Collections-Extras' 1 1 nil!
 SystemOrganization addCategory: #Graphs!
 
@@ -652,17 +652,17 @@ symmetricClosure
 	self edgesDo: [:each | answer addEdge: (Association key: each value value: each key)].
 	^ answer! !
 
-!Graph methodsFor: 'operations' stamp: 'len 7/13/2016 22:12'!
+!Graph methodsFor: 'operations' stamp: 'len 4/19/2024 08:02:55'!
 topologicalSort
-	"Answer a topological sort of the receiver. This is a linear ordering of its vertices such that for each edge a -> b, a comes before to b in the ordering.
+	"Answer a topological sort of the receiver. This is a linear ordering of its vertices such that for each edge a -> b, a comes before b.
 	This is Kahn's algorithm."
 	| answer G S n |
-	answer _ OrderedCollection new.
-	G _ self copy.
-	S _ G nodes select: [:each| each inDegree = 0].
+	answer := OrderedCollection new.
+	G := self copy.
+	S := G nodes select: [:each| each inDegree = 0].
 	[S notEmpty]
 		whileTrue:
-			[n _ S anyOne.
+			[n := S anyOne.
 			S remove: n.
 			answer add: n.
 			n neighbors do: [:m|
@@ -671,11 +671,12 @@ topologicalSort
 	G isEdgeless ifFalse: [^ self error: 'the graph has at least one cycle'].
 	^ answer! !
 
-!Graph methodsFor: 'operations' stamp: 'len 2/6/2024 22:28:37'!
+!Graph methodsFor: 'operations' stamp: 'len 4/14/2024 14:04:28'!
 transpose
 	"Answer the transpose of the receiver. This is the graphs where edges a->b are inverted as b->a."
 	| answer |
-	answer _ self copyBlank.
+	answer := self copyBlank.
+	answer addAll: self.
 	self edgesDo: [:each | answer addEdge: (Association key: each value value: each key)].
 	^ answer! !
 
@@ -2316,6 +2317,10 @@ inDegree
 inNeighbors
 	^inNeighbors! !
 
+!ExplicitGraphNode methodsFor: 'accessing edges' stamp: 'len 4/20/2024 12:19:50'!
+neighborAt: anInteger
+	^ outNeighbors at: anInteger! !
+
 !ExplicitGraphNode methodsFor: 'accessing edges' stamp: 'len 5/7/2016 04:07'!
 neighbors
 	^outNeighbors! !
@@ -2474,6 +2479,10 @@ label
 label: anObject
 	label _ anObject! !
 
+!LabeledExplicitGraphNode methodsFor: 'accessing edges' stamp: 'len 4/20/2024 12:20:33'!
+labelAt: anInteger
+	^ (outNeighbors at: anInteger) value! !
+
 !LabeledExplicitGraphNode methodsFor: 'accessing edges' stamp: 'timestamp) (no'!
 labelOfEdgeTo: anObject 
 	"Return the label associated with the edge to anObject; otherwise signal an error."
@@ -2486,6 +2495,10 @@ labelOfEdgeTo: anObject ifNone: aBlock
 
 	^(outNeighbors detect: [:assoc | assoc key = anObject]
 		ifNone: [^aBlock value]) value! !
+
+!LabeledExplicitGraphNode methodsFor: 'accessing edges' stamp: 'len 4/20/2024 12:20:09'!
+neighborAt: anInteger
+	^ (outNeighbors at: anInteger) key! !
 
 !LabeledExplicitGraphNode methodsFor: 'accessing edges' stamp: 'len 5/7/2016 04:11'!
 neighbors
