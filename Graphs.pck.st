@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 24 April 2024 at 5:31:22 am'!
+'From Cuis6.3 [latest update: #6222] on 2 May 2024 at 7:37:22 am'!
 'Description The package implements directed and undirected graphs.'!
-!provides: 'Graphs' 1 9!
+!provides: 'Graphs' 1 10!
 !requires: 'Collections-Extras' 1 1 nil!
 SystemOrganization addCategory: #Graphs!
 
@@ -652,7 +652,7 @@ symmetricClosure
 	self edgesDo: [:each | answer addEdge: (Association key: each value value: each key)].
 	^ answer! !
 
-!Graph methodsFor: 'operations' stamp: 'len 4/19/2024 08:02:55'!
+!Graph methodsFor: 'operations' stamp: 'len 5/1/2024 12:30:02'!
 topologicalSort
 	"Answer a topological sort of the receiver. This is a linear ordering of its vertices such that for each edge a -> b, a comes before b.
 	This is Kahn's algorithm."
@@ -662,7 +662,7 @@ topologicalSort
 	S := G nodes select: [:each| each inDegree = 0].
 	[S notEmpty]
 		whileTrue:
-			[n := S anyOne.
+			[n := S any.
 			S remove: n.
 			answer add: n.
 			n neighbors do: [:m|
@@ -926,11 +926,11 @@ isHamiltonian
 isReflexive
 	^ self nodes allSatisfy: [:each| each isReflexive]! !
 
-!Graph methodsFor: 'testing' stamp: 'len 7/13/2016 22:34'!
+!Graph methodsFor: 'testing' stamp: 'len 5/1/2024 12:29:58'!
 isRegular
 	| n |
 	self isEmpty ifTrue: [^ true].
-	n _ self nodes anyOne degree.
+	n := self nodes any degree.
 	^ self nodes allSatisfy: [:each| each degree = n]! !
 
 !Graph methodsFor: 'testing' stamp: 'len 7/29/2016 08:11'!
@@ -1231,15 +1231,15 @@ copyBlank
 		ifTrue: [self class ordered]
 		ifFalse: [super copy initialize]! !
 
-!Digraph methodsFor: 'enumerating' stamp: 'len 2/6/2024 22:28:37'!
+!Digraph methodsFor: 'enumerating' stamp: 'len 5/1/2024 12:30:08'!
 componentsDo: aBlock
 	"Iterate over the Strongly Connected Components of the receiver."
 	| component remainingNodes node |
-	remainingNodes _ self nodes copy.
+	remainingNodes := self nodes copy.
 	[remainingNodes isEmpty]
 		whileFalse:
-			[node _ remainingNodes anyOne.
-			component _ self copyBlank.
+			[node := remainingNodes any.
+			component := self copyBlank.
 			node markDo: [:each|
 				component nodes add: each.
 				remainingNodes remove: each ifAbsent: []].
@@ -1482,16 +1482,16 @@ unorderedLabeled
 	"Create a new labeled, unordered graph."
 	^ self basicNew initialize unorderedLabeled! !
 
-!RootedDigraph methodsFor: 'accessing' stamp: 'len 7/21/2016 00:04'!
+!RootedDigraph methodsFor: 'accessing' stamp: 'len 5/1/2024 12:30:19'!
 root
 	"pre: roots size = 1"
-	^ roots anyOne! !
+	^ roots any! !
 
-!RootedDigraph methodsFor: 'accessing' stamp: 'len 2/26/2016 23:21'!
+!RootedDigraph methodsFor: 'accessing' stamp: 'len 5/1/2024 12:30:22'!
 rootNode
 	"return the GraphNode for the root.
 	pre: roots size = 1"
-	^self nodeAt: roots anyOne! !
+	^self nodeAt: roots any! !
 
 !RootedDigraph methodsFor: 'accessing' stamp: 'len 2/26/2016 23:22'!
 rootNodes
@@ -1549,7 +1549,7 @@ roots: rootNodes childrenGenerator: aBlock
 	Evaluate aBlock for each node to obtain an iterator over a Collection of its children."
 	^self roots: rootNodes childrenGenerator: aBlock label: nil! !
 
-!RootedDigraph methodsFor: 'adding' stamp: 'len 2/26/2016 20:55'!
+!RootedDigraph methodsFor: 'adding' stamp: 'len 5/1/2024 12:30:27'!
 roots: rootNodes childrenGenerator: aBlock label: labelBlock
 	"Build the graph with given rootNodes.
 	Evaluate aBlock for each node to obtain an iterator over a Collection of its children.
@@ -1559,7 +1559,7 @@ roots: rootNodes childrenGenerator: aBlock label: labelBlock
 	todo := rootNodes asSet copy.
 	[todo isEmpty] whileFalse:
 		[| node |
-		node := todo anyOne.
+		node := todo any.
 		(aBlock value: node) value:
 			[ :child |
 				(self includes: child) ifFalse: [todo add: child].
@@ -1569,7 +1569,7 @@ roots: rootNodes childrenGenerator: aBlock label: labelBlock
 			todo remove: node].
 	^self! !
 
-!RootedDigraph methodsFor: 'adding' stamp: 'len 2/26/2016 05:03'!
+!RootedDigraph methodsFor: 'adding' stamp: 'len 5/1/2024 12:30:32'!
 roots: rootNodes childrenLabelGenerator: aBlock
 	"Build the graph with given rootNodes.
 	Evaluate aBlock for each node to obtain an iterator over a Collection of its children and labels."
@@ -1578,7 +1578,7 @@ roots: rootNodes childrenLabelGenerator: aBlock
 	todo := rootNodes asSet copy.
 	[todo isEmpty] whileFalse:
 		[| node |
-		node := todo anyOne.
+		node := todo any.
 		(aBlock value: node) value:
 			[ :child :label |
 				(self includes: child) ifFalse: [todo add: child].
@@ -1638,16 +1638,16 @@ frontier
 	"Return a DAGFrontier object, capable of iterating over this DAG."
 	^ DAGFrontier on: self! !
 
-!RootedDigraph methodsFor: 'enumerating' stamp: 'len 11/30/2016 14:44:37'!
+!RootedDigraph methodsFor: 'enumerating' stamp: 'len 5/1/2024 12:30:15'!
 markDo: aBlock
 	"Visit each node in the graph once, applying aBlock.
 	A node is only visited after at least one of its predecessors, but not necessarily after all the predecessors."
 	| todo visited |
-	todo _ self rootNodes as: Set.
-	visited _ Set new.
+	todo := self rootNodes as: Set.
+	visited := Set new.
 	[todo isEmpty] whileFalse:
 		[| node |
-		node _ todo anyOne.
+		node := todo any.
 		visited add: node.
 		aBlock value: node.
 		node neighborsDo:

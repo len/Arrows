@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 25 March 2024 at 7:42:13 am'!
-'Description This package includes some extra methods for Collection and subclasses and some new collection classes.'!
-!provides: 'Collections-Extras' 1 16!
+'From Cuis6.3 [latest update: #6222] on 2 May 2024 at 7:37:52 am'!
+'Description This package includes some extra methods for existing collections and some new collection classes.'!
+!provides: 'Collections-Extras' 1 17!
 SystemOrganization addCategory: #'Collections-Extras'!
 
 
@@ -424,6 +424,10 @@ new: anInteger
 	anInteger < 0 ifTrue: [^ self error: 'negative exponent'].
 	^ anInteger even ifTrue: [self , self ^ (anInteger // 2)] ifFalse: [self , self ^ (anInteger // 2) , self]! !
 
+!Collection methodsFor: '*collections-extras' stamp: 'len 4/30/2024 10:51:22'!
+any
+	^ self anyIfNone: [self errorEmptyCollection]! !
+
 !Collection methodsFor: '*collections-extras' stamp: 'len 2/18/2003 21:40'!
 anyIfNone: aBlock
 	"Answer a representative sample of the receiver. This method can
@@ -432,10 +436,6 @@ anyIfNone: aBlock
 
 	self do: [:each | ^ each].
 	^aBlock value! !
-
-!Collection methodsFor: '*collections-extras' stamp: 'len 10/5/2022 15:44:38'!
-anyone
-	^ self anyOne! !
 
 !Collection methodsFor: '*collections-extras' stamp: 'len 2/6/2024 22:28:37'!
 copyBlank

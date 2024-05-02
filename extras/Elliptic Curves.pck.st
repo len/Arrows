@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 6 April 2024 at 4:22:51 pm'!
+'From Cuis6.3 [latest update: #6222] on 2 May 2024 at 7:37:55 am'!
 'Description '!
-!provides: 'Elliptic Curves' 1 21!
+!provides: 'Elliptic Curves' 1 22!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #'Elliptic Curves'!
 
@@ -233,7 +233,7 @@ elementaryDivisorsAndGenerators
 printOn: aStream
 	aStream nextPutAll: 'E('; print: self scalars; nextPut: $)! !
 
-!EllipticCurveGroup methodsFor: 'random' stamp: 'len 6/20/2023 11:22:20'!
+!EllipticCurveGroup methodsFor: 'random' stamp: 'len 5/1/2024 12:24:55'!
 atRandom: aRandom
 	"Answer a point choosen uniformly, assuming we're over a finite field.
 	See [Mil04, Algorithm 6]."
@@ -244,7 +244,7 @@ atRandom: aRandom
 	If there are two distinct points, choose one uniformy:"
 	points size > 1 ifTrue: [^ points atRandom: aRandom].
 	"Otherwise with probability 1/2 answer the double point, or try again:"
-	(2 atRandom: aRandom) = 1 ifTrue: [^ points anyOne]] repeat! !
+	(2 atRandom: aRandom) = 1 ifTrue: [^ points any]] repeat! !
 
 !EllipticCurveGroup methodsFor: 'testing' stamp: 'len 6/19/2023 16:52:44'!
 isX: anElement
@@ -369,10 +369,10 @@ asShortWeierstrassModel
 over: aRing
 	^ self class coefficients: (coefficients over: aRing)! !
 
-!EllipticCurve methodsFor: 'frobenius' stamp: 'len 7/13/2023 11:45:26'!
+!EllipticCurve methodsFor: 'frobenius' stamp: 'len 5/1/2024 12:26:52'!
 frobenius
 	"Answer the Frobenius of the receiver as an element in the Frobenius quadratic order (or ℤ)."
-	^ self frobeniusOrder degree = 1 ifTrue: [self frobeniusPolynomial roots anyOne] ifFalse: [self frobeniusOrder x]! !
+	^ self frobeniusOrder degree = 1 ifTrue: [self frobeniusPolynomial roots any] ifFalse: [self frobeniusOrder x]! !
 
 !EllipticCurve methodsFor: 'frobenius' stamp: 'len 6/26/2023 01:43:07'!
 frobeniusDiscriminant
@@ -682,12 +682,12 @@ coefficients: aTuple
 	f := f homogenizedIn: 3.
 	self coordinateRing: f parent / f! !
 
-!EllipticCurve methodsFor: 'private' stamp: 'len 6/27/2023 13:23:59'!
+!EllipticCurve methodsFor: 'private' stamp: 'len 5/1/2024 12:26:34'!
 divisionPolynomial: n
 	"Answer the n-th division polynomial, as a bivariate polynomial including a factor 2y+a₁x+a₃ having simple roots at the 2-torsion points."
 	| cache x y φ |
 	cache := self propertyAt: #divisionPolynomials ifAbsentPut: [Dictionary new].
-	x := cache notEmpty ifTrue: [cache anyOne parent x] ifFalse: [(self scalars polynomialsIn: #(x y)) x].
+	x := cache notEmpty ifTrue: [cache any parent x] ifFalse: [(self scalars polynomialsIn: #(x y)) x].
 	φ := self divisionPolynomial: n at: x cache: cache.
 	n even ifTrue: [y := x parent y. φ := φ * (y * 2 + (x * self a₁) + self a₃)].
 	^ φ! !
@@ -718,22 +718,22 @@ divisionPolynomial: n at: x cache: cache
 					ifTrue: [(self divisionPolynomial: m at: x cache: cache)^3 * (self divisionPolynomial: -2 at: x cache: cache) * (self divisionPolynomial: m+2 at: x cache: cache) - ((self divisionPolynomial: m+1 at: x cache: cache)^3 * (self divisionPolynomial: m-1 at: x cache: cache))]
 					ifFalse: [(self divisionPolynomial: m at: x cache: cache)^3 * (self divisionPolynomial: m+2 at: x cache: cache) - ((self divisionPolynomial: m+1 at: x cache: cache)^3 * (self divisionPolynomial: m-1 at: x cache: cache) * (self divisionPolynomial: -2 at: x cache: cache))]])! !
 
-!EllipticCurve methodsFor: 'private' stamp: 'len 6/27/2023 13:20:35'!
+!EllipticCurve methodsFor: 'private' stamp: 'len 5/1/2024 12:26:39'!
 divisionPolynomialX: n
 	"Answer the n-th division polynomial, as a univariate polynomial including a factor of degree 3 whose roots are the x-coordinates of the 2-torsion points."
 	| cache x φ |
 	cache := self propertyAt: #divisionPolynomialsX ifAbsentPut: [Dictionary new].
-	x := cache notEmpty ifTrue: [cache anyOne parent x] ifFalse: [self scalars polynomials x].
+	x := cache notEmpty ifTrue: [cache any parent x] ifFalse: [self scalars polynomials x].
 	φ := self divisionPolynomial: n at: x cache: cache.
 	n even ifTrue: [φ := φ * (self divisionPolynomial: -1 at: x cache: cache)].
 	^ φ! !
 
-!EllipticCurve methodsFor: 'private' stamp: 'len 6/26/2023 21:45:53'!
+!EllipticCurve methodsFor: 'private' stamp: 'len 5/1/2024 12:26:45'!
 divisionPolynomialXNoTwoTorsion: n
 	"Answer the n-th division polynomial, as a univariate polynomial omiting factors corresponding to the x-coordinates of the 2-torsion points."
 	| cache x |
 	cache := self propertyAt: #divisionPolynomialsXNoTwoTorsion ifAbsentPut: [Dictionary new].
-	x := cache notEmpty ifTrue: [cache anyOne parent x] ifFalse: [self scalars polynomials x].
+	x := cache notEmpty ifTrue: [cache any parent x] ifFalse: [self scalars polynomials x].
 	^ self divisionPolynomial: n at: x cache: cache! !
 
 !EllipticCurve class methodsFor: 'examples' stamp: 'len 6/18/2023 15:15:48'!
@@ -899,9 +899,9 @@ y
 - aPoint
 	^ self + aPoint negated! !
 
-!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 6/19/2023 00:54:05'!
+!EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 5/1/2024 12:27:29'!
 / anInteger
-	^ (self divisionPoints: anInteger) anyOne! !
+	^ (self divisionPoints: anInteger) any! !
 
 !EllipticCurvePoint methodsFor: 'arithmetic' stamp: 'len 6/18/2023 11:38:50'!
 doubled
@@ -1048,7 +1048,7 @@ divisionPoints: anInteger
 	"Answer all the points Q such that the receiver equals Q*anInteger."
 	^ Iterator on: [:aBlock| self divisionPoints: anInteger do: aBlock]! !
 
-!EllipticCurvePoint methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 16:53:35'!
+!EllipticCurvePoint methodsFor: 'as yet unclassified' stamp: 'len 5/1/2024 12:27:35'!
 divisionPoints: anInteger do: aBlock
 	"Iterate over all the points Q such that the receiver equals Q*anInteger."
 	| nP isTwoTorsion Q nQ mQ |
@@ -1057,7 +1057,7 @@ divisionPoints: anInteger do: aBlock
 	nP := self negated.
 	isTwoTorsion := self = nP.
 	(self divisionPolynomial: anInteger) roots do: [:x|
-		Q := (self parent pointsWithX: x) anyOne.
+		Q := (self parent pointsWithX: x) any.
 		nQ := Q negated.
 		mQ := Q * anInteger.
 		self = mQ ifTrue: [aBlock value: Q].
