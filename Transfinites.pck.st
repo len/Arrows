@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 5 April 2024 at 7:14:29 pm'!
+'From Cuis6.3 [latest update: #6222] on 10 May 2024 at 4:57:45 am'!
 'Description '!
-!provides: 'Transfinites' 1 8!
+!provides: 'Transfinites' 1 9!
 SystemOrganization addCategory: #Transfinites!
 
 
@@ -75,6 +75,10 @@ order
 ^ aNumber
 	(aNumber isInteger and: [aNumber > 0]) ifTrue: [^ self].
 	self error: 'only integer positive exponents allowed'! !
+
+!Cardinal methodsFor: 'arithmetic' stamp: 'len 5/9/2024 15:18:08'!
+squared
+	^ self! !
 
 !Cardinal methodsFor: 'comparing' stamp: 'len 4/22/2016 05:06'!
 < anObject
