@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 12 April 2024 at 6:14:34 am'!
+'From Cuis6.3 [latest update: #6222] on 10 May 2024 at 5:29:31 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 113!
+!provides: 'Tests-Algebra' 1 116!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -139,6 +139,16 @@ RandomizedTestCase subclass: #BilinearFormTest
 	category: 'Tests-Algebra'!
 !classDefinition: 'BilinearFormTest class' category: #'Tests-Algebra'!
 BilinearFormTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #CategoryTest category: #'Tests-Algebra'!
+RandomizedTestCase subclass: #CategoryTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'CategoryTest class' category: #'Tests-Algebra'!
+CategoryTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #GroupTest category: #'Tests-Algebra'!
@@ -2943,15 +2953,15 @@ testAsPermutationGroup
 	A _ (ℤ/2 × (ℤ/5) × (ℤ/4) × (ℤ/2)) asAbelianGroup.
 	self assert: A asPermutationGroup asAbelianGroup invariants = A invariants! !
 
-!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 16:51:45'!
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2024 10:19:51'!
 testDirectSum
 	| A B C |
-	A _ ℤ asAbelianGroup.
-	B _ (ℤ / (2 to: 10) atRandom) asAbelianGroup.
-	C _ A ⊕ B.
+	A := ℤ asAbelianGroup.
+	B := (ℤ / (2 to: 10) atRandom) asAbelianGroup.
+	C := A ⊕ B.
 	self testAbelianGroup: C.
-	C ⇉ (A, B) do: [:each| self testAbelianGroupHomomorphism: each].
-	C ⇇ (A, B) do: [:each| self testAbelianGroupHomomorphism: each]! !
+	C ⇉ {A. B} do: [:each| self testAbelianGroupHomomorphism: each].
+	C ⇇ {A. B} do: [:each| self testAbelianGroupHomomorphism: each]! !
 
 !AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2020 19:15:41'!
 testExponent
@@ -3116,13 +3126,13 @@ testAffinePlaneCurveMultiplicity
 	self assert: (C multiplicityAt: (1,1)) = 1.
 	self assert: (C multiplicityAt: (0,0)) = 2! !
 
-!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 6/23/2023 20:05:01'!
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 5/1/2024 10:19:37'!
 testAffineSchemeCartesianProduct1
 	| X₁ X₂ P |
 	X₁ := AffineVariety circle × ℚ spec.
 	X₂ := AffineVariety romanSurface × ℚ spec.
 	P := X₁ × X₂.
-	self assert: (P ambient ⇉ (X₁ ambient, X₂ ambient) collect: [:each| P apply: each]) = {X₁. X₂}.
+	self assert: (P ambient ⇉ {X₁ ambient. X₂ ambient} collect: [:each| P apply: each]) = {X₁. X₂}.
 	self assert: X₁ dimension + X₂ dimension = P dimension.
 	self assert: X₁ ambient dimension + X₂ ambient dimension = P ambient dimension! !
 
@@ -5033,22 +5043,22 @@ testIteratorCovering3
 	self assert: ((F^4) upTo: 3^4) asSet size = (3^4).
 	self assert: ((F^4) upTo: 3^4+100) asSet size = (3^4)! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:24:41'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2024 05:16:52'!
 testMapsInducedByHom
 	| X Y Z f g h yz zx |
-	X _ #(1 2 3) asSet asDomain.
-	Y _ {$x. $y. $z} asSet asDomain.
-	Z _ #(a b c) asSet asDomain.
-	f _ X to: Y map: [:each| Y atRandom: (Random seed: each hash)].
-	g _ f ⇒ Z. "Hom(-,Z)"
+	X := #(1 2 3) asEnsemble.
+	Y := {$x. $y. $z} asEnsemble.
+	Z := #(a b c) asEnsemble.
+	f := X to: Y map: [:each| Y atRandom: (Random seed: each hash)].
+	g := f ⇒ Z. "Hom(-,Z)"
 	self assert: g domain = (Y ⇒ Z). "it is contravariant"
 	self assert: g codomain = (X ⇒ Z).
-	yz _ Y to: Z map: [:each| Z atRandom: (Random seed: each hash)].
+	yz := Y to: Z map: [:each| Z atRandom: (Random seed: each hash)].
 	self assert: (g value: yz) = (yz · f).
-	h _ Z ⇒ f. "Hom(Z,-)"
+	h := Z ⇒ f. "Hom(Z,-)"
 	self assert: h domain = (Z ⇒ X). "it is covariant"
 	self assert: h codomain = (Z ⇒ Y).
-	zx _ Z to: X map: [:each| X atRandom: (Random seed: each hash)].
+	zx := Z to: X map: [:each| X atRandom: (Random seed: each hash)].
 	self assert: (h value: zx) = (f · zx)! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 2/1/2018 22:41:50'!
@@ -6418,6 +6428,28 @@ testScalarSpaceMultiplication
 	B _ BilinearForm on: V mapWithArguments: [:x :y| x*y].
 	self assert: B isSkewSymmetric! !
 
+!CategoryTest methodsFor: 'as yet unclassified' stamp: 'len 4/24/2024 09:01:56'!
+testContravariantHom
+	| x y H g |
+	x := ℤ * 2.
+	y := ℤ * 4.
+	"The Hom(-.x) functor:"
+	H := ℤ modules opposite to: Sets map: [:f| x reverse ^ f].
+	self assert: (H value₀: y reverse) = (y reverse ^ x reverse).
+	g := ℤ^2 to: ℤ asIdeal map: [:v| (v at: 1) * 2].
+	self assert: (H value: g reverse) parent = (g domain ^ x ^ (g codomain ^ x))! !
+
+!CategoryTest methodsFor: 'as yet unclassified' stamp: 'len 4/24/2024 08:55:18'!
+testCovariantHom
+	| x y H g |
+	x := ℤ * 2.
+	y := ℤ * 4.
+	"The Hom(x,-) functor:"
+	H := ℤ modules to: Sets map: [:f| f ^ x].
+	self assert: (H value₀: y) = (x ^ y).
+	g := ℤ^2 to: ℤ asIdeal map: [:v| (v at: 1) * 2].
+	self assert: (H value: g) parent = (g domain ^ x ^ (g codomain ^ x))! !
+
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:11:58'!
 smallGroupAtRandom
 	^ ({[SymmetricGroup new: 3].
@@ -6805,17 +6837,17 @@ testEvaluation
 	self assert: (Q value: (1,0,0)) = 0.
 	self assert: (Q value: (1,1,1)) = 15! !
 
-!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:25:58'!
+!QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2024 10:32:03'!
 testExternalOrthogonalSum
-	| Q1 Q2 S v1 v2 embeddings w |
-	Q1 := self newQuadraticForm.
-	Q2 := self newQuadraticForm.
-	S := Q1 ⊕ Q2.
-	v1 := Q1 domain atRandom: random bits: 100.
-	v2 := Q2 domain atRandom: random bits: 100.
-	embeddings := S domain ⇇ (Q1 domain, Q2 domain).
+	| Q₁ Q₂ S v1 v2 embeddings w |
+	Q₁ := self newQuadraticForm.
+	Q₂ := self newQuadraticForm.
+	S := Q₁ ⊕ Q₂.
+	v1 := Q₁ domain atRandom: random bits: 100.
+	v2 := Q₂ domain atRandom: random bits: 100.
+	embeddings := S domain ⇇ {Q₁ domain. Q₂ domain}.
 	w := (embeddings first value: v1) + (embeddings second value: v2).
-	self assert: (Q1 value: v1) + (Q2 value: v2) = (S value: w)! !
+	self assert: (Q₁ value: v1) + (Q₂ value: v2) = (S value: w)! !
 
 !QuadraticFormTest methodsFor: 'as yet unclassified' stamp: 'len 7/6/2020 09:32:19'!
 testFromGramian
@@ -7289,10 +7321,6 @@ setUp
 	super setUp.
 	F := random nextBoolean ifTrue: [ℚ] ifFalse: [ℤ/(64 atRandom: random) nextPrime].
 	R := (F^((0 to: 3) atRandom: random)) endomorphisms! !
-
-!MatrixAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:37:45'!
-testMatrixAlgebraRank
-	self assert: R rank = R space rank squared! !
 
 !QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:29:41'!
 setUp
@@ -12093,7 +12121,7 @@ testProjection: f
 	self assert: (f image apply: f) = f image.
 	self assert: (f codomain apply: f) = f image! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/5/2023 22:15:21'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 5/1/2024 10:20:33'!
 testPullback
 	| X Y Z f g P π |
 	Z := self newSmallModule.
@@ -12102,11 +12130,11 @@ testPullback
 	f := X ⇒ Z atRandom: random bits: 20.
 	g := Y ⇒ Z atRandom: random bits: 20.
 	P := f ∧ g.
-	π := P ⇉ (X, Y).
+	π := P ⇉ {X. Y}.
 	π do: [:each| self testModuleMap: each].
 	self assert: f · (π at: 1) = (g · (π at: 2))! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/5/2023 22:15:27'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 5/1/2024 10:20:41'!
 testPullbackFree
 	| X Y Z f g P π |
 	Z := self newFreeModule.
@@ -12115,11 +12143,11 @@ testPullbackFree
 	f := X ⇒ Z atRandom: random bits: 20.
 	g := Y ⇒ Z atRandom: random bits: 20.
 	P := f ∧ g.
-	π := P ⇉ (X, Y).
+	π := P ⇉ {X. Y}.
 	π do: [:each| self testModuleMap: each].
 	self assert: f · (π at: 1) = (g · (π at: 2))! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/5/2023 22:15:10'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 5/1/2024 10:30:56'!
 testPushout
 	| X Y Z f g S ι |
 	Z := self newSmallModule.
@@ -12128,11 +12156,11 @@ testPushout
 	f := Z ⇒ X atRandom: random bits: 20.
 	g := Z ⇒ Y atRandom: random bits: 20.
 	S := f ∨ g.
-	ι := S ⇇ (X, Y).
+	ι := S ⇇ {X. Y}.
 	ι do: [:each| self testModuleMap: each].
 	self assert: (ι at: 1) · f = ((ι at: 2) · g)! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/5/2023 22:15:37'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 5/1/2024 10:32:21'!
 testPushoutFree
 	| X Y Z f g S ι |
 	Z := self newFreeModule.
@@ -12141,7 +12169,7 @@ testPushoutFree
 	f := Z ⇒ X atRandom: random bits: 20.
 	g := Z ⇒ Y atRandom: random bits: 20.
 	S := f ∨ g.
-	ι := S ⇇ (X, Y).
+	ι := S ⇇ {X. Y}.
 	ι do: [:each| self testModuleMap: each].
 	self assert: (ι at: 1) · f = ((ι at: 2) · g)! !
 
@@ -12164,24 +12192,24 @@ testCanonicalMorphisms
 	self assert: ((W → W null) value: w) isZero.
 	self assert: (W → V value: w) = w. "canonical morphism to overobject"! !
 
-!AbstractModuleTest methodsFor: 'other' stamp: 'len 10/5/2022 16:53:44'!
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 5/1/2024 10:20:06'!
 testDirectSum
 	| M N S |
-	M _ self newModule.
-	N _ self newModule.
-	S _ M ⊕ N.
-	S ⇇ (M, N) do: [:each| self testModuleMap: each].
-	S ⇉ (M, N) do: [:each| self testModuleMap: each]! !
+	M := self newModule.
+	N := self newModule.
+	S := M ⊕ N.
+	S ⇇ {M. N} do: [:each| self testModuleMap: each].
+	S ⇉ {M. N} do: [:each| self testModuleMap: each]! !
 
-!AbstractModuleTest methodsFor: 'other' stamp: 'len 10/5/2022 16:54:24'!
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 5/1/2024 10:20:21'!
 testDirectSumFree
 	| M N S |
-	M _ self newFreeModule.
-	N _ self newFreeModule.
-	S _ M ⊕ N.
+	M := self newFreeModule.
+	N := self newFreeModule.
+	S := M ⊕ N.
 	self testFreeModule: S.
-	S ⇇ (M, N) do: [:each| self testModuleMap: each].
-	S ⇉ (M, N) do: [:each| self testModuleMap: each]! !
+	S ⇇ {M. N} do: [:each| self testModuleMap: each].
+	S ⇉ {M. N} do: [:each| self testModuleMap: each]! !
 
 !AbstractModuleTest methodsFor: 'other' stamp: 'len 4/26/2021 11:38:09'!
 testFreeModule: M
