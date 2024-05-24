@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 2 May 2024 at 7:37:22 am'!
+'From Cuis6.3 [latest update: #6222] on 24 May 2024 at 8:48:56 am'!
 'Description The package implements directed and undirected graphs.'!
-!provides: 'Graphs' 1 10!
+!provides: 'Graphs' 1 12!
 !requires: 'Collections-Extras' 1 1 nil!
 SystemOrganization addCategory: #Graphs!
 
@@ -193,7 +193,7 @@ Pre-Input: a graph G = (V, E), and a node (source);
 Input: a target node;
 Output: the shortest distance from the source node to the target node, or a shortest path.
 
-The initial precomputation takes time O(|V|^2). Afterwards, it's possible to compute disntances in time O(log |V|) and shortest paths of length k in O(k log |V|). The O(log |V|) comes from the dictionary lookup operation, a lookup in a hash table.!
+The initial precomputation takes time O(|V|²). Afterwards, it's possible to compute disntances in time O(log |V|) and shortest paths of length k in O(k log |V|). The O(log |V|) comes from the dictionary lookup operation, a lookup in a hash table.!
 
 !FloydWarshall commentStamp: '<historical>' prior: 0!
 This is the Floyd-Warshall algorithm for solving the all-pairs shortest path problem (for weighted graphs). It computes distances and shortest paths in a graph. If the graph is edge-labeled, the labels are used as weights.
@@ -652,8 +652,8 @@ symmetricClosure
 	self edgesDo: [:each | answer addEdge: (Association key: each value value: each key)].
 	^ answer! !
 
-!Graph methodsFor: 'operations' stamp: 'len 5/1/2024 12:30:02'!
-topologicalSort
+!Graph methodsFor: 'operations' stamp: 'len 5/24/2024 08:05:43'!
+topologicalSortIfCyclic: exceptionBlock
 	"Answer a topological sort of the receiver. This is a linear ordering of its vertices such that for each edge a -> b, a comes before b.
 	This is Kahn's algorithm."
 	| answer G S n |
@@ -668,7 +668,7 @@ topologicalSort
 			n neighbors do: [:m|
 				n removeNeighbor: m.
 				m inDegree = 0 ifTrue: [S add: m]]].
-	G isEdgeless ifFalse: [^ self error: 'the graph has at least one cycle'].
+	G isEdgeless ifFalse: [^ exceptionBlock value].
 	^ answer! !
 
 !Graph methodsFor: 'operations' stamp: 'len 4/14/2024 14:04:28'!
@@ -852,8 +852,10 @@ hasEdge: edge
 hasEdgeFrom: a to: b
 	^ (self nodeAt: a ifAbsent: [^ false]) hasEdgeTo: b! !
 
-!Graph methodsFor: 'testing' stamp: 'len 7/13/2016 22:31'!
+!Graph methodsFor: 'testing' stamp: 'len 5/24/2024 05:14:03'!
 hasLoop
+	"Answer true if the receiver contains an edge from a node to itself.
+	See also #isCyclic."
 	self nodesDo: [:each| each hasLoop ifTrue: [^ true]].
 	^ false! !
 
@@ -862,10 +864,18 @@ includes: anObject
 	"Answer whether anObject is one of the vertices of the receiver."
 	^ self nodes includes: anObject! !
 
-!Graph methodsFor: 'testing' stamp: 'len 7/13/2016 22:32'!
+!Graph methodsFor: 'testing' stamp: 'len 5/24/2024 08:30:30'!
 isChain
 	"Answer whether the graph is a chain - path graph."
-	^ (self select: [:each| each isAnExtremity]) size + (self select:[:each| each isMiddle]) size = self order! !
+	| node count |
+	(self isEdgeless and: [self size < 2]) ifTrue: [^ true].
+	self isCyclic ifTrue: [^ false].
+	node := self nodes detect: [:one| one isInitial] ifNone: [^ false].
+	count := 1.
+	[node neighbors size > 1 ifTrue: [^ false].
+	node neighbors size = 0 ifTrue: [^ count = self size].
+	node := node neighbors any.
+	count := count + 1] repeat! !
 
 !Graph methodsFor: 'testing' stamp: 'len 7/13/2016 22:32'!
 isComplete
@@ -883,19 +893,16 @@ isConnected
 isCubic
 	^ self nodes allSatisfy: [:each| each degree = 3]! !
 
-!Graph methodsFor: 'testing' stamp: 'len 7/13/2016 22:33'!
+!Graph methodsFor: 'testing' stamp: 'len 5/24/2024 08:17:45'!
 isCyclic
-	[self topologicalSort] on: Error do: [^ true].
+	self hasLoop ifTrue: [^ true].
+	self topologicalSortIfCyclic: [^ true].
 	^ false
 "	| remainingNodes |
 	remainingNodes _ self nodes copy.
 	[remainingNodes isEmpty]
 		whileFalse:
-			[Transcript show: 'pick'; newLine.
-			remainingNodes anyOne walkPre: [:each|
-					Transcript show: each printString; newLine.
-					remainingNodes remove: each ifAbsent: [^ true]] post: [:ignore]].
-	Transcript show: 'done'; newLine.
+			[remainingNodes anyOne walkPre: [:each| remainingNodes remove: each ifAbsent: [^ true]] post: [:ignore]].
 	^ false"! !
 
 !Graph methodsFor: 'testing' stamp: 'len 7/13/2016 22:33'!

@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 2 May 2024 at 7:37:12 am'!
+'From Cuis6.3 [latest update: #6222] on 24 May 2024 at 8:49:02 am'!
 'Description '!
-!provides: 'Tests-Graphs' 1 4!
+!provides: 'Tests-Graphs' 1 5!
 !requires: 'Graphs' 1 1 nil!
 SystemOrganization addCategory: #'Tests-Graphs'!
 
@@ -77,6 +77,31 @@ testIntersection
 	self assert: I numberOfEdges = 2.
 	self assert: (I hasEdge: #b -> #c).
 	self assert: (I hasEdge: #d -> #e)! !
+
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/24/2024 05:23:44'!
+testIsChain
+	| G H |
+	G := Digraph unordered.
+	self assert: G isChain.
+	G add: 1.
+	self assert: G isChain.
+	G add: 2.
+	self assert: G isChain not.
+	G addEdge: 1 -> 2.
+	self assert: G isChain.
+	G addEdge: 2 -> 3.
+	self assert: G isChain.
+	G addEdge: 3 -> 4.
+	self assert: G isChain.
+	H := G copy.
+	H addEdge: 3 -> 3.
+	self assert: H isChain not.
+	H := G copy.
+	H addEdge: 4 -> 1.
+	self assert: H isChain not.
+	H := G copy.
+	H addEdge: 5 -> 6.
+	self assert: H isChain not! !
 
 !GraphTest methodsFor: 'as yet unclassified' stamp: 'len 4/11/2024 07:57:14'!
 testIsComplete
