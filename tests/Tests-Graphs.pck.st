@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 24 May 2024 at 8:49:02 am'!
+'From Cuis6.3 [latest update: #6222] on 25 May 2024 at 6:54:55 am'!
 'Description '!
-!provides: 'Tests-Graphs' 1 5!
+!provides: 'Tests-Graphs' 1 6!
 !requires: 'Graphs' 1 1 nil!
 SystemOrganization addCategory: #'Tests-Graphs'!
 
@@ -33,13 +33,13 @@ testComplement
 	self assert: (G ∩ H) isEdgeless.
 	self assert: H complement = G! !
 
-!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2024 12:30:45'!
+!GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2024 06:47:05'!
 testConnectedComponents
 	| G |
 	G := Graph unordered addEdges: {#a -> #b. #b -> #c. #d -> #e}; yourself.
-	self assert: G components size = 2.
-	self assert: (G components collect: [:each| each order]) = #(2 3) asSet.
-	self assert: G components any components size = 1! !
+	self assert: G connectedComponents size = 2.
+	self assert: (G connectedComponents collect: [:each| each order]) = #(2 3) asSet.
+	self assert: G connectedComponents any connectedComponents size = 1! !
 
 !GraphTest methodsFor: 'as yet unclassified' stamp: 'len 5/25/2016 03:39'!
 testDistance

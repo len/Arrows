@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 24 May 2024 at 8:48:56 am'!
+'From Cuis6.3 [latest update: #6222] on 25 May 2024 at 6:54:49 am'!
 'Description The package implements directed and undirected graphs.'!
-!provides: 'Graphs' 1 12!
+!provides: 'Graphs' 1 13!
 !requires: 'Collections-Extras' 1 1 nil!
 SystemOrganization addCategory: #Graphs!
 
@@ -499,17 +499,12 @@ breadthFirstPath2From: origin to: target with: visitedNodes
 	"No path From origin to target, i.e. the two subgraph are not conected"
 	^ 0! !
 
-!Graph methodsFor: 'operations' stamp: 'len 7/13/2016 23:13'!
+!Graph methodsFor: 'operations' stamp: 'len 5/25/2024 06:16:54'!
 breadthFirstPathFrom: source to: target 
 	| visitedNodes |
-	(source isLeaf
-			or: [target isLeaf])
-		ifTrue: [^ 0]
-		ifFalse: [visitedNodes _ Set new.
-			^ self
-				breadthFirstPath2From: source
-				to: target
-				with: visitedNodes]! !
+	(source degree = 0 or: [target degree = 0]) ifTrue: [^ 0].
+	visitedNodes := Set new.
+	^ self breadthFirstPath2From: source to: target with: visitedNodes! !
 
 !Graph methodsFor: 'operations' stamp: 'len 7/13/2016 23:13'!
 breadthFirstPathFrom: origin to: target with: visitedNodes 
@@ -543,10 +538,10 @@ circumference
 	"Answer the length of the longest cycle."
 	^ self notYetImplemented! !
 
-!Graph methodsFor: 'operations' stamp: 'len 7/13/2016 22:06'!
-components
+!Graph methodsFor: 'operations' stamp: 'len 5/25/2024 06:46:24'!
+connectedComponents
 	"Answer the Strongly Connected Components of the receiver."
-	^ Set accumulate: [:aBlock | self componentsDo: aBlock]! !
+	^ Set accumulate: [:aBlock | self connectedComponentsDo: aBlock]! !
 
 !Graph methodsFor: 'operations' stamp: 'len 7/13/2016 22:07'!
 diameter
@@ -722,128 +717,6 @@ edgeAtRandom
 shuffled
 	^ Random withDefaultDo: [:aRandom| self shuffledBy: aRandom]! !
 
-!Graph methodsFor: 'statistics' stamp: 'len 2/7/2022 18:28:31'!
-averageDegree
-	"The average degree of the graph."
-	"^ 2 * self numberOfEdges / self size"
-	^ self nodes average: [:node | node degree] ifEmpty: [0]! !
-
-!Graph methodsFor: 'statistics' stamp: 'len 7/13/2016 23:11'!
-averagePathLength
-	"The average path length of the graph."
-	| sum n progress max |
-	self flag: #bug. "bug with implicit graph since nodes are labelled with integer"
-	sum := 0.
-	n := 2.
-	max := (self order * (self order - 1) / 2) asFloat.
-	"p _ 1 / self order."
-	progress := ProgressMorph label: 'Average path length progress'.
-	progress submorphs first color: Color paleGreen lighter lighter lighter.
-	progress submorphs first borderWidth: 1.
-	progress openInWorld.
-	self
-		nodesDo: [:node1 | 
-			n
-				to: self order
-				do: [:node2 | sum := sum
-								+ (self
-										breadthFirstPathFrom: node1
-										to: (self nodeAt: node2))].
-			n := n + 1.
-			progress incrDone: self order - n / max].
-	progress delete.
-	^ (sum / max) asFloat! !
-
-!Graph methodsFor: 'statistics' stamp: 'len 7/13/2016 23:11'!
-averagePathLength2
-	"The average path length of the graph."
-	| sum n max |
-	sum := 0.
-	n := 2.
-	max := (self order * (self order - 1) / 2) asFloat.
-	self
-		nodesDo: [:node1 | 
-			n
-				to: self order
-				do: [:node2 | sum := sum
-								+ (self
-										breadthFirstPathFrom: node1
-										to: (self nodeAt: node2))].
-			n := n + 1.].
-	^ (sum / max) asFloat! !
-
-!Graph methodsFor: 'statistics' stamp: 'len 7/13/2016 23:11'!
-averagePathLengthAcuteAt
-	"The aproximate average path length of the graph."
-	| sum n progress p max nodesList |
-	sum _ 0.
-	n _ 2.
-	max _ 0.
-	progress _ ProgressMorph label: 'Average path length progress'.
-	progress submorphs first color: Color paleGreen lighter lighter lighter.
-	progress submorphs first borderWidth: 1.
-	progress openInWorld.
-	nodesList _ OrderedCollection new.
-	(0.1 * self order) rounded
-		timesRepeat: [nodesList
-				add: self nodes atRandom].
-	p _ 1 / nodesList size.
-	nodesList
-		do: [:node1 | 
-			n
-				to: nodesList size
-				do: [:node2 | 
-					max _ max + 1.
-					sum _ sum
-								+ (self
-										breadthFirstPathFrom: node1
-										to: (self nodeAt: node2))].
-			n _ n + 1.
-			progress incrDone: p].
-	progress delete.
-	^ (sum / max) asFloat! !
-
-!Graph methodsFor: 'statistics' stamp: 'len 7/13/2016 23:11'!
-averagePathLengthAcuteAt: percentage
-	"The aproximate average path length of the graph."
-	| sum n max nodesList |
-	sum _ 0.
-	n _ 2.
-	max _ (self order * (self order - 1) / 2) asFloat.
-	"p _ 1 / self order. 
-	progress _ ProgressMorph label: 'Average path length progress'. 
-	progress submorphs first color: Color paleGreen lighter lighter lighter. 
-	progress submorphs first borderWidth: 1. 
-	progress openInWorld."
-	nodesList := OrderedCollection new.
-	(percentage * self order) timesRepeat: [nodesList add: self nodes atRandom].
-	nodesList
-				do: [:node1 | 
-					n
-						to: nodesList size
-						do: [:node2 | sum _ sum
-										+ (self
-												breadthFirstPathFrom: node1
-												to: (self nodeAt: node2))].
-					n _ n + 1].
-	"progress delete."
-	^ (sum / max) asFloat! !
-
-!Graph methodsFor: 'statistics' stamp: 'len 7/13/2016 23:11'!
-clusteringCoefficient
-	| sum |
-	sum _ 0.
-	self nodesDo: [:node | node degree > 1 ifTrue: [sum _ sum + node clusteringCoefficient]].
-	^ (sum / self order) asFloat! !
-
-!Graph methodsFor: 'statistics' stamp: 'len 7/13/2016 23:11'!
-degreeDistribution
-	"The distribution degree of the graph."
-	| b |
-	b _ Bag new: self size.
-	self nodesDo: [:each| b add: each degree].
-	^ b frequencyDistribution! !
-
 !Graph methodsFor: 'testing' stamp: 'len 7/13/2016 22:31'!
 hasEdge: edge
 	^ self hasEdgeFrom: edge key to: edge value! !
@@ -864,13 +737,13 @@ includes: anObject
 	"Answer whether anObject is one of the vertices of the receiver."
 	^ self nodes includes: anObject! !
 
-!Graph methodsFor: 'testing' stamp: 'len 5/24/2024 08:30:30'!
+!Graph methodsFor: 'testing' stamp: 'len 5/25/2024 06:16:24'!
 isChain
 	"Answer whether the graph is a chain - path graph."
 	| node count |
 	(self isEdgeless and: [self size < 2]) ifTrue: [^ true].
 	self isCyclic ifTrue: [^ false].
-	node := self nodes detect: [:one| one isInitial] ifNone: [^ false].
+	node := self nodes detect: [:one| one inDegree = 0] ifNone: [^ false].
 	count := 1.
 	[node neighbors size > 1 ifTrue: [^ false].
 	node neighbors size = 0 ifTrue: [^ count = self size].
@@ -882,11 +755,11 @@ isComplete
 	self nodesDo: [:x| self nodesDo: [:y| (x hasEdgeTo: y) ifFalse: [^ false]]].
 	^ true! !
 
-!Graph methodsFor: 'testing' stamp: 'len 7/13/2016 22:33'!
+!Graph methodsFor: 'testing' stamp: 'len 5/25/2024 06:48:23'!
 isConnected
 	| count |
-	count _ 0.
-	self componentsDo: [:each| count _ count + 1. count > 1 ifTrue: [^ false]].
+	count := 0.
+	self connectedComponentsDo: [:each| count := count + 1. count > 1 ifTrue: [^ false]].
 	^ true! !
 
 !Graph methodsFor: 'testing' stamp: 'len 7/13/2016 22:33'!
@@ -1238,8 +1111,8 @@ copyBlank
 		ifTrue: [self class ordered]
 		ifFalse: [super copy initialize]! !
 
-!Digraph methodsFor: 'enumerating' stamp: 'len 5/1/2024 12:30:08'!
-componentsDo: aBlock
+!Digraph methodsFor: 'enumerating' stamp: 'len 5/25/2024 06:48:11'!
+connectedComponentsDo: aBlock
 	"Iterate over the Strongly Connected Components of the receiver."
 	| component remainingNodes node |
 	remainingNodes := self nodes copy.
@@ -1961,9 +1834,9 @@ copy
 copyBlank
 	^ self class digraph: digraph copyBlank! !
 
-!UndirectedGraph methodsFor: 'enumerating' stamp: 'len 7/13/2016 22:58'!
-componentsDo: aBlock
-	digraph componentsDo: [:each| aBlock value: (self class digraph: each)]! !
+!UndirectedGraph methodsFor: 'enumerating' stamp: 'len 5/25/2024 06:48:57'!
+connectedComponentsDo: aBlock
+	digraph connectedComponentsDo: [:each| aBlock value: (self class digraph: each)]! !
 
 !UndirectedGraph methodsFor: 'enumerating' stamp: 'len 11/30/2016 14:45:13'!
 edgesAndLabelsDo: aBinaryBlock
@@ -2261,17 +2134,6 @@ span
 printOn: aStream
 	aStream nextPut: $[; print: value; nextPut: $]! !
 
-!GraphNode methodsFor: 'statistics' stamp: 'len 5/7/2016 04:09'!
-clusteringCoefficient
-	| links k |
-	links _ Set new.
-	self neighborsDo: [:n1 |
-		self neighborsDo: [:n2 |
-			(n1 ~= n2 and: [n1 hasEdgeTo: n2])
-				ifTrue: [links add: {n1 value. n2 value}]]].
-	k _ self neighbors size.
-	^ links size / (k * (k - 1))! !
-
 !GraphNode methodsFor: 'testing edges' stamp: 'timestamp) (no'!
 hasEdgeTo: anObject
 	"Is there an edge from this node to anObject?"
@@ -2280,10 +2142,6 @@ hasEdgeTo: anObject
 !GraphNode methodsFor: 'testing edges' stamp: 'len 2/26/2016 20:20'!
 hasLoop
 	^ self hasEdgeTo: self! !
-
-!GraphNode methodsFor: 'testing edges' stamp: 'timestamp) (no'!
-isLeaf
-	^self degree = 0! !
 
 !GraphNode methodsFor: 'testing edges' stamp: 'len 2/16/2016 03:39'!
 isReflexive
@@ -2298,10 +2156,9 @@ isSymmetric
 	self neighborsDo: [:each| (each hasEdgeTo: self) ifFalse: [^ false]].
 	^ true! !
 
-!GraphNode methodsFor: 'testing edges' stamp: 'len 2/17/2016 03:37'!
+!GraphNode methodsFor: 'testing edges' stamp: 'len 5/25/2024 05:22:52'!
 isTransitive
-	self neighborsDo: [:each|
-		each neighborsDo: [:other| (other hasEdgeTo: self) ifFalse: [^ false]]].
+	self neighborsDo: [:each| each neighborsDo: [:other| (other hasEdgeTo: self) ifFalse: [^ false]]].
 	^ true! !
 
 !ExplicitGraphNode methodsFor: 'accessing edges' stamp: 'len 5/7/2016 04:03'!
@@ -2392,31 +2249,6 @@ initializeOrdered
 initializeUnordered
 	outNeighbors _ Bag new.
 	inNeighbors _ Bag new! !
-
-!ExplicitGraphNode methodsFor: 'testing' stamp: 'sam 2/9/2004 15:30'!
-isAnExtremity
-	^ self isFinal | self isInitial | self isExtremal! !
-
-!ExplicitGraphNode methodsFor: 'testing' stamp: 'len 5/7/2016 04:06'!
-isExtremal
-	"o<-->..."
-	^ self degree = 1 and: [self inNeighbors asSet = self neighbors asSet]! !
-
-!ExplicitGraphNode methodsFor: 'testing' stamp: 'len 5/7/2016 04:04'!
-isFinal
-" o<--..."
-	^ self inDegree = 1 and: [self degree = 0]! !
-
-!ExplicitGraphNode methodsFor: 'testing' stamp: 'len 5/7/2016 04:05'!
-isInitial
-	"o-->..."
-	^ self inDegree = 0 and: [self degree = 1]! !
-
-!ExplicitGraphNode methodsFor: 'testing' stamp: 'len 8/12/2022 13:18:40'!
-isMiddle
-	"..--o--..."
-	^ (self inDegree + self degree between: 2 and: 4)
-		and: [(self inNeighbors ∪ self neighbors) size = 2]! !
 
 !ExplicitGraphNode methodsFor: 'testing' stamp: 'timestamp) (no'!
 isOrdered
