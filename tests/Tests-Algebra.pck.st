@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 10 May 2024 at 5:29:31 am'!
+'From Cuis6.3 [latest update: #6222] on 24 May 2024 at 8:50:55 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 116!
+!provides: 'Tests-Algebra' 1 117!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -5043,12 +5043,12 @@ testIteratorCovering3
 	self assert: ((F^4) upTo: 3^4) asSet size = (3^4).
 	self assert: ((F^4) upTo: 3^4+100) asSet size = (3^4)! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/10/2024 05:16:52'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2024 16:46:08'!
 testMapsInducedByHom
 	| X Y Z f g h yz zx |
-	X := #(1 2 3) asEnsemble.
-	Y := {$x. $y. $z} asEnsemble.
-	Z := #(a b c) asEnsemble.
+	X := #(1 2 3) asSetObject.
+	Y := {$x. $y. $z} asSetObject.
+	Z := #(a b c) asSetObject.
 	f := X to: Y map: [:each| Y atRandom: (Random seed: each hash)].
 	g := f ⇒ Z. "Hom(-,Z)"
 	self assert: g domain = (Y ⇒ Z). "it is contravariant"
