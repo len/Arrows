@@ -1,4 +1,4 @@
-'From Cuis6.3 [latest update: #6222] on 25 May 2024 at 6:55:03 am'!
+'From Cuis6.3 [latest update: #6222] on 2 June 2024 at 5:31:37 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, finitely presented modules, (co)chain complexes, finite (finitely generated as modules) associative algebras, schemes, and coherent sheaves.
 
 References:
@@ -92,7 +92,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 194!
+!provides: 'Algebra' 1 197!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Complex' 1 7 nil!
@@ -258,6 +258,16 @@ Domain subclass: #OppositeObject
 OppositeObject class
 	instanceVariableNames: ''!
 
+!classDefinition: #Presheaf category: #'Algebra-Categories'!
+Domain subclass: #Presheaf
+	instanceVariableNames: 'functor'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Categories'!
+!classDefinition: 'Presheaf class' category: #'Algebra-Categories'!
+Presheaf class
+	instanceVariableNames: ''!
+
 !classDefinition: #ProductObject category: #'Algebra-Categories'!
 Domain subclass: #ProductObject
 	instanceVariableNames: 'components parent'
@@ -338,16 +348,6 @@ Category subclass: #FreeCategory
 FreeCategory class
 	instanceVariableNames: ''!
 
-!classDefinition: #FunctorCategory category: #'Algebra-Categories'!
-Category subclass: #FunctorCategory
-	instanceVariableNames: 'domain codomain'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Categories'!
-!classDefinition: 'FunctorCategory class' category: #'Algebra-Categories'!
-FunctorCategory class
-	instanceVariableNames: ''!
-
 !classDefinition: #OppositeCategory category: #'Algebra-Categories'!
 Category subclass: #OppositeCategory
 	instanceVariableNames: 'opposite'
@@ -366,6 +366,16 @@ OppositeCategory subclass: #CochainComplexesCategory
 	category: 'Algebra-Categories-Abelian'!
 !classDefinition: 'CochainComplexesCategory class' category: #'Algebra-Categories-Abelian'!
 CochainComplexesCategory class
+	instanceVariableNames: ''!
+
+!classDefinition: #PresheafCategory category: #'Algebra-Categories'!
+Category subclass: #PresheafCategory
+	instanceVariableNames: 'domain codomain'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Categories'!
+!classDefinition: 'PresheafCategory class' category: #'Algebra-Categories'!
+PresheafCategory class
 	instanceVariableNames: ''!
 
 !classDefinition: #ProductCategory category: #'Algebra-Categories'!
@@ -408,16 +418,6 @@ Category subclass: #FreydCategory
 FreydCategory class
 	instanceVariableNames: ''!
 
-!classDefinition: #FreeModulesCategory category: #'Algebra-Modules'!
-Category subclass: #FreeModulesCategory
-	instanceVariableNames: 'scalars'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Modules'!
-!classDefinition: 'FreeModulesCategory class' category: #'Algebra-Modules'!
-FreeModulesCategory class
-	instanceVariableNames: ''!
-
 !classDefinition: #ModulesCategory category: #'Algebra-Modules'!
 Category subclass: #ModulesCategory
 	instanceVariableNames: 'scalars'
@@ -438,18 +438,18 @@ Category subclass: #CoherentSheavesCategory
 CoherentSheavesCategory class
 	instanceVariableNames: ''!
 
-!classDefinition: #SetObject category: #'Algebra-Sets'!
-Structure subclass: #SetObject
+!classDefinition: #Ensemble category: #'Algebra-Sets'!
+Structure subclass: #Ensemble
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Sets'!
-!classDefinition: 'SetObject class' category: #'Algebra-Sets'!
-SetObject class
+!classDefinition: 'Ensemble class' category: #'Algebra-Sets'!
+Ensemble class
 	instanceVariableNames: ''!
 
 !classDefinition: #CartesianProduct category: #'Algebra-Sets'!
-SetObject subclass: #CartesianProduct
+Ensemble subclass: #CartesianProduct
 	instanceVariableNames: 'components'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -459,7 +459,7 @@ CartesianProduct class
 	instanceVariableNames: ''!
 
 !classDefinition: #HomSet category: #'Algebra-Sets'!
-SetObject subclass: #HomSet
+Ensemble subclass: #HomSet
 	instanceVariableNames: 'domain codomain'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -479,7 +479,7 @@ RationalPointSet class
 	instanceVariableNames: ''!
 
 !classDefinition: #Naturals category: #'Algebra-Sets'!
-SetObject subclass: #Naturals
+Ensemble subclass: #Naturals
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1420,7 +1420,7 @@ SimplicialComplex class
 
 !classDefinition: #Vertex category: #'Algebra-Categories'!
 Domain subclass: #Vertex
-	instanceVariableNames: 'node parent'
+	instanceVariableNames: 'value neighbors parent'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Categories'!
@@ -2820,6 +2820,11 @@ Objects of a comma category (see CommaCategory).!
 !OppositeObject commentStamp: '<historical>' prior: 0!
 Objects of the opposite category (see OppositeCategory).!
 
+!Presheaf commentStamp: '<historical>' prior: 0!
+Presheaves on a category C with values on a category D, or D-valued presheaves on C, correspond to functors from Cᵒᵖ to D (i.e., contravariant functors from C to D), and they are objects of the functor category [Cᵒᵖ,D] with natural transformations as morphisms.
+
+While a functor F : Cᵒᵖ → D is a *morphism* in Cat, the corresponding presheaf is an *object* in the functor category [Cᵒᵖ,D].!
+
 !ProductObject commentStamp: '<historical>' prior: 0!
 Objects of a product category (see ProductCategory).!
 
@@ -2864,7 +2869,8 @@ The coslice category or under category (c ↓ C) of a category C under an object
 	 ↗     ↖
 	x   →   x'
 
-An example is the category of unital associative k-algebras for a commutative unital ring R, which is the slice category (k ↓ Rings).
+An example is the category of unital associative k-algebras for a commutative unital ring R, which is the coslice category (k ↓ Rings).
+Another example is the category of pointed objects in a category C with terminal object *, which is the coslice category (* ↓ C).
 
 This is a particular case of the comma category (S ↓ T), taking T : 1 → C the functor from the terminal category (the category with one object * and one morphism) that sends * to c, and S = id(C) the identity functor of C.!
 
@@ -2878,21 +2884,24 @@ The slice category or over category (C ↓ c) of a category C over an object c h
 This is a particular case of the comma category (S ↓ T), taking as S = id(C) the identity functor of C, and T : 1 → C the functor from the category with one object * and one morphism (the terminal category) that sends * to c.!
 
 !FreeCategory commentStamp: '<historical>' prior: 0!
-Free category ℱ(G) generated by an ordered directed multigraph (or quiver) G. The objects are the vertices of  the graph G, and the morphisms are paths on G (including the empty path from a vertex to itself, corresponding to the identity morphism). Note that the graph G can include multiple arrows between two vertices, and multiple loops, and each arrow corresponds to a different morphism (distinct from the identity morphism).
+Free category ℱ(G) generated by a finite ordered directed multigraph (or quiver) G. The objects are the vertices of  the graph G, and the morphisms are paths on G (including the empty path from a vertex to itself, corresponding to the identity morphism). Note that the graph G can include multiple arrows between two vertices, and multiple loops, and each arrow corresponds to a different morphism (distinct from the identity morphism).
 
 When G has n vertices and no edges, ℱ(G) is the discrete category with n objects, and the only morphisms are identity morphisms.
 
-A functor from a free category ℱ(G) → C (typically to a category of vector spaces) is called a 'quiver representation', and natural transformations correspond to homomorphisms of quiver representations.
-!
+Functors from free categories can be specified with finite data, i.e. the value at each vertex and edge of the generating graph.
 
-!FunctorCategory commentStamp: '<historical>' prior: 0!
-Category of functors [A,B] between categories A and B. The objects are functors from A to B, and the morphisms are natural transformations.!
+A functor D : J → C can be seen as a diagram, and natural transformations from a constant functor X correspond to cones over D with vertex X. When J (the shape of the diagram) is a free category, natural transformations can be specified with finite data by assigning a morphism to each object of J.
+
+A functor from a free category ℱ(G) → C (typically to a category of vector spaces) is called a 'quiver representation', and natural transformations correspond to homomorphisms of quiver representations.!
 
 !OppositeCategory commentStamp: '<historical>' prior: 0!
 The opposite category of a given category, with the same objects but reversed arrows.!
 
 !CochainComplexesCategory commentStamp: '<historical>' prior: 0!
 Category of cochain complexes over a given additive category of cochains. See CochainComplex and CochainMap.!
+
+!PresheafCategory commentStamp: '<historical>' prior: 0!
+Category of D-valued presheaves on Cᵒᵖ, corresponding to functors C → D and notated [C,D]. The objects are presheaves corresponding to functors C → D, and the morphisms are natural transformations.!
 
 !ProductCategory commentStamp: '<historical>' prior: 0!
 Product category A₁×···×Aₙ. Objects are tuples (a₁, ..., aₙ), and morphisms are tuples (f₁, ..., fₙ), with aᵢ and fᵢ objects and morphisms of Aᵢ.!
@@ -2910,16 +2919,13 @@ If the category C has weak kernels (i.e., kernels that might not be unique), Fre
 
 See [Pos20] and [Pos19].!
 
-!FreeModulesCategory commentStamp: '<historical>' prior: 0!
-Category of finite-rank free right R-modules. The objects are modules of tuples Rⁿ, and the morphisms are matrices.!
-
 !ModulesCategory commentStamp: '<historical>' prior: 0!
 Category of finitely presented right R-modules, for a unital ring R. See Module and ModuleMap.!
 
 !CoherentSheavesCategory commentStamp: '<historical>' prior: 0!
 Category of coherent sheaves on a given scheme. See CoherentSheaf and CoherentSheafMap.!
 
-!SetObject commentStamp: '<historical>' prior: 0!
+!Ensemble commentStamp: '<historical>' prior: 0!
 Objects in the category of sets (the name 'Set' was already taken in Smalltalk).!
 
 !CartesianProduct commentStamp: '<historical>' prior: 0!
@@ -2999,8 +3005,8 @@ Groups of automorphisms of a free R-module V over a commutative ring R. They are
 !GeneralLinearGroup commentStamp: '<historical>' prior: 0!
 The general linear group GL(V) of automorphisms of a free R-module V. These are the invertible endomorphisms of V, i.e. the endomorphisms whose determinats are units of R.!
 
-!OrthogonalGroup commentStamp: 'len 7/28/2020 10:24:00' prior: 0!
-O(Q), the Orthogonal Group of a quadratic space (V,Q) where Q is a nondegenerate quadratic form on V . This is the subgroup of the group of automorphisms GL(V) consisting of all automorphisms of V that preserve the the quadratic form Q.!
+!OrthogonalGroup commentStamp: 'len 6/2/2024 11:28:19' prior: 0!
+O(Q), the Orthogonal Group of a quadratic space (V,Q) where Q is a nondegenerate quadratic form on V . This is the subgroup of the group of automorphisms GL(V) consisting of all automorphisms of V that preserve the quadratic form Q.!
 
 !ScalarGroup commentStamp: 'len 9/27/2018 21:49:50' prior: 0!
 This is the group of scalar linear maps of a free R-module over a commutative ring R.!
@@ -3383,7 +3389,7 @@ In general, maps are defined by specifying a domain, a codomain, and an expressi
 !Functor commentStamp: '<historical>' prior: 0!
 A functor between two categories is a function that preserves composition of morphisms. They are morphisms of categories (see Category).
 
-A functor F : A → B between preadditive categories is called 'additive' if for each X,Y it induces homomorphisms of abelian groups Hom(X,Y) → Hom(F(X),F(Y)). Functors between preadditive categories are assumed to be additive.
+A functor F : C → D between preadditive categories is called 'additive' if for each X,Y it induces homomorphisms of abelian groups Hom(X,Y) → Hom(F(X),F(Y)). Functors between preadditive categories are assumed to be additive.
 
 See https://ncatlab.org/nlab/show/single-sorted+definition+of+a+category
 !
@@ -3509,7 +3515,7 @@ Morphisms of a product category (see ProductCategory).!
 !Transformation commentStamp: '<historical>' prior: 0!
 A natural transformation η : F → G between two functors F,G : C → D is a function η' : C → D such that s(η'(x)) = s(F(x)), t(η'(x)) = t(G(x)), and η'(x)∘F(y) = G(x)∘η'(y) whenever x∘y is defined.
 
-This is a 2-morphism of categories in 2-Cat, and a 1-morphism in the category [C,D] of functors from C to D (see FunctorCategory).
+A natural transformation can be thought of as a 2-morphism of categories in 2-Cat, and a 1-morphism in the category [C,D] of functors from C to D (or D-valued presheaves on Cᵒᵖ).
 
 See https://ncatlab.org/nlab/show/single-sorted+definition+of+a+category
 !
@@ -6115,30 +6121,17 @@ reverse
 	The object is equal to the receiver but not identical."
 	^ self propertyAt: #reverse ifAbsentPut: [OppositeObject reverse: self]! !
 
-!Domain methodsFor: 'comparing' stamp: 'len 4/25/2024 07:38:48'!
-= anObject
-	^ anObject = (self propertyAt: #value ifAbsent: [^ super = anObject])! !
+!Domain methodsFor: 'comparing' stamp: 'len 5/25/2024 11:31:42'!
+~ anObject
+	"Answer true if the receiver is isomorphic to the argument."
+	^ self = anObject! !
 
-!Domain methodsFor: 'comparing' stamp: 'len 4/25/2024 07:39:16'!
-hash
-	^ (self propertyAt: #value ifAbsent: [^ super hash]) hash! !
-
-!Domain methodsFor: 'morphisms' stamp: 'len 4/24/2024 05:51:51'!
+!Domain methodsFor: 'morphisms' stamp: 'len 6/2/2024 11:32:27'!
 ^ anObject
-	"Answer the concrete hom-object Hom(A,B), where A is aDomain and B is the receiver.
-	This is the exponential notation for the hom functor.
-	Subclasses should not override this method. Instead, they can implement #Hom: to answer an appropriate concrete hom-object.
-	See also #⇒."
+	"This is the exponential notation for the hom-set functor. See also #⇒."
 	anObject isMorphism ifTrue: [^ anObject domain ^ self to: anObject codomain ^ self map: [:f| anObject · f]].
 	^ (self propertyAt: #homsets ifAbsentPut: [WeakIdentityKeyDictionary new])
-		at: anObject ifAbsentPut: [anObject Hom: self]! !
-
-!Domain methodsFor: 'morphisms' stamp: 'len 4/10/2024 03:31:00'!
-Hom: aCodomain
-	"If the argument is an object X in the same category as the receiver A, answer the concrete hom-object Hom(A,X) whose elements are all morphisms from A to X.
-	By default it is the hom-set, but subclasses can reimplement to answer a suitable hom-object.
-	See also #^ and #⇒."
-	^ HomSet from: self to: aCodomain! !
+		at: anObject ifAbsentPut: [^ HomSet from: anObject to: self]! !
 
 !Domain methodsFor: 'morphisms' stamp: 'len 6/9/2022 12:32:49'!
 addCoprojections: anArray
@@ -6165,10 +6158,10 @@ addProjections: anArray
 automorphisms
 	^ self propertyAt: #automorphisms ifAbsentPut: [AutomorphismGroup on: self]! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 7/2/2023 17:26:13'!
+!Domain methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:24:01'!
 colift: aMorphism
 	"Answer the restriction of aMorphism to the receiver."
-	^ self → aMorphism domain ifNotNil: [:anotherMorphism| anotherMorphism colift: aMorphism]! !
+	^ self ⇢ aMorphism domain ifNotNil: [:anotherMorphism| anotherMorphism colift: aMorphism]! !
 
 !Domain methodsFor: 'morphisms' stamp: 'len 12/1/2023 16:23:16'!
 endomorphisms
@@ -6186,9 +6179,9 @@ fromAll: anArray
 		ifTrue: [^ self addCoprojections: ((1 to: self components size) collect: [:i| self coprojection: i])].
 	^ nil! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 4/23/2024 04:18:30'!
+!Domain methodsFor: 'morphisms' stamp: 'len 6/2/2024 10:09:44'!
 hom: aCodomain
-	"If the argument is an object X in the same category as the receiver A, answer the hom-object Hom(A,X) corresponding to the morphisms from A to X.
+	"If the argument is an object X in the same category as the receiver A, answer the hom-object Hom(A,X) corresponding to the morphisms from A to X. If the category is enriched over a monoidal category V, this is an object of V.
 	By default it is the set of actual morphisms, but subclasses can reimplement to answer a suitable hom-object.
 	See also #^ and #⇒."
 	^ aCodomain ^ self! !
@@ -6216,47 +6209,43 @@ toAll: anArray
 		ifTrue: [^ self addProjections: ((1 to: self components size) collect: [:i| self projection: i])].
 	^ nil! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 4/6/2024 15:44:38'!
+!Domain methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:30:03'!
 → aCodomain
-	"Answer the canonical morphism from the receiver to aCodomain.
-	If the argument is a morphism, answer the composition with a canonical morphism to its domain. See also Morphism>>#→."
-	aCodomain isMorphism ifTrue:
-		[self == aCodomain domain ifTrue: [^ aCodomain].
-		^ self → aCodomain domain ifNotNil: [:aMorphism| aCodomain · aMorphism]].
-	self propertyAt: #outputs ifPresent: [:aDictionary| aDictionary at: aCodomain ifPresent: [:aMorphism| ^ aMorphism]].
-	aCodomain propertyAt: #inputs ifPresent: [:aDictionary| aDictionary at: self ifPresent: [:aMorphism| ^ aMorphism]].
-	^ (self to: aCodomain) ifNil: [aCodomain from: self]! !
+	"Answer the canonical morphism from the receiver to aCodomain. See also Morphism>>#→."
+	aCodomain isMorphism ifTrue: [^ self == aCodomain domain ifTrue: [aCodomain] ifFalse: [aCodomain · (self → aCodomain domain)]].
+	^ self ⇢ aCodomain ifNil: [self error: 'morphism not found']! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 5/12/2024 11:15:05'!
+!Domain methodsFor: 'morphisms' stamp: 'len 5/30/2024 13:46:39'!
 ⇇ anArray
 	"If the receiver is the vertex of a cocone under the objects of anArray, answer the arrows of the cocone.
 	See also message ⇉."
 	self propertyAt: #coprojections ifPresent: [:aDictionary| aDictionary at: anArray ifPresent: [:anArrayOfMorphisms| ^ anArrayOfMorphisms]].
-	^ self fromAll: anArray! !
+	^ (self fromAll: anArray) ifNil: [self error: 'coprojections not found']! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 5/12/2024 11:14:23'!
+!Domain methodsFor: 'morphisms' stamp: 'len 5/30/2024 13:46:11'!
 ⇉ anArray
 	"If the receiver is the vertex of a cone over the objects of anArray, answer the arrows of the cone.
 	See also message ⇇."
 	self propertyAt: #projections ifPresent: [:aDictionary| aDictionary at: anArray ifPresent: [:anArrayOfMorphisms| ^ anArrayOfMorphisms]].
-	^ self toAll: anArray! !
+	^ (self toAll: anArray) ifNil: [self error: 'projections not found']! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 4/6/2024 15:42:39'!
+!Domain methodsFor: 'morphisms' stamp: 'len 6/2/2024 11:30:31'!
 ⇒ anObject
-	"This is the Hom(A,-) functor, where A is the receiver:
-	- if the argument is a domain X in the same category, answer Hom(A,X), the morphisms from A to X;
-	- if the argument is a morphism g:X→Y, answer the map Hom(A,g):Hom(A,X)→Hom(A,Y) that sends a morphism f to g·f.
+	"This is the hom-object functor. See #^ for the hom-set functor.
+	- if the argument is an object X in the same category as the receiver A, answer the hom-object Hom(A,X);
+	- if the argument is a morphism g : X → Y, answer the map Hom(A,g) : Hom(A,X) → Hom(A,Y) that sends a morphism f to g·f.
 	Subclasses should not override this method. Instead, they can implement #hom: to answer an appropriate hom-object."
 	anObject isMorphism ifTrue: [^ self ⇒ anObject domain to: self ⇒ anObject codomain map: [:f| anObject · f]].
 	(anObject isKindOf: ChainComplex) ifTrue: [^ ChainComplex differentials: (anObject differentials collect: [:each| self ⇒ each]) shift: anObject shift].
 	^ (anObject ^ self) propertyAt: #structure ifAbsentPut: [self hom: anObject]! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 10/30/2023 09:47:52'!
+!Domain methodsFor: 'morphisms' stamp: 'len 6/1/2024 06:43:32'!
 ⇢ aCodomain
-	"Answer the cached canonical morphism from the receiver to aCodomain if it exists, or nil."
+	"Answer the canonical morphism from the receiver to aCodomain, or nil."
+	self == aCodomain ifTrue: [^ self id].
 	self propertyAt: #outputs ifPresent: [:aDictionary| aDictionary at: aCodomain ifPresent: [:aMorphism| ^ aMorphism]].
 	aCodomain propertyAt: #inputs ifPresent: [:aDictionary| aDictionary at: self ifPresent: [:aMorphism| ^ aMorphism]].
-	^ nil! !
+	^ (self to: aCodomain) ifNil: [aCodomain from: self]! !
 
 !Domain methodsFor: 'operations' stamp: 'len 4/24/2024 16:31:02'!
 × aDomain
@@ -6284,9 +6273,15 @@ toAll: anArray
 	"Answer the categorical coproduct of the receiver with the argument."
 	^ self subclassResponsibility! !
 
-!Domain methodsFor: 'printing' stamp: 'len 4/25/2024 08:14:06'!
-printOn: aStream
-	aStream print: (self propertyAt: #value ifAbsent: [^ super printOn: aStream])! !
+!Domain methodsFor: 'random' stamp: 'len 6/2/2024 04:45:57'!
+to: aCodomain atRandom: aRandom
+	"Answer a morphism from the receiver to aCodomain choosen at random."
+	^ self to: aCodomain atRandom: aRandom bits: [aRandom nextBoolean] count + 1! !
+
+!Domain methodsFor: 'random' stamp: 'len 6/2/2024 04:59:43'!
+to: aCodomain atRandom: aRandom bits: bitSize
+	"Answer a morphism from the receiver to aCodomain choosen at random of at most bitSize bits."
+	^ self subclassResponsibility! !
 
 !Domain methodsFor: 'testing' stamp: 'len 4/1/2024 14:30:02'!
 isConcrete
@@ -6411,7 +6406,7 @@ example5GL
 	on the vector space of 3-tuples with rational coefficients."
 	^ (ℚ ^ 3) automorphisms! !
 
-!Domain class methodsFor: 'initialization' stamp: 'len 5/17/2024 08:17:44'!
+!Domain class methodsFor: 'initialization' stamp: 'len 6/2/2024 05:02:42'!
 initializeAll
 	"First initialize transfinites, set globals ∞, ℵ and ω:"
 	Ordinal initialize.
@@ -6424,20 +6419,23 @@ initializeAll
 		at: #ℂ put: ComplexAlgebraicField new.
 	"Then initialize all Domains:"
 	Domain withAllSubclassesDo: [:each| (each class selectors includes: #initialize) ifTrue: [each initialize]].
-	"And initialize all Morphisms, set globals for categories like Sets, Groups, etc:"
+	"And initialize all Morphisms, set globals for categories like Sets, Grp, Rings, etc:"
 	Morphism withAllSubclassesDo: [:each| (each class selectors includes: #initialize) ifTrue: [each initialize]].
 	"Finally initialize any other classes that need initialization:"
 	BinaryArray initialize.
 	TernaryArray initialize.
+	"Set some more globals:"
 	Smalltalk
 		at: #𝔽₂ put: ℤ/2;
-		at: #𝔽₃ put: ℤ/3.
+		at: #𝔽₃ put: ℤ/3;
+		at: #Ab put: ℤ modules. "actually just the subcategory of finitely generated abelian groups"
 	"And add some named characters for text input:"
 	Character initializeNamedCharactersMap.
-	#((iso $↔) (From $⇐) (To $⇒) (coproj $⇇) (proj $⇉) (into $↪) (onto $↠) (on $↷)
-	(calB $ℬ) (calE $ℰ) (calF $ℱ) (calH $ℋ) (calL $ℒ) (calM $ℳ) (calR $ℛ)
+	#((iso $↔) (From $⇐) (To $⇒) (coproj $⇇) (proj $⇉) (into $↪) (onto $↠) (on $↷) (#'..to' $⇢)
+	(calB $ℬ) (calE $ℰ) (calF $ℱ) (calH $ℋ) (calI $ℐ) (calL $ℒ) (calM $ℳ) (calR $ℛ) (cale $ℯ) "(calo $ℴ)"
 	(prime $′) (second $″) (third $‴) (backprime $‵)
-	(box $◻) (boxtimes $⊠))
+	(Del $∆) (nabla $∇)
+	(box $☐ "$◻") (boxtimes $⊠))
 		do: [:each| Character namedCharactersMap at: each first put: each second].
 	#((from gets) (prod sqcap) (coprod sqcup) (stack sqcap) (augment sqcup) (and wedge) (or vee) (xor oplus))
 		do: [:each| Character namedCharactersMap at: each first put: (Character namedCharactersMap at: each second)]! !
@@ -6508,22 +6506,29 @@ hash
 id
 	^ reverse id reverse! !
 
-!OppositeObject methodsFor: 'morphisms' stamp: 'len 4/4/2024 12:43:36'!
+!OppositeObject methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:18:22'!
 → aCodomain
+	aCodomain isMorphism ifTrue: [^ super → aCodomain].
 	self assert: self class = aCodomain class.
 	^ (aCodomain reverse → reverse) reverse! !
 
-!OppositeObject methodsFor: 'morphisms' stamp: 'len 5/2/2024 07:55:33'!
+!OppositeObject methodsFor: 'morphisms' stamp: 'len 5/30/2024 13:51:50'!
 ⇇ anArray
-	^ self reverse ⇉ (anArray collect: [:each| each reverse]) ifNotNil: [:aCollection| aCollection collect: [:each| each reverse]]! !
+	^ self reverse ⇉ (anArray collect: [:each| each reverse]) collect: [:each| each reverse]! !
 
-!OppositeObject methodsFor: 'morphisms' stamp: 'len 5/2/2024 07:55:40'!
+!OppositeObject methodsFor: 'morphisms' stamp: 'len 5/30/2024 13:50:04'!
 ⇉ anArray
-	^ self reverse ⇇ (anArray collect: [:each| each reverse]) ifNotNil: [:aCollection| aCollection collect: [:each| each reverse]]! !
+	^ self reverse ⇇ (anArray collect: [:each| each reverse]) collect: [:each| each reverse]! !
 
-!OppositeObject methodsFor: 'morphisms' stamp: 'len 4/24/2024 05:27:55'!
+!OppositeObject methodsFor: 'morphisms' stamp: 'len 6/2/2024 11:12:08'!
 ⇒ aCodomain
-	^ aCodomain reverse ⇒ reverse! !
+	reverse parent enrichment isSymmetricMonoidal ifTrue: [^ aCodomain reverse ⇒ reverse].
+	^ super ⇒ aCodomain! !
+
+!OppositeObject methodsFor: 'morphisms' stamp: 'len 6/1/2024 06:24:03'!
+⇢ aCodomain
+	self assert: self class = aCodomain class.
+	^ (aCodomain reverse ⇢ reverse ifNil: [^ nil]) reverse! !
 
 !OppositeObject methodsFor: 'operations' stamp: 'len 5/2/2024 08:09:37'!
 × anObject
@@ -6565,6 +6570,115 @@ reverse: aDomain
 reverse: aDomain
 	^ self new reverse: aDomain! !
 
+!Presheaf methodsFor: 'accessing' stamp: 'len 5/30/2024 06:39:35'!
+codomain
+	^ functor codomain! !
+
+!Presheaf methodsFor: 'accessing' stamp: 'len 6/2/2024 17:18:13'!
+domain
+	^ functor domain "opposite"! !
+
+!Presheaf methodsFor: 'converting' stamp: 'len 5/30/2024 06:13:15'!
+asFunctor
+	^ functor! !
+
+!Presheaf methodsFor: 'morphisms' stamp: 'len 5/30/2024 08:18:21'!
+hom: aPresheaf
+	self assert: (self domain = aPresheaf domain and: [self codomain = aPresheaf codomain]).
+	^ (self domain to: self codomain enrichment map: [:f| (self value: f) ⇒ (aPresheaf value: f)]) asPresheaf! !
+
+!Presheaf methodsFor: 'morphisms' stamp: 'len 6/2/2024 15:00:06'!
+id
+	"Answer the identity natural transformation."
+	^ self propertyAt: #id ifAbsentPut: [self to: self transform: [:u| (self value₀: u) id]]! !
+
+!Presheaf methodsFor: 'morphisms' stamp: 'len 6/2/2024 15:00:19'!
+to: aPresheaf constant: aMorphism
+	"Answer a natural transformation from the receiver to aPresheaf with all components equal to aMorphism."
+	self assert: (self codomain includes: aMorphism).
+	^ self to: aPresheaf transform: [:u| aMorphism]! !
+
+!Presheaf methodsFor: 'morphisms' stamp: 'len 5/30/2024 08:17:13'!
+to: aPresheaf transform: aBlock
+	"Answer a natural transformation from the receiver to aPresheaf, defined by components by aBlock."
+	| components |
+	self assert: (self domain = aPresheaf domain and: [self codomain = aPresheaf codomain]).
+	(self domain isKindOf: FreeCategory) ifFalse: [^ Transformation from: self to: aPresheaf transform: aBlock].
+	components := Dictionary new.
+	self domain objects do: [:each| components at: each put: (aBlock value: each)].
+	^ Transformation from: self to: aPresheaf components: components! !
+
+!Presheaf methodsFor: 'morphisms' stamp: 'len 6/2/2024 15:00:32'!
+→ aCodomain
+	aCodomain isMorphism ifTrue: [^ super → aCodomain].
+	^ self ⇢ aCodomain ifNil: [self to: aCodomain transform: [:u| (self value₀: u) → (aCodomain value₀: u)]]! !
+
+!Presheaf methodsFor: 'morphisms' stamp: 'len 6/2/2024 15:00:50'!
+⇇ anArray
+	^ anArray withIndexCollect: [:domain :i| domain to: self transform: [:u| (self value₀: u) ⇇ (anArray collect: [:each| each value₀: u]) at: i]]! !
+
+!Presheaf methodsFor: 'morphisms' stamp: 'len 6/2/2024 15:01:05'!
+⇉ anArray
+	^ anArray withIndexCollect: [:codomain :i| self to: codomain transform: [:u| (self value₀: u) ⇉ (anArray collect: [:each| each value₀: u]) at: i]]! !
+
+!Presheaf methodsFor: 'operations' stamp: 'len 5/30/2024 08:37:03'!
++ aPresheaf
+	self assert: (self domain = aPresheaf domain and: [self codomain = aPresheaf codomain]).
+	^ (self domain to: self codomain map: [:f| (self value: f) + (aPresheaf value: f)]) asPresheaf! !
+
+!Presheaf methodsFor: 'operations' stamp: 'len 5/30/2024 06:34:00'!
+× aPresheaf
+	self assert: (self domain = aPresheaf domain and: [self codomain = aPresheaf codomain]).
+	^ (self domain to: self codomain map: [:f| (self value: f) × (aPresheaf value: f)]) asPresheaf! !
+
+!Presheaf methodsFor: 'operations' stamp: 'len 5/30/2024 08:37:40'!
+negated
+	^ (self domain to: self codomain map: [:f| f negated]) asPresheaf! !
+
+!Presheaf methodsFor: 'operations' stamp: 'len 5/30/2024 06:39:45'!
+value: aMorphism
+	^ functor value: aMorphism! !
+
+!Presheaf methodsFor: 'operations' stamp: 'len 5/30/2024 06:40:07'!
+value₀: anObject
+	^ functor value₀: anObject! !
+
+!Presheaf methodsFor: 'operations' stamp: 'len 5/30/2024 08:38:02'!
+zero
+	^ (self domain to: self codomain map: [:f| f zero]) asPresheaf! !
+
+!Presheaf methodsFor: 'operations' stamp: 'len 5/30/2024 06:35:00'!
+⊓ aPresheaf
+	self assert: (self domain = aPresheaf domain and: [self codomain = aPresheaf codomain]).
+	^ (self domain to: self codomain map: [:f| (self value: f) ⊓ (aPresheaf value: f)]) asPresheaf! !
+
+!Presheaf methodsFor: 'operations' stamp: 'len 5/30/2024 06:34:26'!
+⊔ aPresheaf
+	self assert: (self domain = aPresheaf domain and: [self codomain = aPresheaf codomain]).
+	^ (self domain to: self codomain map: [:f| (self value: f) ⊔ (aPresheaf value: f)]) asPresheaf! !
+
+!Presheaf methodsFor: 'operations' stamp: 'len 5/30/2024 06:35:30'!
+⊕ aPresheaf
+	self assert: (self domain = aPresheaf domain and: [self codomain = aPresheaf codomain]).
+	^ (self domain to: self codomain map: [:f| (self value: f) ⊕ (aPresheaf value: f)]) asPresheaf! !
+
+!Presheaf methodsFor: 'printing' stamp: 'len 6/2/2024 17:21:59'!
+printOn: aStream
+	super printOn: aStream.
+	aStream nextPutAll: ' : '; print: functor domain "opposite"; space; nextPut: functor arrowCharacter; space; print: functor codomain! !
+
+!Presheaf methodsFor: 'private' stamp: 'len 5/30/2024 06:30:02'!
+functor: aFunctor
+	functor := aFunctor! !
+
+!Presheaf methodsFor: 'private' stamp: 'len 6/2/2024 17:20:12'!
+parent
+	^ self domain ⇒ self codomain! !
+
+!Presheaf class methodsFor: 'instance creation' stamp: 'len 5/30/2024 06:29:23'!
+functor: aFunctor
+	^ self new functor: aFunctor! !
+
 !ProductObject methodsFor: 'comparing' stamp: 'len 4/4/2024 08:21:14'!
 = anObject
 	^ self class = anObject class and: [components = anObject components]! !
@@ -6585,17 +6699,22 @@ parent
 to: aCodomain components: anArray
 	^ ProductMorphism from: self to: aCodomain components: anArray! !
 
-!ProductObject methodsFor: 'morphisms' stamp: 'len 4/14/2024 14:51:46'!
+!ProductObject methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:32:48'!
 → aCodomain
-	^ self to: aCodomain components: (components with: aCodomain components collect: [:x :y| x → y ifNil: [^ nil]])! !
+	aCodomain isMorphism ifTrue: [^ super → aCodomain].
+	^ self ⇢ aCodomain ifNil: [self to: aCodomain components: (components with: aCodomain components collect: [:x :y| x → y])]! !
 
-!ProductObject methodsFor: 'morphisms' stamp: 'len 5/23/2024 14:22:16'!
+!ProductObject methodsFor: 'morphisms' stamp: 'len 5/30/2024 13:52:03'!
 ⇇ anArray
-	^ anArray collect: [:domain| domain to: self components: (components withIndexCollect: [:codomain :i| codomain ⇇ (anArray collect: [:each| each at: i]) ifNil: [^ nil]])]! !
+	^ anArray collect: [:domain| domain to: self components: (components withIndexCollect: [:codomain :i| codomain ⇇ (anArray collect: [:each| each at: i])])]! !
 
-!ProductObject methodsFor: 'morphisms' stamp: 'len 5/23/2024 14:21:33'!
+!ProductObject methodsFor: 'morphisms' stamp: 'len 5/30/2024 13:51:13'!
 ⇉ anArray
-	^ anArray collect: [:codomain| self to: codomain components: (components withIndexCollect: [:domain :i| domain ⇉ (anArray collect: [:each| each at: i]) ifNil: [^ nil]])]! !
+	^ anArray collect: [:codomain| self to: codomain components: (components withIndexCollect: [:domain :i| domain ⇉ (anArray collect: [:each| each at: i])])]! !
+
+!ProductObject methodsFor: 'morphisms' stamp: 'len 6/1/2024 06:25:09'!
+⇢ aCodomain
+	^ self to: aCodomain components: (components with: aCodomain components collect: [:x :y| x ⇢ y ifNil: [^ nil]])! !
 
 !ProductObject methodsFor: 'operations' stamp: 'len 5/18/2024 14:43:11'!
 × anObject
@@ -6632,10 +6751,10 @@ ambient
 	Answer the ambient domain of which the receiver is a subobject, equipped with the inclusion morphism."
 	^ self propertyAt: #ambient ifAbsent: [self]! !
 
-!Structure methodsFor: 'accessing' stamp: 'len 5/23/2024 16:46:27'!
+!Structure methodsFor: 'accessing' stamp: 'len 6/1/2024 06:04:06'!
 carrier
 	"Answer the carrier set of the receiver. This is the forgetful functor to the category of sets."
-	^ self propertyAt: #carrier ifAbsentPut: [SetObject elements: self elementsOrSelf]! !
+	^ self propertyAt: #carrier ifAbsentPut: [Ensemble elements: self elementsOrSelf]! !
 
 !Structure methodsFor: 'accessing' stamp: 'len 5/10/2024 13:24:29'!
 elements
@@ -6740,13 +6859,13 @@ asSet
 	(anObject isBlock and: [self generators notNil and: [anObject numArgs = self generators size]]) ifTrue: [^ self generate: anObject].
 	^ self error: 'coercion failed'! !
 
-!Structure methodsFor: 'elements' stamp: 'len 4/12/2024 04:48:37'!
+!Structure methodsFor: 'elements' stamp: 'len 6/1/2024 07:24:15'!
 adapt: anElement
 	"Coerce anElement *not* in the receiver to an element of the receiver. Subclasses should extend."
 	self isAmbient ifFalse: [(self ambient adapt: anElement) ifNotNil: [:coerced| (self contains: coerced) ifTrue: [^ coerced]]].
 	anElement parent isNil ifTrue: [^ nil].
-	self id category = anElement parent id category ifTrue: [anElement parent → self ifNotNil: [:aMorphism| ^ aMorphism value: anElement]].
-	anElement parent carrier → self carrier ifNotNil: [:aMorphism| ^ aMorphism value: anElement].
+	self id category = anElement parent id category ifTrue: [anElement parent ⇢ self ifNotNil: [:aMorphism| ^ aMorphism value: anElement]].
+	anElement parent carrier ⇢ self carrier ifNotNil: [:aMorphism| ^ aMorphism value: anElement].
 	^ nil! !
 
 !Structure methodsFor: 'elements' stamp: 'len 9/16/2022 08:22:49'!
@@ -6861,12 +6980,12 @@ onto: aCodomain map: aBlock
 	"Answer a projection (a surjective morphism) onto the specified codomain evaluating as the given block."
 	^ (self to: aCodomain map: aBlock) propertyAt: #arrowCharacter put: $↠; yourself! !
 
-!Structure methodsFor: 'morphisms' stamp: 'len 5/10/2024 14:09:15'!
+!Structure methodsFor: 'morphisms' stamp: 'len 6/1/2024 06:59:41'!
 to: aCodomain
 	"Answer the canonical morphism from the receiver to aCodomain."
 	self ⊆ aCodomain ifTrue: [^ self into: aCodomain map: [:x| x]].
 "	self ambient = aCodomain ifTrue: [^ (self into: aCodomain map: [:x| x]) name: 'ι']."
-	self isAmbient ifFalse: [self ambient → aCodomain ifNotNil: [:aMorphism| ^ self → aMorphism]].
+	self isAmbient ifFalse: [self ambient ⇢ aCodomain ifNotNil: [:aMorphism| ^ self → aMorphism]].
 	^ super to: aCodomain! !
 
 !Structure methodsFor: 'morphisms' stamp: 'len 4/19/2024 07:09:48'!
@@ -6910,33 +7029,24 @@ printOn: aStream
 		^ self].
 	^ super printOn: aStream! !
 
-!Structure methodsFor: 'random' stamp: 'len 3/11/2021 16:38:02'!
+!Structure methodsFor: 'random' stamp: 'len 5/26/2024 09:04:52'!
 atRandom
-	"Answer an element in the receiver choosen at random. This will fail if the receiver is not finite."
 	^ self atRandom: self newRandom! !
 
-!Structure methodsFor: 'random' stamp: 'len 5/26/2022 20:11:04'!
+!Structure methodsFor: 'random' stamp: 'len 5/26/2024 09:04:56'!
 atRandom: aRandom
-	"Answer an element in the receiver choosen at random. This will fail if the receiver is not finite."
 	self propertyAt: #elements ifPresent: [:aCollectionOrDomain| ^ aCollectionOrDomain atRandom: aRandom].
 	^ self atRandom: aRandom bits: [aRandom nextBoolean] count + 1! !
 
-!Structure methodsFor: 'random' stamp: 'len 10/11/2022 10:43:03'!
+!Structure methodsFor: 'random' stamp: 'len 6/2/2024 04:58:55'!
 atRandom: aRandom bits: bitSize
-	"Answer an element of the receiver of at most n bits (as measured by #bitSize). The total number of elements that could be returned shouldn't exceed 2^n."
+	"Answer an element of the receiver of at most bitSize bits."
 	self propertyAt: #elements ifPresent: [:aCollectionOrDomain| ^ aCollectionOrDomain atRandom: aRandom bits: bitSize].
 	^ self asSet atRandom: aRandom! !
 
-!Structure methodsFor: 'random' stamp: 'len 4/1/2024 14:16:26'!
-atRandom: aRandom satisfying: aBlock
-	| answer |
-	self flag: #deprecated.
-	[answer := self atRandom: aRandom. aBlock value: answer] whileFalse.
-	^ answer! !
-
-!Structure methodsFor: 'random' stamp: 'len 3/11/2021 16:39:29'!
+!Structure methodsFor: 'random' stamp: 'len 6/2/2024 04:59:37'!
 atRandomBits: bitSize
-	"Answer an element of the receiver of at most n bits (as measured by #bitSize). The total number of elements that could be returned shouldn't exceed 2^n."
+	"Answer an element of the receiver of at most bitSize bits."
 	^ self atRandom: self newRandom bits: bitSize! !
 
 !Structure methodsFor: 'random' stamp: 'len 5/16/2023 20:29:55'!
@@ -6960,12 +7070,12 @@ to: aCodomain atRandom: aRandom
 	^ self to: aCodomain images: (self generators collect: [:each| aCodomain atRandom: aRandom])
 "! !
 
-!Structure methodsFor: 'random' stamp: 'len 9/18/2022 06:11:00'!
+!Structure methodsFor: 'random' stamp: 'len 6/2/2024 04:59:31'!
 to: aCodomain atRandom: aRandom bits: bitSize
-	"Answer a morphism from the receiver to aCodomain choosen at random of at most n bits (as measured by #bitSize). The total number of morphisms that could be returned shouldn't exceed 2^n."
+	"Answer a morphism from the receiver to aCodomain choosen at random of at most bitSize bits."
 	| n |
 	self flag: #fix. "this doesnt always make sense, it works for free objects"
-	n _ bitSize / (aCodomain generators size max: 1).
+	n := bitSize / (aCodomain generators size max: 1).
 	^ self to: aCodomain images: (self generators collect: [:each| aCodomain atRandom: aRandom bits: n])! !
 
 !Structure methodsFor: 'testing' stamp: 'len 4/6/2024 15:45:40'!
@@ -7023,16 +7133,20 @@ elementsOrSelf
 newRandom
 	^ Random seed: (Random withDefaultDo: [:aRandom| aRandom nextChunkBits])! !
 
-!Category methodsFor: 'accessing' stamp: 'len 5/25/2024 06:32:36'!
+!Category methodsFor: 'accessing' stamp: 'len 5/26/2024 09:44:30'!
 associator
 	"If the receiver is a monoidal category, answer the associator.
 	This is a natural isomorphism (-⊗-)⊗- → -⊗(-⊗-)."
-	^ self propertyAt: #associator ifAbsent: [self subclassResponsibility]! !
+	^ self propertyAt: #associator ifAbsentPut:
+		[(self × self × self to: self mapWithArguments: [:x :y :z| x ⊗ y ⊗ z])
+			to: (self × self × self to: self mapWithArguments: [:x :y :z| x ⊗ (y ⊗ z)])
+			transformWithArguments: [:x :y :z| x associatorWith: y and: z]]! !
 
-!Category methodsFor: 'accessing' stamp: 'len 4/1/2024 08:23:56'!
-base
-	"If the receiver is a V-enriched category, answer the monoidal category V."
-	^ self propertyAt: #base ifAbsent: [Sets]! !
+!Category methodsFor: 'accessing' stamp: 'len 6/2/2024 10:44:35'!
+enrichment
+	"If the receiver is a V-enriched category over a monoidal category V, answer V.
+	Ordinary categories are enriched over the category of sets."
+	^ self propertyAt: #enrichment ifAbsent: [Sets]! !
 
 !Category methodsFor: 'accessing' stamp: 'len 5/16/2024 09:08:22'!
 initialObject
@@ -7041,21 +7155,21 @@ initialObject
 	self isAdditive ifTrue: [^ self zeroObject].
 	^ self propertyAt: #initialObject ifAbsent: [self subclassResponsibility]! !
 
-!Category methodsFor: 'accessing' stamp: 'len 5/25/2024 06:31:29'!
+!Category methodsFor: 'accessing' stamp: 'len 6/2/2024 15:03:59'!
 leftUnitor
 	"If the receiver is a monoidal category, answer the left unitor.
 	This is a natural isomorphism I⊗- → -, where I is the tensor unit."
-	^ self propertyAt: #leftUnitor ifAbsent: [self subclassResponsibility]! !
+	^ self propertyAt: #leftUnitor ifAbsentPut: [(self to: self map: [:f| self unitObject ⊗ f]) to: self id transform: [:u| u leftUnitor]]! !
 
 !Category methodsFor: 'accessing' stamp: 'len 4/19/2024 06:55:12'!
 objects
 	^ Iterator on: self performing: #do₀:! !
 
-!Category methodsFor: 'accessing' stamp: 'len 5/25/2024 06:31:07'!
+!Category methodsFor: 'accessing' stamp: 'len 6/2/2024 15:02:05'!
 rightUnitor
 	"If the receiver is a monoidal category, answer the right unitor.
 	This is a natural isomorphism -⊗I → -, where I is the tensor unit."
-	^ self propertyAt: #rightUnitor ifAbsent: [self subclassResponsibility]! !
+	^ self propertyAt: #rightUnitor ifAbsentPut: [(self to: self map: [:f| f ⊗ self unitObject]) to: self id transform: [:u| u rightUnitor]]! !
 
 !Category methodsFor: 'accessing' stamp: 'len 5/22/2024 10:26:30'!
 size₀
@@ -7073,10 +7187,10 @@ unitObject
 	"If the receiver is a monoidal category, answer the tensor unit."
 	^ self propertyAt: #unitObject ifAbsent: [self subclassResponsibility]! !
 
-!Category methodsFor: 'accessing' stamp: 'len 5/3/2024 06:49:47'!
+!Category methodsFor: 'accessing' stamp: 'len 6/2/2024 11:28:11'!
 zeroObject
-	"Answer the null or zero object in the the receiver, i.e. an object that is both intial and terminal."
-	^ self propertyAt: #zeroObject ifAbsent: [self subclassResponsibility]! !
+	"Answer the null or zero object in the receiver, i.e. an object that is both intial and terminal."
+	^ self propertyAt: #zeroObject ifAbsentPut: [self assert: self initialObject ~ self terminalObject. self initialObject]! !
 
 !Category methodsFor: 'comparing' stamp: 'len 4/7/2024 15:19:35'!
 = anObject
@@ -7086,10 +7200,10 @@ zeroObject
 hash
 	^ self identityHash! !
 
-!Category methodsFor: 'elements' stamp: 'len 4/24/2024 04:18:58'!
+!Category methodsFor: 'elements' stamp: 'len 6/1/2024 07:00:04'!
 !! anObject
 	anObject isDomain ifTrue: [self !! anObject id ifNotNil: [:aMorphism| ^ aMorphism domain]].
-	anObject isMorphism ifTrue: [anObject category → self ifNotNil: [:aFunctor| ^ aFunctor value: anObject]].
+	anObject isMorphism ifTrue: [anObject category ⇢ self ifNotNil: [:aFunctor| ^ aFunctor value: anObject]].
 	^ super !! anObject! !
 
 !Category methodsFor: 'enumerating' stamp: 'len 4/19/2024 06:55:32'!
@@ -7098,10 +7212,15 @@ do₀: aBlock
 	visited := Set new.
 	self do: [:each| visited add: each domain ifAbsent: [aBlock value: each domain]]! !
 
-!Category methodsFor: 'morphisms' stamp: 'len 5/7/2024 08:13:43'!
-Hom: aCategory
-	self assert: aCategory isCategory.
-	^ FunctorCategory from: self to: aCategory! !
+!Category methodsFor: 'morphisms' stamp: 'len 6/2/2024 16:23:26'!
+Yoneda
+	"Answer the Yoneda embedding of the receiver."
+	^ (self into: self opposite ⇒ Sets map₀: [:x| (self to: Sets map: [:f| f ^ x]) asPresheaf] map: [:x :y :f| x to: y transform: [:u| (x value₀: u) to: (y value₀: u) map: [:g| g · f]]]) name: 'Y'! !
+
+!Category methodsFor: 'morphisms' stamp: 'len 5/30/2024 08:07:52'!
+hom: aCodomain
+	self assert: aCodomain isCategory.
+	^ PresheafCategory from: self to: aCodomain! !
 
 !Category methodsFor: 'morphisms' stamp: 'len 5/7/2024 08:13:52'!
 into: aCategory map₀: aBlock map: anotherBlock
@@ -7135,6 +7254,12 @@ to: aCategory map: aBlock
 to: aCategory map₀: aBlock map: anotherBlock
 	self assert: aCategory isCategory.
 	^ Functor from: self to: aCategory map₀: aBlock map: anotherBlock! !
+
+!Category methodsFor: 'morphisms' stamp: 'len 6/2/2024 16:23:35'!
+yoneda
+	"Answer the enriched Yoneda embedding of the receiver.
+	If the receiver is C, and it is enriched over V, answer the embedding into the presheaf category [Cᵒᵖ,V]. The Yoneda lemma implies that this functor is fully faithful and hence realizes C as a full subcategory of [Cᵒᵖ,V]."
+	^ (self into: self presheaves map₀: [:x| (self to: self enrichment map: [:f| x ⇒ f]) asPresheaf] map: [:x :y :f| x to: y transform: [:u| (x value₀: u) to: (y value₀: u) map: [:g| g · f]]]) name: 'Y'! !
 
 !Category methodsFor: 'morphisms' stamp: 'len 5/23/2024 16:56:10'!
 Δ: aCategory
@@ -7189,9 +7314,9 @@ complexes
 	self assert: self isAbelian.
 	^ self propertyAt: #ChainComplexes ifAbsentPut: [ChainComplexesCategory over: self]! !
 
-!Category methodsFor: 'operations' stamp: 'len 4/23/2024 04:07:23'!
+!Category methodsFor: 'operations' stamp: 'len 5/31/2024 09:06:17'!
 copresheaves
-	^ Sets ^ self! !
+	^ self ⇒ self enrichment! !
 
 !Category methodsFor: 'operations' stamp: 'len 5/17/2024 09:18:13'!
 coproduct: anArray
@@ -7216,9 +7341,20 @@ correspondences
 opposite
 	^ self propertyAt: #opposite ifAbsentPut: [OppositeCategory opposite: self]! !
 
-!Category methodsFor: 'operations' stamp: 'len 4/20/2024 08:54:32'!
+!Category methodsFor: 'operations' stamp: 'len 6/2/2024 11:08:55'!
+pointed
+	"Answer the category of pointed objects of the receiver."
+	^ self terminalObject ↓ self! !
+
+!Category methodsFor: 'operations' stamp: 'len 6/2/2024 11:08:43'!
+pointedMonoidal
+	"Answer the monoidal category of pointed objects of the receiver."
+	self assert: self isMonoidal.
+	^ self unitObject ↓ self! !
+
+!Category methodsFor: 'operations' stamp: 'len 5/31/2024 09:06:04'!
 presheaves
-	^ Sets ^ self opposite! !
+	^ self opposite ⇒ self enrichment! !
 
 !Category methodsFor: 'operations' stamp: 'len 5/17/2024 08:25:15'!
 product: anArray
@@ -7270,6 +7406,30 @@ printOn: aStream
 	Smalltalk associationsDo: [:each| self == each value ifTrue: [aStream nextPutAll: each key asString bold. ^ self]].
 	super printOn: aStream! !
 
+!Category methodsFor: 'random' stamp: 'len 5/26/2024 09:01:54'!
+atRandom: aRandom
+	| hom |
+	[(hom := (self atRandom₀: aRandom) ^ (self atRandom₀: aRandom)) isEmpty] whileTrue.
+	^ hom atRandom: aRandom! !
+
+!Category methodsFor: 'random' stamp: 'len 5/26/2024 09:02:17'!
+atRandom: aRandom bits: bitSize
+	| hom |
+	[(hom := (self atRandom₀: aRandom bits: bitSize) ^ (self atRandom₀: aRandom bits: bitSize)) isEmpty] whileTrue.
+	^ hom atRandom: aRandom bits: bitSize! !
+
+!Category methodsFor: 'random' stamp: 'len 5/26/2024 09:04:29'!
+atRandom₀
+	^ self atRandom₀: self newRandom! !
+
+!Category methodsFor: 'random' stamp: 'len 5/26/2024 08:58:56'!
+atRandom₀: aRandom
+	^ self objects atRandom: aRandom! !
+
+!Category methodsFor: 'random' stamp: 'len 5/26/2024 08:59:41'!
+atRandom₀: aRandom bits: bitSize
+	^ self atRandom₀: aRandom! !
+
 !Category methodsFor: 'testing' stamp: 'len 4/13/2024 05:15:07'!
 includes: anObject
 	^ anObject isMorphism and: [anObject category = self]! !
@@ -7285,10 +7445,11 @@ isAbelian
 	Alternatively, an abelian category is an additive category such that each morphism has a kernel and cokernel and for each morphism f the induced morphism f̂ of each kernel-cokernel-factorization of f is an isomorphism."
 	^ false! !
 
-!Category methodsFor: 'testing' stamp: 'len 4/12/2024 05:37:46'!
+!Category methodsFor: 'testing' stamp: 'len 5/26/2024 09:37:00'!
 isAdditive
 	"An additive category is a preadditive category with a zero object and direct sums."
-	^ self propertyAt: #isAdditive ifAbsent: [self isPreabelian]! !
+	self isPreabelian ifTrue: [^ true].
+	^ self propertyAt: #isAdditive ifAbsent: [false]! !
 
 !Category methodsFor: 'testing' stamp: 'len 5/20/2024 11:59:32'!
 isBraidedMonoidal
@@ -7297,29 +7458,35 @@ isBraidedMonoidal
 	self isSymmetricMonoidal ifTrue: [^ true].
 	^ self propertyAt: #isBraidedMonoidal ifAbsent: [false]! !
 
-!Category methodsFor: 'testing' stamp: 'len 5/20/2024 11:59:55'!
+!Category methodsFor: 'testing' stamp: 'len 5/26/2024 09:31:36'!
 isClosedMonoidal
 	"A (right) closed monoidal category is monoidal category with an internal hom that is right adjoint to -⊗B (currying): Hom(A⊗B,C) ~ Hom(A,B⇒C).
 	Objects must implement the internal hom and #evaluationWith: to answer the evaluation morphism (A⇒B)⊗A → B."
 	^ self propertyAt: #isClosedMonoidal ifAbsent: [false]! !
 
-!Category methodsFor: 'testing' stamp: 'len 5/20/2024 11:57:16'!
+!Category methodsFor: 'testing' stamp: 'len 5/27/2024 06:47:23'!
+isLinear
+	"An R-linear category (or R-algebroid) is a category enriched over R-mod, i.e. a category whose hom-sets are R-modules and composition is R-bilinear."
+	^ self enrichment isKindOf: ModulesCategory! !
+
+!Category methodsFor: 'testing' stamp: 'len 5/26/2024 09:33:08'!
 isMonoidal
 	"A monoidal category is a category equipped with a 'tensor product'.
-	Objects and morphisms implement #⊗ for the tensor product, and the category implements #unit for the tensor unit."
+	Objects and morphisms implement #⊗ for the tensor product, #leftUnitor, #rightUnitor and #associatorWith:and:, and the category implements #unitObject for the tensor unit."
 	self isBraidedMonoidal ifTrue: [^ true].
 	self isClosedMonoidal ifTrue: [^ true].
 	^ self propertyAt: #isMonoidal ifAbsent: [false]! !
 
-!Category methodsFor: 'testing' stamp: 'len 4/12/2024 05:38:04'!
+!Category methodsFor: 'testing' stamp: 'len 5/26/2024 09:37:35'!
 isPreabelian
 	"A preabelian category is an additive category with kernels and cokernels."
-	^ self propertyAt: #isPreabelian ifAbsent: [self isAbelian]! !
+	self isAbelian ifTrue: [^ true].
+	^ self propertyAt: #isPreabelian ifAbsent: [false]! !
 
-!Category methodsFor: 'testing' stamp: 'len 4/8/2024 05:21:51'!
+!Category methodsFor: 'testing' stamp: 'len 5/27/2024 06:46:20'!
 isPreadditive
 	"A preadditive category or Ab-category is a category whose hom-sets have the structure of abelian groups and the composition of morphisms is bilinear."
-	^ self isAdditive or: [self base isKindOf: ModulesCategory]! !
+	^ self isAdditive or: [self isLinear]! !
 
 !Category methodsFor: 'testing' stamp: 'len 5/20/2024 06:51:34'!
 isSymmetricMonoidal
@@ -7384,11 +7551,11 @@ target
 source: anObject target: anotherObject arrow: aMorphism
 	^ CommaObject source: anObject target: anotherObject arrow: aMorphism parent: self! !
 
-!CommaCategory methodsFor: 'morphisms' stamp: 'len 5/24/2024 16:08:59'!
+!CommaCategory methodsFor: 'morphisms' stamp: 'len 6/2/2024 11:06:04'!
 to: aCategory
-	self flag: #fixme. "if the source and target domain are the same this is ambiguous"
+	"if the source and target domain are the same this is ambiguous!!
 	aCategory = self source domain ifTrue: [^ self to: aCategory map₀: [:x| x source] map: [:f| f source]].
-	aCategory = self target domain ifTrue: [^ self to: aCategory map₀: [:x| x target] map: [:f| f target]].
+	aCategory = self target domain ifTrue: [^ self to: aCategory map₀: [:x| x target] map: [:f| f target]]."
 	^ super to: aCategory! !
 
 !CommaCategory methodsFor: 'printing' stamp: 'len 4/26/2024 13:10:06'!
@@ -7415,10 +7582,10 @@ unitObject
 zeroObject
 	^ self objectAt: self ground zeroObject id! !
 
-!ArrowCategory methodsFor: 'converting' stamp: 'len 5/24/2024 04:49:52'!
+!ArrowCategory methodsFor: 'converting' stamp: 'len 5/30/2024 07:59:26'!
 asFunctorCategory
 	"Answer the functor category [2,C] isomorphic to the receiver Arr(C)."
-	^ self ground ^ (FreeCategory arrows: {1 -> 2})! !
+	^ (FreeCategory arrows: {1 -> 2}) ⇒ self ground! !
 
 !ArrowCategory methodsFor: 'morphisms' stamp: 'len 5/24/2024 16:17:56'!
 from: aCategory
@@ -7567,14 +7734,18 @@ opposite
 	"See FreeObject>>#reverse and FreeMorphism>>#reverse."
 	^ self propertyAt: #opposite ifAbsentPut: [(self class on: self generatingGraph transpose) propertyAt: #opposite put: self; yourself]! !
 
-!FreeCategory methodsFor: 'printing' stamp: 'len 5/24/2024 04:58:55'!
+!FreeCategory methodsFor: 'printing' stamp: 'len 6/2/2024 16:43:48'!
 printOn: aStream
 	| G |
 	G := self generatingGraph.
-	G isChain ifTrue: [aStream nextPutAll: G size printString bold. ^ self].
+	G isChain ifTrue: [aStream nextPutAll: G size printStringBlackboardBold bold. ^ self].
 	aStream nextPutAll: 'ℱ('.
 	self generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
 	aStream nextPut: $)! !
+
+!FreeCategory methodsFor: 'random' stamp: 'len 5/26/2024 08:58:17'!
+atRandom₀: aRandom
+	^ (self propertyAt: #objectsMap) atRandom: aRandom! !
 
 !FreeCategory methodsFor: 'testing' stamp: 'len 4/15/2024 07:45:23'!
 isDiscrete
@@ -7594,12 +7765,12 @@ isFinitelyGenerated
 	self flag: #fix. "temporarily disable this, see Functor>>value:"
 	^ false! !
 
-!FreeCategory methodsFor: 'private' stamp: 'len 5/24/2024 08:38:38'!
+!FreeCategory methodsFor: 'private' stamp: 'len 5/27/2024 07:13:55'!
 generatingGraph: aGraph
 	| generators objects |
 	self propertyAt: #generatingGraph put: aGraph.
 	objects := self propertyAt: #objectsMap put: Dictionary new.
-	aGraph nodesDo: [:each| objects at: each value put: (Vertex node: each parent: self)].
+	aGraph nodesDo: [:each| objects at: each value put: (Vertex value: each value neighbors: (each neighbors asArray collect: [:node| node value]) parent: self)].
 	generators := OrderedCollection new.
 	aGraph nodesDo: [:each|
 		generators add: (objects at: each value) id. "should we include the identities in the generators?"
@@ -7630,64 +7801,10 @@ vertices: aCollection
 vertices: aCollection arrows: anotherCollection
 	^ self on: (Digraph ordered addAll: aCollection; addEdges: anotherCollection; yourself)! !
 
-!FunctorCategory methodsFor: 'accessing' stamp: 'len 5/7/2024 08:10:28'!
-initialObject
-	^ domain to: codomain constant: codomain initialObject! !
-
-!FunctorCategory methodsFor: 'accessing' stamp: 'len 5/7/2024 08:10:45'!
-terminalObject
-	^ domain to: codomain constant: codomain terminalObject! !
-
-!FunctorCategory methodsFor: 'accessing' stamp: 'len 5/7/2024 08:10:58'!
-zeroObject
-	^ domain to: codomain constant: codomain zeroObject! !
-
-!FunctorCategory methodsFor: 'morphisms' stamp: 'len 5/24/2024 16:41:38'!
-from: aCategory
-	"Yoneda embedding:"
-"	(aCategory base = codomain and: [aCategory = domain opposite])
-		ifTrue: [^ aCategory into: self map₀: [:x| x reverse] map: [:x :y :f| x to: y transform: [:z| self notYetImplemented]]]."
-	^ super from: aCategory! !
-
-!FunctorCategory methodsFor: 'printing' stamp: 'len 4/1/2024 07:58:23'!
-printOn: aStream
-	aStream nextPut: $[; print: domain; nextPut: $,; print: codomain; nextPut: $]
-	
-"	self isEndomorphisms
-		ifTrue: [aStream nextPutAll: 'End'; nextPut: $(; print: domain; nextPut: $)]
-		ifFalse: [aStream nextPutAll: 'Fun'; nextPut: $(; print: domain; nextPut: $,; print: codomain; nextPut: $)]"! !
-
-!FunctorCategory methodsFor: 'testing' stamp: 'len 4/17/2024 06:41:15'!
-includes₀: anObject
-	^ (anObject isKindOf: Functor) and: [anObject domain = domain and: [anObject codomain = codomain]]! !
-
-!FunctorCategory methodsFor: 'testing' stamp: 'len 4/12/2024 16:18:09'!
-isAbelian
-	codomain isAbelian ifTrue: [^ true].
-	^ super isAbelian! !
-
-!FunctorCategory methodsFor: 'private' stamp: 'len 5/22/2024 11:09:51'!
-colimitOf: aFunctor
-	"Limite and colimits in a functor category are computed pointwise."
-	self notYetImplemented! !
-
-!FunctorCategory methodsFor: 'private' stamp: 'len 3/31/2024 20:39:56'!
-domain: aDomain codomain: aCodomain
-	domain := aDomain.
-	codomain := aCodomain! !
-
-!FunctorCategory methodsFor: 'private' stamp: 'len 5/22/2024 11:09:56'!
-limitOf: aFunctor
-	"Limite and colimits in a functor category are computed pointwise."
-	self notYetImplemented! !
-
-!FunctorCategory class methodsFor: 'instance creation' stamp: 'len 3/31/2024 20:37:38'!
-from: aDomain to: aCodomain
-	^ self new domain: aDomain codomain: aCodomain! !
-
-!OppositeCategory methodsFor: 'accessing' stamp: 'len 4/24/2024 04:11:21'!
-base
-	^ opposite base "should it be the reverse monoidal category with the tensor product reversed?"! !
+!OppositeCategory methodsFor: 'accessing' stamp: 'len 6/2/2024 11:12:54'!
+enrichment
+	opposite enrichment isSymmetricMonoidal ifTrue: [^ opposite enrichment].
+	^ super enrichment! !
 
 !OppositeCategory methodsFor: 'accessing' stamp: 'len 4/15/2024 08:56:28'!
 initialObject
@@ -7756,9 +7873,68 @@ unitObject
 printOn: aStream
 	aStream nextPutAll: 'Ch', '∙' super; nextPut: $(; print: self cochains; nextPut: $)! !
 
-!CochainComplexesCategory methodsFor: 'testing' stamp: 'len 6/27/2022 13:21:30'!
+!CochainComplexesCategory methodsFor: 'testing' stamp: 'len 6/1/2024 10:10:15'!
+isClosedMonoidal
+	^ opposite isClosedMonoidal! !
+
+!CochainComplexesCategory methodsFor: 'testing' stamp: 'len 6/1/2024 10:10:23'!
 isMonoidal
-	^ true! !
+	^ opposite isMonoidal! !
+
+!PresheafCategory methodsFor: 'accessing' stamp: 'len 5/30/2024 06:24:43'!
+initialObject
+	^ self constant: codomain initialObject! !
+
+!PresheafCategory methodsFor: 'accessing' stamp: 'len 5/30/2024 06:24:57'!
+terminalObject
+	^ self constant: codomain terminalObject! !
+
+!PresheafCategory methodsFor: 'accessing' stamp: 'len 5/30/2024 06:25:07'!
+zeroObject
+	^ self constant: codomain zeroObject! !
+
+!PresheafCategory methodsFor: 'elements' stamp: 'len 5/30/2024 06:24:26'!
+constant: anObject
+	^ (domain to: codomain constant: anObject) asPresheaf! !
+
+!PresheafCategory methodsFor: 'morphisms' stamp: 'len 5/31/2024 08:52:18'!
+from: aCategory
+	"Yoneda embedding:"
+"	(aCategory enrichment = codomain and: [aCategory = domain opposite])
+		ifTrue: [^ aCategory into: self map: [:f| (domain domain to: codomain map: [:g| f domain reverse ⇒ g]) to: ((domain domain to: codomain map: [:g| f codomain reverse ⇒ g]) transform: [:x| x]."
+	^ super from: aCategory! !
+
+!PresheafCategory methodsFor: 'printing' stamp: 'len 4/1/2024 07:58:23'!
+printOn: aStream
+	aStream nextPut: $[; print: domain; nextPut: $,; print: codomain; nextPut: $]
+	
+"	self isEndomorphisms
+		ifTrue: [aStream nextPutAll: 'End'; nextPut: $(; print: domain; nextPut: $)]
+		ifFalse: [aStream nextPutAll: 'Fun'; nextPut: $(; print: domain; nextPut: $,; print: codomain; nextPut: $)]"! !
+
+!PresheafCategory methodsFor: 'testing' stamp: 'len 4/12/2024 16:18:09'!
+isAbelian
+	codomain isAbelian ifTrue: [^ true].
+	^ super isAbelian! !
+
+!PresheafCategory methodsFor: 'private' stamp: 'len 5/22/2024 11:09:51'!
+colimitOf: aFunctor
+	"Limite and colimits in a functor category are computed pointwise."
+	self notYetImplemented! !
+
+!PresheafCategory methodsFor: 'private' stamp: 'len 3/31/2024 20:39:56'!
+domain: aDomain codomain: aCodomain
+	domain := aDomain.
+	codomain := aCodomain! !
+
+!PresheafCategory methodsFor: 'private' stamp: 'len 5/22/2024 11:09:56'!
+limitOf: aFunctor
+	"Limite and colimits in a functor category are computed pointwise."
+	self notYetImplemented! !
+
+!PresheafCategory class methodsFor: 'instance creation' stamp: 'len 3/31/2024 20:37:38'!
+from: aDomain to: aCodomain
+	^ self new domain: aDomain codomain: aCodomain! !
 
 !ProductCategory methodsFor: 'accessing' stamp: 'len 4/1/2024 08:59:10'!
 components
@@ -7848,11 +8024,11 @@ unitObject
 zeroObject
 	^ self chains zeroObject asChainComplex! !
 
-!ChainComplexesCategory methodsFor: 'morphisms' stamp: 'len 4/22/2024 04:57:02'!
+!ChainComplexesCategory methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:00:52'!
 from: aCategory
 	aCategory = self chains ifTrue: [^ aCategory to: self map: [:each| each domain asChainComplex to: each codomain asChainComplex components: {each}]].
-	aCategory → self chains ifNotNil: [:aFunctor| ^ self chains → self · aFunctor].
-	aCategory class = self class ifTrue: [aCategory chains → self chains ifNotNil: [:aFunctor| ^ self to: aCategory map₀: [:each| each apply: aFunctor] map: [:each| each apply: aFunctor]]].
+	aCategory ⇢ self chains ifNotNil: [:aFunctor| ^ self chains → self · aFunctor].
+	aCategory class = self class ifTrue: [aCategory chains ⇢ self chains ifNotNil: [:aFunctor| ^ self to: aCategory map₀: [:each| each apply: aFunctor] map: [:each| each apply: aFunctor]]].
 	^ super from: aCategory! !
 
 !ChainComplexesCategory methodsFor: 'printing' stamp: 'len 4/12/2024 13:47:36'!
@@ -7867,9 +8043,13 @@ isAbelian
 isAdditive
 	^ true! !
 
-!ChainComplexesCategory methodsFor: 'testing' stamp: 'len 6/27/2022 13:20:11'!
+!ChainComplexesCategory methodsFor: 'testing' stamp: 'len 6/1/2024 10:10:55'!
+isClosedMonoidal
+	^ self chains isClosedMonoidal! !
+
+!ChainComplexesCategory methodsFor: 'testing' stamp: 'len 6/1/2024 10:11:03'!
 isMonoidal
-	^ true! !
+	^ self chains isMonoidal! !
 
 !ChainComplexesCategory methodsFor: 'private' stamp: 'len 4/26/2020 17:43:27'!
 chains: anAbelianCategory
@@ -7945,54 +8125,10 @@ printOn: aStream
 on: anAdditiveCategory
 	^ self new ground: anAdditiveCategory! !
 
-!FreeModulesCategory methodsFor: 'accessing' stamp: 'len 4/11/2024 07:25:33'!
-base
-	^ (scalars isCommutative or: [scalars isInvolutive]) ifTrue: [self] ifFalse: [Grp]! !
-
-!FreeModulesCategory methodsFor: 'accessing' stamp: 'len 4/6/2024 08:50:56'!
-scalars
-	^ scalars! !
-
-!FreeModulesCategory methodsFor: 'accessing' stamp: 'len 5/20/2024 09:49:49'!
-unitObject
-	^ scalars ^ 1! !
-
-!FreeModulesCategory methodsFor: 'accessing' stamp: 'len 5/3/2024 06:53:18'!
-zeroObject
-	^ scalars ^ 0! !
-
-!FreeModulesCategory methodsFor: 'comparing' stamp: 'len 4/6/2024 08:52:43'!
-= anObject
-	^ self class = anObject class and: [scalars = anObject scalars]! !
-
-!FreeModulesCategory methodsFor: 'comparing' stamp: 'len 4/6/2024 08:52:36'!
-hash
-	^ scalars hash! !
-
-!FreeModulesCategory methodsFor: 'printing' stamp: 'len 4/12/2024 05:39:28'!
-printOn: aStream
-"	scalars = ℤ ifTrue: [aStream nextPutAll: 'FreeAb' bold. ^ self]."
-	aStream print: scalars; nextPut: $-; nextPutAll: (scalars isField ifTrue: ['Vect'] ifFalse: ['FreeMod'])! !
-
-!FreeModulesCategory methodsFor: 'testing' stamp: 'len 4/6/2024 08:19:39'!
-isAdditive
-	^ true! !
-
-!FreeModulesCategory methodsFor: 'testing' stamp: 'len 4/6/2024 08:54:20'!
-isMonoidal
-	^ true! !
-
-!FreeModulesCategory methodsFor: 'private' stamp: 'len 4/6/2024 08:51:04'!
-scalars: aRing
-	scalars := aRing! !
-
-!FreeModulesCategory class methodsFor: 'instance creation' stamp: 'len 4/6/2024 08:51:15'!
-over: aRing
-	^ self new scalars: aRing! !
-
-!ModulesCategory methodsFor: 'accessing' stamp: 'len 4/11/2024 07:25:33'!
-base
-	^ (scalars isCommutative or: [scalars isInvolutive]) ifTrue: [self] ifFalse: [Grp]! !
+!ModulesCategory methodsFor: 'accessing' stamp: 'len 6/2/2024 10:15:35'!
+enrichment
+	(scalars isCommutative or: [scalars isInvolutive]) ifTrue: [^ self].
+	^ super enrichment! !
 
 !ModulesCategory methodsFor: 'accessing' stamp: 'len 4/6/2024 08:37:47'!
 scalars
@@ -8028,16 +8164,16 @@ restriction
 	"The restriction of scalars functor."
 	^ self to: self scalars scalars modules map₀: [:each| each restriction] map: [:each| each restriction]! !
 
-!ModulesCategory methodsFor: 'morphisms' stamp: 'len 4/17/2024 07:01:53'!
+!ModulesCategory methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:01:09'!
 to: aCategory
 	aCategory class = self class ifTrue:
-		[self scalars → aCategory scalars ifNotNil: [:aRingMap| ^ self to: aCategory map₀: [:each| each ⊗ aCategory scalars] map: [:each| each ⊗ aCategory scalars]].
+		[self scalars ⇢ aCategory scalars ifNotNil: [:aRingMap| ^ self to: aCategory map₀: [:each| each ⊗ aCategory scalars] map: [:each| each ⊗ aCategory scalars]].
 		self scalars scalars = aCategory scalars ifTrue: [^ self restriction]].
 	^ super to: aCategory! !
 
-!ModulesCategory methodsFor: 'printing' stamp: 'len 4/12/2024 05:39:33'!
+!ModulesCategory methodsFor: 'printing' stamp: 'len 6/2/2024 04:27:41'!
 printOn: aStream
-"	scalars = ℤ ifTrue: [aStream nextPutAll: 'Ab' bold. ^ self]."
+	scalars = ℤ ifTrue: [aStream nextPutAll: 'Ab' bold. ^ self].
 	aStream print: scalars; nextPut: $-; nextPutAll: (scalars isField ifTrue: ['Vect'] ifFalse: ['Mod'])! !
 
 !ModulesCategory methodsFor: 'testing' stamp: 'len 10/30/2020 11:21:04'!
@@ -8051,6 +8187,10 @@ isClosedMonoidal
 !ModulesCategory methodsFor: 'testing' stamp: 'len 4/11/2024 05:08:30'!
 isSemisimple
 	^ scalars isSemisimple! !
+
+!ModulesCategory methodsFor: 'testing' stamp: 'len 6/2/2024 11:17:56'!
+isSymmetricMonoidal
+	^ self scalars isCommutative! !
 
 !ModulesCategory methodsFor: 'private' stamp: 'len 4/6/2024 08:37:57'!
 scalars: aRing
@@ -8096,16 +8236,16 @@ space: aScheme
 on: aScheme
 	^ self new space: aScheme! !
 
-!SetObject methodsFor: 'accessing' stamp: 'len 5/10/2024 05:09:26'!
+!Ensemble methodsFor: 'accessing' stamp: 'len 5/10/2024 05:09:26'!
 carrier
 	^ self! !
 
-!SetObject methodsFor: 'comparing' stamp: 'len 5/10/2024 05:08:22'!
+!Ensemble methodsFor: 'comparing' stamp: 'len 5/10/2024 05:08:22'!
 ~ anObject
 	"Answer true if the receiver is isomorphic to the argument."
 	^ self size = anObject size! !
 
-!SetObject methodsFor: 'comparing' stamp: 'len 5/10/2024 14:39:43'!
+!Ensemble methodsFor: 'comparing' stamp: 'len 5/10/2024 14:39:43'!
 ⊆ aSet
 	"Answer true if the receiver is a subset of the argument."
 	self == aSet ifTrue: [^ true].
@@ -8114,62 +8254,67 @@ carrier
 	self isFinite ifTrue: [^ self elements allSatisfy: [:each| aSet includes: each]].
 	^ self notYetImplemented! !
 
-!SetObject methodsFor: 'enumerating' stamp: 'len 5/23/2024 16:46:27'!
+!Ensemble methodsFor: 'enumerating' stamp: 'len 6/1/2024 06:04:06'!
 collect: aBlock
 	| elements |
 	elements := self elementsOrSelf.
-	(elements isKindOf: Set) ifTrue: [^ SetObject elements: (elements collect: aBlock)].
-	^ SetObject elements: (Iterator on: [:iteratorBlock| | visited | visited := Set new. elements do: [:each| | image | image := aBlock value: each. visited add: image ifAbsent: [iteratorBlock value: image]]])! !
+	(elements isKindOf: Set) ifTrue: [^ Ensemble elements: (elements collect: aBlock)].
+	^ Ensemble elements: (Iterator on: [:iteratorBlock| | visited | visited := Set new. elements do: [:each| | image | image := aBlock value: each. visited add: image ifAbsent: [iteratorBlock value: image]]])! !
 
-!SetObject methodsFor: 'enumerating' stamp: 'len 5/23/2024 16:46:27'!
+!Ensemble methodsFor: 'enumerating' stamp: 'len 6/1/2024 06:04:06'!
 select: aBlock
 	| elements |
 	elements := self elementsOrSelf.
-	(elements isKindOf: Set) ifTrue: [^ SetObject elements: (elements select: aBlock)].
-	^ SetObject elements: (Iterator on: [:iteratorBlock| elements do: [:each| (aBlock value: each) ifTrue: [iteratorBlock value: each]]])! !
+	(elements isKindOf: Set) ifTrue: [^ Ensemble elements: (elements select: aBlock)].
+	^ Ensemble elements: (Iterator on: [:iteratorBlock| elements do: [:each| (aBlock value: each) ifTrue: [iteratorBlock value: each]]])! !
 
-!SetObject methodsFor: 'morphisms' stamp: 'len 5/10/2024 05:09:08'!
+!Ensemble methodsFor: 'morphisms' stamp: 'len 5/10/2024 05:09:08'!
 automorphisms
 	self assert: self isFinite.
 	^ self propertyAt: #automorphisms ifAbsentPut: [SymmetricGroup on: self]! !
 
-!SetObject methodsFor: 'morphisms' stamp: 'len 5/10/2024 05:10:13'!
+!Ensemble methodsFor: 'morphisms' stamp: 'len 5/10/2024 05:10:13'!
 to: aCodomain map: aBlock
 	"Answer a morphism to the specified codomain, evaluating as the given block."
 	^ Function from: self to: aCodomain map: aBlock! !
 
-!SetObject methodsFor: 'operations' stamp: 'len 5/10/2024 14:37:40'!
+!Ensemble methodsFor: 'operations' stamp: 'len 5/10/2024 14:37:40'!
 / aBlock
 	"Answer the quotient set of the receiver by the equivalence relation given by the argument.
 	The argument must be a binary block that evaluates to true only for pairs of related elements."
 	^ self collect: [:x| EquivalenceClass representative: x equivalence: aBlock]! !
 
-!SetObject methodsFor: 'operations' stamp: 'len 5/10/2024 05:08:58'!
+!Ensemble methodsFor: 'operations' stamp: 'len 6/1/2024 09:05:31'!
+\ anObject
+	"Answer the subset of elements of the receiver that are not in the argument."
+	^ self select: [:each| (anObject includes: each) not]! !
+
+!Ensemble methodsFor: 'operations' stamp: 'len 5/10/2024 05:08:58'!
 × anObject
 	^ CartesianProduct components: {self. anObject}! !
 
-!SetObject methodsFor: 'operations' stamp: 'len 5/23/2024 16:46:27'!
+!Ensemble methodsFor: 'operations' stamp: 'len 6/1/2024 06:04:06'!
 ⊔ aDomain
 	"Answer the categorical coproduct of the receiver with the argument."
 	"The coproduct in the category of sets is the disjoint union."
 	| answer |
-	answer := SetObject elements: (Iterator on: [:aBlock| self do: [:x| aBlock value: {1. x}]. aDomain do: [:x| aBlock value: {2. x}]]).
+	answer := Ensemble elements: (Iterator on: [:aBlock| self do: [:x| aBlock value: {1. x}]. aDomain do: [:x| aBlock value: {2. x}]]).
 	answer addCoprojections: {self to: answer map: [:x| {1. x}]. aDomain to: answer map: [:x| {2. x}]}.
 	^ answer! !
 
-!SetObject methodsFor: 'operations' stamp: 'len 5/10/2024 05:10:51'!
+!Ensemble methodsFor: 'operations' stamp: 'len 5/10/2024 05:10:51'!
 ⊗ aDomain
 	^ self × aDomain! !
 
-!SetObject methodsFor: 'testing-categories' stamp: 'len 5/10/2024 05:11:12'!
+!Ensemble methodsFor: 'testing-categories' stamp: 'len 5/10/2024 05:11:12'!
 isSet
 	^ true! !
 
-!SetObject methodsFor: 'private' stamp: 'len 5/23/2024 16:46:27'!
+!Ensemble methodsFor: 'private' stamp: 'len 6/1/2024 06:04:06'!
 species
-	^ SetObject! !
+	^ Ensemble! !
 
-!SetObject class methodsFor: 'instance creation' stamp: 'len 5/10/2024 13:21:22'!
+!Ensemble class methodsFor: 'instance creation' stamp: 'len 5/10/2024 13:21:22'!
 elements: anObject
 	^ self new propertyAt: #elements put: anObject; yourself! !
 
@@ -8452,10 +8597,10 @@ to: aMonoid map: aBlock
 	self assert: aMonoid isMonoid.
 	^ MonoidMap from: self to: aMonoid map: aBlock! !
 
-!Monoid methodsFor: 'morphisms' stamp: 'len 5/3/2024 05:35:15'!
+!Monoid methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:01:23'!
 ↷ anObject
 	"Answer an action of the receiver on anObject."
-	^ self → anObject endomorphisms asMonoid ifNotNil: [:aMorphism| self on: anObject action: [:g :x| (aMorphism value: g) value: x]]! !
+	^ self ⇢ anObject endomorphisms asMonoid ifNotNil: [:aMorphism| self on: anObject action: [:g :x| (aMorphism value: g) value: x]]! !
 
 !Monoid methodsFor: 'testing' stamp: 'len 10/5/2023 15:50:43'!
 isCommutative
@@ -8904,11 +9049,6 @@ generator
 	self isTrivial ifTrue: [^ self identity].
 	^ super generator! !
 
-!Group methodsFor: 'accessing' stamp: 'len 12/28/2016 11:28:19'!
-generators
-	self propertyAt: #generators ifPresent: [:aCollection| ^ aCollection].
-	^ self propertyAt: #generators put: (self computeGenerators ifNil: [^ nil])! !
-
 !Group methodsFor: 'accessing' stamp: 'len 6/26/2023 12:55:26'!
 null
 	"Answer the trivial subgroup, i.e. the zero object in the category of groups."
@@ -9072,10 +9212,10 @@ to: aGroup map: aBlock
 trivialAction
 	^ self on: self action: [:g :x| x]! !
 
-!Group methodsFor: 'morphisms' stamp: 'len 5/3/2024 05:35:33'!
+!Group methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:01:31'!
 ↷ anObject
 	"Answer an action of the receiver on anObject."
-	^ self → anObject automorphisms ifNotNil: [:aMorphism| self on: anObject action: [:g :x| (aMorphism value: g) value: x]]! !
+	^ self ⇢ anObject automorphisms ifNotNil: [:aMorphism| self on: anObject action: [:g :x| (aMorphism value: g) value: x]]! !
 
 !Group methodsFor: 'operations' stamp: 'len 6/14/2022 12:52:34'!
 * aGroup
@@ -9594,11 +9734,12 @@ computeExponent
 	self do: [:each| answer _ answer lcm: (self orderOf: each)].
 	^ answer! !
 
-!Group methodsFor: 'private' stamp: 'len 6/4/2023 01:58:58'!
+!Group methodsFor: 'private' stamp: 'len 5/26/2024 10:13:02'!
 computeGenerators
 	"The receiver is a finite group represented explicitly as a set of its elements. This method computes a set of generators."
 	| n generators elements |
 	(self hasProperty: #elements) ifFalse: [^ nil].
+	self flag: #deprecated.
 	n := self size.
 	n isInfinite ifTrue: [^ nil].
 	generators := OrderedCollection new.
@@ -10100,6 +10241,17 @@ ambient
 components
 	^ components! !
 
+!ProductGroup methodsFor: 'accessing' stamp: 'len 5/26/2024 10:11:01'!
+generators
+	| generators |
+	self propertyAt: #generators ifPresent: [:aCollection| ^ aCollection].
+	generators := OrderedCollection new.
+	1 to: self arity do: [:i|
+		| p |
+		p := self projection: i.
+		(self at: i) generators do: [:each| generators add: (p value: each)]].
+	^ self propertyAt: #generators put: generators asArray! !
+
 !ProductGroup methodsFor: 'accessing' stamp: 'len 2/12/2016 20:10'!
 size
 	^ components product: [:each| each size]! !
@@ -10161,16 +10313,6 @@ isProduct
 components: anArray
 	components _ anArray! !
 
-!ProductGroup methodsFor: 'private' stamp: 'len 12/30/2017 15:11:22'!
-computeGenerators
-	| answer |
-	answer _ OrderedCollection new.
-	1 to: self arity do: [:i|
-		| p |
-		p _ self projection: i.
-		(self at: i) generators do: [:each| answer add: (p value: each)]].
-	^ answer! !
-
 !ProductGroup class methodsFor: 'instance creation' stamp: 'len 2/12/2016 20:02'!
 components: anArray
 	^ self new components: anArray! !
@@ -10222,10 +10364,10 @@ do: aBlock
 	self cover do: [:each| | x |
 		visited add: (x _ self project: each) ifAbsent: [aBlock value: x]]! !
 
-!QuotientGroup methodsFor: 'morphisms' stamp: 'len 4/16/2024 18:36:53'!
+!QuotientGroup methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:02:40'!
 from: aGroup
 	aGroup = self cover ifTrue: [^ self projection].
-	aGroup → self cover ifNotNil: [:aMorphism| ^ self projection · aMorphism].
+	aGroup ⇢ self cover ifNotNil: [:aMorphism| ^ self projection · aMorphism].
 	^ super from: aGroup! !
 
 !QuotientGroup methodsFor: 'morphisms' stamp: 'len 4/23/2024 04:59:14'!
@@ -10605,6 +10747,10 @@ new: n generators: aCollection
 on: aCollection generators: anotherCollection
 	^ (SymmetricGroup on: aCollection) sub: anotherCollection! !
 
+!AlternatingGroup methodsFor: 'accessing' stamp: 'len 5/26/2024 10:09:35'!
+generators
+	^ self propertyAt: #generators ifAbsentPut: [(1 to: self degree - 2) collect: [:i| self ambient cycle: {i. i+1. i+2}]]! !
+
 !AlternatingGroup methodsFor: 'accessing' stamp: 'len 2/16/2016 05:49'!
 size
 	^ self degree factorial / 2! !
@@ -10635,10 +10781,6 @@ contains: aPermutation
 isSimple
 	"A group is 'simple' if the only normal subgroups are the trivial group and itself."
 	^ self degree >= 5! !
-
-!AlternatingGroup methodsFor: 'private' stamp: 'len 12/18/2023 10:50:49'!
-computeGenerators
-	^ (1 to: self degree - 2) collect: [:i| self ambient cycle: {i. i+1. i+2}]! !
 
 !AlternatingGroup class methodsFor: 'examples' stamp: 'len 5/22/2018 21:40:59'!
 example1
@@ -10673,6 +10815,13 @@ degree
 !SymmetricGroup methodsFor: 'accessing' stamp: 'len 12/18/2023 15:54:51'!
 freeCover
 	^ self propertyAt: #freeCover ifAbsentPut: [FreeGroup new: degree - 1 "see >>computeGenerators"]! !
+
+!SymmetricGroup methodsFor: 'accessing' stamp: 'len 5/26/2024 10:10:19'!
+generators
+	degree > 1 ifFalse: [^ #()].
+	^ self propertyAt: #generators ifAbsentPut: [(2 to: degree) collect: [:i| self transposing: 1 with: i]]
+
+"alternatively: Coxeter generators, the set of (i,i+1) all the adjacent transpositions"! !
 
 !SymmetricGroup methodsFor: 'accessing' stamp: 'len 12/18/2023 15:55:40'!
 size
@@ -10794,26 +10943,19 @@ isStandard
 isTrivial
 	^ degree <= 1! !
 
-!SymmetricGroup methodsFor: 'private' stamp: 'len 12/18/2023 15:53:50'!
-computeGenerators
-	degree > 1 ifFalse: [^ #()].
-	^ (2 to: degree) collect: [:i| self transposing: 1 with: i]
-
-"alternatively: Coxeter generators, the set of (i,i+1) all the adjacent transpositions"! !
-
-!SymmetricGroup methodsFor: 'private' stamp: 'len 5/23/2024 16:46:08'!
+!SymmetricGroup methodsFor: 'private' stamp: 'len 6/1/2024 06:04:45'!
 degree: anInteger
 	"Initialize the receiver as the group of permutations of the elements of the interval [1..n]."
 	| Ω |
 	degree := anInteger.
 	Ω := 1 to: anInteger.
-	self propertyAt: #space put: Ω asSetObject; propertyAt: #spaceToIndex put: Ω; propertyAt: #indexToSpace put: Ω! !
+	self propertyAt: #space put: Ω asEnsemble; propertyAt: #spaceToIndex put: Ω; propertyAt: #indexToSpace put: Ω! !
 
 !SymmetricGroup methodsFor: 'private' stamp: 'len 12/18/2023 11:04:39'!
 indexToSpace
 	^ self propertyAt: #indexToSpace! !
 
-!SymmetricGroup methodsFor: 'private' stamp: 'len 5/23/2024 16:46:08'!
+!SymmetricGroup methodsFor: 'private' stamp: 'len 6/1/2024 06:04:50'!
 space: aCollection
 	"Initialize the receiver as the group of permutations of the elements of aCollection, assuming no repetitions."
 	| indexToSpace spaceToIndex |
@@ -10823,7 +10965,7 @@ space: aCollection
 	indexToSpace := aCollection "asSet" asArray.
 	spaceToIndex := Dictionary new: degree.
 	1 to: degree do: [:i| spaceToIndex at: (indexToSpace at: i) put: i].
-	self propertyAt: #space put: aCollection asSetObject; propertyAt: #indexToSpace put: indexToSpace; propertyAt: #spaceToIndex put: spaceToIndex! !
+	self propertyAt: #space put: aCollection asEnsemble; propertyAt: #indexToSpace put: indexToSpace; propertyAt: #spaceToIndex put: spaceToIndex! !
 
 !SymmetricGroup methodsFor: 'private' stamp: 'len 12/18/2023 11:04:25'!
 spaceToIndex
@@ -11332,6 +11474,13 @@ action
 	"Answer the natural action that sends (u, x) to u*x, i.e. multiplies ring elements by units."
 	^ self on: self space action: [:u :x| u*x]! !
 
+!UnitGroup methodsFor: 'accessing' stamp: 'len 5/26/2024 10:13:41'!
+generators
+	self propertyAt: #generators ifPresent: [:aCollection| ^ aCollection].
+	(self space isFiniteField or: [(self space isKindOf: ModularIntegerRing) and: [self space hasPrimitiveRoot]])
+		 ifTrue: [^ {self space primitiveRoot}].
+	^ nil! !
+
 !UnitGroup methodsFor: 'accessing' stamp: 'len 5/30/2022 09:26:54'!
 size
 	^ self space unitsSize! !
@@ -11375,12 +11524,6 @@ contains: anElement
 !UnitGroup methodsFor: 'testing' stamp: 'len 5/4/2020 10:09:22'!
 includes: anElement
 	^ (self space includes: anElement) and: [anElement isUnit]! !
-
-!UnitGroup methodsFor: 'private' stamp: 'len 11/16/2023 21:53:48'!
-computeGenerators
-	(self space isFiniteField or: [(self space isKindOf: ModularIntegerRing) and: [self space hasPrimitiveRoot]])
-		 ifTrue: [^ {self space primitiveRoot}].
-	^ super computeGenerators! !
 
 !UnitGroup methodsFor: 'private' stamp: 'len 5/6/2019 02:38:58'!
 space: aRing
@@ -11520,10 +11663,6 @@ unitsSize
 !Ring methodsFor: 'accessing' stamp: 'len 4/26/2020 07:59:55'!
 zero
 	^ self propertyAt: #zero ifAbsentPut: [self one - self one]! !
-
-!Ring methodsFor: 'categories' stamp: 'len 4/7/2024 15:12:52'!
-freeModules
-	^ self propertyAt: #FreeModules ifAbsentPut: [FreeModulesCategory over: self]! !
 
 !Ring methodsFor: 'categories' stamp: 'len 4/7/2024 15:13:32'!
 modules
@@ -11976,10 +12115,9 @@ to: aRing map: aBlock
 "	(self isTrivial or: [(self characteristic = 0 and: [aRing characteristic = 0]) or: [aRing characteristic | self characteristic]]) ifFalse: [DomainError signal]."
 	^ RingMap from: self to: aRing map: aBlock! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 4/4/2024 04:05:40'!
+!Ring methodsFor: 'morphisms' stamp: 'len 6/2/2024 11:01:53'!
 ⇒ anObject
-	"This is the Hom(A,-) functor, where A is the receiver.
-	When the receiver is a finite R-algebra and the argument is an R-module or an R-module homomorphism, this is the 'coextension of scalars' functor. This is right adjoint to the 'restriction of scalars' functor (see #restriction), and dual to the 'extension of scalars' functor (see #⊗)."
+	"If the receiver is a finite R-algebra and the argument is an R-module or an R-module homomorphism, this is the 'coextension of scalars' functor. This is right adjoint to the 'restriction of scalars' functor (see #restriction), and dual to the 'extension of scalars' functor (see #⊗)."
 	(((anObject isKindOf: Module) or: [anObject isKindOf: ModuleMap]) and: [self isFiniteAlgebra and: [self scalars = anObject scalars]]) ifTrue: [^ self asModule ⇒ anObject].
 	^ super ⇒ anObject! !
 
@@ -12745,10 +12883,10 @@ scalar: anElement
 do: aBlock
 	self carrier do: aBlock! !
 
-!EndomorphismRing methodsFor: 'morphisms' stamp: 'len 5/9/2024 07:20:16'!
+!EndomorphismRing methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:03:47'!
 from: aRing
 	aRing == self scalars ifTrue: [^ self addMap: ((self scalars to: self map: [:x| self one * x]) name: 'ι')].
-	aRing → self scalars ifNotNil: [:aMorphism| ^ self scalars → self · aMorphism].
+	aRing ⇢ self scalars ifNotNil: [:aMorphism| ^ self scalars → self · aMorphism].
 	^ super from: aRing! !
 
 !EndomorphismRing methodsFor: 'operations' stamp: 'len 12/11/2023 09:50:50'!
@@ -12976,11 +13114,11 @@ x: anInteger
 embed: anElement
 	^ self reducedNumerator: anElement denominator: anElement one! !
 
-!FractionRing methodsFor: 'morphisms' stamp: 'len 4/16/2024 18:37:17'!
+!FractionRing methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:04:09'!
 from: aRing
 	aRing = self numerators ifTrue: [^ self addMap: ((self numerators to: self map: [:x| self embed: x]) name: 'ι')].
-	aRing → self numerators ifNotNil: [:aMorphism| ^ self numerators → self · aMorphism].
-	aRing class = self class ifTrue: [aRing numerators → self numerators ifNotNil: [:aMorphism| ^ self to: aRing map: [:each| (aMorphism value: each numerator) / (aMorphism value: each denominator)]]].
+	aRing ⇢ self numerators ifNotNil: [:aMorphism| ^ self numerators → self · aMorphism].
+	aRing class = self class ifTrue: [aRing numerators ⇢ self numerators ifNotNil: [:aMorphism| ^ self to: aRing map: [:each| (aMorphism value: each numerator) / (aMorphism value: each denominator)]]].
 	^ super from: aRing! !
 
 !FractionRing methodsFor: 'operations' stamp: 'len 2/28/2017 19:59:48'!
@@ -13688,10 +13826,10 @@ primeIdealsDo: aBlock
 embed: anObject
 	^ self reducedNumerator: self numerators !! anObject denominator: self numerators one! !
 
-!LocalRing methodsFor: 'morphisms' stamp: 'len 4/16/2024 18:37:27'!
+!LocalRing methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:04:17'!
 from: aRing
 	aRing = self numerators ifTrue: [^ self addMap: ((self numerators to: self map: [:x| self embed: x]) name: 'ι')].
-	aRing → self numerators ifNotNil: [:aMorphism| ^ self numerators → self · aMorphism].
+	aRing ⇢ self numerators ifNotNil: [:aMorphism| ^ self numerators → self · aMorphism].
 	^ super from: aRing! !
 
 !LocalRing methodsFor: 'morphisms' stamp: 'len 4/16/2024 18:45:29'!
@@ -13874,6 +14012,12 @@ zero
 	self == anObject ifTrue: [^ true].
 	^ (anObject isKindOf: OppositeRing) and: [opposite = anObject opposite]! !
 
+!OppositeRing methodsFor: 'comparing' stamp: 'len 4/3/2024 08:49:32'!
+~ aRing
+	"Answer true if the receiver is isomorphic to aRing."
+	(aRing isKindOf: OppositeRing) ifTrue: [^ opposite ~ aRing opposite].
+	^ super ~ aRing! !
+
 !OppositeRing methodsFor: 'comparing' stamp: 'len 12/20/2021 13:33:14'!
 hash
 	^ opposite hash! !
@@ -13900,12 +14044,6 @@ opposite
 !OppositeRing methodsFor: 'printing' stamp: 'len 4/26/2021 11:20:22'!
 printOn: aStream
 	aStream print: opposite; nextPutAll: 'op' super! !
-
-!OppositeRing methodsFor: 'testing' stamp: 'len 4/3/2024 08:49:32'!
-~ aRing
-	"Answer true if the receiver is isomorphic to aRing."
-	(aRing isKindOf: OppositeRing) ifTrue: [^ opposite ~ aRing opposite].
-	^ super ~ aRing! !
 
 !OppositeRing methodsFor: 'testing' stamp: 'len 10/14/2023 08:12:20'!
 isCommutative
@@ -14319,10 +14457,10 @@ primeIdealsDo: aBlock
 	I := self relations.
 	self cover primeIdealsDo: [:each| I ⊆ each ifTrue: [aBlock value: (each apply: projection)]]! !
 
-!QuotientRing methodsFor: 'morphisms' stamp: 'len 4/16/2024 18:37:48'!
+!QuotientRing methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:04:29'!
 from: aRing
 	aRing = self cover ifTrue: [^ self projection].
-	aRing → self cover ifNotNil: [:aMorphism| ^ self projection · aMorphism].
+	aRing ⇢ self cover ifNotNil: [:aMorphism| ^ self projection · aMorphism].
 	(aRing class = self class and: [aRing relations ⊆ self relations])
 		ifTrue: [^ aRing to: self map: [:x| self project: x representative]].
 	^ super from: aRing! !
@@ -15471,10 +15609,10 @@ embed: anElement
 	"Answer the embedding of an element of the coefficients ring into the receiver."
 	^ self project: (self cover embed: anElement)! !
 
-!AffineAlgebra methodsFor: 'morphisms' stamp: 'len 4/16/2024 18:38:25'!
+!AffineAlgebra methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:04:40'!
 from: aRing
 	aRing == self scalars ifTrue: [^ self addMap: ((self scalars to: self map: [:x| self embed: x]) name: 'ι')].
-	aRing → self scalars ifNotNil: [:aMorphism| ^ self scalars → self · aMorphism].
+	aRing ⇢ self scalars ifNotNil: [:aMorphism| ^ self scalars → self · aMorphism].
 	^ super from: aRing! !
 
 !AffineAlgebra methodsFor: 'operations' stamp: 'len 10/7/2023 12:31:54'!
@@ -15505,10 +15643,10 @@ fractions
 	E addMap: (ι := self cover to: E images: images).
 	^ self propertyAt: #fractions put: E / (self relations apply: ι)! !
 
-!AffineAlgebra methodsFor: 'operations' stamp: 'len 10/26/2023 13:42:43'!
+!AffineAlgebra methodsFor: 'operations' stamp: 'len 6/2/2024 11:28:24'!
 frobeniusSpace
 	"If the receiver is a zero-dimensional GF(q)-algebra, answer the q-Frobenius space.
-	This is a subspace of the receiver corresponding the the fixed-points of the q-Frobenius endomorphism,
+	This is a subspace of the receiver corresponding the fixed-points of the q-Frobenius endomorphism,
 	namely the set {f ∈ R | f^q - f = 0}. See [ABPR19, Definition 4.12]."
 	| q M |
 	q := self scalars size.
@@ -15537,17 +15675,17 @@ spec
 	"This is the Spec functor. Answer the spectrum of the receiver as a subscheme of affine space."
 	^ self propertyAt: #spec ifAbsentPut: [AffineVariety coordinateRing: self]! !
 
-!AffineAlgebra methodsFor: 'operations' stamp: 'len 4/1/2024 16:29:29'!
+!AffineAlgebra methodsFor: 'operations' stamp: 'len 6/1/2024 07:25:43'!
 ⊗ aRing
 	"Answer the tensor product of the receiver with the argument.
 	This is the coproduct in the category of commutative R-algebras."
 	| R relators answer ι₁ ι₂ |
 	aRing isAffineAlgebra ifFalse:
-		[self scalars → aRing ifNotNil: [^ self over: aRing].
+		[self scalars ⇢ aRing ifNotNil: [^ self over: aRing].
 		^ super ⊗ aRing].
 	aRing scalars = self scalars ifFalse:
-		[self scalars → aRing scalars ifNotNil: [^ (self over: aRing scalars) ⊗ aRing].
-		aRing scalars → self scalars ifNotNil: [^ self ⊗ (aRing over: self scalars)].
+		[self scalars ⇢ aRing scalars ifNotNil: [^ (self over: aRing scalars) ⊗ aRing].
+		aRing scalars ⇢ self scalars ifNotNil: [^ self ⊗ (aRing over: self scalars)].
 		^ super ⊗ aRing].
 	relators := OrderedCollection new.
 	R := self freeCover ⊗ aRing freeCover.
@@ -15902,14 +16040,14 @@ generalizedTrace
 	self flag: #fixme. "should be an algebra map"
 	^ self to: self scalars map: [:x| x generalizedTrace]! !
 
-!GaloisRing methodsFor: 'morphisms' stamp: 'len 4/16/2024 18:46:32'!
+!GaloisRing methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:04:50'!
 to: aRing
 	(super to: aRing) ifNotNil: [:aMorphism| ^ aMorphism].
 	((aRing isKindOf: GaloisRing) and: [self base = aRing base]) ifFalse: [^ nil].
 	"There's a projection from GR(p^n,r) to GR(p^m,r) for all m<=n, with kernel <p^m>. This accounts for all ideals.
 	Note: Here we assume both Galois rings are defined with the same basic irreducible polynomial."
 	self degree = aRing degree
-		ifTrue: [^ self scalars → aRing scalars ifNotNil: [:aMorphism| self onto: aRing map: [:x| aRing project: (x representative apply: aMorphism)]]].
+		ifTrue: [^ self scalars ⇢ aRing scalars ifNotNil: [:aMorphism| self onto: aRing map: [:x| aRing project: (x representative apply: aMorphism)]]].
 	"The subrings of GR(p^n,r) are GR(p^n,k) where k divides r. If aCodomain is a suitable overring, answer an embedding of the receiver into the overring."
 	(self characteristic = aRing characteristic and: [self degree | aRing degree])
 		ifTrue: [^ self addEmbeddingInto: aRing].
@@ -16177,7 +16315,7 @@ karatsubaFormula
 			each second do: [:i| reduction addAll: (powers at: i)].
 			{each first. (reduction asSet select: [:i| (reduction occurrencesOf: i) odd]) asArray sort}])! !
 
-!GaloisField methodsFor: 'private-embeddings' stamp: 'len 5/1/2024 12:25:26'!
+!GaloisField methodsFor: 'private-embeddings' stamp: 'len 5/31/2024 15:01:10'!
 addEmbeddingInto: aGaloisField
 	"Create and add an embedding of the receiver into the argument compatible with all the other existing embeddings.
 	Assume the receiver and the argument have the same characteristic and the degree of the receiver divides the degree of the argument.
@@ -16185,7 +16323,7 @@ addEmbeddingInto: aGaloisField
 	| μ f g α answer |
 	"If the fields are isomorphic, first check if the embedding in the other direction exists, and if it does just compute the inverse:"
 	self degree = aGaloisField degree ifTrue:
-		[aGaloisField ⇢ self ifNotNil: [:aMorphism| ^ self addMap: aMorphism inverse]].
+		[(aGaloisField embeddingInto: self) ifNotNil: [:aMorphism| ^ self addMap: aMorphism inverse]].
 	"Compute a compatible embedding:"
 	μ := aGaloisField polynomials zero.
 	self subfields keysDo: [:d|
@@ -16226,6 +16364,13 @@ addTransitiveClosure: aMorphism
 				aMorphism codomain addSubfield: φ.
 				g domain addOverfield: φ	]]].
 	aMorphism codomain overfields do: [:each| each domain addTransitiveClosure: each]! !
+
+!GaloisField methodsFor: 'private-embeddings' stamp: 'len 5/31/2024 15:02:33'!
+embeddingInto: aGaloisField
+	"Answer the existing compatible embedding from the receiver into aGaloisField if it is already set, or nil."
+	self propertyAt: #outputs ifPresent: [:aDictionary| aDictionary at: aGaloisField ifPresent: [:aMorphism| ^ aMorphism]].
+	aGaloisField propertyAt: #inputs ifPresent: [:aDictionary| aDictionary at: self ifPresent: [:aMorphism| ^ aMorphism]].
+	^ nil! !
 
 !GaloisField methodsFor: 'private-embeddings' stamp: 'len 11/3/2023 14:03:45'!
 overfields
@@ -16343,15 +16488,15 @@ embeddingsInto: aNumberField do: aBlock
 	((aNumberField isKindOf: NumberField) and: [self scalars = aNumberField scalars and: [self degree | aNumberField degree]]) ifFalse: [^ self].
 	self modulus rootsIn: aNumberField do: [:each| aBlock value: (self into: aNumberField images: {each})]! !
 
-!NumberField methodsFor: 'morphisms' stamp: 'len 4/16/2024 18:47:11'!
+!NumberField methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:05:30'!
 to: aRing
 	| α answer |
 	(super to: aRing) ifNotNil: [:aMorphism| ^ aMorphism].
 	"Subfield problem: given two number fields K and L, determine whether K is isomorphic to a subfield of L and produce an embedding. See for example [Coh96, §4.5]."
 	((aRing isKindOf: NumberField) and: [self scalars = aRing scalars and: [self degree | aRing degree]]) ifFalse: [^ nil].
 	"If both fields are embedded in ℂ in we can disambiguate between all possible embeddings:"
-	self → ℂ ifNotNil: [:ι₁|
-		aRing → ℂ ifNotNil: [:ι₂|
+	self ⇢ ℂ ifNotNil: [:ι₁|
+		aRing ⇢ ℂ ifNotNil: [:ι₂|
 			α := ι₁ value: self generator.
 			self modulus rootsIn: aRing do: [:each| (ι₂ value: each) = α ifTrue: [^ self into: aRing images: {each}]].
 			^ nil]].
@@ -16360,10 +16505,10 @@ to: aRing
 	self modulus rootsIn: aRing do: [:each| answer isNil ifFalse: [^ nil]. answer := self into: aRing images: {each}].
 	^ answer! !
 
-!NumberField methodsFor: 'operations' stamp: 'len 11/8/2023 13:58:30'!
+!NumberField methodsFor: 'operations' stamp: 'len 6/1/2024 07:26:09'!
 algebraicClosure
 	"If there's a distinguished embedding into ℂ, the algebraic closure is just ℂ:"
-	self → ℂ ifNotNil: [^ ℂ].
+	self ⇢ ℂ ifNotNil: [^ ℂ].
 	^ super algebraicClosure! !
 
 !NumberField methodsFor: 'operations' stamp: 'len 1/10/2016 22:34'!
@@ -16822,9 +16967,9 @@ scalars
 size
 	^ ℕ size! !
 
-!ComplexAlgebraicField methodsFor: 'computing-polynomials' stamp: 'len 11/11/2023 14:10:26'!
+!ComplexAlgebraicField methodsFor: 'computing-polynomials' stamp: 'len 6/1/2024 07:26:28'!
 rootsOf: aPolynomial withMultiplicitiesDo: aBlock
-	aPolynomial parent scalars → ℚ ifNotNil:
+	aPolynomial parent scalars ⇢ ℚ ifNotNil:
 		[(aPolynomial over: ℚ) factorizationDo: [:f :e| (ComplexRootIsolator on: f) roots do: [:each| aBlock value: (ComplexAlgebraicNumber minimalPolynomial: f normalized bounds: each) value: e]].
 		^ self].
 	^ super rootsOf: aPolynomial withMultiplicitiesDo: aBlock! !
@@ -16906,9 +17051,9 @@ scalars
 size
 	^ ℕ size! !
 
-!RealAlgebraicField methodsFor: 'computing-polynomials' stamp: 'len 11/11/2023 14:10:02'!
+!RealAlgebraicField methodsFor: 'computing-polynomials' stamp: 'len 6/1/2024 07:26:36'!
 rootsOf: aPolynomial withMultiplicitiesDo: aBlock
-	aPolynomial parent scalars → ℚ ifNotNil:
+	aPolynomial parent scalars ⇢ ℚ ifNotNil:
 		[(aPolynomial over: ℚ) factorizationDo: [:f :e| (RealRootIsolator on: f) roots do: [:each| aBlock value: (RealAlgebraicNumber minimalPolynomial: f normalized bounds: each) value: e]].
 		^ self].
 	^ super rootsOf: aPolynomial withMultiplicitiesDo: aBlock! !
@@ -17560,13 +17705,13 @@ symmetricOfOrder: r
 embed: aScalar
 	^ self constant: aScalar! !
 
-!PolynomialRing methodsFor: 'morphisms' stamp: 'len 4/16/2024 18:40:33'!
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:05:52'!
 from: aRing
 	aRing = self scalars ifTrue: [^ self addMap: ((self scalars to: self map: [:x| self constant: x]) name: 'ι')].
-	aRing → self scalars ifNotNil: [:aMorphism| ^ aRing to: self map: [:x| self constant: (aMorphism value: x)]].
+	aRing ⇢ self scalars ifNotNil: [:aMorphism| ^ aRing to: self map: [:x| self constant: (aMorphism value: x)]].
 	(aRing isKindOf: PolynomialRing)
-		ifTrue: [aRing scalars → self scalars ifNotNil: [:aRingMap|
-				aRing monomials → self monomials ifNotNil: [:aMonoidMap|
+		ifTrue: [aRing scalars ⇢ self scalars ifNotNil: [:aRingMap|
+				aRing monomials ⇢ self monomials ifNotNil: [:aMonoidMap|
 					^ aRing to: self map: [:f|
 						| answer |
 						answer := self zero.
@@ -17672,18 +17817,18 @@ spec
 	"This is the Spec functor. Answer the spectrum of the receiver as an affine scheme, i.e. affine space with coordinate ring the receiver."
 	^ self propertyAt: #spec ifAbsentPut: [AffineSpace coordinateRing: self]! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 4/1/2024 16:29:00'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 6/1/2024 07:27:10'!
 ⊗ aRing
 	"Answer the tensor product (over the scalars of the receiver) of the receiver with the argument.
 	This is the coproduct in the category of commutative R-algebras."
 	| R answer ι₁ ι₂ |
 	aRing = self scalars ifTrue: [^ self].
 	aRing isAffineAlgebra ifFalse:
-		[self scalars → aRing ifNotNil: [^ self over: aRing].
+		[self scalars ⇢ aRing ifNotNil: [^ self over: aRing].
 		^ super ⊗ aRing].
 	aRing scalars = self scalars ifFalse:
-		[self scalars → aRing scalars ifNotNil: [^ (self over: aRing scalars) ⊗ aRing].
-		aRing scalars → self scalars ifNotNil: [^ self ⊗ (aRing over: self scalars)].
+		[self scalars ⇢ aRing scalars ifNotNil: [^ (self over: aRing scalars) ⊗ aRing].
+		aRing scalars ⇢ self scalars ifNotNil: [^ self ⊗ (aRing over: self scalars)].
 		^ super ⊗ aRing].
 	R := self class monomials: self monomials × aRing monomials over: self scalars.
 	answer := (aRing isKindOf: PolynomialRing)
@@ -18027,10 +18172,10 @@ newFrom: anObject
 		ifTrue: [^ self fromModuleElement: (self asModule elementAt: anObject)].
 	^ super newFrom: anObject! !
 
-!FiniteAlgebra methodsFor: 'morphisms' stamp: 'len 4/16/2024 18:40:44'!
+!FiniteAlgebra methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:06:00'!
 from: aRing
 	aRing == self scalars ifTrue: [^ self addMap: ((self scalars to: self map: [:x| self one * x]) name: 'ι')].
-	aRing → self scalars ifNotNil: [:aMorphism| ^ self scalars → self · aMorphism].
+	aRing ⇢ self scalars ifNotNil: [:aMorphism| ^ self scalars → self · aMorphism].
 	^ super from: aRing! !
 
 !FiniteAlgebra methodsFor: 'morphisms' stamp: 'len 4/5/2024 09:11:16'!
@@ -18195,10 +18340,10 @@ species
 one: aModuleElement multiplication: aBilinearMap
 	^ self new one: aModuleElement multiplication: aBilinearMap! !
 
-!Order methodsFor: 'morphisms' stamp: 'len 4/16/2024 18:48:22'!
+!Order methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:06:07'!
 to: aRing
 	aRing = self ambient fractions ifTrue: [^ self addMap: (self to: aRing map: [:x| aRing !! x])].
-	self ambient fractions → aRing ifNotNil: [:aMorphism| ^ aMorphism · (self → self ambient fractions)].
+	self ambient fractions ⇢ aRing ifNotNil: [:aMorphism| ^ aMorphism · (self → self ambient fractions)].
 	^ super to: aRing! !
 
 !Order methodsFor: 'testing' stamp: 'len 7/15/2021 16:31:59'!
@@ -19230,10 +19375,10 @@ asRepresentation
 	"If this is a module over a finite algebra, answer the equivalent representation."
 	^ self notYetImplemented! !
 
-!Module methodsFor: 'converting' stamp: 'len 6/15/2023 11:18:30'!
+!Module methodsFor: 'converting' stamp: 'len 6/1/2024 07:28:06'!
 over: aRing
 	"Answer the change of base ring of the receiver."
-	^ self apply: (self scalars → aRing ifNil: [^ self error: 'coercion failed'])! !
+	^ self apply: self scalars → aRing! !
 
 !Module methodsFor: 'elements' stamp: 'len 12/12/2023 19:53:41'!
 \ anElement
@@ -19300,14 +19445,6 @@ do: aBlock
 		x := self elementAt: each.
 		visited add: x ifAbsent: [aBlock value: x]]! !
 
-!Module methodsFor: 'morphisms' stamp: 'len 4/12/2024 05:05:14'!
-Hom: aCodomain
-	self assert: (aCodomain isModule and: [self scalars = aCodomain scalars]).
-	"If the scalars are commutative or involutive, this is the internal hom:"
-	(self scalars isCommutative or: [self scalars isInvolutive]) ifFalse: [^ HomGroup from: self to: aCodomain].
-	"TODO: if scalars are a finite R-algebra, answer an R-module"
-	^ HomModule from: self to: aCodomain! !
-
 !Module methodsFor: 'morphisms' stamp: 'len 6/26/2023 12:59:05'!
 apply: aMorphism
 	aMorphism isBlock
@@ -19323,11 +19460,20 @@ apply: aMorphism
 endomorphisms
 	^ self propertyAt: #endomorphisms ifAbsentPut: [EndomorphismRing on: self]! !
 
-!Module methodsFor: 'morphisms' stamp: 'len 4/16/2024 18:41:00'!
+!Module methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:06:14'!
 from: aModule
 	(self isAmbient not and: [self ambient isQuotient]) ifTrue:
-		[aModule → self ambient ifNotNil: [:aMorphism| ^ self → self ambient \ aMorphism]].
+		[aModule ⇢ self ambient ifNotNil: [:aMorphism| ^ self → self ambient \ aMorphism]].
 	^ super from: aModule! !
+
+!Module methodsFor: 'morphisms' stamp: 'len 6/2/2024 10:16:56'!
+hom: aCodomain
+	self assert: (aCodomain isModule and: [self scalars = aCodomain scalars]).
+	"If the scalars are commutative or involutive, this is the internal hom:"
+	(self scalars isCommutative or: [self scalars isInvolutive]) ifTrue: [^ HomModule from: self to: aCodomain].
+	"TODO: if scalars are a finite R-algebra, answer an R-module"
+"	^ HomGroup from: self to: aCodomain]."
+	^ super hom: aCodomain! !
 
 !Module methodsFor: 'morphisms' stamp: 'len 4/5/2024 09:11:20'!
 id
@@ -19747,12 +19893,12 @@ transversal
 		addProjections: (R codomain ⇉ {self freeCover. aModule freeCover} with: {self. aModule} collect: [:π :Y| answer to: Y map: [:x| Y elementAt: (π value: ρ \ x)]]).
 	^ answer! !
 
-!Module methodsFor: 'operations' stamp: 'len 4/1/2024 16:34:25'!
+!Module methodsFor: 'operations' stamp: 'len 6/1/2024 07:28:32'!
 ⊗ anObject
 	"Answer the tensor product of the receiver with the argument, if the argument is another module or a module homomorphism.
 	If the argument is a ring, answer the extension of scalars."
 	| answer M N |
-	(anObject isKindOf: Ring) ifTrue: [^ self apply: (self scalars → anObject ifNil: [^ self error: 'coercion failed'])].
+	(anObject isKindOf: Ring) ifTrue: [^ self apply: self scalars → anObject].
 	(anObject isKindOf: ModuleMap) ifTrue: [^ self id ⊗ anObject].
 	self assert: self scalars = anObject scalars. "maybe could allow modules with different scalars and do extension of scalars"
 	self scalars isCommutative ifFalse: [^ self notYetImplemented].
@@ -21023,12 +21169,6 @@ upTo: max do: aBlock
 			(p includes: s) ifTrue: [scalars upTo: k-1 do: [:t| aBlock value: (self coefficients: (p coefficients copyWith: t))]]].
 		k _ k + 1]! !
 
-!FreeModule methodsFor: 'morphisms' stamp: 'len 4/12/2024 05:05:47'!
-Hom: aCodomain
-	(aCodomain isKindOf: FreeModule) ifFalse: [^ super Hom: aCodomain].
-	self assert: self scalars = aCodomain scalars.
-	^ MatrixModule from: self to: aCodomain! !
-
 !FreeModule methodsFor: 'morphisms' stamp: 'len 12/1/2023 14:15:01'!
 automorphisms
 	^ self propertyAt: #automorphisms ifAbsentPut: [GeneralLinearGroup on: self]! !
@@ -21052,6 +21192,12 @@ fromAll: anArray
 	(anArray sum: [:each| each rank]) = rank ifFalse: [^ super fromAll: anArray].
 	i _ 1.
 	^ anArray collect: [:each| self coprojection: (i to: (i _ i + each rank)-1)]! !
+
+!FreeModule methodsFor: 'morphisms' stamp: 'len 6/2/2024 10:17:13'!
+hom: aCodomain
+	(aCodomain isKindOf: FreeModule) ifFalse: [^ super hom: aCodomain].
+	self assert: self scalars = aCodomain scalars.
+	^ MatrixModule from: self to: aCodomain! !
 
 !FreeModule methodsFor: 'morphisms' stamp: 'len 4/10/2024 03:53:49'!
 id
@@ -21354,20 +21500,20 @@ apply: aMorphism
 	(aMorphism isBlock not and: [aMorphism domain = self scalars]) ifTrue: [^ self over: aMorphism codomain].
 	^ super apply: aMorphism! !
 
-!HomModule methodsFor: 'morphisms' stamp: 'len 4/16/2024 18:41:16'!
+!HomModule methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:06:35'!
 from: aModule
 	self isEndomorphisms ifTrue:
 		[aModule = self scalars asIdeal ifTrue: [^ self addMap: (aModule to: self map: [:x| self scalar: x])]. "inclusion of scalars"
-		"aDomain → self scalars asIdeal ifNotNil: [:aMorphism| ^ aMorphism → self]"].
+		"aDomain ⇢ self scalars asIdeal ifNotNil: [:aMorphism| ^ aMorphism → self]"].
 	(self isDual and: [domain isDual and: [domain domain == aModule]])
 		ifTrue: [^ self addMap: (aModule to: self images: self generators)].
 	^ super from: aModule! !
 
-!HomModule methodsFor: 'morphisms' stamp: 'len 4/16/2024 18:49:15'!
+!HomModule methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:06:47'!
 to: aModule
 	self isEndomorphisms ifTrue:
 		[aModule = self scalars asIdeal ifTrue: [^ self addMap: (self to: aModule map: [:f| f trace])].
-		"self scalars asIdeal → aCodomain ifNotNil: [:aMorphism| ^ self → aMorphism]"].
+		"self scalars asIdeal ⇢ aCodomain ifNotNil: [:aMorphism| ^ self → aMorphism]"].
 	(self isDual and: [domain isDual and: [domain domain = aModule]])
 		ifTrue: [^ self addMap: (self to: aModule images: aModule generators)].
 	^ super to: aModule! !
@@ -21969,15 +22115,10 @@ over: aRing
 do: aBlock
 	self coordinateRing primeIdealsDo: [:each| aBlock value: self !! each]! !
 
-!AffineScheme methodsFor: 'morphisms' stamp: 'len 4/12/2024 05:03:48'!
-Hom: aCodomain
-	aCodomain scalars → self coordinateRing ifNotNil: [^ aCodomain pointsOver: self coordinateRing].
-	^ super Hom: aCodomain! !
-
-!AffineScheme methodsFor: 'morphisms' stamp: 'len 4/16/2024 18:41:46'!
+!AffineScheme methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:06:55'!
 from: aScheme
 	(aScheme isKindOf: AffineScheme) ifTrue:
-		[self coordinateRing → aScheme coordinateRing ifNotNil: [:aMorphism| ^ aMorphism spec]].
+		[self coordinateRing ⇢ aScheme coordinateRing ifNotNil: [:aMorphism| ^ aMorphism spec]].
 	^ super from: aScheme! !
 
 !AffineScheme methodsFor: 'morphisms' stamp: 'len 10/5/2022 17:01:25'!
@@ -21986,14 +22127,19 @@ fromAll: anArray
 		[(self coordinateRing ⇉ (anArray collect: [:each| each coordinateRing])) ifNotNil: [:anArrayOfMorphisms| ^ anArrayOfMorphisms collect: [:each| each spec]]].
 	^ super fromAll: anArray! !
 
+!AffineScheme methodsFor: 'morphisms' stamp: 'len 6/2/2024 10:17:39'!
+hom: aCodomain
+	aCodomain scalars ⇢ self coordinateRing ifNotNil: [^ aCodomain pointsOver: self coordinateRing].
+	^ super hom: aCodomain! !
+
 !AffineScheme methodsFor: 'morphisms' stamp: 'len 7/30/2022 12:12:09'!
 id
 	^ self coordinateRing id spec! !
 
-!AffineScheme methodsFor: 'morphisms' stamp: 'len 4/16/2024 18:49:29'!
+!AffineScheme methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:07:04'!
 to: aScheme
 	(aScheme isKindOf: AffineScheme) ifTrue:
-		[aScheme coordinateRing → self coordinateRing ifNotNil: [:aMorphism| ^ aMorphism spec]].
+		[aScheme coordinateRing ⇢ self coordinateRing ifNotNil: [:aMorphism| ^ aMorphism spec]].
 	^ super to: aScheme! !
 
 !AffineScheme methodsFor: 'morphisms' stamp: 'len 10/5/2022 17:30:19'!
@@ -22096,9 +22242,9 @@ coordinateRing: aRing
 species
 	^ AffineScheme! !
 
-!AffineScheme methodsFor: 'as yet unclassified' stamp: 'len 7/12/2023 18:07:13'!
+!AffineScheme methodsFor: 'as yet unclassified' stamp: 'len 6/1/2024 07:27:34'!
 to: aCodomain atRandom: aRandom
-	aCodomain scalars → self coordinateRing ifNotNil: [^ aCodomain pointOver: self coordinateRing atRandom: aRandom].
+	aCodomain scalars ⇢ self coordinateRing ifNotNil: [^ aCodomain pointOver: self coordinateRing atRandom: aRandom].
 	^ super to: aCodomain atRandom: aRandom! !
 
 !AffineScheme class methodsFor: 'examples' stamp: 'len 5/23/2020 08:55:54'!
@@ -22462,10 +22608,10 @@ pointsCountOver: aRing
 pointsOver: aRing do: aBlock
 	^ aRing ^ self rank do: [:each| aBlock value: (self pointAt: each)]! !
 
-!AffineSpace methodsFor: 'points' stamp: 'len 7/12/2023 18:04:39'!
+!AffineSpace methodsFor: 'points' stamp: 'len 6/1/2024 07:28:45'!
 to: aCodomain atRandom: aRandom
 	(aCodomain isKindOf: AffineScheme) ifFalse: [^ super to: aCodomain atRandom: aRandom].
-	self scalars → aCodomain coordinateRing ifNil: [^ super to: aCodomain atRandom: aRandom].
+	self scalars ⇢ aCodomain coordinateRing ifNil: [^ super to: aCodomain atRandom: aRandom].
 	^ self pointAt: ((aCodomain coordinateRing^self rank) atRandom: aRandom)! !
 
 !AffineSpace methodsFor: 'printing' stamp: 'len 10/8/2022 19:27:12'!
@@ -23211,11 +23357,11 @@ adapt: anElement
 embed: anElement
 	^ self pointAt: self scalars !!!! {anElement. 1}! !
 
-!ProjectiveLine methodsFor: 'morphisms' stamp: 'len 4/16/2024 18:42:25'!
+!ProjectiveLine methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:07:11'!
 from: aDomain
 	self flag: #fix. "this is wrong, wrong category!!"
 	aDomain = self scalars ifTrue: [^ self addMap: (self scalars to: self map: [:each| self embed: each])].
-	aDomain → self scalars ifNotNil: [:aMorphism| ^ self scalars → self · aMorphism].
+	aDomain ⇢ self scalars ifNotNil: [:aMorphism| ^ self scalars → self · aMorphism].
 	^ super from: aDomain! !
 
 !ProjectiveLine methodsFor: 'points' stamp: 'len 6/27/2023 15:13:14'!
@@ -23721,9 +23867,13 @@ on: aVertexSet facets: aCollection
 	The faces in aCollection are assumed to be maximal."
 	^ (self facets: aCollection) vertices: aVertexSet! !
 
-!Vertex methodsFor: 'comparing' stamp: 'len 5/18/2024 14:49:28'!
+!Vertex methodsFor: 'comparing' stamp: 'len 5/27/2024 07:00:11'!
 = anObject
-	^ self class = anObject class and: [node = anObject node and: [parent = anObject parent]]! !
+	^ anObject = value! !
+
+!Vertex methodsFor: 'comparing' stamp: 'len 5/27/2024 06:51:40'!
+hash
+	^ value hash! !
 
 !Vertex methodsFor: 'morphisms' stamp: 'len 5/24/2024 08:37:31'!
 id
@@ -23737,34 +23887,39 @@ parent
 to: aCodomain steps: anArray
 	^ Path from: self to: aCodomain steps: anArray! !
 
-!Vertex methodsFor: 'morphisms' stamp: 'len 5/24/2024 08:37:40'!
-→ aCodomain
+!Vertex methodsFor: 'morphisms' stamp: 'len 6/1/2024 06:27:02'!
+⇢ aCodomain
 	self = aCodomain ifTrue: [^ self id].
-	((aCodomain isKindOf: Vertex) and: [(node neighbors occurrencesOf: aCodomain node) = 1])
-		ifTrue: [^ self to: aCodomain steps: {node neighbors indexOf: aCodomain node}].
+	((aCodomain isKindOf: Vertex) and: [(neighbors occurrencesOf: aCodomain value) = 1])
+		ifTrue: [^ self to: aCodomain steps: {neighbors indexOf: aCodomain value}].
 	^ nil! !
 
-!Vertex methodsFor: 'operations' stamp: 'len 5/23/2024 16:16:30'!
+!Vertex methodsFor: 'operations' stamp: 'len 5/27/2024 06:52:41'!
 reverse
 	"See FreeCategory>>#opposite."
-	^ self propertyAt: #reverse ifAbsentPut: [parent opposite objectAt: node value]! !
+	^ self propertyAt: #reverse ifAbsentPut: [parent opposite objectAt: value]! !
 
-!Vertex methodsFor: 'printing' stamp: 'len 4/14/2024 07:42:43'!
+!Vertex methodsFor: 'printing' stamp: 'len 5/27/2024 06:52:34'!
 printOn: aStream
-	node value isSymbol ifTrue: [aStream nextPutAll: node value] ifFalse: [aStream print: node value]! !
+	value isSymbol ifTrue: [aStream nextPutAll: value] ifFalse: [aStream print: value]! !
 
-!Vertex methodsFor: 'private' stamp: 'len 4/14/2024 07:40:40'!
-node
-	^ node! !
+!Vertex methodsFor: 'private' stamp: 'len 5/27/2024 06:49:47'!
+neighbors
+	^ neighbors! !
 
-!Vertex methodsFor: 'private' stamp: 'len 5/18/2024 14:44:40'!
-node: aGraphNode parent: aFreeCategory
-	node := aGraphNode.
+!Vertex methodsFor: 'private' stamp: 'len 5/27/2024 06:50:15'!
+value
+	^ value! !
+
+!Vertex methodsFor: 'private' stamp: 'len 5/27/2024 06:49:26'!
+value: anObject neighbors: anArray parent: aFreeCategory
+	value := anObject.
+	neighbors := anArray.
 	parent := aFreeCategory! !
 
-!Vertex class methodsFor: 'instance creation' stamp: 'len 5/18/2024 14:44:58'!
-node: aGraphNode parent: aFreeCategory
-	^ self new node: aGraphNode parent: aFreeCategory! !
+!Vertex class methodsFor: 'instance creation' stamp: 'len 5/27/2024 07:11:20'!
+value: anObject neighbors: anArray parent: aFreeCategory
+	^ self new value: anObject neighbors: anArray parent: aFreeCategory! !
 
 !ChainComplex methodsFor: 'accessing' stamp: 'len 6/29/2023 19:43:27'!
 at: k
@@ -24049,6 +24204,10 @@ cohomology: k
 = anObject
 	^ (anObject isKindOf: CochainComplex) and: [opposite = anObject opposite]! !
 
+!CochainComplex methodsFor: 'comparing' stamp: 'len 11/4/2020 12:07:22'!
+~ aCochainComplex
+	^ opposite ~ aCochainComplex opposite! !
+
 !CochainComplex methodsFor: 'comparing' stamp: 'len 10/30/2020 10:58:17'!
 hash
 	^ opposite hash! !
@@ -24075,10 +24234,6 @@ id
 @ aPrimeIdeal
 	"Answer the localization of the receiver at aPrimeIdeal."
 	^ (opposite @ aPrimeIdeal) opposite! !
-
-!CochainComplex methodsFor: 'operations' stamp: 'len 11/4/2020 12:07:22'!
-~ aCochainComplex
-	^ opposite ~ aCochainComplex opposite! !
 
 !CochainComplex methodsFor: 'operations' stamp: 'len 10/5/2022 17:22:55'!
 hom: aCodomain
@@ -24352,10 +24507,10 @@ hash
 	This is a 'lift of g along f', notated f \ g."
 	^ (self lift: aMorphism) ifNil: [DivisibilityError new signalReceiver: self selector: #\ argument: aMorphism]! !
 
-!Morphism methodsFor: 'operations' stamp: 'len 4/24/2024 08:57:04'!
+!Morphism methodsFor: 'operations' stamp: 'len 6/2/2024 11:32:39'!
 ^ anObject
-	"Answer the receiver composed with itself anInteger times.
-	If the argument is an object of the category, answer the result of evaluating the contravariant Hom.
+	"This is the exponential notation for the hom-set functor. See also #⇒.
+	If the argument is an integer, answer the repeated composition of the receiver with itself.
 	If the argument is another morphism, answer the conjugation."
 	anObject isInteger ifTrue: [^ self raisedTo: anObject].
 	"The Hom(-,B) contravariant functor, where B is the argument:"
@@ -24439,21 +24594,16 @@ section
 squared
 	^ self · self! !
 
-!Morphism methodsFor: 'operations' stamp: 'len 4/11/2024 05:52:00'!
-→ aCodomain
-	"Answer the composition with the canonical morphism from the codomain of the receiver to aCodomain. See also Domain>>#→."
-	self codomain == aCodomain ifTrue: [^ self].
-	"Note that defined like this we can use this message for composition in diagramatical order.
-	For example, given f:A→B and g:B→C we can do f → g and obtain g·f.
-	However, this use is discouraged in general because if f and g are themselves objects of another category (e.g., functors) f → g should answer a morphism from f to g (e.g., a natural transformation)."
-"	self assert: self parent ~= aCodomain parent."
-	^ self codomain → aCodomain ifNotNil: [:aMorphism| aMorphism · self]! !
+!Morphism methodsFor: 'operations' stamp: 'len 6/1/2024 06:55:07'!
+→ aMorphism
+	"Answer the composition with the argument in diagramatical order. If the argument is an object, answer the composition with the canonical morphism from the codomain to the argument.  See also Domain>>#→."
+	^ aMorphism isMorphism ifTrue: [aMorphism · self] ifFalse: [self codomain == aMorphism ifTrue: [self] ifFalse: [self codomain → aMorphism · self]]! !
 
-!Morphism methodsFor: 'operations' stamp: 'len 4/24/2024 05:47:42'!
+!Morphism methodsFor: 'operations' stamp: 'len 6/2/2024 11:29:53'!
 ⇒ aCodomain
-	"This is the Hom(-,B) contravariant functor, where B is the argument.
-	If the receiver is a morphism g:X→Y, answer the map Hom(g,B):Hom(Y,B)→Hom(X,B) that sends a morphism f to f·g.
-	This contravariant functor is often called the 'functor of points' of B."
+	"This is the hom-object functor. See #^ for the hom-set functor.
+	If the receiver is a morphism g : X → Y, answer the map Hom(g,B) : Hom(Y,B) → Hom(X,B) that sends a morphism f to f·g.
+	This is a contravariant functor and it is often called the 'functor of points' of B."
 	self assert: (self category includes₀: aCodomain). "make sure it's an object of the category"
 	self flag: #fixme. "this is wrong, the enriched hom is not necesarily sets of morphisms:"
 	^ self codomain ⇒ aCodomain to: self domain ⇒ aCodomain map: [:f| f · self]! !
@@ -24662,9 +24812,9 @@ name
 name: aString
 	self propertyAt: #name put: aString! !
 
-!Morphism methodsFor: 'printing' stamp: 'len 4/25/2024 08:18:23'!
+!Morphism methodsFor: 'printing' stamp: 'len 6/1/2024 08:48:34'!
 printOn: aStream
-	self isIdentity ifTrue: [aStream nextPutAll: 'id'. ^ self].
+	([self isIdentity] on: UnhandledError do: [false]) ifTrue: [aStream nextPutAll: 'id'. ^ self].
 	(self category isPreadditive and: [self isZero]) ifTrue: [aStream print: 0. ^ self].
 	aStream nextPutAll: self name; nextPutAll: ' : '.
 	aStream print: self domain; space; nextPut: self arrowCharacter; space; print: self codomain! !
@@ -24856,14 +25006,14 @@ carrier
 	This is the forgetful functor to the category of sets."
 	^ self domain carrier to: self codomain carrier map: self! !
 
-!Map methodsFor: 'comparing' stamp: 'len 4/3/2024 08:59:13'!
+!Map methodsFor: 'comparing' stamp: 'len 5/31/2024 15:47:13'!
 = anObject
 	self == anObject ifTrue: [^ true].
 	self species = anObject species ifFalse: [^ false].
 	(self domain = anObject domain and: [self codomain = anObject codomain]) ifFalse: [^ false].
 	self domain isFinitelyGenerated ifTrue: [^ self domain generators allSatisfy: [:each| (self value: each) = (anObject value: each)]].
 	self domain isFinite ifTrue: [^ self domain elements allSatisfy: [:each| (self value: each) = (anObject value: each)]].
-	^ false! !
+	^ self subclassResponsibility! !
 
 !Map methodsFor: 'operations' stamp: 'len 4/3/2024 08:52:36'!
 , aFunction
@@ -25056,9 +25206,9 @@ example3Frobenius2
 	x _ R polynomials x.
 	^ R endomorphisms map: x ^ 6! !
 
-!Map class methodsFor: 'instance creation' stamp: 'len 4/19/2024 07:39:34'!
+!Map class methodsFor: 'instance creation' stamp: 'len 6/1/2024 09:58:27'!
 from: aDomain to: aCodomain map: aBlock
-	self assert: aBlock isBlock.
+"	self assert: aBlock isBlock."
 	^ self new domain: aDomain; codomain: aCodomain; propertyAt: #evaluable put: aBlock; yourself! !
 
 !Map class methodsFor: 'instance creation' stamp: 'len 9/16/2022 07:09:10'!
@@ -25069,11 +25219,9 @@ from: aDomain to: aCodomain mapWithArguments: aBlock
 category
 	^ Cat! !
 
-!Functor methodsFor: 'operations' stamp: 'len 5/17/2024 09:11:05'!
-× aFunctor
-	self checkDomainsMatch: aFunctor.
-	self checkCodomainsMatch: aFunctor.
-	^ self domain to: self codomain map: [:f| (self value: f) × (aFunctor value: f)]! !
+!Functor methodsFor: 'converting' stamp: 'len 5/30/2024 06:29:07'!
+asPresheaf
+	^ Presheaf functor: self! !
 
 !Functor methodsFor: 'operations' stamp: 'len 5/23/2024 15:20:23'!
 cocones
@@ -25081,9 +25229,9 @@ cocones
 	See #cones for the dual notion."
 	^ self ↓ (self codomain Δ: self domain)! !
 
-!Functor methodsFor: 'operations' stamp: 'len 5/22/2024 14:52:20'!
+!Functor methodsFor: 'operations' stamp: 'len 6/2/2024 05:46:27'!
 coend
-	"If the receiver is a functor F : C^op × C → D, answer the coend of F."
+	"If the receiver is a functor F : Cᵒᵖ × C → D, answer the coend of F."
 	self notYetImplemented! !
 
 !Functor methodsFor: 'operations' stamp: 'len 5/22/2024 04:35:31'!
@@ -25107,9 +25255,9 @@ elements
 	(This might only make sense for Set-valued presheaves.)"
 	^ Cat terminalObject ↓ self! !
 
-!Functor methodsFor: 'operations' stamp: 'len 5/22/2024 14:52:27'!
+!Functor methodsFor: 'operations' stamp: 'len 6/2/2024 05:46:34'!
 end
-	"If the receiver is a functor F : C^op × C → D, answer the end of F."
+	"If the receiver is a functor F : Cᵒᵖ × C → D, answer the end of F."
 	self notYetImplemented! !
 
 !Functor methodsFor: 'operations' stamp: 'len 5/22/2024 04:33:59'!
@@ -25125,9 +25273,9 @@ limit
 opposite
 	^ self domain opposite to: self codomain opposite map₀: [:x| (self value₀: x reverse) reverse] map: [:f| (self value: f reverse) reverse]! !
 
-!Functor methodsFor: 'operations' stamp: 'len 4/17/2024 11:13:39'!
+!Functor methodsFor: 'operations' stamp: 'len 6/2/2024 05:46:40'!
 rightDerivedContravariantFunctor
-	"If the receiver is a left-exact additive functor F:A^op→B, with A an abelian category with enough projectives and B an abelian category, answer the i-th right derived functor of the receiver."
+	"If the receiver is a left-exact additive functor F:Aᵒᵖ→B, with A an abelian category with enough projectives and B an abelian category, answer the i-th right derived functor of the receiver."
 	^ self domain opposite to: self codomain complexes map: [:f| (f projectiveResolution apply: self) homology]! !
 
 !Functor methodsFor: 'operations' stamp: 'len 4/17/2024 11:11:35'!
@@ -25168,99 +25316,73 @@ value₀: anObject
 	self assert: self codomain = aFunctor codomain.
 	^ CommaCategory source: self target: aFunctor! !
 
-!Functor methodsFor: 'operations' stamp: 'len 5/17/2024 09:11:02'!
-⊓ aFunctor
-	self checkDomainsMatch: aFunctor.
-	self checkCodomainsMatch: aFunctor.
-	^ self domain to: self codomain map: [:f| (self value: f) ⊓ (aFunctor value: f)]! !
-
-!Functor methodsFor: 'operations' stamp: 'len 5/17/2024 09:10:58'!
-⊔ aFunctor
-	self checkDomainsMatch: aFunctor.
-	self checkCodomainsMatch: aFunctor.
-	^ self domain to: self codomain map: [:f| (self value: f) ⊔ (aFunctor value: f)]! !
-
-!Functor methodsFor: 'operations' stamp: 'len 4/29/2024 10:34:30'!
+!Functor methodsFor: 'operations' stamp: 'len 6/2/2024 05:46:53'!
 ⊗ aFunctor
-	"A right R-module can be tensores over R with an R^op-module to obtain an abelian group;
-	analogously a functor C → V can be tensored with a functor C^op → V to obtain an object of V (a monoidal category)."
+	"A right R-module can be tensores over R with an Rᵒᵖ-module to obtain an abelian group;
+	analogously a functor C → V can be tensored with a functor Cᵒᵖ → V to obtain an object of V (a monoidal category)."
 	self assert: (self domain = aFunctor domain opposite and: [self codomain = aFunctor codomain and: [aFunctor codomain isMonoidal]]).
 	self flag: #fix.
 	"should be the coend... and it should be an object of the codomain...
 	and for representable functors we have Hom(-,c) ⊗ F = F(c) ??"
 	^ self notYetImplemented! !
 
-!Functor methodsFor: 'operations-additive' stamp: 'len 5/5/2024 07:38:14'!
-⊕ aFunctor
-	"Assuming the codomain is additive."
-	self checkDomainsMatch: aFunctor.
-	self checkCodomainsMatch: aFunctor.
-	^ self domain to: self codomain map: [:f| (self value: f) ⊕ (aFunctor value: f)]! !
+!Functor methodsFor: 'testing' stamp: 'len 6/2/2024 11:21:00'!
+isEquivalence
+	"Answer true if the receiver is an equivalence of categories."
+	^ self isFullyFaithful and: [self isEssentiallySurjective]! !
 
-!Functor methodsFor: 'operations-preadditive' stamp: 'len 5/5/2024 07:45:10'!
-+ aFunctor
-	"Assuming the codomain is preadditive."
-	self checkDomainsMatch: aFunctor.
-	self checkCodomainsMatch: aFunctor.
-	^ self domain to: self codomain map: [:f| (self value: f) + (aFunctor value: f)]! !
+!Functor methodsFor: 'testing' stamp: 'len 6/2/2024 11:21:40'!
+isEssentiallyInjective
+	^ self propertyAt: #isEssentiallyInjective ifAbsent: [false "undetermined"]! !
 
-!Functor methodsFor: 'operations-preadditive' stamp: 'len 5/5/2024 07:45:45'!
-negated
-	"Assuming the codomain is preadditive."
-	^ self domain to: self codomain map: [:f| f negated]! !
+!Functor methodsFor: 'testing' stamp: 'len 6/2/2024 11:21:29'!
+isEssentiallySurjective
+	^ self propertyAt: #isEssentiallySurjective ifAbsent: [false "undetermined"]! !
 
-!Functor methodsFor: 'operations-preadditive' stamp: 'len 5/5/2024 07:46:00'!
-zero
-	"Assuming the codomain is preadditive."
-	^ self domain to: self codomain map: [:f| f zero]! !
+!Functor methodsFor: 'testing' stamp: 'len 6/1/2024 09:25:49'!
+isFaithful
+	"A functor F : C → D is called 'faithful' if for each pair of objects x, y of C, the function induced in hom-sets Hom(x,y) → Hom(F(x),F(y)) is injective."
+	^ self propertyAt: #isFaithful ifAbsent: [false "undetermined"]! !
+
+!Functor methodsFor: 'testing' stamp: 'len 6/1/2024 09:26:12'!
+isFull
+	"A functor F : C → D is called 'full' if for each pair of objects x, y of C, the function induced in hom-sets Hom(x,y) → Hom(F(x),F(y)) is surjective."
+	^ self propertyAt: #isFull ifAbsent: [false "undetermined"]! !
+
+!Functor methodsFor: 'testing' stamp: 'len 6/1/2024 09:26:28'!
+isFullyFaithful
+	^ self isFull and: [self isFaithful]! !
 
 !Functor methodsFor: 'testing' stamp: 'len 4/8/2024 11:41:46'!
 isFunctor
 	^ true! !
 
-!Functor methodsFor: 'transformations' stamp: 'len 5/6/2024 12:31:40'!
+!Functor methodsFor: 'transformations' stamp: 'len 6/2/2024 11:32:49'!
 ^ aCodomain
-	"Answer the set of natural transformations Hom(F,G), where F is aFunctor and G is the receiver.
-	This is the exponential notation for the hom-set functor.
-	See also #⇒."
-	aCodomain isTransformation ifTrue: [^ self ⇒ aCodomain domain to: self ⇒ aCodomain codomain map: [:f| aCodomain · f]].
-	"F ⇒ G, the hom-object Hom(F,G) in the category of functors [A,B]:"
-	aCodomain isFunctor ifTrue:
-		[self checkDomainsMatch: aCodomain.
-		self checkCodomainsMatch: aCodomain.
-		^ (self propertyAt: #homsets ifAbsentPut: [WeakIdentityKeyDictionary new])
-			at: aCodomain ifAbsentPut: [HomSet from: aCodomain to: self]].
+	"This is the exponential notation for the hom-set functor. See also #⇒."
+	aCodomain isTransformation ifTrue: [^ self asPresheaf ^ aCodomain].
+	aCodomain isFunctor ifTrue: [^ self asPresheaf ^ aCodomain asPresheaf].
 	^ super ^ aCodomain! !
 
-!Functor methodsFor: 'transformations' stamp: 'len 4/29/2024 15:38:56'!
+!Functor methodsFor: 'transformations' stamp: 'len 5/30/2024 08:35:26'!
 id
-	"Answer the identity natural transformation."
-	^ self propertyAt: #id ifAbsentPut: [self to: self transform: [:x| (self value₀: x) id]]! !
+	^ self asPresheaf id! !
 
-!Functor methodsFor: 'transformations' stamp: 'len 5/24/2024 04:36:51'!
+!Functor methodsFor: 'transformations' stamp: 'len 5/30/2024 08:22:07'!
 to: aFunctor constant: aMorphism
 	"Answer a natural transformation from the receiver to aFunctor with all components equal to aMorphism."
-	self assert: (self codomain includes: aMorphism).
-	^ self to: aFunctor transform: [:x| aMorphism]! !
+	^ self asPresheaf to: aFunctor asPresheaf constant: aMorphism! !
 
-!Functor methodsFor: 'transformations' stamp: 'len 5/23/2024 16:54:10'!
+!Functor methodsFor: 'transformations' stamp: 'len 5/30/2024 08:22:50'!
 to: aFunctor transform: aBlock
 	"Answer a natural transformation from the receiver to aFunctor, defined by components by aBlock."
-	| components |
-	(self domain isKindOf: FreeCategory) ifFalse: [^ Transformation from: self to: aFunctor transform: aBlock].
-	components := Dictionary new.
-	self domain objects do: [:each| components at: each put: (aBlock value: each)].
-	^ Transformation from: self to: aFunctor components: components! !
+	^ self asPresheaf to: aFunctor asPresheaf transform: aBlock! !
 
-!Functor methodsFor: 'transformations' stamp: 'len 5/24/2024 04:40:45'!
+!Functor methodsFor: 'transformations' stamp: 'len 6/2/2024 11:30:13'!
 ⇒ aCodomain
-	"F ⇒ η:"
-	aCodomain isTransformation ifTrue: [^ self ⇒ aCodomain domain to: self ⇒ aCodomain codomain map: [:f| aCodomain · f]].
-	"F ⇒ G, the internal hom or presheaf hom:"
-	aCodomain isFunctor ifTrue:
-		[self checkDomainsMatch: aCodomain.
-		self checkCodomainsMatch: aCodomain.
-		^ self domain to: self codomain base map: [:f| (self value: f) ⇒ (aCodomain value: f)]].
+	"This is the internal hom or presheaf hom. See also #^."
+	aCodomain isTransformation ifTrue: [^ self asPresheaf ⇒ aCodomain].
+	aCodomain isFunctor ifTrue: [self asPresheaf ⇒ aCodomain asPresheaf].
 	"TODO: if the receiver is Hom(X,-), by Yoneda lemma Hom(X,-) ⇒ F can be computed as F(X)"
 	^ super ⇒ aCodomain! !
 
@@ -25268,7 +25390,7 @@ to: aFunctor transform: aBlock
 species
 	^ Functor! !
 
-!Functor class methodsFor: 'class initialization' stamp: 'len 5/20/2024 09:49:49'!
+!Functor class methodsFor: 'class initialization' stamp: 'len 5/27/2024 06:42:08'!
 initialize
 	| I T |
 	super initialize.
@@ -25280,7 +25402,7 @@ initialize
 		propertyAt: #isMonoidal put: true;
 		propertyAt: #unitObject put: T;
 		yourself.
-	Cat propertyAt: #base put: Cat! !
+	Cat propertyAt: #enrichment put: Cat! !
 
 !Functor class methodsFor: 'as yet unclassified' stamp: 'len 4/19/2024 07:40:54'!
 from: aDomain to: aCodomain images: anArray
@@ -25332,16 +25454,17 @@ equalizer: aMorphism
 species
 	^ Function! !
 
-!Function class methodsFor: 'class initialization' stamp: 'len 5/23/2024 16:46:08'!
+!Function class methodsFor: 'class initialization' stamp: 'len 6/2/2024 11:15:55'!
 initialize
 	| I T |
 	super initialize.
-	I := #() asSetObject.
-	T := #(1) asSetObject.
+	I := #() asEnsemble.
+	T := #(1) asEnsemble.
 	Sets := Category new
 		propertyAt: #initialObject put: I;
 		propertyAt: #terminalObject put: T;
-		propertyAt: #isMonoidal put: true;
+		propertyAt: #isClosedMonoidal put: true;
+		propertyAt: #isSymmetricMonoidal put: true;
 		propertyAt: #unitObject put: T;
 		yourself! !
 
@@ -26440,7 +26563,7 @@ species
 validate
 	self assert: super isGroupHomomorphism! !
 
-!GroupMap class methodsFor: 'initialization' stamp: 'len 5/24/2024 13:23:04'!
+!GroupMap class methodsFor: 'initialization' stamp: 'len 6/2/2024 11:17:29'!
 initialize
 	| I |
 	super initialize.
@@ -26449,6 +26572,8 @@ initialize
 		propertyAt: #initialObject put: I;
 		propertyAt: #terminalObject put: I;
 		propertyAt: #zeroObject put: I;
+		propertyAt: #isSymmetricMonoidal put: true;
+		propertyAt: #unitObject put: I;
 		yourself! !
 
 !GroupMap class methodsFor: 'instance creation' stamp: 'len 4/19/2024 07:41:21'!
@@ -28170,14 +28295,14 @@ value: aTuple
 	aMatrix isMatrix ifFalse: [^ super ⊕ aMatrix].
 	^ self class from: domain ⊕ aMatrix domain to: codomain ⊕ aMatrix codomain fill: [:i :j| self at: i @ j ifAbsent: [aMatrix at: i - self height @ (j - self width) ifAbsent: [self scalars zero]]]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 10/26/2023 14:03:46'!
+!Matrix methodsFor: 'operations' stamp: 'len 6/1/2024 07:29:09'!
 ⊗ anObject
 	"Answer the Kronecker product of the receiver by the argument, if the argument is another matrix.
 	If the argument is a ring, answer the extension of scalars."
 	| m n p q |
 	anObject isMatrix ifFalse:
 		[anObject isTuple ifTrue: [^ self ⊗ anObject asMatrix].
-		(anObject isKindOf: Ring) ifTrue: [^ self apply: (self scalars → anObject ifNil: [^ self error: 'coercion failed'])].
+		(anObject isKindOf: Ring) ifTrue: [^ self apply: self scalars → anObject].
 		^ super ⊗ anObject].
 	self assert: self scalars = anObject scalars.
 	m := self height.
@@ -30231,9 +30356,10 @@ zero
 / aCusp
 	^ self * aCusp inverse! !
 
-!ProjectiveLinePoint methodsFor: 'arithmetic' stamp: 'len 5/3/2020 10:10:08'!
+!ProjectiveLinePoint methodsFor: 'arithmetic' stamp: 'len 6/2/2024 10:59:45'!
 ^ anInteger
 	"Answer the receiver raised to the power anInteger."
+	anInteger isInteger ifFalse: [^ super ^ anInteger].
 	anInteger = 1 ifTrue: [^ self].
 	anInteger = 0 ifTrue: [^ self one].
 	anInteger < 0 ifTrue: [^ self inverse ^ anInteger negated].
@@ -30749,11 +30875,15 @@ reverse
 	"See FreeCategory>>#opposite."
 	^ self notYetImplemented! !
 
-!Path methodsFor: 'printing' stamp: 'len 5/24/2024 08:35:09'!
+!Path methodsFor: 'printing' stamp: 'len 5/27/2024 07:09:14'!
 printOn: aStream
-	| node |
+	| vertex |
 	self isIdentity ifTrue: [aStream print: self domain. ^ self].
-	self category generatingGraph isLabeled ifTrue:
+	vertex := domain.
+	aStream print: vertex.
+	steps do: [:each| vertex := self category objectAt: (vertex neighbors at: each). aStream nextPutAll: ' → '; print: vertex]
+
+"	self category generatingGraph isLabeled ifTrue:
 		[node := domain node.
 		steps do: [:each|
 			aStream print: (node labelAt: each).
@@ -30761,7 +30891,7 @@ printOn: aStream
 		^ self].
 	node := domain node.
 	aStream print: node value.
-	steps do: [:each| node := node neighbors at: each. aStream nextPutAll: ' → '; print: node value]! !
+	steps do: [:each| node := node neighbors at: each. aStream nextPutAll: ' → '; print: node value]"! !
 
 !Path methodsFor: 'testing' stamp: 'len 4/15/2024 09:16:58'!
 isEpimorphism
@@ -30956,11 +31086,11 @@ asFunctorToCommaCategory
 		map₀: [:x| comma source: x target: x arrow: (self at: x)]
 		map: [:x :y :f| x to: y source: (self at: f domain) target: (self at: f codomain)]! !
 
-!Transformation methodsFor: 'operations' stamp: 'len 5/7/2024 04:39:19'!
+!Transformation methodsFor: 'operations' stamp: 'len 6/2/2024 15:02:36'!
 · aTransformation
 	"Answer the vertical composition of the receiver with the argument."
 	self checkCompatibleComposition: aTransformation.
-	^ aTransformation domain to: self codomain transform: [:x| (self at: x) · (aTransformation at: x)]! !
+	^ aTransformation domain to: self codomain transform: [:u| (self at: u) · (aTransformation at: u)]! !
 
 !Transformation methodsFor: 'operations' stamp: 'len 5/17/2024 10:52:03'!
 colift: aTransformation
@@ -30975,36 +31105,36 @@ lift: aTransformation
 	This is a 'lift of g along f', notated f \ g."
 	^ self notYetImplemented! !
 
-!Transformation methodsFor: 'operations' stamp: 'len 4/24/2024 16:10:06'!
+!Transformation methodsFor: 'operations' stamp: 'len 6/2/2024 15:03:12'!
 opposite
-	^ self domain opposite to: self codomain opposite transform: [:x| (self at: x) reverse]! !
+	^ self domain opposite to: self codomain opposite transform: [:u| (self at: u) reverse]! !
 
-!Transformation methodsFor: 'operations' stamp: 'len 5/7/2024 04:45:52'!
+!Transformation methodsFor: 'operations' stamp: 'len 6/2/2024 15:03:35'!
 ⊗ aTransformation
 	"Answer the horizontal composition of the receiver with the argument."
-	^ self domain · aTransformation domain to: self codomain · aTransformation codomain transform: [:x| (self at: (aTransformation codomain value₀: x)) · (self domain value: (aTransformation at: x))]! !
+	^ self domain · aTransformation domain to: self codomain · aTransformation codomain transform: [:u| (self at: (aTransformation codomain value₀: u)) · (self domain value: (aTransformation at: u))]! !
 
-!Transformation methodsFor: 'operations-preabelian' stamp: 'len 5/7/2024 08:06:21'!
+!Transformation methodsFor: 'operations-preabelian' stamp: 'len 6/2/2024 15:02:46'!
 cokernel
 	"Answer the cokernel projection."
-	^ self codomain to: (self domain₀ to: self codomain₀ map: [:f| (self value: f) cokernel₁]) transform: [:x| (self at: x) cokernel₁]! !
+	^ self codomain to: (self domain₀ to: self codomain₀ map: [:f| (self value: f) cokernel₁]) transform: [:u| (self at: u) cokernel₁]! !
 
-!Transformation methodsFor: 'operations-preabelian' stamp: 'len 5/7/2024 08:06:31'!
+!Transformation methodsFor: 'operations-preabelian' stamp: 'len 6/2/2024 15:02:55'!
 kernel
 	"Answer the kernel embedding."
-	^ (self domain₀ to: self codomain₀ map: [:f| (self value: f) kernel₁]) to: self domain transform: [:x| (self at: x) kernel₁]! !
+	^ (self domain₀ to: self codomain₀ map: [:f| (self value: f) kernel₁]) to: self domain transform: [:u| (self at: u) kernel₁]! !
 
-!Transformation methodsFor: 'operations-preadditive' stamp: 'len 4/12/2024 16:23:11'!
+!Transformation methodsFor: 'operations-preadditive' stamp: 'len 6/2/2024 15:02:23'!
 + aTransformation
-	^ self domain to: self codomain transform: [:x| (self at: x) + (aTransformation at: x)]! !
+	^ self domain to: self codomain transform: [:u| (self at: u) + (aTransformation at: u)]! !
 
-!Transformation methodsFor: 'operations-preadditive' stamp: 'len 4/12/2024 16:23:27'!
+!Transformation methodsFor: 'operations-preadditive' stamp: 'len 6/2/2024 15:03:04'!
 negated
-	^ self domain to: self codomain transform: [:x| (self at: x) negated]! !
+	^ self domain to: self codomain transform: [:u| (self at: u) negated]! !
 
-!Transformation methodsFor: 'operations-preadditive' stamp: 'len 4/17/2024 09:22:27'!
+!Transformation methodsFor: 'operations-preadditive' stamp: 'len 6/2/2024 15:03:20'!
 zero
-	^ self domain to: self codomain transform: [:x| (self at: x) zero]! !
+	^ self domain to: self codomain transform: [:u| (self at: u) zero]! !
 
 !Transformation methodsFor: 'testing' stamp: 'len 4/19/2024 12:36:34'!
 isEpimorphism
@@ -43831,16 +43961,22 @@ primeSignature
 	factors := self factorization.
 	^ (factors asSet sorted collect: [:each| factors occurrencesOf: each]) asArray! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 5/6/2023 15:25:13'!
+!Integer methodsFor: '*algebra' stamp: 'len 6/2/2024 16:42:06'!
+printStringBlackboardBold
+	| answer |
+	answer := self abs printString collect: [:each| '𝟘𝟙𝟚𝟛𝟜𝟝𝟞𝟟𝟠𝟡' at: each asciiValue - 47].
+	^ self negative ifTrue: ['⁻', answer] ifFalse: [answer]! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 6/2/2024 16:41:59'!
 printStringSubscript
 	| answer |
-	answer _ self abs printString collect: [:each| '₀₁₂₃₄₅₆₇₈₉' at: each numericValue - 47].
+	answer := self abs printString collect: [:each| '₀₁₂₃₄₅₆₇₈₉' at: each asciiValue - 47].
 	^ self negative ifTrue: ['₋', answer] ifFalse: [answer]! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 5/6/2023 15:02:21'!
+!Integer methodsFor: '*algebra' stamp: 'len 6/2/2024 16:41:52'!
 printStringSuperscript
 	| answer |
-	answer _ self abs printString collect: [:each| '⁰¹²³⁴⁵⁶⁷⁸⁹' at: each numericValue - 47].
+	answer := self abs printString collect: [:each| '⁰¹²³⁴⁵⁶⁷⁸⁹' at: each asciiValue - 47].
 	^ self negative ifTrue: ['⁻', answer] ifFalse: [answer]! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 5/14/2020 12:34:33'!
@@ -44254,9 +44390,9 @@ count
 apply: aMap
 	^ self collect: aMap! !
 
-!Collection methodsFor: '*algebra' stamp: 'len 5/23/2024 16:46:27'!
-asSetObject
-	^ SetObject elements: self asSet! !
+!Collection methodsFor: '*algebra' stamp: 'len 6/1/2024 06:04:20'!
+asEnsemble
+	^ Ensemble elements: self asSet! !
 
 !Collection methodsFor: '*algebra' stamp: 'len 5/25/2018 18:10:51'!
 atRandom: aRandom bits: bitSize
