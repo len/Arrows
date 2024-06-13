@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 2 May 2024 at 7:37:55 am'!
+'From Cuis6.3 [latest update: #6222] on 2 June 2024 at 5:32:56 pm'!
 'Description '!
-!provides: 'Elliptic Curves' 1 22!
+!provides: 'Elliptic Curves' 1 23!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #'Elliptic Curves'!
 
@@ -1083,6 +1083,10 @@ frobenius: anInteger
 	| e |
 	e := self scalars characteristic ^ anInteger.
 	^ self shallowCopy coordinates: (coordinates apply: [:each| each ^ e])! !
+
+!EllipticCurvePoint methodsFor: 'as yet unclassified' stamp: 'len 6/2/2024 10:39:00'!
+parent
+	^ self domain ⇒ self codomain! !
 
 !EllipticCurveMap methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:50:56'!
 dual
