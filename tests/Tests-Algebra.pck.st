@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 24 May 2024 at 8:50:55 am'!
+'From Cuis6.3 [latest update: #6222] on 13 June 2024 at 8:58:52 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 117!
+!provides: 'Tests-Algebra' 1 119!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -4997,29 +4997,29 @@ testFreeAlgebra
 	self assert: f * A one = f.
 	self assert: A one * f = f! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 07:38:39'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2024 08:42:25'!
 testFunctionComposition
 	| f g a |
-	f _ ℤ carrier to: ℤ carrier map: [:x| x * 2].
-	g _ ℤ carrier to: ℤ carrier map: [:x| x + 1].
-	a _ 1000 atRandom.
+	f := ℤ carrierSet to: ℤ carrierSet map: [:x| x * 2].
+	g := ℤ carrierSet to: ℤ carrierSet map: [:x| x + 1].
+	a := 1000 atRandom.
 	self assert: (f · g value: a) = (f value: (g value: a)).
 	self assert: (g · f value: a) = (g value: (f value: a))! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 07:38:47'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2024 08:42:42'!
 testFunctionComposition2
 	| f g a |
-	f _ ℤ carrier to: ℚ carrier map: [:x| x asRational / 2].
-	g _ ℚ carrier to: ℤ carrier map: [:x| x numerator].
-	a _ 1000 atRandom.
+	f := ℤ carrierSet to: ℚ carrierSet map: [:x| x asRational / 2].
+	g := ℚ carrierSet to: ℤ carrierSet map: [:x| x numerator].
+	a := 1000 atRandom.
 	self assert: (f · g value: a asRational) = (f value: (g value: a asRational)).
 	self assert: (g · f value: a) = (g value: (f value: a))! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2024 19:09:42'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2024 08:42:52'!
 testFunctionComposition3
 	| f g |
-	f := ℤ carrier to: ℚ carrier map: [:x| x / 2].
-	g := ℤ carrier to: ℤ carrier map: [:x| x + 1].
+	f := ℤ carrierSet to: ℚ carrierSet map: [:x| x / 2].
+	g := ℤ carrierSet to: ℤ carrierSet map: [:x| x + 1].
 	self should: [g · f] raise: Error! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:34:55'!
@@ -5043,12 +5043,12 @@ testIteratorCovering3
 	self assert: ((F^4) upTo: 3^4) asSet size = (3^4).
 	self assert: ((F^4) upTo: 3^4+100) asSet size = (3^4)! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2024 16:46:08'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2024 06:04:38'!
 testMapsInducedByHom
 	| X Y Z f g h yz zx |
-	X := #(1 2 3) asSetObject.
-	Y := {$x. $y. $z} asSetObject.
-	Z := #(a b c) asSetObject.
+	X := #(1 2 3) asEnsemble.
+	Y := {$x. $y. $z} asEnsemble.
+	Z := #(a b c) asEnsemble.
 	f := X to: Y map: [:each| Y atRandom: (Random seed: each hash)].
 	g := f ⇒ Z. "Hom(-,Z)"
 	self assert: g domain = (Y ⇒ Z). "it is contravariant"
@@ -6428,7 +6428,7 @@ testScalarSpaceMultiplication
 	B _ BilinearForm on: V mapWithArguments: [:x :y| x*y].
 	self assert: B isSkewSymmetric! !
 
-!CategoryTest methodsFor: 'as yet unclassified' stamp: 'len 4/24/2024 09:01:56'!
+!CategoryTest methodsFor: 'as yet unclassified' stamp: 'len 6/2/2024 10:24:54'!
 testContravariantHom
 	| x y H g |
 	x := ℤ * 2.
@@ -6437,18 +6437,18 @@ testContravariantHom
 	H := ℤ modules opposite to: Sets map: [:f| x reverse ^ f].
 	self assert: (H value₀: y reverse) = (y reverse ^ x reverse).
 	g := ℤ^2 to: ℤ asIdeal map: [:v| (v at: 1) * 2].
-	self assert: (H value: g reverse) parent = (g domain ^ x ^ (g codomain ^ x))! !
+	self assert: (H value: g reverse) parent = ((g domain ^ x) ^ (g codomain ^ x))! !
 
-!CategoryTest methodsFor: 'as yet unclassified' stamp: 'len 4/24/2024 08:55:18'!
+!CategoryTest methodsFor: 'as yet unclassified' stamp: 'len 6/2/2024 10:24:35'!
 testCovariantHom
 	| x y H g |
 	x := ℤ * 2.
 	y := ℤ * 4.
 	"The Hom(x,-) functor:"
 	H := ℤ modules to: Sets map: [:f| f ^ x].
-	self assert: (H value₀: y) = (x ^ y).
+	self assert: (H value₀: y) = (y ^ x).
 	g := ℤ^2 to: ℤ asIdeal map: [:v| (v at: 1) * 2].
-	self assert: (H value: g) parent = (g domain ^ x ^ (g codomain ^ x))! !
+	self assert: (H value: g) parent = ((g codomain ^ x) ^ (g domain ^ x))! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:11:58'!
 smallGroupAtRandom
@@ -7301,10 +7301,10 @@ testCliffordAlgebraSpaceEmbedding
 	self assert: ((R grade: 1) includes: x).
 	self assert: x asVector = v! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 20:15:41'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2024 08:43:01'!
 testCliffordAlgebraSpaceEmbedding2
 	| ι |
-	ι _ R space ⇒ R asVectorSpace !! (R space carrier → R carrier).
+	ι := R space ⇒ R asVectorSpace !! (R space carrierSet → R carrierSet).
 	self assert: ι isInjective.
 	self assert: ι image = (R grade: 1) asVectorSpace! !
 
@@ -9504,22 +9504,22 @@ testCopyFromTo
 	self assert: b size = (stop-start+1 max: 0).
 	start to: stop do: [:i| self assert: (a at: i) = (b at: i-start+1)]! !
 
-!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/11/2023 16:16:08'!
+!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/26/2024 08:55:25'!
 testDetect
 	| x a |
-	x _ scalars atRandom: random.
-	a _ self newArray: (100 atRandom: random) fill: [:i| scalars atRandom: random satisfying: [:y| (y = x) not]].
+	x := scalars atRandom: random.
+	a := self newArray: (100 atRandom: random) fill: [:i| | y | [(y := scalars atRandom: random) ~= x] whileFalse. y].
 	self assert: (a detect: [:one| one = x] ifNone: [#notFound]) == #notFound.
 	a at: (a size atRandom: random) put: x.
 	self assert: (a detect: [:one| one = x] ifNone: [#notFound]) = x! !
 
-!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/10/2023 10:48:01'!
+!AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/26/2024 08:56:07'!
 testIndexOf
 	| x a k |
-	x _ scalars atRandom: random.
-	a _ scalars new: (100 atRandom: random) fill: [:i| scalars atRandom: random satisfying: [:y| (y = x) not]].
+	x := scalars atRandom: random.
+	a := self newArray: (100 atRandom: random) fill: [:i| | y | [(y := scalars atRandom: random) ~= x] whileFalse. y].
 	self assert: (a indexOf: x) = 0.
-	a at: (k _ a size atRandom: random) put: x.
+	a at: (k := a size atRandom: random) put: x.
 	self assert: (a indexOf: x) = k! !
 
 !AbstractArrayTest methodsFor: 'collection protocol' stamp: 'len 5/6/2023 17:17:29'!
@@ -10683,11 +10683,11 @@ newMatrix
 	m _ (0 to: 5) atRandom: random.
 	^ scalars^n ⇒ (scalars^m) atRandom: random bits: (m*n*5+1 atRandom: random)! !
 
-!AbstractMatrixTest methodsFor: 'private' stamp: 'len 5/26/2023 14:59:33'!
+!AbstractMatrixTest methodsFor: 'private' stamp: 'len 6/2/2024 17:09:01'!
 newMatrix: shape
-	| samples hom |
+	| hom samples |
 	hom := scalars^shape y ⇒ (scalars^shape x).
-	random nextBoolean ifTrue: [^ hom atRandom: random bits: 100].
+	random nextBoolean ifTrue: [^ hom atRandom: random bits: (50 atRandom: random)].
 	samples := {scalars zero. scalars one. scalars one negated}.
 	^ hom fill: [:i :j| (2 atRandom: random) > 1 ifTrue: [scalars zero] ifFalse: [samples atRandom: random]]! !
 
@@ -10762,7 +10762,7 @@ setUp
 	random nextBoolean ifTrue: [n := n negated].
 	scalars := (QuadraticField new: n) integers! !
 
-!AbstractStandardRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/7/2023 10:54:51'!
+!AbstractStandardRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/2/2024 17:03:14'!
 testCanonicalBases
 	| basisAndTransformation A G T U |
 	A := self newMatrix: (5 atRandom: random) @ (5 atRandom: random).
@@ -12277,11 +12277,11 @@ newFreeModule
 	(5 atRandom: random) = 1 ifTrue: [^ M dual].
 	^ M! !
 
-!AbstractModuleTest methodsFor: 'private' stamp: 'len 5/26/2023 15:00:19'!
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 6/2/2024 17:09:05'!
 newMatrix: shape
 	| hom samples |
 	hom := scalars^shape y ⇒ (scalars^shape x).
-	random nextBoolean ifTrue: [^ hom atRandom: random bits: 100].
+	random nextBoolean ifTrue: [^ hom atRandom: random bits: (50 atRandom: random)].
 	samples := {scalars zero. scalars one. scalars one negated}.
 	^ hom fill: [:i :j| (2 atRandom: random) > 1 ifTrue: [scalars zero] ifFalse: [samples atRandom: random]]! !
 
@@ -12325,39 +12325,39 @@ testQuotientBySelfBug
 	M := V sub: {V atRandom: random. V atRandom: random}.
 	self assert: (M / M) isTrivial! !
 
-!AbstractCommutativeRingModuleTest methodsFor: 'adjoint' stamp: 'len 10/14/2022 08:38:59'!
+!AbstractCommutativeRingModuleTest methodsFor: 'adjoint' stamp: 'len 6/12/2024 18:14:19'!
 testAdjoint
 	| V W f fAdjoint φ |
-	V _ self newFreeModule.
-	W _ self newFreeModule.
-	f _ V ⇒ W atRandom: random bits: 50.
-	fAdjoint _ f adjoint.
+	V := self newFreeModule.
+	W := self newFreeModule.
+	f := V ⇒ W atRandom: random bits: 50.
+	fAdjoint := f dual.
 	self assert: fAdjoint domain = f codomain dual.
 	self assert: fAdjoint codomain = f domain dual.
-	φ _ W dual atRandom: random bits: 20.
+	φ := W dual atRandom: random bits: 20.
 	self assert: (fAdjoint value: φ) = (φ · f)! !
 
-!AbstractCommutativeRingModuleTest methodsFor: 'adjoint' stamp: 'len 10/5/2022 17:14:14'!
+!AbstractCommutativeRingModuleTest methodsFor: 'adjoint' stamp: 'len 6/12/2024 18:14:10'!
 testAdjointAndHomFunctor
 	"Given a R-linear map f, applying the Hom(-, R) produces the adjoint (the dual map).
 	Example from 'A Singular Introduction To Commutative Algebra, pp. 115, procedure kontraHom."
 	| f |
-	f _ self newFreeModule ⇒ self newFreeModule :: atRandom: random bits: 100.
-	self assert: (f ⇒ scalars asIdeal) = f adjoint! !
+	f := self newFreeModule ⇒ self newFreeModule :: atRandom: random bits: 100.
+	self assert: (f ⇒ scalars asIdeal) = f dual! !
 
-!AbstractCommutativeRingModuleTest methodsFor: 'adjoint' stamp: 'len 10/5/2022 17:14:26'!
+!AbstractCommutativeRingModuleTest methodsFor: 'adjoint' stamp: 'len 6/12/2024 18:14:03'!
 testAdjointProperties
 	| V W U f g a |
-	V _ self newFreeModule.
-	W _ self newFreeModule.
-	f _ V ⇒ W atRandom: random bits: 100.
-	g _ V ⇒ W atRandom: random bits: 100.
-	a _ scalars atRandom: random bits: 10.
-	self assert: (f + g) adjoint = (f adjoint + g adjoint).
-	self assert: (f * a) adjoint = (f adjoint * a).
-	U _ self newFreeModule.
-	f _ U ⇒ V atRandom: random bits: 100.
-	self assert: (g · f) adjoint = (f adjoint · g adjoint)! !
+	V := self newFreeModule.
+	W := self newFreeModule.
+	f := V ⇒ W atRandom: random bits: 100.
+	g := V ⇒ W atRandom: random bits: 100.
+	a := scalars atRandom: random bits: 10.
+	self assert: (f + g) dual = (f dual + g dual).
+	self assert: (f * a) dual = (f dual * a).
+	U := self newFreeModule.
+	f := U ⇒ V atRandom: random bits: 100.
+	self assert: (g · f) dual = (f dual · g dual)! !
 
 !AbstractCommutativeRingModuleTest methodsFor: 'tensor product' stamp: 'len 12/27/2021 08:09:13'!
 testTensorProductAssociativity
@@ -12493,13 +12493,13 @@ testSection
 	self assert: s isInjective.
 	self assert: f · s = W id! !
 
-!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 6/16/2023 13:43:12'!
+!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 6/12/2024 18:13:35'!
 testAdjointAndAnnihilatorSpace
 	| V W f a |
 	V := scalars ^ (3 atRandom: random).
 	W := scalars ^ (5 atRandom: random).
 	f := V ⇒ W atRandom: random bits: 100.
-	a := f adjoint.
+	a := f dual.
 	self assert: a kernel = f image annihilatorSpace.
 	self assert: a image = f kernel annihilatorSpace.
 	self assert: f isSurjective = a isInjective.
