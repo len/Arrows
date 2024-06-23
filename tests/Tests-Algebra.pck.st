@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 13 June 2024 at 8:58:52 am'!
+'From Cuis6.3 [latest update: #6222] on 23 June 2024 at 5:04:17 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 119!
+!provides: 'Tests-Algebra' 1 120!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -11556,13 +11556,13 @@ testKernelExample
 	K := K transpose.
 	self assert: (A kernel → A domain) asMatrix = K! !
 
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:21'!
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/20/2024 15:41:07'!
 testKroneckerProductExample
 	| A B C |
-	A _ ℤ !!!!!! #((1 2) (3 4)).
-	B _ ℤ !!!!!! #((0 5) (6 7)).
-	C _ ℤ !!!!!! #((0 5 0 10) (6 7 12 14) (0 15 0 20) (18 21 24 28)).
-	self assert: A ⊗ B = C! !
+	A := ℤ !!!!!! #((1 2) (3 4)).
+	B := ℤ !!!!!! #((0 5) (6 7)).
+	C := ℤ !!!!!! #((0 5 0 10) (6 7 12 14) (0 15 0 20) (18 21 24 28)).
+	self assert: (A kronecker: B) = C! !
 
 !IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:25'!
 testMinorExample
@@ -12758,25 +12758,25 @@ testLinearFormAsPolynomial
 	self assert: (f value: x) = (f asPolynomial value: x).
 	self assert: f domain ⇒ f codomain !! f asPolynomial = f! !
 
-!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:23:57'!
+!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 6/20/2024 15:40:35'!
 testMapsInducedByHom
 	"Example from 'A Singular Introduction to Commutative Algebra', Example 2.1.7 (Maps Induced by Hom)."
 	| X Y Z f g h yz zx |
-	X _ ℚ^3.
-	Y _ ℚ^3.
-	Z _ ℚ^2.
-	f _ X to: Y matrix: (ℚ^3) endomorphisms !! (1 to: 9).
-	g _ f ⇒ Z. "Hom(-,Z)"
+	X := ℚ^3.
+	Y := ℚ^3.
+	Z := ℚ^2.
+	f := X to: Y matrix: (ℚ^3) endomorphisms !! (1 to: 9).
+	g := f ⇒ Z. "Hom(-,Z)"
 	self assert: g domain = (Y ⇒ Z). "it is contravariant"
 	self assert: g codomain = (X ⇒ Z).
-	self assert: g asMatrix = ((ℚ^2) id ⊗ f asMatrix transpose).
-	yz _ Y ⇒ Z atRandom: random bits: 100.
+	self assert: g asMatrix = ((ℚ^2) id kronecker: f asMatrix transpose).
+	yz := Y ⇒ Z atRandom: random bits: 100.
 	self assert: (g value: yz) = (yz · f).
-	h _ Z ⇒ f. "Hom(Z,-)"
+	h := Z ⇒ f. "Hom(Z,-)"
 	self assert: h domain = (Z ⇒ X). "it is covariant"
 	self assert: h codomain = (Z ⇒ Y).
-	self assert: h asMatrix = (f asMatrix ⊗ (ℚ^2) id).
-	zx _ Z ⇒ X atRandom: random bits: 100.
+	self assert: h asMatrix = (f asMatrix kronecker: (ℚ^2) id).
+	zx := Z ⇒ X atRandom: random bits: 100.
 	self assert: (h value: zx) = (f · zx)! !
 
 !RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:50:35'!

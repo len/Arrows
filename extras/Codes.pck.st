@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 5 April 2024 at 7:13:58 pm'!
+'From Cuis6.3 [latest update: #6222] on 23 June 2024 at 5:04:33 am'!
 'Description '!
-!provides: 'Codes' 1 15!
+!provides: 'Codes' 1 16!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Codes!
 
@@ -401,7 +401,7 @@ H8
 			(0,0,1,0, 1,1,0,1) % 2.
 			(0,0,0,1, 1,1,1,0) % 2})! !
 
-!LinearCode class methodsFor: 'examples' stamp: 'len 11/22/2023 20:52:01'!
+!LinearCode class methodsFor: 'examples' stamp: 'len 6/20/2024 15:37:03'!
 RM: parameters
 	"Answer the Reed-Muller code RM(r, m).
 	First we build the 2^m Sierpinski matrix by taking the m-fold Kronecher product of the 2×2 matrix
@@ -413,7 +413,7 @@ RM: parameters
 	m := parameters at: 2.
 	F := (ℤ/2^2) endomorphisms !! #(1 0 1 1).
 	S := (ℤ/2^0) endomorphisms zero.
-	m timesRepeat: [S := S ⊗ F].
+	m timesRepeat: [S := S kronecker: F].
 	d := 2^(m-r).
 	^ self on: (S domain sub: (S rows select: [:each| each weight >= d]))! !
 
