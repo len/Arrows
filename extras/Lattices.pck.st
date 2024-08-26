@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 5 April 2024 at 7:14:13 pm'!
+'From Cuis6.3 [latest update: #6222] on 19 August 2024 at 3:00:16 pm'!
 'Description '!
-!provides: 'Lattices' 1 16!
+!provides: 'Lattices' 1 17!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Lattices!
 
@@ -232,13 +232,13 @@ packingSphereVolume
 	"Answer the sum of the receiver and the argument, assuming they are compatible."
 	^ self notYetImplemented! !
 
-!Lattice methodsFor: 'operations' stamp: 'len 3/14/2021 12:47:15'!
+!Lattice methodsFor: 'operations' stamp: 'len 6/24/2024 14:58:13'!
 dual
 	"Answer the dual lattice of the receiver (or reciprocal lattice, or polar lattice).
-	Given a lattice L, the dual lattice L* is defined as the lattice of vectors having integral inner product with all vectors of L."
+	Given a lattice L, the dual lattice Lᵛ is defined as the lattice of vectors having integral inner product with all vectors of L."
 	| B G |
-	B _ self generatorMatrix.
-	G _ self gramian.
+	B := self generatorMatrix.
+	G := self gramian.
 	^ self class on: self innerProduct basis: ((B * G inverse) columns collect: [:each| self space elementAt: each])! !
 
 !Lattice methodsFor: 'operations' stamp: 'len 8/12/2022 13:15:53'!

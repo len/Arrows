@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 23 June 2024 at 5:04:17 am'!
+'From Cuis6.3 [latest update: #6222] on 19 August 2024 at 3:00:22 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 120!
+!provides: 'Tests-Algebra' 1 121!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -111,6 +111,16 @@ TestCase subclass: #RandomizedTestCase
 RandomizedTestCase class
 	instanceVariableNames: ''!
 
+!classDefinition: #AAANewTest category: #'Tests-Algebra'!
+RandomizedTestCase subclass: #AAANewTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'AAANewTest class' category: #'Tests-Algebra'!
+AAANewTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #AbstractAbelianCategoryTest category: #'Tests-Algebra'!
 RandomizedTestCase subclass: #AbstractAbelianCategoryTest
 	instanceVariableNames: ''
@@ -139,16 +149,6 @@ RandomizedTestCase subclass: #BilinearFormTest
 	category: 'Tests-Algebra'!
 !classDefinition: 'BilinearFormTest class' category: #'Tests-Algebra'!
 BilinearFormTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #CategoryTest category: #'Tests-Algebra'!
-RandomizedTestCase subclass: #CategoryTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra'!
-!classDefinition: 'CategoryTest class' category: #'Tests-Algebra'!
-CategoryTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #GroupTest category: #'Tests-Algebra'!
@@ -419,6 +419,16 @@ AbstractFieldPolynomialRingTest subclass: #RationalPolynomialRingTest
 	category: 'Tests-Algebra-Rings'!
 !classDefinition: 'RationalPolynomialRingTest class' category: #'Tests-Algebra-Rings'!
 RationalPolynomialRingTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #RelativeNumberFieldPolynomialRingTest category: #'Tests-Algebra-Rings'!
+AbstractFieldPolynomialRingTest subclass: #RelativeNumberFieldPolynomialRingTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Rings'!
+!classDefinition: 'RelativeNumberFieldPolynomialRingTest class' category: #'Tests-Algebra-Rings'!
+RelativeNumberFieldPolynomialRingTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #AbstractFieldTest category: #'Tests-Algebra-Rings'!
@@ -4997,29 +5007,29 @@ testFreeAlgebra
 	self assert: f * A one = f.
 	self assert: A one * f = f! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2024 08:42:25'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/19/2024 09:41:08'!
 testFunctionComposition
 	| f g a |
-	f := ℤ carrierSet to: ℤ carrierSet map: [:x| x * 2].
-	g := ℤ carrierSet to: ℤ carrierSet map: [:x| x + 1].
+	f := ℤ underlyingSet to: ℤ underlyingSet map: [:x| x * 2].
+	g := ℤ underlyingSet to: ℤ underlyingSet map: [:x| x + 1].
 	a := 1000 atRandom.
 	self assert: (f · g value: a) = (f value: (g value: a)).
 	self assert: (g · f value: a) = (g value: (f value: a))! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2024 08:42:42'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/19/2024 09:41:08'!
 testFunctionComposition2
 	| f g a |
-	f := ℤ carrierSet to: ℚ carrierSet map: [:x| x asRational / 2].
-	g := ℚ carrierSet to: ℤ carrierSet map: [:x| x numerator].
+	f := ℤ underlyingSet to: ℚ underlyingSet map: [:x| x asRational / 2].
+	g := ℚ underlyingSet to: ℤ underlyingSet map: [:x| x numerator].
 	a := 1000 atRandom.
 	self assert: (f · g value: a asRational) = (f value: (g value: a asRational)).
 	self assert: (g · f value: a) = (g value: (f value: a))! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2024 08:42:52'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 8/19/2024 09:41:08'!
 testFunctionComposition3
 	| f g |
-	f := ℤ carrierSet to: ℚ carrierSet map: [:x| x / 2].
-	g := ℤ carrierSet to: ℤ carrierSet map: [:x| x + 1].
+	f := ℤ underlyingSet to: ℚ underlyingSet map: [:x| x / 2].
+	g := ℤ underlyingSet to: ℤ underlyingSet map: [:x| x + 1].
 	self should: [g · f] raise: Error! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:34:55'!
@@ -5043,12 +5053,12 @@ testIteratorCovering3
 	self assert: ((F^4) upTo: 3^4) asSet size = (3^4).
 	self assert: ((F^4) upTo: 3^4+100) asSet size = (3^4)! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2024 06:04:38'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/24/2024 08:40:34'!
 testMapsInducedByHom
 	| X Y Z f g h yz zx |
-	X := #(1 2 3) asEnsemble.
-	Y := {$x. $y. $z} asEnsemble.
-	Z := #(a b c) asEnsemble.
+	X := #(1 2 3) asSetObject.
+	Y := {$x. $y. $z} asSetObject.
+	Z := #(a b c) asSetObject.
 	f := X to: Y map: [:each| Y atRandom: (Random seed: each hash)].
 	g := f ⇒ Z. "Hom(-,Z)"
 	self assert: g domain = (Y ⇒ Z). "it is contravariant"
@@ -6199,150 +6209,142 @@ isAbstract
 shouldInheritSelectors
 	^ true! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 16:59:31'!
-newCospan
-	| α β |
-	α := self newMorphism.
-	β := self newMorphismTo: α codomain.
-	^ Cospan arrow: α coarrow: β! !
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 7/22/2024 09:07:52'!
+testAbelianGroupsBraidingIsSymmetric
+	self assert: ((ℤ^2 braidingWith: ℤ^3) ∘ (ℤ^3 braidingWith: ℤ^2)) isIdentity! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 16:57:36'!
-newSpan
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 6/28/2024 07:50:38'!
+testAbelianGroupsPentagonIdentity
+	self notYetImplemented! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 7/22/2024 09:07:44'!
+testAbelianGroupsTriangleIdentity
+	| X Y I |
+	X := ℤ^2.
+	Y := ℤ^3.
+	I := ℤ asIdeal.
+	self assert: X id ⊗ Y leftUnitor ∘ (X associatorWith: I and: Y) = (X rightUnitor ⊗ Y id)! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 8/4/2024 11:16:25'!
+testContravariantHom
+	| x y H g |
+	x := ℤ * 2.
+	y := ℤ * 4.
+	"The Hom(-,x) functor:"
+	H := ℤ modules opposite to: Sets map: [:f| x reverse ^ f].
+	self assert: (H value₀: y reverse) = (y reverse ^ x reverse).
+	g := ℤ^2 to: ℤ asIdeal map: [:v| (v at: 1) * 2].
+	self assert: (H value: g reverse) parent = ((g domain ^ x) ^ (g codomain ^ x))! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 8/4/2024 11:15:03'!
+testContravariantInternalHom
+	| x y H g |
+	x := ℤ * 2.
+	y := ℤ * 4.
+	"The [-,x] functor:"
+	H := ℤ modules opposite to: ℤ modules map: [:f| f ⇒ x reverse].
+	self assert: (H value₀: y reverse) = (x reverse ⇒ y reverse).
+	g := ℤ^2 to: ℤ asIdeal map: [:v| (v at: 1) * 2].
+	self assert: (H value: g reverse) parent = (x ⇒ g codomain ⇒ (x ⇒ g domain))! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 6/2/2024 10:24:35'!
+testCovariantHom
+	| x y H g |
+	x := ℤ * 2.
+	y := ℤ * 4.
+	"The Hom(x,-) functor:"
+	H := ℤ modules to: Sets map: [:f| f ^ x].
+	self assert: (H value₀: y) = (y ^ x).
+	g := ℤ^2 to: ℤ asIdeal map: [:v| (v at: 1) * 2].
+	self assert: (H value: g) parent = ((g codomain ^ x) ^ (g domain ^ x))! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 8/4/2024 11:17:13'!
+testCovariantInternalHom
+	| x y H g |
+	x := ℤ * 2.
+	y := ℤ * 4.
+	"The [x,-] functor:"
+	H := ℤ modules to: ℤ modules map: [:f| x ⇒ f].
+	self assert: (H value₀: y) = (x ⇒ y).
+	g := ℤ^2 to: ℤ asIdeal map: [:v| (v at: 1) * 2].
+	self assert: (H value: g) parent = (x ⇒ g domain ⇒ (x ⇒ g codomain))! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 7/22/2024 09:07:01'!
+testEvaluationCoevaluationIdentityExample1
+	| V |
+	V := ℚ^3.
+	self assert: (V evaluation ⊗ V id ∘ (V id ⊗ V coevaluation)) = V id! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 7/22/2024 09:06:53'!
+testGroupAlgebraAntipodeAxioms
+	| G A μ η Δ ε S id |
+	G := SymmetricGroup new: 3.
+	A := G groupAlgebraOver: ℚ.
+	μ := A multiplication.
+	η := A unit.
+	Δ := A comultiplication.
+	ε := A counit.
+	S := A antipode.
+	id := A carrier id.
+	self assert: μ ∘ (id ⊗ S) ∘ Δ = (μ ∘ (S ⊗ id) ∘ Δ).
+	self assert: μ ∘ (id ⊗ S) ∘ Δ = (η ∘ ε)! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 7/24/2024 08:40:34'!
+testSetsBraidingIsSymmetric
+	| X Y |
+	X := #(1 2 3) asSetObject.
+	Y := #(3 4 5 6) asSetObject.
+	self assert: ((X braidingWith: Y) ∘ (Y braidingWith: X)) isIdentity! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 7/24/2024 08:40:34'!
+testSetsTriangleIdentity
+	| X Y I |
+	X := #(1 2 3) asSetObject.
+	Y := #(3 4 5) asSetObject.
+	I := Sets unitObject.
+	self assert: X id ⊗ Y leftUnitor ∘ (X associatorWith: I and: Y) = (X rightUnitor ⊗ Y id)! !
+
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 8/14/2024 11:25:12'!
+newCorrespondence
 	| α β |
 	α := self newMorphism.
 	β := self newMorphismFrom: α domain.
-	^ Span arrow: α coarrow: β! !
+	^ Correspondence arrow: α coarrow: β! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/2/2023 00:20:52'!
-newThreeArrow
-	| α ι π |
-	α := self newMorphism.
-	ι := self newMorphismFrom: α domain.
-	π := self newMorphismTo: α codomain.
-	^ ThreeArrow aid: ι arrow: α coaid: π! !
-
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 12:20:31'!
-testCospanAdditiveInverse
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 8/13/2024 16:45:51'!
+testAdditiveInverse
 	| φ |
-	φ := self newCospan.
+	φ := self newCorrespondence.
 	self assert: φ negated negated = φ.
 	self assert: (φ + φ negated) isZero! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 16:49:01'!
-testCospanCanonicalObjects
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 8/13/2024 16:45:58'!
+testCanonicalObjects
 	| γ |
 	γ := self newMorphism.
-	self assert: γ image = γ asCospan generalizedImage.
-	self assert: γ coimage = γ asCospan generalizedCoimage.
-	self assert: γ kernel = γ asCospan generalizedKernel.
-	self assert: γ cokernel = γ asCospan generalizedCokernel! !
+	self assert: γ image = γ asCorrespondence generalizedImage.
+	self assert: γ coimage = γ asCorrespondence generalizedCoimage.
+	self assert: γ kernel = γ asCorrespondence generalizedKernel.
+	self assert: γ cokernel = γ asCorrespondence generalizedCokernel! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 17:17:09'!
-testCospanCompositionWithIdentity
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 8/19/2024 14:45:41'!
+testCompositionWithIdentity
 	| φ |
-	φ := self newCospan.
-	self assert: φ · φ domain id asCospan = φ.
-	self assert: φ codomain id asCospan · φ = φ! !
+	φ := self newCorrespondence.
+	self assert: φ · φ domain id = φ.
+	self assert: φ codomain id · φ = φ! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 12:18:56'!
-testCospanIdentity
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 8/19/2024 14:45:59'!
+testIdentity
 	| A φ |
 	A := self newObject.
-	φ := A id asCospan.
+	φ := A id asCorrespondence.
 	self assert: φ isIdentity! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 15:42:28'!
-testCospanPseudoInverse
+!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 8/13/2024 16:45:44'!
+testPseudoInverse
 	| φ |
-	φ := self newCospan.
-	self assert: φ · φ pseudoInverse · φ = φ.
-	self assert: φ pseudoInverse · φ · φ pseudoInverse = φ pseudoInverse! !
-
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 12:20:54'!
-testGeneralizedMorphismsEmbeddingFunctors
-	| γ |
-	γ := self newMorphism.
-	self assert: γ asSpan representative = γ.
-	self assert: γ asCospan representative = γ.
-	self assert: γ asThreeArrow representative = γ.
-	self assert: γ asSpan asCospan representative = γ.
-	self assert: γ asSpan asThreeArrow representative = γ.
-	self assert: γ asCospan asSpan representative = γ.
-	self assert: γ asCospan asThreeArrow representative = γ.
-	self assert: γ asThreeArrow asSpan representative = γ.
-	self assert: γ asThreeArrow asCospan representative = γ! !
-
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 12:20:59'!
-testSpanAdditiveInverse
-	| φ |
-	φ := self newSpan.
-	self assert: φ negated negated = φ.
-	self assert: (φ + φ negated) isZero! !
-
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 16:48:27'!
-testSpanCanonicalObjects
-	| γ |
-	γ := self newMorphism.
-	self assert: γ image = γ asSpan generalizedImage.
-	self assert: γ coimage = γ asSpan generalizedCoimage.
-	self assert: γ kernel = γ asSpan generalizedKernel.
-	self assert: γ cokernel = γ asSpan generalizedCokernel! !
-
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 17:16:48'!
-testSpanCompositionWithIdentity
-	| φ |
-	φ := self newSpan.
-	self assert: φ · φ domain id asSpan = φ.
-	self assert: φ codomain id asSpan · φ = φ! !
-
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 12:19:04'!
-testSpanIdentity
-	| A φ |
-	A := self newObject.
-	φ := A id asSpan.
-	self assert: φ isIdentity! !
-
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 15:42:19'!
-testSpanPseudoInverse
-	| φ |
-	φ := self newSpan.
-	self assert: φ · φ pseudoInverse · φ = φ.
-	self assert: φ pseudoInverse · φ · φ pseudoInverse = φ pseudoInverse! !
-
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 12:21:48'!
-testThreeArrowAdditiveInverse
-	| φ |
-	φ := self newThreeArrow.
-	self assert: φ negated negated = φ.
-	self assert: (φ + φ negated) isZero! !
-
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 12:28:16'!
-testThreeArrowCanonicalObjects
-	| γ |
-	γ := self newMorphism.
-	self assert: γ image = γ asThreeArrow generalizedImage.
-	self assert: γ coimage = γ asThreeArrow generalizedCoimage.
-	self assert: γ kernel = γ asThreeArrow generalizedKernel.
-	self assert: γ cokernel = γ asThreeArrow generalizedCokernel! !
-
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/1/2023 20:53:25'!
-testThreeArrowCompositionWithIdentity
-	| φ |
-	φ := self newThreeArrow.
-	self assert: φ · φ domain id asThreeArrow = φ.
-	self assert: φ codomain id asThreeArrow · φ = φ! !
-
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 12:19:38'!
-testThreeArrowIdentity
-	| A φ |
-	A := self newObject.
-	φ := A id asThreeArrow.
-	self assert: φ isIdentity! !
-
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 7/5/2023 15:42:07'!
-testThreeArrowPseudoInverse
-	| φ |
-	φ := self newThreeArrow.
+	φ := self newCorrespondence.
 	self assert: φ · φ pseudoInverse · φ = φ.
 	self assert: φ pseudoInverse · φ · φ pseudoInverse = φ pseudoInverse! !
 
@@ -6427,28 +6429,6 @@ testScalarSpaceMultiplication
 	V _ (ℤ/2) asIdeal.
 	B _ BilinearForm on: V mapWithArguments: [:x :y| x*y].
 	self assert: B isSkewSymmetric! !
-
-!CategoryTest methodsFor: 'as yet unclassified' stamp: 'len 6/2/2024 10:24:54'!
-testContravariantHom
-	| x y H g |
-	x := ℤ * 2.
-	y := ℤ * 4.
-	"The Hom(-.x) functor:"
-	H := ℤ modules opposite to: Sets map: [:f| x reverse ^ f].
-	self assert: (H value₀: y reverse) = (y reverse ^ x reverse).
-	g := ℤ^2 to: ℤ asIdeal map: [:v| (v at: 1) * 2].
-	self assert: (H value: g reverse) parent = ((g domain ^ x) ^ (g codomain ^ x))! !
-
-!CategoryTest methodsFor: 'as yet unclassified' stamp: 'len 6/2/2024 10:24:35'!
-testCovariantHom
-	| x y H g |
-	x := ℤ * 2.
-	y := ℤ * 4.
-	"The Hom(x,-) functor:"
-	H := ℤ modules to: Sets map: [:f| f ^ x].
-	self assert: (H value₀: y) = (y ^ x).
-	g := ℤ^2 to: ℤ asIdeal map: [:v| (v at: 1) * 2].
-	self assert: (H value: g) parent = ((g codomain ^ x) ^ (g domain ^ x))! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:11:58'!
 smallGroupAtRandom
@@ -7301,10 +7281,10 @@ testCliffordAlgebraSpaceEmbedding
 	self assert: ((R grade: 1) includes: x).
 	self assert: x asVector = v! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2024 08:43:01'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/19/2024 09:41:08'!
 testCliffordAlgebraSpaceEmbedding2
 	| ι |
-	ι := R space ⇒ R asVectorSpace !! (R space carrierSet → R carrierSet).
+	ι := R space ⇒ R asVectorSpace !! (R space underlyingSet → R underlyingSet).
 	self assert: ι isInjective.
 	self assert: ι image = (R grade: 1) asVectorSpace! !
 
@@ -7879,6 +7859,18 @@ testRemainderInconsistencyBug
 !RationalPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2023 17:12:35'!
 testZeroCoefficientBug
 	self assert: (R one * 0) isZero! !
+
+!RelativeNumberFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2024 09:10:00'!
+setUp
+	super setUp.
+	"R = ℚ(√2,√3)[x]"
+	R := ℚ extension: [:x| x^2 - 2] :: extension: [:y| y^2 - 3] :: polynomials! !
+
+!RelativeNumberFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2024 09:09:20'!
+testPolynomialIrreducibilityExample
+	| f |
+	f := R !! [:x| x^5 - (x^3*9) + (x*15) + 6].
+	self assert: f isIrreducible! !
 
 !AbstractFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2022 12:23:12'!
 testIsDivisionRing
@@ -11556,13 +11548,13 @@ testKernelExample
 	K := K transpose.
 	self assert: (A kernel → A domain) asMatrix = K! !
 
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/20/2024 15:41:07'!
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/29/2024 09:33:52'!
 testKroneckerProductExample
 	| A B C |
 	A := ℤ !!!!!! #((1 2) (3 4)).
 	B := ℤ !!!!!! #((0 5) (6 7)).
 	C := ℤ !!!!!! #((0 5 0 10) (6 7 12 14) (0 15 0 20) (18 21 24 28)).
-	self assert: (A kronecker: B) = C! !
+	self assert: A ⊗ B = C! !
 
 !IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:10:25'!
 testMinorExample
@@ -12367,6 +12359,13 @@ testTensorProductAssociativity
 	V3 _ self newSmallModule.
 	self assert: (V1 ⊗ V2) ⊗ V3 ~ (V1 ⊗ (V2 ⊗ V3))! !
 
+!AbstractCommutativeRingModuleTest methodsFor: 'tensor product' stamp: 'len 7/24/2024 09:15:39'!
+testTensorProductBraidingIsSymmetric
+	| X Y |
+	X := self newSmallModule.
+	Y := self newSmallModule.
+	self assert: ((X braidingWith: Y) ∘ (Y braidingWith: X)) isIdentity! !
+
 !AbstractCommutativeRingModuleTest methodsFor: 'tensor product' stamp: 'len 12/27/2021 08:09:19'!
 testTensorProductCommutativity
 	| V W |
@@ -12430,6 +12429,14 @@ testTensorProductRelations
 	self assert: T !! {v. w1} + (T !! {v. w2}) = (T !! {v. w1 + w2}).
 	self assert: (T !! {v. w})*c = (T !! {v*c. w}).
 	self assert: (T !! {v. w})*c = (T !! {v. w*c})! !
+
+!AbstractCommutativeRingModuleTest methodsFor: 'tensor product' stamp: 'len 7/24/2024 09:17:14'!
+testTensorProductTriangleIdentity
+	| X Y I |
+	X := self newSmallModule.
+	Y := self newSmallModule.
+	I := scalars asIdeal.
+	self assert: X id ⊗ Y leftUnitor ∘ (X associatorWith: I and: Y) = (X rightUnitor ⊗ Y id)! !
 
 !AbstractCommutativeRingModuleTest methodsFor: 'bugs' stamp: 'len 1/3/2022 11:24:40'!
 testMapDirectSumAndTensorProductBug
@@ -12758,7 +12765,7 @@ testLinearFormAsPolynomial
 	self assert: (f value: x) = (f asPolynomial value: x).
 	self assert: f domain ⇒ f codomain !! f asPolynomial = f! !
 
-!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 6/20/2024 15:40:35'!
+!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 7/29/2024 09:34:16'!
 testMapsInducedByHom
 	"Example from 'A Singular Introduction to Commutative Algebra', Example 2.1.7 (Maps Induced by Hom)."
 	| X Y Z f g h yz zx |
@@ -12769,13 +12776,13 @@ testMapsInducedByHom
 	g := f ⇒ Z. "Hom(-,Z)"
 	self assert: g domain = (Y ⇒ Z). "it is contravariant"
 	self assert: g codomain = (X ⇒ Z).
-	self assert: g asMatrix = ((ℚ^2) id kronecker: f asMatrix transpose).
+	self assert: g asMatrix = ((ℚ^2) id ⊗ f asMatrix transpose).
 	yz := Y ⇒ Z atRandom: random bits: 100.
 	self assert: (g value: yz) = (yz · f).
 	h := Z ⇒ f. "Hom(Z,-)"
 	self assert: h domain = (Z ⇒ X). "it is covariant"
 	self assert: h codomain = (Z ⇒ Y).
-	self assert: h asMatrix = (f asMatrix kronecker: (ℚ^2) id).
+	self assert: h asMatrix = (f asMatrix ⊗ (ℚ^2) id).
 	zx := Z ⇒ X atRandom: random bits: 100.
 	self assert: (h value: zx) = (f · zx)! !
 

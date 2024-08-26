@@ -1,7 +1,7 @@
-'From Cuis6.3 [latest update: #6222] on 25 March 2024 at 7:41:58 am'!
+'From Cuis6.3 [latest update: #6222] on 19 August 2024 at 3:00:11 pm'!
 'Description General Algebra Subrutines. This package provides low-level support for algebra on arrays. A companion (optional) shared library accelerates the most critical operations over floats of 32 and 64 bits, and over modular integers of 8, 16 and 32 bits.
 '!
-!provides: 'GAS' 1 14!
+!provides: 'GAS' 1 15!
 !requires: 'Collections-Extras' 1 14 nil!
 !requires: 'FFI' 1 40 nil!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
