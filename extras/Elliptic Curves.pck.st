@@ -1,12 +1,12 @@
-'From Cuis6.3 [latest update: #6222] on 2 June 2024 at 5:32:56 pm'!
+'From Cuis6.3 [latest update: #6222] on 5 September 2024 at 11:25:53 am'!
 'Description '!
-!provides: 'Elliptic Curves' 1 23!
+!provides: 'Elliptic Curves' 1 24!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #'Elliptic Curves'!
 
 
 !classDefinition: #EllipticCurveGroup category: #'Elliptic Curves'!
-Group subclass: #EllipticCurveGroup
+AbelianGroup subclass: #EllipticCurveGroup
 	instanceVariableNames: 'scalars codomain'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -250,10 +250,6 @@ atRandom: aRandom
 isX: anElement
 	"Answer true if anElement is the x coordinate of any point of the receiver."
 	^ (self pointsWithX: anElement) notEmpty! !
-
-!EllipticCurveGroup methodsFor: 'testing-categories' stamp: 'len 7/13/2022 12:14:07'!
-isAdditiveGroup
-	^ true! !
 
 !EllipticCurveGroup methodsFor: 'private' stamp: 'len 6/19/2023 13:04:03'!
 codomain: anEllipticCurve

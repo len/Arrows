@@ -1,12 +1,12 @@
-'From Cuis6.3 [latest update: #6222] on 19 August 2024 at 3:00:16 pm'!
+'From Cuis6.3 [latest update: #6222] on 5 September 2024 at 11:25:57 am'!
 'Description '!
-!provides: 'Lattices' 1 17!
+!provides: 'Lattices' 1 18!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Lattices!
 
 
 !classDefinition: #Lattice category: #Lattices!
-Group subclass: #Lattice
+AbelianGroup subclass: #Lattice
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -268,10 +268,6 @@ atRandom: aRandom bits: bitSize
 !Lattice methodsFor: 'testing' stamp: 'len 7/29/2020 06:38:35'!
 includes: anObject
 	^ anObject parent == self! !
-
-!Lattice methodsFor: 'testing' stamp: 'len 6/4/2023 08:52:28'!
-isAdditiveGroup
-	^ true! !
 
 !Lattice methodsFor: 'testing' stamp: 'len 8/2/2020 17:11:36'!
 isDoublyEven

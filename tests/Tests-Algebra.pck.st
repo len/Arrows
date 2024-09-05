@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 19 August 2024 at 3:00:22 pm'!
+'From Cuis6.3 [latest update: #6222] on 5 September 2024 at 11:26:04 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 121!
+!provides: 'Tests-Algebra' 1 122!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -6304,49 +6304,49 @@ testSetsTriangleIdentity
 	I := Sets unitObject.
 	self assert: X id ⊗ Y leftUnitor ∘ (X associatorWith: I and: Y) = (X rightUnitor ⊗ Y id)! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 8/14/2024 11:25:12'!
-newCorrespondence
+!AbstractAbelianCategoryTest methodsFor: 'relations' stamp: 'len 9/4/2024 09:45:09'!
+newRelation
 	| α β |
 	α := self newMorphism.
 	β := self newMorphismFrom: α domain.
-	^ Correspondence arrow: α coarrow: β! !
+	^ Relation arrow: α coarrow: β! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 8/13/2024 16:45:51'!
-testAdditiveInverse
+!AbstractAbelianCategoryTest methodsFor: 'relations' stamp: 'len 9/4/2024 09:45:09'!
+testRelationsAdditiveInverse
 	| φ |
-	φ := self newCorrespondence.
+	φ := self newRelation.
 	self assert: φ negated negated = φ.
 	self assert: (φ + φ negated) isZero! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 8/13/2024 16:45:58'!
-testCanonicalObjects
+!AbstractAbelianCategoryTest methodsFor: 'relations' stamp: 'len 9/4/2024 09:44:12'!
+testRelationsCanonicalObjects
 	| γ |
 	γ := self newMorphism.
-	self assert: γ image = γ asCorrespondence generalizedImage.
-	self assert: γ coimage = γ asCorrespondence generalizedCoimage.
-	self assert: γ kernel = γ asCorrespondence generalizedKernel.
-	self assert: γ cokernel = γ asCorrespondence generalizedCokernel! !
+	self assert: γ image = γ asRelation generalizedImage.
+	self assert: γ coimage = γ asRelation generalizedCoimage.
+	self assert: γ kernel = γ asRelation generalizedKernel.
+	self assert: γ cokernel = γ asRelation generalizedCokernel! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 8/19/2024 14:45:41'!
-testCompositionWithIdentity
+!AbstractAbelianCategoryTest methodsFor: 'relations' stamp: 'len 9/4/2024 09:45:09'!
+testRelationsCompositionWithIdentity
 	| φ |
-	φ := self newCorrespondence.
+	φ := self newRelation.
 	self assert: φ · φ domain id = φ.
 	self assert: φ codomain id · φ = φ! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 8/19/2024 14:45:59'!
-testIdentity
+!AbstractAbelianCategoryTest methodsFor: 'relations' stamp: 'len 9/4/2024 09:44:25'!
+testRelationsIdentity
 	| A φ |
 	A := self newObject.
-	φ := A id asCorrespondence.
+	φ := A id asRelation.
 	self assert: φ isIdentity! !
 
-!AbstractAbelianCategoryTest methodsFor: 'generalized morphisms' stamp: 'len 8/13/2024 16:45:44'!
-testPseudoInverse
+!AbstractAbelianCategoryTest methodsFor: 'relations' stamp: 'len 9/4/2024 09:45:09'!
+testRelationsPseudoInverse
 	| φ |
-	φ := self newCorrespondence.
-	self assert: φ · φ pseudoInverse · φ = φ.
-	self assert: φ pseudoInverse · φ · φ pseudoInverse = φ pseudoInverse! !
+	φ := self newRelation.
+	self assert: φ ∘ φ adjoint ∘ φ = φ.
+	self assert: φ adjoint ∘ φ ∘ φ adjoint = φ adjoint! !
 
 !AbstractAbelianCategoryTest methodsFor: 'private' stamp: 'len 4/6/2024 16:09:45'!
 newMorphism
