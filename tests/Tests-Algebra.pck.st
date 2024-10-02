@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 5 September 2024 at 11:26:04 am'!
+'From Cuis6.3 [latest update: #6222] on 2 October 2024 at 9:14:57 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 122!
+!provides: 'Tests-Algebra' 1 124!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -10615,11 +10615,11 @@ testSlashTuple
 		x _ b / A.
 		self assert: x*A = b]! !
 
-!AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 3/26/2021 13:16:39'!
+!AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 10/2/2024 09:10:24'!
 testCokernelAndCoequalizer
 	| A |
-	A _ self newMatrix.
-	self assert: A cokernel = (A coequalizer: A zero)! !
+	A := self newMatrix.
+	self assert: A cokernelMorphism = (A coequalizer: A zero)! !
 
 !AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 7/25/2021 10:14:36'!
 testCosyzygies
@@ -10643,11 +10643,11 @@ testImage
 	A := self newMatrix.
 	self assert: A image = (scalars^A height sub: A columns)! !
 
-!AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 3/26/2021 13:18:21'!
+!AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 10/2/2024 09:09:09'!
 testKernelAndEqualizer
 	| A |
-	A _ self newMatrix.
-	self assert: A kernel = (A equalizer: A zero)! !
+	A := self newMatrix.
+	self assert: A kernelMorphism = (A equalizer: A zero)! !
 
 !AbstractMatrixTest methodsFor: 'subobjects' stamp: 'len 7/25/2021 09:35:46'!
 testSyzygies
@@ -11895,16 +11895,15 @@ testThirdIsomorphismTheorem
 	self assert: S/T ⊆ (M/T).
 	self assert: (M/T)/(S/T) ~ (M/S)! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:36:58'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/2/2024 09:10:53'!
 testCoequalizer
-	| A B f g Q |
-	A _ self newFreeModule.
-	B _ self newFreeModule.
-	f _ (A ⇒ B) atRandom: random bits: (50 atRandom: random).
-	g _ (A ⇒ B) atRandom: random bits: (50 atRandom: random).
-	Q _ f coequalizer: g.
-	self assert: (f → Q) notNil.
-	self assert: f → Q = (g → Q)! !
+	| A B f g c |
+	A := self newFreeModule.
+	B := self newFreeModule.
+	f := (A ⇒ B) atRandom: random bits: (50 atRandom: random).
+	g := (A ⇒ B) atRandom: random bits: (50 atRandom: random).
+	c := f coequalizer: g.
+	self assert: c ∘ f = (c ∘ g)! !
 
 !AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/2/2023 18:26:00'!
 testCoimage
@@ -11923,13 +11922,13 @@ testCokernel
 	self assert: Q isEpimorphism.
 	self assert: A cokernel = Q image! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:10:55'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/2/2024 09:10:59'!
 testCokernelAndCoequalizer
 	| A B f |
-	A _ self newFreeModule.
-	B _ self newFreeModule.
-	f _ (A ⇒ B) atRandom: random bits: (100 atRandom: random).
-	self assert: f cokernel = (f coequalizer: f zero)! !
+	A := self newFreeModule.
+	B := self newFreeModule.
+	f := (A ⇒ B) atRandom: random bits: (100 atRandom: random).
+	self assert: f cokernelMorphism = (f coequalizer: f zero)! !
 
 !AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/5/2023 22:10:36'!
 testColift
@@ -11978,16 +11977,15 @@ testCompositionError
 	g := Y ⇒ Z atRandom: random bits: 1000.
 	self should: [f · g] raise: Error! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:37:35'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/2/2024 09:09:56'!
 testEqualizer
-	| A B f g Q |
-	A _ self newFreeModule.
-	B _ self newFreeModule.
-	f _ A ⇒ B atRandom: random bits: (100 atRandom: random).
-	g _ A ⇒ B atRandom: random bits: (100 atRandom: random).
-	Q _ f equalizer: g.
-	self assert: (Q → f) notNil.
-	self assert: Q → f = (Q → g)! !
+	| A B f g e |
+	A := self newFreeModule.
+	B := self newFreeModule.
+	f := A ⇒ B atRandom: random bits: (100 atRandom: random).
+	g := A ⇒ B atRandom: random bits: (100 atRandom: random).
+	e := f equalizer: g.
+	self assert: f ∘ e = (g ∘ e)! !
 
 !AbstractModuleTest methodsFor: 'maps' stamp: 'len 5/10/2022 10:48:02'!
 testIdenittyImage
@@ -12030,13 +12028,13 @@ testKernel2
 	v _ kernel atRandom: random bits: 100.
 	self assert: (f value: v) isZero! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/5/2022 17:12:01'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/2/2024 09:10:05'!
 testKernelAndEqualizer
 	| A B f |
-	A _ self newFreeModule.
-	B _ self newFreeModule.
-	f _ A ⇒ B atRandom: random bits: (100 atRandom: random).
-	self assert: f kernel = (f equalizer: f zero)! !
+	A := self newFreeModule.
+	B := self newFreeModule.
+	f := A ⇒ B atRandom: random bits: (100 atRandom: random).
+	self assert: f kernelMorphism = (f equalizer: f zero)! !
 
 !AbstractModuleTest methodsFor: 'maps' stamp: 'len 7/5/2023 22:10:43'!
 testLift
@@ -12113,7 +12111,7 @@ testProjection: f
 	self assert: (f image apply: f) = f image.
 	self assert: (f codomain apply: f) = f image! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 5/1/2024 10:20:33'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 9/22/2024 19:36:32'!
 testPullback
 	| X Y Z f g P π |
 	Z := self newSmallModule.
@@ -12124,9 +12122,9 @@ testPullback
 	P := f ∧ g.
 	π := P ⇉ {X. Y}.
 	π do: [:each| self testModuleMap: each].
-	self assert: f · (π at: 1) = (g · (π at: 2))! !
+	self assert: f ∘ (π at: 1) = (g ∘ (π at: 2))! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 5/1/2024 10:20:41'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 9/22/2024 19:37:29'!
 testPullbackFree
 	| X Y Z f g P π |
 	Z := self newFreeModule.
@@ -12137,7 +12135,7 @@ testPullbackFree
 	P := f ∧ g.
 	π := P ⇉ {X. Y}.
 	π do: [:each| self testModuleMap: each].
-	self assert: f · (π at: 1) = (g · (π at: 2))! !
+	self assert: f ∘ (π at: 1) = (g ∘ (π at: 2))! !
 
 !AbstractModuleTest methodsFor: 'maps' stamp: 'len 5/1/2024 10:30:56'!
 testPushout
@@ -12636,16 +12634,17 @@ testQuotientSpaceMaps
 	self assert: (π value: s) isZero.
 	self assert: (π value: v) = (π value: v+s)! !
 
-!AbstractVectorSpaceTest methodsFor: 'tensor product' stamp: 'len 10/14/2022 08:39:18'!
+!AbstractVectorSpaceTest methodsFor: 'tensor product' stamp: 'len 9/25/2024 20:30:33'!
 testTensorHomAdjunction
-	| V W U A B φ |
-	V _ self newVectorSpace.
-	W _ self newVectorSpace.
-	U _ self newVectorSpace.
-	A _ V⊗W ⇒ U.
-	B _ V ⇒ (W ⇒ U).
+	| V W U WU A B φ |
+	V := self newVectorSpace.
+	W := self newVectorSpace.
+	U := self newVectorSpace.
+	A := V⊗W ⇒ U.
+	WU := W ⇒ U.
+	B := V ⇒ WU.
 	self assert: A ~ B.
-	φ _ A to: B map: [:f| B map: [:v| W to: U map: [:w| f value: A domain !! {v. w}]]].
+	φ := A to: B map: [:f| V to: WU map: [:v| W to: U map: [:w| f value: A domain !! {v. w}]]].
 	self testModuleMap: φ.
 	self assert: φ isIsomorphism! !
 
