@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 5 September 2024 at 11:25:53 am'!
+'From Cuis6.3 [latest update: #6222] on 12 October 2024 at 9:34:01 am'!
 'Description '!
-!provides: 'Elliptic Curves' 1 24!
+!provides: 'Elliptic Curves' 1 25!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #'Elliptic Curves'!
 
@@ -970,7 +970,7 @@ tatePairing: Q torsion: n embeddingDegree: k order: q
 	R := self parent atRandom.
 	^ (self tatePairing: Q + R torsion: n embeddingDegree: k order: q) / (self tatePairing: R torsion: n embeddingDegree: k order: q)! !
 
-!EllipticCurvePoint methodsFor: 'pairings' stamp: 'len 6/19/2023 23:32:53'!
+!EllipticCurvePoint methodsFor: 'pairings' stamp: 'len 10/12/2024 09:06:22'!
 weilPairing: Q torsion: n
 	"Answer the Weil pairing of the receiver with aPoint."
 	| P E |
@@ -980,7 +980,7 @@ weilPairing: Q torsion: n
 	self assert: (P*n) isZero.
 	self assert: (Q*n) isZero.
 	(P isZero or: [Q isZero or: [P = Q]]) ifTrue: [^ E scalars one].
-	^ (P miller: Q torsion: n) / (Q miller: P torsion: n) * (-1 ^ (n ∧ 1))! !
+	^ (P miller: Q torsion: n) / (Q miller: P torsion: n) * (-1 ^ (n bitAnd: 1))! !
 
 !EllipticCurvePoint methodsFor: 'pairings-private' stamp: 'len 6/20/2023 20:25:18'!
 line: R at: Q

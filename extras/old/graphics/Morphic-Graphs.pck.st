@@ -1,78 +1,78 @@
-'From Cuis 6.0 [latest update: #5062] on 7 February 2022 at 6:22:18 pm'!
+'From Cuis6.3 [latest update: #6222] on 12 October 2024 at 9:33:34 am'!
 'Description '!
-!provides: 'Morphic-Graphs' 1 4!
+!provides: 'Morphic-Graphs' 1 6!
 !requires: 'Graphs' 1 3 nil!
-SystemOrganization addCategory: 'Morphic-Graphs'!
+SystemOrganization addCategory: #'Morphic-Graphs'!
 
 
-!classDefinition: #CompositeGraphMorph category: 'Morphic-Graphs'!
+!classDefinition: #CompositeGraphMorph category: #'Morphic-Graphs'!
 LayoutMorph subclass: #CompositeGraphMorph
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Morphic-Graphs'!
-!classDefinition: 'CompositeGraphMorph class' category: 'Morphic-Graphs'!
+!classDefinition: 'CompositeGraphMorph class' category: #'Morphic-Graphs'!
 CompositeGraphMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #GraphEdgeMorph category: 'Morphic-Graphs'!
-BoxedMorph subclass: #GraphEdgeMorph
-	instanceVariableNames: 'source target width drawArrowHead label labelMorph multiplicity'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Morphic-Graphs'!
-!classDefinition: 'GraphEdgeMorph class' category: 'Morphic-Graphs'!
-GraphEdgeMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #SpringEdgeMorph category: 'Morphic-Graphs'!
-GraphEdgeMorph subclass: #SpringEdgeMorph
-	instanceVariableNames: 'desiredDistance'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Morphic-Graphs'!
-!classDefinition: 'SpringEdgeMorph class' category: 'Morphic-Graphs'!
-SpringEdgeMorph class
-	instanceVariableNames: ''!
-
-!classDefinition: #GraphMorph category: 'Morphic-Graphs'!
+!classDefinition: #GraphMorph category: #'Morphic-Graphs'!
 BoxedMorph subclass: #GraphMorph
 	instanceVariableNames: 'graph nodeToMorph edgeToMorph focusNode dimension lastMousePosition components'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Morphic-Graphs'!
-!classDefinition: 'GraphMorph class' category: 'Morphic-Graphs'!
+!classDefinition: 'GraphMorph class' category: #'Morphic-Graphs'!
 GraphMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #SpringGraphMorph category: 'Morphic-Graphs'!
+!classDefinition: #SpringGraphMorph category: #'Morphic-Graphs'!
 GraphMorph subclass: #SpringGraphMorph
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Morphic-Graphs'!
-!classDefinition: 'SpringGraphMorph class' category: 'Morphic-Graphs'!
+!classDefinition: 'SpringGraphMorph class' category: #'Morphic-Graphs'!
 SpringGraphMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #GraphNodeMorph category: 'Morphic-Graphs'!
+!classDefinition: #GraphNodeMorph category: #'Morphic-Graphs'!
 BoxedMorph subclass: #GraphNodeMorph
 	instanceVariableNames: 'node x dx shape label labelMorph'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Morphic-Graphs'!
-!classDefinition: 'GraphNodeMorph class' category: 'Morphic-Graphs'!
+!classDefinition: 'GraphNodeMorph class' category: #'Morphic-Graphs'!
 GraphNodeMorph class
 	instanceVariableNames: ''!
 
-!classDefinition: #SpringNodeMorph category: 'Morphic-Graphs'!
+!classDefinition: #SpringNodeMorph category: #'Morphic-Graphs'!
 GraphNodeMorph subclass: #SpringNodeMorph
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Morphic-Graphs'!
-!classDefinition: 'SpringNodeMorph class' category: 'Morphic-Graphs'!
+!classDefinition: 'SpringNodeMorph class' category: #'Morphic-Graphs'!
 SpringNodeMorph class
+	instanceVariableNames: ''!
+
+!classDefinition: #GraphEdgeMorph category: #'Morphic-Graphs'!
+Morph subclass: #GraphEdgeMorph
+	instanceVariableNames: 'source target color width drawArrowHead label labelMorph multiplicity'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Morphic-Graphs'!
+!classDefinition: 'GraphEdgeMorph class' category: #'Morphic-Graphs'!
+GraphEdgeMorph class
+	instanceVariableNames: ''!
+
+!classDefinition: #SpringEdgeMorph category: #'Morphic-Graphs'!
+GraphEdgeMorph subclass: #SpringEdgeMorph
+	instanceVariableNames: 'desiredDistance'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Morphic-Graphs'!
+!classDefinition: 'SpringEdgeMorph class' category: #'Morphic-Graphs'!
+SpringEdgeMorph class
 	instanceVariableNames: ''!
 
 
@@ -142,237 +142,6 @@ nodeAt: anObject ifAbsent: exceptionBlock
 !CompositeGraphMorph methodsFor: 'as yet unclassified' stamp: 'len 7/31/2016 05:03'!
 nodesDo: aBlock
 	self componentsDo: [:each| each nodesDo: aBlock]! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:11'!
-alpha
-	^ source alpha + target alpha / 2.0! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:26'!
-color
-	^ color alpha: self alpha! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:27'!
-color: aColor
-	color _ aColor! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 03:25'!
-hideArrowHead
-	drawArrowHead _ false! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 7/14/2016 05:33'!
-incrementMultiplicity
-	multiplicity _ multiplicity + 1! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 19:00'!
-label
-	^ label! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 19:00'!
-label: aString
-	label _ aString.
-	label notNil ifTrue: [self showLabel] ifFalse: [self hideLabel]! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 03:25'!
-showArrowHead
-	drawArrowHead _ true! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'Samir Saidani 6/23/2003 21:17'!
-source
-	^ source! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'Samir Saidani 6/23/2003 21:17'!
-source: aMorph
-	source _ aMorph! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 3/24/2021 13:58:57'!
-sourcePoint
-	^ self internalizeFromWorld: source displayBounds center! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/15/2016 22:56'!
-target
-	^ target! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/15/2016 22:56'!
-target: aMorph
-	target _ aMorph! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 3/24/2021 13:59:03'!
-targetPoint
-	^ self internalizeFromWorld: target displayBounds center! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 06:16'!
-width
-	^ width! !
-
-!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 06:16'!
-width: anInteger
-	"Set the width of the line to draw."
-	width _ anInteger! !
-
-!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 3/1/2016 01:44'!
-direction
-	^ (self targetPoint - self sourcePoint) normalized! !
-
-!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 1/23/2017 09:35:06'!
-drawArcOn: aCanvas from: sourcePoint to: targetPoint
-	multiplicity odd
-		ifTrue: [aCanvas line: sourcePoint to: targetPoint width: width color: self color].
-	1 to: multiplicity - (multiplicity \\ 2) do: [:i|
-		self drawCurveOn: aCanvas from: sourcePoint to: targetPoint curvature: i+1//2 * (i odd ifTrue: [1] ifFalse: [-1])]! !
-
-!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 12/19/2016 12:29:46'!
-drawArrowOn: aCanvas from: aPoint to: anotherPoint
-	| sourcePoint targetPoint direction |
-	sourcePoint _ aPoint.
-	targetPoint _ anotherPoint.
-	direction _ (targetPoint - sourcePoint) normalized.
-	target identityHash < source identityHash
-		ifTrue:
-			[ | shift |
-			shift _ (direction rotatedBy: Float pi/2) * 4.
-			sourcePoint _ sourcePoint + shift.
-			targetPoint _ targetPoint + shift].
-	targetPoint _ targetPoint - (direction * target radius).
-	sourcePoint _ sourcePoint + (direction * source radius).
-	self drawArcOn: aCanvas from: sourcePoint to: targetPoint.
-	aCanvas line: targetPoint - (direction*3) - ((direction rotatedBy: Float pi / 4) * 4)
-		to: targetPoint width: width color: self color.
-	aCanvas line: targetPoint - (direction*2) - ((direction rotatedBy: Float pi / 4) * 4)
-		to: targetPoint width: width color: self color.
-	aCanvas line: targetPoint - (direction*3) - ((direction rotatedBy: Float pi * 7 / 4) * 4)
-		to: targetPoint width: width color: self color.
-	aCanvas line: targetPoint - (direction*2) - ((direction rotatedBy: Float pi * 7 / 4) * 4)
-		to: targetPoint width: width color: self color.
-
-"	self sourcePoint = self targetPoint
-		ifFalse: [aCanvas
-				drawThinArrowFrom: self sourcePoint
-				to: self targetPoint
-				width: 1
-				color: self color]"
-			
-	"| circle string |  
-	circle _ EllipseMorph new extent: 20 @ 20;  
-	 
-	color: (Color  
-	r: 1.0  
-	g: 0.452  
-	b: 0.065).  
-	circle align: circle center with: self center.  
-	self addMorph: circle.  
-	string _ StringMorph new contents: 'test'.  
-	string align: string bounds leftCenter with: bounds rightCenter + (4 @  
-	0). self addMorph: string"
-"	| aa |
-	aa _ PolygonMorph new.
-	aa computeArrowFormAt: self sourcePoint from: self destinationPoint.
-	self addMorph: aa"
-! !
-
-!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 1/23/2017 09:35:19'!
-drawCurveOn: aCanvas from: sourcePoint to: targetPoint curvature: curvature
-	| perp previous |
-	perp _ targetPoint - sourcePoint / 10.0 rotatedBy: Float pi / 2.
-	0.0 to: 1.0 count: 15 do: [:i|
-		| current |
-		current _ sourcePoint * i + (targetPoint * (1.0-i)).
-		current _ current + ((0.5 - (0.5-i) abs) sqrt * curvature * perp).
-		previous ifNotNil: [aCanvas line: previous to: current width: width color: self color].
-		previous _ current]! !
-
-!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 02:51'!
-drawLoopOn: aCanvas at: aPoint
-	aCanvas frameEllipse: (aPoint - (10@20) extent: 20@20) borderWidth: width color: self color! !
-
-!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 05:21'!
-drawOn: aCanvas 
-	"frameRectangle: self bounds color: Color black;"
-	| sourcePoint targetPoint |
-	"aCanvas frameRectangle: self morphLocalBounds borderWidth: 1 color: Color red."
-	[sourcePoint _ self sourcePoint.
-	targetPoint _ self targetPoint] on: Error do: [^ self].
-	targetPoint = sourcePoint ifTrue: [^ self drawLoopOn: aCanvas at: targetPoint].
-	drawArrowHead ifTrue: [^ self drawArrowOn: aCanvas from: sourcePoint to: targetPoint].
-	self drawArcOn: aCanvas from: sourcePoint to: targetPoint! !
-
-!GraphEdgeMorph methodsFor: 'geometry testing' stamp: 'len 4/28/2016 05:50'!
-morphContainsPoint: aLocalPoint
-	^ super morphContainsPoint: aLocalPoint! !
-
-!GraphEdgeMorph methodsFor: 'initialization' stamp: 'len 7/14/2016 05:37'!
-initialize
-	super initialize.
-	self color: Color gray.
-	width _ 1.
-	drawArrowHead _ true.
-	multiplicity _ 1! !
-
-!GraphEdgeMorph methodsFor: 'stepping' stamp: 'len 2/26/2016 03:03'!
-step
-	(source owner isNil or: [target owner isNil]) ifTrue: [^ self delete].
-	self adjustBounds! !
-
-!GraphEdgeMorph methodsFor: 'stepping' stamp: 'Samir Saidani 6/23/2003 21:17'!
-stepTime
-	^ 0! !
-
-!GraphEdgeMorph methodsFor: 'stepping' stamp: 'len 2/17/2016 22:15'!
-wantsSteps
-	^ true! !
-
-!GraphEdgeMorph methodsFor: 'private' stamp: 'len 6/2/2020 16:00:04'!
-adjustBounds
-	| newBounds |
-	newBounds _ (self externalize: self sourcePoint) rect: (self externalize: self targetPoint).
-	self morphBounds: newBounds.
-	labelMorph ifNotNil: [labelMorph morphAlign: labelMorph morphBounds center with: newBounds extent // 2]! !
-
-!GraphEdgeMorph methodsFor: 'private' stamp: 'len 2/19/2016 19:01'!
-hideLabel
-	labelMorph notNil ifTrue: [labelMorph delete. labelMorph _ nil]! !
-
-!GraphEdgeMorph methodsFor: 'private' stamp: 'len 2/7/2022 09:43:48'!
-showLabel
-	(labelMorph notNil or: [label isNil]) ifTrue: [^ self].
-	labelMorph _ LabelMorph contents: label asString font: Preferences standardMenuFont.
-	labelMorph color: Color white.
-	self addMorph: labelMorph.
-	labelMorph morphAlign: labelMorph morphBounds leftCenter with: self morphBounds rightCenter + (1@0)! !
-
-!SpringEdgeMorph methodsFor: 'initialization' stamp: 'Michael Piel 4/21/2004 11:12'!
-initialize
-	super initialize.
-	desiredDistance _ 100! !
-
-!SpringEdgeMorph methodsFor: 'moving' stamp: 'len 2/7/2022 12:29:20'!
-approachNodes
-	"Connected nodes are tied with a rubber band."
-	| f currentDistance diff delta |
-	(currentDistance _ (diff _ source x + source dx - target x - target dx) length) > desiredDistance
-		ifTrue:
-			[f _ (desiredDistance - currentDistance) asFloat / (currentDistance * 4).
-			delta _ diff * f / 2.
-			target dx: target dx - delta.
-			source dx: source dx + delta]! !
-
-!SpringEdgeMorph methodsFor: 'moving' stamp: 'len 4/27/2016 07:57'!
-desiredDistance
-	^ desiredDistance! !
-
-!SpringEdgeMorph methodsFor: 'moving' stamp: 'len 2/15/2003 18:07'!
-desiredDistance: anInteger
-	"Set the distance I want between my vertices."
-	desiredDistance _ anInteger! !
-
-!SpringEdgeMorph methodsFor: 'stepping' stamp: 'len 2/7/2022 13:29:33'!
-step
-	(source owner isNil or: [target owner isNil]) ifTrue: [^ self delete].
-"	self approachNodes."
-	self adjustBounds! !
-
-!SpringEdgeMorph methodsFor: 'stepping' stamp: 'len 2/24/2016 21:12'!
-wantsSteps
-	^ false! !
 
 !GraphMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:45'!
 dimension
@@ -654,19 +423,19 @@ removeEdge: anEdge label: label
 desiredDistance: aNumber
 	^ self edgesDo: [:each| each desiredDistance: aNumber]! !
 
-!SpringGraphMorph methodsFor: 'accessing' stamp: 'len 2/7/2022 13:20:49'!
+!SpringGraphMorph methodsFor: 'accessing' stamp: 'len 10/2/2024 09:46:07'!
 graph: aGraph
 	| morph desiredDistance |
 	super graph: aGraph.
 	(aGraph isKindOf: RootedDigraph)
-		ifTrue: [morph _ nodeToMorph at: aGraph rootNode.
+		ifTrue: [morph := nodeToMorph at: aGraph rootNode.
 				morph morphAlign: morph morphBounds center with: self morphExtent // 2].
 	aGraph size < 100
-		ifTrue: [desiredDistance _ (self morphLocalBounds area / ((aGraph radius max: 1) min: 10) / 2) sqrt.
-			components _ graph components asArray collect: [:each| each asArray collect: [:node| nodeToMorph at: node]]]
+		ifTrue: [desiredDistance := (self morphLocalBounds area / ((aGraph radius max: 1) min: 10) / 2) sqrt.
+			components := graph connectedComponents asArray collect: [:each| each asArray collect: [:node| nodeToMorph at: node]]]
 		ifFalse:
-			[desiredDistance _ 10.
-			components _ nil].
+			[desiredDistance := 10.
+			components := nil].
 	self edgesDo: [:each| each desiredDistance: desiredDistance "/ each source node degree sqrt"]! !
 
 !SpringGraphMorph methodsFor: 'event handling' stamp: 'len 2/8/2003 00:38'!
@@ -708,15 +477,15 @@ aproachConnectedNodes
 separateAllNodes
 	self nodesDo: [:each | each separateFromAllNodes]! !
 
-!SpringGraphMorph methodsFor: 'stepping' stamp: 'len 2/7/2022 13:36:47'!
+!SpringGraphMorph methodsFor: 'stepping' stamp: 'len 10/2/2024 20:24:44'!
 step
 	| maxDelta |
 	self nodesDo: [:each| each dampBy: 1.1]. "damping"
 	self aproachConnectedNodes; separateAllNodes; approachComponents.
-	maxDelta _ 0.0.
-	self nodesDo: [:each| maxDelta _ maxDelta max: each doMove].
+	maxDelta := 0.0.
+	self nodesDo: [:each| maxDelta := maxDelta max: each doMove].
 	self alignToCenter.
-	self edgesDo: [:each| each adjustBounds].
+"	self edgesDo: [:each| each adjustBounds]."
 	self redrawNeeded.
 	maxDelta < 0.01 ifTrue: [self stopStepping]! !
 
@@ -932,6 +701,233 @@ approachPoint: aPoint
 	distanceSquared > 0.1 ifFalse: [^ self].
 	dx _ dx + (difference / difference norm * 2.0)"! !
 
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:11'!
+alpha
+	^ source alpha + target alpha / 2.0! !
+
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 7/9/2016 22:26'!
+color
+	^ color alpha: self alpha! !
+
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 10/2/2024 20:21:56'!
+color: aColor
+	color := aColor.
+	self redrawNeeded! !
+
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 03:25'!
+hideArrowHead
+	drawArrowHead _ false! !
+
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 7/14/2016 05:33'!
+incrementMultiplicity
+	multiplicity _ multiplicity + 1! !
+
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 19:00'!
+label
+	^ label! !
+
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 19:00'!
+label: aString
+	label _ aString.
+	label notNil ifTrue: [self showLabel] ifFalse: [self hideLabel]! !
+
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/19/2016 03:25'!
+showArrowHead
+	drawArrowHead _ true! !
+
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'Samir Saidani 6/23/2003 21:17'!
+source
+	^ source! !
+
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'Samir Saidani 6/23/2003 21:17'!
+source: aMorph
+	source _ aMorph! !
+
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 10/2/2024 09:49:45'!
+sourcePoint
+	^ self internalizeFromWorld: source privateDisplayBounds center! !
+
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/15/2016 22:56'!
+target
+	^ target! !
+
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/15/2016 22:56'!
+target: aMorph
+	target _ aMorph! !
+
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 10/2/2024 09:49:52'!
+targetPoint
+	^ self internalizeFromWorld: target privateDisplayBounds center! !
+
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 2/18/2016 06:16'!
+width
+	^ width! !
+
+!GraphEdgeMorph methodsFor: 'accessing' stamp: 'len 10/2/2024 20:21:41'!
+width: anInteger
+	width := anInteger.
+	self redrawNeeded! !
+
+!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 3/1/2016 01:44'!
+direction
+	^ (self targetPoint - self sourcePoint) normalized! !
+
+!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 1/23/2017 09:35:06'!
+drawArcOn: aCanvas from: sourcePoint to: targetPoint
+	multiplicity odd
+		ifTrue: [aCanvas line: sourcePoint to: targetPoint width: width color: self color].
+	1 to: multiplicity - (multiplicity \\ 2) do: [:i|
+		self drawCurveOn: aCanvas from: sourcePoint to: targetPoint curvature: i+1//2 * (i odd ifTrue: [1] ifFalse: [-1])]! !
+
+!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 12/19/2016 12:29:46'!
+drawArrowOn: aCanvas from: aPoint to: anotherPoint
+	| sourcePoint targetPoint direction |
+	sourcePoint _ aPoint.
+	targetPoint _ anotherPoint.
+	direction _ (targetPoint - sourcePoint) normalized.
+	target identityHash < source identityHash
+		ifTrue:
+			[ | shift |
+			shift _ (direction rotatedBy: Float pi/2) * 4.
+			sourcePoint _ sourcePoint + shift.
+			targetPoint _ targetPoint + shift].
+	targetPoint _ targetPoint - (direction * target radius).
+	sourcePoint _ sourcePoint + (direction * source radius).
+	self drawArcOn: aCanvas from: sourcePoint to: targetPoint.
+	aCanvas line: targetPoint - (direction*3) - ((direction rotatedBy: Float pi / 4) * 4)
+		to: targetPoint width: width color: self color.
+	aCanvas line: targetPoint - (direction*2) - ((direction rotatedBy: Float pi / 4) * 4)
+		to: targetPoint width: width color: self color.
+	aCanvas line: targetPoint - (direction*3) - ((direction rotatedBy: Float pi * 7 / 4) * 4)
+		to: targetPoint width: width color: self color.
+	aCanvas line: targetPoint - (direction*2) - ((direction rotatedBy: Float pi * 7 / 4) * 4)
+		to: targetPoint width: width color: self color.
+
+"	self sourcePoint = self targetPoint
+		ifFalse: [aCanvas
+				drawThinArrowFrom: self sourcePoint
+				to: self targetPoint
+				width: 1
+				color: self color]"
+			
+	"| circle string |  
+	circle _ EllipseMorph new extent: 20 @ 20;  
+	 
+	color: (Color  
+	r: 1.0  
+	g: 0.452  
+	b: 0.065).  
+	circle align: circle center with: self center.  
+	self addMorph: circle.  
+	string _ StringMorph new contents: 'test'.  
+	string align: string bounds leftCenter with: bounds rightCenter + (4 @  
+	0). self addMorph: string"
+"	| aa |
+	aa _ PolygonMorph new.
+	aa computeArrowFormAt: self sourcePoint from: self destinationPoint.
+	self addMorph: aa"
+! !
+
+!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 1/23/2017 09:35:19'!
+drawCurveOn: aCanvas from: sourcePoint to: targetPoint curvature: curvature
+	| perp previous |
+	perp _ targetPoint - sourcePoint / 10.0 rotatedBy: Float pi / 2.
+	0.0 to: 1.0 count: 15 do: [:i|
+		| current |
+		current _ sourcePoint * i + (targetPoint * (1.0-i)).
+		current _ current + ((0.5 - (0.5-i) abs) sqrt * curvature * perp).
+		previous ifNotNil: [aCanvas line: previous to: current width: width color: self color].
+		previous _ current]! !
+
+!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 02:51'!
+drawLoopOn: aCanvas at: aPoint
+	aCanvas frameEllipse: (aPoint - (10@20) extent: 20@20) borderWidth: width color: self color! !
+
+!GraphEdgeMorph methodsFor: 'drawing' stamp: 'len 7/14/2016 05:21'!
+drawOn: aCanvas 
+	"frameRectangle: self bounds color: Color black;"
+	| sourcePoint targetPoint |
+	"aCanvas frameRectangle: self morphLocalBounds borderWidth: 1 color: Color red."
+	[sourcePoint _ self sourcePoint.
+	targetPoint _ self targetPoint] on: Error do: [^ self].
+	targetPoint = sourcePoint ifTrue: [^ self drawLoopOn: aCanvas at: targetPoint].
+	drawArrowHead ifTrue: [^ self drawArrowOn: aCanvas from: sourcePoint to: targetPoint].
+	self drawArcOn: aCanvas from: sourcePoint to: targetPoint! !
+
+!GraphEdgeMorph methodsFor: 'initialization' stamp: 'len 10/2/2024 20:20:24'!
+initialize
+	super initialize.
+	color := Color gray.
+	width := 1.
+	drawArrowHead := true.
+	multiplicity := 1! !
+
+!GraphEdgeMorph methodsFor: 'stepping' stamp: 'len 2/26/2016 03:03'!
+step
+	(source owner isNil or: [target owner isNil]) ifTrue: [^ self delete].
+	self adjustBounds! !
+
+!GraphEdgeMorph methodsFor: 'stepping' stamp: 'Samir Saidani 6/23/2003 21:17'!
+stepTime
+	^ 0! !
+
+!GraphEdgeMorph methodsFor: 'stepping' stamp: 'len 2/17/2016 22:15'!
+wantsSteps
+	^ true! !
+
+!GraphEdgeMorph methodsFor: 'private' stamp: 'len 10/2/2024 20:40:13'!
+adjustBounds
+	| middlePoint |
+	middlePoint := (self externalize: self sourcePoint) + (self externalize: self targetPoint) // 2.
+	labelMorph ifNotNil: [labelMorph morphAlign: labelMorph morphBounds center with: middlePoint]! !
+
+!GraphEdgeMorph methodsFor: 'private' stamp: 'len 2/19/2016 19:01'!
+hideLabel
+	labelMorph notNil ifTrue: [labelMorph delete. labelMorph _ nil]! !
+
+!GraphEdgeMorph methodsFor: 'private' stamp: 'len 2/7/2022 09:43:48'!
+showLabel
+	(labelMorph notNil or: [label isNil]) ifTrue: [^ self].
+	labelMorph _ LabelMorph contents: label asString font: Preferences standardMenuFont.
+	labelMorph color: Color white.
+	self addMorph: labelMorph.
+	labelMorph morphAlign: labelMorph morphBounds leftCenter with: self morphBounds rightCenter + (1@0)! !
+
+!SpringEdgeMorph methodsFor: 'initialization' stamp: 'Michael Piel 4/21/2004 11:12'!
+initialize
+	super initialize.
+	desiredDistance _ 100! !
+
+!SpringEdgeMorph methodsFor: 'moving' stamp: 'len 2/7/2022 12:29:20'!
+approachNodes
+	"Connected nodes are tied with a rubber band."
+	| f currentDistance diff delta |
+	(currentDistance _ (diff _ source x + source dx - target x - target dx) length) > desiredDistance
+		ifTrue:
+			[f _ (desiredDistance - currentDistance) asFloat / (currentDistance * 4).
+			delta _ diff * f / 2.
+			target dx: target dx - delta.
+			source dx: source dx + delta]! !
+
+!SpringEdgeMorph methodsFor: 'moving' stamp: 'len 4/27/2016 07:57'!
+desiredDistance
+	^ desiredDistance! !
+
+!SpringEdgeMorph methodsFor: 'moving' stamp: 'len 2/15/2003 18:07'!
+desiredDistance: anInteger
+	"Set the distance I want between my vertices."
+	desiredDistance _ anInteger! !
+
+!SpringEdgeMorph methodsFor: 'stepping' stamp: 'len 2/7/2022 13:29:33'!
+step
+	(source owner isNil or: [target owner isNil]) ifTrue: [^ self delete].
+"	self approachNodes."
+	self adjustBounds! !
+
+!SpringEdgeMorph methodsFor: 'stepping' stamp: 'len 2/24/2016 21:12'!
+wantsSteps
+	^ false! !
+
 !Graph methodsFor: '*Morphic-Graphs' stamp: 'len 2/7/2022 13:36:24'!
 asMorph
 	^ SpringGraphMorph new graph: self
@@ -947,12 +943,6 @@ asMorph
 morphBounds
 	"Answer the bounds in the owner."
 	^ self morphPosition extent: self morphExtentInOwner! !
-
-!Morph methodsFor: '*morphic-graphs' stamp: 'len 2/7/2022 10:27:35'!
-morphBounds: aRectangle
-	"Set bounds in owner."
-	self morphPosition: aRectangle topLeft.
-	self morphExtent: (self internalizeDistance: aRectangle extent)! !
 
 !MorphicCanvas methodsFor: '*morphic-graphs' stamp: 'len 2/7/2022 09:57:15'!
 fillEllipse: aRectangle color: aColor
