@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 2 October 2024 at 9:14:57 am'!
+'From Cuis6.3 [latest update: #6222] on 12 October 2024 at 9:33:44 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 124!
+!provides: 'Tests-Algebra' 1 125!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -12111,7 +12111,7 @@ testProjection: f
 	self assert: (f image apply: f) = f image.
 	self assert: (f codomain apply: f) = f image! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 9/22/2024 19:36:32'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/12/2024 09:07:43'!
 testPullback
 	| X Y Z f g P π |
 	Z := self newSmallModule.
@@ -12120,11 +12120,11 @@ testPullback
 	f := X ⇒ Z atRandom: random bits: 20.
 	g := Y ⇒ Z atRandom: random bits: 20.
 	P := f ∧ g.
-	π := P ⇉ {X. Y}.
+	π := P projections.
 	π do: [:each| self testModuleMap: each].
 	self assert: f ∘ (π at: 1) = (g ∘ (π at: 2))! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 9/22/2024 19:37:29'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/12/2024 09:07:48'!
 testPullbackFree
 	| X Y Z f g P π |
 	Z := self newFreeModule.
@@ -12133,11 +12133,11 @@ testPullbackFree
 	f := X ⇒ Z atRandom: random bits: 20.
 	g := Y ⇒ Z atRandom: random bits: 20.
 	P := f ∧ g.
-	π := P ⇉ {X. Y}.
+	π := P projections.
 	π do: [:each| self testModuleMap: each].
 	self assert: f ∘ (π at: 1) = (g ∘ (π at: 2))! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 5/1/2024 10:30:56'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/12/2024 09:08:24'!
 testPushout
 	| X Y Z f g S ι |
 	Z := self newSmallModule.
@@ -12146,11 +12146,11 @@ testPushout
 	f := Z ⇒ X atRandom: random bits: 20.
 	g := Z ⇒ Y atRandom: random bits: 20.
 	S := f ∨ g.
-	ι := S ⇇ {X. Y}.
+	ι := S coprojections.
 	ι do: [:each| self testModuleMap: each].
-	self assert: (ι at: 1) · f = ((ι at: 2) · g)! !
+	self assert: (ι at: 1) ∘ f = ((ι at: 2) ∘ g)! !
 
-!AbstractModuleTest methodsFor: 'maps' stamp: 'len 5/1/2024 10:32:21'!
+!AbstractModuleTest methodsFor: 'maps' stamp: 'len 10/12/2024 09:08:32'!
 testPushoutFree
 	| X Y Z f g S ι |
 	Z := self newFreeModule.
@@ -12159,9 +12159,9 @@ testPushoutFree
 	f := Z ⇒ X atRandom: random bits: 20.
 	g := Z ⇒ Y atRandom: random bits: 20.
 	S := f ∨ g.
-	ι := S ⇇ {X. Y}.
+	ι := S coprojections.
 	ι do: [:each| self testModuleMap: each].
-	self assert: (ι at: 1) · f = ((ι at: 2) · g)! !
+	self assert: (ι at: 1) ∘ f = ((ι at: 2) ∘ g)! !
 
 !AbstractModuleTest methodsFor: 'other' stamp: 'len 6/16/2023 13:43:41'!
 testAnnihilator
