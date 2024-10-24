@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 12 October 2024 at 9:33:44 am'!
+'From Cuis6.3 [latest update: #6222] on 24 October 2024 at 11:14:07 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 125!
+!provides: 'Tests-Algebra' 1 126!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -2963,15 +2963,15 @@ testAsPermutationGroup
 	A _ (ℤ/2 × (ℤ/5) × (ℤ/4) × (ℤ/2)) asAbelianGroup.
 	self assert: A asPermutationGroup asAbelianGroup invariants = A invariants! !
 
-!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2024 10:19:51'!
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2024 08:11:31'!
 testDirectSum
-	| A B C |
+	| A B S |
 	A := ℤ asAbelianGroup.
 	B := (ℤ / (2 to: 10) atRandom) asAbelianGroup.
-	C := A ⊕ B.
-	self testAbelianGroup: C.
-	C ⇉ {A. B} do: [:each| self testAbelianGroupHomomorphism: each].
-	C ⇇ {A. B} do: [:each| self testAbelianGroupHomomorphism: each]! !
+	S := A ⊕̂ B.
+	self testAbelianGroup: S vertex.
+	S projections do: [:each| self testAbelianGroupHomomorphism: each].
+	S coprojections do: [:each| self testAbelianGroupHomomorphism: each]! !
 
 !AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2020 19:15:41'!
 testExponent
@@ -12182,24 +12182,24 @@ testCanonicalMorphisms
 	self assert: ((W → W null) value: w) isZero.
 	self assert: (W → V value: w) = w. "canonical morphism to overobject"! !
 
-!AbstractModuleTest methodsFor: 'other' stamp: 'len 5/1/2024 10:20:06'!
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 10/17/2024 08:09:54'!
 testDirectSum
 	| M N S |
 	M := self newModule.
 	N := self newModule.
-	S := M ⊕ N.
-	S ⇇ {M. N} do: [:each| self testModuleMap: each].
-	S ⇉ {M. N} do: [:each| self testModuleMap: each]! !
+	S := M ⊕̂ N.
+	S projections do: [:each| self testModuleMap: each].
+	S coprojections do: [:each| self testModuleMap: each]! !
 
-!AbstractModuleTest methodsFor: 'other' stamp: 'len 5/1/2024 10:20:21'!
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 10/17/2024 08:10:21'!
 testDirectSumFree
 	| M N S |
 	M := self newFreeModule.
 	N := self newFreeModule.
-	S := M ⊕ N.
-	self testFreeModule: S.
-	S ⇇ {M. N} do: [:each| self testModuleMap: each].
-	S ⇉ {M. N} do: [:each| self testModuleMap: each]! !
+	S := M ⊕̂ N.
+	self testFreeModule: S vertex.
+	S projections do: [:each| self testModuleMap: each].
+	S coprojections do: [:each| self testModuleMap: each]! !
 
 !AbstractModuleTest methodsFor: 'other' stamp: 'len 4/26/2021 11:38:09'!
 testFreeModule: M
