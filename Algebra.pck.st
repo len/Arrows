@@ -1,4 +1,4 @@
-'From Cuis6.3 [latest update: #6222] on 24 October 2024 at 11:13:47 am'!
+'From Cuis6.3 [latest update: #6222] on 26 October 2024 at 7:55:25 am'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, finitely presented modules, chain complexes, finite (finitely generated as modules) associative algebras, schemes, and coherent sheaves.
 
 References:
@@ -94,7 +94,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 214!
+!provides: 'Algebra' 1 215!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Complex' 1 7 nil!
@@ -26368,18 +26368,18 @@ coimageMorphism
 	self category isAbelian ifTrue: [^ self kernelMorphism cokernelMorphism].	
 	^ self subclassResponsibility! !
 
-!Morphism methodsFor: 'operations-preabelian' stamp: 'len 6/26/2024 08:41:24'!
+!Morphism methodsFor: 'operations-preabelian' stamp: 'len 10/26/2024 07:27:35'!
 cokernel
-	"Answer the cokernel object.
+	"Answer a cokernel object, i.e. the codomain of a cokernel projection."
+	^ self cokernelMorphism codomain! !
+
+!Morphism methodsFor: 'operations-preabelian' stamp: 'len 10/26/2024 07:28:59'!
+cokernelMorphism
+	"Answer a cokernel projection.
 	Intuitively, the cokernel of a morphism f:X→Y is the 'most general' morphism q:Y→Q such that q·f = 0.
 	The cokernel of a morphism f:X→Y is defined as the coequalizer of f and the zero morphism 0:X→Y, i.e. an object Q and a morphism q:Y→Q that makes a commutative triangle with f:X→Y and 0:X→Q. Moreover, the morphism q is universal for this diagram, i.e. any other such q':Y→Q' can be obtained by composing q with a unique morphism u:Q→Q'.
 	Like all coequalizers, the cokernel is necessarily an epimorphism."
 	^ self subclassResponsibility! !
-
-!Morphism methodsFor: 'operations-preabelian' stamp: 'len 8/14/2024 11:23:00'!
-cokernelMorphism
-	"Answer a cokernel projection."
-	^ self codomain → self cokernel! !
 
 !Morphism methodsFor: 'operations-preabelian' stamp: 'len 10/12/2024 09:10:25'!
 cokernelPair
@@ -26398,18 +26398,18 @@ imageMorphism
 	self category isAbelian ifTrue: [^ self cokernelMorphism kernelMorphism].
 	^ self subclassResponsibility! !
 
-!Morphism methodsFor: 'operations-preabelian' stamp: 'len 6/26/2024 08:39:54'!
+!Morphism methodsFor: 'operations-preabelian' stamp: 'len 10/26/2024 07:29:36'!
 kernel
-	"Answer the kernel object.
+	"Answer a kernel object, i.e. the domain of a kernel embedding."
+	^ self kernelMorphism domain! !
+
+!Morphism methodsFor: 'operations-preabelian' stamp: 'len 10/26/2024 07:28:13'!
+kernelMorphism
+	"Answer a kernel embedding.
 	Intuitively, the kernel of a morphism f:X→Y is the 'most general' morphism k:K→X such that f·k = 0.
 	The kernel of a morphism f:X→Y is defined as the equalizer of f and the zero morphism 0:X→Y, i.e. an object K and a morphism k:K→X that makes a commutative triangle with f:X→Y and 0:K→Y. Moreover, the morphism k is universal for this diagram, i.e. any other such k':K'→X can be obtained by composing k with a unique morphism u:K'→K.
 	Like all equalizers, the kernel is necessarily a monomorphism."
 	^ self subclassResponsibility! !
-
-!Morphism methodsFor: 'operations-preabelian' stamp: 'len 8/14/2024 11:23:46'!
-kernelMorphism
-	"Answer a kernel embedding."
-	^ self kernel → self domain! !
 
 !Morphism methodsFor: 'operations-preabelian' stamp: 'len 10/12/2024 09:10:08'!
 kernelPair
@@ -28025,6 +28025,10 @@ carrier
 cokernel
 	^ self codomain / self image! !
 
+!GroupMap methodsFor: 'operations' stamp: 'len 10/26/2024 07:33:04'!
+cokernelMorphism
+	^ self codomain → self cokernel! !
+
 !GroupMap methodsFor: 'operations' stamp: 'len 6/26/2023 13:00:37'!
 image
 	^ self codomain sub: self images! !
@@ -28041,6 +28045,10 @@ kernel
 	^ self propertyAt: #kernel ifAbsent:
 		[self computeImageAndKernel.
 		self propertyAt: #kernel]! !
+
+!GroupMap methodsFor: 'operations' stamp: 'len 10/26/2024 07:17:06'!
+kernelMorphism
+	^ self kernel → self domain! !
 
 !GroupMap methodsFor: 'operations' stamp: 'len 12/6/2023 10:46:15'!
 preimage: aSubgroup
@@ -28465,6 +28473,10 @@ characteristicPolynomial
 cokernel
 	^ self codomain / self image! !
 
+!ModuleMap methodsFor: 'operations' stamp: 'len 10/26/2024 07:32:52'!
+cokernelMorphism
+	^ self codomain → self cokernel! !
+
 !ModuleMap methodsFor: 'operations' stamp: 'len 9/21/2024 14:26:07'!
 colift: aModuleMap
 	self checkDomainsMatch: aModuleMap.
@@ -28500,6 +28512,10 @@ inverse
 !ModuleMap methodsFor: 'operations' stamp: 'len 6/26/2023 13:00:54'!
 kernel
 	^ self propertyAt: #kernel ifAbsentPut: [self domain sub: (self asMatrix syzygiesModulo: self codomain relationsMatrix)]! !
+
+!ModuleMap methodsFor: 'operations' stamp: 'len 10/26/2024 07:16:23'!
+kernelMorphism
+	^ self kernel → self domain! !
 
 !ModuleMap methodsFor: 'operations' stamp: 'len 4/15/2024 09:43:48'!
 lift: aModuleMap
@@ -32553,13 +32569,21 @@ reverse
 ⊕ aMorphism
 	^ self class components: (components with: aMorphism components collect: [:f :g| f ⊕ g])! !
 
-!ProductMorphism methodsFor: 'operations-preabelian' stamp: 'len 8/15/2024 21:34:40'!
+!ProductMorphism methodsFor: 'operations-preabelian' stamp: 'len 10/26/2024 07:19:19'!
 cokernel
-	^ self class components: (components collect: [:each| each cokernelMorphism])! !
+	^ ProductObject components: components ≫ #cokernel! !
 
-!ProductMorphism methodsFor: 'operations-preabelian' stamp: 'len 8/15/2024 21:35:15'!
+!ProductMorphism methodsFor: 'operations-preabelian' stamp: 'len 10/26/2024 07:19:45'!
+cokernelMorphism
+	^ self class components: components ≫ #cokernelMorphism! !
+
+!ProductMorphism methodsFor: 'operations-preabelian' stamp: 'len 10/26/2024 07:19:07'!
 kernel
-	^ self class components: (components collect: [:each| each kernelMorphism])! !
+	^ ProductObject components: components ≫ #kernel! !
+
+!ProductMorphism methodsFor: 'operations-preabelian' stamp: 'len 10/26/2024 07:19:53'!
+kernelMorphism
+	^ self class components: components ≫ #kernelMorphism! !
 
 !ProductMorphism methodsFor: 'operations-preadditive' stamp: 'len 8/15/2024 21:28:47'!
 * aScalar
@@ -32679,24 +32703,22 @@ reverse
 	"Answer the right whiskering of the receiver with aFunctor."
 	^ aFunctor ∘ self domain asFunctor to: aFunctor ∘ self codomain asFunctor components: [:u| aFunctor value: (self at: u)]! !
 
-!Transformation methodsFor: 'operations-preabelian' stamp: 'len 8/14/2024 11:23:01'!
+!Transformation methodsFor: 'operations-preabelian' stamp: 'len 10/26/2024 07:24:00'!
 cokernel
-	"Answer the cokernel object."
-	^ self domain₀ to: self codomain₀ map: [:f| (self value: f) cokernelMorphism]! !
+	self notYetImplemented
+"	^ self domain₀ to: self codomain₀ map: [:f| (self value: f) cokernelMorphism]"! !
 
-!Transformation methodsFor: 'operations-preabelian' stamp: 'len 9/27/2024 08:41:56'!
+!Transformation methodsFor: 'operations-preabelian' stamp: 'len 10/26/2024 07:13:56'!
 cokernelMorphism
-	"Answer the cokernel projection."
 	^ self codomain to: self cokernel components: [:u| (self at: u) cokernelMorphism]! !
 
-!Transformation methodsFor: 'operations-preabelian' stamp: 'len 8/14/2024 11:23:47'!
+!Transformation methodsFor: 'operations-preabelian' stamp: 'len 10/26/2024 07:24:21'!
 kernel
-	"Answer the kernel object."
-	^ self domain₀ to: self codomain₀ map: [:f| (self value: f) kernelMorphism]! !
+	self notYetImplemented
+"	^ self domain₀ to: self codomain₀ map: [:f| (self value: f) kernelMorphism]"! !
 
-!Transformation methodsFor: 'operations-preabelian' stamp: 'len 9/27/2024 08:41:56'!
+!Transformation methodsFor: 'operations-preabelian' stamp: 'len 10/26/2024 07:13:48'!
 kernelMorphism
-	"Answer the kernel embedding."
 	^ self kernel to: self domain components: [:u| (self at: u) kernelMorphism]! !
 
 !Transformation methodsFor: 'operations-preadditive' stamp: 'len 9/27/2024 08:41:56'!
@@ -33380,16 +33402,16 @@ witness
 hash
 	^ self domain hash + self codomain hash hashMultiply! !
 
-!PresentationMorphism methodsFor: 'operations' stamp: 'len 9/21/2024 08:48:02'!
-cokernel
+!PresentationMorphism methodsFor: 'operations' stamp: 'len 10/26/2024 07:30:58'!
+cokernelMorphism
 	^ self class from: self codomain to: (Presentation arrow: arrow) ⊔ self codomain arrow: arrow codomain id! !
 
 !PresentationMorphism methodsFor: 'operations' stamp: 'len 10/8/2024 08:49:25'!
 colift: aMorphism
 	^ self notYetImplemented! !
 
-!PresentationMorphism methodsFor: 'operations' stamp: 'len 4/22/2024 08:42:26'!
-kernel
+!PresentationMorphism methodsFor: 'operations' stamp: 'len 10/26/2024 07:30:23'!
+kernelMorphism
 	self notYetImplemented
 "	^ self class from: datum ⊓ self codomain to: self domain datum: datum codomain id"! !
 
@@ -33457,10 +33479,6 @@ codomain
 domain
 	^ RelationObject value: coarrow codomain! !
 
-!Relation methodsFor: 'accessing' stamp: 'len 8/13/2024 16:24:48'!
-generalizedImage
-	^ arrow image! !
-
 !Relation methodsFor: 'accessing' stamp: 'len 8/26/2024 17:12:12'!
 zero
 	^ self class arrow: (coarrow codomain ⇒ arrow codomain) zero! !
@@ -33484,25 +33502,29 @@ adjoint
 	"Answer the converse or opposite relation, also called pseudo-inverse. This is the dagger that makes the category of relations a dagger category."
 	^ self class arrow: coarrow coarrow: arrow! !
 
-!Relation methodsFor: 'operations' stamp: 'len 5/3/2024 14:36:28'!
+!Relation methodsFor: 'operations' stamp: 'len 10/26/2024 07:49:08'!
 codefect
-	^ (self generalizedDomain → self domain value) cokernel! !
+	^ self generalizedDomain cokernelMorphism! !
 
-!Relation methodsFor: 'operations' stamp: 'len 9/5/2024 11:57:23'!
+!Relation methodsFor: 'operations' stamp: 'len 10/26/2024 07:48:55'!
 defect
-	^ (arrow ∘ coarrow kernelMorphism) image! !
+	^ (arrow ∘ coarrow kernelMorphism) imageMorphism! !
 
-!Relation methodsFor: 'operations' stamp: 'len 5/3/2024 14:35:42'!
+!Relation methodsFor: 'operations' stamp: 'len 10/26/2024 07:49:22'!
 generalizedCoimage
-	^ (self generalizedKernel → self domain value) cokernel! !
+	^ self generalizedKernel cokernelMorphism! !
 
-!Relation methodsFor: 'operations' stamp: 'len 5/3/2024 14:35:49'!
+!Relation methodsFor: 'operations' stamp: 'len 10/26/2024 07:49:35'!
 generalizedCokernel
-	^ (self generalizedImage → self codomain value) cokernel! !
+	^ self generalizedImage cokernelMorphism! !
 
 !Relation methodsFor: 'operations' stamp: 'len 8/27/2024 21:34:02'!
 generalizedDomain
 	^ self adjoint generalizedImage! !
+
+!Relation methodsFor: 'operations' stamp: 'len 10/26/2024 07:49:44'!
+generalizedImage
+	^ arrow imageMorphism! !
 
 !Relation methodsFor: 'operations' stamp: 'len 8/27/2024 21:34:07'!
 generalizedKernel

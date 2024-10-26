@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 24 October 2024 at 11:14:07 am'!
+'From Cuis6.3 [latest update: #6222] on 26 October 2024 at 7:55:45 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 126!
+!provides: 'Tests-Algebra' 1 127!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -6318,14 +6318,14 @@ testRelationsAdditiveInverse
 	self assert: φ negated negated = φ.
 	self assert: (φ + φ negated) isZero! !
 
-!AbstractAbelianCategoryTest methodsFor: 'relations' stamp: 'len 9/4/2024 09:44:12'!
+!AbstractAbelianCategoryTest methodsFor: 'relations' stamp: 'len 10/26/2024 07:50:57'!
 testRelationsCanonicalObjects
 	| γ |
 	γ := self newMorphism.
-	self assert: γ image = γ asRelation generalizedImage.
-	self assert: γ coimage = γ asRelation generalizedCoimage.
-	self assert: γ kernel = γ asRelation generalizedKernel.
-	self assert: γ cokernel = γ asRelation generalizedCokernel! !
+	self assert: γ imageMorphism = γ asRelation generalizedImage.
+	self assert: γ coimageMorphism = γ asRelation generalizedCoimage.
+	self assert: γ kernelMorphism = γ asRelation generalizedKernel.
+	self assert: γ cokernelMorphism = γ asRelation generalizedCokernel! !
 
 !AbstractAbelianCategoryTest methodsFor: 'relations' stamp: 'len 9/4/2024 09:45:09'!
 testRelationsCompositionWithIdentity
