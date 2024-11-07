@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 26 October 2024 at 7:55:45 am'!
+'From Cuis6.3 [latest update: #6222] on 7 November 2024 at 8:47:47 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 127!
+!provides: 'Tests-Algebra' 1 128!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -6275,17 +6275,23 @@ testEvaluationCoevaluationIdentityExample1
 	V := ℚ^3.
 	self assert: (V evaluation ⊗ V id ∘ (V id ⊗ V coevaluation)) = V id! !
 
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 7/22/2024 09:06:53'!
-testGroupAlgebraAntipodeAxioms
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 10/28/2024 07:54:29'!
+testGroupAlgebraHopfAlgebraAxioms
 	| G A μ η Δ ε S id |
 	G := SymmetricGroup new: 3.
 	A := G groupAlgebraOver: ℚ.
-	μ := A multiplication.
-	η := A unit.
-	Δ := A comultiplication.
-	ε := A counit.
+	μ := A asAlgebra multiplication.
+	η := A asAlgebra unit.
+	Δ := A asBialgebra comultiplication.
+	ε := A asBialgebra counit.
 	S := A antipode.
-	id := A carrier id.
+	id := A asModule id.
+	"coassociativity:"
+	self assert: Δ ⊗ id ∘ Δ = (id ⊗ Δ ∘ Δ).
+	"counit axiom:"
+	self assert: ε ⊗ id ∘ Δ = (id ⊗ ε ∘ Δ).
+	self assert: ε ⊗ id ∘ Δ = id.
+	"antipode axioms:"
 	self assert: μ ∘ (id ⊗ S) ∘ Δ = (μ ∘ (S ⊗ id) ∘ Δ).
 	self assert: μ ∘ (id ⊗ S) ∘ Δ = (η ∘ ε)! !
 
@@ -10675,13 +10681,12 @@ newMatrix
 	m _ (0 to: 5) atRandom: random.
 	^ scalars^n ⇒ (scalars^m) atRandom: random bits: (m*n*5+1 atRandom: random)! !
 
-!AbstractMatrixTest methodsFor: 'private' stamp: 'len 6/2/2024 17:09:01'!
+!AbstractMatrixTest methodsFor: 'private' stamp: 'len 10/26/2024 09:00:07'!
 newMatrix: shape
-	| hom samples |
-	hom := scalars^shape y ⇒ (scalars^shape x).
-	random nextBoolean ifTrue: [^ hom atRandom: random bits: (50 atRandom: random)].
+	| samples |
+	random nextBoolean ifTrue: [^ scalars^shape y to: scalars^shape x atRandom: random bits: (50 atRandom: random)].
 	samples := {scalars zero. scalars one. scalars one negated}.
-	^ hom fill: [:i :j| (2 atRandom: random) > 1 ifTrue: [scalars zero] ifFalse: [samples atRandom: random]]! !
+	^ scalars^shape y to: scalars^shape x fill: [:i :j| (2 atRandom: random) > 1 ifTrue: [scalars zero] ifFalse: [samples atRandom: random]]! !
 
 !AbstractMatrixTest methodsFor: 'private' stamp: 'len 5/22/2023 11:25:22'!
 newNonemptyMatrix
@@ -12267,13 +12272,12 @@ newFreeModule
 	(5 atRandom: random) = 1 ifTrue: [^ M dual].
 	^ M! !
 
-!AbstractModuleTest methodsFor: 'private' stamp: 'len 6/2/2024 17:09:05'!
+!AbstractModuleTest methodsFor: 'private' stamp: 'len 10/26/2024 08:59:52'!
 newMatrix: shape
-	| hom samples |
-	hom := scalars^shape y ⇒ (scalars^shape x).
-	random nextBoolean ifTrue: [^ hom atRandom: random bits: (50 atRandom: random)].
+	| samples |
+	random nextBoolean ifTrue: [^ scalars^shape y to: scalars^shape x atRandom: random bits: (50 atRandom: random)].
 	samples := {scalars zero. scalars one. scalars one negated}.
-	^ hom fill: [:i :j| (2 atRandom: random) > 1 ifTrue: [scalars zero] ifFalse: [samples atRandom: random]]! !
+	^ scalars^shape y to: scalars^shape x fill: [:i :j| (2 atRandom: random) > 1 ifTrue: [scalars zero] ifFalse: [samples atRandom: random]]! !
 
 !AbstractModuleTest methodsFor: 'private' stamp: 'len 6/26/2023 12:49:07'!
 newModule
