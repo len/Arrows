@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 7 November 2024 at 8:47:47 am'!
+'From Cuis6.3 [latest update: #6222] on 13 November 2024 at 8:46:51 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 128!
+!provides: 'Tests-Algebra' 1 129!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -59,6 +59,16 @@ TestCase subclass: #CommutativeAlgebraTest
 	category: 'Tests-Algebra'!
 !classDefinition: 'CommutativeAlgebraTest class' category: #'Tests-Algebra'!
 CommutativeAlgebraTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #ContinuedFractionsTest category: #'Tests-Algebra'!
+TestCase subclass: #ContinuedFractionsTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'ContinuedFractionsTest class' category: #'Tests-Algebra'!
+ContinuedFractionsTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #MathematicsTest category: #'Tests-Algebra'!
@@ -2957,11 +2967,11 @@ testAbelianGroupHomomorphism: φ
 	self assert: (φ value: G identity) = H identity.
 	self assert: (φ value: a + b) = ((φ value: a) + (φ value: b))! !
 
-!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2020 19:14:44'!
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2024 15:40:13'!
 testAsPermutationGroup
 	| A |
-	A _ (ℤ/2 × (ℤ/5) × (ℤ/4) × (ℤ/2)) asAbelianGroup.
-	self assert: A asPermutationGroup asAbelianGroup invariants = A invariants! !
+	A := (ℤ/2 × (ℤ/5) × (ℤ/4) × (ℤ/2)) asAbelianGroup.
+	self assert: A asPermutationGroup asAbelianGroup invariantFactors = A invariantFactors! !
 
 !AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/17/2024 08:11:31'!
 testDirectSum
@@ -2981,13 +2991,13 @@ testExponent
 	G _ (ℤ/2 × (ℤ/4) × (ℤ/6)) asAbelianGroup.
 	self assert: G exponent = 12! !
 
-!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2020 19:16:12'!
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2024 15:40:30'!
 testFreeAbelianGroup
 	| G |
-	G _ ℤ^2.
+	G := ℤ^2.
 	self assert: G rank = 2.
-	self assert: G invariants = #(0 0).
-	self assert: G torsion invariants = #().
+	self assert: G invariantFactors = #(0 0).
+	self assert: G torsion invariantFactors = #().
 	self assert: G torsion isTrivial.
 	self assert: G isTorsion not.
 	self assert: G isFree.
@@ -3015,27 +3025,27 @@ testIntegers
 	self assert: ℤ !! (g1 + g2) = (x1 + x2).
 	self assert: ℤ !! g1 negated = x1 negated.! !
 
-!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/22/2020 06:50:23'!
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2024 15:40:53'!
 testInvariants
-	self assert: (ℤ/1 × (ℤ/3) × (ℤ/5) × (ℤ/12)) asAbelianGroup invariants = #(3 60).
-	self assert: (ℤ/2 × (ℤ/3)) asAbelianGroup invariants = #(6).
-	self assert: (ℤ/6) asAbelianGroup invariants = #(6).
-	self assert: (ℤ/2 × (ℤ/6)) asAbelianGroup invariants = #(2 6).
-	self assert: (ℤ/3 × (ℤ/4) × (ℤ/5)) asAbelianGroup invariants = #(60).
-	self assert: (ℤ × (ℤ/6)) asAbelianGroup invariants = #(0 6)! !
+	self assert: (ℤ/1 × (ℤ/3) × (ℤ/5) × (ℤ/12)) asAbelianGroup invariantFactors = #(3 60).
+	self assert: (ℤ/2 × (ℤ/3)) asAbelianGroup invariantFactors = #(6).
+	self assert: (ℤ/6) asAbelianGroup invariantFactors = #(6).
+	self assert: (ℤ/2 × (ℤ/6)) asAbelianGroup invariantFactors = #(2 6).
+	self assert: (ℤ/3 × (ℤ/4) × (ℤ/5)) asAbelianGroup invariantFactors = #(60).
+	self assert: (ℤ × (ℤ/6)) asAbelianGroup invariantFactors = #(0 6)! !
 
-!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2020 09:02:52'!
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2024 15:41:05'!
 testInvariantsAndPrimaryInvariants
 	| invariants primaryInvariants A |
-	invariants _ {2^2*3*(5^2). 2^5*(3^3)*(5^2)}.
-	primaryInvariants _ {2^2. 2^5. 3. 3^3. 5^2. 5^2} asBag.
-	A _ ℤ^0.
-	A _ invariants shuffled inject: ℤ^0 into: [:sum :each| sum ⊕ (ℤ/each) asAbelianGroup].
-	self assert: A invariants = invariants.
-	self assert: A primaryInvariants = primaryInvariants.
-	A _ primaryInvariants asArray shuffled inject: ℤ^0 into: [:sum :each| sum ⊕ (ℤ/each) asAbelianGroup].
-	self assert: A invariants = invariants.
-	self assert: A primaryInvariants = primaryInvariants! !
+	invariants := {2^2*3*(5^2). 2^5*(3^3)*(5^2)}.
+	primaryInvariants := {2^2. 2^5. 3. 3^3. 5^2. 5^2} asBag.
+	A := ℤ^0.
+	A := invariants shuffled inject: ℤ^0 into: [:sum :each| sum ⊕ (ℤ/each) asAbelianGroup].
+	self assert: A invariantFactors = invariants.
+	self assert: A primaryInvariantFactors = primaryInvariants.
+	A := primaryInvariants asArray shuffled inject: ℤ^0 into: [:sum :each| sum ⊕ (ℤ/each) asAbelianGroup].
+	self assert: A invariantFactors = invariants.
+	self assert: A primaryInvariantFactors = primaryInvariants! !
 
 !AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/22/2020 06:47:24'!
 testIsCyclic
@@ -3073,13 +3083,13 @@ testIsTrivial
 	G _ ℤ asAbelianGroup.
 	self assert: G isTrivial not! !
 
-!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2020 19:24:31'!
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2024 15:37:56'!
 testMixedAbelianGroup
 	| G |
 	G _ (ℤ × ℤ × (ℤ/2) × (ℤ/3)) asAbelianGroup.
 	self assert: G rank = 2.
-	self assert: G primaryInvariants = #(0 0 2 3) asBag.
-	self assert: G torsion primaryInvariants = #(2 3) asBag.
+	self assert: G primaryInvariantFactors = #(0 0 2 3) asBag.
+	self assert: G torsion primaryInvariantFactors = #(2 3) asBag.
 	self assert: G isTorsion not.
 	self assert: G isFree not.
 	self assert: G isMixed.
@@ -3116,12 +3126,12 @@ testTensorProductExample
 	G₂ := (ℤ/125) asAbelianGroup.
 	self assert: G₁ ⊗ G₂ ~ (ℤ/25) asAbelianGroup! !
 
-!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2020 19:26:02'!
+!AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2024 15:37:56'!
 testTorsionAbelianGroup
 	| G |
 	G _ (ℤ/2 × (ℤ/3)) asAbelianGroup.
 	self assert: G rank = 0.
-	self assert: G primaryInvariants = #(2 3) asBag.
+	self assert: G primaryInvariantFactors = #(2 3) asBag.
 	self assert: G = G torsion.
 	self assert: G isTorsion.
 	self assert: G isFree not.
@@ -4926,6 +4936,51 @@ testPolynomialsWithWeightedDegrees
 	I _ P * {x^2*y + z. (x^4 + z)^2. y^2 + z}.
 	self assert: I isHomogeneous! !
 
+!ContinuedFractionsTest methodsFor: 'as yet unclassified' stamp: 'len 11/11/2024 09:07:08'!
+testContinuedFractions
+	| x |
+	x := ContinuedFraction fromFraction: 415/93.
+	self assert: x coefficients = #(4 2 6 7).
+	self assert: x asFraction = (415/93)! !
+
+!ContinuedFractionsTest methodsFor: 'as yet unclassified' stamp: 'len 10/2/2023 21:06:38'!
+testContinuedFractions2
+	-2 to: 2 by: 1/2 do:
+		[:x| self assert: (ContinuedFraction fromFraction: x) asFraction = x]! !
+
+!ContinuedFractionsTest methodsFor: 'as yet unclassified' stamp: 'len 10/2/2023 21:06:46'!
+testContinuedFractionsE
+	| x e |
+	e := ContinuedFraction e.
+	x := e convergentAt: 20.
+	self assert: (x asFloat - 1 exp) abs < 0.0000001! !
+
+!ContinuedFractionsTest methodsFor: 'as yet unclassified' stamp: 'len 10/2/2023 21:06:52'!
+testContinuedFractionsGoldenRatio
+	| x phi |
+	phi := ContinuedFraction phi.
+	x := phi convergentAt: 20.
+	self assert: (x asFloat - 1.6180339887) abs < 0.000001! !
+
+!ContinuedFractionsTest methodsFor: 'as yet unclassified' stamp: 'len 11/11/2024 14:41:27'!
+testContinuedFractionsGoldenRatio2
+	| phi denominators |
+	phi := ContinuedFraction phi.
+	denominators := (phi convergents first: 100) collect: [:each| each isFraction ifTrue: [each denominator] ifFalse: [1]].
+	self assert: (Sequence fibonacci << 1 equals: denominators upTo: denominators size)! !
+
+!ContinuedFractionsTest methodsFor: 'as yet unclassified' stamp: 'len 10/2/2023 21:07:03'!
+testContinuedFractionsNegated
+	| x |
+	x := ContinuedFraction fromFraction: 415/93.
+	self assert: x negated asFraction = (-415/93)! !
+
+!ContinuedFractionsTest methodsFor: 'as yet unclassified' stamp: 'len 10/2/2023 21:07:10'!
+testContinuedFractionsReciprocal
+	| x |
+	x := ContinuedFraction fromFraction: 415/93.
+	self assert: x reciprocal asFraction = (93/415)! !
+
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
 testAlgebraicExtension
 	| x E a b |
@@ -5070,6 +5125,10 @@ testMapsInducedByHom
 	self assert: h codomain = (Z ⇒ Y).
 	zx := Z to: X map: [:each| X atRandom: (Random seed: each hash)].
 	self assert: (h value: zx) = (f · zx)! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 11/11/2024 09:00:02'!
+testPellEquationExamples
+	#((1 1 nil) (2 1 (3 2)) (3 1 (2 1)) (4 1 nil) (13 1 (649 180)) (73 1 (2281249 267000))) do: [:each| self assert: (each first pell: each second) = each third]! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 2/1/2018 22:41:50'!
 testPermutationProduct
@@ -6649,7 +6708,7 @@ testLagrangeTheorem
 	H := G sub: ((1 to: (3 atRandom: random)) collect: [:i| G atRandom: random]) asSet.
 	self assert: H size | G size! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:15:25'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 11/11/2024 13:48:41'!
 testModularIntegersUnits
 	| m R U |
 	m := (2 to: 100) atRandom: random.
@@ -11123,12 +11182,12 @@ testInverseExample2
 	A _ f companionMatrix.
 	self assert: (A * A inverse) isIdentity! !
 
-!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:07:12'!
+!RationalMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/9/2024 20:28:19'!
 testJordanNormalFormExample
 	| A jordan B |
 "	<timeout: 2>"
 	A _ ℚ !!!!!! { (5,4,2,1). (0,1,-1,-1). (-1,-1,3,0). (1,1,-1,2) }.
-	jordan _ A jordan.
+	jordan _ A JCF.
 	self assert: jordan size = 3.
 	B _ (ℚ^1) id.
 	self assert: (jordan includes: B).
@@ -12675,21 +12734,21 @@ setUp
 	super setUp.
 	scalars := ℤ/2! !
 
-!BinaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 07:42:58'!
+!BinaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 11/8/2024 08:57:45'!
 testKernelZ2
 	| V f kernel |
-	V _ (PrimeField new: 2) ^ 3.
-	f _ V dual map: [:v| v sum].
-	kernel _ f kernel.
+	V := (PrimeField new: 2) ^ 3.
+	f := V dual !! [:v| v sum].
+	kernel := f kernel.
 	self assert: (kernel apply: f) isTrivial.
 	self assert: kernel rank = 2.
 	self assert: (kernel includes: V !! (0,1,1))! !
 
-!BinaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 07:43:04'!
+!BinaryVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 11/8/2024 08:57:50'!
 testLinearFormZ2
 	| V f |
-	V _ (PrimeField new: 2) ^ 4.
-	f _ V dual map: [:v| v sum].
+	V := (PrimeField new: 2) ^ 4.
+	f := V dual !! [:v| v sum].
 	self assert: f domain = V.
 	self assert: f kernel rank = 3.
 	self assert: f image rank = 1.
@@ -12741,20 +12800,20 @@ setUp
 	super setUp.
 	scalars := ℚ! !
 
-!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 07:43:10'!
+!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 11/8/2024 08:57:54'!
 testLinearForm1
 	| V f |
-	V _ ℚ ^ 3.
-	f _ V dual map: [:v| v x + v y - v z].
+	V := ℚ ^ 3.
+	f := V dual !! [:v| v x + v y - v z].
 	self assert: (f value: (1,1,1)) = 1.
 	self assert: (f value: (2,2,1)) = 3.
 	self assert: (f value: (3,1, -1)) = 5! !
 
-!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 9/16/2022 07:43:15'!
+!RationalVectorSpaceTest methodsFor: 'as yet unclassified' stamp: 'len 11/8/2024 08:57:59'!
 testLinearForm2
 	| V f |
-	V _ ℚ ^ 3.
-	f _ V dual map: [:v| v x + v y - v z].
+	V := ℚ ^ 3.
+	f := V dual !! [:v| v x + v y - v z].
 	self assert: f domain = V.
 	self assert: f kernel rank = 2.
 	self assert: f image rank = 1! !
@@ -12927,12 +12986,12 @@ testFreeModuleDiscriminant
 	self assert: (M sub: {(1,2,3)}) discriminant = 14.
 	self assert: (M sub: {(1,2,3). (1,1,1)}) discriminant = 6! !
 
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:22:19'!
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2024 15:41:17'!
 testHomBug
 	| V |
-	V _ ℤ^1 / {5}.
+	V := ℤ^1 / {5}.
 	self assert: V dual isTrivial.
-	self assert: V dual invariants isEmpty! !
+	self assert: V dual invariantFactors isEmpty! !
 
 !IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:15:38'!
 testHomBug2
@@ -12955,25 +13014,25 @@ testHomExample
 	self assert: H generator = (B to: A images: {A generator * 2}).
 	self assert: H size = 2! !
 
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:10:57'!
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2024 15:41:23'!
 testInvariantsAndIsomorphismExample
 	| M |
-	M _ ℤ^3 / {(0,-2,1). (-2,0,1)}.
-	self assert: M invariants = #(0 2).
+	M := ℤ^3 / {(0,-2,1). (-2,0,1)}.
+	self assert: M invariantFactors = #(0 2).
 	self assert: M ~ (ℤ^1 / {2} ⊕ (ℤ^1))! !
 
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:11:08'!
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2024 15:41:28'!
 testInvariantsAndIsomorphismExample2
 	| M |
-	M _ ℤ^3 / {(2,1,0)}.
-	self assert: M invariants = #(0 0).
+	M := ℤ^3 / {(2,1,0)}.
+	self assert: M invariantFactors = #(0 0).
 	self assert: M ~ (ℤ^2)! !
 
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:11:19'!
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2024 15:41:36'!
 testInvariantsAndIsomorphismExample3
 	| M |
-	M _ ℤ^1 / {2} ⊕ (ℤ^1) / {(1,2)}.
-	self assert: M invariants = #(4).
+	M := ℤ^1 / {2} ⊕ (ℤ^1) / {(1,2)}.
+	self assert: M invariantFactors = #(4).
 	self assert: M ~ (ℤ^1/{4})! !
 
 !IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:42:48'!
@@ -13017,30 +13076,30 @@ testQuotientModuleBug
 	self assert: a representative = (3,0).
 	self assert: (a*2) representative = (6,0)! !
 
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:51:43'!
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2024 15:41:50'!
 testQuotientModuleInvariants
 	"Example from Sage (removed denominators)"
 	| v1 v2 v3 V W |
 	v1 := (1,2,2). v2 := (3,4,2). v3 := (0,0,2).
 	V := ℤ^3 sub: {v1. v2. v3}.
 	W := V ambient sub: {v1*2 + (v2*4). v1*9 + (v2*12). v3*4}.
-	self assert: (V/W) invariants = #(4 12)
+	self assert: (V/W) invariantFactors = #(4 12)
 
 "original with denominators:
 	| v1 v2 v3 V W |
 	v1 _ (1/2,1,1). v2 _ (3/2,2,1). v3 _ (0,0,1).
 	V _ QQ^3 sub: {v1. v2. v3} over: ℤ.
 	W _ QQ^3 sub: {v1*2 + (v2*4). v1*9 + (v2*12). v3*4} over: ℤ.
-	self assert: (V/W) invariants = #(4 12)
+	self assert: (V/W) invariantFactors = #(4 12)
 "! !
 
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:51:47'!
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2024 15:41:54'!
 testQuotientModuleInvariants2
 	"Example from Sage"
 	| V W |
 	V := ℤ^3.
 	W := V sub: {(1,2,0). (0,1,0). (0,2,0)}.
-	self assert: (V/W) invariants = #(0) "from example in sage fgp_module.py"! !
+	self assert: (V/W) invariantFactors = #(0) "from example in sage fgp_module.py"! !
 
 !IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/4/2023 09:41:35'!
 testQuotientModuleIsFinite
