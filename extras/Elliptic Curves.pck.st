@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 12 October 2024 at 9:34:01 am'!
+'From Cuis6.3 [latest update: #6222] on 13 November 2024 at 8:45:13 am'!
 'Description '!
-!provides: 'Elliptic Curves' 1 25!
+!provides: 'Elliptic Curves' 1 26!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #'Elliptic Curves'!
 
@@ -442,7 +442,7 @@ badPrimes
 	"Answer the set of primes for which the receiver doesn't have 'good reduction'."
 	^ self discriminant factorization asSet! !
 
-!EllipticCurve methodsFor: 'operations' stamp: 'len 6/27/2023 12:25:14'!
+!EllipticCurve methodsFor: 'operations' stamp: 'len 11/11/2024 14:34:57'!
 divisionPolynomials
 	"Answer the sequence of division polynomials.
 	Reference: Silverman, 'The Arithmetic of Elliptic Curves', Exercise 3.7, pag. 105."
@@ -458,7 +458,7 @@ divisionPolynomials
 	ψ₂ := y*2 + (a₁ * x) + a₃.
 	ψ₃ := x^4 * 3 + (x^3 * b₂) + (x^2 * 3 * b₄) + (x * 3 * b₆) + b₈.
 	ψ₄ := ψ₂ * (x^6 * 2 + (x^5 * b₂) + (x^4 * b₄ * 5) + (x^3 * 10 * b₆) + (x^2 * 10 * b₈) + (x * (b₂ * b₈ - (b₄ * b₆))) + (b₄ * b₈ - b₆ squared)).
-	^ Sequence to: R initialValues: {ψ₁. ψ₂. ψ₃. ψ₄} recurrence: [:ψ :n|
+	^ Sequence initialValues: {ψ₁. ψ₂. ψ₃. ψ₄} recurrence: [:ψ :n|
 		| m |
 		n odd
 			ifTrue:

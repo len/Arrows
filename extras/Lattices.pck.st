@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 5 September 2024 at 11:25:57 am'!
+'From Cuis6.3 [latest update: #6222] on 13 November 2024 at 8:45:20 am'!
 'Description '!
-!provides: 'Lattices' 1 18!
+!provides: 'Lattices' 1 19!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Lattices!
 
@@ -523,14 +523,14 @@ basis: aCollection innerProduct: aBilinearForm
 	"d _ basis size."
 	delta _ 3/4 "(4/3 + 0.0000000001)^((d-1)/2)"! !
 
-!LLL methodsFor: 'private' stamp: 'len 11/23/2022 21:31:31'!
+!LLL methodsFor: 'private' stamp: 'len 10/26/2024 09:06:54'!
 computeMu
-	| n bi oj |
-	n _ basis size.
-	mu _ (ℚ^n) endomorphisms fill: [:i :j|
-		bi _ basis at: i.
-		oj _ orthogonalBasis at: j.
-		(innerProduct value: bi value: oj) / (orthogonalBasisNorms at: j)] "redundant matrix multiplication by oj"! !
+	| n bᵢ oⱼ |
+	n := basis size.
+	mu := (ℚ^n) endomorphisms fill: [:i :j|
+		bᵢ := basis at: i.
+		oⱼ := orthogonalBasis at: j.
+		(innerProduct value: bᵢ value: oⱼ) / (orthogonalBasisNorms at: j)] "redundant matrix multiplication by oⱼ"! !
 
 !LLL methodsFor: 'private' stamp: 'len 7/8/2020 08:24:22'!
 computeOrthogonalBasis

@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 24 October 2024 at 11:14:00 am'!
+'From Cuis6.3 [latest update: #6222] on 13 November 2024 at 8:45:16 am'!
 'Description The package implements directed and undirected graphs.'!
-!provides: 'Graphs' 1 14!
+!provides: 'Graphs' 1 15!
 !requires: 'Collections-Extras' 1 1 nil!
 SystemOrganization addCategory: #Graphs!
 
@@ -1577,10 +1577,10 @@ roots: aCollection
 	roots _ aCollection asSet.
 	roots do: [:each| self add: each]! !
 
-!RootedDigraph methodsFor: 'operations' stamp: 'timestamp) (no'!
+!RootedDigraph methodsFor: 'operations' stamp: 'len 11/13/2024 08:31:54'!
 depthList
 	"Partitions the DAG, returning a SequenceableCollection of Sets of nodes in the graph.  Element n in the SequenceableCollection is the Set of nodes in the graph reachable in n-1 steps by the longest route from a root."
-	^OrderedCollection accumulate: [ :incBlock | self breadthFirstDo: incBlock]! !
+	^OrderedCollection accumulate: [ :aBlock | self breadthFirstDo: aBlock]! !
 
 !RootedDigraph methodsFor: 'operations' stamp: 'timestamp) (no'!
 reduce
@@ -1590,7 +1590,7 @@ reduce
 	
 	self rootNodes do: [ :root | self reduceStep: root with: OrderedCollection new]! !
 
-!RootedDigraph methodsFor: 'operations' stamp: 'len 11/30/2016 14:44:48'!
+!RootedDigraph methodsFor: 'operations' stamp: 'len 11/13/2024 08:32:12'!
 reduceSlow
 	"Remove all redundant edges to form the transitive reduction.
 
@@ -1599,13 +1599,13 @@ reduceSlow
 	This version sometimes builds huge sets!!"
 	
 	| seqSet |
-	seqSet _ Set accumulate: [ :incBlock |
-				self rootNodes do: [ :root | incBlock value: (Array with: root)]].
+	seqSet := Set accumulate: [ :aBlock |
+				self rootNodes do: [ :root | aBlock value: (Array with: root)]].
 
 	[seqSet isEmpty] whileFalse:
 		[| newSeqSet |
 "Transcript show: seqSet size printString ; cr."
-		newSeqSet _ Set new.
+		newSeqSet := Set new.
 		seqSet do: [ :seq || tail |
 			tail _ seq last.
 			tail neighborsDo: [ :neighbor |
@@ -1615,7 +1615,7 @@ reduceSlow
 "Transcript show: node printString, ' -> ', neighbor printString ; cr."
 								self removeEdgeFrom: node to: neighbor]].
 				newSeqSet add: (seq copyWith: neighbor)]].
-		seqSet _ newSeqSet]! !
+		seqSet := newSeqSet]! !
 
 !RootedDigraph methodsFor: 'operations' stamp: 'len 5/7/2016 04:13'!
 reduceStep: node with: sofar 
@@ -2389,9 +2389,9 @@ removeNeighbor: aNode
 hasEdgeTo: anObject 
 	^outNeighbors anySatisfy: [:assoc | assoc key = anObject]! !
 
-!ImplicitGraphNode methodsFor: 'accessing edges' stamp: 'len 5/7/2016 04:09'!
+!ImplicitGraphNode methodsFor: 'accessing edges' stamp: 'len 11/13/2024 08:32:27'!
 neighbors
-	^OrderedCollection accumulate: [:incBlock | self neighborsDo: incBlock]! !
+	^OrderedCollection accumulate: [:aBlock | self neighborsDo: aBlock]! !
 
 !ImplicitGraphNode methodsFor: 'accessing edges' stamp: 'len 5/7/2016 04:09'!
 neighborsDo: aBlock 

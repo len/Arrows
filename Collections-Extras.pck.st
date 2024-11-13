@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 2 May 2024 at 7:37:52 am'!
+'From Cuis6.3 [latest update: #6222] on 13 November 2024 at 8:45:08 am'!
 'Description This package includes some extra methods for existing collections and some new collection classes.'!
-!provides: 'Collections-Extras' 1 17!
+!provides: 'Collections-Extras' 1 18!
 SystemOrganization addCategory: #'Collections-Extras'!
 
 
@@ -129,12 +129,16 @@ keysAndValuesDo: aBlock
 	index := 1.
 	self do: [:el | aBlock value: index value: el.  index := index + 1]! !
 
-!Iterator methodsFor: 'printing' stamp: 'len 10/20/2023 17:11:43'!
+!Iterator methodsFor: 'printing' stamp: 'len 11/11/2024 14:48:08'!
+printLimit
+	^ 20! !
+
+!Iterator methodsFor: 'printing' stamp: 'len 11/11/2024 14:48:00'!
 printOn: aStream
 	| count |
 	self isEmpty ifTrue: [aStream nextPut: $∅. ^ self].
 	count := 0.
-	self do: [:element| aStream print: element] separatedBy: [(count := count + 1) > 20 ifTrue: [aStream nextPutAll: '...'. ^ self] ifFalse: [aStream nextPutAll: ', ']]! !
+	self do: [:element| aStream print: element] separatedBy: [(count := count + 1) > self printLimit ifTrue: [aStream nextPutAll: '...'. ^ self] ifFalse: [aStream nextPutAll: ', ']]! !
 
 !Iterator methodsFor: 'removing'!
 remove: oldObject ifAbsent: anExceptionBlock 

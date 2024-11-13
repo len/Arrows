@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 10 May 2024 at 4:57:45 am'!
+'From Cuis6.3 [latest update: #6222] on 13 November 2024 at 8:45:31 am'!
 'Description '!
-!provides: 'Transfinites' 1 9!
+!provides: 'Transfinites' 1 10!
 SystemOrganization addCategory: #Transfinites!
 
 
@@ -34,6 +34,16 @@ Magnitude subclass: #Ordinal
 Ordinal class
 	instanceVariableNames: ''!
 
+!classDefinition: #Sequence category: #Transfinites!
+SequenceableCollection subclass: #Sequence
+	instanceVariableNames: 'block'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Transfinites'!
+!classDefinition: 'Sequence class' category: #Transfinites!
+Sequence class
+	instanceVariableNames: ''!
+
 
 !Cardinal commentStamp: '<historical>' prior: 0!
 Aleph numbers, i.e. cardinalities of infinite sets. Aleph-naught is the cardinality of the natural numbers. Assuming the continuum hypothesis, aleph-one is taken to be the cardinality of the real numbers.!
@@ -61,6 +71,19 @@ The following are examples of undeterminations (they produce an error):
 
 !Ordinal commentStamp: '<historical>' prior: 0!
 Ordinal numbers, i.e. equivalence classes of well-ordered sets. This implementation is restricted to the ordinals that can be constructed from the natural numbers by a finite number of additions, multiplications and base-ω exponentiations.!
+
+!Sequence commentStamp: '<historical>' prior: 0!
+Sequences are read-only infinite arrays indexed by the natural numbers.
+
+Example (the positive squares):
+	Sequence on: [:i| i squared]
+
+Example (the Fibonacci sequence):
+	Sequence initialValues: #(0 1) recurrence: [:f :n| (f at: n-1) + (f at: n-2)].
+
+Example (the harmonic numbers):
+	Sequence on: [:n| (1 to: n) sum: [:k| 1/k]].
+!
 
 !Cardinal methodsFor: 'accessing' stamp: 'len 4/22/2016 05:06'!
 order
@@ -315,9 +338,11 @@ sign: anInteger
 degree
 	^ self isZero ifTrue: [self] ifFalse: [terms first key]! !
 
-!Ordinal methodsFor: 'accessing' stamp: 'len 12/29/2021 11:58:21'!
+!Ordinal methodsFor: 'accessing' stamp: 'len 11/13/2024 08:42:03'!
 size
-	^ self isFinite ifTrue: [self asInteger] ifFalse: [Cardinal new: self]! !
+	self isFinite ifTrue: [^ self asInteger].
+	self isOmega ifTrue: [^ Cardinal new]. "ℵ₀"
+	^ Cardinal new: self! !
 
 !Ordinal methodsFor: 'comparing' stamp: 'len 12/31/2021 11:23:28'!
 < anOrdinal
@@ -506,6 +531,220 @@ terms: anArray
 initialize
 	super initialize.
 	Zero := self terms: #()! !
+
+!Sequence methodsFor: 'accessing' stamp: 'len 6/4/2019 05:39:30'!
+at: anInteger
+	^ self at: anInteger ifAbsent: []! !
+
+!Sequence methodsFor: 'accessing' stamp: 'len 11/11/2024 13:51:43'!
+at: anInteger ifAbsent: aBlock
+	^ anInteger > 0 ifTrue: [block value: anInteger] ifFalse: [aBlock value]! !
+
+!Sequence methodsFor: 'accessing' stamp: 'len 11/13/2024 08:36:44'!
+size
+	^ Cardinal new! !
+
+!Sequence methodsFor: 'comparing' stamp: 'len 12/27/2015 01:29'!
+equals: aSequence upTo: n
+	^ self beginsWith: (aSequence copyFrom: 1 to: n)! !
+
+!Sequence methodsFor: 'comparing' stamp: 'len 12/27/2015 03:56'!
+hash
+	^ (self at: 1) hash + (self at: 3) hash + (self at: 5) hash! !
+
+!Sequence methodsFor: 'copying' stamp: 'len 11/25/2022 06:53:04'!
+copyFrom: start to: end
+	end isInfinite ifTrue: [^ self >> (1 - start)].
+	^ (start to: end) collect: [:i| self at: i]! !
+
+!Sequence methodsFor: 'copying' stamp: 'len 4/20/2016 21:25'!
+first: n
+	^ self copyFrom: 1 to: n! !
+
+!Sequence methodsFor: 'enumerating' stamp: 'len 11/11/2024 14:31:39'!
+collect: aBlock
+	^ Sequence on: [:i| aBlock value: (self at: i)]! !
+
+!Sequence methodsFor: 'enumerating' stamp: 'len 11/11/2024 14:09:09'!
+collect: aBlock andFold: aTwoArgBlock ifEmpty: emptyBlockOrValue
+	self shouldNotImplement! !
+
+!Sequence methodsFor: 'enumerating' stamp: 'len 4/25/2016 07:08'!
+count: aBlock
+	^ (self collect: [:each| (aBlock value: each) ifTrue: [1] ifFalse: [0]]) sum! !
+
+!Sequence methodsFor: 'enumerating' stamp: 'len 11/11/2024 14:33:55'!
+select: aBlock
+	^ Sequence on: [:i|
+		| k j value |
+		k := 1.
+		j := 1.
+		[[aBlock value: (value := self at: k)] whileFalse: [k := k + 1]. j < i] whileTrue: [j := j + 1. k := k + 1].
+		value]! !
+
+!Sequence methodsFor: 'operations' stamp: 'len 11/11/2024 14:02:40'!
+* anObject
+	self class = anObject class ifTrue: [^ self with: anObject collect: [:x :y| x * y]].
+	^ self collect: [:x| x * anObject]! !
+
+!Sequence methodsFor: 'operations' stamp: 'len 11/11/2024 14:02:29'!
++ anObject
+	self class = anObject class ifTrue: [^ self with: anObject collect: [:x :y| x + y]].
+	^ self collect: [:x| x + anObject]! !
+
+!Sequence methodsFor: 'operations' stamp: 'len 6/1/2019 08:29:43'!
+<< anInteger
+	^ self >> anInteger negated! !
+
+!Sequence methodsFor: 'operations' stamp: 'len 11/11/2024 14:30:08'!
+>> anInteger
+	^ Sequence on: [:i| self at: i-anInteger ifAbsent: [(self at: 1) * 0]]! !
+
+!Sequence methodsFor: 'operations' stamp: 'len 11/11/2024 14:30:29'!
+backwardDifference: n at: h
+	^ Sequence on: [:x| (0 to: n) sum: [:i| (-1)^i * (n choose: i) * (self at: x + (i*h))]]! !
+
+!Sequence methodsFor: 'operations' stamp: 'len 11/11/2024 14:30:46'!
+binomialInverseTransform
+	^ Sequence on: [:n| (0 to: n-1) sum: [:k| (n-1 choose: k) * (self at: k+1)]]! !
+
+!Sequence methodsFor: 'operations' stamp: 'len 11/11/2024 14:30:51'!
+binomialTransform
+	"The binomial transform is its own inverse, it's an involution."
+	^ Sequence on: [:n| (0 to: n-1) sum: [:k| (-1)^(n-1-k) * (n-1 choose: k) * (self at: k+1)]]! !
+
+!Sequence methodsFor: 'operations' stamp: 'len 11/11/2024 14:31:34'!
+centralDifference: n at: h
+	^ Sequence on: [:x| (0 to: n) sum: [:i| (-1)^i * (n choose: i) * (self at: x + ((n/2 - i)*h))]]! !
+
+!Sequence methodsFor: 'operations' stamp: 'len 11/11/2024 14:31:44'!
+convolution: aSequence
+	^ Sequence on: [:n| (0 to: n-1) sum: [:i| (self at: 1+i) * (aSequence at: n-i)]]! !
+
+!Sequence methodsFor: 'operations' stamp: 'len 6/1/2019 08:31:04'!
+difference
+	"Answer the 'difference' sequence of the receiver, or delta, or discrete derivative."
+	^ (self << 1) - self! !
+
+!Sequence methodsFor: 'operations' stamp: 'len 11/11/2024 14:31:49'!
+dirichlet: aSequence
+	"Answer the Dirichlet convolution of the receiver with the argument, assuming both are arithmetic functions (i.e. functions from the natural numbers to the complex numbers).
+	The set of arithmetic functions form a commutative ring (the Dirichlet ring) under pointwise addition and Dirichlet convolution."
+	^ Sequence on: [:n| n divisors sum: [:d| (self at: d) * (aSequence at: n/d)]]! !
+
+!Sequence methodsFor: 'operations' stamp: 'len 11/11/2024 14:32:06'!
+forwardDifference: n at: h
+	^ Sequence on: [:x| (0 to: n) sum: [:i| (-1)^(n-i) * (n choose: i) * (self at: x + ((n-i)*h))]]! !
+
+!Sequence methodsFor: 'operations' stamp: 'len 11/11/2024 14:33:07'!
+moebiusInverse
+	"This is equivalent to the Dirichlet convolution of the Moebius arithmetic function with the receiver.
+	If f(n) and g(n) are two arithmetic functions satisfying g = f * 1 (Dirichlet convolution of f with the constant function 1), then the Moebius inversion formula can be used to retrieve f as f = mu * g. It is said that f and g and Moebius transforms of each other."
+	^ Sequence on: [:n| n divisors sum: [:d| d moebius * (self at: n/d)]]! !
+
+!Sequence methodsFor: 'operations' stamp: 'len 11/11/2024 14:33:49'!
+products
+	"Answer the indefinite product of the receiver."
+	^ Sequence on: [:i| (1 to: i) collect: [:k| self at: k] andFold: [:a :b| a*b]]! !
+
+!Sequence methodsFor: 'operations' stamp: 'len 11/11/2024 14:34:18'!
+stirlingInverseTransform
+	^ Sequence on: [:n| (1 to: n) sum: [:k| (n stirling: k) * (self at: k)]]! !
+
+!Sequence methodsFor: 'operations' stamp: 'len 11/11/2024 14:34:23'!
+stirlingTransform
+	^ Sequence on: [:n| (1 to: n) sum: [:k| (n Stirling: k) * (self at: k)]]! !
+
+!Sequence methodsFor: 'operations' stamp: 'len 11/11/2024 14:34:29'!
+sums
+	"Answer the indefinite sum of the receiver."
+	^ Sequence on: [:i| (1 to: i) sum: [:k| self at: k]]! !
+
+!Sequence methodsFor: 'operations' stamp: 'len 12/4/2015 04:00'!
+value: aNumber
+	^ self at: aNumber asInteger! !
+
+!Sequence methodsFor: 'printing' stamp: 'len 11/11/2024 14:14:00'!
+printLimit
+	^ 17! !
+
+!Sequence methodsFor: 'printing' stamp: 'len 6/4/2019 05:30:08'!
+printOn: aStream
+	(1 to: self printLimit) do: [:i| aStream print: (self at: i)] separatedBy: [aStream nextPutAll:', ' ].
+	aStream nextPutAll: '...'! !
+
+!Sequence methodsFor: 'printing' stamp: 'len 4/26/2016 06:46'!
+printOn: aStream base: base
+	(1 to: self printLimit) do: [:i| (self at: i) printOn: aStream base: base] separatedBy: [aStream nextPutAll:', ' ].
+	aStream nextPutAll: '...'! !
+
+!Sequence methodsFor: 'printing' stamp: 'len 11/11/2024 14:14:18'!
+printStringBase: base
+	^ String streamContents: [:aStream| self printOn: aStream base: base]! !
+
+!Sequence methodsFor: 'statistics' stamp: 'len 11/11/2024 14:10:42'!
+average: aBlock ifEmpty: emptyBlock 
+	self shouldNotImplement! !
+
+!Sequence methodsFor: 'statistics' stamp: 'len 11/11/2024 14:10:27'!
+max: aBlock
+	self shouldNotImplement! !
+
+!Sequence methodsFor: 'statistics' stamp: 'len 11/11/2024 14:10:24'!
+min: aBlock
+	self shouldNotImplement! !
+
+!Sequence methodsFor: 'private' stamp: 'len 11/11/2024 14:15:23'!
+setBlock: aBlock
+	block := aBlock! !
+
+!Sequence methodsFor: 'private' stamp: 'len 11/11/2024 13:48:41'!
+species
+	^ Sequence! !
+
+!Sequence class methodsFor: 'intance creation' stamp: 'len 11/11/2024 14:28:50'!
+constant: anObject
+	^ self on: [:i| anObject]! !
+
+!Sequence class methodsFor: 'intance creation' stamp: 'len 11/11/2024 14:28:57'!
+dynamic: aBlock
+	^ self on:
+		[:n| | x |
+		x := 0.
+		n timesRepeat: [x := aBlock value: x].
+		x]! !
+
+!Sequence class methodsFor: 'intance creation' stamp: 'len 11/11/2024 14:29:03'!
+initialValues: anArray period: anotherArray
+	^ self on: [:i| i <= anArray size ifTrue: [anArray at: i] ifFalse: [anotherArray atWrap: i - anArray size]]! !
+
+!Sequence class methodsFor: 'intance creation' stamp: 'len 11/11/2024 14:29:10'!
+initialValues: anArray recurrence: aBlock
+	| cache |
+	cache := OrderedCollection withAll: anArray.
+	^ self on:
+		[:n|
+		"(n isInteger and: [n > 0]) ifFalse: [DomainError signal]."
+		[cache size < n] whileTrue: [cache add: (aBlock value: cache value: cache size + 1)].
+		cache at: n]! !
+
+!Sequence class methodsFor: 'intance creation' stamp: 'len 11/11/2024 14:29:15'!
+on: aBlock
+	^ self basicNew setBlock: aBlock! !
+
+!Sequence class methodsFor: 'intance creation' stamp: 'len 10/10/2016 21:08'!
+recurrence: aBinaryBlock
+	^ self initialValues: #() recurrence: aBinaryBlock! !
+
+!Sequence class methodsFor: 'intance creation' stamp: 'len 11/11/2024 14:29:26'!
+streaming: aBlock
+	| cache |
+	cache := OrderedCollection new.
+	^ self on:
+		[:n|
+		"(n isInteger and: [n > 0]) ifFalse: [DomainError signal]."
+		[cache size < n] whileTrue: [cache add: aBlock value].
+		cache at: n]! !
 
 !Object methodsFor: '*transfinites' stamp: 'len 11/19/2015 17:01'!
 isInfinity
