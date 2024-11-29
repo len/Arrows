@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 13 November 2024 at 8:45:13 am'!
+'From Cuis6.3 [latest update: #6222] on 24 November 2024 at 8:35:31 pm'!
 'Description '!
-!provides: 'Elliptic Curves' 1 26!
+!provides: 'Elliptic Curves' 1 27!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #'Elliptic Curves'!
 
@@ -314,9 +314,9 @@ c₄
 c₆
 	^ (self b₂ ^ 3) negated + (self b₂ * self b₄ * 36) - (self b₆ * 216)! !
 
-!EllipticCurve methodsFor: 'accessing' stamp: 'len 6/19/2023 12:17:47'!
+!EllipticCurve methodsFor: 'accessing' stamp: 'len 11/23/2024 09:02:54'!
 discriminant
-	"Note: an elliptic curve is non-singular if the discriminant is a unit (non-zero over a field)."
+	"Note: an elliptic curve is non-singular if the discriminant is a unit (nonzero over a field)."
 	^ (self b₂ squared * self b₈) negated - (self b₄ ^ 3 * 8) - (self b₆ squared * 27) + (self b₂ * self b₄ * self b₆ * 9)! !
 
 !EllipticCurve methodsFor: 'accessing' stamp: 'len 11/10/2016 08:03'!
