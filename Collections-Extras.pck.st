@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 13 November 2024 at 8:45:08 am'!
+'From Cuis6.3 [latest update: #6222] on 30 November 2024 at 9:40:30 am'!
 'Description This package includes some extra methods for existing collections and some new collection classes.'!
-!provides: 'Collections-Extras' 1 18!
+!provides: 'Collections-Extras' 1 20!
 SystemOrganization addCategory: #'Collections-Extras'!
 
 
@@ -84,15 +84,16 @@ asOrderedCollection
 	self do: [:each| answer add: each].
 	^ answer! !
 
-!Iterator methodsFor: 'copying' stamp: 'len 10/27/2016 15:39'!
+!Iterator methodsFor: 'copying' stamp: 'len 11/30/2024 09:40:22'!
 first: n
 	"Answer the first n elements of the receiver.
 	Raise an error if there are not enough elements."
 	| answer |
-	answer _ self species new: n.
+	answer := self species new: n.
+	n = 0 ifTrue: [^ answer].
 	self do: [:each|
-		answer size = n ifTrue: [^ answer].
-		answer add: each].
+		answer add: each.
+		answer size = n ifTrue: [^ answer]].
 	^ self error: 'not enough elements'! !
 
 !Iterator methodsFor: 'enumerating'!
