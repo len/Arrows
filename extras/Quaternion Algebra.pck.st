@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 24 November 2024 at 8:36:15 pm'!
+'From Cuis6.3 [latest update: #6222] on 7 December 2024 at 7:53:26 pm'!
 'Description '!
-!provides: 'Quaternion Algebra' 1 0!
+!provides: 'Quaternion Algebra' 1 1!
 SystemOrganization addCategory: #'Quaternion Algebra'!
 
 
@@ -52,9 +52,9 @@ j
 k
 	^ self basis at: 4! !
 
-!QuaternionAlgebra methodsFor: 'elements' stamp: 'len 7/16/2020 09:31:53'!
+!QuaternionAlgebra methodsFor: 'elements' stamp: 'len 12/1/2024 14:13:46'!
 fromModuleElement: anElement
-	^ Quaternion parent: self moduleElement: anElement! !
+	^ Quaternion parent: self carrier: anElement! !
 
 !QuaternionAlgebra methodsFor: 'printing' stamp: 'len 10/6/2022 11:20:21'!
 printOn: aStream
@@ -118,20 +118,20 @@ imaginary
 	"Answer the imaginary part of the receiver."
 	^ self - self real! !
 
-!Quaternion methodsFor: 'accessing' stamp: 'len 4/30/2021 12:43:14'!
+!Quaternion methodsFor: 'accessing' stamp: 'len 12/1/2024 14:10:59'!
 real
 	"Answer the real part of the receiver."
-	^ self parent one * (moduleElement at: 1)! !
+	^ self parent one * (carrier at: 1)! !
 
-!Quaternion methodsFor: 'converting' stamp: 'len 7/14/2020 10:03:39'!
+!Quaternion methodsFor: 'converting' stamp: 'len 12/1/2024 14:10:59'!
 asScalar
 	self isScalar ifFalse: [^ self error: 'not a scalar element'].
-	^ moduleElement at: 1! !
+	^ carrier at: 1! !
 
-!Quaternion methodsFor: 'operations' stamp: 'len 11/17/2023 14:23:16'!
+!Quaternion methodsFor: 'operations' stamp: 'len 12/1/2024 14:13:46'!
 conjugate
 	"Answer the conjugate of the receiver, such that the reduced trace is the conjugate plus the receiver, and the reduced norm is the conjugate times the receiver."
-	^ self class parent: parent moduleElement: (moduleElement withIndexCollect: [:each :i| i=1 ifTrue: [each] ifFalse: [each negated]])
+	^ self class parent: parent carrier: (carrier withIndexCollect: [:each :i| i=1 ifTrue: [each] ifFalse: [each negated]])
 
 "alternatively:
 	^ self negated + self trace
@@ -141,32 +141,32 @@ conjugate
 inverse
 	^ self conjugate * self norm inverse! !
 
-!Quaternion methodsFor: 'operations' stamp: 'len 7/14/2020 10:05:46'!
+!Quaternion methodsFor: 'operations' stamp: 'len 12/1/2024 14:10:22'!
 norm
 	"Answer the reduced norm of the receiver."
-	^ (self * self conjugate) asModuleElement at: 1! !
+	^ (self * self conjugate) carrier at: 1! !
 
-!Quaternion methodsFor: 'operations' stamp: 'len 7/14/2020 10:05:53'!
+!Quaternion methodsFor: 'operations' stamp: 'len 12/1/2024 14:54:16'!
 trace
 	"Answer the reduced trace of the receiver."
-	^ (self + self conjugate) asModuleElement at: 1! !
+	^ (self + self conjugate) carrier at: 1! !
 
-!Quaternion methodsFor: 'printing' stamp: 'len 7/14/2020 10:04:07'!
+!Quaternion methodsFor: 'printing' stamp: 'len 12/1/2024 14:10:59'!
 printOn: aStream
 	| P f |
 	P _ self parent scalars polynomialsIn: #(i j k) ordering: #llex.
-	f _ P constant: (moduleElement at: 1).
-	2 to: 4 do: [:i| f _ (P x: i-1) * (moduleElement at: i) + f].
+	f _ P constant: (carrier at: 1).
+	2 to: 4 do: [:i| f _ (P x: i-1) * (carrier at: i) + f].
 	f printOn: aStream! !
 
 !Quaternion methodsFor: 'testing' stamp: 'len 6/11/2020 19:45:58'!
 isIsotropic
 	^ self isZero not and: [self norm isZero]! !
 
-!Quaternion methodsFor: 'testing' stamp: 'len 7/14/2020 10:03:44'!
+!Quaternion methodsFor: 'testing' stamp: 'len 12/1/2024 14:10:59'!
 isPure
-	^ (moduleElement at: 1) isZero! !
+	^ (carrier at: 1) isZero! !
 
-!Quaternion methodsFor: 'testing' stamp: 'len 7/14/2020 10:03:49'!
+!Quaternion methodsFor: 'testing' stamp: 'len 12/1/2024 14:10:59'!
 isScalar
-	^ (2 to: 4) allSatisfy: [:i| (moduleElement at: i) isZero]! !
+	^ (2 to: 4) allSatisfy: [:i| (carrier at: i) isZero]! !

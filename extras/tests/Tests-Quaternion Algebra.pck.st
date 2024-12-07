@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 24 November 2024 at 8:37:58 pm'!
+'From Cuis6.3 [latest update: #6222] on 7 December 2024 at 7:53:47 pm'!
 'Description '!
-!provides: 'Tests-Quaternion Algebra' 1 0!
+!provides: 'Tests-Quaternion Algebra' 1 1!
 SystemOrganization addCategory: #'Tests-Quaternion Algebra'!
 
 
@@ -65,14 +65,14 @@ testQuaternionAlgebraAnnihilatorIdeal
 	I _ b annihilatorIdeal.
 	self assert: I isTrivial! !
 
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:31:55'!
+!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/1/2024 14:32:23'!
 testQuaternionAlgebraCoercionToAndFromModule
 	| A x |
-	A _ QuaternionAlgebra over: ℚ invariants: #(-17 -271).
-	x _ A !! #(1 -2 3 0).
-	self assert: A asModule = (ℚ^4).
-	self assert: A asModule !! x = (ℚ^4 !! #(1 -2 3 0)).
-	self assert: A !! (A asModule !! #(1 -2 3 0)) = x! !
+	A := QuaternionAlgebra over: ℚ invariants: #(-17 -271).
+	x := A !! #(1 -2 3 0).
+	self assert: A carrier = (ℚ^4).
+	self assert: A carrier !! x = (ℚ^4 !! #(1 -2 3 0)).
+	self assert: A !! (A carrier !! #(1 -2 3 0)) = x! !
 
 !QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:55'!
 testQuaternionAlgebraInverse

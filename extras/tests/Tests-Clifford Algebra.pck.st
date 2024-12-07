@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 24 November 2024 at 8:37:27 pm'!
+'From Cuis6.3 [latest update: #6222] on 7 December 2024 at 7:53:40 pm'!
 'Description '!
-!provides: 'Tests-Clifford Algebra' 1 0!
+!provides: 'Tests-Clifford Algebra' 1 1!
 SystemOrganization addCategory: #'Tests-Clifford Algebra'!
 
 
@@ -175,12 +175,12 @@ testCliffordAlgebraScalarEmbedding
 	self assert: R one * a = x.
 	self assert: x asScalar = a! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 20:13:19'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/1/2024 10:10:30'!
 testCliffordAlgebraScalarEmbedding2
 	| ι |
-	ι _ R scalars asIdeal ⇒ R asVectorSpace !! (R scalars → R).
+	ι := R scalars asIdeal ⇒ R carrier !! (R scalars → R).
 	self assert: ι isInjective.
-	self assert: ι image = (R grade: 0) asVectorSpace! !
+	self assert: ι image = (R grade: 0) carrier! !
 
 !CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:41'!
 testCliffordAlgebraSpaceEmbedding
@@ -192,12 +192,12 @@ testCliffordAlgebraSpaceEmbedding
 	self assert: ((R grade: 1) includes: x).
 	self assert: x asVector = v! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/19/2024 09:41:08'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/1/2024 10:10:48'!
 testCliffordAlgebraSpaceEmbedding2
 	| ι |
-	ι := R space ⇒ R asVectorSpace !! (R space underlyingSet → R underlyingSet).
+	ι := R space ⇒ R carrier !! (R space underlyingSet → R underlyingSet).
 	self assert: ι isInjective.
-	self assert: ι image = (R grade: 1) asVectorSpace! !
+	self assert: ι image = (R grade: 1) carrier! !
 
 !CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:48'!
 testCliffordAlgebraUniversalProperty

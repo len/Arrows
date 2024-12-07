@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 13 November 2024 at 8:45:20 am'!
+'From Cuis6.3 [latest update: #6222] on 7 December 2024 at 7:53:18 pm'!
 'Description '!
-!provides: 'Lattices' 1 19!
+!provides: 'Lattices' 1 20!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Lattices!
 
@@ -36,7 +36,7 @@ LatticeElement class
 	instanceVariableNames: ''!
 
 
-!Lattice commentStamp: '<historical>' prior: 0!
+!Lattice commentStamp: 'len 11/23/2024 09:00:24' prior: 0!
 A lattice is the set of integer linear combinations of a basis of a rational or real vector space. This is a discrete subgroup of the ambient vector space (as abelian group) isomorphic to ℤⁿ.
 
 More generally, given an integral domain R and a finite-dimensional vector space V over its field of fractions, a lattice or R-lattice in V is a finitely generated R-module over R that spans V. In particular, lattices are defined to have full rank in V.
