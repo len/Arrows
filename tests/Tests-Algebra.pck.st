@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 13 November 2024 at 8:46:51 am'!
+'From Cuis6.3 [latest update: #6222] on 7 December 2024 at 7:53:33 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 129!
+!provides: 'Tests-Algebra' 1 131!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -251,16 +251,6 @@ AbstractMaximalOrderTest subclass: #QuadraticRingTest
 QuadraticRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #CliffordAlgebraTest category: #'Tests-Algebra-Rings'!
-AbstractFiniteAlgebraTest subclass: #CliffordAlgebraTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'CliffordAlgebraTest class' category: #'Tests-Algebra-Rings'!
-CliffordAlgebraTest class
-	instanceVariableNames: ''!
-
 !classDefinition: #MatrixAlgebraTest category: #'Tests-Algebra-Rings'!
 AbstractFiniteAlgebraTest subclass: #MatrixAlgebraTest
 	instanceVariableNames: ''
@@ -269,16 +259,6 @@ AbstractFiniteAlgebraTest subclass: #MatrixAlgebraTest
 	category: 'Tests-Algebra-Rings'!
 !classDefinition: 'MatrixAlgebraTest class' category: #'Tests-Algebra-Rings'!
 MatrixAlgebraTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #QuaternionAlgebraTest category: #'Tests-Algebra-Rings'!
-AbstractFiniteAlgebraTest subclass: #QuaternionAlgebraTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'QuaternionAlgebraTest class' category: #'Tests-Algebra-Rings'!
-QuaternionAlgebraTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #RationalAffineAlgebraTest category: #'Tests-Algebra-Rings'!
@@ -881,16 +861,6 @@ AbstractCommutativeRingTest subclass: #ModularIntegerPolynomialRingTest
 ModularIntegerPolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #QuasiGaloisRingTest category: #'Tests-Algebra-Rings'!
-AbstractCommutativeRingTest subclass: #QuasiGaloisRingTest
-	instanceVariableNames: 'p r n'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'QuasiGaloisRingTest class' category: #'Tests-Algebra-Rings'!
-QuasiGaloisRingTest class
-	instanceVariableNames: ''!
-
 !classDefinition: #AbstractArrayTest category: #'Tests-Algebra-Arrays'!
 RandomizedTestCase subclass: #AbstractArrayTest
 	instanceVariableNames: 'scalars'
@@ -1229,16 +1199,6 @@ AbstractTupleTest subclass: #MatrixAlgebraTupleTest
 	category: 'Tests-Algebra-Tuples'!
 !classDefinition: 'MatrixAlgebraTupleTest class' category: #'Tests-Algebra-Tuples'!
 MatrixAlgebraTupleTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #QuaternionAlgebraTupleTest category: #'Tests-Algebra-Tuples'!
-AbstractTupleTest subclass: #QuaternionAlgebraTupleTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'QuaternionAlgebraTupleTest class' category: #'Tests-Algebra-Tuples'!
-QuaternionAlgebraTupleTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #AbstractMatrixTest category: #'Tests-Algebra-Matrices'!
@@ -1621,16 +1581,6 @@ AbstractCommutativeRingMatrixTest subclass: #RationalAffineAlgebraMatrixTest
 RationalAffineAlgebraMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #CliffordAlgebraMatrixTest category: #'Tests-Algebra-Matrices'!
-AbstractMatrixTest subclass: #CliffordAlgebraMatrixTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'CliffordAlgebraMatrixTest class' category: #'Tests-Algebra-Matrices'!
-CliffordAlgebraMatrixTest class
-	instanceVariableNames: ''!
-
 !classDefinition: #GroupAlgebraMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractMatrixTest subclass: #GroupAlgebraMatrixTest
 	instanceVariableNames: ''
@@ -1649,16 +1599,6 @@ AbstractMatrixTest subclass: #MatrixAlgebraMatrixTest
 	category: 'Tests-Algebra-Matrices'!
 !classDefinition: 'MatrixAlgebraMatrixTest class' category: #'Tests-Algebra-Matrices'!
 MatrixAlgebraMatrixTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #QuaternionAlgebraMatrixTest category: #'Tests-Algebra-Matrices'!
-AbstractMatrixTest subclass: #QuaternionAlgebraMatrixTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'QuaternionAlgebraMatrixTest class' category: #'Tests-Algebra-Matrices'!
-QuaternionAlgebraMatrixTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #AbstractModuleTest category: #'Tests-Algebra-Modules'!
@@ -1931,16 +1871,6 @@ AbstractCommutativeRingModuleTest subclass: #RationalPolynomialRingModuleTest
 RationalPolynomialRingModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #CliffordAlgebraModuleTest category: #'Tests-Algebra-Modules'!
-AbstractModuleTest subclass: #CliffordAlgebraModuleTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'CliffordAlgebraModuleTest class' category: #'Tests-Algebra-Modules'!
-CliffordAlgebraModuleTest class
-	instanceVariableNames: ''!
-
 !classDefinition: #MatrixAlgebraModuleTest category: #'Tests-Algebra-Modules'!
 AbstractModuleTest subclass: #MatrixAlgebraModuleTest
 	instanceVariableNames: ''
@@ -1949,16 +1879,6 @@ AbstractModuleTest subclass: #MatrixAlgebraModuleTest
 	category: 'Tests-Algebra-Modules'!
 !classDefinition: 'MatrixAlgebraModuleTest class' category: #'Tests-Algebra-Modules'!
 MatrixAlgebraModuleTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #QuaternionAlgebraModuleTest category: #'Tests-Algebra-Modules'!
-AbstractModuleTest subclass: #QuaternionAlgebraModuleTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'QuaternionAlgebraModuleTest class' category: #'Tests-Algebra-Modules'!
-QuaternionAlgebraModuleTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #AbstractGroebnerBasisTest category: #'Tests-Algebra-Groebner Bases'!
@@ -3833,15 +3753,15 @@ testTangentConeAndTangentSpace
 	"the tangent space is the whole plane:"
 	self assert: o tangentSpace = A! !
 
-!AlgebraicGeometryTest methodsFor: 'stalks' stamp: 'len 7/26/2022 13:32:06'!
+!AlgebraicGeometryTest methodsFor: 'stalks' stamp: 'len 12/4/2024 19:07:49'!
 testLocalIntegerRingSpecStalks
 	| R X p |
-	R _ ℤ @ (ℤ * 5) .
-	X _ R spec.
-	p _ R * 0.
-	self assert: X @ p = ℚ.
-	p _ R * 5.
-	self assert: X @ p = R! !
+	R := ℤ localizationAt: ℤ * 5 .
+	X := R spec.
+	p := R * 0.
+	self assert: (X stalkAt: p) = ℚ.
+	p := R * 5.
+	self assert: (X stalkAt: p) = R! !
 
 !AlgebraicGeometryTest methodsFor: 'examples' stamp: 'len 6/3/2023 21:09:53'!
 testStillmanExample1
@@ -5087,26 +5007,21 @@ testFunctionComposition3
 	g := ℤ underlyingSet to: ℤ underlyingSet map: [:x| x + 1].
 	self should: [g · f] raise: Error! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:34:55'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 11/29/2024 08:25:26'!
 testIteratorCovering
-	| F |
-	F _ ℤ / 3.
-	self assert: (F^3 upTo: 3^3) asSet size = (3^3).
-	self assert: (ℤ^3 upTo: 100) asSet size = 100! !
+	self assert: ((ℤ/3 ^ 3) elements first: 3^3) asSet size = (3^3)! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/16/2016 13:35:55'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 11/29/2024 08:25:41'!
 testIteratorCovering2
 	| F |
-	F _ GaloisField new: 9.
-	self assert: ((F^3) upTo: 9^3) asSet size = (9^3).
-	self assert: ((F^3) upTo: 9^3+100) asSet size = (9^3)! !
+	F := GaloisField new: 9.
+	self assert: ((F^3) elements first: 9^3) asSet size = (9^3)! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/16/2016 13:36:04'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 11/29/2024 08:25:52'!
 testIteratorCovering3
 	| F |
-	F _ GaloisField new: 3.
-	self assert: ((F^4) upTo: 3^4) asSet size = (3^4).
-	self assert: ((F^4) upTo: 3^4+100) asSet size = (3^4)! !
+	F := GaloisField new: 3.
+	self assert: ((F^4) elements first: 3^4) asSet size = (3^4)! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/24/2024 08:40:34'!
 testMapsInducedByHom
@@ -6284,7 +6199,7 @@ testAbelianGroupsTriangleIdentity
 	I := ℤ asIdeal.
 	self assert: X id ⊗ Y leftUnitor ∘ (X associatorWith: I and: Y) = (X rightUnitor ⊗ Y id)! !
 
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 8/4/2024 11:16:25'!
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 11/18/2024 18:31:53'!
 testContravariantHom
 	| x y H g |
 	x := ℤ * 2.
@@ -6295,7 +6210,7 @@ testContravariantHom
 	g := ℤ^2 to: ℤ asIdeal map: [:v| (v at: 1) * 2].
 	self assert: (H value: g reverse) parent = ((g domain ^ x) ^ (g codomain ^ x))! !
 
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 8/4/2024 11:15:03'!
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 11/18/2024 18:31:53'!
 testContravariantInternalHom
 	| x y H g |
 	x := ℤ * 2.
@@ -6306,7 +6221,7 @@ testContravariantInternalHom
 	g := ℤ^2 to: ℤ asIdeal map: [:v| (v at: 1) * 2].
 	self assert: (H value: g reverse) parent = (x ⇒ g codomain ⇒ (x ⇒ g domain))! !
 
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 6/2/2024 10:24:35'!
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 11/18/2024 18:31:53'!
 testCovariantHom
 	| x y H g |
 	x := ℤ * 2.
@@ -6317,7 +6232,7 @@ testCovariantHom
 	g := ℤ^2 to: ℤ asIdeal map: [:v| (v at: 1) * 2].
 	self assert: (H value: g) parent = ((g codomain ^ x) ^ (g domain ^ x))! !
 
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 8/4/2024 11:17:13'!
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 11/18/2024 18:31:53'!
 testCovariantInternalHom
 	| x y H g |
 	x := ℤ * 2.
@@ -6328,13 +6243,26 @@ testCovariantInternalHom
 	g := ℤ^2 to: ℤ asIdeal map: [:v| (v at: 1) * 2].
 	self assert: (H value: g) parent = (x ⇒ g domain ⇒ (x ⇒ g codomain))! !
 
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/4/2024 08:34:12'!
+testD8RepresentationExample
+	| D₈ A B ρ M |
+	D₈ := PermutationGroup dihedral: 8.
+	A := 𝔽₃ !!!!!! #((0 -1) (1  0)).
+	B := 𝔽₃ !!!!!! #((1 0) (0  -1)).
+	ρ := D₈ to: (𝔽₃^2) automorphisms images: {A. B}.
+	M := ρ asModule.
+	self assert: M isSimple.
+	self assert: M dual isSimple.
+	self assert: (M ⊕ M) isSimple not.
+	self assert: (M ⊗ M) isSimple not! !
+
 !AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 7/22/2024 09:07:01'!
 testEvaluationCoevaluationIdentityExample1
 	| V |
 	V := ℚ^3.
 	self assert: (V evaluation ⊗ V id ∘ (V id ⊗ V coevaluation)) = V id! !
 
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 10/28/2024 07:54:29'!
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/1/2024 14:32:06'!
 testGroupAlgebraHopfAlgebraAxioms
 	| G A μ η Δ ε S id |
 	G := SymmetricGroup new: 3.
@@ -6344,7 +6272,7 @@ testGroupAlgebraHopfAlgebraAxioms
 	Δ := A asBialgebra comultiplication.
 	ε := A asBialgebra counit.
 	S := A antipode.
-	id := A asModule id.
+	id := A carrier id.
 	"coassociativity:"
 	self assert: Δ ⊗ id ∘ Δ = (id ⊗ Δ ∘ Δ).
 	"counit axiom:"
@@ -6753,6 +6681,28 @@ testPermutationGroupHomomorphism2
 	self assert: im space size = 15. "a permutation group acting on a set of cardinality 15"
 	self assert: im size = 5. "of order 5"
 	self assert: im isCyclic! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/6/2024 19:54:11'!
+testPermutationGroupsPrimitiveExample1
+	"From wikipedia 'Primitive permutation group'."
+	| G H |
+	G := SymmetricGroup new: 3.
+	self assert: G isPrimitive.
+	H := G sub: {G !! #(2 3 1)}.
+	self assert: H isPrimitive
+	! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/6/2024 20:24:36'!
+testPermutationGroupsPrimitiveExample2
+	"From wikipedia 'Primitive permutation group'."
+	| G H |
+	G := SymmetricGroup new: 4.
+	self assert: G isPrimitive.
+	H := G sub: {G !! #(2 3 4 1)}.
+	self assert: H isPrimitive not.
+	self assert: (H action isBlock: {1. 3}).
+	self assert: (H action isBlock: {2. 4}).
+	self assert: (H action isBlock: {2. 3}) not! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2020 15:41:22'!
 testSymmetricOrder
@@ -7189,248 +7139,12 @@ testComplexEmbedding
 		self assert: (ℂ !! a) * (ℂ !! b) = (ℂ !! (a*b)).
 		self assert: (ℂ !! a) + (ℂ !! b) = (ℂ !! (a+b))]! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:28:39'!
-setUp
-	super setUp.
-	R := CliffordAlgebra on: (QuadraticForm from: ℚ^3 coefficients: #(1 0 0 1 0 1))! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:19:57'!
-testCliffordAlgebraDualGrade
-	| x k |
-	k _ (0 to: R degree) atRandom: random.
-	x _ (R grade: k) atRandom: random bits: 10.
-	self assert: ((R grade: R degree - k) includes: x dual)! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:03:35'!
-testCliffordAlgebraDualProperties
-	| x y |
-	x := self newElement.
-	y := self newElement.
-	self assert: x ·| y dual = (x ∧ y) dual.
-	self assert: x ∧ y dual = (x ·| y) dual! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:20:22'!
-testCliffordAlgebraEvenSubalgebra
-	| E x |
-	E _ R evenSubalgebra.
-	x _ E atRandom: random bits: 10.
-	self assert: x = x reflection! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:04:15'!
-testCliffordAlgebraGradeInvolution
-	| x y v |
-	x := self newElement.
-	y := self newElement.
-	v := R !! (R space atRandom: random bits: 10).
-	self assert: (x*y) reflection = (x reflection * y reflection).
-	self assert: v reflection = v negated! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:04:36'!
-testCliffordAlgebraGradeProjection
-	| x k j |
-	k := (0 to: R degree) atRandom: random.
-	[j := (0 to: R degree) atRandom: random. j = k] whileTrue.
-	x := self newElement.
-	self assert: ((R grade: k) includes: (x grade: k)).
-	self assert: (((R grade: j) includes: (x grade: k)) not or: [(x grade: k) isZero]).
-	x := (R grade: k) atRandom: random bits: 10.
-	self assert: (x grade: k) = x.
-	self assert: (x grade: j) isZero! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:23:20'!
-testCliffordAlgebraHomogeneousElements
-	| x |
-	x _ (R grade: 0) atRandom: random bits: 10.
-	self assert: x isScalar.
-	x _ (R grade: 1) atRandom: random bits: 10.
-	self assert: x isVector.
-	x _ (R grade: 2) atRandom: random bits: 10.
-	self assert: x isBivector! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:23:43'!
-testCliffordAlgebraInverse
-	| a |
-	[a _ R atRandom: random bits: 10.
-	a isUnit] whileFalse.
-	self assert: a * a inverse = R one.
-	self assert: a inverse * a = R one! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:24:20'!
-testCliffordAlgebraMultiplication
-	| Q V C x y z |
-	V _ ℚ^3.
-	Q _ QuadraticForm from: V coefficients: (1 to: 6).
-	C _ CliffordAlgebra on: Q.
-	x _ C !! (V x: 1).
-	y _ C !! (V x: 2).
-	z _ C !! (V x: 3).
-	self assert: y*x = ((x*y) negated + 2).
-	self assert: z*x = ((x*z) negated + 3).
-	self assert: z*z = (C !! 6).
-	self assert: (x*0) isZero.
-	self assert: (0*x) isZero! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:05:06'!
-testCliffordAlgebraProductsProperties
-	| x y z one |
-	x := self newElement.
-	y := self newElement.
-	z := self newElement.
-	"Associativity of wedge product:"
-	self assert: x ∧ (y ∧ z) = (x ∧  y ∧ z).
-	"Associativity of left and right interior products:"
-	self assert: x ·| (y |· z) = (x ·| y |· z).
-	self assert: x ·| (y ·| z) = (x ∧ y ·| z).
-	self assert: x · (y ·| z) = (x ∧ y · z).
-	one := R one.
-	self assert: one ∧ x = x.
-	self assert: x ∧ one = x.
-	self assert: one ·| x = x.
-	self assert: x |· one = x! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:05:19'!
-testCliffordAlgebraProductsPropertiesWithVectors
-	| x y v |
-	x := self newElement.
-	y := self newElement.
-	v := R !! (R space atRandom: random bits: 10).
-	self assert: v * x = (v ·| x + (v ∧ x)).
-	self assert: v ·| x = (v*x - (x reflection * v) / 2).
-	self assert: v ·| x = (x reflection negated |· v).
-	self assert: v ∧ x = (v*x + (x reflection * v) / 2).
-	self assert: v ∧ x = (x reflection ∧ v).
-	self assert: v ·| (x*y) = ((v ·| x)*y + (x reflection * (v ·| y)))! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2022 11:47:12'!
-testCliffordAlgebraProperties
-	self assert: R isCommutative not.
-	self assert: R rank = (2^R space rank).
-	self assert: R scalars = ℚ.
-	self assert: R zero isZero.
-	self assert: R one isOne.
-	self assert: R id isIdentity! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:05:33'!
-testCliffordAlgebraReversion
-	| x y v |
-	x := self newElement.
-	y := self newElement.
-	v := R !! (R space atRandom: random bits: 10).
-	self assert: (x*y) transpose = (y transpose * x transpose).
-	self assert: v transpose = v! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:05:57'!
-testCliffordAlgebraScalarEmbedding
-	| a x |
-	a := self newScalar.
-	x := R !! a.
-	self assert: x isScalar.
-	self assert: ((R grade: 0) includes: x).
-	self assert: R one * a = x.
-	self assert: x asScalar = a! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/18/2022 20:13:19'!
-testCliffordAlgebraScalarEmbedding2
-	| ι |
-	ι _ R scalars asIdeal ⇒ R asVectorSpace !! (R scalars → R).
-	self assert: ι isInjective.
-	self assert: ι image = (R grade: 0) asVectorSpace! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:41'!
-testCliffordAlgebraSpaceEmbedding
-	| V v x |
-	V := R space.
-	v := V atRandom: random bits: 10.
-	x := R !! v.
-	self assert: x isVector.
-	self assert: ((R grade: 1) includes: x).
-	self assert: x asVector = v! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/19/2024 09:41:08'!
-testCliffordAlgebraSpaceEmbedding2
-	| ι |
-	ι := R space ⇒ R asVectorSpace !! (R space underlyingSet → R underlyingSet).
-	self assert: ι isInjective.
-	self assert: ι image = (R grade: 1) asVectorSpace! !
-
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:48'!
-testCliffordAlgebraUniversalProperty
-	| Q v |
-	Q := R quadraticForm.
-	v := R space atRandom: random bits: 10.
-	self assert: (R !! v) squared = (R one * (Q value: v))! !
-
 !MatrixAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:29:27'!
 setUp
 	| F |
 	super setUp.
 	F := random nextBoolean ifTrue: [ℚ] ifFalse: [ℤ/(64 atRandom: random) nextPrime].
 	R := (F^((0 to: 3) atRandom: random)) endomorphisms! !
-
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:29:41'!
-setUp
-	super setUp.
-	R := QuaternionAlgebra over: ℚ invariants: #(1 1)! !
-
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/7/2022 07:27:25'!
-testQuaternionAlgebraAnnihilatorIdeal
-	| H a b I |
-	H _  QuaternionAlgebra over: ℚ invariants: #(1 1).
-	a _ 1 + H i.
-	self assert: a isZeroDivisor.
-	I _ a annihilatorIdeal.
-	self assert: (I includes: 1 - H i).
-	self assert: (I includes: H j - H k).
-	self assert: (I generators allSatisfy: [:each| (a * each) isZero]).
-	b _ H j.
-	self assert: b isZeroDivisor not.
-	I _ b annihilatorIdeal.
-	self assert: I isTrivial! !
-
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:31:55'!
-testQuaternionAlgebraCoercionToAndFromModule
-	| A x |
-	A _ QuaternionAlgebra over: ℚ invariants: #(-17 -271).
-	x _ A !! #(1 -2 3 0).
-	self assert: A asModule = (ℚ^4).
-	self assert: A asModule !! x = (ℚ^4 !! #(1 -2 3 0)).
-	self assert: A !! (A asModule !! #(1 -2 3 0)) = x! !
-
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:55'!
-testQuaternionAlgebraInverse
-	| A a |
-	A := QuaternionAlgebra over: ℚ invariants: #(-5 -2).
-	[a := A atRandom: random bits: 20.
-	a isUnit] whileFalse.
-	self assert: a * a inverse = A one.
-	self assert: a inverse * a = A one! !
-
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:48:42'!
-testQuaternionAlgebraIsCentral
-	| A |
-	A := QuaternionAlgebra over: ℚ invariants: #(-5 -2).
-	self assert: A isCentral.
-	self assert: A center = (A sub: {A one})! !
-
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:32:53'!
-testQuaternionAlgebraNormAndTraceExample
-	"Example from Magma handbook, H92E9."
-	| A x |
-	A _ QuaternionAlgebra over: ℚ invariants: #(-17 -271).
-	x _ A !! #(1 -2 3 0).
-	self assert: x trace = 2.
-	self assert: x norm = 2508. 
-	self assert: x representation trace = 4.
-	self assert: (x^2 - (x * x trace) + x norm) isZero! !
-
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:33:07'!
-testQuaternionAlgebraTraceExample
-	"Example from Sage."
-	| A |
-	A _ QuaternionAlgebra over: ℚ invariants: #(-5 -2).
-	self assert: A i trace isZero.
-	self assert: A j trace isZero.
-	self assert: (A !! {1/3. 1/5. 1/7. 1}) trace = (2/3)! !
 
 !RationalAffineAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:30:32'!
 setUp
@@ -7674,10 +7388,10 @@ testValuation
 	b := self newElement.
 	self assert: (a*b) valuation = (a valuation + b valuation)! !
 
-!LocalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:36:48'!
+!LocalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/4/2024 19:14:22'!
 setUp
 	super setUp.
-	R := ℤ @ (ℤ * (64 atRandom: random) nextPrime)! !
+	R := ℤ localizationAt: ℤ * (64 atRandom: random) nextPrime! !
 
 !FiniteFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:35:45'!
 setUp
@@ -9265,32 +8979,6 @@ setUp
 	super setUp.
 	R := (ℤ/((2 to: ({2^8. 2^16.  2^32. 2^40} atRandom: random)) atRandom: random)) polynomials! !
 
-!QuasiGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/21/2023 15:26:31'!
-setUp
-	| F |
-	super setUp.
-	p := #(2 3) atRandom: random.
-	r := 3 atRandom: random.
-	n := (2 atRandom: random) + 1.
-	F := GaloisField new: p to: r.
-	R := JetRing new: n baseIdeal: (F polynomials x asIdeal)! !
-
-!QuasiGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2023 19:54:08'!
-testNilradical
-	| a |
-	self assert: R nilradical = (R * R x).
-	self assert: (R nilradical atRandom: random) isNilpotent.
-	[a := R atRandom: random. a isNilpotent] whileFalse.
-	self assert: (R nilradical includes: a)! !
-
-!QuasiGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/30/2023 23:27:55'!
-testQuasiGaloisRingBasicProperties
-	self assert: R characteristic = p.
-	self assert: R size = (p^(r*n)).
-	self assert: R isLocal.
-	self assert: R isFinite.
-	self assert: R isField not! !
-
 !AbstractArrayTest methodsFor: 'private' stamp: 'len 5/6/2023 17:09:00'!
 newArray
 	^ self newArray: (200 atRandom: random)! !
@@ -10248,11 +9936,6 @@ setUp
 setUp
 	super setUp.
 	scalars := (ℚ^((0 to: 3) atRandom: random)) endomorphisms! !
-
-!QuaternionAlgebraTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:46:21'!
-setUp
-	super setUp.
-	scalars := QuaternionAlgebra over: ℚ invariants: #(1 1)! !
 
 !AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 15:21:11'!
 testAddition
@@ -11798,10 +11481,10 @@ setUp
 	super setUp.
 	scalars := GaloisRing new: (3 atRandom: random) nextPrime to: (2 atRandom: random) to: (2 atRandom: random)! !
 
-!LocalIntegerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:12:37'!
+!LocalIntegerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/4/2024 19:15:04'!
 setUp
 	super setUp.
-	scalars := ℤ @ (ℤ * (64 atRandom: random) nextPrime)! !
+	scalars := ℤ localizationAt: ℤ * (64 atRandom: random) nextPrime! !
 
 !ModularIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:15:33'!
 setUp
@@ -11906,12 +11589,6 @@ setUp
 	[scalars := P / ((1 to: (4 atRandom: random) - 1) collect: [:i| P atRandom: random bits: 20]).
 	scalars isTrivial] whileTrue! !
 
-!CliffordAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 15:54:34'!
-setUp
-	super setUp.
-	self flag: #fixme. "use ℚ^3 or more"
-	scalars := CliffordAlgebra on: (QuadraticForm from: ℚ^2 coefficients: #(1 0 0 1 0 1))! !
-
 !GroupAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:18:50'!
 setUp
 	super setUp.
@@ -11921,11 +11598,6 @@ setUp
 setUp
 	super setUp.
 	scalars := (ℚ^((0 to: 3) atRandom: random)) endomorphisms! !
-
-!QuaternionAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:19:19'!
-setUp
-	super setUp.
-	scalars := QuaternionAlgebra over: ℚ invariants: #(1 1)! !
 
 !AbstractModuleTest methodsFor: 'isomorphism theorems' stamp: 'len 12/10/2023 10:35:50'!
 testFirstIsomorphismTheorem
@@ -12227,11 +11899,11 @@ testPushoutFree
 	ι do: [:each| self testModuleMap: each].
 	self assert: (ι at: 1) ∘ f = ((ι at: 2) ∘ g)! !
 
-!AbstractModuleTest methodsFor: 'other' stamp: 'len 6/16/2023 13:43:41'!
+!AbstractModuleTest methodsFor: 'other' stamp: 'len 11/30/2024 14:32:39'!
 testAnnihilator
 	| M A |
 	M := self newModule.
-	A := M annihilator.
+	A := M annihilatorIdeal.
 	self assert: (M * (A atRandom: random)) isTrivial! !
 
 !AbstractModuleTest methodsFor: 'other' stamp: 'len 6/26/2023 12:49:23'!
@@ -12510,11 +12182,11 @@ testMapDirectSumAndTensorProductBug
 	self assert: (f⊗g) domain = (f⊗g) domain.
 	self assert: (f⊕g) domain = (f⊕g) domain! !
 
-!AbstractCommutativeRingModuleTest methodsFor: 'other' stamp: 'len 12/10/2023 10:36:24'!
+!AbstractCommutativeRingModuleTest methodsFor: 'other' stamp: 'len 11/30/2024 14:32:55'!
 testFittingIdealsAndAnnihilator
 	| M A i |
 	M :=self newModule.
-	A := M annihilator.
+	A := M annihilatorIdeal.
 	self assert: (M fittingIdeal: 0) ⊆ A.
 	i := 3 atRandom: random.
 	A * (M fittingIdeal: i) ⊆ (M fittingIdeal: i-1)! !
@@ -12696,6 +12368,18 @@ testQuotientSpaceMaps
 	s _ S atRandom: random bits: 100.
 	self assert: (π value: s) isZero.
 	self assert: (π value: v) = (π value: v+s)! !
+
+!AbstractVectorSpaceTest methodsFor: 'tensor product' stamp: 'len 12/2/2024 08:34:58'!
+testSymmetricAndExteriorSquare
+	| V T S Λ |
+	V := self newVectorSpace.
+	T := V ⊗ V.
+	S := V symmetricSquare.
+	self assert: S rank = V rank squared.
+	Λ := V exteriorSquare.
+	self assert: Λ rank = (V rank choose: 2).
+	self assert: (S ∩ Λ) isTrivial.
+	self assert: S + Λ = T! !
 
 !AbstractVectorSpaceTest methodsFor: 'tensor product' stamp: 'len 9/25/2024 20:30:33'!
 testTensorHomAdjunction
@@ -13051,14 +12735,14 @@ testModuleMapBug2
 	self should: [M to: N images: #(1)] raise: Error withMessageText: 'invalid morphism'.
 	self should: [M to: N images: #(2)] raise: Error withMessageText: 'invalid morphism'! !
 
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:51:33'!
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 11/30/2024 14:33:08'!
 testQuotientModuleAnnihilator
 	"Example from Sage (removed denominators)"
 	| v1 v2 v3 V W |
 	v1 := (1,0,0). v2 := (3,4,2). v3 := (0,0,2).
 	V := ℤ^3 sub: {v1. v2. v3}.
 	W := V ambient sub: {v1 + (v2*2). v1*9 + (v2*2). v3*4}.
-	self assert: (V/W) annihilator = (ℤ*16)
+	self assert: (V/W) annihilatorIdeal = (ℤ*16)
 	
 "original with denominators:
 	| v1 v2 v3 V W |
@@ -13168,10 +12852,10 @@ testSyzygies2
 testTensorProductExample
 	self assert: ℤ^1 ⊗ (ℤ^1/{2}) ~ (ℤ^1/{2})! !
 
-!LocalIntegerRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:23:54'!
+!LocalIntegerRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/4/2024 19:14:42'!
 setUp
 	super setUp.
-	scalars := ℤ @ (ℤ * (64 atRandom: random) nextPrime)! !
+	scalars := ℤ localizationAt: ℤ * (64 atRandom: random) nextPrime! !
 
 !ModularIntegerModuleTest methodsFor: 'initialization' stamp: 'len 5/26/2023 00:24:13'!
 setUp
@@ -13255,21 +12939,10 @@ setUp
 	super setUp.
 	scalars := ℚ polynomials! !
 
-!CliffordAlgebraModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 15:58:08'!
-setUp
-	super setUp.
-	self flag: #fixme. "should use ℚ^3 or more, but now it's too slow"
-	scalars := CliffordAlgebra on: (QuadraticForm from: ℚ^2 coefficients: #(1 0 0 1 0 1))! !
-
 !MatrixAlgebraModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:27:23'!
 setUp
 	super setUp.
 	scalars := (ℤ/(256 atRandom: random) nextPrime^(2 atRandom: random)) endomorphisms! !
-
-!QuaternionAlgebraModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:27:33'!
-setUp
-	super setUp.
-	scalars := QuaternionAlgebra over: ℚ invariants: #(1 1)! !
 
 !AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2023 12:13:56'!
 testExtendedBuchbergerWithCyclic3
@@ -13724,48 +13397,48 @@ testLocalHomomorphism
 	self assert: f isLocal
 ! !
 
-!RingTest methodsFor: 'localizations' stamp: 'len 7/23/2022 13:19:11'!
+!RingTest methodsFor: 'localizations' stamp: 'len 12/4/2024 18:51:41'!
 testLocalizationMaximalIdeal
 	| Z2 |
-	Z2 _ ℤ @ (ℤ * 2).
+	Z2 := ℤ localizationAt: ℤ * 2.
 	self assert: Z2 maximalIdeal = (Z2 * (Z2 !! 2))! !
 
-!RingTest methodsFor: 'localizations' stamp: 'len 12/22/2021 14:20:01'!
+!RingTest methodsFor: 'localizations' stamp: 'len 12/4/2024 19:13:13'!
 testLocalizationOfModularIntegers1
 	| R |
-	R _ ℤ/60.
-	self assert: (R @ (R*2)) = (ℤ/4).
-	self assert: (R @ (R*3)) = (ℤ/3).
-	self assert: (R @ (R*5)) = (ℤ/5)! !
+	R := ℤ/60.
+	self assert: (R localizationAt: (R*2)) = (ℤ/4).
+	self assert: (R localizationAt: (R*3)) = (ℤ/3).
+	self assert: (R localizationAt: (R*5)) = (ℤ/5)! !
 
-!RingTest methodsFor: 'localizations' stamp: 'len 10/14/2022 08:42:36'!
+!RingTest methodsFor: 'localizations' stamp: 'len 12/4/2024 19:13:28'!
 testLocalizationOfModularIntegers2
 	| R P L φ |
-	R _ ℤ/60.
-	P _ R*2.
-	L _ R @ P. "the localization is actually the prime power ring Z/4Z"
+	R := ℤ/60.
+	P := R*2.
+	L := R localizationAt: P. "the localization is actually the prime power ring Z/4Z"
 	"localization map:"
-	φ _ R → L.
+	φ := R → L.
 	self testRingHomomorphism: φ.
 	"everything not in P maps to a unit:"
 	R do: [:each| self assert: ((P includes: each) or: [(φ value: each) isUnit])]! !
 
-!RingTest methodsFor: 'localizations' stamp: 'len 10/14/2022 08:42:47'!
+!RingTest methodsFor: 'localizations' stamp: 'len 12/4/2024 19:13:33'!
 testLocalizationOfModularIntegers3
 	| R P L φ |
-	R _ ℤ/60.
-	P _ R*3.
-	L _ R @ P. "the localization is actually the field GF(3)"
+	R := ℤ/60.
+	P := R*3.
+	L := R localizationAt: P. "the localization is actually the field GF(3)"
 	"localization map:"
-	φ _ R → L.
+	φ := R → L.
 	self testRingHomomorphism: φ.
 	"everything not in P maps to a unit:"
 	R do: [:each| self assert: ((P includes: each) or: [(φ value: each) isUnit])]! !
 
-!RingTest methodsFor: 'localizations' stamp: 'len 10/5/2022 17:40:57'!
+!RingTest methodsFor: 'localizations' stamp: 'len 12/4/2024 19:13:41'!
 testLocalizationOfZAt2
 	| L |
-	L _ ℤ @ (ℤ * 2).
+	L := ℤ localizationAt: (ℤ * 2).
 	self assert: ℚ !! (L !! (1/3)) = (1/3).
 	self should: [L !! (3/2)] raise: Error.
 	self assert: ℚ !! (L !! 2) = 2.
@@ -14468,12 +14141,12 @@ testFactorizationOverZ3Degree11Times20
 	f _ x^11 + (x^9 * 2) + (x^8 * 2) + (x^6) + (x^5) + (x^3 * 2) + (x^2 * 2) + one.
 	20 timesRepeat: [f factorization]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/26/2018 19:28:38'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/17/2024 08:28:54'!
 testFiniteField
 	"Benchmark Polynomial>>#= and ResidueClass#>>="
 	| F |
-	F _ GaloisField new: 9.
-	((F^3) upTo: 9^3) asSet size = (9^3) ifFalse: [self halt]! !
+	F := GaloisField new: 9.
+	(F^3 elements first: 9^3) asSet size = (9^3) ifFalse: [self halt]! !
 
 !PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
 testGCDOverQ
