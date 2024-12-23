@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 30 November 2024 at 9:40:30 am'!
+'From Cuis6.3 [latest update: #6222] on 23 December 2024 at 4:12:49 pm'!
 'Description This package includes some extra methods for existing collections and some new collection classes.'!
-!provides: 'Collections-Extras' 1 20!
+!provides: 'Collections-Extras' 1 22!
 SystemOrganization addCategory: #'Collections-Extras'!
 
 
@@ -282,9 +282,9 @@ removeKey: key ifAbsent: aBlock
 size
 	^ associations size! !
 
-!SortedDictionary methodsFor: 'arithmetic' stamp: 'len 4/27/2022 13:49:29'!
+!SortedDictionary methodsFor: 'arithmetic' stamp: 'len 12/17/2024 16:38:19'!
 * aNumber
-	^ self collect: [:each| each * aNumber]! !
+	^ self collectNonZero: [:each| each * aNumber]! !
 
 !SortedDictionary methodsFor: 'arithmetic' stamp: 'len 8/21/2022 08:25:30'!
 + aSortedDictionary
@@ -360,13 +360,17 @@ associationsDo: aBlock
 	"Evaluate aBlock for each of the receiver's key/value associations."
 	associations do: aBlock! !
 
-!SortedDictionary methodsFor: 'enumerating' stamp: 'len 4/27/2022 13:18:07'!
+!SortedDictionary methodsFor: 'enumerating' stamp: 'len 12/17/2024 16:38:08'!
 collect: aBlock 
+	^ self collectNonZero: aBlock! !
+
+!SortedDictionary methodsFor: 'enumerating' stamp: 'len 12/17/2024 16:37:50'!
+collectNonZero: aBlock 
 	| newAssociations |
-	newAssociations _ OrderedCollection new: associations size.
+	newAssociations := OrderedCollection new: associations size.
 	newAssociations resetTo: 1.
 	associations do: [:each| | newValue |
-		(newValue _ aBlock value: each value) isZero
+		(newValue := aBlock value: each value) isZero
 			ifFalse: [newAssociations add: (each copy value: newValue)]].
 	^ self class associations: newAssociations! !
 
@@ -441,6 +445,13 @@ anyIfNone: aBlock
 
 	self do: [:each | ^ each].
 	^aBlock value! !
+
+!Collection methodsFor: '*collections-extras' stamp: 'len 12/3/2024 08:34:53'!
+atAll: aCollection put: anObject 
+	"Put anObject at every index specified by the elements of aCollection."
+
+	aCollection do: [:index | self at: index put: anObject].
+	^ anObject! !
 
 !Collection methodsFor: '*collections-extras' stamp: 'len 2/6/2024 22:28:37'!
 copyBlank

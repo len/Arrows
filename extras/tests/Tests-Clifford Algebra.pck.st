@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 7 December 2024 at 7:53:40 pm'!
+'From Cuis6.3 [latest update: #6222] on 23 December 2024 at 4:12:57 pm'!
 'Description '!
-!provides: 'Tests-Clifford Algebra' 1 1!
+!provides: 'Tests-Clifford Algebra' 1 2!
 SystemOrganization addCategory: #'Tests-Clifford Algebra'!
 
 
@@ -47,13 +47,13 @@ testCliffordAlgebraDualGrade
 	x _ (R grade: k) atRandom: random bits: 10.
 	self assert: ((R grade: R degree - k) includes: x dual)! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:03:35'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/9/2024 12:54:02'!
 testCliffordAlgebraDualProperties
 	| x y |
 	x := self newElement.
 	y := self newElement.
-	self assert: x ·| y dual = (x ∧ y) dual.
-	self assert: x ∧ y dual = (x ·| y) dual! !
+	self assert: x ∙| y dual = (x ∧ y) dual.
+	self assert: x ∧ y dual = (x ∙| y) dual! !
 
 !CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:20:22'!
 testCliffordAlgebraEvenSubalgebra
@@ -116,7 +116,7 @@ testCliffordAlgebraMultiplication
 	self assert: (x*0) isZero.
 	self assert: (0*x) isZero! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:05:06'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/9/2024 12:55:48'!
 testCliffordAlgebraProductsProperties
 	| x y z one |
 	x := self newElement.
@@ -125,27 +125,27 @@ testCliffordAlgebraProductsProperties
 	"Associativity of wedge product:"
 	self assert: x ∧ (y ∧ z) = (x ∧  y ∧ z).
 	"Associativity of left and right interior products:"
-	self assert: x ·| (y |· z) = (x ·| y |· z).
-	self assert: x ·| (y ·| z) = (x ∧ y ·| z).
-	self assert: x · (y ·| z) = (x ∧ y · z).
+	self assert: x ∙| (y |∙ z) = (x ∙| y |∙ z).
+	self assert: x ∙| (y ∙| z) = (x ∧ y ∙| z).
+	self assert: x ∙ (y ∙| z) = (x ∧ y ∙ z).
 	one := R one.
 	self assert: one ∧ x = x.
 	self assert: x ∧ one = x.
-	self assert: one ·| x = x.
-	self assert: x |· one = x! !
+	self assert: one ∙| x = x.
+	self assert: x |∙ one = x! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:05:19'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/9/2024 12:56:13'!
 testCliffordAlgebraProductsPropertiesWithVectors
 	| x y v |
 	x := self newElement.
 	y := self newElement.
 	v := R !! (R space atRandom: random bits: 10).
-	self assert: v * x = (v ·| x + (v ∧ x)).
-	self assert: v ·| x = (v*x - (x reflection * v) / 2).
-	self assert: v ·| x = (x reflection negated |· v).
+	self assert: v * x = (v ∙| x + (v ∧ x)).
+	self assert: v ∙| x = (v*x - (x reflection * v) / 2).
+	self assert: v ∙| x = (x reflection negated |∙ v).
 	self assert: v ∧ x = (v*x + (x reflection * v) / 2).
 	self assert: v ∧ x = (x reflection ∧ v).
-	self assert: v ·| (x*y) = ((v ·| x)*y + (x reflection * (v ·| y)))! !
+	self assert: v ∙| (x*y) = ((v ∙| x)*y + (x reflection * (v ∙| y)))! !
 
 !CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2022 11:47:12'!
 testCliffordAlgebraProperties

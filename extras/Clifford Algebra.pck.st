@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 7 December 2024 at 7:53:10 pm'!
+'From Cuis6.3 [latest update: #6222] on 23 December 2024 at 4:12:43 pm'!
 'Description '!
-!provides: 'Clifford Algebra' 1 1!
+!provides: 'Clifford Algebra' 1 2!
 SystemOrganization addCategory: #'Clifford Algebra'!
 
 
@@ -179,23 +179,11 @@ asVector
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #*].
 	^ self product: anElement condition: [:i :j| true]! !
 
-!Multivector methodsFor: 'operations' stamp: 'len 8/10/2022 10:29:01'!
-|· anElement
+!Multivector methodsFor: 'operations' stamp: 'len 12/9/2024 12:53:01'!
+|∙ anElement
 	"Answer the right contraction (or right inner or interior product) of the receiver with the argument."
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #'|·'].
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #'|∙'].
 	^ self product: anElement condition: [:i :j| (i bitAnd: j) = j]! !
-
-!Multivector methodsFor: 'operations' stamp: 'len 7/22/2020 15:58:27'!
-· anElement
-	"Answer the dot product of the receiver with the argument."
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #·].
-	^ self product: anElement condition: [:i :j| i = j] "this can be optimized, lots of unnecesary iterations here"! !
-
-!Multivector methodsFor: 'operations' stamp: 'len 8/10/2022 10:27:52'!
-·| anElement
-	"Answer the left contraction (or left inner or interior product) of the receiver with the argument."
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #'·|'].
-	^ self product: anElement condition: [:i :j| (i bitAnd: j) = i]! !
 
 !Multivector methodsFor: 'operations' stamp: 'len 7/22/2020 15:59:30'!
 conjugate
@@ -231,6 +219,18 @@ transpose
 	"Answer the reversion of the receiver.
 	This is also called the second main involution or the principal antiautomorphism, and it is denoted by a superscript dagger."
 	^ self class parent: parent carrier: (carrier withIndexCollect: [:each :i| ((i-1) bitCount choose: 2) odd ifTrue: [each negated] ifFalse: [each]])! !
+
+!Multivector methodsFor: 'operations' stamp: 'len 12/9/2024 12:51:56'!
+∙ anElement
+	"Answer the dot product of the receiver with the argument."
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #∙].
+	^ self product: anElement condition: [:i :j| i = j] "this can be optimized, lots of unnecesary iterations here"! !
+
+!Multivector methodsFor: 'operations' stamp: 'len 12/9/2024 12:53:43'!
+∙| anElement
+	"Answer the left contraction (or left inner or interior product) of the receiver with the argument."
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #'∙|'].
+	^ self product: anElement condition: [:i :j| (i bitAnd: j) = i]! !
 
 !Multivector methodsFor: 'operations' stamp: 'len 8/12/2022 13:01:05'!
 ∧ anElement
