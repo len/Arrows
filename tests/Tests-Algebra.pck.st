@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 7 December 2024 at 7:53:33 pm'!
+'From Cuis6.3 [latest update: #6222] on 23 December 2024 at 4:13:25 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 131!
+!provides: 'Tests-Algebra' 1 132!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -691,14 +691,14 @@ AbstractEuclideanRingTest subclass: #FiniteFieldDualNumbersTest
 FiniteFieldDualNumbersTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerRingTest category: #'Tests-Algebra-Rings'!
-AbstractEuclideanRingTest subclass: #ModularIntegerRingTest
+!classDefinition: #ModularRingTest category: #'Tests-Algebra-Rings'!
+AbstractEuclideanRingTest subclass: #ModularRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'ModularIntegerRingTest class' category: #'Tests-Algebra-Rings'!
-ModularIntegerRingTest class
+!classDefinition: 'ModularRingTest class' category: #'Tests-Algebra-Rings'!
+ModularRingTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #RationalDualNumbersTest category: #'Tests-Algebra-Rings'!
@@ -841,24 +841,24 @@ PrimePowerRingPolynomialRingTest subclass: #BinaryPowerRingPolynomialRingTest
 BinaryPowerRingPolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerMultivariatePolynomialRingTest category: #'Tests-Algebra-Rings'!
-AbstractCommutativeRingTest subclass: #ModularIntegerMultivariatePolynomialRingTest
+!classDefinition: #ModularMultivariatePolynomialRingTest category: #'Tests-Algebra-Rings'!
+AbstractCommutativeRingTest subclass: #ModularMultivariatePolynomialRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'ModularIntegerMultivariatePolynomialRingTest class' category: #'Tests-Algebra-Rings'!
-ModularIntegerMultivariatePolynomialRingTest class
+!classDefinition: 'ModularMultivariatePolynomialRingTest class' category: #'Tests-Algebra-Rings'!
+ModularMultivariatePolynomialRingTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerPolynomialRingTest category: #'Tests-Algebra-Rings'!
-AbstractCommutativeRingTest subclass: #ModularIntegerPolynomialRingTest
+!classDefinition: #ModularPolynomialRingTest category: #'Tests-Algebra-Rings'!
+AbstractCommutativeRingTest subclass: #ModularPolynomialRingTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Rings'!
-!classDefinition: 'ModularIntegerPolynomialRingTest class' category: #'Tests-Algebra-Rings'!
-ModularIntegerPolynomialRingTest class
+!classDefinition: 'ModularPolynomialRingTest class' category: #'Tests-Algebra-Rings'!
+ModularPolynomialRingTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #AbstractArrayTest category: #'Tests-Algebra-Arrays'!
@@ -1011,18 +1011,18 @@ AbstractTupleTest subclass: #AbstractCommutativeRingTupleTest
 AbstractCommutativeRingTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #AbstractModularIntegerTupleTest category: #'Tests-Algebra-Tuples'!
-AbstractCommutativeRingTupleTest subclass: #AbstractModularIntegerTupleTest
+!classDefinition: #AbstractModularTupleTest category: #'Tests-Algebra-Tuples'!
+AbstractCommutativeRingTupleTest subclass: #AbstractModularTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'AbstractModularIntegerTupleTest class' category: #'Tests-Algebra-Tuples'!
-AbstractModularIntegerTupleTest class
+!classDefinition: 'AbstractModularTupleTest class' category: #'Tests-Algebra-Tuples'!
+AbstractModularTupleTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #BinaryPowerTupleTest category: #'Tests-Algebra-Tuples'!
-AbstractModularIntegerTupleTest subclass: #BinaryPowerTupleTest
+AbstractModularTupleTest subclass: #BinaryPowerTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1032,7 +1032,7 @@ BinaryPowerTupleTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #BinaryTupleTest category: #'Tests-Algebra-Tuples'!
-AbstractModularIntegerTupleTest subclass: #BinaryTupleTest
+AbstractModularTupleTest subclass: #BinaryTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1041,48 +1041,48 @@ AbstractModularIntegerTupleTest subclass: #BinaryTupleTest
 BinaryTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerByteTupleTest category: #'Tests-Algebra-Tuples'!
-AbstractModularIntegerTupleTest subclass: #ModularIntegerByteTupleTest
+!classDefinition: #ModularByteTupleTest category: #'Tests-Algebra-Tuples'!
+AbstractModularTupleTest subclass: #ModularByteTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'ModularIntegerByteTupleTest class' category: #'Tests-Algebra-Tuples'!
-ModularIntegerByteTupleTest class
+!classDefinition: 'ModularByteTupleTest class' category: #'Tests-Algebra-Tuples'!
+ModularByteTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerDoubleByteTupleTest category: #'Tests-Algebra-Tuples'!
-AbstractModularIntegerTupleTest subclass: #ModularIntegerDoubleByteTupleTest
+!classDefinition: #ModularDoubleByteTupleTest category: #'Tests-Algebra-Tuples'!
+AbstractModularTupleTest subclass: #ModularDoubleByteTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'ModularIntegerDoubleByteTupleTest class' category: #'Tests-Algebra-Tuples'!
-ModularIntegerDoubleByteTupleTest class
+!classDefinition: 'ModularDoubleByteTupleTest class' category: #'Tests-Algebra-Tuples'!
+ModularDoubleByteTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerTupleTest category: #'Tests-Algebra-Tuples'!
-AbstractModularIntegerTupleTest subclass: #ModularIntegerTupleTest
+!classDefinition: #ModularTupleTest category: #'Tests-Algebra-Tuples'!
+AbstractModularTupleTest subclass: #ModularTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'ModularIntegerTupleTest class' category: #'Tests-Algebra-Tuples'!
-ModularIntegerTupleTest class
+!classDefinition: 'ModularTupleTest class' category: #'Tests-Algebra-Tuples'!
+ModularTupleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerWordTupleTest category: #'Tests-Algebra-Tuples'!
-AbstractModularIntegerTupleTest subclass: #ModularIntegerWordTupleTest
+!classDefinition: #ModularWordTupleTest category: #'Tests-Algebra-Tuples'!
+AbstractModularTupleTest subclass: #ModularWordTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Tuples'!
-!classDefinition: 'ModularIntegerWordTupleTest class' category: #'Tests-Algebra-Tuples'!
-ModularIntegerWordTupleTest class
+!classDefinition: 'ModularWordTupleTest class' category: #'Tests-Algebra-Tuples'!
+ModularWordTupleTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #TernaryTupleTest category: #'Tests-Algebra-Tuples'!
-AbstractModularIntegerTupleTest subclass: #TernaryTupleTest
+AbstractModularTupleTest subclass: #TernaryTupleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -1471,14 +1471,14 @@ AbstractEuclideanRingMatrixTest subclass: #LocalIntegerRingMatrixTest
 LocalIntegerRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerMatrixTest category: #'Tests-Algebra-Matrices'!
-AbstractEuclideanRingMatrixTest subclass: #ModularIntegerMatrixTest
+!classDefinition: #ModularMatrixTest category: #'Tests-Algebra-Matrices'!
+AbstractEuclideanRingMatrixTest subclass: #ModularMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'ModularIntegerMatrixTest class' category: #'Tests-Algebra-Matrices'!
-ModularIntegerMatrixTest class
+!classDefinition: 'ModularMatrixTest class' category: #'Tests-Algebra-Matrices'!
+ModularMatrixTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #PrimePowerRingMatrixTest category: #'Tests-Algebra-Matrices'!
@@ -1501,24 +1501,24 @@ AbstractStandardRingMatrixTest subclass: #GaloisRingMultivariatePolynomialRingMa
 GaloisRingMultivariatePolynomialRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerMultivariatePolynomialRingMatrixTest category: #'Tests-Algebra-Matrices'!
-AbstractStandardRingMatrixTest subclass: #ModularIntegerMultivariatePolynomialRingMatrixTest
+!classDefinition: #ModularMultivariatePolynomialRingMatrixTest category: #'Tests-Algebra-Matrices'!
+AbstractStandardRingMatrixTest subclass: #ModularMultivariatePolynomialRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'ModularIntegerMultivariatePolynomialRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
-ModularIntegerMultivariatePolynomialRingMatrixTest class
+!classDefinition: 'ModularMultivariatePolynomialRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
+ModularMultivariatePolynomialRingMatrixTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerPolynomialRingPolynomialRingMatrixTest category: #'Tests-Algebra-Matrices'!
-AbstractStandardRingMatrixTest subclass: #ModularIntegerPolynomialRingPolynomialRingMatrixTest
+!classDefinition: #ModularPolynomialRingPolynomialRingMatrixTest category: #'Tests-Algebra-Matrices'!
+AbstractStandardRingMatrixTest subclass: #ModularPolynomialRingPolynomialRingMatrixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'ModularIntegerPolynomialRingPolynomialRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
-ModularIntegerPolynomialRingPolynomialRingMatrixTest class
+!classDefinition: 'ModularPolynomialRingPolynomialRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
+ModularPolynomialRingPolynomialRingMatrixTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #PrimeFieldMultivariatePolynomialRingMatrixTest category: #'Tests-Algebra-Matrices'!
@@ -1791,24 +1791,24 @@ AbstractCommutativeRingModuleTest subclass: #LocalIntegerRingModuleTest
 LocalIntegerRingModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerModuleTest category: #'Tests-Algebra-Modules'!
-AbstractCommutativeRingModuleTest subclass: #ModularIntegerModuleTest
+!classDefinition: #ModularModuleTest category: #'Tests-Algebra-Modules'!
+AbstractCommutativeRingModuleTest subclass: #ModularModuleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'ModularIntegerModuleTest class' category: #'Tests-Algebra-Modules'!
-ModularIntegerModuleTest class
+!classDefinition: 'ModularModuleTest class' category: #'Tests-Algebra-Modules'!
+ModularModuleTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerMultivariatePolynomialRingModuleTest category: #'Tests-Algebra-Modules'!
-AbstractCommutativeRingModuleTest subclass: #ModularIntegerMultivariatePolynomialRingModuleTest
+!classDefinition: #ModularMultivariatePolynomialRingModuleTest category: #'Tests-Algebra-Modules'!
+AbstractCommutativeRingModuleTest subclass: #ModularMultivariatePolynomialRingModuleTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Modules'!
-!classDefinition: 'ModularIntegerMultivariatePolynomialRingModuleTest class' category: #'Tests-Algebra-Modules'!
-ModularIntegerMultivariatePolynomialRingModuleTest class
+!classDefinition: 'ModularMultivariatePolynomialRingModuleTest class' category: #'Tests-Algebra-Modules'!
+ModularMultivariatePolynomialRingModuleTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #ProductRingModuleTest category: #'Tests-Algebra-Modules'!
@@ -1921,14 +1921,14 @@ AbstractGroebnerBasisTest subclass: #IntegerGroebnerBasisTest
 IntegerGroebnerBasisTest class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModularIntegerGroebnerBasisTest category: #'Tests-Algebra-Groebner Bases'!
-AbstractGroebnerBasisTest subclass: #ModularIntegerGroebnerBasisTest
+!classDefinition: #ModularGroebnerBasisTest category: #'Tests-Algebra-Groebner Bases'!
+AbstractGroebnerBasisTest subclass: #ModularGroebnerBasisTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Tests-Algebra-Groebner Bases'!
-!classDefinition: 'ModularIntegerGroebnerBasisTest class' category: #'Tests-Algebra-Groebner Bases'!
-ModularIntegerGroebnerBasisTest class
+!classDefinition: 'ModularGroebnerBasisTest class' category: #'Tests-Algebra-Groebner Bases'!
+ModularGroebnerBasisTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #RationalGroebnerBasisTest category: #'Tests-Algebra-Groebner Bases'!
@@ -6199,6 +6199,15 @@ testAbelianGroupsTriangleIdentity
 	I := ℤ asIdeal.
 	self assert: X id ⊗ Y leftUnitor ∘ (X associatorWith: I and: Y) = (X rightUnitor ⊗ Y id)! !
 
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/22/2024 09:18:13'!
+testBinaryAffineAlgebraBug
+	"this hangs:"
+	| R f |
+	R := 𝔽₂ polynomials / [:x| x^4 + x].
+	f := R !! [:x| x^3 + x].
+	self halt.
+	self should: [f normalization] notTakeMoreThan: 1 seconds! !
+
 !AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 11/18/2024 18:31:53'!
 testContravariantHom
 	| x y H g |
@@ -6243,44 +6252,59 @@ testCovariantInternalHom
 	g := ℤ^2 to: ℤ asIdeal map: [:v| (v at: 1) * 2].
 	self assert: (H value: g) parent = (x ⇒ g domain ⇒ (x ⇒ g codomain))! !
 
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/4/2024 08:34:12'!
-testD8RepresentationExample
-	| D₈ A B ρ M |
-	D₈ := PermutationGroup dihedral: 8.
-	A := 𝔽₃ !!!!!! #((0 -1) (1  0)).
-	B := 𝔽₃ !!!!!! #((1 0) (0  -1)).
-	ρ := D₈ to: (𝔽₃^2) automorphisms images: {A. B}.
-	M := ρ asModule.
-	self assert: M isSimple.
-	self assert: M dual isSimple.
-	self assert: (M ⊕ M) isSimple not.
-	self assert: (M ⊗ M) isSimple not! !
-
 !AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 7/22/2024 09:07:01'!
 testEvaluationCoevaluationIdentityExample1
 	| V |
 	V := ℚ^3.
 	self assert: (V evaluation ⊗ V id ∘ (V id ⊗ V coevaluation)) = V id! !
 
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/1/2024 14:32:06'!
-testGroupAlgebraHopfAlgebraAxioms
-	| G A μ η Δ ε S id |
-	G := SymmetricGroup new: 3.
-	A := G groupAlgebraOver: ℚ.
-	μ := A asAlgebra multiplication.
-	η := A asAlgebra unit.
-	Δ := A asBialgebra comultiplication.
-	ε := A asBialgebra counit.
-	S := A antipode.
-	id := A carrier id.
-	"coassociativity:"
-	self assert: Δ ⊗ id ∘ Δ = (id ⊗ Δ ∘ Δ).
-	"counit axiom:"
-	self assert: ε ⊗ id ∘ Δ = (id ⊗ ε ∘ Δ).
-	self assert: ε ⊗ id ∘ Δ = id.
-	"antipode axioms:"
-	self assert: μ ∘ (id ⊗ S) ∘ Δ = (μ ∘ (S ⊗ id) ∘ Δ).
-	self assert: μ ∘ (id ⊗ S) ∘ Δ = (η ∘ ε)! !
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/20/2024 08:19:16'!
+testExampleRCFAndPCRF
+	| F A x i |
+	F := ℚ.
+	x := F polynomials x.
+	A := F !!!!!! #((0 -1) (1 0)).
+	self assert: A elementaryDivisors = #(1 1).
+	self assert: A invariantFactors = {x^2 + 1}.
+	self assert: A primaryInvariantFactors asArray = A invariantFactors asArray.
+	self assert: A RCF = A.
+	F := CyclotomicField new: 4.
+	x := F polynomials x.
+	i := F i.
+	A := A ⊗ F.
+	self assert: A RCF = A.
+	self assert: A invariantFactors = {x^2 + 1}.
+	self assert: A primaryInvariantFactors asSet = {x+i. x-i} asSet.
+	self assert: A PRCF = (F !!!!!! {{i negated. 0}. {0. i}})! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/21/2024 10:18:51'!
+testJacobsonRadicalZeroCharacteristicExample
+	"[Str00, Example 5.4.3]."
+	| b₁ b₂ b₃ S |
+	b₁ := ℚ !!!!!! #((1 1) (0 0)).
+	b₂ := ℚ !!!!!! #((0 1) (0 0)).
+	b₃ := ℚ !!!!!! #((0 0) (0 1)).
+	S := (ℚ^2) endomorphisms sub: {b₁. b₂. b₃}.
+	self assert: S radical generators = {b₂}! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/22/2024 08:59:55'!
+testNonArtinianQuotientJacobsonRadical
+	"For an Artinian ring R, a J(R/I) = (J(R) + I) / I. But if R is not Artinian the equality doesn't hold:"
+	| R Q |
+	R := ℚ polynomials.
+	self assert: R isArtinian not.
+	self assert: R radical isZero.
+	Q := ℚ polynomials / [:x| x^2].
+	self assert: Q radical = (Q * Q x)! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/23/2024 16:01:29'!
+testPrimitiveCentralIdempotentsExample
+	| A E |
+	A := (SymmetricGroup new: 5) groupAlgebraOver: ℤ/5.
+	E := A primitiveCentralIdempotents.
+	self assert: E size = 3.
+	self assert: (E allSatisfy: [:e| e isIdempotent]).
+	self assert: (E allSatisfy: [:e| e isIdempotent and: [E allSatisfy: [:f| e = f or: [(e * f) isZero]]]])! !
 
 !AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 7/24/2024 08:40:34'!
 testSetsBraidingIsSymmetric
@@ -6504,6 +6528,19 @@ testD3
 	self assert: D commutator = A.
 	self assert: D center isTrivial! !
 
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/9/2024 12:19:35'!
+testD8RepresentationExample
+	| D₈ A B ρ M |
+	D₈ := PermutationGroup dihedral: 8.
+	A := 𝔽₃ !!!!!! #((0 -1) (1  0)).
+	B := 𝔽₃ !!!!!! #((1 0) (0  -1)).
+	ρ := D₈ to: (𝔽₃^2) automorphisms images: {A. B}.
+	M := ρ asModule.
+	self assert: M isSimple.
+	self assert: M dual isSimple.
+	self assert: (M ⊕ M) isSimple not.
+	self assert: (M ⊗ M) isSimple not! !
+
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/23/2023 16:20:41'!
 testElementOrderExample1
 	| K a b n |
@@ -6570,6 +6607,26 @@ testGroupAlgebra
 	self assert: xa*2 + xb*xc - (xa*xc) - (xb*xc) = (R !! (a·c)).
 	self assert: (xa + xb) * (xa - xb) = (xa^2 - (xb^2) + (xb*xa) - (xa*xb))! !
 
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/9/2024 12:19:06'!
+testGroupAlgebraHopfAlgebraAxioms
+	| G A μ η Δ ε S id |
+	G := SymmetricGroup new: 3.
+	A := G groupAlgebraOver: ℚ.
+	μ := A asAlgebra multiplication.
+	η := A asAlgebra unit.
+	Δ := A asBialgebra comultiplication.
+	ε := A asBialgebra counit.
+	S := A antipode.
+	id := A carrier id.
+	"coassociativity:"
+	self assert: Δ ⊗ id ∘ Δ = (id ⊗ Δ ∘ Δ).
+	"counit axiom:"
+	self assert: ε ⊗ id ∘ Δ = (id ⊗ ε ∘ Δ).
+	self assert: ε ⊗ id ∘ Δ = id.
+	"antipode axioms:"
+	self assert: μ ∘ (id ⊗ S) ∘ Δ = (μ ∘ (S ⊗ id) ∘ Δ).
+	self assert: μ ∘ (id ⊗ S) ∘ Δ = (η ∘ ε)! !
+
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:14:15'!
 testGroupAlgebraIsARing
 	| G R a a2 b b2 c c2 e e2 |
@@ -6588,6 +6645,13 @@ testGroupAlgebraIsARing
 	self assert: a2 * e2 = a2.
 	self assert: (a2 * b2 * c2) = (a2 * (b2 * c2)).
 	G isCommutative ifTrue: [self assert: a2 * b2 = (b2 * a2)].! !
+
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/9/2024 12:18:24'!
+testGroupAlgebraIsCocommutative
+	| G R |
+	G := self smallGroupAtRandom.
+	R := G groupAlgebra.
+	self assert: R asBialgebra isCocommutative! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:14:38'!
 testGroupHomomorphism: φ
@@ -8422,11 +8486,11 @@ setUp
 	k := 10 atRandom: random.
 	R := PrimePowerRing new: p to: k! !
 
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:53:48'!
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/23/2024 15:12:45'!
 testEuclideanDivisionCompatibleWithModularIntegerRing
 	| S r1 r2 s1 s2 |
 	"Hacky way to instantiate a ModularIntegerRing, otherwise we might get the cached original one"
-	S := ModularIntegerRing new modulus: R modulus.
+	S := ModularRing new modulus: R modulus.
 	100 timesRepeat:
 		[r1 := R atRandom: random.
 		[r2 := R atRandom: random. r2 isZero] whileTrue.
@@ -8434,21 +8498,21 @@ testEuclideanDivisionCompatibleWithModularIntegerRing
 		s2 := S !! r2 representative.
 		self assert: (r1 // r2) representative = (s1 // s2) representative]! !
 
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:53:48'!
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/23/2024 15:12:45'!
 testEuclideanFunctionCompatibleWithModularIntegerRing
 	| S r s |
 	"Hacky way to instantiate a ModularIntegerRing, otherwise we might get the cached original one"
-	S := ModularIntegerRing new modulus: R modulus.
+	S := ModularRing new modulus: R modulus.
 	100 timesRepeat:
 		[r := R atRandom: random.
 		s := S !! r representative.
 		self assert: r gauge = s gauge]! !
 
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:53:48'!
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/23/2024 15:12:45'!
 testGCDCompatibleWithModularIntegerRing
 	| S r1 r2 s1 s2 |
 	"Hacky way to instantiate a ModularIntegerRing, otherwise we might get the cached original one"
-	S := ModularIntegerRing new modulus: R modulus.
+	S := ModularRing new modulus: R modulus.
 	100 timesRepeat:
 		[r1 := R atRandom: random.
 		r2 := R atRandom: random.
@@ -8456,11 +8520,11 @@ testGCDCompatibleWithModularIntegerRing
 		s2 := S !! r2 representative.
 		self assert: (r1 gcd: r2) representative = (s1 gcd: s2) representative]! !
 
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:53:48'!
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/23/2024 15:12:45'!
 testLCMCompatibleWithModularIntegerRing
 	| S r1 r2 s1 s2 |
 	"Hacky way to instantiate a ModularIntegerRing, otherwise we might get the cached original one"
-	S := ModularIntegerRing new modulus: R modulus.
+	S := ModularRing new modulus: R modulus.
 	100 timesRepeat:
 		[r1 := R atRandom: random.
 		r2 := R atRandom: random.
@@ -8468,11 +8532,11 @@ testLCMCompatibleWithModularIntegerRing
 		s2 := S !! r2 representative.
 		self assert: (r1 lcm: r2) representative = (s1 lcm: s2) representative]! !
 
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:53:48'!
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/23/2024 15:12:45'!
 testNormalizationCompatibleWithModularIntegerRing
 	| S r s |
 	"Hacky way to instantiate a ModularIntegerRing, otherwise we might get the cached original one"
-	S := ModularIntegerRing new modulus: R modulus.
+	S := ModularRing new modulus: R modulus.
 	100 timesRepeat:
 		[r := R atRandom: random.
 		s := S !! r representative.
@@ -8499,12 +8563,12 @@ setUp
 	P := K polynomials.
 	R := P / {P x ^ 2}! !
 
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:37:16'!
+!ModularRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:37:16'!
 setUp
 	super setUp.
 	R := ℤ/((2 to: ({2^8. 2^16.  2^32. 2^40} atRandom: random)) atRandom: random)! !
 
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 12:04:12'!
+!ModularRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 12:04:12'!
 testCongruenceSolvingExample1
 	| A a b solutions |
 	A _ ℤ/20.
@@ -8514,7 +8578,7 @@ testCongruenceSolvingExample1
 	self assert: solutions first = (A !! 5).
 	self assert: solutions size = 1! !
 
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 12:03:44'!
+!ModularRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2021 12:03:44'!
 testCongruenceSolvingExample2
 	| A a b solutions |
 	A _ ℤ/12167.
@@ -8525,19 +8589,19 @@ testCongruenceSolvingExample2
 	self assert: solutions size = 23.
 	self assert: (solutions allSatisfy: [:x| a*x = b])! !
 
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:27:44'!
+!ModularRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:27:44'!
 testIsFieldIffIsIntegralDomain
 	self assert: R isField = R isIntegralDomain! !
 
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:27:07'!
+!ModularRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:27:07'!
 testIsLocalIffModulusIsPrimePower
 	self assert: R modulus isPrimePower = R isLocal! !
 
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:26:46'!
+!ModularRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:26:46'!
 testIsPrimeIffModulusIsPrime
 	self assert: R modulus isPrime = R isField! !
 
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:30:51'!
+!ModularRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:30:51'!
 testModularIntegersEuclideanExample
 	"Some random example built in Magma online calculator."
 	| A a b c |
@@ -8549,7 +8613,7 @@ testModularIntegersEuclideanExample
 	self assert: c // a = (A !! 3).
 	self assert: c // b = (A !! 10)! !
 
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:31:08'!
+!ModularRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:31:08'!
 testModularIntegersEuclideanExample2
 	"Some random example built in Magma online calculator."
 	| A a b |
@@ -8558,7 +8622,7 @@ testModularIntegersEuclideanExample2
 	b := A !! 3.
 	self assert: a // b = (A !! 12)! !
 
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:31:27'!
+!ModularRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:31:27'!
 testModularIntegersEuclideanExample3
 	"Some random example built in Magma online calculator."
 	| A a b |
@@ -8567,7 +8631,7 @@ testModularIntegersEuclideanExample3
 	b := A !! 39.
 	self assert: a // b = (A !! 0)! !
 
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:31:42'!
+!ModularRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:31:42'!
 testModularIntegersEuclideanExample4
 	"Some random example built in Magma online calculator."
 	| A a b |
@@ -8577,7 +8641,7 @@ testModularIntegersEuclideanExample4
 	self assert: (a gcd: b) = (A !! 1).
 	self assert: (a lcm: b) = (A !! 10).! !
 
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:32:05'!
+!ModularRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:32:05'!
 testModularIntegersEuclideanExample5
 	"Some random example built in Magma online calculator."
 	| A a b |
@@ -8589,7 +8653,7 @@ testModularIntegersEuclideanExample5
 	self assert: (a gcd: b) = (A !! 2).
 	self assert: (a lcm: b) = (A !! 2)! !
 
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:32:22'!
+!ModularRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:32:22'!
 testModularIntegersEuclideanExample6
 	"Some random example built in Magma online calculator."
 	| A a b |
@@ -8599,7 +8663,7 @@ testModularIntegersEuclideanExample6
 	self assert: a // b = (A !! 11).
 	self assert: b // a = (A !! 2)! !
 
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:32:35'!
+!ModularRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:32:35'!
 testModularIntegersEuclideanExample7
 	"Some random example built in Magma online calculator."
 	| A a b |
@@ -8609,7 +8673,7 @@ testModularIntegersEuclideanExample7
 	self assert: (a gcd: b) = (A !! 1).
 	self assert: (a lcm: b) = (A !! 0)! !
 
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:32:49'!
+!ModularRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:32:49'!
 testModularIntegersEuclideanExample8
 	"Some random example built in Magma online calculator."
 	| A a b |
@@ -8619,7 +8683,7 @@ testModularIntegersEuclideanExample8
 	self assert: a // b = (A !! 4).
 	self assert: b // a = (A !! 4)! !
 
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:33:04'!
+!ModularRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:33:04'!
 testModularIntegersEuclideanExample9
 	"Some random example built in Magma online calculator."
 	| A a b |
@@ -8629,11 +8693,11 @@ testModularIntegersEuclideanExample9
 	self assert: a // b = (A !! 8).
 	self assert: b // a = (A !! 2)! !
 
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:24:35'!
+!ModularRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:24:35'!
 testNilradical
 	self assert: R nilradical = (R * (R modulus factorization asSet product))! !
 
-!ModularIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:25:28'!
+!ModularRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:25:28'!
 testPrimesExamples
 	| A |
 	A := ℤ/6.
@@ -8969,12 +9033,12 @@ setUp
 	super setUp.
 	R := (PrimePowerRing new: 2 to: ((2 to: 64) atRandom: random)) polynomials! !
 
-!ModularIntegerMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:40:33'!
+!ModularMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:40:33'!
 setUp
 	super setUp.
 	R := ℤ/((2 to: 256) atRandom: random) polynomialsIn: (3 atRandom: random)! !
 
-!ModularIntegerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:41:07'!
+!ModularPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:41:07'!
 setUp
 	super setUp.
 	R := (ℤ/((2 to: ({2^8. 2^16.  2^32. 2^40} atRandom: random)) atRandom: random)) polynomials! !
@@ -9641,7 +9705,7 @@ testHomogeneousTuples
 	d _ scalars^n x: 2.
 	self deny: c ~ d! !
 
-!AbstractModularIntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:17:21'!
+!AbstractModularTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:17:21'!
 testModTupleOperations
 	| n a b modulus |
 	modulus := scalars modulus.
@@ -9653,11 +9717,11 @@ testModTupleOperations
 	#(negated reversed copy sum product) do: [:op|
 		self testTuple: a operation: op modulo: modulus].! !
 
-!AbstractModularIntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:28:45'!
+!AbstractModularTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:28:45'!
 testTuple: a operation: aSymbol modulo: modulus
 	self assert: (a perform: aSymbol) % modulus = (a % modulus perform: aSymbol)! !
 
-!AbstractModularIntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:28:53'!
+!AbstractModularTupleTest methodsFor: 'as yet unclassified' stamp: 'len 4/22/2021 10:28:53'!
 testTuple: a with: b operation: aSymbol modulo: modulus
 	self assert: (a perform: aSymbol with: b) % modulus = (a % modulus perform: aSymbol with: b % modulus)! !
 
@@ -9680,29 +9744,29 @@ testBitTupleBug
 	self assert: ((1,1,0) % 2 :: sum = Z2 zero).
 	self assert: ((1,1,1) % 2 :: sum = Z2 one)! !
 
-!ModularIntegerByteTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:42:12'!
+!ModularByteTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:42:12'!
 setUp
 	super setUp.
 	scalars := ℤ / ((4 to: 256) atRandom: random)! !
 
-!ModularIntegerDoubleByteTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:41:39'!
+!ModularDoubleByteTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:41:39'!
 setUp
 	super setUp.
 	scalars := ℤ / ((2^8 + 1 to: 2^16) atRandom: random)! !
 
-!ModularIntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:42:30'!
+!ModularTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:42:30'!
 setUp
 	super setUp.
 	scalars := ℤ / ((16r100000001 to: 16r100000001 + 1000) atRandom: random)! !
 
-!ModularIntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/30/2023 23:06:28'!
+!ModularTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/30/2023 23:06:28'!
 testHomogeneousTuplesNonExample
 	| P Q |
 	P := (2,4,1) % 6.
 	Q := (0,1,3) % 6.
 	self deny: P ~ Q! !
 
-!ModularIntegerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/30/2023 23:08:30'!
+!ModularTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/30/2023 23:08:30'!
 testTupleUnitsAndAssociatesExamples
 	"Examples from Magma."
 	| R |
@@ -9727,7 +9791,7 @@ testTupleUnitsAndAssociatesExamples
 	self assert: (R !!!! #(2 7)) normalized = (R !!!! #(2 3))
 "! !
 
-!ModularIntegerWordTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:41:52'!
+!ModularWordTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:41:52'!
 setUp
 	super setUp.
 	scalars := ℤ / ((2^16 + 1 to: 2^32) atRandom: random)! !
@@ -11486,12 +11550,12 @@ setUp
 	super setUp.
 	scalars := ℤ localizationAt: ℤ * (64 atRandom: random) nextPrime! !
 
-!ModularIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:15:33'!
+!ModularMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:15:33'!
 setUp
 	super setUp.
 	scalars := ℤ/((2 to: 64) atRandom: random)! !
 
-!ModularIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:42'!
+!ModularMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:42'!
 testHowellNormalForm1
 	"Examples from 'Fast Algorithms for Linear Algebra Modulo N', Arne Storjohann, Thom Mulders."
 	| R A B C D H |
@@ -11506,7 +11570,7 @@ testHowellNormalForm1
 	self assert: C echelon = H.
 	self assert: D echelon = H! !
 
-!ModularIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 21:47:55'!
+!ModularMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/1/2022 21:47:55'!
 testHowellNormalForm2
 	| m R t u |
 	100 timesRepeat:
@@ -11516,7 +11580,7 @@ testHowellNormalForm2
 		u _ R units atRandom: random.
 		self assert: t asRowMatrix echelon = (t*u) asRowMatrix echelon]! !
 
-!ModularIntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:49'!
+!ModularMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:49'!
 testHowellNormalForm3
 	"Example from 'Spans in the module (Z/mZ)^s', John A. Howell (1986)."
 	| R A H |
@@ -11543,12 +11607,12 @@ setUp
 	super setUp.
 	scalars := (GaloisRing new: (3 atRandom: random) nextPrime to: (2 atRandom: random) to: (2 atRandom: random)) polynomialsIn: (3 atRandom: random)! !
 
-!ModularIntegerMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:16:01'!
+!ModularMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:16:01'!
 setUp
 	super setUp.
 	scalars := ℤ/(1024 atRandom: random) polynomialsIn: (3 atRandom: random)! !
 
-!ModularIntegerPolynomialRingPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2023 15:00:13'!
+!ModularPolynomialRingPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2023 15:00:13'!
 setUp
 	super setUp.
 	scalars := ℤ/(1024 atRandom: random) :: polynomials polynomials! !
@@ -12857,12 +12921,12 @@ setUp
 	super setUp.
 	scalars := ℤ localizationAt: ℤ * (64 atRandom: random) nextPrime! !
 
-!ModularIntegerModuleTest methodsFor: 'initialization' stamp: 'len 5/26/2023 00:24:13'!
+!ModularModuleTest methodsFor: 'initialization' stamp: 'len 5/26/2023 00:24:13'!
 setUp
 	super setUp.
 	scalars := ℤ/((2 to: 64) atRandom: random)! !
 
-!ModularIntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:52:21'!
+!ModularModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:52:21'!
 testExampleModulesOverZ12
 	| M A B |
 	M := ℤ/12^3.
@@ -12870,7 +12934,7 @@ testExampleModulesOverZ12
 	B := M sub: {(8,5,5). (0,9,8). (0,0,10)}.
 	self assert: A = B! !
 
-!ModularIntegerMultivariatePolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2023 22:46:05'!
+!ModularMultivariatePolynomialRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2023 22:46:05'!
 setUp
 	super setUp.
 	scalars := (ℤ/((2 to: 64) atRandom: random)) polynomialsIn: 2! !
@@ -13054,7 +13118,7 @@ setUp
 	super setUp.
 	scalars := ℤ! !
 
-!ModularIntegerGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:05:47'!
+!ModularGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:05:47'!
 setUp
 	super setUp.
 	scalars := ℤ/(1024 atRandom: random)! !
