@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 23 December 2024 at 4:13:25 pm'!
+'From Cuis6.3 [latest update: #6222] on 26 December 2024 at 10:40:14 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 132!
+!provides: 'Tests-Algebra' 1 133!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -6297,12 +6297,40 @@ testNonArtinianQuotientJacobsonRadical
 	Q := ℚ polynomials / [:x| x^2].
 	self assert: Q radical = (Q * Q x)! !
 
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/23/2024 16:01:29'!
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/26/2024 08:53:08'!
 testPrimitiveCentralIdempotentsExample
 	| A E |
 	A := (SymmetricGroup new: 5) groupAlgebraOver: ℤ/5.
 	E := A primitiveCentralIdempotents.
+	self assert: (E allSatisfy: [:e| A includes: e]).
 	self assert: E size = 3.
+	self assert: (E allSatisfy: [:e| e isIdempotent]).
+	self assert: (E allSatisfy: [:e| e isIdempotent and: [E allSatisfy: [:f| e = f or: [(e * f) isZero]]]])! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/26/2024 10:33:47'!
+testPrimitiveCentralIdempotentsExample2
+	| A E |
+	A := (SymmetricGroup new: 5) groupAlgebraOver: ℚ.
+	E := A primitiveCentralIdempotents.
+	self assert: (E allSatisfy: [:e| A includes: e]).
+	self assert: (E allSatisfy: [:e| e isIdempotent]).
+	self assert: (E allSatisfy: [:e| e isIdempotent and: [E allSatisfy: [:f| e = f or: [(e * f) isZero]]]])! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/26/2024 08:53:18'!
+testPrimitiveCentralIdempotentsExample3
+	| A E |
+	A := (SymmetricGroup new: 5) groupAlgebraOver: (GaloisField new: 7 to: 2).
+	E := A primitiveCentralIdempotents.
+	self assert: (E allSatisfy: [:e| A includes: e]).
+	self assert: (E allSatisfy: [:e| e isIdempotent]).
+	self assert: (E allSatisfy: [:e| e isIdempotent and: [E allSatisfy: [:f| e = f or: [(e * f) isZero]]]])! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/26/2024 08:53:22'!
+testPrimitiveCentralIdempotentsExample4
+	| A E |
+	A := (SymmetricGroup new: 5) groupAlgebraOver: (GaloisField new: 2 to: 3).
+	E := A primitiveCentralIdempotents.
+	self assert: (E allSatisfy: [:e| A includes: e]).
 	self assert: (E allSatisfy: [:e| e isIdempotent]).
 	self assert: (E allSatisfy: [:e| e isIdempotent and: [E allSatisfy: [:f| e = f or: [(e * f) isZero]]]])! !
 

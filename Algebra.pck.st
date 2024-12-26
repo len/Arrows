@@ -1,4 +1,4 @@
-'From Cuis6.3 [latest update: #6222] on 23 December 2024 at 4:33:21 pm'!
+'From Cuis6.3 [latest update: #6222] on 26 December 2024 at 10:40:04 am'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, finitely presented modules, chain complexes, finite (finitely generated as modules) associative algebras, schemes, and coherent sheaves.
 
 References:
@@ -26,6 +26,7 @@ References:
 [Dix82] John D. Dixon, "Exact Solution of Linear Equations Using p-Adic Expansions" (1982)
 [Dum18] Jean-Guillaume Dumas; "On Newton-Raphson iteration for multiplicative inverses modulo prime powers" (2018)
 [Ebe89] Wayne Eberly; "Computations for Algebras and Group Representations" (1989)
+[EG96] W. Eberly and M. Giesbrecht; "Efficient decomposition of associative algebras" (1996)
 [Eis95] David Eisenbud; "Commutative Algebra With a View Towards Algebraic Geometry", GTM 150, Springer, 1995
 [EH99] David Eisenbud; Joe Harris; "The Geometry of Schemes", GTM 197, Springer, 1999
 [ESS02] David Eisenbud; D. Grayson; M. Stillman; B. Sturmfels; "Computations in Algebraic Geometry with Macaulay 2" (2002)
@@ -98,7 +99,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 221!
+!provides: 'Algebra' 1 222!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Complex' 1 7 nil!
@@ -3207,7 +3208,7 @@ Category Rep(A) of representations (or finite-dimensional left A-modules) of a k
 
 Objects are finite-dimensional k-vector spaces V equipped with an action A ⊗ V → V specified by a k-algebra homomorphism A → Endₖ(V) (a representation). Morphisms are maps of k-vector spaces that commute with the actions, and they are also called interwiners and equivariant maps.
 
-In the special case of A = k[G] (the group algebra of a finite group G over a field k), this is the category Repₖ(G) of k-linear representations of G, and it is a symmetric closed monoidal category.!
+In the special case of A = k[G] the group algebra of a finite group G over a field k, this is the category Repₖ(G) of k-linear representations of G, and it is a symmetric closed monoidal category.!
 
 !CoherentSheavesCategory commentStamp: '<historical>' prior: 0!
 Category of coherent sheaves on a given scheme. See CoherentSheaf and CoherentSheafMap.!
@@ -5649,10 +5650,10 @@ modulus
 representatives
 	^ representatives! !
 
-!ModularArray methodsFor: 'private' stamp: 'len 11/16/2023 21:54:39'!
-representatives: anArray scalars: aModularIntegerRing
+!ModularArray methodsFor: 'private' stamp: 'len 12/24/2024 08:26:49'!
+representatives: anArray scalars: aModularRing
 	representatives := anArray.
-	scalars := aModularIntegerRing
+	scalars := aModularRing
 "	representatives do: [:each| (each between: 0 and: modulus) ifFalse: [self halt]]"! !
 
 !ModularArray methodsFor: 'private' stamp: 'len 5/4/2023 23:44:53'!
@@ -5664,9 +5665,9 @@ zeros
 	self isEmpty ifTrue: [^ self].
 	^ self scalars zeros: self size! !
 
-!ModularArray class methodsFor: 'instance creation' stamp: 'len 11/16/2023 21:54:53'!
-representatives: anArray scalars: aModularIntegerRing
-	^ self basicNew representatives: anArray scalars: aModularIntegerRing! !
+!ModularArray class methodsFor: 'instance creation' stamp: 'len 12/24/2024 08:27:00'!
+representatives: anArray scalars: aModularRing
+	^ self basicNew representatives: anArray scalars: aModularRing! !
 
 !ProductArray methodsFor: 'accessing' stamp: 'len 5/4/2023 23:39:54'!
 at: anInteger
@@ -9697,13 +9698,13 @@ cosmos
 scalars
 	^ scalars! !
 
-!RepresentationCategory methodsFor: 'accessing' stamp: 'len 12/8/2024 17:31:25'!
+!RepresentationCategory methodsFor: 'accessing' stamp: 'len 12/25/2024 08:13:45'!
 unitObject
-	^ self propertyAt: #unitObject ifAbsentPut: [scalars on: self base unitObject action: [:g :x| x]]! !
+	^ self propertyAt: #unitObject ifAbsentPut: [scalars on: self base unitObject action: [:g :v| v]]! !
 
-!RepresentationCategory methodsFor: 'accessing' stamp: 'len 12/8/2024 17:31:32'!
+!RepresentationCategory methodsFor: 'accessing' stamp: 'len 12/25/2024 08:14:40'!
 zeroObject
-	^ self propertyAt: #zeroObject ifAbsentPut: [scalars on: self base zeroObject action: [:g :x| x]]! !
+	^ self propertyAt: #zeroObject ifAbsentPut: [scalars on: self base zeroObject action: [:g :v| v]]! !
 
 !RepresentationCategory methodsFor: 'comparing' stamp: 'len 11/29/2024 15:47:52'!
 = anObject
@@ -9712,10 +9713,6 @@ zeroObject
 !RepresentationCategory methodsFor: 'comparing' stamp: 'len 11/29/2024 15:48:14'!
 hash
 	^ scalars hash! !
-
-!RepresentationCategory methodsFor: 'elements' stamp: 'len 11/27/2024 06:59:11'!
-representation: aMorphism
-	^ RepresentationModule representation: aMorphism! !
 
 !RepresentationCategory methodsFor: 'printing' stamp: 'len 11/29/2024 15:48:35'!
 printOn: aStream
@@ -9737,9 +9734,8 @@ isRigid
 isSymmetricMonoidal
 	^ scalars isGroupAlgebra! !
 
-!RepresentationCategory methodsFor: 'private' stamp: 'len 11/29/2024 15:49:07'!
+!RepresentationCategory methodsFor: 'private' stamp: 'len 12/25/2024 09:08:31'!
 scalars: anAlgebra
-	self assert: anAlgebra isFiniteAlgebra. 
 	scalars := anAlgebra! !
 
 !RepresentationCategory class methodsFor: 'instance creation' stamp: 'len 11/29/2024 15:49:21'!
@@ -9829,14 +9825,18 @@ coevaluationWith: aModule
 curryingWith: anObject and: anotherObject
 	^ self × anObject ⇒ anotherObject to: self ⇒ (anObject ⇒ anotherObject) map: [:f| self to: anObject ⇒ anotherObject map: [:x| anObject to: anotherObject map: [:y| f value: {x. y}]]]! !
 
-!SetObject methodsFor: 'morphisms' stamp: 'len 9/16/2024 09:11:52'!
+!SetObject methodsFor: 'morphisms' stamp: 'len 12/25/2024 08:38:31'!
 evaluationWith: aSet
-	^ self ⇒ aSet with: self to: aSet map: [:f :x| f value: x]! !
+	^ self ⇒ aSet times: self to: aSet map: [:f :x| f value: x]! !
 
 !SetObject methodsFor: 'morphisms' stamp: 'len 10/12/2024 08:55:14'!
 from: aDomain
 "	aDomain isEmpty ifTrue: [^ aDomain to: self map: [:x| ]]."
 	^ super from: aDomain! !
+
+!SetObject methodsFor: 'morphisms' stamp: 'len 12/25/2024 08:38:31'!
+times: aSet to: anotherSet map: aBlock
+	^ self × aSet to: anotherSet mapWithArguments: aBlock! !
 
 !SetObject methodsFor: 'morphisms' stamp: 'len 10/12/2024 08:55:19'!
 to: aCodomain
@@ -9854,10 +9854,6 @@ to: aProduct join: anArray
 !SetObject methodsFor: 'morphisms' stamp: 'len 6/20/2024 07:20:58'!
 to: aCodomain map: aBlock
 	^ Function from: self to: aCodomain map: aBlock! !
-
-!SetObject methodsFor: 'morphisms' stamp: 'len 8/30/2024 09:44:47'!
-with: aSet to: anotherSet map: aBlock
-	^ self × aSet to: anotherSet mapWithArguments: aBlock! !
 
 !SetObject methodsFor: 'operations' stamp: 'len 10/13/2024 07:17:57'!
 / aBinaryBlock
@@ -13651,14 +13647,14 @@ unitsDo: aBlock
 algebras
 	^ self modules monoids! !
 
-!Ring methodsFor: 'internalization' stamp: 'len 12/1/2024 14:34:34'!
+!Ring methodsFor: 'internalization' stamp: 'len 12/25/2024 08:38:31'!
 asAlgebra
 	"Answer the receiver as a monoid in the category of modules of its scalars."
 	| M I |
 	M := self carrier.
 	I := self scalars asIdeal.
 	^ self scalars algebras
-		multiplication: (M with: M to: M map: [:x :y| self !! x * (self !! y)])
+		multiplication: (M times: M to: M map: [:x :y| self !! x * (self !! y)])
 		unit: (I to: M map: [:x| self one * x])! !
 
 !Ring methodsFor: 'internalization' stamp: 'len 11/18/2024 18:31:53'!
@@ -13697,9 +13693,9 @@ modules
 	"Answer the category of finitely presented modules over the receiver."
 	^ self propertyAt: #modules ifAbsentPut: [ModuleCategory over: self]! !
 
-!Ring methodsFor: 'internalization' stamp: 'len 8/30/2024 22:04:37'!
+!Ring methodsFor: 'internalization' stamp: 'len 12/25/2024 08:38:31'!
 multiplication
-	^​ self carrier with: self carrier to: self carrier map: [:x :y| self !! x * (self !! y)]! !
+	^​ self carrier times: self carrier to: self carrier map: [:x :y| self !! x * (self !! y)]! !
 
 !Ring methodsFor: 'internalization' stamp: 'len 11/23/2024 09:00:30'!
 representations
@@ -13759,6 +13755,10 @@ rightUnitor
 	This is the right unitor in the symmetric monoidal category of R-algebras."
 	^ self "⊗ self scalars" to: self carrier: self carrier rightUnitor! !
 
+!Ring methodsFor: 'morphisms' stamp: 'len 12/25/2024 08:38:31'!
+times: anAlgebra to: anotherAlgebra map: aBlock
+	^ self ⊗ anAlgebra to: anotherAlgebra carrier: (self carrier times: anAlgebra carrier to: anotherAlgebra carrier map: [:x :y| aBlock value: self !! x value: anAlgebra !! y])! !
+
 !Ring methodsFor: 'morphisms' stamp: 'len 12/5/2024 08:23:10'!
 to: aRing
 	aRing isTrivial ifTrue: [^ self to: aRing map: [:x| aRing zero]].
@@ -13783,18 +13783,14 @@ to: anAlgebra over: aRing map: aBlock
 	(self isFiniteAlgebra and: [anAlgebra isFiniteAlgebra]) ifTrue: [^ self to: anAlgebra carrier: (self carrier to: anAlgebra carrier map: [:x| aBlock value: self !! x])].
 	^ self to: anAlgebra images: (self generators collect: [:each| anAlgebra !! (aBlock value: each)])! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 12/16/2024 08:25:33'!
-with: anAlgebra to: anotherAlgebra map: aBlock
-	^ self ⊗ anAlgebra to: anotherAlgebra carrier: (self carrier with: anAlgebra carrier to: anotherAlgebra carrier map: [:x :y| aBlock value: self !! x value: anAlgebra !! y])! !
-
 !Ring methodsFor: 'morphisms' stamp: 'len 12/5/2024 08:26:33'!
 ↷ anObject
 	^ self → anObject endomorphisms! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 12/1/2024 14:39:08'!
+!Ring methodsFor: 'morphisms' stamp: 'len 12/25/2024 09:19:56'!
 ⇒ anObject
 	"If the receiver is a finite R-algebra and the argument is an R-module or an R-module homomorphism, this is the 'coextension of scalars' functor. This is right adjoint to the 'restriction of scalars' functor (see #restriction), and dual to the 'extension of scalars' functor (see #⊗)."
-	((anObject isKindOf: Module) or: [anObject isKindOf: ModuleMap]) ifTrue: [^ self carrier ⇒ anObject].
+	(((anObject isKindOf: Module) or: [anObject isKindOf: ModuleMap]) and: [anObject scalars = self scalars]) ifTrue: [^ self carrier ⇒ anObject].
 	^ super ⇒ anObject! !
 
 !Ring methodsFor: 'operations' stamp: 'len 12/22/2024 09:50:46'!
@@ -13874,21 +13870,23 @@ centralizerOf: aCollection
 	aCollection do: [:y| Z := Z ∩ (V to: V map: [:v| |x| x := self !! v. x*y - (y*x)]) kernel].
 	^ self sub: Z! !
 
-!Ring methodsFor: 'operations' stamp: 'len 12/14/2024 07:54:51'!
+!Ring methodsFor: 'operations' stamp: 'len 12/25/2024 09:11:10'!
 commutatorIdealWith: aSubalgebra
-	| commutators |
+	"If the receiver and the argument A,B are subalgebras of a common ambient algebra, answer the ideal of the ambient algebra generated by all commutators [a,b] = a*b - b*a for all a∈A, b∈B."
 	self assert: (self ambient = aSubalgebra ambient and: [self ambient isFiniteAlgebra]).
-	commutators := OrderedCollection new.
-	self linearGenerators do: [:x| aSubalgebra linearGenerators do: [:y| commutators add: x*y - (y*x)]].
-	^ self ambient * commutators! !
+	^ self ambient * (self linearGenerators times: aSubalgebra linearGenerators collect: [:x :y| x*y - (y*x)])! !
 
-!Ring methodsFor: 'operations' stamp: 'len 12/14/2024 07:55:13'!
+!Ring methodsFor: 'operations' stamp: 'len 12/25/2024 09:11:52'!
 commutatorModuleWith: aSubalgebra
-	| commutators |
+	"If the receiver and the argument A,B are subalgebras of a common ambient algebra with underlying module M, answer the submodule of M generated by all commutators [a,b] = a*b - b*a for all a∈A, b∈B."
 	self assert: (self ambient = aSubalgebra ambient and: [self ambient isFiniteAlgebra]).
-	commutators := OrderedCollection new.
-	self linearGenerators do: [:x| aSubalgebra linearGenerators do: [:y| commutators add: x*y - (y*x)]].
-	^ self ambient carrier sub: commutators! !
+	^ self ambient carrier sub: (self linearGenerators times: aSubalgebra linearGenerators collect: [:x :y| x*y - (y*x)])! !
+
+!Ring methodsFor: 'operations' stamp: 'len 12/25/2024 08:00:41'!
+decomposition
+	"Answer a decoposition of the receiver as a direct sum of indecomposable two-sided ideals.
+	The answer is a list of ideals Ae₁,...,Aeₙ corresponding to a complete set of primitive central orthogonal idempotents e₁ + ⋯ + eₙ. = 1"
+	^ self primitiveCentralIdempotents collect: [:each| self * each]! !
 
 !Ring methodsFor: 'operations' stamp: 'len 12/1/2024 14:37:04'!
 dual
@@ -13934,6 +13932,37 @@ freeAlgebraIn: anIntegerOrCollection
 	"Answer the free algebra in the given indeterminates over the receiver."
 	anIntegerOrCollection isInteger ifTrue: [^ FreeAlgebra new: anIntegerOrCollection over: self].
 	^ (FreeAlgebra new: anIntegerOrCollection size over: self) names: anIntegerOrCollection! !
+
+!Ring methodsFor: 'operations' stamp: 'len 12/25/2024 07:37:38'!
+frobeniusSubalgebra
+	"If the receiver is a finite-dimensional algebra over a finite field K of order q, answer the q-Frobenius subalgebra.
+	This is a subalgebra of fixed points under the q-Frobenius endomorphism, namely the set {f ∈ R | f^q = f}. See [ABPR19, Definition 4.12]. In [Str00, §5.2] this is called 'power subalgebra'.
+	This subalgebra is semisimple, and it is isomorphic to m copies of K where m is the number of primitive idempotents in it (see [Str00, Theorem 5.2.7])."
+	^ self sub: self frobeniusSubspace! !
+
+!Ring methodsFor: 'operations' stamp: 'len 12/24/2024 11:52:23'!
+frobeniusSubalgebra: anInteger
+	"If the receiver is a finite-dimensional algebra over a field of characteristic p, answer the pᵏ-Frobenius subalgebra.
+	This is a subalgebra of fixed points under the pᵏ-Frobenius endomorphism, namely the set {f ∈ R | f^(p^k) = f}. See [ABPR19, Definition 4.12]. In [Str00, §5.2] this is called 'power subalgebra'."
+	^ self sub: (self frobeniusSubspace: anInteger)! !
+
+!Ring methodsFor: 'operations' stamp: 'len 12/24/2024 11:30:10'!
+frobeniusSubspace
+	"If the receiver is a finite-dimensional algebra over a finite field of order q, answer the q-Frobenius subspace.
+	This is a subspace of fixed points under the q-Frobenius endomorphism,
+	namely the set {f ∈ R | f^q = f}. See [ABPR19, Definition 4.12]."
+	| q |
+	q := self scalars size.
+	^ (self carrier endomorphisms !! [:v| | x | x := self !! v. x^q - x]) kernel! !
+
+!Ring methodsFor: 'operations' stamp: 'len 12/24/2024 11:30:14'!
+frobeniusSubspace: anInteger
+	"If the receiver is a finite-dimensional algebra over a field of characteristic p, answer the pᵏ-Frobenius subspace.
+	This is a subspace of fixed points under the pᵏ-Frobenius endomorphism,
+	namely the set {f ∈ R | f^(p^k) = f}. See [ABPR19, Definition 4.12]."
+	| q |
+	q := self scalars characteristic ^ anInteger.
+	^ (self carrier endomorphisms !! [:v| | x | x := self !! v. x^q - x]) kernel! !
 
 !Ring methodsFor: 'operations' stamp: 'len 7/13/2023 16:10:55'!
 hilbertPolynomial
@@ -14005,12 +14034,12 @@ nilradical
 	"Answer the ideal consisting of all nilpotent elements, i.e. all x such that there exists some n with x^n = 0. It is the intersection of all prime ideals. (See also >>radical.)"
 	^ self propertyAt: #nilradical ifAbsentPut: [self asIdeal null radical]! !
 
-!Ring methodsFor: 'operations' stamp: 'len 12/8/2024 17:33:46'!
+!Ring methodsFor: 'operations' stamp: 'len 12/26/2024 08:51:43'!
 on: aModule action: aBlock
 	"If the receiver is a finite k-algebra and the aModule is a k-module, answer the representation module with the action given by aBlock."
 	self assert: self isFiniteAlgebra.
 	self assert: (aModule isModule and: [aModule scalars = self scalars]).
-	^ RepresentationModule representation: (self to: aModule endomorphisms map: [:a| aModule to: aModule map: [:x| aBlock value: a value: x]])! !
+	^ (self to: aModule endomorphisms over: self scalars map: [:a| aModule to: aModule map: [:v| aBlock value: a value: v]]) asModule! !
 
 !Ring methodsFor: 'operations' stamp: 'len 9/5/2024 07:48:18'!
 opposite
@@ -14050,10 +14079,11 @@ primeIdeals
 primes
 	^ Iterator on: [:aBlock| self primesDo: aBlock]! !
 
-!Ring methodsFor: 'operations' stamp: 'len 12/23/2024 16:32:48'!
+!Ring methodsFor: 'operations' stamp: 'len 12/26/2024 10:20:39'!
 primitiveCentralIdempotentDecompositionOf: anIdempotent
-	"Answer the decomposition of anIdempotent as sum of primitive central orthogonal idempotsnts.
-	Assumes the receiver is a commutative algebra A over a finite field of order q. See [GMT88]."
+	"Answer the decomposition of anIdempotent as sum of primitive central orthogonal idempotents.
+	Assumes the receiver is a commutative finite-dimensional algebra over a finite field.
+	This is the Gianni-Miller-Trager algorithm. See [GMT88] and [Str00, §5.2.2, algorithm GianniIdempotents, pp 69]."
 	| E q p n e₁ v e₂ e f t |
 	self assert: anIdempotent isIdempotent.
 	E := self representation asModule sub: {anIdempotent}.
@@ -14066,24 +14096,56 @@ primitiveCentralIdempotentDecompositionOf: anIdempotent
 	p = 2
 		ifTrue: [e := (0 to: n-1) sum: [:i| v^(2^i)]. f := anIdempotent]
 		ifFalse: [t := v^(q-1/2). e := t^2+t / 2. f := t^2 - t / 2].
-	(e isOne not and: [e isZero not])
+	(e ~= anIdempotent and: [e isZero not])
 		ifTrue: [e₁ := e. e₂ := anIdempotent - e]
-		ifFalse: [(f isOne not and: [f isZero not]) ifTrue: [e₁ := f. e₂ := anIdempotent - f]].
+		ifFalse: [(f ~= anIdempotent and: [f isZero not]) ifTrue: [e₁ := f. e₂ := anIdempotent - f]].
 	e₁ isZero] whileTrue.
+	self assert: e₂ isZero not.
 	self assert: (e₁ * e₂) isZero.
 	self assert: e₁ + e₂ = anIdempotent. 
 	^ (self primitiveCentralIdempotentDecompositionOf: e₁), (self primitiveCentralIdempotentDecompositionOf: e₂)! !
 
-!Ring methodsFor: 'operations' stamp: 'len 12/23/2024 16:02:38'!
+!Ring methodsFor: 'operations' stamp: 'len 12/26/2024 10:33:36'!
 primitiveCentralIdempotents
-	"Answer a complete set of primitive central idempotents."
-	| P |
+	"Answer a complete set of primitive central idempotents.
+	This is a list of primitive orthogonal idempotents in the center Z of the receiver A, such that their images in Z/J(Z) span the Jacobson radical J(Z).
+	See [Str00, §5.7, pp 123] and [EG96]."
+	| Z P J π E sum e e² |
 	self isFiniteAlgebra ifFalse: [^ self notYetImplemented].
-	self scalars isFiniteField ifFalse: [^ self notYetImplemented].
-	self isCentral ifFalse: [^ self center primitiveCentralIdempotents].
-	"This is the 'power subalgebra'. It contains all idempotents because if e^2 = e, also e^q = e."
-	P := self sub: (self carrier endomorphisms !! [:x| (self !! x) ^ self scalars size - (self !! x)]) kernel.
-	^ P primitiveCentralIdempotentDecompositionOf: P one! !
+	Z := self center.
+	self scalars isFiniteField ifTrue:
+		["This is the 'power subalgebra', the subalgebra of elements fixed by the Frobenius endomorphism {x∈A | x^q = x}.
+		It is semisimple, and it contains all idempotents because if e^2 = e, also e^q = e."
+		P := Z frobeniusSubalgebra.
+		self flag: #fix. "TODO: implement DavisIdempotents, pp , use p-power subalgebra"
+		^ P primitiveCentralIdempotentDecompositionOf: P one].
+	J := Z radical.
+	J isTrivial ifTrue: [^ Z primitiveCentralIdempotentsLargeField].
+	"Compute the idempotents of the semisimple quotient, and then lift the idempotents:"
+	π := Z →​ (Z / J).
+	E := π codomain primitiveCentralIdempotentsLargeField collect: [:each| π preimage: each].
+	"See [Str00, §5.5, pp 97, algorithm LiftIdempotents]."
+	J carrier rank highBit timesRepeat:
+		[sum := self zero.
+		1 to: E size - 1 do: [:j| "Newton approximation:"
+			e := E at: j.
+			e² := e square.
+			sum := sum + (E at: j put: e²*3 - (e²*e))].
+		E at: E size put: self one - sum].
+	^ E! !
+
+!Ring methodsFor: 'operations' stamp: 'len 12/26/2024 08:41:50'!
+primitiveCentralIdempotentsLargeField
+	"Answer a complete set of primitive central orthogonal idempotents.
+	The algorithm assumes the receiver is a n-dimensional commutative semisimple k-algebra over a field k with |k| > 2n².
+	This is Eberly-Giesbrecht algorithm for large fields. See [EG96] and [Str00, §5.2.4, algorithm EberlyGiesbrechtLarge, pp 76]."
+	| n ℓ a μ factors crt |
+	n := self carrier rank.
+	ℓ := (n squared * 2 log: 2) * n. "sample bit size in order to pick a splitting element with probability > 1/2"
+	[a := self atRandomBits: ℓ. (μ := a minimalPolynomial) degree < n] whileTrue.
+	factors := μ factorization asSet asArray.
+	crt := CRT moduli: factors.
+	^ (μ parent ^ factors size) generators collect: [:eᵢ| (crt solve: eᵢ) value: a]! !
 
 !Ring methodsFor: 'operations' stamp: 'len 7/4/2022 19:29:50'!
 proj
@@ -14091,28 +14153,23 @@ proj
 	self assert: self isCommutative.
 	^ self propertyAt: #proj ifAbsentPut: [ProjectiveScheme coordinateRing: self]! !
 
-!Ring methodsFor: 'operations' stamp: 'len 12/23/2024 08:51:51'!
+!Ring methodsFor: 'operations' stamp: 'len 12/26/2024 10:26:09'!
 radical
 	"Answer the Jacobson radical J(R) of the receiver R. This is the ideal consisting of all elements that annihilate all simple R-modules. It is the intersection of all maximal ideals. (See also >>nilradical.)"
-	| generators one |
 	self isLocal ifTrue: [^ self maximalIdeal].
-	(self isCommutative and: [self isFinitelyGenerated and: [self scalars isField or: [self scalars = ℤ]]]) ifTrue: [^ self nilradical].
+"	(self isCommutative and: [self isFinitelyGenerated and: [self scalars isField or: [self scalars = ℤ]]]) ifTrue: [^ self nilradical]."
+	(self isFiniteAlgebra and: [self scalars isField]) ifFalse:
+		[| generators one |
+		self isFinite ifFalse: [^ self notYetImplemented].
+		generators := Set new.
+		one := self one.
+		self do: [:x| (self elements allSatisfy: [:y| (one - (x*y)) isUnit]) ifTrue: [generators add: x]].
+		^ self * generators].
 	"In characteristic 0, or more generally when n!! is invertible, where n is the dimension of the underlying vector space, Dickson's criterium holds: x ∈ J(A) ⟺ Tr(xy) = 0 for every y ∈ A."
-	(self isFiniteAlgebra and: [self scalars isField]) ifTrue:
-		[(self scalars characteristic = 0 or: [self scalars characteristic > self carrier rank])
-			ifTrue: [^ (self carrier to: self carrier freeCover map: [:x| self linearGenerators collect: [:y| ((self !! x) * y) trace]]) kernel].
-		^ self radicalPositiveCharacteristic].
-	self isFinite ifFalse: [^ self notYetImplemented].
-	generators := Set new.
-	one := self one.
-	self do: [:x| (self elements allSatisfy: [:y| (one - (x*y)) isUnit]) ifTrue: [generators add: x]].
-	^ self * generators
-
-"alternative:
-	| answer |
-	answer _ self asIdeal.
-	self maximalIdealsDo: [:each| answer _ answer ∩ each].
-	^ answer"! !
+	(self scalars characteristic = 0 or: [self scalars characteristic > self carrier rank])
+		ifTrue: [^ self representation asModule sub: (self carrier to: self carrier freeCover map: [:x| self linearGenerators collect: [:y| ((self !! x) * y) representation trace]]) kernel].
+	"TODO: implement Cohen-Ivanov-Wales algorithm for jacobson radical in char p, [Sto00, pp 95]"
+	^ self notYetImplemented! !
 
 !Ring methodsFor: 'operations' stamp: 'len 12/23/2024 08:51:22'!
 radicalContains: anElement
@@ -16581,16 +16638,6 @@ fractions
 	E addMap: (ι := self cover to: E images: images).
 	^ self propertyAt: #fractions put: E / (self relations apply: ι)! !
 
-!AffineAlgebra methodsFor: 'operations' stamp: 'len 12/1/2024 14:39:59'!
-frobeniusSpace
-	"If the receiver is a zero-dimensional GF(q)-algebra, answer the q-Frobenius space.
-	This is a subspace of the receiver corresponding the fixed-points of the q-Frobenius endomorphism,
-	namely the set {f ∈ R | f^q - f = 0}. See [ABPR19, Definition 4.12]."
-	| q M |
-	q := self scalars size.
-	M := self carrier.
-	^ (M endomorphisms !! [:v| | x | x := self !! v. M !! (x^q - x)]) kernel! !
-
 !AffineAlgebra methodsFor: 'operations' stamp: 'len 6/10/2022 11:49:57'!
 hilbertSeriesAt: t
 	"Answer the Hilbert series of the receiver."
@@ -16607,6 +16654,11 @@ proj
 	"This is the Proj construction. Answer the subscheme of projective space with the receiver as its homogeneous coordinate ring."
 	self relations isHomogeneous ifFalse: [^ self error: 'not a quotient by a homogeneous ideal, not properly graded'].
 	^ self propertyAt: #proj ifAbsentPut: [ProjectiveVariety coordinateRing: self]! !
+
+!AffineAlgebra methodsFor: 'operations' stamp: 'len 12/26/2024 10:25:50'!
+radical
+	(self scalars isField or: [self scalars = ℤ]) ifTrue: [^ self nilradical].
+	^ super radical! !
 
 !AffineAlgebra methodsFor: 'operations' stamp: 'len 7/25/2022 11:32:48'!
 spec
@@ -17789,20 +17841,6 @@ to: aRing
 		ifTrue: [^ self to: aRing map: [:x| aRing one * x representative]].
 	^ super to: aRing! !
 
-!ModularRing methodsFor: 'operations' stamp: 'len 11/16/2023 21:54:00'!
-decomposition
-	"Answer the decomposition of the receiver as product of prime power rings."
-	^ self propertyAt: #decomposition ifAbsentPut:
-		[| components answer crt |
-		components _ OrderedCollection new.
-		self modulusFactors withOccurrencesDo: [:p :k| components add: (PrimePowerRing new: p to: k)].
-		components _ components asArray.
-		crt _ CRT moduli: (components collect: [:each| each modulus]).
-		(answer _ ProductRing components: components)
-			addMap: (answer to: self map: [:x| self project: (crt solve: (x components collect: [:each| each representative]))]);
-			addMap: (self to: answer map: [:x| answer compose: (components collect: [:each| each project: x representative])]);
-			yourself]! !
-
 !ModularRing methodsFor: 'operations' stamp: 'len 12/4/2024 18:56:09'!
 localizationAt: anIdeal
 	"Answer the localization of the receiver at the given prime ideal."
@@ -17810,6 +17848,20 @@ localizationAt: anIdeal
 	(anIdeal isTrivial and: [self isIntegralDomain]) ifTrue: [^ self fractions].
 	p := anIdeal generator representative.
 	^ PrimePowerRing new: p to: (self modulus valuation: p)! !
+
+!ModularRing methodsFor: 'operations' stamp: 'len 12/24/2024 08:56:30'!
+primePowerDecomposition
+	"Answer the decomposition of the receiver as product of prime power rings."
+	^ self propertyAt: #primePowerDecomposition ifAbsentPut:
+		[| components answer crt |
+		components := OrderedCollection new.
+		self modulusFactors withOccurrencesDo: [:p :k| components add: (PrimePowerRing new: p to: k)].
+		components := components asArray.
+		crt := CRT moduli: (components collect: [:each| each modulus]).
+		(answer := ProductRing components: components)
+			addMap: (answer to: self map: [:x| self project: (crt solve: (x components collect: [:each| each representative]))]);
+			addMap: (self to: answer map: [:x| answer compose: (components collect: [:each| each project: x representative])]);
+			yourself]! !
 
 !ModularRing methodsFor: 'printing' stamp: 'len 8/9/2022 10:22:39'!
 printOn: aStream
@@ -18573,18 +18625,6 @@ to: aRing map: aBlock
 !FiniteAlgebra methodsFor: 'operations' stamp: 'len 7/6/2021 14:43:18'!
 centroid
 	"Answer the centroid of the receiver as a subalgebra of the algebra of endomorphisms."
-	^ self notYetImplemented! !
-
-!FiniteAlgebra methodsFor: 'operations' stamp: 'len 11/27/2024 08:51:49'!
-decomposition
-	"Answer a list of indecomposable two-sided ideals whose direct sum is isomorphic to the receiver (as algebra), equipped with projection maps."
-	"See W. Eberly and M. Giesbrecht, 'Efficient Decomposition of Associative Algebras' (1996)."
-	self flag: #fixme.
-	"- this message name conflicts with ModularIntegerRing>>decomposition;
-	- should return a list of ideals or a list (or a product) of subalgebras?
-	- can also implement centralIdempotents
-	- there's also composition series and composition factors (for more general distributive algebras?)
-	"
 	^ self notYetImplemented! !
 
 !FiniteAlgebra methodsFor: 'operations' stamp: 'len 1/30/2022 05:37:57'!
@@ -20504,13 +20544,13 @@ antipode
 	indexToGroupElement := self propertyAt: #indexToGroupElement.
 	^ self propertyAt: #antipode ifAbsentPut: [self carrier to: self carrier images: (indexToGroupElement collect: [:each| self !! each inverse])]! !
 
-!GroupAlgebra methodsFor: 'internalization' stamp: 'len 12/1/2024 14:45:56'!
+!GroupAlgebra methodsFor: 'internalization' stamp: 'len 12/25/2024 08:38:31'!
 asBialgebra
 	| M I |
 	M := self carrier.
 	I := self scalars asIdeal.
 	^ self scalars bialgebras
-		multiplication: (M with: M to: M map: [:x :y| self !! x * (self !! y)])
+		multiplication: (M times: M to: M map: [:x :y| self !! x * (self !! y)])
 		unit: (I to: M map: [:x| self one * x])
 		comultiplication: self comultiplication
 		counit: self counit
@@ -20952,10 +20992,10 @@ do: aBlock
 		x := self elementAt: each.
 		visited add: x ifAbsent: [aBlock value: x]]! !
 
-!Module methodsFor: 'internalization' stamp: 'len 12/23/2024 08:32:07'!
+!Module methodsFor: 'internalization' stamp: 'len 12/25/2024 08:38:31'!
 action
 	"Answer the right action M ⊗ R → M that sends m⊗r to m·r."
-	^ self carrier with: self scalars carrier to: self carrier map: [:m :r| (self !! m) * (self scalars !! r)]! !
+	^ self carrier times: self scalars carrier to: self carrier map: [:m :r| (self !! m) * (self scalars !! r)]! !
 
 !Module methodsFor: 'internalization' stamp: 'len 12/1/2024 16:20:05'!
 carrier
@@ -20979,9 +21019,9 @@ apply: aMap
 associatorWith: anObject and: anotherObject
 	^ (self ⊗ anObject ⊗ anotherObject) id! !
 
-!Module methodsFor: 'morphisms' stamp: 'len 6/25/2024 15:31:54'!
+!Module methodsFor: 'morphisms' stamp: 'len 12/25/2024 08:38:31'!
 braidingWith: anObject
-	^ self with: anObject to: anObject ⊗ self map: [:x :y| {y. x}]! !
+	^ self times: anObject to: anObject ⊗ self map: [:x :y| {y. x}]! !
 
 !Module methodsFor: 'morphisms' stamp: 'len 7/29/2024 09:47:40'!
 coevaluation
@@ -21001,9 +21041,9 @@ endomorphisms
 evaluation
 	^ self evaluationWith: self scalars asIdeal! !
 
-!Module methodsFor: 'morphisms' stamp: 'len 7/10/2024 08:01:04'!
+!Module methodsFor: 'morphisms' stamp: 'len 12/26/2024 08:52:16'!
 evaluationWith: aModule
-	^ self ⇒ aModule with: self to: aModule map: [:f :x| f value: x]! !
+	^ self ⇒ aModule times: self to: aModule map: [:f :x| f value: x]! !
 
 !Module methodsFor: 'morphisms' stamp: 'len 6/1/2024 07:06:14'!
 from: aModule
@@ -21015,9 +21055,9 @@ from: aModule
 id
 	^ self propertyAt: #id ifAbsentPut: [self to: self validMatrix: self freeCover id]! !
 
-!Module methodsFor: 'morphisms' stamp: 'len 6/27/2024 08:30:55'!
+!Module methodsFor: 'morphisms' stamp: 'len 12/25/2024 08:38:31'!
 leftUnitor
-	^ self scalars asIdeal with: self to: self map: [:r :x| x*r]! !
+	^ self scalars asIdeal times: self to: self map: [:r :x| x*r]! !
 
 !Module methodsFor: 'morphisms' stamp: 'len 6/14/2022 12:11:19'!
 orthogonalProjection
@@ -21028,9 +21068,18 @@ orthogonalProjection
 	T _ F transpose.
 	^ self ambient endomorphisms !! (F * (T * F) inverse * T)! !
 
-!Module methodsFor: 'morphisms' stamp: 'len 6/27/2024 08:31:28'!
+!Module methodsFor: 'morphisms' stamp: 'len 12/25/2024 08:38:31'!
 rightUnitor
-	^ self with: self scalars asIdeal to: self map: [:x :r| x*r]! !
+	^ self times: self scalars asIdeal to: self map: [:x :r| x*r]! !
+
+!Module methodsFor: 'morphisms' stamp: 'len 12/25/2024 08:38:31'!
+times: aModule to: anotherModule map: aBlock
+	"Answer a morphism from X ⊗ Y to Z induced by the values of aBlock at each pair of generators of X and Y."
+	| images |
+	self assert: (self isFreelyGenerated and: [aModule isFreelyGenerated]).
+	images := OrderedCollection new.
+	self generators do: [:x| aModule generators do: [:y| images add: (aBlock value: x value: y)]].
+	^ self ⊗ aModule to: anotherModule images: images! !
 
 !Module methodsFor: 'morphisms' stamp: 'len 8/29/2024 15:28:46'!
 to: aModule
@@ -21075,15 +21124,6 @@ to: aModule validMatrix: aMatrix
 	self assert: aMatrix codomain = aModule freeCover.
 "	(aMatrix * self relationsMatrix) image <= aModule relationsMatrix image ifFalse: [^ self halt]."
 	^ ModuleMap from: self to: aModule matrix: aMatrix! !
-
-!Module methodsFor: 'morphisms' stamp: 'len 6/25/2024 15:23:11'!
-with: aModule to: anotherModule map: aBlock
-	"Answer a morphism from X ⊗ Y to Z induced by the values of aBlock at each pair of generators of X and Y."
-	| images |
-	self assert: (self isFreelyGenerated and: [aModule isFreelyGenerated]).
-	images := OrderedCollection new.
-	self generators do: [:x| aModule generators do: [:y| images add: (aBlock value: x value: y)]].
-	^ self ⊗ aModule to: anotherModule images: images! !
 
 !Module methodsFor: 'morphisms' stamp: 'len 11/29/2024 10:21:03'!
 ⇒ anObject
@@ -22639,7 +22679,7 @@ isIrreducible
 	self isMonomial ifTrue: [^ self minimalMonomialGeneratingSet allSatisfy: [:each| each monomials any support size = 1]].
 	^ super isIrreducible! !
 
-!PolynomialIdeal methodsFor: 'testing' stamp: 'len 12/1/2024 14:47:03'!
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 12/24/2024 08:52:34'!
 isMaximal
 	"A proper ideal I of R is called 'maximal' if it is not contained in any other proper ideal.
 	See [ABPR19, Algorithm 4.16 IsMaximal]."
@@ -22653,7 +22693,7 @@ isMaximal
 		μ isIrreducible ifFalse: [^ false].
 		μ degree = d ifTrue: [^ true]].
 	"If K is a finite field GF(q), compute the q-Frobenius space and check if dimension is 1:" 
-	K isFinite ifTrue: [^ Q frobeniusSpace rank = 1].
+	K isFinite ifTrue: [^ Q frobeniusSubspace rank = 1].
 	"If K is infinite, test random linear forms:"
 	[ℓ := Q generators sum: [:each| each * K atRandom].
 	μ := ℓ minimalPolynomial.
@@ -22699,7 +22739,7 @@ radicalContains: aPolynomial
 	X add: S !! aPolynomial * t - S one.
 	^ (S * X) isOne! !
 
-!PolynomialIdeal methodsFor: 'private' stamp: 'len 12/1/2024 14:47:36'!
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 12/24/2024 08:52:41'!
 isPrimaryZeroDimensional
 	"See [ABPR19, Algorithm 4.19 IsPrimary0Dim]."
 	| J Q d μ factorization K ℓ |
@@ -22719,7 +22759,7 @@ isPrimaryZeroDimensional
 			μ degree = d ifTrue: [^ true]]].
 	K := self scalars scalars.
 	"If K is a finite field GF(q), compute the q-Frobenius space and check if dimension is 1:" 
-	K isFinite ifTrue: [^ (self scalars / self) frobeniusSpace rank = 1].
+	K isFinite ifTrue: [^ (self scalars / self) frobeniusSubspace rank = 1].
 	"If K is infinite, test random linear forms:"
 	[ℓ := Q generators sum: [:each| each * K atRandom].
 	μ := ℓ minimalPolynomial.
@@ -23294,10 +23334,10 @@ scalars
 hash
 	^ representation hash! !
 
-!RepresentationModule methodsFor: 'morphisms' stamp: 'len 12/23/2024 08:32:18'!
+!RepresentationModule methodsFor: 'morphisms' stamp: 'len 12/25/2024 08:38:31'!
 action
 	"Answer the left action A ⊗ V → V that sends a⊗v to a·v."
-	^ self scalars carrier with: self carrier to: self carrier map: [:a :v|  (representation value: self scalars !! a) value: v]! !
+	^ self scalars carrier times: self carrier to: self carrier map: [:a :v|  (representation value: self scalars !! a) value: v]! !
 
 !RepresentationModule methodsFor: 'morphisms' stamp: 'len 11/23/2024 09:16:35'!
 associatorWith: anObject and: anotherObject
@@ -23332,12 +23372,12 @@ rightUnitor
 to: aCodomain carrier: aMorphism
 	^ RepresentationModuleMap from: self to: aCodomain carrier: aMorphism! !
 
-!RepresentationModule methodsFor: 'morphisms' stamp: 'len 12/8/2024 17:32:11'!
+!RepresentationModule methodsFor: 'morphisms' stamp: 'len 12/25/2024 08:13:30'!
 ⇒ anObject
 	(anObject isMorphism or: [self scalars isInvolutive not]) ifTrue: [^ super ⇒ anObject].
-	^ self scalars on: self carrier ⇒ anObject carrier action: [:g :x| (anObject representation value: g) ∘ x ∘ (representation value: g) inverse]
+	^ self scalars on: self carrier ⇒ anObject carrier action: [:g :f| (anObject representation value: g) ∘ f ∘ (representation value: g) inverse]
 
-"	^ self scalars on: self carrier ⇒ anObject carrier action: [:g :x| (anObject representation value: g) ∘ x ∘ (representation value: g conjugate)]"! !
+"	^ self scalars on: self carrier ⇒ anObject carrier action: [:g :f| (anObject representation value: g) ∘ f ∘ (representation value: g conjugate)]"! !
 
 !RepresentationModule methodsFor: 'morphisms' stamp: 'len 12/4/2024 08:32:14'!
 ⊸ aModule
@@ -23350,12 +23390,12 @@ to: aCodomain carrier: aMorphism
 	aSubmodule isTrivial ifTrue: [^ self].
 	^ self subNoSpin: self carrier + aSubmodule carrier "or spin?"! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 12/15/2024 18:34:51'!
+!RepresentationModule methodsFor: 'operations' stamp: 'len 12/25/2024 08:12:18'!
 / aSubmodule
 	| π |
 	self checkIsSibling: aSubmodule.
 	π := self carrier → (self carrier / aSubmodule carrier).
-	^ self scalars on: π codomain action: [:g :x| π value: ((representation value: g) value: (π preimageElement: x))]! !
+	^ self scalars on: π codomain action: [:g :v| π value: ((representation value: g) value: (π preimageElement: v))]! !
 
 !RepresentationModule methodsFor: 'operations' stamp: 'len 12/1/2024 16:40:28'!
 annihilatorIdeal
@@ -23436,10 +23476,10 @@ sub: anObject
 	W = self carrier ifTrue: [^ self].
 	^ self subNoSpin: W! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 12/16/2024 22:11:46'!
+!RepresentationModule methodsFor: 'operations' stamp: 'len 12/25/2024 08:12:36'!
 subNoSpin: aSubmodule
 "	aSubmodule = self carrier ifTrue: [^ self]."
-	^ (self scalars on: aSubmodule action: [:g :x| (representation value: g) value: x]) ambient: self ambient! !
+	^ (self scalars on: aSubmodule action: [:g :v| (representation value: g) value: v]) ambient: self ambient! !
 
 !RepresentationModule methodsFor: 'operations' stamp: 'len 12/16/2024 22:17:17'!
 ∩ aModule
@@ -28156,12 +28196,10 @@ asAction
 	"If the receiver is a representation (i.e., a group homomorphism to the automorphism group of some object), answer the associated group action on the representation space."
 	^ GroupAction from: self domain on: self space action: [:x :y| (self value: x) value: y]! !
 
-!GroupMap methodsFor: 'converting' stamp: 'len 12/4/2024 08:34:01'!
+!GroupMap methodsFor: 'converting' stamp: 'len 12/25/2024 08:10:15'!
 asModule
 	"If the receiver is a k-linear representation (i.e., a group homomorphism to the automorphism group of a k-vector space), answer the receiver as an object of the corresponding category of representations Repₖ(G)."
-	| A |
-	A := self domain groupAlgebraOver: self space scalars.
-	^ A representations representation: (A to: self space endomorphisms images: self images)! !
+	^ ((self domain groupAlgebraOver: self space scalars) to: self space endomorphisms images: self images) asModule! !
 
 !GroupMap methodsFor: 'internalization' stamp: 'len 10/21/2024 09:57:14'!
 carrier
@@ -38699,10 +38737,10 @@ printCoefficient: coefficient word: w on: aStream
 			ifFalse: [aStream nextPut: $(; print: c; nextPut: $)]].
 	w length = 0 ifFalse: [aStream print: w]! !
 
-!FreePolynomial methodsFor: 'printing' stamp: 'len 11/24/2024 10:39:15'!
+!FreePolynomial methodsFor: 'printing' stamp: 'len 12/24/2024 08:28:51'!
 printOn: aStream
 	| words leadingWord c |
-"	(self scalars isKindOf: ModularIntegerRing)
+"	(self scalars isKindOf: ModularRing)
 		ifTrue: [aStream print: self lift. ^ self]."
 	self isConstant ifTrue: [aStream print: self leadingCoefficient. ^ self].
 	words := self monomials sorted reversed.
@@ -38812,11 +38850,11 @@ printCoefficient: coefficient path: path on: aStream
 			ifFalse: [aStream nextPut: $(; print: c; nextPut: $)]].
 	path isIdentity ifFalse: [aStream print: path]! !
 
-!PathAlgebraElement methodsFor: 'printing' stamp: 'len 12/16/2024 07:58:01'!
+!PathAlgebraElement methodsFor: 'printing' stamp: 'len 12/24/2024 08:28:58'!
 printOn: aStream
 	| keys leadingKey c |
 	coefficients isEmpty ifTrue: [aStream print: 0. ^ self].
-"	(self scalars isKindOf: ModularIntegerRing)
+"	(self scalars isKindOf: ModularRing)
 		ifTrue: [aStream print: self lift. ^ self].
 	self isConstant ifTrue: [aStream print: self leadingCoefficient. ^ self]."
 	keys := coefficients keys sorted: [:a :b| a printString <= b printString].
@@ -41839,11 +41877,11 @@ printCoefficient: coefficient groupElement: g on: aStream
 			ifFalse: [aStream nextPut: $(; print: c; nextPut: $)]].
 	id ifFalse: [aStream print: g]! !
 
-!GroupAlgebraElement methodsFor: 'printing' stamp: 'len 12/16/2024 07:58:16'!
+!GroupAlgebraElement methodsFor: 'printing' stamp: 'len 12/24/2024 08:29:06'!
 printOn: aStream
 	| keys leadingKey c |
 	coefficients isEmpty ifTrue: [aStream print: 0. ^ self].
-"	(self scalars isKindOf: ModularIntegerRing)
+"	(self scalars isKindOf: ModularRing)
 		ifTrue: [aStream print: self lift. ^ self].
 	self isConstant ifTrue: [aStream print: self leadingCoefficient. ^ self]."
 	keys := coefficients keys sorted: [:a :b| a printString <= b printString].
@@ -43248,17 +43286,17 @@ moduli: anArray
 moduli: anArray
 	^ self new moduli: anArray! !
 
-!CRT class methodsFor: 'instance creation' stamp: 'len 6/23/2023 17:54:50'!
+!CRT class methodsFor: 'instance creation' stamp: 'len 12/26/2024 07:43:42'!
 solve: aCollection
 	| x m |
 	x := aCollection first.
 	m := x modulus.
-	aCollection allButFirstDo: [:each| | xi mi euclid |
-		xi := each.
-		mi := xi modulus.
-		euclid := m xgcd: mi.
-		x := (euclid at: 2) * m * xi representative + ((euclid at: 3) * mi * x representative).
-		m := m*mi.
+	aCollection allButFirstDo: [:each| | xᵢ mᵢ euclid |
+		xᵢ := each.
+		mᵢ := x modulus.
+		euclid := m xgcd: mᵢ.
+		x := (euclid at: 2) * m * xᵢ representative + ((euclid at: 3) * mᵢ * x representative).
+		m := m*mᵢ.
 		x := x % m].
 	^ x lift! !
 
