@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 23 December 2024 at 4:12:49 pm'!
+'From Cuis6.3 [latest update: #6222] on 26 December 2024 at 10:38:37 am'!
 'Description This package includes some extra methods for existing collections and some new collection classes.'!
-!provides: 'Collections-Extras' 1 22!
+!provides: 'Collections-Extras' 1 23!
 SystemOrganization addCategory: #'Collections-Extras'!
 
 
@@ -479,6 +479,19 @@ isSingleton
 	"Answer true if the receiver contains exactly one element."
 	^ self size = 1! !
 
+!Collection methodsFor: '*collections-extras' stamp: 'len 12/25/2024 09:01:09'!
+times: aCollection collect: aBlock
+	"Collect and return the result of evaluating aBlock with all pairs (x,y) for x in the receiver and y in aCollection."
+	| answer |
+	answer := OrderedCollection new: self size * aCollection size.
+	self do: [:x| aCollection do: [:y| answer add: (aBlock value: x value: y)]].
+	^ answer! !
+
+!Collection methodsFor: '*collections-extras' stamp: 'len 12/25/2024 09:01:34'!
+times: aCollection do: aBlock
+	"Evaluate aBlock with all pairs (x,y) for x in the receiver and y in aCollection."
+	self do: [:x| aCollection do: [:y| aBlock value: x value: y]]! !
+
 !Collection methodsFor: '*collections-extras' stamp: 'len 8/12/2022 13:14:15'!
 ∩ aCollection
 	^ self intersection: aCollection! !
@@ -563,6 +576,15 @@ sum
 	(aCollection isKindOf: self species) ifFalse: [^ super ⊆ aCollection].
 	self size <= aCollection size ifFalse: [^ false].
 	^ (aCollection indexOfSubCollection: self startingAt: 1) > 0! !
+
+!ArrayedCollection methodsFor: '*collections-extras' stamp: 'len 12/25/2024 09:03:14'!
+times: aCollection collect: aBlock
+	"Collect and return the result of evaluating aBlock with all pairs (x,y) for x in the receiver and y in aCollection."
+	| answer i |
+	answer := self copyBlank: self size * aCollection size.
+	i := 0.
+	self do: [:x| aCollection do: [:y| answer at: (i := i + 1) put: (aBlock value: x value: y)]].
+	^ answer! !
 
 !OrderedCollection class methodsFor: '*collections-extras' stamp: 'len 2/9/2024 10:00:49'!
 new: anInteger
