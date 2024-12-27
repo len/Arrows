@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 26 December 2024 at 10:40:14 am'!
+'From Cuis6.3 [latest update: #6222] on 27 December 2024 at 9:18:01 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 133!
+!provides: 'Tests-Algebra' 1 134!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -6297,41 +6297,50 @@ testNonArtinianQuotientJacobsonRadical
 	Q := ℚ polynomials / [:x| x^2].
 	self assert: Q radical = (Q * Q x)! !
 
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/26/2024 08:53:08'!
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/27/2024 09:08:23'!
+testPrimeFieldLogarithmBug
+	| F g a |
+	F := ℤ/41.
+	g := F !! 6.
+	self assert: g isPrimitiveRoot.
+	a := F !! 8.
+	self assert: g ^ (a log: g) = a! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/27/2024 08:57:25'!
 testPrimitiveCentralIdempotentsExample
 	| A E |
 	A := (SymmetricGroup new: 5) groupAlgebraOver: ℤ/5.
 	E := A primitiveCentralIdempotents.
 	self assert: (E allSatisfy: [:e| A includes: e]).
 	self assert: E size = 3.
-	self assert: (E allSatisfy: [:e| e isIdempotent]).
+	self assert: E sum = A one.
 	self assert: (E allSatisfy: [:e| e isIdempotent and: [E allSatisfy: [:f| e = f or: [(e * f) isZero]]]])! !
 
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/26/2024 10:33:47'!
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/27/2024 08:57:19'!
 testPrimitiveCentralIdempotentsExample2
 	| A E |
 	A := (SymmetricGroup new: 5) groupAlgebraOver: ℚ.
 	E := A primitiveCentralIdempotents.
 	self assert: (E allSatisfy: [:e| A includes: e]).
-	self assert: (E allSatisfy: [:e| e isIdempotent]).
+	self assert: E sum = A one.
 	self assert: (E allSatisfy: [:e| e isIdempotent and: [E allSatisfy: [:f| e = f or: [(e * f) isZero]]]])! !
 
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/26/2024 08:53:18'!
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/27/2024 08:57:14'!
 testPrimitiveCentralIdempotentsExample3
 	| A E |
 	A := (SymmetricGroup new: 5) groupAlgebraOver: (GaloisField new: 7 to: 2).
 	E := A primitiveCentralIdempotents.
 	self assert: (E allSatisfy: [:e| A includes: e]).
-	self assert: (E allSatisfy: [:e| e isIdempotent]).
+	self assert: E sum = A one.
 	self assert: (E allSatisfy: [:e| e isIdempotent and: [E allSatisfy: [:f| e = f or: [(e * f) isZero]]]])! !
 
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/26/2024 08:53:22'!
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/27/2024 08:57:09'!
 testPrimitiveCentralIdempotentsExample4
 	| A E |
 	A := (SymmetricGroup new: 5) groupAlgebraOver: (GaloisField new: 2 to: 3).
 	E := A primitiveCentralIdempotents.
 	self assert: (E allSatisfy: [:e| A includes: e]).
-	self assert: (E allSatisfy: [:e| e isIdempotent]).
+	self assert: E sum = A one.
 	self assert: (E allSatisfy: [:e| e isIdempotent and: [E allSatisfy: [:f| e = f or: [(e * f) isZero]]]])! !
 
 !AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 7/24/2024 08:40:34'!

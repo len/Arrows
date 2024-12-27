@@ -1,4 +1,4 @@
-'From Cuis6.3 [latest update: #6222] on 26 December 2024 at 10:40:04 am'!
+'From Cuis6.3 [latest update: #6222] on 27 December 2024 at 9:17:48 am'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, finitely presented modules, chain complexes, finite (finitely generated as modules) associative algebras, schemes, and coherent sheaves.
 
 References:
@@ -16,6 +16,7 @@ References:
 [BDPZ07] Brice Boyer; Jean-Guillaume Dumas; Clement Pernet; Wei Zhou; "Memory Efficient Scheduling of Strassen-Winograd''s Matrix Multiplication Algorithm" (2007)
 [BK78] R. P. Brent; H. T. Kung; "Fast algorithms for manipulating formal power series" (1978)
 [BP19] Martin Bies, Sebastian Posur; "Tensor Products of Finitely Presented Functors" (2019)
+[CIW97] Cohen, A.M.; Ivanyos, G.; Wales, D.B.; "Finding the radical of an algebra of linear transformations" (1997)
 [Coh96] Henri Cohen, "A Course in Computational Algebraic Number Theory" (1996)
 [Coh+05] Henri Cohen et al, "Handbook of elliptic and hyperelliptic curve cryptography" (2005)
 [CLGM+95] Frank Celler, Charles R. Leedham-Green, Scott H. Murray, Alice C. Niemeyer, E.A. O''Brien; "Generating random elements of a finite group"; Comm. Algebra, 23(13):4931--4948 (1995)
@@ -99,7 +100,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 222!
+!provides: 'Algebra' 1 223!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Complex' 1 7 nil!
@@ -14029,9 +14030,11 @@ localizationAwayFrom: anElement
 maximalIdeals
 	^ Iterator on: self performing: #maximalIdealsDo:! !
 
-!Ring methodsFor: 'operations' stamp: 'len 10/24/2023 16:07:40'!
+!Ring methodsFor: 'operations' stamp: 'len 12/27/2024 09:17:10'!
 nilradical
 	"Answer the ideal consisting of all nilpotent elements, i.e. all x such that there exists some n with x^n = 0. It is the intersection of all prime ideals. (See also >>radical.)"
+	self assert: self isCommutative. "In the non-commutative case, the nilradical of a Noetherian ring can be defined as the unique largest (left, right or two-sided) nilpotent ideal of the ring."
+	(self isFinitelyGenerated and: [self scalars isField or: [self scalars = ℤ]]) ifTrue: [^ self radical].
 	^ self propertyAt: #nilradical ifAbsentPut: [self asIdeal null radical]! !
 
 !Ring methodsFor: 'operations' stamp: 'len 12/26/2024 08:51:43'!
@@ -14105,10 +14108,9 @@ primitiveCentralIdempotentDecompositionOf: anIdempotent
 	self assert: e₁ + e₂ = anIdempotent. 
 	^ (self primitiveCentralIdempotentDecompositionOf: e₁), (self primitiveCentralIdempotentDecompositionOf: e₂)! !
 
-!Ring methodsFor: 'operations' stamp: 'len 12/26/2024 10:33:36'!
+!Ring methodsFor: 'operations' stamp: 'len 12/27/2024 08:55:12'!
 primitiveCentralIdempotents
-	"Answer a complete set of primitive central idempotents.
-	This is a list of primitive orthogonal idempotents in the center Z of the receiver A, such that their images in Z/J(Z) span the Jacobson radical J(Z).
+	"Answer a complete set of primitive central orthogonal idempotents.
 	See [Str00, §5.7, pp 123] and [EG96]."
 	| Z P J π E sum e e² |
 	self isFiniteAlgebra ifFalse: [^ self notYetImplemented].
@@ -14153,11 +14155,10 @@ proj
 	self assert: self isCommutative.
 	^ self propertyAt: #proj ifAbsentPut: [ProjectiveScheme coordinateRing: self]! !
 
-!Ring methodsFor: 'operations' stamp: 'len 12/26/2024 10:26:09'!
+!Ring methodsFor: 'operations' stamp: 'len 12/27/2024 08:37:18'!
 radical
 	"Answer the Jacobson radical J(R) of the receiver R. This is the ideal consisting of all elements that annihilate all simple R-modules. It is the intersection of all maximal ideals. (See also >>nilradical.)"
 	self isLocal ifTrue: [^ self maximalIdeal].
-"	(self isCommutative and: [self isFinitelyGenerated and: [self scalars isField or: [self scalars = ℤ]]]) ifTrue: [^ self nilradical]."
 	(self isFiniteAlgebra and: [self scalars isField]) ifFalse:
 		[| generators one |
 		self isFinite ifFalse: [^ self notYetImplemented].
@@ -14168,7 +14169,7 @@ radical
 	"In characteristic 0, or more generally when n!! is invertible, where n is the dimension of the underlying vector space, Dickson's criterium holds: x ∈ J(A) ⟺ Tr(xy) = 0 for every y ∈ A."
 	(self scalars characteristic = 0 or: [self scalars characteristic > self carrier rank])
 		ifTrue: [^ self representation asModule sub: (self carrier to: self carrier freeCover map: [:x| self linearGenerators collect: [:y| ((self !! x) * y) representation trace]]) kernel].
-	"TODO: implement Cohen-Ivanov-Wales algorithm for jacobson radical in char p, [Sto00, pp 95]"
+	"TODO: implement Cohen-Ivanov-Wales algorithm for jacobson radical in char p, [Sto00, pp 95], [CIW97]"
 	^ self notYetImplemented! !
 
 !Ring methodsFor: 'operations' stamp: 'len 12/23/2024 08:51:22'!
@@ -15442,9 +15443,8 @@ to: aRing
 fractions
 	^ ℚ! !
 
-!IntegerRing methodsFor: 'operations' stamp: 'len 4/8/2021 12:38:46'!
+!IntegerRing methodsFor: 'operations' stamp: 'len 12/27/2024 08:38:14'!
 radical
-	"Answer the Jacobson radical J(R) of the receiver R. This is the ideal consisting of all elements that annihilate all simple R-modules. It is the intersection of all maximal ideals."
 	^ self asIdeal null! !
 
 !IntegerRing methodsFor: 'operations' stamp: 'len 5/7/2022 07:35:14'!
@@ -16042,9 +16042,8 @@ unitsDo: aBlock
 projection: anInteger
 	^ (self to: (components at: anInteger) map: [:x| x at: anInteger]) label: 'π', anInteger printString sub! !
 
-!ProductRing methodsFor: 'operations' stamp: 'len 5/1/2024 10:22:56'!
+!ProductRing methodsFor: 'operations' stamp: 'len 12/27/2024 08:18:07'!
 nilradical
-	"Answer the ideal consisting of all nilpotent elements, i.e. all x such that there exists some n with x^n = 0. It is the intersection of all prime ideals."
 	| generators |
 	generators := OrderedCollection new.
 	components withIndexDo: [:each :i|
@@ -16655,9 +16654,9 @@ proj
 	self relations isHomogeneous ifFalse: [^ self error: 'not a quotient by a homogeneous ideal, not properly graded'].
 	^ self propertyAt: #proj ifAbsentPut: [ProjectiveVariety coordinateRing: self]! !
 
-!AffineAlgebra methodsFor: 'operations' stamp: 'len 12/26/2024 10:25:50'!
+!AffineAlgebra methodsFor: 'operations' stamp: 'len 12/27/2024 08:27:42'!
 radical
-	(self scalars isField or: [self scalars = ℤ]) ifTrue: [^ self nilradical].
+	(self scalars isField or: [self scalars = ℤ]) ifTrue: [^ self propertyAt: #radical ifAbsentPut: [self asIdeal null radical]].
 	^ super radical! !
 
 !AffineAlgebra methodsFor: 'operations' stamp: 'len 7/25/2022 11:32:48'!
@@ -17044,10 +17043,9 @@ extensionDegree: anInteger
 	anInteger = 1 ifTrue: [^ self].
 	^ self scalars extensionDegree: anInteger * self degree! !
 
-!GaloisRing methodsFor: 'operations' stamp: 'len 5/21/2018 15:42:01'!
+!GaloisRing methodsFor: 'operations' stamp: 'len 12/27/2024 08:18:15'!
 nilradical
-	"Answer the ideal consisting of all nilpotent elements, i.e. all x such that there exists some n with x^n = 0. It is the intersection of all prime ideals.
-	A finite ring is a Galois ring iff its nilradical is of the form <p> for some prime p. This is also the unique maximal ideal."
+	"A finite ring is a Galois ring iff its nilradical is of the form <p> for some prime p. This is also the unique maximal ideal."
 	^ self maximalIdeal! !
 
 !GaloisRing methodsFor: 'operations' stamp: 'len 5/7/2022 07:33:53'!
@@ -18080,10 +18078,9 @@ extensionDegree: anInteger
 		at: anInteger ifAbsentOrNilPut:
 			[self extension: ((self residueField primitivePolynomialDegree: anInteger) lift apply: self projection)]! !
 
-!PrimePowerRing methodsFor: 'operations' stamp: 'len 5/21/2018 15:42:20'!
+!PrimePowerRing methodsFor: 'operations' stamp: 'len 12/27/2024 08:18:27'!
 nilradical
-	"Answer the ideal consisting of all nilpotent elements, i.e. all x such that there exists some n with x^n = 0. It is the intersection of all prime ideals.
-	A finite ring is a Galois ring iff its nilradical is of the form <p> for some prime p. This is also the unique maximal ideal."
+	"A finite ring is a Galois ring iff its nilradical is of the form <p> for some prime p. This is also the unique maximal ideal."
 	^ self maximalIdeal! !
 
 !PrimePowerRing methodsFor: 'operations' stamp: 'len 11/21/2023 15:11:52'!
@@ -19854,10 +19851,10 @@ proj
 	"This is the Proj construction. Answer the projective space with the receiver as homogeneous coordinate ring."
 	^ self propertyAt: #proj ifAbsentPut: [ProjectiveSpace coordinateRing: self]! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 5/10/2020 12:12:23'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 12/27/2024 08:40:18'!
 radical
-	"Answer the Jacobson radical J(R) of the receiver R. This is the ideal consisting of all elements that annihilate all simple R-modules. It is the intersection of all maximal ideals. In a polynomial ring, it is the same as the nilradical."
-	^ self nilradical! !
+	"In a polynomial ring, the Jacobson radical is the same as the nilradical."
+	^ self propertyAt: #radical ifAbsentPut: [self asIdeal null radical]! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 12/11/2021 19:13:41'!
 spec
@@ -19952,26 +19949,28 @@ atRandomMaxDegree: anInteger
 	"Answer a polynomial of degree at most anInteger choosen at random."
 	^ self atRandom: self newRandom maxDegree: anInteger! !
 
-!PolynomialRing methodsFor: 'random' stamp: 'len 5/25/2022 19:34:42'!
+!PolynomialRing methodsFor: 'random' stamp: 'len 12/27/2024 08:25:52'!
 unitAtRandom: aRandom
-	| answer |
-	answer _ self constant: (self scalars units atRandom: aRandom).
+	| answer N |
+	answer := self constant: (self scalars units atRandom: aRandom).
 	(self scalars isIntegralDomain or: [self monomials isTrivial]) ifTrue: [^ answer].
+	N := self scalars nilradical.
 	[aRandom nextBoolean] whileTrue: 
 		[| m |
-		[(m _ self monomials atRandom: aRandom) isIdentity] whileTrue.
-		answer _ (self coefficient: (self scalars nilradical atRandom: aRandom) monomial: m) + answer].
+		[(m := self monomials atRandom: aRandom) isIdentity] whileTrue.
+		answer := (self coefficient: (N atRandom: aRandom) monomial: m) + answer].
 	^ answer! !
 
-!PolynomialRing methodsFor: 'random' stamp: 'len 5/25/2022 19:35:01'!
+!PolynomialRing methodsFor: 'random' stamp: 'len 12/27/2024 08:26:12'!
 unitAtRandom: aRandom bits: bitSize
-	| answer |
-	answer _ self constant: (self scalars units atRandom: aRandom bits: bitSize).
+	| answer N |
+	answer := self constant: (self scalars units atRandom: aRandom bits: bitSize).
 	(self scalars isIntegralDomain or: [self monomials isTrivial]) ifTrue: [^ answer].
+	N := self scalars nilradical.
 	[aRandom nextBoolean] whileTrue: 
 		[| m |
-		[(m _ self monomials atRandom: aRandom bits: ((bitSize log: 2) max: 2)) isIdentity] whileTrue.
-		answer _ (self coefficient: (self scalars nilradical atRandom: aRandom bits: bitSize) monomial: m) + answer].
+		[(m := self monomials atRandom: aRandom bits: ((bitSize log: 2) max: 2)) isIdentity] whileTrue.
+		answer := (self coefficient: (N atRandom: aRandom bits: bitSize) monomial: m) + answer].
 	^ answer! !
 
 !PolynomialRing methodsFor: 'testing' stamp: 'len 12/24/2023 08:38:23'!
@@ -21678,12 +21677,12 @@ isReflexive
 	"Answer true if the receiver is a reflexive module."
 	^ (self → self dual dual) isBijective! !
 
-!Module methodsFor: 'testing' stamp: 'len 12/17/2024 15:11:13'!
+!Module methodsFor: 'testing' stamp: 'len 12/27/2024 09:13:28'!
 isSemisimple
 	"A module is 'semisimple' (or 'completely reducible') if it is the direct sum of simple (or irreducible) submodules."
 	self scalars isSemisimple ifTrue: [^ true].
 	"A finitely generated module is semisimple if and only if it is Artinian and its Jacobson radical is zero:"
-	^ self isArtinian and: [(self * self scalars radical) isTrivial]! !
+	^ self scalars isArtinian and: [(self * self scalars radical) isTrivial]! !
 
 !Module methodsFor: 'testing' stamp: 'len 12/17/2024 14:52:54'!
 isSimple
@@ -23516,12 +23515,12 @@ isAbsolutelySimple
 isFaithful
 	^ representation isInjective! !
 
-!RepresentationModule methodsFor: 'testing' stamp: 'len 12/17/2024 15:13:48'!
+!RepresentationModule methodsFor: 'testing' stamp: 'len 12/27/2024 09:12:55'!
 isSemisimple
 	"A module is 'semisimple' (or 'completely reducible') if it is the direct sum of simple (or irreducible) submodules."
 	self scalars isSemisimple ifTrue: [^ true].
 	"A finitely generated module is semisimple if and only if it is Artinian and its Jacobson radical is zero:"
-	^ self isArtinian and: [(self * self scalars radical) isTrivial]! !
+	^ self scalars isArtinian and: [(self * self scalars radical) isTrivial]! !
 
 !RepresentationModule methodsFor: 'testing' stamp: 'len 11/29/2024 10:30:29'!
 isSimple
@@ -23564,10 +23563,10 @@ properInvariantSubspaceOrNil
 properSubmoduleOrNil
 	^ self subNoSpin: (self properInvariantSubspaceOrNil ifNil: [^ nil])! !
 
-!RepresentationModule methodsFor: 'private' stamp: 'len 12/17/2024 14:54:30'!
+!RepresentationModule methodsFor: 'private' stamp: 'len 12/27/2024 08:51:15'!
 representation: aMorphism
 	representation := aMorphism.
-	self validate! !
+"	self validate"! !
 
 !RepresentationModule methodsFor: 'private' stamp: 'len 12/5/2024 08:53:33'!
 validate
