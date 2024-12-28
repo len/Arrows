@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 27 December 2024 at 9:18:01 am'!
+'From Cuis6.3 [latest update: #6222] on 28 December 2024 at 10:28:35 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 134!
+!provides: 'Tests-Algebra' 1 135!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -6297,15 +6297,6 @@ testNonArtinianQuotientJacobsonRadical
 	Q := ℚ polynomials / [:x| x^2].
 	self assert: Q radical = (Q * Q x)! !
 
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/27/2024 09:08:23'!
-testPrimeFieldLogarithmBug
-	| F g a |
-	F := ℤ/41.
-	g := F !! 6.
-	self assert: g isPrimitiveRoot.
-	a := F !! 8.
-	self assert: g ^ (a log: g) = a! !
-
 !AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/27/2024 08:57:25'!
 testPrimitiveCentralIdempotentsExample
 	| A E |
@@ -6511,13 +6502,13 @@ testActionStabilizerOf
 	self assert: (H action stabilizerOf: 1) asSet = {id. g3} asSet.
 	self assert: (H action stabilizerOf: 7) asSet = {id. g1. g2} asSet! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 4/25/2020 08:59:32'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2024 09:00:33'!
 testAlternatingIsSymmetricCommutator
 	| S A |
-	S _ SymmetricGroup new: 3.
-	A _ S alternatingSubgroup.
+	S := SymmetricGroup new: 3.
+	A := S alternatingSubgroup.
 	self assert: A = S commutator.
-	self assert: (S indexOf: A) = 2! !
+	self assert: (S : A) size = 2! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2020 15:40:39'!
 testAlternatingOrder

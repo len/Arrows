@@ -1,4 +1,4 @@
-'From Cuis6.3 [latest update: #6222] on 27 December 2024 at 9:17:48 am'!
+'From Cuis6.3 [latest update: #6222] on 28 December 2024 at 10:28:05 am'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, finitely presented modules, chain complexes, finite (finitely generated as modules) associative algebras, schemes, and coherent sheaves.
 
 References:
@@ -100,7 +100,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 223!
+!provides: 'Algebra' 1 224!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 !requires: 'Complex' 1 7 nil!
@@ -7961,24 +7961,6 @@ new: anInteger atRandom: aRandom bits: bitSize
 	k _ bitSize / anInteger.
 	^ self new: anInteger fill: [:i| self atRandom: aRandom bits: k]! !
 
-!Structure methodsFor: 'random' stamp: 'len 4/6/2024 16:21:56'!
-to: aCodomain atRandom: aRandom
-	"Answer a morphism from the receiver to aCodomain choosen at random."
-	self flag: #fix. "this doesnt always make sense:"
-	^ self to: aCodomain map: [:each| aCodomain atRandom: (Random seed: each hash)]
-
-"this doesnt always make sense, it works for free structures:
-	^ self to: aCodomain images: (self generators collect: [:each| aCodomain atRandom: aRandom])
-"! !
-
-!Structure methodsFor: 'random' stamp: 'len 6/2/2024 04:59:31'!
-to: aCodomain atRandom: aRandom bits: bitSize
-	"Answer a morphism from the receiver to aCodomain choosen at random of at most bitSize bits."
-	| n |
-	self flag: #fix. "this doesnt always make sense, it works for free objects"
-	n := bitSize / (aCodomain generators size max: 1).
-	^ self to: aCodomain images: (self generators collect: [:each| aCodomain atRandom: aRandom bits: n])! !
-
 !Structure methodsFor: 'testing' stamp: 'len 4/6/2024 15:45:40'!
 contains: anElement
 	"Answer true if the receiver contains the given element of its ambient.
@@ -10453,13 +10435,9 @@ printOn: aStream
 	self generators do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
 	aStream nextPutAll: ']*'! !
 
-!FreeAbelianMonoid methodsFor: 'random' stamp: 'len 4/1/2024 10:39:55'!
+!FreeAbelianMonoid methodsFor: 'random' stamp: 'len 12/28/2024 09:59:42'!
 atRandom: aRandom bits: bitSize
-	^ self !! ((1 to: self rank) collect: [:i| aRandom nextBits: bitSize])
-	
-	
-	
-	! !
+	^ self !! ((1 to: self rank) collect: [:i| aRandom nextBits: bitSize truncated])! !
 
 !FreeAbelianMonoid methodsFor: 'testing' stamp: 'len 4/25/2020 10:00:13'!
 includes: anObject
@@ -13778,10 +13756,10 @@ to: aRing map: aBlock
 "	(self isTrivial or: [(self characteristic = 0 and: [aRing characteristic = 0]) or: [aRing characteristic | self characteristic]]) ifFalse: [DomainError signal]."
 	^ RingMap from: self to: aRing map: aBlock! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 12/1/2024 14:26:23'!
+!Ring methodsFor: 'morphisms' stamp: 'len 12/28/2024 09:24:06'!
 to: anAlgebra over: aRing map: aBlock
 	self assert: anAlgebra scalars = aRing.
-	(self isFiniteAlgebra and: [anAlgebra isFiniteAlgebra]) ifTrue: [^ self to: anAlgebra carrier: (self carrier to: anAlgebra carrier map: [:x| aBlock value: self !! x])].
+"	(self isFiniteAlgebra and: [anAlgebra isFiniteAlgebra]) ifTrue: [^ self to: anAlgebra carrier: (self carrier to: anAlgebra carrier map: [:x| aBlock value: self !! x])]."
 	^ self to: anAlgebra images: (self generators collect: [:each| anAlgebra !! (aBlock value: each)])! !
 
 !Ring methodsFor: 'morphisms' stamp: 'len 12/5/2024 08:26:33'!
@@ -13802,21 +13780,22 @@ to: anAlgebra over: aRing map: aBlock
 	anObject isCollection ifTrue: [^ self asIdeal sub: (anObject collect: [:each| self !! each])].
 	^ self * (self !! anObject)! !
 
-!Ring methodsFor: 'operations' stamp: 'len 12/19/2024 19:12:31'!
-/ anIdeal
+!Ring methodsFor: 'operations' stamp: 'len 12/27/2024 09:47:50'!
+/ anObject
 	"Answer the quotient by the given ideal.
 	For convenience, the argument can be a single element or a collection of elements as well."
-	| Q π answer |
-	(anIdeal isKindOf: Ideal) ifFalse: [^ self / (self * anIdeal)].
-	self assert: self = anIdeal scalars.
-	anIdeal isTrivial ifTrue: [^ self].
-	self isCommutative ifTrue: [^ QuotientRing relations: anIdeal].
-	self isFiniteAlgebra ifFalse: [^ self subclassResponsibility].
-	Q := self carrier / (self carrier sub: anIdeal generators).
-	π := self carrier → Q.
-	^ (answer := FiniteAlgebra one: Q !! (self carrier !! self one) multiplication: (BilinearMap from: (Q, Q) to: Q mapWithArguments: [:x :y| (self !! x) * (self !! y)]))
-		addMap: (self to: answer map: [:x| answer !! (π value: x carrier)]);
-		yourself! !
+	((anObject isKindOf: Ideal) and: [anObject scalars = self]) ifTrue:
+		[anObject isTrivial ifTrue: [^ self].
+		self isCommutative ifTrue: [^ QuotientRing relations: anObject].
+		^ self / anObject carrier].
+	((anObject isKindOf: Module) and: [anObject ⊆ self carrier]) ifTrue:
+		[| Q π answer |
+		Q := self carrier / anObject.
+		π := self carrier → Q.
+		^ (answer := FiniteAlgebra one: Q !! (self carrier !! self one) multiplication: (BilinearMap from: (Q, Q) to: Q mapWithArguments: [:x :y| (self !! (π preimage: x)) * (self !! (π preimage: y))]))
+			addMap: (self to: answer map: [:x| answer !! (π value: x carrier)]);
+			yourself].
+	^ self / (self * anObject)! !
 
 !Ring methodsFor: 'operations' stamp: 'len 11/24/2024 16:35:56'!
 \ anElement
@@ -14037,10 +14016,10 @@ nilradical
 	(self isFinitelyGenerated and: [self scalars isField or: [self scalars = ℤ]]) ifTrue: [^ self radical].
 	^ self propertyAt: #nilradical ifAbsentPut: [self asIdeal null radical]! !
 
-!Ring methodsFor: 'operations' stamp: 'len 12/26/2024 08:51:43'!
+!Ring methodsFor: 'operations' stamp: 'len 12/28/2024 09:18:22'!
 on: aModule action: aBlock
-	"If the receiver is a finite k-algebra and the aModule is a k-module, answer the representation module with the action given by aBlock."
-	self assert: self isFiniteAlgebra.
+	"If the receiver is a finitely generated k-algebra and the aModule is a k-module, answer the representation module with the action given by aBlock."
+	self assert: self isFinitelyGenerated.
 	self assert: (aModule isModule and: [aModule scalars = self scalars]).
 	^ (self to: aModule endomorphisms over: self scalars map: [:a| aModule to: aModule map: [:v| aBlock value: a value: v]]) asModule! !
 
@@ -14108,7 +14087,7 @@ primitiveCentralIdempotentDecompositionOf: anIdempotent
 	self assert: e₁ + e₂ = anIdempotent. 
 	^ (self primitiveCentralIdempotentDecompositionOf: e₁), (self primitiveCentralIdempotentDecompositionOf: e₂)! !
 
-!Ring methodsFor: 'operations' stamp: 'len 12/27/2024 08:55:12'!
+!Ring methodsFor: 'operations' stamp: 'len 12/27/2024 09:34:12'!
 primitiveCentralIdempotents
 	"Answer a complete set of primitive central orthogonal idempotents.
 	See [Str00, §5.7, pp 123] and [EG96]."
@@ -14132,7 +14111,7 @@ primitiveCentralIdempotents
 		1 to: E size - 1 do: [:j| "Newton approximation:"
 			e := E at: j.
 			e² := e square.
-			sum := sum + (E at: j put: e²*3 - (e²*e))].
+			sum := sum + (E at: j put: e²*3 - (e²*e*2))].
 		E at: E size put: self one - sum].
 	^ E! !
 
@@ -14155,7 +14134,7 @@ proj
 	self assert: self isCommutative.
 	^ self propertyAt: #proj ifAbsentPut: [ProjectiveScheme coordinateRing: self]! !
 
-!Ring methodsFor: 'operations' stamp: 'len 12/27/2024 08:37:18'!
+!Ring methodsFor: 'operations' stamp: 'len 12/27/2024 09:32:26'!
 radical
 	"Answer the Jacobson radical J(R) of the receiver R. This is the ideal consisting of all elements that annihilate all simple R-modules. It is the intersection of all maximal ideals. (See also >>nilradical.)"
 	self isLocal ifTrue: [^ self maximalIdeal].
@@ -14168,7 +14147,7 @@ radical
 		^ self * generators].
 	"In characteristic 0, or more generally when n!! is invertible, where n is the dimension of the underlying vector space, Dickson's criterium holds: x ∈ J(A) ⟺ Tr(xy) = 0 for every y ∈ A."
 	(self scalars characteristic = 0 or: [self scalars characteristic > self carrier rank])
-		ifTrue: [^ self representation asModule sub: (self carrier to: self carrier freeCover map: [:x| self linearGenerators collect: [:y| ((self !! x) * y) representation trace]]) kernel].
+		ifTrue: [^ (self carrier to: self carrier freeCover map: [:x| self linearGenerators collect: [:y| ((self !! x) * y) representation trace]]) kernel].
 	"TODO: implement Cohen-Ivanov-Wales algorithm for jacobson radical in char p, [Sto00, pp 95], [CIW97]"
 	^ self notYetImplemented! !
 
@@ -18981,11 +18960,11 @@ unitAtRandom: aRandom
 	self fractions radicand < 0 ifTrue: [^ self unitsList atRandom: aRandom].
 	^ self unitAtRandom: aRandom bits: [aRandom nextBoolean] count + 1! !
 
-!QuadraticRing methodsFor: 'random' stamp: 'len 11/12/2024 07:29:01'!
+!QuadraticRing methodsFor: 'random' stamp: 'len 12/28/2024 09:59:59'!
 unitAtRandom: aRandom bits: bitSize
 	| answer |
 	self fractions radicand < 0 ifTrue: [^ self unitsList atRandom: aRandom].
-	answer := self fundamentalUnit ^ (aRandom nextBits: bitSize).
+	answer := self fundamentalUnit ^ (aRandom nextBits: bitSize truncated).
 	aRandom nextBoolean ifTrue: [answer := answer negated].
 	^ answer! !
 
@@ -21388,18 +21367,23 @@ socle
 	If R is a finite-dimensional algebra and M is a finitely generated R-module, then the socle of M consists precisely of the elements annihilated by the Jacobson radical of R."
 	self notYetImplemented! !
 
-!Module methodsFor: 'operations' stamp: 'len 12/18/2023 10:14:17'!
+!Module methodsFor: 'operations' stamp: 'len 12/28/2024 08:53:45'!
 sub: aCollectionOrMatrix
 	"Answer the submodule generated by the argument, which can be either a collection containing any objects that can be coerced to the receiver, or a generator matrix relative to the receiver's presentation."
-	| generators G |
+	| G |
 	aCollectionOrMatrix isMatrix
 		ifTrue:
 			[self isAmbient ifFalse: [^ self ambient sub: self generatorMatrix * aCollectionOrMatrix].
 			G := aCollectionOrMatrix copyWithoutZeroColumns]
 		ifFalse:
 			[self isAmbient ifFalse: [^ self ambient sub: aCollectionOrMatrix].
-			generators := (aCollectionOrMatrix asArray collect: [:each| self !! each]) select: [:each| each isZero not].
-			G := Matrix to: self freeCover columns: (generators collect: [:each| self \ each])].
+			G := Matrix to: self freeCover columns: (((aCollectionOrMatrix asArray collect: [:each| self !! each]) select: [:each| each isZero not]) collect: [:each| self \ each])].
+	"If the receiver is a vector space:"
+	self scalars isField ifTrue:
+		[G := G basis.
+		G width = self rank ifTrue: [^ self].
+		^ self species new ambient: self; generatorMatrix: G].
+	"If not a vector space:"
 	self scalars hasCanonicalBases ifTrue: [G := G basis].
 	self isFreelyGenerated ifFalse: [G := (G reductionBy: self relationsMatrix) 	copyWithoutZeroColumns].
 	(self freeCover id reductionBy: G modulo: self relationsMatrix) isZero ifTrue: [^ self].
@@ -21519,6 +21503,18 @@ atRandom: aRandom
 !Module methodsFor: 'random' stamp: 'len 12/12/2023 19:55:41'!
 atRandom: aRandom bits: bitSize
 	^ self elementAt: (self freeCover atRandom: aRandom bits: bitSize)! !
+
+!Module methodsFor: 'random' stamp: 'len 12/28/2024 09:47:46'!
+to: aCodomain atRandom: aRandom
+	aCodomain isFreelyGenerated ifTrue: [^ self to: aCodomain validMatrix: (self freeCover to: aCodomain freeCover atRandom: aRandom)].
+	self flag: #fix. "this is wrong, only makes sense for free modules"
+	^ self to: aCodomain matrix: (self freeCover to: aCodomain freeCover atRandom: aRandom)! !
+
+!Module methodsFor: 'random' stamp: 'len 12/28/2024 09:46:31'!
+to: aCodomain atRandom: aRandom bits: bitSize
+	aCodomain isFreelyGenerated ifTrue: [^ self to: aCodomain validMatrix: (self freeCover to: aCodomain freeCover atRandom: aRandom bits: bitSize)].
+	self flag: #fix. "this is wrong, only makes sense for free modules"
+	^ self to: aCodomain matrix: (self freeCover to: aCodomain freeCover atRandom: aRandom bits: bitSize)! !
 
 !Module methodsFor: 'testing' stamp: 'len 1/3/2022 20:58:43'!
 contains: anElement
@@ -23371,7 +23367,7 @@ rightUnitor
 to: aCodomain carrier: aMorphism
 	^ RepresentationModuleMap from: self to: aCodomain carrier: aMorphism! !
 
-!RepresentationModule methodsFor: 'morphisms' stamp: 'len 12/25/2024 08:13:30'!
+!RepresentationModule methodsFor: 'morphisms' stamp: 'len 12/28/2024 09:16:16'!
 ⇒ anObject
 	(anObject isMorphism or: [self scalars isInvolutive not]) ifTrue: [^ super ⇒ anObject].
 	^ self scalars on: self carrier ⇒ anObject carrier action: [:g :f| (anObject representation value: g) ∘ f ∘ (representation value: g) inverse]
@@ -28105,12 +28101,12 @@ carrier
 image
 	^ self codomain sub: self images! !
 
-!MonoidMap methodsFor: 'operations' stamp: 'len 4/24/2024 04:56:59'!
+!MonoidMap methodsFor: 'operations' stamp: 'len 12/28/2024 08:46:19'!
 value: anElement
 	| answer images |
 	self propertyAt: #evaluable ifPresent: [:aBlock|
 		self assert: (self domain includes: anElement).
-		^ aBlock value: anElement].
+		^ self codomain !! (aBlock value: anElement)].
 	answer := self codomain identity.
 	images := self propertyAt: #images.
 	self domain \ anElement keysAndValuesDo: [:i :e| answer := answer · ((images at: i) ^ e)].
@@ -28244,12 +28240,12 @@ kernelMorphism
 preimage: aSubgroup
 	^ self domain ambient sub: (aSubgroup generators collect: [:each| self preimageElement: each]), self kernel generators! !
 
-!GroupMap methodsFor: 'operations' stamp: 'len 8/29/2024 15:17:39'!
+!GroupMap methodsFor: 'operations' stamp: 'len 12/28/2024 08:46:27'!
 value: anElement
 	| answer images |
 	self propertyAt: #evaluable ifPresent: [:aBlock|
 		self assert: (self domain includes: anElement).
-		^ aBlock value: anElement].
+		^ self codomain !! (aBlock value: anElement)].
 	answer := self codomain identity.
 	images := self propertyAt: #images.
 	self codomain isAbelianGroup
@@ -28439,11 +28435,11 @@ units
 	"This is the natural functor from the cateogry of rings to the category of groups which sends each ring R to its group of units U(R) and each ring homomorphism to the restriction to U(R). This functor has a left adjoint which sends each group G to the integral group ring ℤ[G]."
 	^ self domain units to: self codomain units map: [:each| self value: each]! !
 
-!RingMap methodsFor: 'operations' stamp: 'len 12/1/2024 14:20:41'!
+!RingMap methodsFor: 'operations' stamp: 'len 12/28/2024 09:11:45'!
 value: anElement
 	self propertyAt: #evaluable ifPresent: [:aBlock|
 		self assert: (self domain includes: anElement).
-		^ aBlock value: anElement].
+		^ self codomain !! (aBlock value: anElement)].
 	self propertyAt: #carrier ifPresent: [:aModuleMap| ^ self codomain !! (aModuleMap value: aModuleMap domain !! anElement)].
 	^ self codomain evaluate: self domain \ anElement at: self images! !
 
@@ -43077,16 +43073,14 @@ seed: anInteger
 generators: aCollection
 	^ self new generators: aCollection! !
 
-!BabyStepGiantStep methodsFor: 'computing' stamp: 'len 8/29/2024 15:17:39'!
+!BabyStepGiantStep methodsFor: 'computing' stamp: 'len 12/28/2024 08:10:30'!
 logarithmOf: anElement
 	| m γ |
 	γ := anElement.
 	m := table size.
 	group isAbelianGroup
-		ifTrue:
-			[0 to: m do: [:i| table at: γ ifPresent: [:j| ^ i*m + j]. γ := γ + δ]]
-		ifFalse:
-			[0 to: m do: [:i| table at: γ ifPresent: [:j| ^ i*m + j]. γ := γ * δ]].
+		ifTrue: [0 to: m do: [:i| table at: γ ifPresent: [:j| ^ i*m + j]. γ := γ + δ]]
+		ifFalse: [0 to: m do: [:i| table at: γ ifPresent: [:j| ^ i*m + j]. γ := γ * δ]].
 	^ nil! !
 
 !BabyStepGiantStep methodsFor: 'private' stamp: 'len 8/29/2024 15:17:40'!
@@ -43285,14 +43279,14 @@ moduli: anArray
 moduli: anArray
 	^ self new moduli: anArray! !
 
-!CRT class methodsFor: 'instance creation' stamp: 'len 12/26/2024 07:43:42'!
+!CRT class methodsFor: 'instance creation' stamp: 'len 12/28/2024 08:13:57'!
 solve: aCollection
 	| x m |
 	x := aCollection first.
 	m := x modulus.
 	aCollection allButFirstDo: [:each| | xᵢ mᵢ euclid |
 		xᵢ := each.
-		mᵢ := x modulus.
+		mᵢ := xᵢ modulus.
 		euclid := m xgcd: mᵢ.
 		x := (euclid at: 2) * m * xᵢ representative + ((euclid at: 3) * mᵢ * x representative).
 		m := m*mᵢ.
