@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 23 December 2024 at 4:12:43 pm'!
+'From Cuis6.3 [latest update: #6222] on 28 December 2024 at 10:26:46 am'!
 'Description '!
-!provides: 'Clifford Algebra' 1 2!
+!provides: 'Clifford Algebra' 1 3!
 SystemOrganization addCategory: #'Clifford Algebra'!
 
 
@@ -41,10 +41,10 @@ evenSubalgebra
 generators
 	^ self propertyAt: #generators ifAbsentPut: [(0 to: self degree - 1) collect: [:i| self basis at: 1 << i + 1]]! !
 
-!CliffordAlgebra methodsFor: 'accessing' stamp: 'len 12/1/2024 14:45:17'!
+!CliffordAlgebra methodsFor: 'accessing' stamp: 'len 12/28/2024 10:11:06'!
 grade: anInteger
-	"Answer the subalgebra of grade anInteger."
-	^ self sub: (((1 to: self carrier rank) select: [:i| (i - 1) bitCount = anInteger]) collect: [:i| self basis at: i])! !
+	"Answer the subspace of grade anInteger."
+	^ self carrier sub: (((1 to: self carrier rank) select: [:i| (i - 1) bitCount = anInteger]) collect: [:i| self carrier basis at: i])! !
 
 !CliffordAlgebra methodsFor: 'accessing' stamp: 'len 11/5/2022 13:45:22'!
 one

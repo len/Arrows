@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 23 December 2024 at 4:12:57 pm'!
+'From Cuis6.3 [latest update: #6222] on 28 December 2024 at 10:26:52 am'!
 'Description '!
-!provides: 'Tests-Clifford Algebra' 1 2!
+!provides: 'Tests-Clifford Algebra' 1 3!
 SystemOrganization addCategory: #'Tests-Clifford Algebra'!
 
 
@@ -40,12 +40,12 @@ setUp
 	super setUp.
 	R := CliffordAlgebra on: (QuadraticForm from: ℚ^3 coefficients: #(1 0 0 1 0 1))! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:19:57'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2024 10:16:16'!
 testCliffordAlgebraDualGrade
 	| x k |
-	k _ (0 to: R degree) atRandom: random.
-	x _ (R grade: k) atRandom: random bits: 10.
-	self assert: ((R grade: R degree - k) includes: x dual)! !
+	k := (0 to: R degree) atRandom: random.
+	x := R !! ((R grade: k) atRandom: random bits: 10).
+	self assert: ((R grade: R degree - k) includes: R carrier !! x dual)! !
 
 !CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/9/2024 12:54:02'!
 testCliffordAlgebraDualProperties
@@ -71,27 +71,27 @@ testCliffordAlgebraGradeInvolution
 	self assert: (x*y) reflection = (x reflection * y reflection).
 	self assert: v reflection = v negated! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:04:36'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2024 10:15:38'!
 testCliffordAlgebraGradeProjection
 	| x k j |
 	k := (0 to: R degree) atRandom: random.
 	[j := (0 to: R degree) atRandom: random. j = k] whileTrue.
 	x := self newElement.
-	self assert: ((R grade: k) includes: (x grade: k)).
-	self assert: (((R grade: j) includes: (x grade: k)) not or: [(x grade: k) isZero]).
-	x := (R grade: k) atRandom: random bits: 10.
+	self assert: ((R grade: k) includes: R carrier !! (x grade: k)).
+	self assert: (((R grade: j) includes: R carrier !! (x grade: k)) not or: [(x grade: k) isZero]).
+	x := R !! ((R grade: k) atRandom: random bits: 10).
 	self assert: (x grade: k) = x.
 	self assert: (x grade: j) isZero! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:23:20'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2024 10:12:55'!
 testCliffordAlgebraHomogeneousElements
 	| x |
-	x _ (R grade: 0) atRandom: random bits: 10.
-	self assert: x isScalar.
-	x _ (R grade: 1) atRandom: random bits: 10.
-	self assert: x isVector.
-	x _ (R grade: 2) atRandom: random bits: 10.
-	self assert: x isBivector! !
+	x := (R grade: 0) atRandom: random bits: 10.
+	self assert: (R !! x) isScalar.
+	x := (R grade: 1) atRandom: random bits: 10.
+	self assert: (R !! x) isVector.
+	x := (R grade: 2) atRandom: random bits: 10.
+	self assert: (R !! x) isBivector! !
 
 !CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 8/20/2021 16:23:43'!
 testCliffordAlgebraInverse
@@ -165,39 +165,39 @@ testCliffordAlgebraReversion
 	self assert: (x*y) transpose = (y transpose * x transpose).
 	self assert: v transpose = v! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:05:57'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2024 10:12:15'!
 testCliffordAlgebraScalarEmbedding
 	| a x |
 	a := self newScalar.
 	x := R !! a.
 	self assert: x isScalar.
-	self assert: ((R grade: 0) includes: x).
+	self assert: ((R grade: 0) includes: R carrier !! x).
 	self assert: R one * a = x.
 	self assert: x asScalar = a! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/1/2024 10:10:30'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2024 10:12:04'!
 testCliffordAlgebraScalarEmbedding2
 	| ι |
 	ι := R scalars asIdeal ⇒ R carrier !! (R scalars → R).
 	self assert: ι isInjective.
-	self assert: ι image = (R grade: 0) carrier! !
+	self assert: ι image = (R grade: 0)! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:41'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2024 10:12:21'!
 testCliffordAlgebraSpaceEmbedding
 	| V v x |
 	V := R space.
 	v := V atRandom: random bits: 10.
 	x := R !! v.
 	self assert: x isVector.
-	self assert: ((R grade: 1) includes: x).
+	self assert: ((R grade: 1) includes: R carrier !! x).
 	self assert: x asVector = v! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/1/2024 10:10:48'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2024 10:11:28'!
 testCliffordAlgebraSpaceEmbedding2
 	| ι |
 	ι := R space ⇒ R carrier !! (R space underlyingSet → R underlyingSet).
 	self assert: ι isInjective.
-	self assert: ι image = (R grade: 1) carrier! !
+	self assert: ι image = (R grade: 1)! !
 
 !CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/20/2023 21:16:48'!
 testCliffordAlgebraUniversalProperty
