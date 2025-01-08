@@ -1,7 +1,7 @@
-'From Cuis6.3 [latest update: #6222] on 19 August 2024 at 3:00:11 pm'!
+'From Cuis6.3 [latest update: #6222] on 7 January 2025 at 7:49:35 am'!
 'Description General Algebra Subrutines. This package provides low-level support for algebra on arrays. A companion (optional) shared library accelerates the most critical operations over floats of 32 and 64 bits, and over modular integers of 8, 16 and 32 bits.
 '!
-!provides: 'GAS' 1 15!
+!provides: 'GAS' 1 16!
 !requires: 'Collections-Extras' 1 14 nil!
 !requires: 'FFI' 1 40 nil!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
@@ -574,7 +574,7 @@ reduceBy: g quotient: q
 			q ifNotNil: [q at: i put: (q at: i) - c].
 			self replaceFrom: i to: n plus: g startingAt: 1 timesScalar: c]! !
 
-!ArrayedCollection methodsFor: '*gas-low level-modular' stamp: 'len 2/1/2024 19:35:22'!
+!ArrayedCollection methodsFor: '*gas-low level-modular' stamp: 'len 1/1/2025 18:10:55'!
 replaceFrom: start by: step blockSize: blockSize plusMatrix: anArray1 startingAt: start1 by: step1 width: width1 height: height timesMatrix: anArray2 startingAt: start2 by: step2 width: width modulo: modulus
 	"Blocked matrix multiplication with accumulation.
 	A choice of block size that minimizes cache misses should provide a considerable speedup. Although cache misses don't seem to be the bottleneck in Smalltalk, blocking still improves performance for some modulii because it can enable per-block delayed reduction."
@@ -616,11 +616,72 @@ c := a copy.
 [:aRandom| 1 to: a size do: [:i| a at: i put: (aRandom nextBits: 32) \\ p. b at: i put: (aRandom nextBits: 32) \\ p]] value: Random new.
 
 c atAllPut: 0.
-[c accumulateFrom: 1 by: n blockSize: 25 withMatrix: a startingAt: 1 by: n width: n height: n timesMatrix: b startingAt: 1 by: n width: n modulo: p] timeToRun
+[c replaceFrom: 1 by: n blockSize: 25 plusMatrix: a startingAt: 1 by: n width: n height: n timesMatrix: b startingAt: 1 by: n width: n modulo: p] timeToRun
 "! !
 
-!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 2/3/2024 16:29:20'!
+!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 1/6/2025 09:40:48'!
+replaceFrom: start by: step minusMatrix: anArray1 startingAt: start1 by: step1 width: width1 height: height timesMatrix: anArray2 startingAt: start2 by: step2 width: width
+	"C ← C - AB."
+	| i j |
+	i := start.
+	j := start1.
+	height timesRepeat:
+		[| k value |
+		k := start2.
+		i to: i + width - 1 do: [:s|
+			value := self at: s.
+			j to: j + width1 - 1 do: [:t|
+				| u |
+				u := t - j  * step2 + k.
+				value := value - ((anArray1 at: t) * (anArray2 at: u))].
+			self at: s put: value.
+			k := k + 1].
+		i := i + step.
+		j := j + step1]! !
+
+!ArrayedCollection methodsFor: '*gas-low level-modular' stamp: 'len 1/1/2025 18:14:41'!
+replaceFrom: start by: step minusMatrix: anArray1 startingAt: start1 by: step1 width: width1 height: height timesMatrix: anArray2 startingAt: start2 by: step2 width: width modulo: modulus
+	| i j k value minusOne |
+"	self class isBits ifTrue: [^ self replaceFrom: start by: step blockSize: 128 // self bytesPerElement plusMatrix: anArray1 startingAt: start1 by: step1 width: width1 height: height timesMatrix: anArray2 startingAt: start2 by: step2 width: width modulo: modulus].		"
+	i := start.
+	j := start1.
+	modulus * width1 sqrt < 16r40000000
+		ifTrue: "delayed reduction"
+			[height timesRepeat:
+				[k := start2.
+				i to: i + width - 1 do: [:s|
+					value := self at: s.
+					j to: j + width1 - 1 do: [:t| value := value - ((anArray1 at: t) * (anArray2 at: t - j  * step2 + k))].
+					self at: s put: value \\ modulus.
+					k := k + 1].
+				i := i + step.
+				j := j + step1]]
+		ifFalse:
+			[((minusOne := modulus - 1) bitAnd: modulus) = 0
+				ifTrue: "power of 2"
+					[height timesRepeat:
+						[k := start2.
+						i to: i + width - 1 do: [:s|
+							value := self at: s.
+							j to: j + width1 - 1 do: [:t| value := value - ((anArray1 at: t) * (anArray2 at: t - j  * step2 + k)) bitAnd: minusOne].
+							self at: s put: value.
+							k := k + 1].
+						i := i + step.
+						j := j + step1]]
+				ifFalse:
+					[height timesRepeat:
+						[k := start2.
+						i to: i + width - 1 do: [:s|
+							value := self at: s.
+							j to: j + width1 - 1 do: [:t| value := value - ((anArray1 at: t) * (anArray2 at: t - j  * step2 + k)) \\ modulus].
+							self at: s put: value.
+							k := k + 1].
+						i := i + step.
+						j := j + step1]]]! !
+
+!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 1/6/2025 09:43:00'!
 replaceFrom: start by: step plusMatrix: anArray1 startingAt: start1 by: step1 width: width height: height
+	"C ← C + A."
 	| i j |
 	i := start.
 	j := start1.
@@ -629,8 +690,9 @@ replaceFrom: start by: step plusMatrix: anArray1 startingAt: start1 by: step1 wi
 		i := i + step.
 		j := j + step1]! !
 
-!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 2/3/2024 16:30:07'!
+!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 1/6/2025 09:41:02'!
 replaceFrom: start by: step plusMatrix: anArray1 startingAt: start1 by: step1 width: width1 height: height timesMatrix: anArray2 startingAt: start2 by: step2 width: width
+	"C ← C + AB."
 	| i j |
 	i := start.
 	j := start1.
@@ -714,8 +776,9 @@ replaceFrom: start by: step withMatrix: anArray startingAt: start1 by: step1 wid
 		i := i + step.
 		j := j + step1]! !
 
-!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 2/3/2024 16:31:06'!
+!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 1/6/2025 09:44:02'!
 replaceFrom: start by: step withMatrix: anArray1 startingAt: start1 by: step1 width: width height: height plusMatrix: anArray2 startingAt: start2 by: step2 timesScalar: anElement
+	"C ← A + B * b."
 	| i j k |
 	i := start.
 	j := start1.

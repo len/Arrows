@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 28 December 2024 at 10:28:35 am'!
+'From Cuis6.3 [latest update: #6222] on 8 January 2025 at 5:35:00 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 135!
+!provides: 'Tests-Algebra' 1 138!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -7095,17 +7095,17 @@ testRingHomomorphism: φ
 	self assert: (φ value: x + y) = ((φ value: x) + (φ value: y)).
 	self assert: (φ value: x * y) = ((φ value: x) * (φ value: y))! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 14:33:20'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/31/2024 08:53:56'!
 testRingInvolution
 	| a b |
 	R isInvolutive ifFalse: [^ self].
-	self assert: R one conjugate = R one.
+	self assert: R one adjoint = R one.
 	20 timesRepeat:
 		[a := self newElement.
 		b := self newElement.
-		self assert: (a + b) conjugate = (a conjugate + b conjugate).
-		self assert: (a * b) conjugate = (b conjugate * a conjugate).
-		self assert: a conjugate conjugate = a]! !
+		self assert: (a + b) adjoint = (a adjoint + b adjoint).
+		self assert: (a * b) adjoint = (b adjoint * a adjoint).
+		self assert: a adjoint adjoint = a]! !
 
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/9/2023 09:29:22'!
 testRingPropertiesHierarchy
@@ -8506,13 +8506,13 @@ testGeneralizedTrace
 	a := R scalars atRandom: random.
 	self assert: (x * a + y) generalizedTrace = (x generalizedTrace * a + y generalizedTrace)! !
 
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:54:00'!
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2025 13:32:50'!
 setUp
 	| k p |
 	super setUp.
 	p := (10 atRandom: random) nextPrime.
 	k := 10 atRandom: random.
-	R := PrimePowerRing new: p to: k! !
+	R := LocalModularRing new: p to: k! !
 
 !PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/23/2024 15:12:45'!
 testEuclideanDivisionCompatibleWithModularIntegerRing
@@ -8578,10 +8578,10 @@ testSquareRoot
 		x := a squareRoot.
 		self assert: x squared = a]! !
 
-!BinaryPowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:54:00'!
+!BinaryPowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2025 13:32:50'!
 setUp
 	super setUp.
-	R := PrimePowerRing new: 2 to: ((2 to: 64) atRandom: random)! !
+	R := LocalModularRing new: 2 to: ((2 to: 64) atRandom: random)! !
 
 !FiniteFieldDualNumbersTest methodsFor: 'as yet unclassified' stamp: 'len 7/7/2023 17:38:40'!
 setUp
@@ -9048,18 +9048,18 @@ setUp
 	super setUp.
 	R := (	GaloisRing new: (5 atRandom: random) nextPrime to: (3 atRandom: random) to: (2 atRandom: random)) polynomials! !
 
-!PrimePowerRingPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:54:00'!
+!PrimePowerRingPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2025 13:32:50'!
 setUp
 	| k p |
 	super setUp.
 	p := (10 atRandom: random) nextPrime.
 	k := 10 atRandom: random.
-	R := (PrimePowerRing new: p to: k) polynomials! !
+	R := (LocalModularRing new: p to: k) polynomials! !
 
-!BinaryPowerRingPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:54:00'!
+!BinaryPowerRingPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2025 13:32:50'!
 setUp
 	super setUp.
-	R := (PrimePowerRing new: 2 to: ((2 to: 64) atRandom: random)) polynomials! !
+	R := (LocalModularRing new: 2 to: ((2 to: 64) atRandom: random)) polynomials! !
 
 !ModularMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:40:33'!
 setUp
@@ -9491,10 +9491,10 @@ setUp
 	super setUp.
 	scalars := GaloisField new: 2 to: ((2 to: 7) atRandom: random)! !
 
-!BinaryPowerArrayTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:54:00'!
+!BinaryPowerArrayTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2025 13:32:50'!
 setUp
 	super setUp.
-	scalars := PrimePowerRing new: 2 to: ((2 to: 64) atRandom: random)! !
+	scalars := LocalModularRing new: 2 to: ((2 to: 64) atRandom: random)! !
 
 !GaloisFieldArrayTest methodsFor: 'as yet unclassified' stamp: 'len 6/11/2023 21:37:31'!
 setUp
@@ -9753,10 +9753,10 @@ testTuple: a operation: aSymbol modulo: modulus
 testTuple: a with: b operation: aSymbol modulo: modulus
 	self assert: (a perform: aSymbol with: b) % modulus = (a % modulus perform: aSymbol with: b % modulus)! !
 
-!BinaryPowerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:54:00'!
+!BinaryPowerTupleTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2025 13:32:50'!
 setUp
 	super setUp.
-	scalars := PrimePowerRing new: 2 to: ((2 to: 64) atRandom: random)! !
+	scalars := LocalModularRing new: 2 to: ((2 to: 64) atRandom: random)! !
 
 !BinaryTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:41:19'!
 setUp
@@ -10047,60 +10047,6 @@ testAddition: A with: B
 	x := A codomain atRandom: random bits: 10.
 	self assert: x*(A+B) = (x*A + (x*B))! !
 
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 16:38:20'!
-testInplaceAddition
-	| A B C |
-	A := self newMatrix.
-	B := self newMatrix: A height @ A width.
-	C := self newMatrix: A height @ A width.
-	C replaceWith: A plus: B.
-	self assert: A + B = C! !
-
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 4/9/2024 08:04:16'!
-testInplaceMatrixTimesLowerTriangular
-	| A L C |
-	A := self newMatrix.
-	L := A domain to: A domain fill: [:i :j| i < j ifTrue: [0] ifFalse: [scalars atRandom: random]].
-	C := A domain to: A codomain atRandom: random.
-	C replaceWith: A timesLowerTriangular: L.
-	self assert: A * L = C! !
-
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 18:54:46'!
-testInplaceMultiplication
-	| A B C |
-	A := self newMatrix.
-	B := self newMatrix: A width @ (5 atRandom: random).
-	C := self newMatrix: A height @ B width.
-	C replaceWith: A times: B.
-	self assert: A * B = C! !
-
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 16:39:06'!
-testInplaceSubstraction
-	| A B C |
-	A := self newMatrix.
-	B := self newMatrix: A height @ A width.
-	C := self newMatrix: A height @ A width.
-	C replaceWith: A minus: B.
-	self assert: A - B = C! !
-
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 4/9/2024 08:04:45'!
-testInplaceUpperTriangularTimesLowerTriangular
-	| U L C |
-	U := scalars^(10 atRandom: random) :: endomorphisms fill: [:i :j| i > j ifTrue: [0] ifFalse: [scalars atRandom: random]].
-	L := U domain endomorphisms fill: [:i :j| i < j ifTrue: [0] ifFalse: [scalars atRandom: random]].
-	C := U domain to: U codomain atRandom: random.
-	C replaceWithUpperTriangular: U timesLowerTriangular: L.
-	self assert: U * L = C! !
-
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 4/9/2024 08:42:40'!
-testInplaceUpperTriangularTimesMatrix
-	| A U C |
-	A := self newMatrix.
-	U := A codomain endomorphisms fill: [:i :j| i > j ifTrue: [0] ifFalse: [scalars atRandom: random]].
-	C := A domain to: A codomain atRandom: random.
-	C replaceWithUpperTriangular: U times: A.
-	self assert: U * A = C! !
-
 !AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/22/2023 09:47:17'!
 testMatrixTupleMultiplication
 	| A v |
@@ -10125,6 +10071,94 @@ testMultiplication: A with: B
 	x := A codomain atRandom: random bits: 10.
 	self assert: x*A*B = (x*(A*B))! !
 
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/2/2025 08:29:27'!
+testMutableAddition
+	| A B C |
+	A := self newMatrix.
+	B := self newMatrix: A height @ A width.
+	C := self newMatrix: A height @ A width.
+	C replaceWith: A plus: B.
+	self assert: A + B = C! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/2/2025 08:29:00'!
+testMutableMultiplication
+	| A B C |
+	A := self newMatrix.
+	B := self newMatrix: A width @ (5 atRandom: random).
+	C := self newMatrix: A height @ B width.
+	C replaceWith: A times: B.
+	self assert: A * B = C! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/2/2025 08:29:07'!
+testMutableSubstraction
+	| A B C |
+	A := self newMatrix.
+	B := self newMatrix: A height @ A width.
+	C := self newMatrix: A height @ A width.
+	C replaceWith: A minus: B.
+	self assert: A - B = C! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/8/2025 08:38:00'!
+testRecursiveInplaceMatrixTimesLowerTriangular
+	| A L C |
+	A := self newMatrix.
+	L := A domain to: A domain fill: [:i :j| i < j ifTrue: [scalars zero] ifFalse: [scalars atRandom: random]].
+	C := A domain to: A codomain atRandom: random.
+	C := A copy.
+	C replaceTimesLowerTriangular: L.
+	self assert: A * L = C! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/8/2025 08:38:08'!
+testRecursiveInplaceSharedLowerTimesUpper
+	| A U L C |
+	A := self newSquareMatrix.
+	1 to: A width do: [:i| A at: i@i put: scalars one].
+	U := A withIndicesCollect: [:x :i :j| i <= j ifTrue: [x] ifFalse: [scalars zero]].
+	self assert: U isUpperTriangular.
+	L := A withIndicesCollect: [:x :i :j| i >= j ifTrue: [x] ifFalse: [scalars zero]].
+	self assert: L isLowerTriangular.
+	C := A copy replaceSharedLowerTimesUpper.
+	self assert: L * U = C! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/8/2025 08:38:13'!
+testRecursiveInplaceSharedUpperTimesLower
+	| A U L C |
+	A := self newSquareMatrix.
+	1 to: A width do: [:i| A at: i@i put: scalars one].
+	U := A withIndicesCollect: [:x :i :j| i <= j ifTrue: [x] ifFalse: [scalars zero]].
+	self assert: U isUpperTriangular.
+	L := A withIndicesCollect: [:x :i :j| i >= j ifTrue: [x] ifFalse: [scalars zero]].
+	self assert: L isLowerTriangular.
+	C := A copy replaceSharedUpperTimesLower.
+	self assert: U * L = C! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/8/2025 08:38:21'!
+testRecursiveMatrixTimesLowerTriangular
+	| A L C |
+	A := self newMatrix.
+	L := A domain to: A domain fill: [:i :j| i < j ifTrue: [scalars zero] ifFalse: [scalars atRandom: random]].
+	C := A domain to: A codomain atRandom: random.
+	C replaceWith: A timesLowerTriangular: L.
+	self assert: A * L = C! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/8/2025 08:39:02'!
+testRecursiveUpperTriangularTimesLowerTriangular
+	| U L C |
+	U := scalars^(10 atRandom: random) :: endomorphisms fill: [:i :j| i > j ifTrue: [scalars zero] ifFalse: [scalars atRandom: random]].
+	L := U domain endomorphisms fill: [:i :j| i < j ifTrue: [0] ifFalse: [scalars atRandom: random]].
+	C := U parent atRandom: random.
+	C replaceWithUpperTriangular: U timesLowerTriangular: L.
+	self assert: U * L = C! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/8/2025 08:39:13'!
+testRecursiveUpperTriangularTimesMatrix
+	| A U C |
+	A := self newMatrix.
+	U := A codomain endomorphisms fill: [:i :j| i > j ifTrue: [scalars zero] ifFalse: [scalars atRandom: random]].
+	C := A parent atRandom: random.
+	C replaceWithUpperTriangular: U times: A.
+	self assert: U * A = C! !
+
 !AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/20/2023 21:17:29'!
 testScalarAction
 	| A b B |
@@ -10133,20 +10167,20 @@ testScalarAction
 	B := A*b.
 	A withIndicesDo: [:each :i :j| self assert: each*b = (B at: i@j)]! !
 
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/26/2023 18:47:21'!
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/8/2025 08:39:18'!
 testStrassenWinogradSquareEven
 	| n A B C |
-	n := (10 atRandom: random) bitAnd: 1 bitInvert.
+	n := (5 atRandom: random) * 2.
 	A := self newMatrix: n @ n.
 	B := self newMatrix: n @ n.
 	C := A copy.
 	C replaceStrassenWinogradWith: A times: B.
 	self assert: A * B = C! !
 
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 5/26/2023 18:47:43'!
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/8/2025 08:39:22'!
 testStrassenWinogradSquareOddPeeling
 	| n A B C |
-	n := (10 atRandom: random) bitOr: 1.
+	n := (5 atRandom: random) * 2 + 1.
 	A := self newMatrix: n @ n.
 	B := self newMatrix: n @ n.
 	C := A copy.
@@ -10748,6 +10782,54 @@ testRankNullityTheorem
 	n _ 6 atRandom: random.
 	A _ self newMatrix: n@n.
 	self assert: A rank + A nullity = n! !
+
+!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/8/2025 10:13:33'!
+testRecursivePreSolveUpperTriangular
+	| U X B C |
+	U := scalars^(10 atRandom: random) :: endomorphisms fill: [:i :j| i > j ifTrue: [scalars zero] ifFalse: [i = j ifTrue: [scalars units atRandom: random] ifFalse: [scalars atRandom: random]]].
+	X := U parent atRandom: random.
+	B := X*U.
+	C := B copy.
+	C replacePreSolveUpperTriangular: U.
+	self assert: C*U = B! !
+
+!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/8/2025 10:13:39'!
+testRecursiveSolveLowerTriangular
+	| L X B C |
+	L := scalars^(10 atRandom: random) :: endomorphisms fill: [:i :j| i < j ifTrue: [scalars zero] ifFalse: [i = j ifTrue: [scalars units atRandom: random] ifFalse: [scalars atRandom: random]]].
+	X := L parent atRandom: random.
+	B := L*X.
+	C := B copy.
+	C replaceSolveLowerTriangular: L.
+	self assert: L*C = B! !
+
+!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/8/2025 10:13:45'!
+testRecursiveSolveUpperTriangular
+	| U X B C |
+	U := scalars^(10 atRandom: random) :: endomorphisms fill: [:i :j| i > j ifTrue: [scalars zero] ifFalse: [i = j ifTrue: [scalars units atRandom: random] ifFalse: [scalars atRandom: random]]].
+	X := U parent atRandom: random.
+	B := U*X.
+	C := B copy.
+	C replaceSolveUpperTriangular: U.
+	self assert: U*C = B! !
+
+!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/8/2025 10:13:50'!
+testRecursiveSolveUpperTriangularNegated
+	| U X B C |
+	U := scalars^(10 atRandom: random) :: endomorphisms fill: [:i :j| i > j ifTrue: [scalars zero] ifFalse: [i = j ifTrue: [scalars units atRandom: random] ifFalse: [scalars atRandom: random]]].
+	X := U parent atRandom: random.
+	B := U*X.
+	C := B copy.
+	C replaceSolveUpperTriangularNegated: U.
+	self assert: U*C negated = B! !
+
+!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/8/2025 10:14:26'!
+testRecursiveUpperTriangularInverse
+	| U C |
+	U := scalars^(10 atRandom: random) :: endomorphisms fill: [:i :j| i > j ifTrue: [scalars zero] ifFalse: [i = j ifTrue: [scalars units atRandom: random] ifFalse: [scalars atRandom: random]]].
+	C := U copy.
+	C replaceUpperTriangularInverse.
+	self assert: U inverse = C! !
 
 !AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/12/2021 16:52:32'!
 testRowExtended
@@ -11563,10 +11645,10 @@ testSmithNormalFormExample
 	A := (R^2) id * x - (R !!!!!! #((3 -4) (1 -1))).
 	self assert: A SNF = ((R^2) endomorphisms diagonal: {R one. x^2 - (x*2) + 1})! !
 
-!BinaryPowerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:54:00'!
+!BinaryPowerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2025 13:32:50'!
 setUp
 	super setUp.
-	scalars := PrimePowerRing new: 2 to: ((2 to: 64) atRandom: random)! !
+	scalars := LocalModularRing new: 2 to: ((2 to: 64) atRandom: random)! !
 
 !GaloisRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:14:34'!
 setUp
@@ -11617,10 +11699,10 @@ testHowellNormalForm3
 	H _ R !!!!!! #((2 1) (0 3)).
 	self assert: A echelon = H! !
 
-!PrimePowerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/16/2023 21:54:00'!
+!PrimePowerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/3/2025 13:32:50'!
 setUp
 	super setUp.
-	scalars := PrimePowerRing new: (10 atRandom: random) nextPrime to: (3 atRandom: random)! !
+	scalars := LocalModularRing new: (10 atRandom: random) nextPrime to: (3 atRandom: random)! !
 
 !PrimePowerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/6/2023 18:11:54'!
 testSyzygiesBug
@@ -13334,16 +13416,16 @@ testPrimePowerRingCanonicalProjections
 	self assert: a representative \\ (p^m) = b representative.
 	self testRingHomomorphism: φ! !
 
-!RingTest methodsFor: 'finite rings' stamp: 'len 11/16/2023 21:54:00'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 1/3/2025 13:32:50'!
 testPrimePowerRingNilradicalAndUnits
 	| R |
-	R := PrimePowerRing new: #(2 3 5) atRandom to: 5 atRandom.
+	R := LocalModularRing new: #(2 3 5) atRandom to: 5 atRandom.
 	self assert: R units size + R nilradical size = R size	! !
 
-!RingTest methodsFor: 'finite rings' stamp: 'len 11/16/2023 21:54:00'!
+!RingTest methodsFor: 'finite rings' stamp: 'len 1/3/2025 13:32:50'!
 testPrimePowerRingValuationAndUnit
 	| R x |
-	R _ PrimePowerRing new: 3 to: 5.
+	R _ LocalModularRing new: 3 to: 5.
 	x _ R !! 5.
 	self assert: x valuation = 0.
 	self assert: x normalization inverse = x.
