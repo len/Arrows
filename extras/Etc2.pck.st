@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 24 November 2024 at 8:36:44 pm'!
+'From Cuis6.3 [latest update: #6222] on 7 January 2025 at 7:49:48 am'!
 'Description '!
-!provides: 'Etc2' 1 1!
+!provides: 'Etc2' 1 2!
 SystemOrganization addCategory: #Etc2!
 
 
@@ -34,6 +34,16 @@ AffineAlgebra subclass: #LaurentPolynomialRing
 LaurentPolynomialRing class
 	instanceVariableNames: ''!
 
+!classDefinition: #PathAlgebra category: #Etc2!
+Ring subclass: #PathAlgebra
+	instanceVariableNames: 'quiver scalars'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc2'!
+!classDefinition: 'PathAlgebra class' category: #Etc2!
+PathAlgebra class
+	instanceVariableNames: ''!
+
 !classDefinition: #Jet category: #Etc2!
 Residue subclass: #Jet
 	instanceVariableNames: ''
@@ -52,6 +62,16 @@ Residue subclass: #LaurentPolynomial
 	category: 'Etc2'!
 !classDefinition: 'LaurentPolynomial class' category: #Etc2!
 LaurentPolynomial class
+	instanceVariableNames: ''!
+
+!classDefinition: #PathAlgebraElement category: #Etc2!
+RingElement subclass: #PathAlgebraElement
+	instanceVariableNames: 'coefficients parent'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Etc2'!
+!classDefinition: 'PathAlgebraElement class' category: #Etc2!
+PathAlgebraElement class
 	instanceVariableNames: ''!
 
 
@@ -119,9 +139,9 @@ isIntegralDomain
 isLocal
 	^ true! !
 
-!JetRing methodsFor: 'as yet unclassified' stamp: 'len 11/21/2023 15:20:59'!
+!JetRing methodsFor: 'as yet unclassified' stamp: 'len 1/3/2025 13:32:50'!
 isQuasiGaloisRing
-	^ self rank = 1 and: [self scalars isKindOf: PrimePowerRing]! !
+	^ self rank = 1 and: [self scalars isKindOf: LocalModularRing]! !
 
 !JetRing methodsFor: 'as yet unclassified' stamp: 'len 9/6/2023 16:23:07'!
 maximalIdeal
@@ -185,6 +205,29 @@ new: anInteger over: aRing
 new: anInteger over: aRing ordering: aMonomialOrdering
 	^ self monomials: (FreeAbelianMonoid new: anInteger*2 ordering: aMonomialOrdering) over: aRing! !
 
+!PathAlgebra methodsFor: 'as yet unclassified' stamp: 'len 12/16/2024 08:03:55'!
+printOn: aStream
+	aStream print: scalars; nextPut: $[.
+	quiver generators do: [:each| aStream print: each] separatedBy: [aStream nextPutAll: ', '].
+	aStream nextPut: $]! !
+
+!PathAlgebra methodsFor: 'as yet unclassified' stamp: 'len 12/16/2024 08:02:19'!
+quiver
+	^ quiver! !
+
+!PathAlgebra methodsFor: 'as yet unclassified' stamp: 'len 12/16/2024 08:02:05'!
+quiver: aFreeCategory scalars: aRing
+	quiver := aFreeCategory.
+	scalars := aRing! !
+
+!PathAlgebra methodsFor: 'as yet unclassified' stamp: 'len 12/16/2024 08:02:14'!
+scalars
+	^ scalars! !
+
+!PathAlgebra class methodsFor: 'instance creation' stamp: 'len 12/16/2024 08:04:10'!
+on: aFreeCategory over: aRing
+	^ self new quiver: aFreeCategory scalars: aRing! !
+
 !Jet methodsFor: 'testing' stamp: 'len 11/21/2023 15:18:06'!
 isNilpotent
 	^ self isZeroDivisor! !
@@ -245,3 +288,92 @@ printOn: aStream
 			ifTrue: [aStream nextPutAll: ' - '. c := c negated]
 			ifFalse: [aStream nextPutAll: ' + '].
 		self printCoefficient: c monomial: m on: aStream]! !
+
+!PathAlgebraElement methodsFor: 'accessing' stamp: 'len 12/16/2024 07:43:37'!
+coefficients
+	^ coefficients! !
+
+!PathAlgebraElement methodsFor: 'accessing' stamp: 'len 12/16/2024 07:43:37'!
+parent
+	^ parent! !
+
+!PathAlgebraElement methodsFor: 'comparing' stamp: 'len 12/16/2024 07:43:37'!
+= anObject
+	^ self class = anObject class and: [coefficients = anObject coefficients]! !
+
+!PathAlgebraElement methodsFor: 'comparing' stamp: 'len 12/16/2024 07:49:13'!
+hash
+	| answer |
+	answer := 0.
+	coefficients keysAndValuesDo: [:key :value| answer := key hash + value hash + answer].
+	^ answer! !
+
+!PathAlgebraElement methodsFor: 'operations' stamp: 'len 12/16/2024 07:54:55'!
+* anElement
+	| newCoefficients |
+	(anElement isInteger or: [parent scalars includes: anElement])
+		ifTrue: [^ self class coefficients: coefficients * anElement parent: parent].
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #*].
+	newCoefficients := Dictionary new: coefficients size + anElement coefficients size.
+	coefficients associationsDo: [:each|
+		anElement coefficients associationsDo: [:other|
+			each key domain = other key codomain
+				ifTrue: [newCoefficients at: each key ∘ other key addAndRemoveIfZero: each value * other value]]].
+	^ self class coefficients: newCoefficients parent: parent! !
+
+!PathAlgebraElement methodsFor: 'operations' stamp: 'len 12/16/2024 07:43:37'!
++ anElement
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #+].
+	^ self class coefficients: coefficients + anElement coefficients parent: parent! !
+
+!PathAlgebraElement methodsFor: 'operations' stamp: 'len 12/16/2024 07:43:37'!
+/ anElement
+	(anElement isInteger or: [parent scalars includes: anElement])
+		ifTrue: [^ self class coefficients: coefficients / anElement parent: parent].
+	^ super / anElement! !
+
+!PathAlgebraElement methodsFor: 'operations' stamp: 'len 12/16/2024 07:55:47'!
+inverse
+	coefficients size = 1 ifTrue: [coefficients keysAndValuesDo: [:key :value| ^ self class coefficients: (Dictionary with: key inverse -> value inverse) parent: parent]].
+	^ super inverse! !
+
+!PathAlgebraElement methodsFor: 'printing' stamp: 'len 12/16/2024 07:57:08'!
+printCoefficient: coefficient path: path on: aStream
+	| c |
+	c := coefficient.
+	(path isIdentity or: [c isOne not]) ifTrue:
+		[c printText first = $-
+			ifTrue: [aStream nextPut: $-. c := c negated].
+		(path isIdentity or: [c printText asString allSatisfy: [:each| each isAlphaNumeric or: ['{}()/' includes: each]]])
+			ifTrue: [aStream print: c]
+			ifFalse: [aStream nextPut: $(; print: c; nextPut: $)]].
+	path isIdentity ifFalse: [aStream print: path]! !
+
+!PathAlgebraElement methodsFor: 'printing' stamp: 'len 12/24/2024 08:28:58'!
+printOn: aStream
+	| keys leadingKey c |
+	coefficients isEmpty ifTrue: [aStream print: 0. ^ self].
+"	(self scalars isKindOf: ModularRing)
+		ifTrue: [aStream print: self lift. ^ self].
+	self isConstant ifTrue: [aStream print: self leadingCoefficient. ^ self]."
+	keys := coefficients keys sorted: [:a :b| a printString <= b printString].
+	c := coefficients at: (leadingKey := keys first).
+	c printText first = $- ifTrue: [c := c negated. aStream nextPut: $-].
+	self printCoefficient: c path: leadingKey on: aStream.
+	keys allButFirstDo: [:path|
+		c := coefficients at: path.
+		c printText first = $-
+			ifTrue: [aStream nextPutAll: ' - '. c := c negated]
+			ifFalse: [aStream nextPutAll: ' + '].
+		self printCoefficient: c path: path on: aStream]! !
+
+!PathAlgebraElement methodsFor: 'testing' stamp: 'len 12/16/2024 07:48:32'!
+isZero
+	^ coefficients isEmpty! !
+
+!PathAlgebraElement methodsFor: 'private' stamp: 'len 12/16/2024 07:50:37'!
+coefficients: aDictionary parent: aPathAlgebra
+	coefficients := aDictionary.
+	parent := aPathAlgebra.
+	self assert: parent notNil.
+	self assert: (aDictionary noneSatisfy: [:none| none isZero])! !

@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 19 August 2024 at 3:00:07 pm'!
+'From Cuis6.3 [latest update: #6222] on 7 January 2025 at 7:49:52 am'!
 'Description '!
-!provides: 'Codes' 1 17!
+!provides: 'Codes' 1 18!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Codes!
 
@@ -450,12 +450,12 @@ generatorMatrix: aMatrix
 generatorPolynomial: aPolynomial
 	^ self new: aPolynomial degree generatorPolynomial: aPolynomial! !
 
-!LinearCode class methodsFor: 'instance creation' stamp: 'len 6/26/2023 13:00:05'!
+!LinearCode class methodsFor: 'instance creation' stamp: 'len 12/31/2024 08:10:47'!
 new: n generatorPolynomial: aPolynomial
 	| V W subspace |
 	V := aPolynomial parent filtrationAt: n - 1.
 	W := aPolynomial parent filtrationAt: n - aPolynomial degree - 1.
-	subspace := V sub: (W asArray collect: [:f| aPolynomial * f]).
+	subspace := V sub: (W collect: [:f| aPolynomial * f]).
 	^ (self on: subspace)
 		propertyAt: #generatorPolynomial put: aPolynomial;
 		yourself! !
