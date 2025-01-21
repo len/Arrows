@@ -1,7 +1,7 @@
-'From Cuis6.3 [latest update: #6222] on 7 January 2025 at 7:49:35 am'!
+'From Cuis6.3 [latest update: #6222] on 21 January 2025 at 6:45:16 pm'!
 'Description General Algebra Subrutines. This package provides low-level support for algebra on arrays. A companion (optional) shared library accelerates the most critical operations over floats of 32 and 64 bits, and over modular integers of 8, 16 and 32 bits.
 '!
-!provides: 'GAS' 1 16!
+!provides: 'GAS' 1 17!
 !requires: 'Collections-Extras' 1 14 nil!
 !requires: 'FFI' 1 40 nil!
 !requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
@@ -187,9 +187,10 @@ one
 zero
 	^ self class zero! !
 
-!SequenceableCollection methodsFor: '*gas' stamp: 'len 12/24/2023 08:17:30'!
+!SequenceableCollection methodsFor: '*gas' stamp: 'len 1/10/2025 10:09:58'!
 · aCollection
 	| answer |
+	self flag: #deprecated. "but used in Buchberger algorithm"
 	self isEmpty ifTrue: [^ aCollection first zero].
 	aCollection isEmpty ifTrue: [^ self first zero].
 	answer := self first * aCollection first.
@@ -199,22 +200,6 @@ zero
 !SequenceableCollection methodsFor: '*gas' stamp: 'len 3/23/2016 05:04'!
 at: anInteger add: anObject
 	^ self at: anInteger put: (self at: anInteger) + anObject! !
-
-!SequenceableCollection methodsFor: '*gas' stamp: 'len 5/20/2022 11:55:54'!
-isZero
-	1 to: self size do: [:i| (self isZeroAt: i) ifFalse: [^ false]].
-	^ true! !
-
-!SequenceableCollection methodsFor: '*gas' stamp: 'len 4/17/2022 13:11:30'!
-isZeroAt: anInteger
-	^ (self at: anInteger) isZero! !
-
-!SequenceableCollection methodsFor: '*gas' stamp: 'len 11/18/2016 08:42:32'!
-permutedBy: aPermutation
-	| answer |
-	answer _ Array new: self size.
-	1 to: self size do: [:i| answer at: (aPermutation at: i) put: (self at: i)].
-	^ answer! !
 
 !ArrayedCollection methodsFor: '*gas' stamp: 'len 5/5/2023 16:35:18'!
 * anObject
@@ -456,6 +441,10 @@ firstNonzeroIndex
 isZero
 	^ (self findFirstNonzeroFrom: 1 to: self size) isNil! !
 
+!ArrayedCollection methodsFor: '*gas' stamp: 'len 1/10/2025 10:05:32'!
+isZeroAt: anInteger
+	^ (self at: anInteger) isZero! !
+
 !ArrayedCollection methodsFor: '*gas-low level-karatsuba' stamp: 'len 5/14/2023 22:52:02'!
 karatsubaSplit: length startingAt: start
 	^ length + 1 // 2! !
@@ -504,6 +493,13 @@ partiallyReduceBy: g quotient: q modulo: modulus
 			c = 0 ifTrue: [^ self].
 			q ifNotNil: [q at: i put: (q at: i) - c \\ modulus].
 			self replaceFrom: i to: i+m-1 with: self startingAt: i plus: g startingAt: 1 timesScalar: c modulo: modulus]! !
+
+!ArrayedCollection methodsFor: '*gas' stamp: 'len 1/10/2025 10:13:15'!
+permutedBy: aPermutation
+	| answer |
+	answer := self species new: self size.
+	1 to: self size do: [:i| answer at: (aPermutation at: i) put: (self at: i)].
+	^ answer! !
 
 !ArrayedCollection methodsFor: '*gas' stamp: 'len 6/6/2023 08:47:56'!
 polynomialDivisionBy: anArray

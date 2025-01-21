@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 8 January 2025 at 5:35:00 pm'!
+'From Cuis6.3 [latest update: #6222] on 21 January 2025 at 6:45:23 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 138!
+!provides: 'Tests-Algebra' 1 139!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -1939,6 +1939,16 @@ AbstractGroebnerBasisTest subclass: #RationalGroebnerBasisTest
 	category: 'Tests-Algebra-Groebner Bases'!
 !classDefinition: 'RationalGroebnerBasisTest class' category: #'Tests-Algebra-Groebner Bases'!
 RationalGroebnerBasisTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #RepresentationsTest category: #'Tests-Algebra'!
+TestCase subclass: #RepresentationsTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra'!
+!classDefinition: 'RepresentationsTest class' category: #'Tests-Algebra'!
+RepresentationsTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #RingTest category: #'Tests-Algebra'!
@@ -6208,27 +6218,27 @@ testBinaryAffineAlgebraBug
 	self halt.
 	self should: [f normalization] notTakeMoreThan: 1 seconds! !
 
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 11/18/2024 18:31:53'!
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 1/16/2025 08:25:31'!
 testContravariantHom
 	| x y H g |
 	x := ℤ * 2.
 	y := ℤ * 4.
 	"The Hom(-,x) functor:"
-	H := ℤ modules opposite to: Sets map: [:f| x reverse ^ f].
-	self assert: (H value₀: y reverse) = (y reverse ^ x reverse).
+	H := ℤ modules opposite to: Sets map: [:f| x ^ f reverse].
+	self assert: (H value₀: y reverse) = (x ^ y).
 	g := ℤ^2 to: ℤ asIdeal map: [:v| (v at: 1) * 2].
-	self assert: (H value: g reverse) parent = ((g domain ^ x) ^ (g codomain ^ x))! !
+	self assert:  ((x ^ g domain) ^ (x ^ g codomain) includes: (H value: g reverse))! !
 
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 11/18/2024 18:31:53'!
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 1/16/2025 08:20:23'!
 testContravariantInternalHom
 	| x y H g |
 	x := ℤ * 2.
 	y := ℤ * 4.
 	"The [-,x] functor:"
-	H := ℤ modules opposite to: ℤ modules map: [:f| f ⇒ x reverse].
-	self assert: (H value₀: y reverse) = (x reverse ⇒ y reverse).
+	H := ℤ modules opposite to: ℤ modules map: [:f| f reverse ⇒ x].
+	self assert: (H value₀: y reverse) = (y ⇒ x).
 	g := ℤ^2 to: ℤ asIdeal map: [:v| (v at: 1) * 2].
-	self assert: (H value: g reverse) parent = (x ⇒ g codomain ⇒ (x ⇒ g domain))! !
+	self assert:  (g codomain ⇒ x ⇒ (g domain ⇒ x)) includes: (H value: g reverse)! !
 
 !AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 11/18/2024 18:31:53'!
 testCovariantHom
@@ -6241,7 +6251,7 @@ testCovariantHom
 	g := ℤ^2 to: ℤ asIdeal map: [:v| (v at: 1) * 2].
 	self assert: (H value: g) parent = ((g codomain ^ x) ^ (g domain ^ x))! !
 
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 11/18/2024 18:31:53'!
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 1/13/2025 08:47:59'!
 testCovariantInternalHom
 	| x y H g |
 	x := ℤ * 2.
@@ -6250,7 +6260,7 @@ testCovariantInternalHom
 	H := ℤ modules to: ℤ modules map: [:f| x ⇒ f].
 	self assert: (H value₀: y) = (x ⇒ y).
 	g := ℤ^2 to: ℤ asIdeal map: [:v| (v at: 1) * 2].
-	self assert: (H value: g) parent = (x ⇒ g domain ⇒ (x ⇒ g codomain))! !
+	self assert: (x ⇒ g domain ⇒ (x ⇒ g codomain) includes: (H value: g))! !
 
 !AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 7/22/2024 09:07:01'!
 testEvaluationCoevaluationIdentityExample1
@@ -6287,6 +6297,34 @@ testJacobsonRadicalZeroCharacteristicExample
 	S := (ℚ^2) endomorphisms sub: {b₁. b₂. b₃}.
 	self assert: S radical generators = {b₂}! !
 
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 1/12/2025 09:38:52'!
+testMapsInducedByHom
+	| X Y Z f g h yz zx |
+	X := #(1 2 3) asSetObject.
+	Y := {$x. $y. $z} asSetObject.
+	Z := #(a b c) asSetObject.
+	f := X to: Y map: [:each| Y atRandom: (Random seed: each hash)].
+	g := f ⇒ Z. "Hom(-,Z)"
+	self assert: g domain = (Y ⇒ Z). "it is contravariant"
+	self assert: g codomain = (X ⇒ Z).
+	yz := Y to: Z map: [:each| Z atRandom: (Random seed: each hash)].
+	self assert: (g value: yz) = (yz · f).
+	h := Z ⇒ f. "Hom(Z,-)"
+	self assert: h domain = (Z ⇒ X). "it is covariant"
+	self assert: h codomain = (Z ⇒ Y).
+	zx := Z to: X map: [:each| X atRandom: (Random seed: each hash)].
+	self assert: (h value: zx) = (f · zx)! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 1/20/2025 08:59:37'!
+testModuleMapRandomBug
+	| X Y f |
+	X := ℤ^1.
+	Y := ℤ^1/{2}.
+	f := X to: Y atRandom: Random new.
+	self assert: (f isZero or: [f isIdentity]).
+	f := Y to: X atRandom: Random new.
+	self assert: f isZero! !
+
 !AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/22/2024 08:59:55'!
 testNonArtinianQuotientJacobsonRadical
 	"For an Artinian ring R, a J(R/I) = (J(R) + I) / I. But if R is not Artinian the equality doesn't hold:"
@@ -6296,43 +6334,6 @@ testNonArtinianQuotientJacobsonRadical
 	self assert: R radical isZero.
 	Q := ℚ polynomials / [:x| x^2].
 	self assert: Q radical = (Q * Q x)! !
-
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/27/2024 08:57:25'!
-testPrimitiveCentralIdempotentsExample
-	| A E |
-	A := (SymmetricGroup new: 5) groupAlgebraOver: ℤ/5.
-	E := A primitiveCentralIdempotents.
-	self assert: (E allSatisfy: [:e| A includes: e]).
-	self assert: E size = 3.
-	self assert: E sum = A one.
-	self assert: (E allSatisfy: [:e| e isIdempotent and: [E allSatisfy: [:f| e = f or: [(e * f) isZero]]]])! !
-
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/27/2024 08:57:19'!
-testPrimitiveCentralIdempotentsExample2
-	| A E |
-	A := (SymmetricGroup new: 5) groupAlgebraOver: ℚ.
-	E := A primitiveCentralIdempotents.
-	self assert: (E allSatisfy: [:e| A includes: e]).
-	self assert: E sum = A one.
-	self assert: (E allSatisfy: [:e| e isIdempotent and: [E allSatisfy: [:f| e = f or: [(e * f) isZero]]]])! !
-
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/27/2024 08:57:14'!
-testPrimitiveCentralIdempotentsExample3
-	| A E |
-	A := (SymmetricGroup new: 5) groupAlgebraOver: (GaloisField new: 7 to: 2).
-	E := A primitiveCentralIdempotents.
-	self assert: (E allSatisfy: [:e| A includes: e]).
-	self assert: E sum = A one.
-	self assert: (E allSatisfy: [:e| e isIdempotent and: [E allSatisfy: [:f| e = f or: [(e * f) isZero]]]])! !
-
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 12/27/2024 08:57:09'!
-testPrimitiveCentralIdempotentsExample4
-	| A E |
-	A := (SymmetricGroup new: 5) groupAlgebraOver: (GaloisField new: 2 to: 3).
-	E := A primitiveCentralIdempotents.
-	self assert: (E allSatisfy: [:e| A includes: e]).
-	self assert: E sum = A one.
-	self assert: (E allSatisfy: [:e| e isIdempotent and: [E allSatisfy: [:f| e = f or: [(e * f) isZero]]]])! !
 
 !AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 7/24/2024 08:40:34'!
 testSetsBraidingIsSymmetric
@@ -9237,6 +9238,20 @@ testArrayTimesScalarInplace
 	c *= x.
 	1 to: a size do: [:i| self assert: (a at: i) * x = (c at: i)]! !
 
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 1/10/2025 10:28:10'!
+testAtAdd
+	| n a b i x |
+	n := 5 atRandom: random.
+	a := self newArray: n.
+	b := a copy.
+	x := self newScalar.
+	i := b size atRandom: random.
+	b at: i add: x.
+	self assert: (a at: i) + x = (b at: i).
+	self assert: (b copyWithoutIndex: i) = (a copyWithoutIndex: i).
+	b at: i add: x negated.
+	self assert: a = b! !
+
 !AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:13:29'!
 testAutoconvolution
 	| a |
@@ -10098,6 +10113,24 @@ testMutableSubstraction
 	C replaceWith: A minus: B.
 	self assert: A - B = C! !
 
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/16/2025 09:05:49'!
+testRecursiveInplaceMatrixPreTimesLowerTriangularUnit
+	| A L C |
+	A := self newMatrix.
+	L := A codomain endomorphisms fill: [:i :j| i < j ifTrue: [scalars zero] ifFalse: [i = j ifTrue: [scalars one] ifFalse: [scalars atRandom: random]]].
+	C := A copy.
+	C replacePreTimesLowerTriangularUnit: L.
+	self assert: L * A = C! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/16/2025 09:04:23'!
+testRecursiveInplaceMatrixPreTimesUpperTriangular
+	| A U C |
+	A := self newMatrix.
+	U := A codomain endomorphisms fill: [:i :j| i > j ifTrue: [scalars zero] ifFalse: [scalars atRandom: random]].
+	C := A copy.
+	C replacePreTimesUpperTriangular: U.
+	self assert: U * A = C! !
+
 !AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/8/2025 08:38:00'!
 testRecursiveInplaceMatrixTimesLowerTriangular
 	| A L C |
@@ -10107,6 +10140,16 @@ testRecursiveInplaceMatrixTimesLowerTriangular
 	C := A copy.
 	C replaceTimesLowerTriangular: L.
 	self assert: A * L = C! !
+
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/15/2025 07:56:40'!
+testRecursiveInplaceMatrixTimesUpperTriangular
+	| A U C |
+	A := self newMatrix.
+	U := A domain to: A domain fill: [:i :j| i > j ifTrue: [scalars zero] ifFalse: [scalars atRandom: random]].
+	C := A domain to: A codomain atRandom: random.
+	C := A copy.
+	C replaceTimesUpperTriangular: U.
+	self assert: A * U = C! !
 
 !AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/8/2025 08:38:08'!
 testRecursiveInplaceSharedLowerTimesUpper
@@ -12319,23 +12362,23 @@ testTensorProductDualIsomorphism
 	self testLinearMap: phi.
 	self assert: phi isIsomorphism"! !
 
-!AbstractCommutativeRingModuleTest methodsFor: 'tensor product' stamp: 'len 12/27/2021 08:09:43'!
+!AbstractCommutativeRingModuleTest methodsFor: 'tensor product' stamp: 'len 1/17/2025 10:19:40'!
 testTensorProductRelations
-	| V W T v v1 v2 w w1 w2 c |
-	V _ self newFreeModule.
-	W _ self newFreeModule.
-	T _ V ⊗ W.
-	v _ V atRandom: random bits: 40.
-	v1 _ V atRandom: random bits: 40.
-	v2 _ V atRandom: random bits: 40.
-	w _ W atRandom: random bits: 40.
-	w1 _ W atRandom: random bits: 40.
-	w2 _ W atRandom: random bits: 40.
-	c _ V scalars atRandom: random bits: 40.
-	self assert: T !! {v1. w} + (T !! {v2. w}) = (T !! {v1 + v2. w}).
-	self assert: T !! {v. w1} + (T !! {v. w2}) = (T !! {v. w1 + w2}).
-	self assert: (T !! {v. w})*c = (T !! {v*c. w}).
-	self assert: (T !! {v. w})*c = (T !! {v. w*c})! !
+	| V W T v v₁ v₂ w w₁ w₂ c |
+	V := self newFreeModule.
+	W := self newFreeModule.
+	T := V ⊗ W.
+	v := V freeCover atRandom: random bits: 40.
+	v₁ := V freeCover atRandom: random bits: 40.
+	v₂ := V freeCover atRandom: random bits: 40.
+	w := W freeCover atRandom: random bits: 40.
+	w₁ := W freeCover atRandom: random bits: 40.
+	w₂ := W freeCover atRandom: random bits: 40.
+	c := V scalars atRandom: random bits: 40.
+	self assert: T !! (v₁ ⊗ w) + (T !! (v₂ ⊗ w)) = (T !! (v₁ + v₂ ⊗ w)).
+	self assert: T !! (v ⊗ w₁) + (T !! (v ⊗ w₂)) = (T !! (v ⊗ (w₁ + w₂))).
+	self assert: (T !! (v ⊗ w))*c = (T !! (v*c ⊗ w)).
+	self assert: (T !! (v ⊗ w))*c = (T !! (v ⊗ (w*c)))! !
 
 !AbstractCommutativeRingModuleTest methodsFor: 'tensor product' stamp: 'len 7/24/2024 09:17:14'!
 testTensorProductTriangleIdentity
@@ -12555,7 +12598,7 @@ testSymmetricAndExteriorSquare
 	self assert: (S ∩ Λ) isTrivial.
 	self assert: S + Λ = T! !
 
-!AbstractVectorSpaceTest methodsFor: 'tensor product' stamp: 'len 9/25/2024 20:30:33'!
+!AbstractVectorSpaceTest methodsFor: 'tensor product' stamp: 'len 1/17/2025 10:05:25'!
 testTensorHomAdjunction
 	| V W U WU A B φ |
 	V := self newVectorSpace.
@@ -12565,23 +12608,23 @@ testTensorHomAdjunction
 	WU := W ⇒ U.
 	B := V ⇒ WU.
 	self assert: A ~ B.
-	φ := A to: B map: [:f| V to: WU map: [:v| W to: U map: [:w| f value: A domain !! {v. w}]]].
+	φ := A to: B map: [:f| V to: WU map: [:v| W to: U map: [:w| f value: (V \ v ⊗ (W \ w)) asTuple]]].
 	self testModuleMap: φ.
 	self assert: φ isIsomorphism! !
 
-!AbstractVectorSpaceTest methodsFor: 'tensor product' stamp: 'len 12/15/2021 14:29:26'!
+!AbstractVectorSpaceTest methodsFor: 'tensor product' stamp: 'len 1/17/2025 10:06:43'!
 testTensorProductOfLinearForms
 	| V W f g t v w |
-	V _ self newFreeModule.
-	W _ self newFreeModule.
-	f _ V dual atRandom: random bits: 10.
-	g _ W dual atRandom: random bits: 10.
-	t _ f ⊗ g.
+	V := self newFreeModule.
+	W := self newFreeModule.
+	f := V dual atRandom: random bits: 10.
+	g := W dual atRandom: random bits: 10.
+	t := f ⊗ g.
 	self assert: t domain = (V ⊗ W).
 	self assert: t codomain = (f codomain ⊗ g codomain).
-	v _ V atRandom: random bits: 10.
-	w _ W atRandom: random bits: 10.
-	self assert: (t value: t domain !! {v. w}) = (t codomain !! {f value: v. g value: w})! !
+	v := V atRandom: random bits: 10.
+	w := W atRandom: random bits: 10.
+	self assert: (t value: V \ v ⊗ (W \ w)) = (t codomain !! ((f value: v) ⊗ (g value: w)))! !
 
 !AbstractVectorSpaceTest methodsFor: 'private' stamp: 'len 3/24/2021 08:02:48'!
 newVectorSpace
@@ -13237,6 +13280,58 @@ setUp
 setUp
 	super setUp.
 	scalars := ℚ! !
+
+!RepresentationsTest methodsFor: 'as yet unclassified' stamp: 'len 1/14/2025 13:40:16'!
+testPrimitiveCentralIdempotentsExample
+	| A E |
+	A := (SymmetricGroup new: 5) groupAlgebraOver: ℤ/5.
+	E := A primitiveCentralIdempotents.
+	self assert: (E allSatisfy: [:e| A includes: e]).
+	self assert: (E allSatisfy: [:e| e isCentral]).
+	self assert: E size = 3.
+	self assert: E sum = A one.
+	self assert: (E allSatisfy: [:e| e isIdempotent and: [E allSatisfy: [:f| e = f or: [(e * f) isZero]]]])! !
+
+!RepresentationsTest methodsFor: 'as yet unclassified' stamp: 'len 1/14/2025 13:40:12'!
+testPrimitiveCentralIdempotentsExample2
+	| A E |
+	A := (SymmetricGroup new: 5) groupAlgebraOver: ℚ.
+	E := A primitiveCentralIdempotents.
+	self assert: (E allSatisfy: [:e| A includes: e]).
+	self assert: (E allSatisfy: [:e| e isCentral]).
+	self assert: E sum = A one.
+	self assert: (E allSatisfy: [:e| e isIdempotent and: [E allSatisfy: [:f| e = f or: [(e * f) isZero]]]])! !
+
+!RepresentationsTest methodsFor: 'as yet unclassified' stamp: 'len 1/14/2025 13:40:08'!
+testPrimitiveCentralIdempotentsExample3
+	| A E |
+	A := (SymmetricGroup new: 5) groupAlgebraOver: (GaloisField new: 7 to: 2).
+	E := A primitiveCentralIdempotents.
+	self assert: (E allSatisfy: [:e| A includes: e]).
+	self assert: (E allSatisfy: [:e| e isCentral]).
+	self assert: E sum = A one.
+	self assert: (E allSatisfy: [:e| e isIdempotent and: [E allSatisfy: [:f| e = f or: [(e * f) isZero]]]])! !
+
+!RepresentationsTest methodsFor: 'as yet unclassified' stamp: 'len 1/14/2025 13:40:04'!
+testPrimitiveCentralIdempotentsExample4
+	| A E |
+	A := (SymmetricGroup new: 5) groupAlgebraOver: (GaloisField new: 2 to: 3).
+	E := A primitiveCentralIdempotents.
+	self assert: (E allSatisfy: [:e| A includes: e]).
+	self assert: (E allSatisfy: [:e| e isCentral]).
+	self assert: E sum = A one.
+	self assert: (E allSatisfy: [:e| e isIdempotent and: [E allSatisfy: [:f| e = f or: [(e * f) isZero]]]])! !
+
+!RepresentationsTest methodsFor: 'as yet unclassified' stamp: 'len 1/14/2025 13:39:46'!
+testPrimitiveCentralIdempotentsExample5
+	| A E |
+	A := (SymmetricGroup new: 3) groupAlgebraOver: ℤ/5.
+	E := A primitiveCentralIdempotents.
+	self assert: (E allSatisfy: [:e| A includes: e]).
+	self assert: (E allSatisfy: [:e| e isCentral]).
+	self assert: E size = 3.
+	self assert: E sum = A one.
+	self assert: (E allSatisfy: [:e| e isIdempotent and: [E allSatisfy: [:f| e = f or: [(e * f) isZero]]]])! !
 
 !RingTest methodsFor: 'finite rings' stamp: 'len 5/23/2020 09:34:55'!
 testFiniteRingJacobsonRadical
