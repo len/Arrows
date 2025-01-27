@@ -1,10 +1,9 @@
-'From Cuis6.3 [latest update: #6222] on 21 January 2025 at 6:45:16 pm'!
+'From Cuis7.3 [latest update: #7004] on 27 January 2025 at 3:05:11 pm'!
 'Description General Algebra Subrutines. This package provides low-level support for algebra on arrays. A companion (optional) shared library accelerates the most critical operations over floats of 32 and 64 bits, and over modular integers of 8, 16 and 32 bits.
 '!
-!provides: 'GAS' 1 17!
+!provides: 'GAS' 1 18!
 !requires: 'Collections-Extras' 1 14 nil!
 !requires: 'FFI' 1 40 nil!
-!requires: 'Collections-TwoAndEightByteArrays' 1 1 nil!
 SystemOrganization addCategory: #GAS!
 
 
@@ -178,14 +177,6 @@ moduleName
 !GASLibrary class methodsFor: 'system startup' stamp: 'len 2/5/2024 17:52:50'!
 install
 	Default := nil! !
-
-!Number methodsFor: '*gas' stamp: 'len 2/4/2024 19:49:11'!
-one
-	^ self class one! !
-
-!Number methodsFor: '*gas' stamp: 'len 2/4/2024 19:49:06'!
-zero
-	^ self class zero! !
 
 !SequenceableCollection methodsFor: '*gas' stamp: 'len 1/10/2025 10:09:58'!
 · aCollection
@@ -706,10 +697,10 @@ replaceFrom: start by: step plusMatrix: anArray1 startingAt: start1 by: step1 wi
 		i := i + step.
 		j := j + step1]! !
 
-!ArrayedCollection methodsFor: '*gas-low level-modular' stamp: 'len 2/3/2024 16:45:58'!
+!ArrayedCollection methodsFor: '*gas-low level-modular' stamp: 'len 1/27/2025 14:39:33'!
 replaceFrom: start by: step plusMatrix: anArray1 startingAt: start1 by: step1 width: width1 height: height timesMatrix: anArray2 startingAt: start2 by: step2 width: width modulo: modulus
 	| i j k value minusOne |
-	self class isBits ifTrue: [^ self replaceFrom: start by: step blockSize: 128 // self bytesPerElement plusMatrix: anArray1 startingAt: start1 by: step1 width: width1 height: height timesMatrix: anArray2 startingAt: start2 by: step2 width: width modulo: modulus].		
+	self class isBits ifTrue: [^ self replaceFrom: start by: step blockSize: 128 // self class bytesPerBasicElement plusMatrix: anArray1 startingAt: start1 by: step1 width: width1 height: height timesMatrix: anArray2 startingAt: start2 by: step2 width: width modulo: modulus].		
 	i := start.
 	j := start1.
 	modulus * width1 sqrt < 16r40000000
@@ -1734,3 +1725,11 @@ replaceBitsFromOld: start to: stop with: anArray1 startingAt: start1 xor: anArra
 					n := n - 32. j := j + 32. k := k + 32. i := i + 1]]].
 	n > 0 ifTrue:
 		[self bits: n at: i-1*32 + 1 put: ((anArray1 bits: n at: j) bitXor: (anArray2 bits: n at: k))]! !
+
+!Number methodsFor: '*gas' stamp: 'len 2/4/2024 19:49:11'!
+one
+	^ self class one! !
+
+!Number methodsFor: '*gas' stamp: 'len 2/4/2024 19:49:06'!
+zero
+	^ self class zero! !
