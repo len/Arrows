@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7004] on 27 January 2025 at 3:13:38 pm'!
+'From Cuis7.3 [latest update: #7034] on 28 January 2025 at 8:59:29 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 140!
+!provides: 'Tests-Algebra' 1 141!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!

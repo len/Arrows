@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 28 December 2024 at 10:26:46 am'!
+'From Cuis7.3 [latest update: #7034] on 28 January 2025 at 8:56:53 pm'!
 'Description '!
-!provides: 'Clifford Algebra' 1 3!
+!provides: 'Clifford Algebra' 1 4!
 SystemOrganization addCategory: #'Clifford Algebra'!
 
 
@@ -185,6 +185,32 @@ asVector
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #'|∙'].
 	^ self product: anElement condition: [:i :j| (i bitAnd: j) = j]! !
 
+!Multivector methodsFor: 'operations' stamp: 'len 12/9/2024 12:51:56'!
+∙ anElement
+	"Answer the dot product of the receiver with the argument."
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #∙].
+	^ self product: anElement condition: [:i :j| i = j] "this can be optimized, lots of unnecesary iterations here"! !
+
+!Multivector methodsFor: 'operations' stamp: 'len 12/9/2024 12:53:43'!
+∙| anElement
+	"Answer the left contraction (or left inner or interior product) of the receiver with the argument."
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #'∙|'].
+	^ self product: anElement condition: [:i :j| (i bitAnd: j) = i]! !
+
+!Multivector methodsFor: 'operations' stamp: 'len 8/12/2022 13:01:05'!
+∧ anElement
+	"Answer the exterior product (or outer product, or wedge product) of the receiver with the argument.
+	This is the product of the exterior algebra contained in the parent of the receiver."
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #∧].
+	^ self product: anElement condition: [:i :j| (i bitAnd: j) = 0]! !
+
+!Multivector methodsFor: 'operations' stamp: 'len 8/12/2022 13:00:35'!
+∨ anElement
+	"Answer the regressive product of the receiver with the argument.
+	This is the dual of the exterior product."
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #∨].
+	^ (self dual ∧ anElement dual) * parent pseudoscalar! !
+
 !Multivector methodsFor: 'operations' stamp: 'len 7/22/2020 15:59:30'!
 conjugate
 	"Answer the Clifford conjugate of the receiver."
@@ -219,32 +245,6 @@ transpose
 	"Answer the reversion of the receiver.
 	This is also called the second main involution or the principal antiautomorphism, and it is denoted by a superscript dagger."
 	^ self class parent: parent carrier: (carrier withIndexCollect: [:each :i| ((i-1) bitCount choose: 2) odd ifTrue: [each negated] ifFalse: [each]])! !
-
-!Multivector methodsFor: 'operations' stamp: 'len 12/9/2024 12:51:56'!
-∙ anElement
-	"Answer the dot product of the receiver with the argument."
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #∙].
-	^ self product: anElement condition: [:i :j| i = j] "this can be optimized, lots of unnecesary iterations here"! !
-
-!Multivector methodsFor: 'operations' stamp: 'len 12/9/2024 12:53:43'!
-∙| anElement
-	"Answer the left contraction (or left inner or interior product) of the receiver with the argument."
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #'∙|'].
-	^ self product: anElement condition: [:i :j| (i bitAnd: j) = i]! !
-
-!Multivector methodsFor: 'operations' stamp: 'len 8/12/2022 13:01:05'!
-∧ anElement
-	"Answer the exterior product (or outer product, or wedge product) of the receiver with the argument.
-	This is the product of the exterior algebra contained in the parent of the receiver."
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #∧].
-	^ self product: anElement condition: [:i :j| (i bitAnd: j) = 0]! !
-
-!Multivector methodsFor: 'operations' stamp: 'len 8/12/2022 13:00:35'!
-∨ anElement
-	"Answer the regressive product of the receiver with the argument.
-	This is the dual of the exterior product."
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #∨].
-	^ (self dual ∧ anElement dual) * parent pseudoscalar! !
 
 !Multivector methodsFor: 'printing' stamp: 'len 7/5/2020 08:52:03'!
 printOn: aStream

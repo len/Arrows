@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 25 May 2024 at 6:54:55 am'!
+'From Cuis7.3 [latest update: #7034] on 28 January 2025 at 8:59:05 pm'!
 'Description '!
-!provides: 'Tests-Graphs' 1 6!
+!provides: 'Tests-Graphs' 1 7!
 !requires: 'Graphs' 1 1 nil!
 SystemOrganization addCategory: #'Tests-Graphs'!
 

@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 24 November 2024 at 8:35:31 pm'!
+'From Cuis7.3 [latest update: #7034] on 28 January 2025 at 9:00:08 pm'!
 'Description '!
-!provides: 'Elliptic Curves' 1 27!
+!provides: 'Elliptic Curves' 1 28!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #'Elliptic Curves'!
 

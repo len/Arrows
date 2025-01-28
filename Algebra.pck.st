@@ -1,4 +1,4 @@
-'From Cuis7.3 [latest update: #7004] on 27 January 2025 at 3:05:17 pm'!
+'From Cuis7.3 [latest update: #7034] on 28 January 2025 at 9:00:22 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, finitely presented modules, chain complexes, finite (finitely generated as modules) associative algebras, schemes, and coherent sheaves.
 
 References:
@@ -104,7 +104,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 229!
+!provides: 'Algebra' 1 230!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'GAS' 1 1 nil!
@@ -1051,6 +1051,16 @@ Structure subclass: #Ring
 Ring class
 	instanceVariableNames: ''!
 
+!classDefinition: #ConvolutionAlgebra category: #'Algebra-Algebras'!
+Ring subclass: #ConvolutionAlgebra
+	instanceVariableNames: 'domain codomain'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algebras'!
+!classDefinition: 'ConvolutionAlgebra class' category: #'Algebra-Algebras'!
+ConvolutionAlgebra class
+	instanceVariableNames: ''!
+
 !classDefinition: #FiniteAlgebra category: #'Algebra-Algebras'!
 Ring subclass: #FiniteAlgebra
 	instanceVariableNames: ''
@@ -1833,7 +1843,7 @@ FrobeniusMonoid class
 
 !classDefinition: #GroupObject category: #'Algebra-Categories-Internal'!
 Domain subclass: #GroupObject
-	instanceVariableNames: 'multiplication unit inverse'
+	instanceVariableNames: 'multiplication unit inversion'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Categories-Internal'!
@@ -2599,6 +2609,16 @@ Object subclass: #RingElement
 	category: 'Algebra-Rings'!
 !classDefinition: 'RingElement class' category: #'Algebra-Rings'!
 RingElement class
+	instanceVariableNames: ''!
+
+!classDefinition: #ConvolutionAlgebraElement category: #'Algebra-Algebras'!
+RingElement subclass: #ConvolutionAlgebraElement
+	instanceVariableNames: 'parent carrier'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algebras'!
+!classDefinition: 'ConvolutionAlgebraElement class' category: #'Algebra-Algebras'!
+ConvolutionAlgebraElement class
 	instanceVariableNames: ''!
 
 !classDefinition: #FiniteAlgebraElement category: #'Algebra-Algebras'!
@@ -9038,10 +9058,10 @@ base
 hash
 	^ base hash! !
 
-!GroupCategory methodsFor: 'elements' stamp: 'len 6/9/2024 08:54:14'!
-multiplication: μ unit: η inverse: ι
+!GroupCategory methodsFor: 'elements' stamp: 'len 1/27/2025 15:31:42'!
+multiplication: μ unit: η inversion: ι
 	"Answer a monoid object with the given multiplication μ : G × G → G, unit η : * → G and inverse ι : G → G."
-	^ GroupObject multiplication: μ unit: η inverse: ι! !
+	^ GroupObject multiplication: μ unit: η inversion: ι! !
 
 !GroupCategory methodsFor: 'morphisms' stamp: 'len 8/25/2024 08:42:29'!
 to: aCategory
@@ -9528,8 +9548,8 @@ carrier
 	"Groups are group objects in the category of sets."
 	^ self underlyingSet! !
 
-!Group methodsFor: 'internalization' stamp: 'len 8/29/2024 15:17:40'!
-inverse
+!Group methodsFor: 'internalization' stamp: 'len 1/27/2025 15:28:48'!
+inversion
 	^ self carrier to: self carrier map: (self isAbelianGroup ifTrue: [[:x| x negated]] ifFalse: [[:x| x inverse]])! !
 
 !Group methodsFor: 'internalization' stamp: 'len 8/29/2024 15:17:39'!
@@ -24390,12 +24410,12 @@ coefficients: aTuple
 		ifTrue: [^ self polynomial: x^2*(aTuple at: 1) + (x*y*(aTuple at: 2)) + (x*z*(aTuple at: 3)) + (y^2*(aTuple at: 4)) + (y*z*(aTuple at: 5)) + (z^2*(aTuple at: 6))].
 	^ self error: '3 or 6 coefficients expected'! !
 
-!RationalCurve methodsFor: 'as yet unclassified' stamp: 'len 12/25/2016 12:14:55'!
+!RationalCurve methodsFor: 'accessing' stamp: 'len 12/25/2016 12:14:55'!
 genus
 	"Answer the geometric genus of the receiver."
 	^ 0! !
 
-!RationalCurve methodsFor: 'as yet unclassified' stamp: 'len 8/6/2022 07:13:04'!
+!RationalCurve methodsFor: 'points' stamp: 'len 8/6/2022 07:13:04'!
 pointsCountOver: aRing
 	"The number of ℤ/pℤ-rational points of a curve of genus 0 is always p + 1."
 	(aRing isKindOf: PrimeField) ifTrue: [^ aRing characteristic + 1].
@@ -26327,9 +26347,9 @@ carrier
 category
 	^ self carrier category groups! !
 
-!GroupObject methodsFor: 'accessing' stamp: 'len 6/9/2024 15:21:49'!
-inverse
-	^ inverse! !
+!GroupObject methodsFor: 'accessing' stamp: 'len 1/27/2025 15:30:10'!
+inversion
+	^ inversion! !
 
 !GroupObject methodsFor: 'accessing' stamp: 'len 6/9/2024 08:32:28'!
 multiplication
@@ -26351,11 +26371,11 @@ to: aCodomain carrier: aMorphism
 × aGroupObject
 	self notYetImplemented! !
 
-!GroupObject methodsFor: 'operations' stamp: 'len 9/9/2024 08:13:55'!
+!GroupObject methodsFor: 'operations' stamp: 'len 1/27/2025 15:31:42'!
 opposite
 	"Answer the multiplicative opposite. This is the group with multiplication order reversed."
 	self carrier isGroup ifTrue: [^ self].
-	^ self class multiplication: multiplication ∘ (self carrier cartesianBraidingWith: self carrier) unit: unit inverse: inverse! !
+	^ self class multiplication: multiplication ∘ (self carrier cartesianBraidingWith: self carrier) unit: unit inversion: inversion! !
 
 !GroupObject methodsFor: 'printing' stamp: 'len 6/9/2024 08:45:10'!
 printOn: aStream
@@ -26370,16 +26390,16 @@ isCommutative
 isGroup
 	^ true! !
 
-!GroupObject methodsFor: 'private' stamp: 'len 6/9/2024 08:44:19'!
-multiplication: μ unit: η inverse: ι
+!GroupObject methodsFor: 'private' stamp: 'len 1/27/2025 15:31:42'!
+multiplication: μ unit: η inversion: ι
 	self assert: multiplication isNil.
 	multiplication := μ.
 	unit := η.
-	inverse := ι! !
+	inversion := ι! !
 
-!GroupObject class methodsFor: 'instance creation' stamp: 'len 6/9/2024 08:43:31'!
-multiplication: μ unit: η inverse: ι
-	^ self new multiplication: μ unit: η inverse: ι! !
+!GroupObject class methodsFor: 'instance creation' stamp: 'len 1/27/2025 15:31:42'!
+multiplication: μ unit: η inversion: ι
+	^ self new multiplication: μ unit: η inversion: ι! !
 
 !MonoidObject methodsFor: 'accessing' stamp: 'len 6/7/2024 13:38:36'!
 carrier
@@ -45379,13 +45399,15 @@ cartesianProductDo: aBlock
 into: aBlock
 	^ aBlock valueWithArguments: self! !
 
-!Array methodsFor: '*algebra' stamp: 'len 5/29/2023 13:49:47'!
+!Array methodsFor: '*algebra' stamp: 'len 1/28/2025 20:44:11'!
 printOn: aStream
-	self == Smalltalk specialObjectsArray
-		ifTrue: [aStream nextPutAll: 'Smalltalk specialObjectsArray' ]
-		ifFalse:
-			[aStream withParentheses: [:aStream2|
-				self do: [:each| aStream2 print: each] separatedBy: [aStream2 nextPutAll: ', ']]]! !
+	self class == Array ifFalse:
+		[^super printOn: aStream].
+	self == Smalltalk specialObjectsArray ifTrue:
+		[^aStream nextPutAll: 'Smalltalk specialObjectsArray' ].
+	self shouldBePrintedAsLiteral
+		ifTrue: [self printAsLiteralOn: aStream]
+		ifFalse: [self printElementsOn: aStream]! !
 
 !Array methodsFor: '*algebra' stamp: 'len 10/16/2024 17:40:52'!
 upTo: k cartesianProductDo: aBlock

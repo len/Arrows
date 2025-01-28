@@ -1,28 +1,8 @@
-'From Cuis6.3 [latest update: #6222] on 7 December 2024 at 7:53:47 pm'!
+'From Cuis7.3 [latest update: #7034] on 28 January 2025 at 8:58:48 pm'!
 'Description '!
-!provides: 'Tests-Quaternion Algebra' 1 1!
+!provides: 'Tests-Quaternion Algebra' 1 2!
 SystemOrganization addCategory: #'Tests-Quaternion Algebra'!
 
-
-!classDefinition: #QuaternionAlgebraTest category: #'Tests-Quaternion Algebra'!
-AbstractFiniteAlgebraTest subclass: #QuaternionAlgebraTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Quaternion Algebra'!
-!classDefinition: 'QuaternionAlgebraTest class' category: #'Tests-Quaternion Algebra'!
-QuaternionAlgebraTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #QuaternionAlgebraTupleTest category: #'Tests-Quaternion Algebra'!
-AbstractTupleTest subclass: #QuaternionAlgebraTupleTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Quaternion Algebra'!
-!classDefinition: 'QuaternionAlgebraTupleTest class' category: #'Tests-Quaternion Algebra'!
-QuaternionAlgebraTupleTest class
-	instanceVariableNames: ''!
 
 !classDefinition: #QuaternionAlgebraMatrixTest category: #'Tests-Quaternion Algebra'!
 AbstractMatrixTest subclass: #QuaternionAlgebraMatrixTest
@@ -44,6 +24,36 @@ AbstractModuleTest subclass: #QuaternionAlgebraModuleTest
 QuaternionAlgebraModuleTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #QuaternionAlgebraTest category: #'Tests-Quaternion Algebra'!
+AbstractFiniteAlgebraTest subclass: #QuaternionAlgebraTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Quaternion Algebra'!
+!classDefinition: 'QuaternionAlgebraTest class' category: #'Tests-Quaternion Algebra'!
+QuaternionAlgebraTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #QuaternionAlgebraTupleTest category: #'Tests-Quaternion Algebra'!
+AbstractTupleTest subclass: #QuaternionAlgebraTupleTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Quaternion Algebra'!
+!classDefinition: 'QuaternionAlgebraTupleTest class' category: #'Tests-Quaternion Algebra'!
+QuaternionAlgebraTupleTest class
+	instanceVariableNames: ''!
+
+
+!QuaternionAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:19:19'!
+setUp
+	super setUp.
+	scalars := QuaternionAlgebra over: ℚ invariants: #(1 1)! !
+
+!QuaternionAlgebraModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:27:33'!
+setUp
+	super setUp.
+	scalars := QuaternionAlgebra over: ℚ invariants: #(1 1)! !
 
 !QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:29:41'!
 setUp
@@ -111,16 +121,6 @@ testQuaternionAlgebraTraceExample
 	self assert: (A !! {1/3. 1/5. 1/7. 1}) trace = (2/3)! !
 
 !QuaternionAlgebraTupleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:46:21'!
-setUp
-	super setUp.
-	scalars := QuaternionAlgebra over: ℚ invariants: #(1 1)! !
-
-!QuaternionAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:19:19'!
-setUp
-	super setUp.
-	scalars := QuaternionAlgebra over: ℚ invariants: #(1 1)! !
-
-!QuaternionAlgebraModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:27:33'!
 setUp
 	super setUp.
 	scalars := QuaternionAlgebra over: ℚ invariants: #(1 1)! !

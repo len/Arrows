@@ -1,19 +1,9 @@
-'From Cuis6.3 [latest update: #6222] on 13 November 2024 at 8:45:16 am'!
+'From Cuis7.3 [latest update: #7034] on 28 January 2025 at 8:58:27 pm'!
 'Description The package implements directed and undirected graphs.'!
-!provides: 'Graphs' 1 15!
+!provides: 'Graphs' 1 16!
 !requires: 'Collections-Extras' 1 1 nil!
 SystemOrganization addCategory: #Graphs!
 
-
-!classDefinition: #MutualAssociation category: #Graphs!
-Association subclass: #MutualAssociation
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Graphs'!
-!classDefinition: 'MutualAssociation class' category: #Graphs!
-MutualAssociation class
-	instanceVariableNames: ''!
 
 !classDefinition: #Graph category: #Graphs!
 Collection subclass: #Graph
@@ -145,6 +135,16 @@ ImplicitGraphNode subclass: #ImplicitIteratorGraphNode
 ImplicitIteratorGraphNode class
 	instanceVariableNames: ''!
 
+!classDefinition: #MutualAssociation category: #Graphs!
+Association subclass: #MutualAssociation
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Graphs'!
+!classDefinition: 'MutualAssociation class' category: #Graphs!
+MutualAssociation class
+	instanceVariableNames: ''!
+
 
 !Graph commentStamp: '<historical>' prior: 0!
 Abstract class for (directed or undirected) graphs. See subclasses.!
@@ -236,33 +236,6 @@ Implicit graphs nodes that access the collection of edges by evaluating a block.
 
 !ImplicitIteratorGraphNode commentStamp: '<historical>' prior: 0!
 Implicit graph nodes that iterate over the collection of edges by evaluating the iterator.!
-
-!MutualAssociation methodsFor: 'comparing' stamp: 'len 7/13/2016 07:55'!
-= anAssociation
-	(anAssociation isKindOf: Association)
-		ifFalse: [^ false].
-	^ key = anAssociation key
-		ifTrue: [value = anAssociation value]
-		ifFalse: [value = anAssociation key and: [key = anAssociation value]]! !
-
-!MutualAssociation methodsFor: 'comparing' stamp: 'len 7/13/2016 07:31'!
-hash
-	^ key hash bitXor: value hash! !
-
-!MutualAssociation methodsFor: 'printing' stamp: 'len 7/13/2016 07:31'!
-printOn: aStream
-	aStream
-		print: key;
-		nextPutAll: ' <-> ';
-		print: value! !
-
-!MutualAssociation class methodsFor: 'instance creation' stamp: 'len 7/23/2016 06:39'!
-newFrom: anAssociation
-	^ self with: anAssociation key with: anAssociation value! !
-
-!MutualAssociation class methodsFor: 'instance creation' stamp: 'len 7/13/2016 07:33'!
-with: anObject with: anotherObject
-	^ self key: anObject value: anotherObject! !
 
 !Graph methodsFor: 'accessing' stamp: 'len 7/13/2016 21:53'!
 degree
@@ -356,10 +329,6 @@ removeEdgeFrom: src to: dest
 = aGraph
 	^ (aGraph isKindOf: self species) and: [self nodes = aGraph nodes and: [self edges asBag = aGraph edges asBag]]! !
 
-!Graph methodsFor: 'comparing' stamp: 'len 7/13/2016 21:58'!
-hash
-	^ self nodes hash! !
-
 !Graph methodsFor: 'comparing' stamp: 'len 12/10/2023 10:36:24'!
 ⊆ aGraph
 	"Answer true if the receiver is a subgraph of aGraph."
@@ -383,6 +352,10 @@ hash
 		node := aGraph nodeAt: each value.
 		each neighborsDo: [:n| (node hasEdgeTo: n value) ifFalse: [^ false]]].
 	^ true! !
+
+!Graph methodsFor: 'comparing' stamp: 'len 7/13/2016 21:58'!
+hash
+	^ self nodes hash! !
 
 !Graph methodsFor: 'converting' stamp: 'len 7/21/2016 02:12'!
 asStandard
@@ -477,6 +450,40 @@ select: aBlock
 	self do: [:x| aGraph do: [:y| G add: (x, y)]].
 	self do: [:x| aGraph edgesDo: [:e| G addEdgeFrom: (x, e key) to: (x, e value)]].
 	self edgesDo: [:e| aGraph do: [:y| G addEdgeFrom: (e key, y) to: (e value, y)]].
+	^ G! !
+
+!Graph methodsFor: 'operations' stamp: 'len 2/6/2024 22:28:37'!
+∩ aGraph
+	"Answer the graph whose vertices and edges is the intersection of the vertices and edges of the receiver and the argument."
+	| answer |
+	answer _ self copyBlank.
+	aGraph nodesDo: [:each|
+		(self nodeAt: each ifAbsent: [])
+			ifNotNil: [:node|
+				answer add: each.
+				each neighborsDo: [:n|
+					(node hasEdgeTo: n)
+						ifTrue: [answer addEdgeFrom: each to: n]]]].
+	^ answer! !
+
+!Graph methodsFor: 'operations' stamp: 'len 8/12/2022 13:15:00'!
+∪ aGraph
+	"Answer the graph whose vertices and edges are the union of the vertices and edges of the receiver and the argument."
+	| answer |
+	answer _ self copy.
+	aGraph do: [:each| answer add: each].
+	aGraph edgesDo: [:each| answer addEdgeFrom: each key to: each value].
+	^ answer! !
+
+!Graph methodsFor: 'operations' stamp: 'len 5/14/2019 20:49:36'!
+⊗ aGraph
+	"Answer the tensor product (or direct graph product, categorical graph product, cardinal graph product, Kronecker graph product) of the receiver with the argument. This is a commutative operation (for unlabeled graphs)."
+	| G |
+	G _ self class ordered.
+	self do: [:x| aGraph do: [:y| G add: (x, y)]].
+	self edgesDo: [:e1|
+		aGraph edgesDo: [:e2|
+			G addEdgeFrom: (e1 key, e2 key) to: (e1 value, e2 value)]].
 	^ G! !
 
 !Graph methodsFor: 'operations' stamp: 'len 7/13/2016 23:13'!
@@ -674,40 +681,6 @@ transpose
 	answer addAll: self.
 	self edgesDo: [:each | answer addEdge: (Association key: each value value: each key)].
 	^ answer! !
-
-!Graph methodsFor: 'operations' stamp: 'len 2/6/2024 22:28:37'!
-∩ aGraph
-	"Answer the graph whose vertices and edges is the intersection of the vertices and edges of the receiver and the argument."
-	| answer |
-	answer _ self copyBlank.
-	aGraph nodesDo: [:each|
-		(self nodeAt: each ifAbsent: [])
-			ifNotNil: [:node|
-				answer add: each.
-				each neighborsDo: [:n|
-					(node hasEdgeTo: n)
-						ifTrue: [answer addEdgeFrom: each to: n]]]].
-	^ answer! !
-
-!Graph methodsFor: 'operations' stamp: 'len 8/12/2022 13:15:00'!
-∪ aGraph
-	"Answer the graph whose vertices and edges are the union of the vertices and edges of the receiver and the argument."
-	| answer |
-	answer _ self copy.
-	aGraph do: [:each| answer add: each].
-	aGraph edgesDo: [:each| answer addEdgeFrom: each key to: each value].
-	^ answer! !
-
-!Graph methodsFor: 'operations' stamp: 'len 5/14/2019 20:49:36'!
-⊗ aGraph
-	"Answer the tensor product (or direct graph product, categorical graph product, cardinal graph product, Kronecker graph product) of the receiver with the argument. This is a commutative operation (for unlabeled graphs)."
-	| G |
-	G _ self class ordered.
-	self do: [:x| aGraph do: [:y| G add: (x, y)]].
-	self edgesDo: [:e1|
-		aGraph edgesDo: [:e2|
-			G addEdgeFrom: (e1 key, e2 key) to: (e1 value, e2 value)]].
-	^ G! !
 
 !Graph methodsFor: 'random' stamp: 'len 7/13/2016 23:14'!
 edgeAtRandom
@@ -2452,4 +2425,31 @@ on: aValue iterator: anIterator
 !ImplicitIteratorGraphNode class methodsFor: 'instance creation' stamp: 'timestamp) (no'!
 on: aValue iteratorBlock: iteratorBlock
 	^self on: aValue iterator: (Iterator on: iteratorBlock)! !
+
+!MutualAssociation methodsFor: 'comparing' stamp: 'len 7/13/2016 07:55'!
+= anAssociation
+	(anAssociation isKindOf: Association)
+		ifFalse: [^ false].
+	^ key = anAssociation key
+		ifTrue: [value = anAssociation value]
+		ifFalse: [value = anAssociation key and: [key = anAssociation value]]! !
+
+!MutualAssociation methodsFor: 'comparing' stamp: 'len 7/13/2016 07:31'!
+hash
+	^ key hash bitXor: value hash! !
+
+!MutualAssociation methodsFor: 'printing' stamp: 'len 7/13/2016 07:31'!
+printOn: aStream
+	aStream
+		print: key;
+		nextPutAll: ' <-> ';
+		print: value! !
+
+!MutualAssociation class methodsFor: 'instance creation' stamp: 'len 7/23/2016 06:39'!
+newFrom: anAssociation
+	^ self with: anAssociation key with: anAssociation value! !
+
+!MutualAssociation class methodsFor: 'instance creation' stamp: 'len 7/13/2016 07:33'!
+with: anObject with: anotherObject
+	^ self key: anObject value: anotherObject! !
 Digraph initialize!

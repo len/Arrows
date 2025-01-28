@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5898] on 23 December 2023 at 11:14:30 am'!
+'From Cuis7.3 [latest update: #7034] on 28 January 2025 at 8:59:12 pm'!
 'Description '!
-!provides: 'Tests-Elliptic Curves' 1 8!
+!provides: 'Tests-Elliptic Curves' 1 9!
 !requires: 'Elliptic Curves' 1 2 nil!
 SystemOrganization addCategory: #'Tests-Elliptic Curves'!
 

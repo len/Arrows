@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5801] on 3 June 2023 at 9:58:34 pm'!
+'From Cuis7.3 [latest update: #7034] on 28 January 2025 at 8:58:44 pm'!
 'Description '!
-!provides: 'Tests-Transfinites' 1 3!
+!provides: 'Tests-Transfinites' 1 4!
 !requires: 'Transfinites' 1 0 nil!
 SystemOrganization addCategory: #'Tests-Transfinites'!
 

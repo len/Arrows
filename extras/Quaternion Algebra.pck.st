@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 7 December 2024 at 7:53:26 pm'!
+'From Cuis7.3 [latest update: #7034] on 28 January 2025 at 8:58:37 pm'!
 'Description '!
-!provides: 'Quaternion Algebra' 1 1!
+!provides: 'Quaternion Algebra' 1 2!
 SystemOrganization addCategory: #'Quaternion Algebra'!
 
 

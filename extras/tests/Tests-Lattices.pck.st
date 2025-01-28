@@ -1,6 +1,6 @@
-'From Cuis 6.0 [latest update: #5878] on 3 July 2023 at 1:14:51 pm'!
+'From Cuis7.3 [latest update: #7034] on 28 January 2025 at 8:58:52 pm'!
 'Description '!
-!provides: 'Tests-Lattices' 1 3!
+!provides: 'Tests-Lattices' 1 4!
 !requires: 'Lattices' 1 0 nil!
 SystemOrganization addCategory: #'Tests-Lattices'!
 

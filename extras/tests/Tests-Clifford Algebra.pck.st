@@ -1,18 +1,8 @@
-'From Cuis6.3 [latest update: #6222] on 28 December 2024 at 10:26:52 am'!
+'From Cuis7.3 [latest update: #7034] on 28 January 2025 at 8:59:23 pm'!
 'Description '!
-!provides: 'Tests-Clifford Algebra' 1 3!
+!provides: 'Tests-Clifford Algebra' 1 4!
 SystemOrganization addCategory: #'Tests-Clifford Algebra'!
 
-
-!classDefinition: #CliffordAlgebraTest category: #'Tests-Clifford Algebra'!
-AbstractFiniteAlgebraTest subclass: #CliffordAlgebraTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Clifford Algebra'!
-!classDefinition: 'CliffordAlgebraTest class' category: #'Tests-Clifford Algebra'!
-CliffordAlgebraTest class
-	instanceVariableNames: ''!
 
 !classDefinition: #CliffordAlgebraMatrixTest category: #'Tests-Clifford Algebra'!
 AbstractMatrixTest subclass: #CliffordAlgebraMatrixTest
@@ -34,6 +24,28 @@ AbstractModuleTest subclass: #CliffordAlgebraModuleTest
 CliffordAlgebraModuleTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #CliffordAlgebraTest category: #'Tests-Clifford Algebra'!
+AbstractFiniteAlgebraTest subclass: #CliffordAlgebraTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Clifford Algebra'!
+!classDefinition: 'CliffordAlgebraTest class' category: #'Tests-Clifford Algebra'!
+CliffordAlgebraTest class
+	instanceVariableNames: ''!
+
+
+!CliffordAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 15:54:34'!
+setUp
+	super setUp.
+	self flag: #fixme. "use ℚ^3 or more"
+	scalars := CliffordAlgebra on: (QuadraticForm from: ℚ^2 coefficients: #(1 0 0 1 0 1))! !
+
+!CliffordAlgebraModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 15:58:08'!
+setUp
+	super setUp.
+	self flag: #fixme. "should use ℚ^3 or more, but now it's too slow"
+	scalars := CliffordAlgebra on: (QuadraticForm from: ℚ^2 coefficients: #(1 0 0 1 0 1))! !
 
 !CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:28:39'!
 setUp
@@ -205,15 +217,3 @@ testCliffordAlgebraUniversalProperty
 	Q := R quadraticForm.
 	v := R space atRandom: random bits: 10.
 	self assert: (R !! v) squared = (R one * (Q value: v))! !
-
-!CliffordAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 15:54:34'!
-setUp
-	super setUp.
-	self flag: #fixme. "use ℚ^3 or more"
-	scalars := CliffordAlgebra on: (QuadraticForm from: ℚ^2 coefficients: #(1 0 0 1 0 1))! !
-
-!CliffordAlgebraModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 15:58:08'!
-setUp
-	super setUp.
-	self flag: #fixme. "should use ℚ^3 or more, but now it's too slow"
-	scalars := CliffordAlgebra on: (QuadraticForm from: ℚ^2 coefficients: #(1 0 0 1 0 1))! !
