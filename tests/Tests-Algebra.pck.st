@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7034] on 28 January 2025 at 8:59:29 pm'!
+'From Cuis7.3 [latest update: #7036] on 31 January 2025 at 5:25:30 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 141!
+!provides: 'Tests-Algebra' 1 142!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -2909,7 +2909,7 @@ testIdealIsPrimeExample4
 	I := R * {x*z - (y^3). y*z - (x^2)}.
 	self assert: I isPrime not! !
 
-!DisabledTest methodsFor: 'as yet unclassified' stamp: 'len 10/24/2023 16:10:00'!
+!DisabledTest methodsFor: 'as yet unclassified' stamp: 'len 1/31/2025 11:35:32'!
 testIdealRadicalZeroDimNotPerfectField
 	"Counterexample that shows how Seidenberg algorithm fails over a non-perfect field.
 	From Becker and Weispfenning 'Groebner Bases', Springer-Verlag, 1993. Example 8.16."
@@ -2923,7 +2923,7 @@ testIdealRadicalZeroDimNotPerfectField
 	I := R * {x^p - t. y^p - t}.
 	self assert: (I includes: x^p - (y^p)).
 	self deny: (I includes: x - y).
-	self assert: (I radical includes: x - y)! !
+	self assert: (I radicalization includes: x - y)! !
 
 !DisabledTest methodsFor: 'as yet unclassified' stamp: 'len 7/5/2023 16:46:15'!
 testLocalAndGlobalDimension
@@ -4791,7 +4791,7 @@ testAffineRingIdealMembershipRandom
 	h _ I atRandomBits: 10.
 	self assert: (I includes: h)! !
 
-!CommutativeAlgebraTest methodsFor: 'affine ring' stamp: 'len 10/24/2023 16:07:02'!
+!CommutativeAlgebraTest methodsFor: 'affine ring' stamp: 'len 1/31/2025 11:35:39'!
 testAffineRingIdealRadical
 	"Magma handbook, example H105E2."
 	| R A I J |
@@ -4800,7 +4800,7 @@ testAffineRingIdealRadical
 	I := A * (A !! [:x :y :z| x^3*y*(z^2)]).
 	self deny: I isRadical.
 	J := A * (A !! [:x :y :z| {x*(y^2) + (x*y) - (x*z) + x. y*z. z^2 - z}]).
-	self assert: I radical = J.
+	self assert: I radicalization = J.
 	self flag: #fixme. "TODO..."
 	"... and then some tests of primary decomposition"! !
 
@@ -5158,7 +5158,7 @@ testHilbertSeriesOfPolynomialRing
 	H _ R hilbertSeriesAt: t.
 	self assert: H = ((1 - t) ^ -4)! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal basics' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'ideal basics' stamp: 'len 1/31/2025 11:28:19'!
 testIdealElementOperations
 	"Magma handbook example H103E2."
 	| R x y z I |
@@ -5169,9 +5169,9 @@ testIdealElementOperations
 	"I basis reduceFull: x^3 = ..."
 	"I basis reduce: z^4 + (y^2))"
 	self deny: (I includes: x+y).
-	self assert: (I radicalContains: x+y).
-	self assert: (I radicalContains: (x+y)^2).
-	self deny: (I radicalContains: z).
+	self assert: (I radicalizationContains: x+y).
+	self assert: (I radicalizationContains: (x+y)^2).
+	self deny: (I radicalizationContains: z).
 	self assert: (x^4 + y - z s: x^2 + y - z) = (x^2*y negated + (x^2*z) + y - z)! !
 
 !CommutativeAlgebraTest methodsFor: 'ideal basics' stamp: 'len 10/21/2023 13:49:29'!
@@ -5372,7 +5372,7 @@ testIdealMembershipRandom: aRing
 	g _ I atRandomBits: 100.
 	self assert: (I includes: g)! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 11/5/2023 15:08:05'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 1/31/2025 11:35:46'!
 testIdealRadicalExample1
 	| R x y I J |
 	R := ℚ polynomialsIn: #(x y).
@@ -5380,33 +5380,33 @@ testIdealRadicalExample1
 	y := R x: 2.
 	I := R * {x^3. y^2}.
 	J := R * {x. y}.
-	self assert: I radical = J! !
+	self assert: I radicalization = J! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 11/5/2023 15:08:35'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 1/31/2025 11:35:52'!
 testIdealRadicalExample2
 	| R I |
 	R := ℤ/2 polynomialsIn: #(x y z w).
 	I := R * (R !! [:x :y :z :w| {y+z. x*z squared * w. x squared*z squared}]).
-	self assert: I radical = (R * (R !! [:x :y :z :w| {y+z. x*z}]))
+	self assert: I radicalization = (R * (R !! [:x :y :z :w| {y+z. x*z}]))
 ! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 11/5/2023 15:10:04'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 1/31/2025 11:36:00'!
 testIdealRadicalExample3
 	| R I |
 	R := ℚ polynomialsIn: #(x y z w).
 	I := R * (R !! [:x :y :z :w| {y+z. x*z squared * w. x squared*z squared}]).
-	self assert: I radical = (R * (R !! [:x :y :z :w| {y+z. x*z}]))
+	self assert: I radicalization = (R * (R !! [:x :y :z :w| {y+z. x*z}]))
 ! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 11/5/2023 15:12:22'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 1/31/2025 11:36:04'!
 testIdealRadicalExample4
 	| R I |
 	R := ℚ polynomialsIn: #(y z).
 	I := R * (R !! [:y :z| {y+z. z squared}]).
-	self assert: I radical = (R * (R !! [:y :z| {y. z}]))
+	self assert: I radicalization = (R * (R !! [:y :z| {y. z}]))
 ! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 10/24/2023 16:07:13'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 1/31/2025 11:36:12'!
 testIdealRadicalZeroDimPerfectField
 	"Seidenberg algorithm works for 0-dimensional ideals over a perfect field." 
 	| R y z I J |
@@ -5415,7 +5415,7 @@ testIdealRadicalZeroDimPerfectField
 	z := R x: 2.
 	I := R * {y + z. z^2}.
 	J := R * {y. z}.
-	self assert: I radical = J! !
+	self assert: I radicalization = J! !
 
 !CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 5/23/2020 09:33:01'!
 testIdealSaturation
@@ -5474,7 +5474,7 @@ testPolynomialRingHomomorphismKernel
 	self assert: φ kernel = (A * (A x - A y + A z)).
 	self assert: (φ value: (φ kernel atRandomBits: 15)) isZero! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 1/31/2025 11:28:19'!
 testRadicalMembership
 	| R x y z g1 g2 f I |
 	R _ ℚ polynomialsIn: #(x y z).
@@ -5485,7 +5485,7 @@ testRadicalMembership
 	g2 _ (x + (y^2)) ^ 2.
 	f _ y*z - (x^3).
 	I _ R * {g1. g2}.
-	self assert: (I radicalContains: f)! !
+	self assert: (I radicalizationContains: f)! !
 
 !CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 5/23/2020 09:33:01'!
 testSquarefreeMonomialIdealPrimaryDecomposition
@@ -5744,6 +5744,10 @@ testFunctionComposition3
 	f := ℤ underlyingSet to: ℚ underlyingSet map: [:x| x / 2].
 	g := ℤ underlyingSet to: ℤ underlyingSet map: [:x| x + 1].
 	self should: [g · f] raise: Error! !
+
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 1/31/2025 16:51:22'!
+testIntegerSquarefreePart
+	self assert: ((1 to: 21) collect: [:x| x squarefreePart]) = #(1 2 3 1 5 6 7 2 1 10 11 3 13 14 15 1 17 2 19 5 21)! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 11/29/2024 08:25:26'!
 testIteratorCovering
@@ -6698,7 +6702,7 @@ testShift
 	self assert: f * (x^3) = (f << 3).
 	self assert: (f * (x^3) << -3) = f! !
 
-!PolynomialTest methodsFor: 'etc' stamp: 'len 10/24/2023 16:07:20'!
+!PolynomialTest methodsFor: 'etc' stamp: 'len 1/31/2025 11:36:20'!
 testSquarefreePart
 	| P x f1 f2 f3 f |
 	P := ℚ polynomials.
@@ -6707,9 +6711,9 @@ testSquarefreePart
 	f2 := 1 - x.
 	f3 := x - 2.
 	f := f1*f1*f2*f3*f3*f3.
-	self assert: f radical = (f1 * f2 * f3)! !
+	self assert: f radicalPart = (f1 * f2 * f3)! !
 
-!PolynomialTest methodsFor: 'etc' stamp: 'len 10/24/2023 16:07:25'!
+!PolynomialTest methodsFor: 'etc' stamp: 'len 1/31/2025 11:36:26'!
 testSquarefreePartMultivariate
 	| P x y f1 f2 f |
 	P := ℚ polynomialsIn: #(x y).
@@ -6718,7 +6722,7 @@ testSquarefreePartMultivariate
 	f1 := x + 1.
 	f2 := y + 1.
 	f := f1*f1*f2*f2.
-	self assert: f radical = (f1 * f2)! !
+	self assert: f radicalPart = (f1 * f2)! !
 
 !PolynomialTest methodsFor: 'etc' stamp: 'len 3/6/2021 15:10:54'!
 testUnivariateMultivariateConversion
@@ -12851,11 +12855,11 @@ testPrimeSignature
 	self assert: 42 primeSignature = #(1 1 1).
 	self assert: 16 primeSignature = #(4)! !
 
-!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/24/2023 16:07:34'!
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/31/2025 11:36:40'!
 testRadicalAndIsSquarefree
 	| n |
 	n := (-1000 to: 1000) atRandom: random.
-	self assert: n isSquarefree = (n radical = n)! !
+	self assert: n isSquarefree = (n radicalPart = n)! !
 
 !AbstractGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/23/2023 14:52:24'!
 testAdicExpansion

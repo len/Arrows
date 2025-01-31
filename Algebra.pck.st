@@ -1,4 +1,4 @@
-'From Cuis7.3 [latest update: #7034] on 28 January 2025 at 9:00:22 pm'!
+'From Cuis7.3 [latest update: #7036] on 31 January 2025 at 5:25:17 pm'!
 'Description This package implements among other things: permutation groups, linear groups, modular integers, finite fields, Galois rings, polynomial rings, affine algebras, number fields, function fields, finitely presented modules, chain complexes, finite (finitely generated as modules) associative algebras, schemes, and coherent sheaves.
 
 References:
@@ -104,7 +104,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 230!
+!provides: 'Algebra' 1 231!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'GAS' 1 1 nil!
@@ -4271,11 +4271,11 @@ values: anArray
 		firstIndices at: i put: jᵢ.
 		secondIndices at: i put: kᵢ]! !
 
-!AdditionChain class methodsFor: 'instance creation' stamp: 'len 1/27/2025 15:04:32'!
+!AdditionChain class methodsFor: 'instance creation' stamp: 'len 1/29/2025 08:47:42'!
 min: n
 	n isPowerOfTwo ifTrue: [^ self values: ((0 to: n highBit - 1) collect: [:i| 1 << i])].
 	n = 3 ifTrue: [^ self values: #(1 2 3)].
-	n = 0 ifTrue: [self halt].
+	n = 0 ifTrue: [^ self values: #()].
 	^ self new: n split: 1 << (n highBit // 2)! !
 
 !AdditionChain class methodsFor: 'instance creation' stamp: 'len 6/9/2023 11:39:07'!
@@ -6371,7 +6371,7 @@ unit
 	aCodomain propertyAt: #inputs ifPresent: [:aDictionary| aDictionary at: self ifPresent: [:aMorphism| ^ aMorphism]].
 	^ (self to: aCodomain) ifNil: [aCodomain from: self]! !
 
-!Domain methodsFor: 'morphisms' stamp: 'len 11/15/2024 08:54:08'!
+!Domain methodsFor: 'morphisms' stamp: 'len 1/30/2025 08:35:28'!
 ⊸ aCodomain
 	"Answer the enriched hom object X ⊸ Y corresponding to morphisms from X to Y.
 	The object X ⊸ Y is an object of the cosmos of the category, and morphisms from X to Y are in bijection with morphisms in the cosmos of the category from the unit object 1 to X ⊸ Y. Given a morphism X → Y, the corresponding morphism 1 → (X ⊸ Y) is called its 'name'. See Morphism>>#name and Domain>>#to:name:."
@@ -6709,10 +6709,6 @@ isQuotient
 
 !Domain methodsFor: 'testing' stamp: 'len 5/2/2020 21:33:00'!
 isRing
-	^ false! !
-
-!Domain methodsFor: 'testing' stamp: 'len 7/31/2020 11:45:28'!
-isSet
 	^ false! !
 
 !Domain methodsFor: 'testing' stamp: 'len 10/16/2024 17:16:28'!
@@ -8099,7 +8095,7 @@ isCartesianMonoidal
 isCategory
 	^ true! !
 
-!Category methodsFor: 'testing' stamp: 'len 1/13/2025 08:55:23'!
+!Category methodsFor: 'testing' stamp: 'len 1/30/2025 08:35:28'!
 isClosedMonoidal
 	"A (right) closed monoidal category is a monoidal category with an internal hom that is right adjoint to -⊗Y (currying): [X⊗Y,Z] ~ [X,[Y,Z]].
 	Objects understand the internal hom #⇒, the counit #evaluationWith:, and the unit #coevaluationWith:."
@@ -8137,7 +8133,7 @@ isLinear
 	Objects understand the enriched hom #⊸."
 	^ self cosmos isLinearCosmos! !
 
-!Category methodsFor: 'testing' stamp: 'len 7/28/2024 10:00:48'!
+!Category methodsFor: 'testing' stamp: 'len 1/30/2025 08:35:28'!
 isMonoidal
 	"A monoidal category is a category equipped with a 'tensor product'.
 	Objects and morphisms understand #⊗ for the tensor product, #leftUnitor, #rightUnitor and #associatorWith:and:, and the category understands #unitObject for the tensor unit."
@@ -9246,7 +9242,7 @@ printOpOn: aStream
 isAbelian
 	^ true! !
 
-!ModuleCategory methodsFor: 'testing' stamp: 'len 12/30/2024 07:56:37'!
+!ModuleCategory methodsFor: 'testing' stamp: 'len 1/30/2025 08:35:28'!
 isClosedMonoidal
 	^ scalars isCommutative or: [scalars isInvolutive]! !
 
@@ -9268,7 +9264,7 @@ isSemisimple
 isSymmetricMonoidal
 	^ scalars isCommutative! !
 
-!ModuleCategory methodsFor: 'private' stamp: 'len 1/5/2025 10:02:59'!
+!ModuleCategory methodsFor: 'private' stamp: 'len 1/30/2025 08:35:28'!
 isLinearCosmos
 	^ self isClosedMonoidal! !
 
@@ -9340,7 +9336,7 @@ printOn: aStream
 isAbelian
 	^ true! !
 
-!RepresentationCategory methodsFor: 'testing' stamp: 'len 12/30/2024 10:17:26'!
+!RepresentationCategory methodsFor: 'testing' stamp: 'len 1/30/2025 08:35:28'!
 isClosedMonoidal
 	^ scalars isCommutative or: [scalars isInvolutive]! !
 
@@ -12733,6 +12729,11 @@ orderOf: anElement
 		[g1 = id] whileFalse: [g1 := g1 * p. e := e * p]].
 	^ e"! !
 
+!Module methodsFor: 'operations' stamp: 'len 1/31/2025 17:22:19'!
+radical
+	"Answer the Jacobson radical J(M) of the receiver M."
+	^ self * self scalars radical! !
+
 !Module methodsFor: 'operations' stamp: 'len 10/6/2022 11:50:40'!
 reduce: anElement
 	"Answer zero if anElement is in the receiver, and otherwise answer some representative of the coset 'anElement + self' (not necessarily a normal form).
@@ -12799,10 +12800,10 @@ symmetricSquare
 tensorAlgebra
 	^ self propertyAt: #tensorAlgebra ifAbsentPut: [self scalars freeAlgebraIn: (self coordinateNames ifNil: [self rank])]! !
 
-!Module methodsFor: 'operations' stamp: 'len 12/17/2024 13:32:03'!
+!Module methodsFor: 'operations' stamp: 'len 1/31/2025 17:23:27'!
 top
 	"Answer the top of the receiver M, defined as the quotient by the Jacobson radical M / J(M)."
-	^ self propertyAt: #top ifAbsentPut: [self / (self * self scalars radical)]! !
+	^ self propertyAt: #top ifAbsentPut: [self / self radical]! !
 
 !Module methodsFor: 'operations' stamp: 'len 4/15/2024 08:25:54'!
 tor: aModule
@@ -12831,19 +12832,31 @@ atRandom: aRandom
 atRandom: aRandom bits: bitSize
 	^ self elementAt: (self freeCover atRandom: aRandom bits: bitSize)! !
 
-!Module methodsFor: 'random' stamp: 'len 1/20/2025 10:03:09'!
+!Module methodsFor: 'random' stamp: 'len 1/30/2025 08:21:01'!
 to: aCodomain atRandom: aRandom
-	| H |
-	H := self freeCover to: aCodomain freeCover atRandom: aRandom.
-	self isFreelyGenerated ifTrue: [^ self to: aCodomain matrix: H].
-	^ self to: aCodomain matrix: (H reductionBy: aCodomain relationsMatrix modulo: self relationsMatrix)! !
+	| M N C B F D H |
+	self isFreelyGenerated ifTrue: [^ self to: aCodomain matrix: (self freeCover to: aCodomain freeCover atRandom: aRandom)].
+	M := self relationsMatrix.
+	N := aCodomain relationsMatrix.
+	C := (M codomain ⇒ N) asMatrix.
+	B := (M domain ⇒ N) asMatrix.
+	F := (M ⇒ N codomain) asMatrix.
+	D := F syzygiesModulo: B.
+	H := self freeCover to: aCodomain freeCover coefficients: (D * (D domain atRandom: aRandom)) coefficients.
+	^ self to: aCodomain matrix: H! !
 
-!Module methodsFor: 'random' stamp: 'len 1/20/2025 08:53:28'!
+!Module methodsFor: 'random' stamp: 'len 1/31/2025 11:11:26'!
 to: aCodomain atRandom: aRandom bits: bitSize
-	| H |
-	H := self freeCover to: aCodomain freeCover atRandom: aRandom bits: bitSize.
-	self isFreelyGenerated ifTrue: [^ self to: aCodomain matrix: H].
-	^ self to: aCodomain matrix: (H * self relationsMatrix quotientBy: aCodomain relationsMatrix)! !
+	| M N C B F D H |
+	self isFreelyGenerated ifTrue: [^ self to: aCodomain matrix: (self freeCover to: aCodomain freeCover atRandom: aRandom bits: bitSize)].
+	M := self relationsMatrix.
+	N := aCodomain relationsMatrix.
+	C := (M codomain ⇒ N) asMatrix.
+	B := (M domain ⇒ N) asMatrix.
+	F := (M ⇒ N codomain) asMatrix.
+	D := F syzygiesModulo: B.
+	H := self freeCover to: aCodomain freeCover coefficients: (D * (D domain atRandom: aRandom bits: bitSize)) coefficients.
+	^ self to: aCodomain matrix: H! !
 
 !Module methodsFor: 'testing' stamp: 'len 1/3/2022 20:58:43'!
 contains: anElement
@@ -13002,12 +13015,12 @@ isReflexive
 	"Answer true if the receiver is a reflexive module."
 	^ (self → self dual dual) isBijective! !
 
-!Module methodsFor: 'testing' stamp: 'len 12/27/2024 09:13:28'!
+!Module methodsFor: 'testing' stamp: 'len 1/31/2025 17:23:07'!
 isSemisimple
 	"A module is 'semisimple' (or 'completely reducible') if it is the direct sum of simple (or irreducible) submodules."
 	self scalars isSemisimple ifTrue: [^ true].
 	"A finitely generated module is semisimple if and only if it is Artinian and its Jacobson radical is zero:"
-	^ self scalars isArtinian and: [(self * self scalars radical) isTrivial]! !
+	^ self scalars isArtinian and: [self radical isTrivial]! !
 
 !Module methodsFor: 'testing' stamp: 'len 12/30/2024 07:54:00'!
 isSimple
@@ -13449,10 +13462,10 @@ apply: aMap
 	self scalars isEuclidean ifTrue: [^ self scalars * (self generator lcm: anIdeal generator)].
 	^super ∩ anIdeal! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 6/21/2022 09:17:05'!
+!Ideal methodsFor: 'operations' stamp: 'len 1/30/2025 08:55:50'!
 associatedPrimes
 	"The set of associated primes of an ideal I is defines as:
-		Ass(I) := {P <= R | P is prime and P = I : <b> for some b in A}."
+		Ass(I) := {P ≤ R | P is prime and P = I : ⟨b⟩ for some b in A}."
 	^ self notYetImplemented! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 6/15/2022 10:04:10'!
@@ -13460,13 +13473,13 @@ leadingIdeal
 	"Answer the initial ideal. This is the ideal of all leading terms of the receiver."
 	^ self leadingSubmodule! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 11/7/2023 21:13:04'!
-radical
-	"Answer the radical ideal √I of the receiver I. This is the ideal such that an element x is in √I if and only if some power of x is in I.
+!Ideal methodsFor: 'operations' stamp: 'len 1/31/2025 16:54:55'!
+radicalization
+	"Answer the radical ideal √I of the receiver I. This is the ideal all elements x such that some power of x is in I.
 	Note: not to be confused with the Jacobson radical of a module."
-	self scalars isQuotient ifTrue: [^ self representative radical ⊗ self scalars].
+	self scalars isQuotient ifTrue: [^ self representative radicalization ⊗ self scalars].
 	((self isTrivial and: [self scalars isIntegralDomain]) or: [self isOne]) ifTrue: [^ self].
-	(self generators size = 1 and: [self scalars isUFR]) ifTrue: [^ self scalars * self generator radical].
+	(self generators size = 1 and: [self scalars isUFR]) ifTrue: [^ self scalars * self generator radicalPart].
 	^ self subclassResponsibility! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 10/6/2022 11:49:54'!
@@ -13621,10 +13634,10 @@ isPrincipal
 isProper
 	^ self isZero not and: [self isOne not]! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 10/24/2023 16:07:52'!
+!Ideal methodsFor: 'testing' stamp: 'len 1/31/2025 11:28:42'!
 isRadical
 	"Answer true if the receiver I is a radical ideal, i.e. I = √I."
-	^ self = self radical! !
+	^ self = self radicalization! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 2/14/2017 10:24:17'!
 isSaturated
@@ -13637,10 +13650,10 @@ isSemiprime
 	self scalars = ℤ ifTrue: [^ self isTrivial or: [self generator isSquarefree]].
 	^ self notYetImplemented! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 10/24/2023 16:08:09'!
-radicalContains: anElement
+!Ideal methodsFor: 'testing' stamp: 'len 1/31/2025 11:28:19'!
+radicalizationContains: anElement
 	"Answer true if the radical of the receiver includes anElement, i.e. if some power of anElement is in the receiver."
-	^ self radical contains: anElement! !
+	^ self radicalization contains: anElement! !
 
 !Ideal methodsFor: 'private' stamp: 'len 7/15/2021 12:09:46'!
 species
@@ -13688,10 +13701,10 @@ univariateExponent
 		answer _ answer + (mu - 1)].
 	^ answer! !
 
-!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 10/24/2023 16:09:10'!
+!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 1/31/2025 11:32:46'!
 variety
 	"Answer the algebraic variety that is the set of zeroes of all polynomials in the receiver."
-	^ self isHomogeneous ifTrue: [(self scalars / self radical) proj] ifFalse: [(self scalars / self radical) spec]! !
+	^ self isHomogeneous ifTrue: [(self scalars / self radicalization) proj] ifFalse: [(self scalars / self radicalization) spec]! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 8/12/2022 13:17:21'!
 : anIdeal
@@ -13832,13 +13845,13 @@ primaryDecomposition
 	^ self asSimplicialComplex facets collect: [:each|
 		self scalars * (self scalars indeterminates \ each vertices collect: [:i| self scalars x: i])]! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/24/2023 16:11:19'!
-radical
-	self isMonomial ifTrue: [^ self scalars * (self generators collect: [:each| each radical])]. "[HH11] Proposition 1.2.4"
-	(self scalars scalars characteristic > 0 and: [self scalars scalars isPerfectField]) ifTrue: [^ self radicalMatsumoto].
-	self isZeroDimensional ifTrue: [^ self radicalZeroDimensional].
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 1/31/2025 11:32:11'!
+radicalization
+	self isMonomial ifTrue: [^ self scalars * (self generators collect: [:each| each radicalPart])]. "[HH11] Proposition 1.2.4"
+	(self scalars scalars characteristic > 0 and: [self scalars scalars isPerfectField]) ifTrue: [^ self radicalizationMatsumoto].
+	self isZeroDimensional ifTrue: [^ self radicalizationZeroDimensional].
 	self flag: #fixme. "this is not right, maybe only works for ℚ[x₁...xₙ] and monomial ideals"
-	^ self scalars * (self generators collect: [:each| each radical])! !
+	^ self scalars * (self generators collect: [:each| each radicalPart])! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 6/3/2022 21:27:56'!
 reduce: anElement
@@ -13949,8 +13962,8 @@ isRadical
 isZeroDimensional
 	^ self propertyAt: #isZeroDimensional ifAbsentPut: [(self scalars / self) isZeroDimensional]! !
 
-!PolynomialIdeal methodsFor: 'testing' stamp: 'len 3/4/2021 13:43:02'!
-radicalContains: aPolynomial
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 1/31/2025 11:28:19'!
+radicalizationContains: aPolynomial
 	"(Radical Membership Problem)
 	Answer true if the radical of the receiver includes aPolynomial.
 	Use Rabinowitsch's trick introducing a new indeterminate."
@@ -14012,8 +14025,8 @@ isRadicalZeroDimensional2
 		μ degree = d ifTrue: [^ true]].
 	^ true! !
 
-!PolynomialIdeal methodsFor: 'private' stamp: 'len 12/10/2023 10:36:24'!
-radicalMatsumoto
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 1/31/2025 11:29:36'!
+radicalizationMatsumoto
 	"Matsumoto's algorithm for computing the radical ideal over a perfect field of characteristic p > 0.
 	See [DK02, Algorithm 1.5.1]."
 	| R K p n S I J L I₂ |
@@ -14030,14 +14043,14 @@ radicalMatsumoto
 	I₂ ⊆ I ifTrue: [^ I].
 	I := I₂] repeat! !
 
-!PolynomialIdeal methodsFor: 'private' stamp: 'len 10/24/2023 16:08:47'!
-radicalZeroDimensional
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 1/31/2025 11:32:20'!
+radicalizationZeroDimensional
 	"Answer the radical of the receiver, assuming it is zero-dimensional.
 	See [BW93] Table 8.3, Algorithm ZRADICAL."
-	^ self scalars * (self scalars indeterminates collect: [:i| (self eliminateAllBut: i) generator radical])! !
+	^ self scalars * (self scalars indeterminates collect: [:i| (self eliminateAllBut: i) generator radicalPart])! !
 
-!PolynomialIdeal methodsFor: 'private' stamp: 'len 12/1/2024 14:47:52'!
-radicalZeroDimensional2
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 1/31/2025 11:32:32'!
+radicalizationZeroDimensional2
 	"Answer the radical of the receiver, assuming it is zero-dimensional over a perfect field.
 	See [ABPR19, Algorithm 4.8 Radical0Dim]."
 	| R n J Q d |
@@ -14050,7 +14063,7 @@ radicalZeroDimensional2
 		xᵢ := Q x: i.
 		μ := xᵢ minimalPolynomial.
 		μ isSquarefree ifFalse:
-			[μ := μ radical.
+			[μ := μ radicalPart.
 			J := J + (R * (μ value: xᵢ)).
 			Q := Q / J.
 			d := Q carrier rank].
@@ -14878,12 +14891,12 @@ allMonomialsOfDegree: anInteger
 						answer add: monomial]]]].
 	^ answer asArray sort reverse! !
 
-!FreeAbelianMonoid methodsFor: 'enumerating' stamp: 'len 6/7/2023 00:25:23'!
+!FreeAbelianMonoid methodsFor: 'enumerating' stamp: 'len 1/30/2025 10:59:08'!
 allMonomialsUpToDegree: anInteger
 	| answer |
 	answer := OrderedCollection new.
 	0 to: anInteger do: [:n| answer addAll: (self allMonomialsOfDegree: n)].
-	^ answer! !
+	^ answer asArray sort reverse! !
 
 !FreeAbelianMonoid methodsFor: 'enumerating' stamp: 'len 5/23/2020 09:04:52'!
 do: aBlock
@@ -15325,12 +15338,12 @@ isIndecomposable
 	Being indecomposable is a weaker condition than being simple."
 	^ self decomposition isSingleton! !
 
-!RepresentationModule methodsFor: 'testing' stamp: 'len 12/27/2024 09:12:55'!
+!RepresentationModule methodsFor: 'testing' stamp: 'len 1/31/2025 17:23:43'!
 isSemisimple
 	"A module is 'semisimple' (or 'completely reducible') if it is the direct sum of simple (or irreducible) submodules."
 	self scalars isSemisimple ifTrue: [^ true].
 	"A finitely generated module is semisimple if and only if it is Artinian and its Jacobson radical is zero:"
-	^ self scalars isArtinian and: [(self * self scalars radical) isTrivial]! !
+	^ self scalars isArtinian and: [self radical isTrivial]! !
 
 !RepresentationModule methodsFor: 'testing' stamp: 'len 12/30/2024 07:53:50'!
 isSimple
@@ -16302,12 +16315,12 @@ localizationAwayFrom: anElement
 maximalIdeals
 	^ Iterator on: self performing: #maximalIdealsDo:! !
 
-!Ring methodsFor: 'operations' stamp: 'len 12/27/2024 09:17:10'!
+!Ring methodsFor: 'operations' stamp: 'len 1/31/2025 16:09:08'!
 nilradical
 	"Answer the ideal consisting of all nilpotent elements, i.e. all x such that there exists some n with x^n = 0. It is the intersection of all prime ideals. (See also >>radical.)"
 	self assert: self isCommutative. "In the non-commutative case, the nilradical of a Noetherian ring can be defined as the unique largest (left, right or two-sided) nilpotent ideal of the ring."
 	(self isFinitelyGenerated and: [self scalars isField or: [self scalars = ℤ]]) ifTrue: [^ self radical].
-	^ self propertyAt: #nilradical ifAbsentPut: [self asIdeal null radical]! !
+	^ self propertyAt: #nilradical ifAbsentPut: [self asIdeal null radicalization]! !
 
 !Ring methodsFor: 'operations' stamp: 'len 12/30/2024 20:10:27'!
 on: aModule action: aBlock
@@ -17932,10 +17945,6 @@ x: i to: n x: j to: m
 x: i x: j
 	^ self x: i to: 1 x: j to: 1! !
 
-!PolynomialRing methodsFor: 'elements' stamp: 'len 10/28/2023 09:27:00'!
-xTo: anInteger
-	^ self coefficient: self scalars one xTo: anInteger! !
-
 !PolynomialRing methodsFor: 'elements' stamp: 'len 5/20/2016 03:34'!
 y
 	^ self x: self indeterminates second! !
@@ -18067,6 +18076,15 @@ symmetricOfOrder: r
 	(1 to: self rank) combinations: r atATimeDo: [:each| answer := answer + (each product: [:i| self x: i])].
 	^ answer! !
 
+!PolynomialRing methodsFor: 'morphisms' stamp: 'len 1/30/2025 10:52:51'!
+⇇ anArray
+	"Answer the canonical coprojections from the components of anArray to the receiver."
+	| k |
+	(anArray allSatisfy: [:each| each class = self class and: [each scalars = self scalars]]) ifFalse: [^ super ⇇ anArray].
+	(anArray sum: [:each| each rank]) = self rank ifFalse: [^ super ⇇ anArray].
+	k := 0.
+	^ anArray collect: [:each| k := k + each rank. each to: self over: self scalars map: [:f| self !! f substitute: [:i| i + k - each rank]]]! !
+
 !PolynomialRing methodsFor: 'morphisms' stamp: 'len 1/2/2016 04:13'!
 embed: aScalar
 	^ self constant: aScalar! !
@@ -18190,10 +18208,10 @@ proj
 	"This is the Proj construction. Answer the projective space with the receiver as homogeneous coordinate ring."
 	^ self propertyAt: #proj ifAbsentPut: [ProjectiveSpace coordinateRing: self]! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 12/27/2024 08:40:18'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 1/31/2025 11:33:48'!
 radical
 	"In a polynomial ring, the Jacobson radical is the same as the nilradical."
-	^ self propertyAt: #radical ifAbsentPut: [self asIdeal null radical]! !
+	^ self propertyAt: #radical ifAbsentPut: [self asIdeal null radicalization]! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 12/11/2021 19:13:41'!
 spec
@@ -21186,9 +21204,9 @@ proj
 	self relations isHomogeneous ifFalse: [^ self error: 'not a quotient by a homogeneous ideal, not properly graded'].
 	^ self propertyAt: #proj ifAbsentPut: [ProjectiveVariety coordinateRing: self]! !
 
-!AffineAlgebra methodsFor: 'operations' stamp: 'len 12/27/2024 08:27:42'!
+!AffineAlgebra methodsFor: 'operations' stamp: 'len 1/31/2025 11:34:15'!
 radical
-	(self scalars isField or: [self scalars = ℤ]) ifTrue: [^ self propertyAt: #radical ifAbsentPut: [self asIdeal null radical]].
+	(self scalars isField or: [self scalars = ℤ]) ifTrue: [^ self propertyAt: #radical ifAbsentPut: [self asIdeal null radicalization]].
 	^ super radical! !
 
 !AffineAlgebra methodsFor: 'operations' stamp: 'len 7/25/2022 11:32:48'!
@@ -21413,10 +21431,6 @@ isGlobalField
 !ExtensionRing methodsFor: 'testing' stamp: 'len 11/27/2024 08:57:55'!
 isRelativeExtension
 	^ self scalars isKindOf: ExtensionRing! !
-
-!ExtensionRing methodsFor: 'testing' stamp: 'len 10/27/2023 10:38:54'!
-isSimple
-	^ self scalars isField or: [super isSimple] "assuming the modulus is irreducible"! !
 
 !ExtensionRing methodsFor: 'private' stamp: 'len 5/27/2023 08:01:10'!
 isValidArray: anArray
@@ -23433,10 +23447,10 @@ decomposition
 	"Answer the irreducible components of the receiver."
 	^ self asIdeal associatedPrimes collect: [:each| self sub: each]! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 10/24/2023 16:09:32'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 1/31/2025 11:34:23'!
 reduced
 	"Answer the reduced subscheme of the receiver."
-	^ self propertyAt: #reducedSubscheme ifAbsentPut: [self ambient sub: self asIdeal radical]! !
+	^ self propertyAt: #reducedSubscheme ifAbsentPut: [self ambient sub: self asIdeal radicalization]! !
 
 !AffineScheme methodsFor: 'operations' stamp: 'len 6/26/2023 14:37:52'!
 sub: anObject
@@ -23568,15 +23582,15 @@ multiplicityAt: aTuple
 	"Answer the multiplicity at the given point."
 	^ ((self - aTuple) asIdeal orderedBy: #lglex) basis max: [:each| each lowestDegree]! !
 
-!AffineVariety methodsFor: 'operations' stamp: 'len 6/26/2023 14:41:15'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 1/30/2025 08:51:58'!
 primaryComponents
 	"Answer the irredundant primary components of the receiver."
-	^ self asIdeal primaryComponents collect: [:each| self sub: each]! !
+	^ self asIdeal primaryDecomposition collect: [:each| self sub: each]! !
 
-!AffineVariety methodsFor: 'operations' stamp: 'len 6/26/2023 14:41:19'!
+!AffineVariety methodsFor: 'operations' stamp: 'len 1/30/2025 08:56:08'!
 primeComponents
 	"Answer the irredundant prime components of the receiver."
-	^ self asIdeal primeComponents collect: [:each| self sub: each]! !
+	^ self asIdeal associatedPrimes collect: [:each| self sub: each]! !
 
 !AffineVariety methodsFor: 'operations' stamp: 'len 6/26/2023 14:41:23'!
 project: anIndeterminate
@@ -23967,10 +23981,10 @@ affineCone
 	"If the receiver is defined by an homogeneous ideal I, the affine cone is the affine variety defined by I."
 	^ self coordinateRing spec! !
 
-!ProjectiveScheme methodsFor: 'operations' stamp: 'len 10/24/2023 16:09:40'!
+!ProjectiveScheme methodsFor: 'operations' stamp: 'len 1/31/2025 11:34:29'!
 reduced
 	"Answer the reduced subscheme of the receiver."
-	^ self propertyAt: #reducedSubscheme ifAbsentPut: [self ambient sub: self asIdeal radical]! !
+	^ self propertyAt: #reducedSubscheme ifAbsentPut: [self ambient sub: self asIdeal radicalization]! !
 
 !ProjectiveScheme methodsFor: 'operations' stamp: 'len 12/20/2021 12:41:21'!
 saturated
@@ -24721,10 +24735,6 @@ to: aCodomain map: aBlock
 !SetObject methodsFor: 'testing' stamp: 'len 10/12/2024 08:24:38'!
 isEmpty
 	^ self sizeEquals: 0! !
-
-!SetObject methodsFor: 'testing' stamp: 'len 5/10/2024 05:11:12'!
-isSet
-	^ true! !
 
 !SetObject methodsFor: 'testing' stamp: 'len 10/12/2024 08:24:44'!
 isSingleton
@@ -26841,14 +26851,14 @@ traceMorphism
 	X := self domain.
 	^ X evaluation ∘ (X braidingWith: X) ∘ (self ⊗ X dual id) ∘ X coevaluation! !
 
-!Morphism methodsFor: 'operations-abelian' stamp: 'len 8/14/2024 11:22:24'!
+!Morphism methodsFor: 'operations-abelian' stamp: 'len 1/30/2025 08:06:57'!
 astriction
-	"Answer the astriction of the receiver to its coimage: given a morphism f:A→B answer the morphism coim(f)→B."
+	"The 'astriction' of a morphism f:A→B is the morphism coim(f)→B."
 	^ self / self coimageMorphism! !
 
-!Morphism methodsFor: 'operations-abelian' stamp: 'len 8/14/2024 11:23:23'!
+!Morphism methodsFor: 'operations-abelian' stamp: 'len 1/30/2025 08:05:59'!
 coastriction
-	"Answer the coastriction of the receiver to its image: given a morphism f:A→B answer the morphism A→im(f)."
+	"The 'coastriction' of a morphism f:A→B is the morphism A→im(f)."
 	^ self imageMorphism \ self! !
 
 !Morphism methodsFor: 'operations-abelian' stamp: 'len 11/1/2024 08:50:00'!
@@ -32920,11 +32930,6 @@ join: anArray
 	"Universal property of the product."
 	^ anArray any domain to: self join: anArray! !
 
-!Product methodsFor: 'operations' stamp: 'len 10/16/2024 08:48:02'!
-join2: aCone
-	"The universal property."
-	^ aCone vertex to: self join: aCone! !
-
 !Product methodsFor: 'private' stamp: 'len 9/28/2024 10:49:35'!
 vertex: anObject projections: anArray
 	vertex := anObject.
@@ -36716,9 +36721,9 @@ quotientBy: anElement modulo: m
 	xgcd _ anElement xgcd: m.
 	^ self // (xgcd at: 1) * (xgcd at: 2) \\ m"! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 10/24/2023 16:11:37'!
-radical
-	"Assuming the receiver is an element in a UFR, answer the radical or squarefree part."
+!RingElement methodsFor: 'operations' stamp: 'len 1/31/2025 16:37:41'!
+radicalPart
+	"Assuming the receiver is an element in a UFR, answer the radical or squarefree part, i.e. the maximal squarefree divisor."
 	| answer |
 	answer := self one.
 	self factorizationDo: [:p :e| answer := answer * p].
@@ -38269,12 +38274,12 @@ pseudoRem4: aPolynomial
 	w degree < n ifTrue: [^ w * (b ^ k)].
 	k > e ifTrue: [w _ w * (b ^ (k - e))]] repeat! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 10/24/2023 16:11:48'!
-radical
+!Polynomial methodsFor: 'operations' stamp: 'len 1/31/2025 11:31:25'!
+radicalPart
 	"Answer the maximal squarefree divisor of the receiver.
 	This is often called 'squarefree part', but we call it 'radical' to be consistent with integers and ideals."
 	| g |
-	self parent scalars characteristic = 0 ifFalse: [^ super radical].
+	self parent scalars characteristic = 0 ifFalse: [^ super radicalPart].
 	g := self.
 	self indeterminates do: [:each| g := g gcd: (self derivativeIn: each)].
 	^ self / g! !
@@ -39848,13 +39853,13 @@ asReal
 	self assert: (bounds center imaginary within: bounds radius).
 	^ RealAlgebraicNumber minimalPolynomial: minimalPolynomial bounds: (Ball center: bounds center real radius: bounds radius)! !
 
-!ComplexAlgebraicNumber methodsFor: 'operations' stamp: 'len 11/13/2023 10:34:48'!
+!ComplexAlgebraicNumber methodsFor: 'operations' stamp: 'len 1/31/2025 11:35:04'!
 * aNumber
 	| isolator B₁ B₂ B |
 	(aNumber isRational and: [self isRational]) ifTrue: [^ self class fromRational: self asRational * aNumber asRational].
 	aNumber class = self class ifFalse: [^ self adapt: aNumber andSend: #*].
 	"TODO: optimize for when either the receiver or the argument is rational, we dont need to factorize again:"
-	isolator := self rootIsolatorClass on: (minimalPolynomial zeroProduct: aNumber minimalPolynomial) radical.
+	isolator := self rootIsolatorClass on: (minimalPolynomial zeroProduct: aNumber minimalPolynomial) radicalPart.
 	B₁ := bounds.
 	B₂ := aNumber bounds.
 	"TODO: alternate refining B₁ and B₂, or other strategy"
@@ -39864,13 +39869,13 @@ asReal
 			B₂ := aNumber refine: B₂].
 	^ self class polynomial: isolator polynomial bounds: B! !
 
-!ComplexAlgebraicNumber methodsFor: 'operations' stamp: 'len 11/20/2023 10:23:25'!
+!ComplexAlgebraicNumber methodsFor: 'operations' stamp: 'len 1/31/2025 11:35:15'!
 + aNumber
 	| isolator B₁ B₂ B |
 	(aNumber isRational and: [self isRational]) ifTrue: [^ self class fromRational: self asRational + aNumber asRational].
 	aNumber class = self class ifFalse: [^ self adapt: aNumber andSend: #+].
 	"TODO: optimize for when either the receiver or the argument is rational, we dont need to factorize again:"
-	isolator := self rootIsolatorClass on: (minimalPolynomial zeroAddition: aNumber minimalPolynomial) radical.
+	isolator := self rootIsolatorClass on: (minimalPolynomial zeroAddition: aNumber minimalPolynomial) radicalPart.
 	B₁ := bounds.
 	B₂ := aNumber bounds.
 	"TODO: alternate refining B₁ and B₂, or other strategy"
@@ -42057,18 +42062,17 @@ frobenius
 	"Answer the result of applying the Frobenius automorphism to the receiver."
 	^ self ^ self parent characteristic! !
 
-!GaloisFieldElement methodsFor: 'operations' stamp: 'len 1/27/2025 15:02:51'!
+!GaloisFieldElement methodsFor: 'operations' stamp: 'len 1/29/2025 09:03:23'!
 inverse
 	"Inverse using Lagrange's theorem and addition chains. See [Coh+05. Algorithm 11.47].
-	Note: this can be generalized to Galois rings."
+	Note: this can be generalized further to Galois rings."
 	| q d a b y T i k j |
 	self flag: #fixme. "generalize to Galois rings"
 	self isOne ifTrue: [^ self].
-	q := self parent characteristic.
-	q = 2 ifTrue: [^ super inverse].
-	d := self parent degree.
-	a := self parent propertyAt: #chain1 ifAbsentPut: [AdditionChain min: q - 2].
-	b := self parent propertyAt: #chain2 ifAbsentPut: [AdditionChain min: d - 1].
+	q := parent characteristic.
+	d := parent degree.
+	a := parent propertyAt: #chain1 ifAbsentPut: [AdditionChain min: q - 2].
+	b := parent propertyAt: #chain2 ifAbsentPut: [AdditionChain min: d - 1].
 	y := a raise: self.
 	T := Array new: b size.
 	T at: 1 put: self * y.
@@ -46664,7 +46668,7 @@ isSquare
 	"Answer true if the receiver is a perfect square, i.e. it has a square root."
 	^ self sqrtFloor squared = self! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 1/9/2022 08:30:09'!
+!Integer methodsFor: '*algebra' stamp: 'len 1/31/2025 16:19:03'!
 isSquarefree
 	"Answer true if the factorization of the receiver is squarefree."
 	self factorizationDo: [:p :e| e > 1 ifTrue: [^ false]].
@@ -46672,7 +46676,7 @@ isSquarefree
 
 "
 The limit of the density of squarefree positive integers < n is 6 / pi^2 ~ 0.6079271:
-(1000 count: [100000 atRandom isSquareFree]) / 1000.0
+(10000 count: [1000000 atRandom isSquarefree]) / 10000.0
 "! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 7/16/2019 17:21:36'!
@@ -46970,9 +46974,11 @@ quotientBy: anInteger modulo: m
 	q _ self // f.
 	^ fs * q \\ m! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 10/24/2023 16:10:31'!
-radical
-	"Answer the 'radical' or 'squarefree' part of the receiver. This is the product of the prime divisors."
+!Integer methodsFor: '*algebra' stamp: 'len 1/31/2025 17:08:15'!
+radicalPart
+	"The 'radical' or 'squarefree kernel' of an integer n is the product its distinct prime divisors.
+	The radical is the largest squarefree divisor of n.
+	Not to be confused with the 'squarefree part' or 'core' of n."
 	| answer |
 	answer := self sign.
 	self factorizationDo: [:p :e| answer := answer * p].
@@ -47056,12 +47062,14 @@ split: anInteger
 	anInteger highBit highBit timesRepeat: [a _ a squared \\ anInteger].
 	^ anInteger // (a gcd: anInteger)! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 1/9/2022 08:35:04'!
+!Integer methodsFor: '*algebra' stamp: 'len 1/31/2025 17:06:04'!
 squarefreePart
-	"Answer the unique integer z such that the receiver equals z * y^2 with z squarefree and y^2 a perfect square."
+	"Decompose the receiver as n = zy² with z squarefree, and answer z.
+	The 'squarefree part' of n is the smallest integer m such that n/m is a square, and it is also called the 'core' of n.
+	Not to be confused with the 'radical' or 'squarefree kernel' of n."
 	| answer |
-	answer _ self sign.
-	self factorizationDo: [:p :e| e even ifFalse: [answer _ answer * p]].
+	answer := self sign.
+	self factorizationDo: [:p :e| e even ifFalse: [answer := answer * p]].
 	^ answer! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 12/12/2016 09:35:43'!

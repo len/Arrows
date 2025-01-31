@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7034] on 28 January 2025 at 9:00:08 pm'!
+'From Cuis7.3 [latest update: #7036] on 31 January 2025 at 5:25:08 pm'!
 'Description '!
-!provides: 'Elliptic Curves' 1 28!
+!provides: 'Elliptic Curves' 1 29!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #'Elliptic Curves'!
 
@@ -1230,10 +1230,10 @@ isSeparable
 	self multiplier = 0 ifTrue: [^ self error: 'not an isogeny'].
 	^ self scalingFactor isZero not! !
 
-!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:03:35'!
+!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 1/31/2025 11:34:43'!
 kernelPolynomial
 "	self multiplier = 0 ifTrue: [^ ... zero polynomial]."
-	^ (self domain divisionPolynomial: self multiplier abs) radical! !
+	^ (self domain divisionPolynomial: self multiplier abs) radicalPart! !
 
 !EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:00:41'!
 multiplier
