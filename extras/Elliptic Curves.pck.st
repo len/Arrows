@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7036] on 31 January 2025 at 5:25:08 pm'!
+'From Cuis7.3 [latest update: #7050] on 3 March 2025 at 3:54:19 pm'!
 'Description '!
-!provides: 'Elliptic Curves' 1 29!
+!provides: 'Elliptic Curves' 1 31!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #'Elliptic Curves'!
 
@@ -33,16 +33,6 @@ EllipticCurve subclass: #WeierstrassCurve
 	category: 'Elliptic Curves'!
 !classDefinition: 'WeierstrassCurve class' category: #'Elliptic Curves'!
 WeierstrassCurve class
-	instanceVariableNames: ''!
-
-!classDefinition: #EllipticCurvePoint category: #'Elliptic Curves'!
-ProjectivePoint subclass: #EllipticCurvePoint
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Elliptic Curves'!
-!classDefinition: 'EllipticCurvePoint class' category: #'Elliptic Curves'!
-EllipticCurvePoint class
 	instanceVariableNames: ''!
 
 !classDefinition: #EllipticCurveMap category: #'Elliptic Curves'!
@@ -95,6 +85,16 @@ EllipticCurveMap subclass: #EllipticCurveScalingEndomorphism
 EllipticCurveScalingEndomorphism class
 	instanceVariableNames: ''!
 
+!classDefinition: #EllipticCurvePoint category: #'Elliptic Curves'!
+ProjectivePoint subclass: #EllipticCurvePoint
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Elliptic Curves'!
+!classDefinition: 'EllipticCurvePoint class' category: #'Elliptic Curves'!
+EllipticCurvePoint class
+	instanceVariableNames: ''!
+
 
 !EllipticCurveGroup commentStamp: '<historical>' prior: 0!
 Abelian group E(K) consisting of the K-rational points of an elliptic curve E.!
@@ -113,15 +113,15 @@ Elliptic curves defined by a short Weierstrass equation:
 	y² = x³ + a₄x + a₆.
 !
 
+!EllipticCurveIsogeny commentStamp: '<historical>' prior: 0!
+Scheme morphisms of elliptic curves E₁ → E₂ over a field that send the identity of E₁ to the identity of E₂. They are homomorphisms of group schemes.!
+
 !EllipticCurvePoint commentStamp: '<historical>' prior: 0!
 K-rational points on an elliptic curve E, seen as morphisms Spec(K) → E. These objects implement the group law (with additive notation). The identity element (zero, or the point at infinity) is [0:1:0].
 
 Following conventions, a point [a:b:1] is printed '(a,b)', and the point at infinity [0:1:0] is printed 'O'.
 
 See also EllipticCurve.!
-
-!EllipticCurveIsogeny commentStamp: '<historical>' prior: 0!
-Scheme morphisms of elliptic curves E₁ → E₂ over a field that send the identity of E₁ to the identity of E₂. They are homomorphisms of group schemes.!
 
 !EllipticCurveGroup methodsFor: 'accessing' stamp: 'len 9/28/2018 06:40:54'!
 ambient
@@ -398,7 +398,7 @@ trace
 id
 	^ EllipticCurveIsomorphism from: self to: self u: 1 r: 0 s: 0 t: 0! !
 
-!EllipticCurve methodsFor: 'morphisms' stamp: 'len 6/27/2023 13:33:00'!
+!EllipticCurve methodsFor: 'morphisms' stamp: 'len 2/4/2025 20:28:59'!
 multiplicationBy: anInteger
 	| n K x y P numerator denominator f₁ f₂ |
 	self assert: anInteger ~= 0.
@@ -414,7 +414,7 @@ multiplicationBy: anInteger
 	x := K x: 1. y := K x: 2.
 	f₁ := K !! numerator / (K !! denominator).
 	f₂ := (y*2 + (x * self a₁) + self a₃) * (f₁ derivativeIn: 1) / anInteger - (f₁ * self a₁) - self a₃ / 2.
-	^ self to: self representatives: {f₁. f₂}! !
+	^ self to: self coordinates: {f₁. f₂}! !
 
 !EllipticCurve methodsFor: 'morphisms' stamp: 'len 6/18/2023 22:35:40'!
 negationMap
@@ -583,8 +583,9 @@ sexticTwistOf: anEllipticCurve
 	(K characteristic = 2 or: [K characteristic = 3]) ifTrue: [^ self notYetImplemented].
 	^ anEllipticCurve c₆ / self c₆! !
 
-!EllipticCurve methodsFor: 'points' stamp: 'len 6/27/2023 15:32:05'!
+!EllipticCurve methodsFor: 'points' stamp: 'len 2/26/2025 07:21:47'!
 pointAt: aTuple
+"	self assert: (self scalars ⇢ aTuple scalars) notNil."
 	aTuple size = 2 ifTrue: [^ EllipticCurvePoint on: self coordinates: aTuple, aTuple scalars one].
 	self assert: aTuple size = 3.
 "	(aTuple at: 3) isOne ifFalse: [^ EllipticCurvePoint on: self coordinates: aTuple / (aTuple at: 3)]."
@@ -668,7 +669,7 @@ isSupersingular
 	"equivalently: the trace of Frobenius is divisible by the characteristic"
 	^ self notYetImplemented! !
 
-!EllipticCurve methodsFor: 'private' stamp: 'len 6/18/2023 11:08:14'!
+!EllipticCurve methodsFor: 'private' stamp: 'len 2/19/2025 07:42:28'!
 coefficients: aTuple
 	| f |
 	self assert: aTuple size = 5.
@@ -676,7 +677,7 @@ coefficients: aTuple
 	f := (aTuple scalars polynomialsIn: #(x y z))
 		!! [:x :y :z| y^2 + (x*y * self a₁) + (y * self a₃) - (x^3) - (x^2 * self a₂) - (x * self a₄) - self a₆].
 	f := f homogenizedIn: 3.
-	self coordinateRing: f parent / f! !
+	self homogeneousCoordinateRing: f parent / f! !
 
 !EllipticCurve methodsFor: 'private' stamp: 'len 5/1/2024 12:26:34'!
 divisionPolynomial: n
@@ -864,6 +865,173 @@ coefficients: aTuple
 	aTuple size = 2 ifTrue: [^ self new coefficients: aTuple scalars !!!! {0. 0. 0} , aTuple].
 	self assert: ((1 to: 3) allSatisfy: [:i| aTuple isZeroAt: i]).
 	^ self new coefficients: aTuple! !
+
+!EllipticCurveMap methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:50:56'!
+dual
+	^ self subclassResponsibility! !
+
+!EllipticCurveMap methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:07:14'!
+isInjective
+	self isSeparable ifTrue: [^ self degree = 1].
+	self notYetImplemented! !
+
+!EllipticCurveMap methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:06:09'!
+isSurjective
+	^ self degree > 0! !
+
+!EllipticCurveMap methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:08:04'!
+isZero
+	^ self degree = 0! !
+
+!EllipticCurveMap methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:50:32'!
+kernelPolynomial
+	^ self subclassResponsibility! !
+
+!EllipticCurveFrobeniusIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:11:42'!
+isInjective
+	^ true! !
+
+!EllipticCurveFrobeniusIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:11:52'!
+isSeparable
+	^ self degree = 1! !
+
+!EllipticCurveFrobeniusIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:14:42'!
+kernelPolynomial
+	^ self domain scalars polynomials one! !
+
+!EllipticCurveFrobeniusIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:13:03'!
+scalingFactor
+	^ self degree = 1 ifTrue: [self domain scalars one] ifFalse: [self domain scalars zero]! !
+
+!EllipticCurveFrobeniusIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:13:59'!
+value: aPoint
+	aPoint isZero ifTrue: [^ aPoint].
+	^ aPoint shallowCopy x: aPoint x ^ self degree y: aPoint y ^ self degree! !
+
+!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 18:07:06'!
+degree
+	| Φ₁ |
+	Φ₁ := self xRationalFunction.
+	^ Φ₁ numerator degree max: Φ₁ denominator degree! !
+
+!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/29/2023 19:49:16'!
+dual
+	"Answer the dual of the receiver. If the receiver is f:E→E' of degree n, its dual is an isogeny g:E'→E such that the compositions are [n] (multiplication by n)."
+	^ self notYetImplemented! !
+
+!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:41:47'!
+isSeparable
+	^ true! !
+
+!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 12/25/2016 08:42:27'!
+isSurjective
+	^ self isZero not! !
+
+!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 12/28/2016 11:16:46'!
+kernelPolynomial
+	^ self propertyAt: #kernelPolynomial ifAbsentPut: [self computeKernelPolynomial]! !
+
+!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:36:28'!
+value: aPoint
+	aPoint isZero ifTrue: [^ self codomain zero].
+	self notYetImplemented! !
+
+!EllipticCurveIsogeny class methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:24:40'!
+from: anEllipticCurve kernel: aCollection
+	"Answer an isogeny from anEllipticCurve with kernel given by a list of points."
+	^ self notYetImplemented! !
+
+!EllipticCurveIsogeny class methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:24:01'!
+from: anEllipticCurve kernelPolynomial: aPolynomial
+	^ self notYetImplemented! !
+
+!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 12:03:31'!
+= anObject
+	self class = anObject class ifFalse: [^ super = anObject].
+	^ self domain = anObject domain and: [self codomain = anObject codomain and: [u = anObject u and: [r = anObject r and: [s = anObject s and: [t = anObject t]]]]]! !
+
+!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:47:57'!
+dual
+	^ self inverse! !
+
+!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:40:41'!
+inverse
+	| r₂ s₂ u₂ |
+	^ self class from: self codomain to: self domain u: (u₂ := u inverse) r: (r₂ := r negated * u₂ squared) s: (s₂ := s negated * u₂) t: r₂ * s₂ * (u₂ ^ 3)! !
+
+!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:33:03'!
+r
+	^ r! !
+
+!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 12:06:08'!
+rationalFunctions
+	^ self value: self domain functionField generators! !
+
+!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:33:07'!
+s
+	^ s! !
+
+!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:33:14'!
+t
+	^ t! !
+
+!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:33:18'!
+u
+	^ u! !
+
+!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:39:13'!
+u: u₀ r: r₀ s: s₀ t: t₀
+	u := u₀.
+	r := r₀.
+	s := s₀.
+	t := t₀! !
+
+!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 12:05:50'!
+xRationalFunction
+	^ (self domain functionField x: 1) - r / u squared! !
+
+!EllipticCurveIsomorphism class methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:40:22'!
+from: anEllipticCurve to: anotherEllipticCurve u: u₀ r: r₀ s: s₀ t: t₀
+	^ self new domain: anEllipticCurve; codomain: anotherEllipticCurve; u: u₀ r: r₀ s: s₀ t: t₀! !
+
+!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:00:58'!
+degree
+	^ self multiplier squared! !
+
+!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 17:59:08'!
+dual
+	^ self! !
+
+!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:06:06'!
+isInjective
+	self multiplier = 0 ifTrue: [^ false].
+	^ (self multiplier abs isPowerOf: self domain scalars characteristic) and: [self domain isSupersingular]! !
+
+!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:04:48'!
+isSeparable
+	self multiplier = 0 ifTrue: [^ self error: 'not an isogeny'].
+	^ self scalingFactor isZero not! !
+
+!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 1/31/2025 11:34:43'!
+kernelPolynomial
+"	self multiplier = 0 ifTrue: [^ ... zero polynomial]."
+	^ (self domain divisionPolynomial: self multiplier abs) radicalPart! !
+
+!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:00:41'!
+multiplier
+	^ self propertyAt: #multiplier! !
+
+!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:06:47'!
+negated
+	^ self class on: self domain multiplier: self multiplier negated! !
+
+!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:00:31'!
+scalingFactor
+	^ self domain scalars !! self multiplier! !
+
+!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:01:19'!
+value: aPoint
+	^ aPoint * self multiplier! !
 
 !EllipticCurvePoint methodsFor: 'accessing' stamp: 'len 6/19/2023 00:55:55'!
 order
@@ -1083,170 +1251,3 @@ frobenius: anInteger
 !EllipticCurvePoint methodsFor: 'as yet unclassified' stamp: 'len 6/2/2024 10:39:00'!
 parent
 	^ self domain ⇒ self codomain! !
-
-!EllipticCurveMap methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:50:56'!
-dual
-	^ self subclassResponsibility! !
-
-!EllipticCurveMap methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:07:14'!
-isInjective
-	self isSeparable ifTrue: [^ self degree = 1].
-	self notYetImplemented! !
-
-!EllipticCurveMap methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:06:09'!
-isSurjective
-	^ self degree > 0! !
-
-!EllipticCurveMap methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:08:04'!
-isZero
-	^ self degree = 0! !
-
-!EllipticCurveMap methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:50:32'!
-kernelPolynomial
-	^ self subclassResponsibility! !
-
-!EllipticCurveFrobeniusIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:11:42'!
-isInjective
-	^ true! !
-
-!EllipticCurveFrobeniusIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:11:52'!
-isSeparable
-	^ self degree = 1! !
-
-!EllipticCurveFrobeniusIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:14:42'!
-kernelPolynomial
-	^ self domain scalars polynomials one! !
-
-!EllipticCurveFrobeniusIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:13:03'!
-scalingFactor
-	^ self degree = 1 ifTrue: [self domain scalars one] ifFalse: [self domain scalars zero]! !
-
-!EllipticCurveFrobeniusIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:13:59'!
-value: aPoint
-	aPoint isZero ifTrue: [^ aPoint].
-	^ aPoint shallowCopy x: aPoint x ^ self degree y: aPoint y ^ self degree! !
-
-!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 18:07:06'!
-degree
-	| Φ₁ |
-	Φ₁ := self xRationalFunction.
-	^ Φ₁ numerator degree max: Φ₁ denominator degree! !
-
-!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/29/2023 19:49:16'!
-dual
-	"Answer the dual of the receiver. If the receiver is f:E→E' of degree n, its dual is an isogeny g:E'→E such that the compositions are [n] (multiplication by n)."
-	^ self notYetImplemented! !
-
-!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:41:47'!
-isSeparable
-	^ true! !
-
-!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 12/25/2016 08:42:27'!
-isSurjective
-	^ self isZero not! !
-
-!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 12/28/2016 11:16:46'!
-kernelPolynomial
-	^ self propertyAt: #kernelPolynomial ifAbsentPut: [self computeKernelPolynomial]! !
-
-!EllipticCurveIsogeny methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:36:28'!
-value: aPoint
-	aPoint isZero ifTrue: [^ self codomain zero].
-	self notYetImplemented! !
-
-!EllipticCurveIsogeny class methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:24:40'!
-from: anEllipticCurve kernel: aCollection
-	"Answer an isogeny from anEllipticCurve with kernel given by a list of points."
-	^ self notYetImplemented! !
-
-!EllipticCurveIsogeny class methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 22:24:01'!
-from: anEllipticCurve kernelPolynomial: aPolynomial
-	^ self notYetImplemented! !
-
-!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 12:03:31'!
-= anObject
-	self class = anObject class ifFalse: [^ super = anObject].
-	^ self domain = anObject domain and: [self codomain = anObject codomain and: [u = anObject u and: [r = anObject r and: [s = anObject s and: [t = anObject t]]]]]! !
-
-!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:47:57'!
-dual
-	^ self inverse! !
-
-!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:40:41'!
-inverse
-	| r₂ s₂ u₂ |
-	^ self class from: self codomain to: self domain u: (u₂ := u inverse) r: (r₂ := r negated * u₂ squared) s: (s₂ := s negated * u₂) t: r₂ * s₂ * (u₂ ^ 3)! !
-
-!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:33:03'!
-r
-	^ r! !
-
-!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 12:06:08'!
-rationalFunctions
-	^ self value: self domain functionField generators! !
-
-!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:33:07'!
-s
-	^ s! !
-
-!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:33:14'!
-t
-	^ t! !
-
-!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:33:18'!
-u
-	^ u! !
-
-!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:39:13'!
-u: u₀ r: r₀ s: s₀ t: t₀
-	u := u₀.
-	r := r₀.
-	s := s₀.
-	t := t₀! !
-
-!EllipticCurveIsomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/19/2023 12:05:50'!
-xRationalFunction
-	^ (self domain functionField x: 1) - r / u squared! !
-
-!EllipticCurveIsomorphism class methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 19:40:22'!
-from: anEllipticCurve to: anotherEllipticCurve u: u₀ r: r₀ s: s₀ t: t₀
-	^ self new domain: anEllipticCurve; codomain: anotherEllipticCurve; u: u₀ r: r₀ s: s₀ t: t₀! !
-
-!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:00:58'!
-degree
-	^ self multiplier squared! !
-
-!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 17:59:08'!
-dual
-	^ self! !
-
-!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:06:06'!
-isInjective
-	self multiplier = 0 ifTrue: [^ false].
-	^ (self multiplier abs isPowerOf: self domain scalars characteristic) and: [self domain isSupersingular]! !
-
-!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:04:48'!
-isSeparable
-	self multiplier = 0 ifTrue: [^ self error: 'not an isogeny'].
-	^ self scalingFactor isZero not! !
-
-!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 1/31/2025 11:34:43'!
-kernelPolynomial
-"	self multiplier = 0 ifTrue: [^ ... zero polynomial]."
-	^ (self domain divisionPolynomial: self multiplier abs) radicalPart! !
-
-!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:00:41'!
-multiplier
-	^ self propertyAt: #multiplier! !
-
-!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:06:47'!
-negated
-	^ self class on: self domain multiplier: self multiplier negated! !
-
-!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:00:31'!
-scalingFactor
-	^ self domain scalars !! self multiplier! !
-
-!EllipticCurveScalingEndomorphism methodsFor: 'as yet unclassified' stamp: 'len 6/25/2023 18:01:19'!
-value: aPoint
-	^ aPoint * self multiplier! !

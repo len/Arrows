@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7034] on 28 January 2025 at 8:58:48 pm'!
+'From Cuis7.3 [latest update: #7050] on 3 March 2025 at 3:54:34 pm'!
 'Description '!
-!provides: 'Tests-Quaternion Algebra' 1 2!
+!provides: 'Tests-Quaternion Algebra' 1 3!
 SystemOrganization addCategory: #'Tests-Quaternion Algebra'!
 
 
@@ -60,19 +60,19 @@ setUp
 	super setUp.
 	R := QuaternionAlgebra over: ℚ invariants: #(1 1)! !
 
-!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/7/2022 07:27:25'!
+!QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 2/28/2025 09:45:54'!
 testQuaternionAlgebraAnnihilatorIdeal
 	| H a b I |
 	H _  QuaternionAlgebra over: ℚ invariants: #(1 1).
 	a _ 1 + H i.
 	self assert: a isZeroDivisor.
-	I _ a annihilatorIdeal.
+	I _ a annihilator.
 	self assert: (I includes: 1 - H i).
 	self assert: (I includes: H j - H k).
 	self assert: (I generators allSatisfy: [:each| (a * each) isZero]).
 	b _ H j.
 	self assert: b isZeroDivisor not.
-	I _ b annihilatorIdeal.
+	I _ b annihilator.
 	self assert: I isTrivial! !
 
 !QuaternionAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/1/2024 14:32:23'!
