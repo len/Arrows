@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7050] on 3 March 2025 at 3:54:27 pm'!
+'From Cuis7.3 [latest update: #7066] on 14 March 2025 at 9:07:48 am'!
 'Description '!
-!provides: 'Tests-Algebra' 1 145!
+!provides: 'Tests-Algebra' 1 146!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -5417,7 +5417,7 @@ testIdealSaturation
 	S _ R * {y. x^5}.
 	self assert: (I saturation: J) = S! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 6/20/2023 21:02:43'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 3/5/2025 07:42:53'!
 testIdealSaturation2
 	"Example from Macaulay2 documentation."
 	| R a b c d I S |
@@ -5428,7 +5428,7 @@ testIdealSaturation2
 	d := R x: 4.
 	I := R * {a^3 - (b*(d^2)). a^4 - (c*(d^3))}.
 	S := R * {a*b - (c*d). a^2*c - (b^2*d). b^3 - (a*(c^2)). a^3 - (b*(d^2))}.
-	self assert: I saturation = S! !
+	self assert: (I saturation: R * {a.b.c.d}) = S! !
 
 !CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 12/10/2023 10:36:24'!
 testLocalIdeals
@@ -7363,15 +7363,15 @@ testGroupAlgebra
 	self assert: xa*2 + xb*xc - (xa*xc) - (xb*xc) = (R !! (a·c)).
 	self assert: (xa + xb) * (xa - xb) = (xa^2 - (xb^2) + (xb*xa) - (xa*xb))! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/9/2024 12:19:06'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 3/10/2025 08:04:48'!
 testGroupAlgebraHopfAlgebraAxioms
 	| G A μ η Δ ε S id |
 	G := SymmetricGroup new: 3.
 	A := G groupAlgebraOver: ℚ.
-	μ := A asAlgebra multiplication.
-	η := A asAlgebra unit.
-	Δ := A asBialgebra comultiplication.
-	ε := A asBialgebra counit.
+	μ := A multiplication.
+	η := A unit.
+	Δ := A comultiplication.
+	ε := A counit.
 	S := A antipode.
 	id := A carrier id.
 	"coassociativity:"
@@ -7402,12 +7402,12 @@ testGroupAlgebraIsARing
 	self assert: (a2 * b2 * c2) = (a2 * (b2 * c2)).
 	G isCommutative ifTrue: [self assert: a2 * b2 = (b2 * a2)].! !
 
-!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 12/9/2024 12:18:24'!
+!GroupTest methodsFor: 'as yet unclassified' stamp: 'len 3/10/2025 08:07:38'!
 testGroupAlgebraIsCocommutative
 	| G R |
 	G := self smallGroupAtRandom.
 	R := G groupAlgebra.
-	self assert: R asBialgebra isCocommutative! !
+	self assert: R isCocommutative! !
 
 !GroupTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:14:38'!
 testGroupHomomorphism: φ
