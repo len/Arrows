@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7050] on 3 March 2025 at 3:54:19 pm'!
+'From Cuis7.3 [latest update: #7066] on 14 March 2025 at 9:02:22 am'!
 'Description '!
-!provides: 'Elliptic Curves' 1 31!
+!provides: 'Elliptic Curves' 1 32!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #'Elliptic Curves'!
 
@@ -168,9 +168,9 @@ identity
 	This is the point at infinity."
 	^ codomain pointAt: scalars !!!! {scalars zero. scalars one. scalars zero}! !
 
-!EllipticCurveGroup methodsFor: 'elements' stamp: 'len 6/21/2023 16:07:31'!
+!EllipticCurveGroup methodsFor: 'elements' stamp: 'len 3/14/2025 08:32:11'!
 newFrom: anObject
-	(anObject isSequenceable and: [anObject size = 2]) ifTrue: [^ self codomain pointAt: self scalars !!!! anObject].
+	(anObject isSequenceable and: [anObject size = 2]) ifTrue: [^ self codomain !! (self scalars !!!! anObject)].
 	^ super newFrom: anObject! !
 
 !EllipticCurveGroup methodsFor: 'elements' stamp: 'len 6/19/2023 16:52:05'!
@@ -178,12 +178,12 @@ pointsWithX: x₀
 	"Answer the points with x coordinate as given by the argument."
 	^ Iterator on: [:aBlock| self pointsWithX: x₀ do: aBlock]! !
 
-!EllipticCurveGroup methodsFor: 'elements' stamp: 'len 6/19/2023 16:51:26'!
+!EllipticCurveGroup methodsFor: 'elements' stamp: 'len 3/14/2025 08:35:10'!
 pointsWithX: x₀ do: aBlock
 	"Answer the points with x coordinate as given by the argument."
 	| P |
 	P := scalars polynomials.
-	^ (codomain polynomial value: {P !! x₀. P x. P one}) roots do: [:y| aBlock value: (codomain pointAt: (scalars !! x₀, y))]! !
+	^ (codomain polynomial value: {P !! x₀. P x. P one}) roots do: [:y| aBlock value: (codomain pointAt: scalars !!!! {x₀. y. scalars one})]! !
 
 !EllipticCurveGroup methodsFor: 'enumerating' stamp: 'len 6/22/2023 02:15:46'!
 do: aBlock
@@ -583,12 +583,8 @@ sexticTwistOf: anEllipticCurve
 	(K characteristic = 2 or: [K characteristic = 3]) ifTrue: [^ self notYetImplemented].
 	^ anEllipticCurve c₆ / self c₆! !
 
-!EllipticCurve methodsFor: 'points' stamp: 'len 2/26/2025 07:21:47'!
+!EllipticCurve methodsFor: 'points' stamp: 'len 3/14/2025 08:21:24'!
 pointAt: aTuple
-"	self assert: (self scalars ⇢ aTuple scalars) notNil."
-	aTuple size = 2 ifTrue: [^ EllipticCurvePoint on: self coordinates: aTuple, aTuple scalars one].
-	self assert: aTuple size = 3.
-"	(aTuple at: 3) isOne ifFalse: [^ EllipticCurvePoint on: self coordinates: aTuple / (aTuple at: 3)]."
 	^ EllipticCurvePoint on: self coordinates: aTuple! !
 
 !EllipticCurve methodsFor: 'points' stamp: 'len 12/22/2016 23:19:49'!
@@ -733,7 +729,7 @@ divisionPolynomialXNoTwoTorsion: n
 	x := cache notEmpty ifTrue: [cache any parent x] ifFalse: [self scalars polynomials x].
 	^ self divisionPolynomial: n at: x cache: cache! !
 
-!EllipticCurve class methodsFor: 'examples' stamp: 'len 6/18/2023 15:15:48'!
+!EllipticCurve class methodsFor: 'examples' stamp: 'len 3/14/2025 08:39:37'!
 bn254
 	"bn254 pairing-friendly curve.
 	p = 16r30644E72E131A029B85045B68181585D97816A916871CA8D3C208C16D87CFD47.
@@ -744,35 +740,35 @@ bn254
 	Cofactor: 1"
 	| F |
 	F := PrimeField new: 16r30644E72E131A029B85045B68181585D97816A916871CA8D3C208C16D87CFD47.
-	^ self coefficients: ((0,0,0,0,3) over: F)! !
+	^ self coefficients: F !!!! (0,0,0,0,3)! !
 
-!EllipticCurve class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
+!EllipticCurve class methodsFor: 'examples' stamp: 'len 3/14/2025 08:39:26'!
 cremona11a1
 	"Elliptic curve 11a1, first curve in the Cremona database."
-	^ EllipticCurve coefficients: ((0,-1,1,-10,-20) over: ℚ)! !
+	^ EllipticCurve coefficients: ℚ !!!! (0,-1,1,-10,-20)! !
 
-!EllipticCurve class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
+!EllipticCurve class methodsFor: 'examples' stamp: 'len 3/14/2025 08:39:50'!
 cremona11a2
 	"Elliptic curve 11a2 from the Cremona database."
-	^ EllipticCurve coefficients: ((0,-1,1,-7820,-263580) over: ℚ)! !
+	^ EllipticCurve coefficients: ℚ !!!! (0,-1,1,-7820,-263580)! !
 
-!EllipticCurve class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
+!EllipticCurve class methodsFor: 'examples' stamp: 'len 3/14/2025 08:40:05'!
 cremona11a3
 	"Elliptic curve 11a3 from the Cremona database."
-	^ EllipticCurve coefficients: ((0,-1,1,0,0) over: ℚ)! !
+	^ EllipticCurve coefficients: ℚ !!!! (0,-1,1,0,0)! !
 
-!EllipticCurve class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
+!EllipticCurve class methodsFor: 'examples' stamp: 'len 3/14/2025 08:40:13'!
 cremona37a
 	"Elliptic curve 37a from the Cremona database.
 	This is the elliptic curve of rank 1 with smallest conductor."
-	^ EllipticCurve coefficients: ((0,0,1,-1,0) over: ℚ)! !
+	^ EllipticCurve coefficients: ℚ !!!! (0,0,1,-1,0)! !
 
-!EllipticCurve class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
+!EllipticCurve class methodsFor: 'examples' stamp: 'len 3/14/2025 08:40:22'!
 cremona389a1
 	"Elliptic curve 389a1 from the Cremona database."
-	^ EllipticCurve coefficients: ((0,1,1,-2,0) over: ℚ)! !
+	^ EllipticCurve coefficients: ℚ !!!! (0,1,1,-2,0)! !
 
-!EllipticCurve class methodsFor: 'examples' stamp: 'len 6/18/2023 15:12:56'!
+!EllipticCurve class methodsFor: 'examples' stamp: 'len 3/14/2025 08:40:32'!
 pallas
 	"Pallas curve from the Pasta curves. See also >>#vesta.
 	p = 16r40000000000000000000000000000000224698FC094CF91B992D30ED00000001.
@@ -783,17 +779,17 @@ pallas
 	Cofactor: 1"
 	| F |
 	F := PrimeField new: 16r40000000000000000000000000000000224698FC094CF91B992D30ED00000001.
-	^ self coefficients: ((0,0,0,0,5) over: F)! !
+	^ self coefficients: F !!!! (0,0,0,0,5)! !
 
-!EllipticCurve class methodsFor: 'examples' stamp: 'len 6/18/2023 14:56:23'!
+!EllipticCurve class methodsFor: 'examples' stamp: 'len 3/14/2025 08:40:41'!
 secp256k1
 	"Answer the secp256k1 elliptic curve, used by Bitcoin.
 	The group of this curve has order 115792089237316195423570985008687907852837564279074904382605163141518161494337."
 	| F |
 	F := PrimeField new: 16rFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F.
-	^ self coefficients: ((0,0,0,0,7) over: F)! !
+	^ self coefficients: F !!!! (0,0,0,0,7)! !
 
-!EllipticCurve class methodsFor: 'examples' stamp: 'len 6/18/2023 15:13:01'!
+!EllipticCurve class methodsFor: 'examples' stamp: 'len 3/14/2025 08:40:51'!
 vesta
 	"Vesta curve from the Pasta curves. See also >>#pallas.
 	p = 16r40000000000000000000000000000000224698FC094CF91B992D30ED00000001.
@@ -804,7 +800,7 @@ vesta
 	Cofactor: 1"
 	| F |
 	F := PrimeField new: 16r40000000000000000000000000000000224698FC0994A8DD8C46EB2100000001.
-	^ self coefficients: ((0,0,0,0,5) over: F)! !
+	^ self coefficients: F !!!! (0,0,0,0,5)! !
 
 !EllipticCurve class methodsFor: 'instance creation' stamp: 'len 6/19/2023 11:57:54'!
 coefficients: aTuple

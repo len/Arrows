@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7034] on 28 January 2025 at 8:59:12 pm'!
+'From Cuis7.3 [latest update: #7066] on 14 March 2025 at 9:02:11 am'!
 'Description '!
-!provides: 'Tests-Elliptic Curves' 1 9!
+!provides: 'Tests-Elliptic Curves' 1 10!
 !requires: 'Elliptic Curves' 1 2 nil!
 SystemOrganization addCategory: #'Tests-Elliptic Curves'!
 
@@ -112,15 +112,15 @@ setUp
 	super setUp.
 	E := EllipticCurve cremona389a1! !
 
-!EllipticCurveCremona389a1Test methodsFor: 'as yet unclassified' stamp: 'len 6/18/2023 14:30:49'!
+!EllipticCurveCremona389a1Test methodsFor: 'as yet unclassified' stamp: 'len 3/14/2025 08:48:00'!
 testGroupLaw2
 	| P Q O |
-	P := E pointAt: (ℚ !!!! #(-1 1)).
-	Q := E pointAt: (ℚ !!!! #(0 -1)).
-	O := E pointAt: (ℚ !!!! #(0 1 0)).
-	self assert: P+Q = (E pointAt: (ℚ !!!! #(4 8))).
-	self assert: P-Q = (E pointAt: (ℚ !!!! #(1 0))).
-	self assert: 3*P - (5*Q) = (E pointAt: (ℚ !!!! {328/361. -2800/6859})).
+	P := E !! (ℚ !!!! #(-1 1)).
+	Q := E !! (ℚ !!!! #(0 -1)).
+	O := E !! (ℚ !!!! #(0 1 0)).
+	self assert: P+Q = (E !! (ℚ !!!! #(4 8))).
+	self assert: P-Q = (E !! (ℚ !!!! #(1 0))).
+	self assert: 3*P - (5*Q) = (E !! (ℚ !!!! {328/361. -2800/6859})).
 	self assert: O+P = P.
 	self assert: P+O = P.
 	self assert: P-P = O! !
@@ -363,12 +363,12 @@ testTatePairingExample
 	self assert: (P tatePairing: P torsion: n embeddingDegree: k) = (F !! 1).
 	self assert: (P tatePairing: Q torsion: n embeddingDegree: k) = (F !! 1)! !
 
-!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 12/12/2023 19:03:11'!
+!EllipticCurvesTest methodsFor: 'as yet unclassified' stamp: 'len 3/7/2025 06:32:42'!
 testWeilPairingExample
 	"Example from Sage:"
 	| R F E a P Q x |
 	R := (ℤ/19) polynomials.
-	F := GaloisField modulus: (R !! #(2 11 2 0 1)).
+	F := GaloisField modulus: R !! #(2 11 2 0 1).
 	E := EllipticCurve coefficients: F !!!! #(-1 0).
 	a := F x.
 	P := E !! (F !!!! {a^3*15 + (a^2*17) + (a*14) + 13. a^3*16 + (a^2*7) + a + 18}).

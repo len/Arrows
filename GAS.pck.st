@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7066] on 10 March 2025 at 2:36:24 pm'!
+'From Cuis7.3 [latest update: #7066] on 14 March 2025 at 9:02:16 am'!
 'Description General Algebra Subrutines. This package provides low-level support for algebra on arrays.'!
-!provides: 'GAS' 1 19!
+!provides: 'GAS' 1 20!
 !requires: 'Collections-Extras' 1 14 nil!
 
 
@@ -843,10 +843,9 @@ replaceFrom: start to: stop with: anArray startingAt: srcStart timesScalar: anIn
 				self at: i put: (anArray at: j) * anInteger \\ modulus.
 				j := j + 1]]! !
 
-!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 2/1/2024 19:13:55'!
+!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 3/14/2025 08:07:46'!
 replaceFrom: start to: stop withNegated: anArray startingAt: srcStart
 	| j |
-	self flag: #deprecated.
 	j := srcStart.
 	start to: stop do: [:i|
 		self at: i put: (anArray at: j) negated.
