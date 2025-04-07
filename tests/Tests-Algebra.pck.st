@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7066] on 14 March 2025 at 9:07:48 am'!
+'From Cuis7.3 [latest update: #7092] on 7 April 2025 at 9:32:45 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 146!
+!provides: 'Tests-Algebra' 1 152!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -3796,13 +3796,13 @@ testTorsionAbelianGroup
 	self assert: G isMixed not.
 	self assert: G torsionFree isTrivial! !
 
-!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 2/19/2025 07:58:28'!
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 3/27/2025 08:52:34'!
 testAffinePlaneCurveMultiplicity
 	| A C |
 	A := AffineSpace new: #(x y) over: ℚ.
 	C := A sub: [:x :y| y^2 - (x^3)].
-	self assert: (C multiplicityAt: (1,1)) = 1.
-	self assert: (C multiplicityAt: (0,0)) = 2! !
+	self assert: (C !! (1,1)) multiplicity = 1.
+	self assert: (C !! (0,0)) multiplicity = 2! !
 
 !AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 2/3/2025 08:14:36'!
 testAffineSchemeCartesianProduct1
@@ -3937,32 +3937,32 @@ testProjectiveLineOverFiniteRing6
 	self assert: P points size = 18.
 	self assert: (Iterator on: P points performing: #do:) size = 18! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 7/13/2023 14:49:28'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 4/1/2025 18:17:56'!
 testArithmeticGenusExample1
 	| R I C |
 	R :=  ℚ polynomialsIn: 4.
 	I := R !! [:x :y :z :w| {w*z - (x^2). w^2 + (y^2) + (z^2)}].
-	C := (R / I) proj asCurve.
+	C := (R / I) proj.
 	self assert: C arithmeticGenus = 1! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 7/13/2023 14:49:54'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 4/1/2025 18:17:52'!
 testArithmeticGenusExample2
 	| R I C |
 	R :=  ℤ/7 polynomialsIn: 5.
 	I := R !! [:x :y :z :w :t| {t^3 - (x*y*w). x^3 + (y^3) + (z^3). z - w}].
-	C := (R / I) proj asCurve.
+	C := (R / I) proj.
 	self assert: C arithmeticGenus = 10! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 7/13/2023 14:56:37'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 4/1/2025 18:17:42'!
 testArithmeticGenusExample3
 	| R f C |
 	R :=  ℤ/5 polynomialsIn: 3.
 	f := R !! [:x :y :z| y^2*(z^7) - (x^9) - (x*(z^8))].
-	C := (R / f) proj asCurve.
+	C := (R / f) proj.
 	self assert: C arithmeticGenus = 28.
 	"self assert: C genus = 4"! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 14:38:33'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 4/3/2025 14:45:20'!
 testDifference
 	| A x y C X2 D O |
 	A := AffineSpace new: 2 over: ℚ.
@@ -3971,7 +3971,7 @@ testDifference
 	C := A sub: x * y. "union of x-axis and y-axis"
 	X2 := A sub: x^2. "y-axis with double multiplicity"
 	D := X2 - C. "y-axis with multiplicity 1"
-	self assert: D asIdeal = (A coordinateRing * x).
+	self assert: D definingIdeal = (A coordinateRing * x).
 	O := A sub: {x. y}.
 	D := C - O.
 	self assert: D = C.
@@ -3997,19 +3997,19 @@ testEmpty
 	X := (A / {A continuantOfOrder: 2. A continuantOfOrder: 3}) spec.
 	self assert: X isEmpty! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 2/23/2025 07:03:50'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 3/26/2025 09:28:28'!
 testEqualVarietiesDifferentIdeals1
 	| A x I I2 V V2 |
 	A := ℚ polynomials.
 	x := A x.
 	I := A * {x}.
 	I2 := A * {x^2}.
-	V := I zeroLocus.
-	V2 := I2 zeroLocus.
+	V := I vanishingLocus.
+	V2 := I2 vanishingLocus.
 	self assert: V = V2.
 	self assert: I ~= I2! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 2/23/2025 07:03:50'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 3/26/2025 09:28:28'!
 testEqualVarietiesDifferentIdeals2
 	| A x y I I2 V V2 |
 	A _ ℚ polynomialsIn: #(x y).
@@ -4017,10 +4017,19 @@ testEqualVarietiesDifferentIdeals2
 	y _ A y.
 	I _ A * {x. y}.
 	I2 _ A * {x^2. y}.
-	V _ I zeroLocus.
-	V2 _ I2 zeroLocus.
+	V _ I vanishingLocus.
+	V2 _ I2 vanishingLocus.
 	self assert: V = V2.
 	self assert: I ~= I2! !
+
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 3/15/2025 11:22:15'!
+testEquidimensionalCodimensionExample
+	"Example from Macaulay2 documentation, function codim."
+	| R I V |
+	R := ℤ/101 polynomialsIn: #(a b c d e).
+	I := R * [:a :b :c :d :e| {d^2 - (c*e). b*d - (a*e). b*c - (a*d). c^2 * d - (b^2 * e). c^3 - (a*b*e). b^3 - (c^2 * a)}].
+	V := (R/I) spec singularLocus.
+	self assert: V codimension = 4! !
 
 !AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/23/2020 09:33:01'!
 testFinite
@@ -4043,16 +4052,16 @@ testIntersection
 	self assert: (W satisfies: (1, 0)).
 	self assert: (W satisfies: (0, 1)) not! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 5/28/2020 18:15:56'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 3/26/2025 09:36:28'!
 testLinearSubspaceAsAlgebraicVariety
 	| S V |
-	S _ ℚ ^ 3 grassmannian: 2 :: atRandomBits: 10.
-	V _ S asAlgebraicVariety.
-	self assert: V dimension + 1 = S rank. "because it's projective"
+	S := ℚ ^ 3 grassmannian: 2 :: atRandomBits: 10.
+	V := S asAffineScheme.
+	self assert: V dimension = S rank.
 	self assert: (V satisfies: (S x: 1)).
 	self assert: (V satisfies: (S x: 2))! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 2/19/2025 07:59:53'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 4/3/2025 14:45:30'!
 testMorphismsOfProjectiveVarieties
 	"'A Singular Introduction To Commutative Algebra', Example A.6.8 (morphisms of projective varieties)."
 	| P A x y z X f₁ f₂ f₃ I J Y φ Z |
@@ -4062,7 +4071,7 @@ testMorphismsOfProjectiveVarieties
 	X := P sub: {z^3 - (x*(y^2)) + (y^3)}.
 	f₁ := x*z. f₂ := x*y. f₃ := x^2 + (y*z).
 	"In order for (f₁,f₂,f₃) to define a projective morphism (not just a rational map) it must never be zero at any point of X, this means the intersection of X with V(J) must be empty:"
-	I := X asIdeal.
+	I := X definingIdeal.
 	J := A * {f₁. f₂. f₃}.
 	self assert: (A / (I + J)) dimension = 0.
 	Y := P sub: J.
@@ -4182,11 +4191,11 @@ testSmoothness
 	self assert: (ℚ spec ⇒ C !! (1,1)) isSmooth.
 	self assert: (ℚ spec ⇒ C !! (0,0)) isSmooth not! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 14:40:03'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 3/14/2025 18:59:26'!
 testSmoothnessOverCC
 	| P R C |
 	P := ProjectiveSpace new: 2 over: ℚ. "over ℂ or over ℚ ?"
-	R := P coordinateRing.
+	R := P homogeneousCoordinateRing.
 	C := P sub: R !! [:x :y :z| x].
 	self assert: C isSingular not.
 	C := P sub: R !! [:x :y :z| y^2*z - (x^3)].
@@ -4194,11 +4203,11 @@ testSmoothnessOverCC
 	C := P sub: R !! [:x :y :z| y^2*z - (x^3) + (z^3)].
 	self assert: C isSingular not! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 14:40:14'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 3/14/2025 19:10:02'!
 testSmoothnessOverFiniteField
 	| P R C |
 	P := ProjectiveSpace new: 2 over: ℤ/19.
-	R := P coordinateRing.
+	R := P homogeneousCoordinateRing.
 	C := P sub: R !! [:x :y :z| x^3 + (y^3) + (z^3)].
 	self assert: C isSingular not.
 	C := P sub: R !! [:x :y :z| x^4 - (x*(z^3))].
@@ -4224,18 +4233,21 @@ testSmoothnessOverQQ2
 	self assert: (R/I) spec isSmooth.
 	self assert: (R/J) spec isSmooth not! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 17:04:17'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 3/15/2025 11:16:09'!
 testSpecZ
 	self assert: ℤ spec dimension = 1.
-	self assert: ℤ spec isNoetherian.
-	self assert: (ℤ spec includes: ℤ * 5).
-	self assert: (ℤ spec includes: ℤ * 6) not! !
+	self assert: ℤ spec isNoetherian! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 12/10/2023 10:35:50'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 3/15/2025 11:15:46'!
+testSpecZPointsCodimension
+	self assert: (ℤ spec !! 0) codimension = 0.
+	self assert: (ℤ spec !! 23) codimension = 1! !
+
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 3/30/2025 08:19:23'!
 testSpecZSubschemes
-	self assert: ℤ spec ⊇ (ℤ / 2) spec.
-	self assert: (ℤ / 10) spec ⊇ (ℤ / 5) spec.
-	self deny: (ℤ / 10) spec ⊇ (ℤ / 3) spec.
+	self assert: (ℤ / 2) spec ⊆ ℤ spec.
+	self assert:  (ℤ / 5) spec ⊆ (ℤ / 10) spec.
+	self deny: (ℤ / 3) spec ⊆ (ℤ / 10) spec.
 	self assert: (ℤ / 10) spec ∩ (ℤ / 15) spec = (ℤ / 5) spec.
 	self assert: (ℤ / 10) spec ∪ (ℤ / 15) spec = (ℤ / 30) spec! !
 
@@ -4277,10 +4289,10 @@ testProjectivePlaneOverFiniteRing
 	self assert: P points size = 28
 	"this plane has 28 points and 28 lines (falling into 7 neighbour classes of size 4), each line has 6 points and each point is on 6 lines"! !
 
-!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 2/26/2025 07:23:21'!
+!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 3/29/2025 17:32:06'!
 testProjectiveSchemeAffinePatches
 	| P E p a |
-	P := ProjectivePlane over: ℚ.
+	P := ProjectiveSpace new: #(x y z) over: ℚ.
 	"cremona37a elliptic curve:"
 	E := P sub: [:x :y :z| y^2*z + (z^2*x) + (z^2*y) - (x^3)].
 	p := ℚ spec ⇒ P !! (2,-3,1).
@@ -4315,16 +4327,16 @@ testProjectiveSchemeDegree3
 	X := P sub: [:x :y :z :w :u| {x^7 - (y*(z^3)*(w^2)*u). w*(z^2) - (y*(u^2)). z^3 + (y^3)}].
 	self assert: X degree = 63! !
 
-!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 10/18/2016 20:58'!
+!AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 3/14/2025 19:09:48'!
 testProjectiveSpace
 	| K P |
-	K _ PrimeField new: 23.
-	P _ ProjectiveSpace new: 3 over: K.
+	K := PrimeField new: 23.
+	P := ProjectiveSpace new: 3 over: K.
 	self assert: P dimension = 3.
 	self assert: P scalars = K.
-	self assert: P coordinateRing = (K polynomialsIn: 4).
+	self assert: P homogeneousCoordinateRing = (K polynomialsIn: 4).
 	self assert: P ambient = P.
-	self assert: P coordinateRing proj = P! !
+	self assert: P homogeneousCoordinateRing proj = P! !
 
 !AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 5/23/2020 08:57:08'!
 testProjectiveSpaceOverFiniteField
@@ -4443,7 +4455,7 @@ testRationalPointsOverFiniteField
 	self assert: C points size = 9.
 	self assert: (Iterator on: C points performing: #do:) size = 9! !
 
-!AlgebraicGeometryTest methodsFor: 'tangent cone' stamp: 'len 2/28/2025 07:55:35'!
+!AlgebraicGeometryTest methodsFor: 'tangent cone' stamp: 'len 4/3/2025 14:46:37'!
 testTangentCone
 	"'A Singular Introduction to Commutative Algebra', Example 5.5.13."
 	| R I J X |
@@ -4451,17 +4463,17 @@ testTangentCone
 	I := R * [:x :y :z| {y*z + (z^2) + (x^3). y^2 + (x*z) + (y^4)}].
 	X := (R/I) spec.
 	J := R * [:x :y :z| {y^2 + (x*z). y*z + (z^2). x*(z^2) - (y*(z^2))}].
-	self assert: (ℚ spec ⇒ X !! (0,0,0)) tangentCone asIdeal = J! !
+	self assert: (ℚ spec ⇒ X !! (0,0,0)) tangentCone definingIdeal = J! !
 
-!AlgebraicGeometryTest methodsFor: 'tangent cone' stamp: 'len 2/20/2025 07:12:21'!
+!AlgebraicGeometryTest methodsFor: 'tangent cone' stamp: 'len 4/3/2025 14:46:41'!
 testTangentCone2
 	"M. Kreuzer, 'Computational Commutative Algebra', Example 6.5.27."
 	| R J T I |
 	R := ℚ polynomialsIn: 4.
 	J := R * [:x1 :x2 :x3 :x4| {x1*x2 - (x3^2). x2^2 - (x4^5)}].
-	T := (R/J) spec tangentConeAt: (0,0,0,0).
+	T := ((R/J) spec !! (0,0,0,0)) tangentCone.
 	I := R * [:x1 :x2 :x3 :x4| {x1*x2 - (x3^2). x2^2. x2*(x3^2). x3^4}].
-	self assert: T asIdeal = I! !
+	self assert: T definingIdeal = I! !
 
 !AlgebraicGeometryTest methodsFor: 'tangent cone' stamp: 'len 2/28/2025 07:55:47'!
 testTangentConeAndTangentSpace
@@ -4478,17 +4490,17 @@ testTangentConeAndTangentSpace
 	"the tangent space is the whole plane:"
 	self assert: o tangentSpace = A! !
 
-!AlgebraicGeometryTest methodsFor: 'stalks' stamp: 'len 2/20/2025 08:23:06'!
+!AlgebraicGeometryTest methodsFor: 'stalks' stamp: 'len 4/7/2025 08:25:19'!
 testLocalIntegerRingSpecStalks
 	| R X p |
-	R := ℤ localizationAt: ℤ * 5 .
+	R := (ℤ * 5) localRing.
 	X := R spec.
 	p := R * 0.
 	self assert: (X !! p) localRing = ℚ.
 	p := R * 5.
 	self assert: (X !! p) localRing = R! !
 
-!AlgebraicGeometryTest methodsFor: 'examples' stamp: 'len 2/23/2025 18:42:30'!
+!AlgebraicGeometryTest methodsFor: 'examples' stamp: 'len 4/3/2025 14:45:50'!
 testStillmanExample1
 	"Example from [Sti06]"
 	| K P s t S P1 P3 φ C M |
@@ -4501,16 +4513,16 @@ testStillmanExample1
 	P3 := S proj.
 	φ := P1 to: P3 coordinates: {s^4. s^3*t. s*(t^3). t^4}.
 	C := φ image.
-	self assert: φ comorphism kernel = C asIdeal.
+	self assert: φ comorphism kernel = C definingIdeal.
 	self assert: C codimension = 2.
 	self assert: C degree = 4.
 	self flag: #fixme. "TODO:"
 	"self assert: C genus = 0."
-	M := S asIdeal / C asIdeal.
+	M := S asIdeal / C definingIdeal.
 	self assert: M isGraded.
 	"M resolution..."! !
 
-!AlgebraicGeometryTest methodsFor: 'examples' stamp: 'len 2/23/2025 07:03:50'!
+!AlgebraicGeometryTest methodsFor: 'examples' stamp: 'len 3/26/2025 09:28:28'!
 testSturmfelsExample1
 	"Bernd Sturmfels, 'Ideals, Varieties and Macaulay 2', 1. A Curve in Affine 3-Space."
 	| R x y I C C1 C2 |
@@ -4520,7 +4532,7 @@ testSturmfelsExample1
 "	z _ R z."
 	I _ R * {x^4 - (y^5). x^3 - (y^7)}.
 	self assert: I basis "reduced" printString = '(x^8 - x^3y^3, x^4y^2 - x^3, y^5 - x^4)'.
-	C _ I zeroLocus.
+	C _ I vanishingLocus.
 	self assert: C dimension = 1.
 	self assert: C codimension = 2.
 	"The degree of a curve in complex affine 3-space is the number of intersection points with a general plane. It coincides with the degree of the projective closure of our curve:"
@@ -4535,22 +4547,22 @@ testSturmfelsExample1
 	self assert: C1 projectiveClosure degree = 13.
 	self assert: C1 isReduced "equivalent to C1 ideal = C1 ideal radical"! !
 
-!AlgebraicGeometryTest methodsFor: 'examples' stamp: 'len 8/12/2022 13:06:48'!
+!AlgebraicGeometryTest methodsFor: 'examples' stamp: 'len 4/3/2025 14:46:30'!
 testSturmfelsExample2
 	"Bernd Sturmfels, 'Ideals, Varieties and Macaulay 2', 2. Intersecting Our Curve With a Surface."
 	| R x y z C S theirunion ourpoints |
-	R _ ℚ polynomialsIn: #(x y z). "default ordering is trevlex"
-	x _ R x.
-	y _ R y.
-	z _ R z.
-	C _ (R / {x^4 - (y^5). x^3 - (y^7)}) spec.
-	C _ C \ (R / R x) spec. "this is C1 from example1"
-	S _ (R / (x^5 + (y^5) + (z^5) - 1)) spec.
-	theirunion _ C ∪ S.
+	R := ℚ polynomialsIn: #(x y z). "default ordering is trevlex"
+	x := R x.
+	y := R y.
+	z := R z.
+	C := (R / {x^4 - (y^5). x^3 - (y^7)}) spec.
+	C := C \ (R / R x) spec. "this is C1 from example1"
+	S := (R / (x^5 + (y^5) + (z^5) - 1)) spec.
+	theirunion := C ∪ S.
 	"In this case, the union's ideal coincides with the product of the ideals:"
-	self assert: theirunion asIdeal = (C asIdeal * S asIdeal).
+	self assert: theirunion definingIdeal = (C definingIdeal * S definingIdeal).
 	"The intersection of the curve and the surface (whose defining ideal is the sum of the respective ideals):"
-	ourpoints _ C ∩ S.
+	ourpoints := C ∩ S.
 	"We get a finite set of points:"
 	self assert: ourpoints dimension = 0.
 	"The number of points is 65:"
@@ -4558,11 +4570,11 @@ testSturmfelsExample2
 	"Each of the points is multiplicity-free:"
 	self assert: ourpoints isReduced. "equivalent to the original: ourpoints reduced projectiveClosure degree = 65."! !
 
-!AlgebraicGeometryTest methodsFor: 'examples' stamp: 'len 6/26/2023 14:40:29'!
+!AlgebraicGeometryTest methodsFor: 'examples' stamp: 'len 3/14/2025 19:10:12'!
 testTwistedCubic
 	| P R M C |
 	P := ProjectiveSpace new: 3 over: ℚ.
-	R := P coordinateRing.
+	R := P homogeneousCoordinateRing.
 	"R indeterminateNames: #(u v w t)"
 	M := R^3 ⇒ (R^2) !! (#(1 2 3 2 3 4) collect: [:i| R x: i]).
 	C := P sub: (M minors: 2).
@@ -5034,14 +5046,14 @@ testGroebnerKatsura3
 	G _ I basis.
 	self testGroebnerBasis: G ideal: I! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:35:53'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 3/21/2025 08:37:51'!
 testGroebnerTrivial
-	"The 3 polynomials have no common zeroes, the Groebner basis should be {1}."
+	"The 3 polynomials have no common zeros, the Groebner basis should be {1}."
 	| Qx x y I |
-	Qx _ ℚ polynomialsIn: #(x y) ordering: #lex.
-	x _ Qx x.
-	y _ Qx y.
-	I _ Qx * {x + y. x^2 - 1. y^2 - (x*2)}.
+	Qx := ℚ polynomialsIn: #(x y) ordering: #lex.
+	x := Qx x.
+	y := Qx y.
+	I := Qx * {x + y. x^2 - 1. y^2 - (x*2)}.
 	self assert: I isOne! !
 
 !CommutativeAlgebraTest methodsFor: 'hilbert series' stamp: 'len 10/9/2023 09:44:28'!
@@ -5752,12 +5764,12 @@ testIteratorCovering3
 	F := GaloisField new: 3.
 	self assert: ((F^4) elements first: 3^4) asSet size = (3^4)! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 7/24/2024 08:40:34'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2025 08:54:54'!
 testMapsInducedByHom
 	| X Y Z f g h yz zx |
-	X := #(1 2 3) asSetObject.
-	Y := {$x. $y. $z} asSetObject.
-	Z := #(a b c) asSetObject.
+	X := #(1 2 3) asEnsemble.
+	Y := {$x. $y. $z} asEnsemble.
+	Z := #(a b c) asEnsemble.
 	f := X to: Y map: [:each| Y atRandom: (Random seed: each hash)].
 	g := f ⇒ Z. "Hom(-,Z)"
 	self assert: g domain = (Y ⇒ Z). "it is contravariant"
@@ -7024,12 +7036,29 @@ testJacobsonRadicalZeroCharacteristicExample
 	S := (ℚ^2) endomorphisms sub: {b₁. b₂. b₃}.
 	self assert: S radical generators = {b₂}! !
 
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 1/12/2025 09:38:52'!
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 3/22/2025 08:43:29'!
+testLocalizationAwayExample1
+	| L |
+	L := ℤ localizationAwayFrom: 3.
+	self assert: (ℚ !! (L !! (2/9))) = (2/9)! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 3/22/2025 09:01:14'!
+testLocalizationAwayExample2
+	| R L f g |
+	R := ℚ polynomialsIn: 2.
+	L := R localizationAwayFrom: R y.
+	self assert: R scalars = L scalars.
+	"test ring homomorphisms R → L and L → R fractions"
+	f := L atRandomBits: 100.
+	g := R fractions !! f.
+	self assert: (L !! g numerator) / (L !! g denominator) = f! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2025 08:54:23'!
 testMapsInducedByHom
 	| X Y Z f g h yz zx |
-	X := #(1 2 3) asSetObject.
-	Y := {$x. $y. $z} asSetObject.
-	Z := #(a b c) asSetObject.
+	X := #(1 2 3) asEnsemble.
+	Y := {$x. $y. $z} asEnsemble.
+	Z := #(a b c) asEnsemble.
 	f := X to: Y map: [:each| Y atRandom: (Random seed: each hash)].
 	g := f ⇒ Z. "Hom(-,Z)"
 	self assert: g domain = (Y ⇒ Z). "it is contravariant"
@@ -7062,18 +7091,18 @@ testNonArtinianQuotientJacobsonRadical
 	Q := ℚ polynomials / [:x| x^2].
 	self assert: Q radical = (Q * Q x)! !
 
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 7/24/2024 08:40:34'!
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2025 08:54:23'!
 testSetsBraidingIsSymmetric
 	| X Y |
-	X := #(1 2 3) asSetObject.
-	Y := #(3 4 5 6) asSetObject.
+	X := #(1 2 3) asEnsemble.
+	Y := #(3 4 5 6) asEnsemble.
 	self assert: ((X braidingWith: Y) ∘ (Y braidingWith: X)) isIdentity! !
 
-!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 7/24/2024 08:40:34'!
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2025 08:54:23'!
 testSetsTriangleIdentity
 	| X Y I |
-	X := #(1 2 3) asSetObject.
-	Y := #(3 4 5) asSetObject.
+	X := #(1 2 3) asEnsemble.
+	Y := #(3 4 5) asEnsemble.
 	I := Sets unitObject.
 	self assert: X id ⊗ Y leftUnitor ∘ (X associatorWith: I and: Y) = (X rightUnitor ⊗ Y id)! !
 
@@ -9952,10 +9981,10 @@ setUp
 	super setUp.
 	scalars := GaloisRing new: (3 atRandom: random) nextPrime to: (2 atRandom: random) to: (2 atRandom: random)! !
 
-!LocalIntegerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/4/2024 19:15:04'!
+!LocalIntegerRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 4/7/2025 08:25:07'!
 setUp
 	super setUp.
-	scalars := ℤ localizationAt: ℤ * (64 atRandom: random) nextPrime! !
+	scalars := (ℤ * (64 atRandom: random) nextPrime) localRing! !
 
 !ModularMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:15:33'!
 setUp
@@ -11323,10 +11352,10 @@ testSyzygies2
 testTensorProductExample
 	self assert: ℤ^1 ⊗ (ℤ^1/{2}) ~ (ℤ^1/{2})! !
 
-!LocalIntegerRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 12/4/2024 19:14:42'!
+!LocalIntegerRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/7/2025 08:24:56'!
 setUp
 	super setUp.
-	scalars := ℤ localizationAt: ℤ * (64 atRandom: random) nextPrime! !
+	scalars := (ℤ * (64 atRandom: random) nextPrime) localRing! !
 
 !ModularModuleTest methodsFor: 'initialization' stamp: 'len 5/26/2023 00:24:13'!
 setUp
@@ -11936,10 +11965,10 @@ testValuation
 	b := self newElement.
 	self assert: (a*b) valuation = (a valuation + b valuation)! !
 
-!LocalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/4/2024 19:14:22'!
+!LocalIntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 4/7/2025 08:24:44'!
 setUp
 	super setUp.
-	R := ℤ localizationAt: ℤ * (64 atRandom: random) nextPrime! !
+	R := (ℤ * (64 atRandom: random) nextPrime) localRing! !
 
 !FiniteFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:35:45'!
 setUp
@@ -14393,48 +14422,48 @@ testLocalHomomorphism
 	self assert: f isLocal
 ! !
 
-!RingTest methodsFor: 'localizations' stamp: 'len 12/4/2024 18:51:41'!
+!RingTest methodsFor: 'localizations' stamp: 'len 4/7/2025 08:22:40'!
 testLocalizationMaximalIdeal
 	| Z2 |
-	Z2 := ℤ localizationAt: ℤ * 2.
+	Z2 := (ℤ * 2) localRing.
 	self assert: Z2 maximalIdeal = (Z2 * (Z2 !! 2))! !
 
-!RingTest methodsFor: 'localizations' stamp: 'len 12/4/2024 19:13:13'!
+!RingTest methodsFor: 'localizations' stamp: 'len 4/7/2025 08:23:33'!
 testLocalizationOfModularIntegers1
 	| R |
 	R := ℤ/60.
-	self assert: (R localizationAt: (R*2)) = (ℤ/4).
-	self assert: (R localizationAt: (R*3)) = (ℤ/3).
-	self assert: (R localizationAt: (R*5)) = (ℤ/5)! !
+	self assert: (R*2) localRing = (ℤ/4).
+	self assert: (R*3) localRing = (ℤ/3).
+	self assert: (R*5) localRing = (ℤ/5)! !
 
-!RingTest methodsFor: 'localizations' stamp: 'len 12/4/2024 19:13:28'!
+!RingTest methodsFor: 'localizations' stamp: 'len 4/7/2025 08:24:07'!
 testLocalizationOfModularIntegers2
 	| R P L φ |
 	R := ℤ/60.
 	P := R*2.
-	L := R localizationAt: P. "the localization is actually the prime power ring Z/4Z"
+	L := P localRing. "the localization is actually the prime power ring Z/4Z"
 	"localization map:"
 	φ := R → L.
 	self testRingHomomorphism: φ.
 	"everything not in P maps to a unit:"
 	R do: [:each| self assert: ((P includes: each) or: [(φ value: each) isUnit])]! !
 
-!RingTest methodsFor: 'localizations' stamp: 'len 12/4/2024 19:13:33'!
+!RingTest methodsFor: 'localizations' stamp: 'len 4/7/2025 08:24:16'!
 testLocalizationOfModularIntegers3
 	| R P L φ |
 	R := ℤ/60.
 	P := R*3.
-	L := R localizationAt: P. "the localization is actually the field GF(3)"
+	L := P localRing. "the localization is actually the field GF(3)"
 	"localization map:"
 	φ := R → L.
 	self testRingHomomorphism: φ.
 	"everything not in P maps to a unit:"
 	R do: [:each| self assert: ((P includes: each) or: [(φ value: each) isUnit])]! !
 
-!RingTest methodsFor: 'localizations' stamp: 'len 12/4/2024 19:13:41'!
+!RingTest methodsFor: 'localizations' stamp: 'len 4/7/2025 08:24:27'!
 testLocalizationOfZAt2
 	| L |
-	L := ℤ localizationAt: (ℤ * 2).
+	L := (ℤ * 2) localRing.
 	self assert: ℚ !! (L !! (1/3)) = (1/3).
 	self should: [L !! (3/2)] raise: Error.
 	self assert: ℚ !! (L !! 2) = 2.
