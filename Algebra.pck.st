@@ -1,4 +1,4 @@
-'From Cuis7.3 [latest update: #7092] on 7 April 2025 at 9:32:30 pm'!
+'From Cuis7.3 [latest update: #7092] on 11 April 2025 at 2:55:05 pm'!
 'Description This package implements among other things: permutation groups, linear groups, finite fields, Galois rings, affine algebras, number fields, function fields, finitely presented modules, finite-dimensional associative algebras, schemes, finite-dimensional representations of finite groups.
 
 References:
@@ -104,7 +104,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 242!
+!provides: 'Algebra' 1 244!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'GAS' 1 1 nil!
@@ -3526,18 +3526,17 @@ Full matrix algebra, i.e. n²-dimensional associative algebra of square n×n mat
 !IntegerRing commentStamp: 'len 11/10/2023 19:49:18' prior: 0!
 The ring ℤ of rational integers.!
 
-!LocalizationRing commentStamp: '<historical>' prior: 0!
-Localization R[S⁻¹] of a commutative ring R with respect to a multiplicatively closed subset S ⊆ R.
+!LocalizationRing commentStamp: 'len 4/11/2025 14:43:55' prior: 0!
+Localization R[U⁻¹] of a commutative ring R with respect to a multiplicatively closed subset U ⊆ R. The elements are formal fractions r/u with r ∈ R and u ∈ U. This is a subring of the total ring of fractions Frac(R) (see FractionRing).
 
-The elements are formal fractions a/b with a ∈ R and b ∈ S. This is a subring of the total ring of fractions Frac(R) (see FractionRing).
+Localizations are equipped with a canonical map R → R[U⁻¹] (the localization map), as well as the canonical embedding into the total ring of fractions R[U⁻¹] → Frac(R).
 
-The localization R[S⁻¹] is equipped with a canonical map (the localization map) from the ring R, as well as a canonical embedding into the total ring of fractions Frac(R).
-!
+The prime ideals of R[U⁻¹] correspond to the prime ideals of R that don't meet U.!
 
-!FractionRing commentStamp: '<historical>' prior: 0!
-Total ring of fractions Frac(R) of a commutative ring R, also called the "total quotient ring" of R. The elements are formal fractions a/b with a and b in R and b regular (not a zero divisor), under the equivalence relation a/b ~ c/d if ad = cb. When the ring R is an integral domain, Frac(R) is a field and it is called the "field of fractions" of R. See Ring>>fractions.
+!FractionRing commentStamp: 'len 4/8/2025 16:15:58' prior: 0!
+Total ring of fractions Frac(R) of a commutative ring R, also called the "total quotient ring" of R. The elements are formal fractions r/s with r,s ∈ R and s regular (not a zero divisor), under the equivalence relation a/b ~ c/d if ad = cb. When the ring R is an integral domain, Frac(R) is a field and it is called the "field of fractions" of R. See Ring>>fractions.
 
-The ring of fractions is a particular case of the more general construction of the localization of a ring or module. Frac(R) is the localization of R at the multiplicative set formed by the regular elements of R. The field of fractions of an integral domain is the localization at the zero ideal. See also LocalRing for localizations at prime ideals.!
+The ring of fractions is a particular case of the more general construction of the localization of a ring or module. Frac(R) is the localization of R at the multiplicative set formed by the regular elements of R. The field of fractions of an integral domain is the localization at the zero ideal.!
 
 !RationalField commentStamp: '<historical>' prior: 0!
 The field ℚ of rational numbers.!
@@ -3545,14 +3544,21 @@ The field ℚ of rational numbers.!
 !RationalFunctionField commentStamp: '<historical>' prior: 0!
 The field of fractions of a polynomial ring with coefficients over a field.!
 
-!LocalRing commentStamp: '<historical>' prior: 0!
-Localization of a commutative ring R at a prime ideal p. The elements are 'germs at p', and can be thought as fractions a/b with a and b in R and b not in p. This is a subring of the total ring of fractions Frac(R) (see FractionRing).
+!LocalRing commentStamp: 'len 4/11/2025 14:50:22' prior: 0!
+Localization Rₚ = R[(R \ p)⁻¹] of a commutative ring R with respect to the complement of a prime ideal p. The elements are called 'germs at p', and are fractions r/u with r ∈ R and u ∈ R \ p.
 
-The localization of R at a prime ideal p is the stalk of the structure sheaf of Spec(R) at the point p. As the elements of R are thought as functions on the space Spec(R), the elements of the localization at p are thought as germs of functions, i.e. functions that characterize the local behavior of Spec(R) near p.
+Rₚ is a local ring, with maximal ideal pRₚ (the extension of the ideal p by the localization map), and the quotient by the maximal ideal Rₚ/pRₚ is called the 'residue field'.
 
-The localization of R at the prime ideal p is equipped with a canonical map (the localization map) from the ring R, as well as a canonical embedding into the total ring of fractions Frac(R).
+Geometrically, Rₚ is the stalk of the structure sheaf of Spec(R) at the point p. As the elements of R are thought as functions on the space Spec(R), the elements of the localization at p are thought as germs of functions, i.e. functions that characterize the local behavior of Spec(R) near p.
 
-The localization of R at the prime ideal p is a local ring, with maximal ideal equal to the extension of the ideal p by the localization map. The quotient by the maximal ideal is called the 'residue field'.!
+The prime ideals of Rₚ correspond to the prime ideals q ⊆ R such that q ⊆ p.!
+
+!PrincipalLocalizationRing commentStamp: 'len 4/8/2025 16:13:39' prior: 0!
+Localization R[x⁻¹] of a commutative ring R away from an element x. This construction adjoins the inverse of x. The elements of the localization are fractions r/xⁿ with r ∈ R and n ≥ 0.
+
+The prime ideals of R[x⁻¹] correspond to the prime ideals of R that don't contain x.
+
+Geometrically, the spectrums of localizations away from elements x are the principal open subsets D(x) and form a basis of the Zariski topology in Spec(R).!
 
 !OppositeRing commentStamp: '<historical>' prior: 0!
 The opposite ring of a given noncommutative ring.!
@@ -3561,12 +3567,14 @@ The opposite ring of a given noncommutative ring.!
 Direct products of rings. Elements are tuples (see ProductRingElement) where the i-th component corresponds to an element in the i-th ring of the direct product, and multiplication and addition are defined component-wise.
 !
 
-!QuotientRing commentStamp: '<historical>' prior: 0!
+!QuotientRing commentStamp: 'len 4/11/2025 14:51:52' prior: 0!
 Quotient of a commutative ring R modulo an ideal I, written R/I. Elements are residue classes modulo I (see Residue and subclasses).
 
 Given a commutative ring R and an ideal I of R, the quotient ring R/I (read 'R modulo I' or 'R mod I') is the set of cosets (residue clases) of I in R by the equivalence relation a ~ b if a - b is in I. If the ideal is maximal, the resulting quotient ring is a field. If it's only prime, the quotient ring is an integral domain.
 
-The quotient ring R/I is equipped with the projection map that sends elements of R to their residue classes in R/I. The projection map is a canonical homomorphism of rings.!
+The quotient ring R/I is equipped with the projection map that sends elements of R to their residue classes in R/I. The projection map is a canonical homomorphism of rings.
+
+The prime ideals of R/I correspond to the prime ideals q ⊆ R such that I ⊆ q.!
 
 !AffineAlgebra commentStamp: 'len 2/3/2025 08:25:36' prior: 0!
 Finitely generated commutative (associative) algebras, implemented as quotients of polynomial rings. They are the coordinate rings of affine varieties (closed subschemes of affine space, see AffineAlgebraicScheme), i.e. they are the rings of regular functions on affine varieties.
@@ -3724,13 +3732,13 @@ The prime spectrum Spec(R) of a commutative ring R, equipped with a sheaf of loc
 The ring R should be thought as the ring of regular functions on Spec(R). Concretely, each element f of R defines a function that takes a point p of Spec(R) (i.e., a prime ideal p of R) to the image of f by the canonical map to the residue field at p.
 !
 
-!AffineAlgebraicScheme commentStamp: 'len 2/3/2025 21:04:00' prior: 0!
-Closed subschemes of an affine space 𝔸ⁿ = Spec k[x₁,...,xₙ] (see AffineSpace) defined by polynomial equations. Their coordinate rings are quotients of multivariate polynomial rings by an ideal (affine algebras) k[x₁,...,xₙ]/I. For each extension K/k they have a set of K-rational points corresponding to n-tuples Kⁿ (see AffinePoint).
+!AffineAlgebraicScheme commentStamp: '<historical>' prior: 0!
+Closed subschemes of an affine space 𝔸ⁿ = Spec(k[x₁,...,xₙ]) (see AffineSpace) defined by polynomial equations. Their coordinate rings are quotients of multivariate polynomial rings by an ideal (affine algebras) k[x₁,...,xₙ]/I. For each extension K/k they have a set of K-rational points corresponding to n-tuples Kⁿ (see AffinePoint).
 
 These are schemes, not algebraic varieties: they don't need to be reduced, irreducible, or defined over an algebraically closed field.!
 
 !AffineSpace commentStamp: '<historical>' prior: 0!
-Affine space 𝔸ⁿ = Spec k[x₁,...,xₙ] for some commutative ring k. They are seen as schemes over Spec k.
+Affine space 𝔸ⁿ = Spec(k[x₁,...,xₙ]) for some commutative ring k. They are seen as schemes over Spec(k).
 
 Note that the dimension of an affine space as scheme is the Krull dimension of its coordinate ring, and this can be bigger than the number of indeterminates (see >>#dimension and >>#rank). For affine spaces over fields, the dimension and the rank are equal (because fields have Krull dimension 0).!
 
@@ -3740,7 +3748,7 @@ The projective or homogeneous prime spectrum Proj(R) of a graded commutative rin
 Proj(R) is contained in its affine cone Spec(R). See also AffineScheme.!
 
 !ProjectiveAlgebraicScheme commentStamp: '<historical>' prior: 0!
-Projective closed subschemes of a projective space ℙⁿ = Proj k[x₁,...,xₙ₊₁] (see ProjectiveSpace) defined by polynomial equations. Their homogeneous coordinate rings are quotient rings of multivariate polynomial rings by a homogeneous ideal, i.e. graded affine algebras of the form k[x₁,...,xₙ₊₁]/I. For each extension K/k they have a set of rational points corresponding to homogeneous (n+1)-tuples over K (see ProjectivePoint).
+Projective closed subschemes of a projective space ℙⁿ = Proj(k[x₁,...,xₙ₊₁]) (see ProjectiveSpace) defined by polynomial equations. Their homogeneous coordinate rings are quotient rings of multivariate polynomial rings by a homogeneous ideal, i.e. graded affine algebras of the form k[x₁,...,xₙ₊₁]/I. For each extension K/k they have a set of rational points corresponding to homogeneous (n+1)-tuples over K (see ProjectivePoint).
 
 These are schemes, not algebraic varieties: they don't need to be reduced, irreducible, or defined over an algebraically closed field.!
 
@@ -3763,7 +3771,7 @@ Projective plane curves of genus 0 and degree 1. They are defined by linear poly
 Rational curves, together with Conics, are the only curves of genus 0.!
 
 !ProjectiveSpace commentStamp: '<historical>' prior: 0!
-Projective space ℙⁿ = Proj k[x₁,...,xₙ₊₁] for some commutative ring k. They are seen as schemes over Spec k.!
+Projective space ℙⁿ = Proj(k[x₁,...,xₙ₊₁]) for some commutative ring k. They are seen as schemes over Spec(k).!
 
 !ProjectiveLine commentStamp: '<historical>' prior: 0!
 Projective line ℙ¹ = Proj(R[x]) for some commutative ring R. This is essentially the underlying ring R extended with an additional point at infinity. For example, the complex projective line is the Riemann sphere: the extended complex plane that includes the point at infinity. See also ProjectiveLinePoint.!
@@ -15508,6 +15516,11 @@ coambient
 	"Answer the coordinate ring of the ambient space of the receiver's spectrum."
 	^ self! !
 
+!Ring methodsFor: 'accessing' stamp: 'len 4/9/2025 13:05:57'!
+degree
+	"Answer the dimension (rank) of the receiver as vector space (free module) over the coefficients field (ring)."
+	^ self carrier rank! !
+
 !Ring methodsFor: 'accessing' stamp: 'len 3/14/2025 07:34:14'!
 dimension
 	"The Krull dimension of a commutative ring R is the supremum of the lengths of all chains of prime ideals.
@@ -15543,6 +15556,11 @@ maximalIdeal
 !Ring methodsFor: 'accessing' stamp: 'len 12/19/2024 08:42:28'!
 one
 	^ self propertyAt: #one ifAbsentPut: [self isAmbient ifTrue: [self elements any one] ifFalse: [self ambient one]]! !
+
+!Ring methodsFor: 'accessing' stamp: 'len 4/9/2025 09:05:49'!
+presentation
+	"If the receiver is finitely presented, answer a presentation as a quotient of the free cover."
+	^ self propertyAt: #presentation! !
 
 !Ring methodsFor: 'accessing' stamp: 'len 11/1/2023 16:40:20'!
 primeSubfield
@@ -16372,12 +16390,15 @@ localizationAt: anIdeal
 	(self isLocal and: [anIdeal = self maximalIdeal]) ifTrue: [^ self].
 	^ LocalRing baseIdeal: anIdeal! !
 
-!Ring methodsFor: 'operations' stamp: 'len 4/4/2025 20:07:08'!
+!Ring methodsFor: 'operations' stamp: 'len 4/9/2025 18:33:46'!
 localizationAwayFrom: anElement
 	"Answer the localization of the receiver away from anElement, i.e. a new ring where anElement is invertible."
-	self assert: anElement parent = self.
-	^ PrincipalLocalizationRing base: anElement
-	
+	| f |
+	f := (self !! anElement) normalized.
+	f isOne ifTrue: [^ self].
+	"self assert: f isZeroDivisor not."
+	^ PrincipalLocalizationRing base: f
+
 "	| P L F |
 	anElement isUnit ifTrue: [^ self].
 	P := self polynomials.
@@ -16775,9 +16796,9 @@ isFinitelyGenerated
 	self isAmbient ifFalse: [^ self ambient isFinitelyGenerated].
 	^ false! !
 
-!Ring methodsFor: 'testing' stamp: 'len 4/7/2025 12:57:07'!
+!Ring methodsFor: 'testing' stamp: 'len 4/9/2025 09:07:30'!
 isFinitelyPresented
-	"Answer true if the receiver is a finitely presented R-algebra. See also >>syzygies."
+	"Answer true if the receiver is a finitely presented R-algebra. See >>presentation."
 	^ self isFinitelyGenerated and: [self isNoetherian]! !
 
 !Ring methodsFor: 'testing' stamp: 'len 12/1/2024 14:37:22'!
@@ -16847,9 +16868,9 @@ isLocal
 isLocalField
 	^ false! !
 
-!Ring methodsFor: 'testing' stamp: 'len 3/30/2025 21:14:14'!
+!Ring methodsFor: 'testing' stamp: 'len 4/11/2025 14:42:03'!
 isLocalization
-	"Answer true if the receiver is a localization R[S⁻¹] of a commutative ring R at a multiplicatively closed subset S ⊂ R. This means that elements of the receiver are formal fractions a/b with a ∈ R, b ∈ S."
+	"Answer true if the receiver is a localization R[U⁻¹] of a commutative ring R at a multiplicatively closed subset U ⊂ R. This means that elements of the receiver are formal fractions r/u with r ∈ R, u ∈ U."
 	^ false! !
 
 !Ring methodsFor: 'testing' stamp: 'len 7/27/2021 11:38:22'!
@@ -17028,6 +17049,10 @@ one
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 11/20/2016 12:07:07'!
 ordering
 	^ monomials ordering! !
+
+!PolynomialRing methodsFor: 'accessing' stamp: 'len 4/9/2025 12:45:57'!
+presentation
+	^ self! !
 
 !PolynomialRing methodsFor: 'accessing' stamp: 'len 1/2/2017 10:08:31'!
 rank
@@ -17526,9 +17551,8 @@ from: aRing
 >> anInteger
 	^ self << anInteger negated! !
 
-!PolynomialRing methodsFor: 'operations' stamp: 'len 10/7/2023 12:32:12'!
+!PolynomialRing methodsFor: 'operations' stamp: 'len 4/11/2025 13:50:50'!
 \ anElement
-	"Answer anElement expressed as a word on the generators."
 	^ anElement! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 10/24/2024 10:54:53'!
@@ -17607,19 +17631,6 @@ gradingAt: anInteger
 hilbertSeriesAt: t
 	self isGraded ifFalse: [^ self error: 'not a graded ring'].
 	^ (self indeterminates product: [:i| 1 - (t ^ (self ordering weightOf: i))]) reciprocal! !
-
-!PolynomialRing methodsFor: 'operations' stamp: 'len 3/22/2025 16:31:06'!
-localizationAwayFrom: anElement
-	"Answer the localization of the receiver away from anElement, i.e. a new ring where anElement is invertible."
-	| E n L F |
-	anElement isUnit ifTrue: [^ self].
-	E := self ⊗ self scalars polynomials.
-	n := self rank + 1.
-	L := E / ((E x: n) * anElement - 1).
-	F := self fractions.
-	L addMap: (self to: L map: [:f| L !! (E !! f)]).
-	L addMap: (L to: F map: [:f| (f representative asUnivariateIn: n) terms sum: [:each| F numerator: each leadingCoefficient denominator: anElement ^ each degree] ifEmpty: [F zero]]).
-	^ L! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 2/19/2025 07:38:18'!
 proj
@@ -17784,10 +17795,6 @@ isEuclidean
 isFinitelyGenerated
 	^ true! !
 
-!PolynomialRing methodsFor: 'testing' stamp: 'len 3/24/2025 08:55:07'!
-isFinitelyPresented
-	^ true! !
-
 !PolynomialRing methodsFor: 'testing' stamp: 'len 2/12/2017 06:13:48'!
 isGraded
 	"Answer true if this polynomial ring is graded, i.e. it uses a graded monomial ordering."
@@ -17874,10 +17881,6 @@ new: anInteger over: aRing ordering: aMonomialOrdering
 multiplicationBilinearMap
 	"Answer the multiplication as a bilinear map on the underlying module."
 	^ self propertyAt: #multiplicationBilinearMap ifAbsentPut: [BilinearMap from: self carrier, self carrier to: self carrier mapWithArguments: [:x :y| (self !! x) * (self !! y)]]! !
-
-!FiniteAlgebra methodsFor: 'accessing' stamp: 'len 3/14/2025 08:10:33'!
-rank
-	^ self carrier rank! !
 
 !FiniteAlgebra methodsFor: 'accessing' stamp: 'len 12/1/2024 14:43:45'!
 scalars
@@ -19273,9 +19276,9 @@ domain
 one
 	^ space id! !
 
-!EndomorphismRing methodsFor: 'accessing' stamp: 'len 3/8/2025 09:05:24'!
+!EndomorphismRing methodsFor: 'accessing' stamp: 'len 4/9/2025 13:10:17'!
 scalars
-	^ self isFiniteAlgebra ifTrue: [space scalars] ifFalse: [ℤ]! !
+	^ space scalars! !
 
 !EndomorphismRing methodsFor: 'accessing' stamp: 'len 3/8/2025 09:05:24'!
 size
@@ -19397,8 +19400,8 @@ on: aDomain
 characteristic
 	^ space scalars characteristic! !
 
-!MatrixRing methodsFor: 'accessing' stamp: 'len 5/9/2024 07:01:50'!
-degree
+!MatrixRing methodsFor: 'accessing' stamp: 'len 4/9/2025 13:11:50'!
+order
 	^ space rank! !
 
 !MatrixRing methodsFor: 'accessing' stamp: 'len 5/9/2024 08:46:20'!
@@ -19441,38 +19444,38 @@ rows: anArray
 scalar: anElement
 	^ space to: space scalar: anElement! !
 
-!MatrixRing methodsFor: 'printing' stamp: 'len 5/9/2024 07:03:48'!
+!MatrixRing methodsFor: 'printing' stamp: 'len 4/9/2025 13:14:32'!
 printOn: aStream
-	aStream nextPutAll: 'ℳ', self degree printString sub, '('; print: self scalars; nextPut: $)! !
+	aStream nextPutAll: 'ℳ', self order printString sub, '('; print: self scalars; nextPut: $)! !
 
 !MatrixRing methodsFor: 'testing' stamp: 'len 5/9/2024 07:02:53'!
 hasCanonicalAssociates
 	^ self scalars isEuclideanDomain! !
 
-!MatrixRing methodsFor: 'testing' stamp: 'len 5/9/2024 07:03:13'!
+!MatrixRing methodsFor: 'testing' stamp: 'len 4/9/2025 13:14:00'!
 isCommutative
-	^ self degree = 1 and: [self scalars isCommutative]! !
+	^ self order = 1 and: [self scalars isCommutative]! !
 
-!MatrixRing methodsFor: 'testing' stamp: 'len 5/9/2024 07:03:20'!
+!MatrixRing methodsFor: 'testing' stamp: 'len 4/9/2025 13:14:06'!
 isDivisionRing
-	self scalars isField ifTrue: [^ self degree = 1].
+	self scalars isField ifTrue: [^ self order = 1].
 	^ super isDivisionRing! !
 
-!MatrixRing methodsFor: 'testing' stamp: 'len 5/9/2024 07:03:25'!
+!MatrixRing methodsFor: 'testing' stamp: 'len 4/9/2025 13:14:11'!
 isField
-	^ self degree = 1 and: [self scalars isField]! !
+	^ self order = 1 and: [self scalars isField]! !
 
 !MatrixRing methodsFor: 'testing' stamp: 'len 5/9/2024 07:03:30'!
 isInvolutive
 	^ true! !
 
-!MatrixRing methodsFor: 'testing' stamp: 'len 5/9/2024 07:03:35'!
+!MatrixRing methodsFor: 'testing' stamp: 'len 4/9/2025 13:14:16'!
 isPID
-	^ self degree = 1 and: [self scalars isPID]! !
+	^ self order = 1 and: [self scalars isPID]! !
 
-!MatrixRing methodsFor: 'testing' stamp: 'len 5/9/2024 07:03:40'!
+!MatrixRing methodsFor: 'testing' stamp: 'len 4/9/2025 13:14:22'!
 isSimple
-	self scalars isField ifTrue: [^ self degree > 0].
+	self scalars isField ifTrue: [^ self order > 0].
 	^ super isSimple! !
 
 !IntegerRing methodsFor: 'accessing' stamp: 'len 11/5/2015 17:34'!
@@ -19767,19 +19770,19 @@ characteristic
 coambient
 	^ self numerators coambient! !
 
-!LocalizationRing methodsFor: 'accessing' stamp: 'len 3/30/2025 21:15:03'!
-denominators
-	"If the receiver is a localization ring R[S⁻¹], answer the multiplicative set S."
-	^ self propertyAt: #denominators! !
-
-!LocalizationRing methodsFor: 'accessing' stamp: 'len 3/30/2025 21:15:11'!
+!LocalizationRing methodsFor: 'accessing' stamp: 'len 4/11/2025 14:42:50'!
 numerators
-	"If the receiver is a localization ring R[S⁻¹], answer the ring R."
+	"If the receiver is a localization ring R[U⁻¹], answer the ring R."
 	^ self propertyAt: #numerators! !
 
 !LocalizationRing methodsFor: 'accessing' stamp: 'len 3/30/2025 09:45:37'!
 one
 	^ self embed: self numerators one! !
+
+!LocalizationRing methodsFor: 'accessing' stamp: 'len 4/9/2025 16:57:35'!
+rank
+	"Answer the number of indeterminates."
+	^ self numerators rank! !
 
 !LocalizationRing methodsFor: 'accessing' stamp: 'len 4/6/2025 08:45:32'!
 relations
@@ -19793,19 +19796,9 @@ scalars
 zero
 	^ self embed: self numerators zero! !
 
-!LocalizationRing methodsFor: 'comparing' stamp: 'len 3/30/2025 09:49:19'!
-= anObject
-	self == anObject ifTrue: [^ true].
-	^ (anObject isKindOf: LocalizationRing) and: [self numerator = anObject numerators and: [self denominators = anObject denominators]]! !
-
-!LocalizationRing methodsFor: 'comparing' stamp: 'len 3/30/2025 09:47:45'!
-hash
-	^ self numerators hash! !
-
-!LocalizationRing methodsFor: 'computing' stamp: 'len 4/6/2025 08:54:22'!
+!LocalizationRing methodsFor: 'computing' stamp: 'len 4/11/2025 14:42:42'!
 findDenominatorIn: anIdeal ifNone: exceptionBlock
-	"Given a localization R[S⁻¹] and an ideal I ⊆ R, find an element r ∈ S ∩ I, or evaluate the block if the intersection is empty.
-	See [Pos17]."
+	"Given a localization R[U⁻¹] and an ideal I ⊆ R, find an element u ∈ U ∩ I, or evaluate the block if the intersection is empty. See [Pos17]."
 	^ self subclassResponsibility! !
 
 !LocalizationRing methodsFor: 'computing-matrices' stamp: 'len 4/4/2025 18:56:15'!
@@ -19817,6 +19810,11 @@ adapt: anElement
 	(self numerators includes: anElement) ifTrue: [^ self embed: anElement].
 	(self numerators adapt: anElement) ifNotNil: [:numerator| ^ self embed: numerator].
 	^ super adapt: anElement! !
+
+!LocalizationRing methodsFor: 'elements' stamp: 'len 4/9/2025 17:15:56'!
+newFrom: anObject
+	(anObject isBlock and: [anObject numArgs = self rank]) ifTrue: [^ anObject valueWithArguments: self generators asArray].
+	^ super newFrom: anObject! !
 
 !LocalizationRing methodsFor: 'elements' stamp: 'len 3/30/2025 09:20:00'!
 numerator: anElement denominator: anotherElement
@@ -19834,15 +19832,17 @@ x
 x: anInteger
 	^ self embed: (self numerators x: anInteger)! !
 
-!LocalizationRing methodsFor: 'enumerating' stamp: 'len 3/30/2025 09:44:43'!
+!LocalizationRing methodsFor: 'enumerating' stamp: 'len 4/9/2025 18:58:30'!
 do: aBlock
 	| visited |
 	visited := Set new.
 	self numerators do: [:a|
-		self denominators do: [:b|
-			| x |
-			x := self numerator: a denominator: b.
-			visited add: x ifAbsent: [aBlock value: x]]]! !
+		self numerators do: [:b|
+			(self denominatorsInclude: b)
+				ifTrue:
+					[| x |
+					x := self numerator: a denominator: b.
+					visited add: x ifAbsent: [aBlock value: x]]]]! !
 
 !LocalizationRing methodsFor: 'morphisms' stamp: 'len 3/30/2025 09:26:33'!
 embed: anObject
@@ -19854,7 +19854,7 @@ from: aRing
 	aRing ⇢ self numerators ifNotNil: [:aMorphism| ^ self numerators → self ∘ aMorphism].
 	^ super from: aRing! !
 
-!LocalizationRing methodsFor: 'morphisms' stamp: 'len 3/30/2025 09:42:04'!
+!LocalizationRing methodsFor: 'morphisms' stamp: 'len 4/9/2025 18:59:13'!
 to: aRing
 	aRing = self fractions ifTrue: [^ self addMap: ((self to: self fractions map: [:each| (self fractions !! each numerator) / (self fractions !! each denominator)]) label: 'ι')].
 	^ super to: aRing! !
@@ -19863,24 +19863,30 @@ to: aRing
 fractions
 	^ self numerators fractions! !
 
-!LocalizationRing methodsFor: 'random' stamp: 'len 3/30/2025 09:38:49'!
+!LocalizationRing methodsFor: 'random' stamp: 'len 4/9/2025 18:44:25'!
 atRandom: aRandom
-	| a b |
-	a := self numerators atRandom: aRandom.
-	b := self denominators atRandom: aRandom.
-	^ self numerator: a denominator: b! !
+	^ self numerator: (self numerators atRandom: aRandom) denominator: (self denominatorAtRandom: aRandom)! !
 
-!LocalizationRing methodsFor: 'random' stamp: 'len 3/30/2025 09:38:30'!
+!LocalizationRing methodsFor: 'random' stamp: 'len 4/9/2025 18:43:55'!
 atRandom: aRandom bits: bitSize
-	| a b |
-	bitSize < 2 ifTrue: [^ self !! (self numerators atRandom: aRandom bits: bitSize)].
-	a := self numerators atRandom: aRandom bits: bitSize/2.
-	b := self denominators atRandom: aRandom bits: bitSize/2.
-	^ self numerator: a denominator: b! !
+	bitSize < 2 ifTrue: [^ self embed: (self numerators atRandom: aRandom bits: bitSize)].
+	^ self numerator: (self numerators atRandom: aRandom bits: bitSize/2) denominator: (self denominatorAtRandom: aRandom bits: bitSize/2)! !
 
-!LocalizationRing methodsFor: 'testing' stamp: 'len 3/31/2025 13:43:18'!
+!LocalizationRing methodsFor: 'random' stamp: 'len 4/9/2025 18:46:18'!
+denominatorAtRandom: aRandom
+	| answer |
+	[answer := self numerators atRandom: aRandom. self denominatorsInclude: answer] whileFalse.
+	^ answer! !
+
+!LocalizationRing methodsFor: 'random' stamp: 'len 4/9/2025 18:48:12'!
+denominatorAtRandom: aRandom bits: bitSize
+	| answer |
+	[answer := self numerators atRandom: aRandom bits: bitSize. self denominatorsInclude: answer] whileFalse.
+	^ answer! !
+
+!LocalizationRing methodsFor: 'testing' stamp: 'len 4/9/2025 18:56:38'!
 denominatorsInclude: anElement
-	^ self denominators includes: anElement! !
+	^ self subclassResponsibility! !
 
 !LocalizationRing methodsFor: 'testing' stamp: 'len 4/2/2025 07:42:27'!
 includes: anObject
@@ -19944,6 +19950,10 @@ uniformizer
 	self == anObject ifTrue: [^ true].
 	^ (anObject isKindOf: FractionRing) and: [self numerators = anObject numerators]! !
 
+!FractionRing methodsFor: 'comparing' stamp: 'len 4/9/2025 18:31:21'!
+hash
+	^ self numerators hash! !
+
 !FractionRing methodsFor: 'computing-matrices' stamp: 'len 4/4/2025 18:57:41'!
 matrix: B quotientBy: A
 	| X d1 d2 |
@@ -19977,24 +19987,9 @@ fractions
 printOn: aStream
 	aStream nextPutAll: 'Frac('; print: self numerators; nextPut: $)! !
 
-!FractionRing methodsFor: 'random' stamp: 'len 11/20/2022 11:22:35'!
-atRandom: aRandom
-	| a b |
-	a _ self numerators atRandom: aRandom.
-	[(b _ self numerators atRandom: aRandom) isZeroDivisor] whileTrue.
-	^ (self embed: a) / (self embed: b)! !
-
-!FractionRing methodsFor: 'random' stamp: 'len 11/20/2022 11:22:47'!
-atRandom: aRandom bits: bitSize
-	| a b |
-	bitSize < 2 ifTrue: [^ self embed: (self numerators atRandom: aRandom bits: bitSize)].
-	a _ self numerators atRandom: aRandom bits: bitSize/2.
-	[(b _ self numerators atRandom: aRandom bits: bitSize/2) isZeroDivisor] whileTrue.
-	^ (self embed: a) / (self embed: b)! !
-
-!FractionRing methodsFor: 'testing' stamp: 'len 3/31/2025 08:20:51'!
+!FractionRing methodsFor: 'testing' stamp: 'len 4/9/2025 18:51:53'!
 denominatorsInclude: anElement
-	^ anElement isZeroDivisor not! !
+	^ (self numerators includes: anElement) and: [anElement isZeroDivisor not]! !
 
 !FractionRing methodsFor: 'testing' stamp: 'len 5/28/2023 17:52:05'!
 hasCanonicalAssociates
@@ -20334,27 +20329,13 @@ to: aRing
 printOn: aStream
 	aStream print: self numerators; nextPutAll: self baseIdeal printString sub! !
 
-!LocalRing methodsFor: 'random' stamp: 'len 9/8/2023 17:32:08'!
-atRandom: aRandom
-	| a b |
-	a := self numerators atRandom: aRandom.
-	[b := self numerators atRandom: aRandom. self baseIdeal includes: b] whileTrue.
-	^ (self embed: a) / (self embed: b)! !
-
-!LocalRing methodsFor: 'random' stamp: 'len 9/8/2023 17:32:14'!
-atRandom: aRandom bits: bitSize
-	| a b |
-	bitSize < 2 ifTrue: [^ self !! (self numerators atRandom: aRandom bits: bitSize)].
-	a := self numerators atRandom: aRandom bits: bitSize/2.
-	[b := self numerators atRandom: aRandom bits: bitSize/2. self baseIdeal includes: b] whileTrue.
-	^ self !! ((self fractions !! a) / (self fractions !! b))! !
-
-!LocalRing methodsFor: 'testing' stamp: 'len 3/31/2025 08:20:33'!
+!LocalRing methodsFor: 'testing' stamp: 'len 4/9/2025 18:50:46'!
 denominatorsInclude: anElement
-	^ (self baseIdeal includes: anElement) not! !
+	^ (self numerators includes: anElement) and: [(self baseIdeal includes: anElement) not]! !
 
-!LocalRing methodsFor: 'testing' stamp: 'len 6/3/2022 06:05:08'!
+!LocalRing methodsFor: 'testing' stamp: 'len 4/9/2025 09:17:50'!
 hasCanonicalAssociates
+	self flag: #fix. "this is probably wrong, think about it for each localization type"
 	^ true! !
 
 !LocalRing methodsFor: 'testing' stamp: 'len 4/2/2025 07:42:41'!
@@ -20433,7 +20414,67 @@ elementClass
 baseIdeal: anIdeal
 	^ self new baseIdeal: anIdeal! !
 
-!PrincipalLocalizationRing methodsFor: 'as yet unclassified' stamp: 'len 4/4/2025 20:47:49'!
+!PrincipalLocalizationRing methodsFor: 'accessing' stamp: 'len 4/2/2025 07:39:47'!
+base
+	^ self propertyAt: #base! !
+
+!PrincipalLocalizationRing methodsFor: 'accessing' stamp: 'len 4/6/2025 08:48:23'!
+cover
+	self flag: #fixme.
+	^ self numerators cover localizationAwayFrom: self base representative "is this correct?"! !
+
+!PrincipalLocalizationRing methodsFor: 'accessing' stamp: 'len 4/7/2025 12:18:49'!
+generators
+	^ self propertyAt: #generators ifAbsentPut: [(self numerators generators collect: [:each| self !! each]) copyWith: (self reducedNumerator: self numerators one denominator: self base)]! !
+
+!PrincipalLocalizationRing methodsFor: 'accessing' stamp: 'len 4/4/2025 20:04:59'!
+numerators
+	^ self base parent! !
+
+!PrincipalLocalizationRing methodsFor: 'accessing' stamp: 'len 4/9/2025 12:42:25'!
+presentation
+	"The localization ring R[u⁻¹] is isomorphic to R[x]/⟨xu-1⟩."
+	| E n L |
+	self propertyAt: #presentation ifPresent: [:anAffineAlgebra| ^ anAffineAlgebra].
+	E := self numerators presentation ⊗ self scalars polynomials.
+	n := E rank.
+	L := E / ((E x: E rank) * (E cover !! (self numerators \ self base)) - 1).
+"	L addMap: (L to: F map: [:f| (f representative asUnivariateIn: n) terms sum: [:each| (F !! (self !! each leadingCoefficient)) / (F !! (anElement ^ each degree))] ifEmpty: [F zero]])."
+	^ self propertyAt: #presentation put: L
+
+"	u := self base.
+	P := self numerators polynomials.
+	L := P / [:x| x*u - 1].
+	L addMap: (L to: self map: [:f| f representative terms sum: [:each| self numerator: each leadingCoefficient denominator: u ^ each degree] ifEmpty: [self zero]]).
+	^ self propertyAt: #presentation put: L
+"
+
+"the old AffineAlgebra>>localizationAwayFrom:
+	| E n L F |
+	anElement isUnit ifTrue: [^ self].
+	E := self ⊗ self scalars polynomials.
+	n := self rank + 1.
+	L := E / ((E x: n) * (E cover !! anElement representative) - 1).
+	F := self fractions.
+	L addMap: (self to: L map: [:f| L !! (E !! f)]).
+	L addMap: (L to: F map: [:f| (f representative asUnivariateIn: n) terms sum: [:each| (F !! (self !! each leadingCoefficient)) / (F !! (anElement ^ each degree))] ifEmpty: [F zero]]).
+	^ L"! !
+
+!PrincipalLocalizationRing methodsFor: 'comparing' stamp: 'len 4/9/2025 18:30:55'!
+= anObject
+	self == anObject ifTrue: [^ true].
+	^ (anObject isKindOf: PrincipalLocalizationRing) and: [self numerator = anObject numerators and: [self base = anObject base]]! !
+
+!PrincipalLocalizationRing methodsFor: 'comparing' stamp: 'len 4/9/2025 18:31:43'!
+hash
+	^ self base hash! !
+
+!PrincipalLocalizationRing methodsFor: 'morphisms' stamp: 'len 4/7/2025 21:20:39'!
+to: aRing
+	(aRing isLocalization and: [aRing denominatorsInclude: self base]) ifTrue: [^ self to: aRing map: [:f| aRing reducedNumerator: f numerator denominator: f denominator]].
+	^ super to: aRing! !
+
+!PrincipalLocalizationRing methodsFor: 'operations' stamp: 'len 4/4/2025 20:47:49'!
 / anIdeal
 	| answer I Q |
 	I := (anIdeal isKindOf: Ideal)
@@ -20444,56 +20485,44 @@ baseIdeal: anIdeal
 	answer addMap: (self to: answer map: [:f| answer numerator: Q !! f numerator denominator: Q !! f denominator]).
 	^ answer! !
 
-!PrincipalLocalizationRing methodsFor: 'as yet unclassified' stamp: 'len 4/4/2025 20:22:54'!
-asAffineAlgebra
-	"The localization ring R[u⁻¹] is isomorphic to R[x]/⟨xu-1⟩."
-	| u P L |
+!PrincipalLocalizationRing methodsFor: 'operations' stamp: 'len 4/11/2025 14:01:51'!
+\ anElement
+	| x u k F |
 	u := self base.
-	P := self numerators polynomials.
-	L := P / [:x| x*u - 1].
-	L addMap: (L to: self map: [:f| f representative terms sum: [:each| self numerator: each leadingCoefficient denominator: u ^ each degree] ifEmpty: [self zero]]).
-	^ L! !
+	x := anElement.
+	k := 0.
+	[x denominator isOne] whileFalse: [k := k + 1. x := x * u].
+	F := self freeCover.
+	^ (F !! (self numerators \ x numerator)) * (F x: F rank to: k)! !
 
-!PrincipalLocalizationRing methodsFor: 'as yet unclassified' stamp: 'len 4/2/2025 07:39:47'!
-base
-	^ self propertyAt: #base! !
+!PrincipalLocalizationRing methodsFor: 'operations' stamp: 'len 4/8/2025 15:30:54'!
+localizationAt: anIdeal
+	^ self numerators localizationAt: anIdeal numerator! !
 
-!PrincipalLocalizationRing methodsFor: 'as yet unclassified' stamp: 'len 4/6/2025 08:48:23'!
-cover
-	self flag: #fixme.
-	^ self numerators cover localizationAwayFrom: self base representative "is this correct?"! !
-
-!PrincipalLocalizationRing methodsFor: 'as yet unclassified' stamp: 'len 4/2/2025 07:38:59'!
-denominatorsInclude: anElement
-	^ anElement isPowerOf: self base! !
-
-!PrincipalLocalizationRing methodsFor: 'as yet unclassified' stamp: 'len 4/7/2025 12:18:49'!
-generators
-	^ self propertyAt: #generators ifAbsentPut: [(self numerators generators collect: [:each| self !! each]) copyWith: (self reducedNumerator: self numerators one denominator: self base)]! !
-
-!PrincipalLocalizationRing methodsFor: 'as yet unclassified' stamp: 'len 4/7/2025 12:15:03'!
-isFinitelyGenerated
-	^ self numerators isFinitelyGenerated! !
-
-!PrincipalLocalizationRing methodsFor: 'as yet unclassified' stamp: 'len 4/4/2025 20:05:22'!
+!PrincipalLocalizationRing methodsFor: 'operations' stamp: 'len 4/4/2025 20:05:22'!
 localizationAwayFrom: anElement
 	anElement isUnit ifTrue: [^ self].
 	^ self numerators localizationAwayFrom: (self base lcm: anElement numerator)! !
 
-!PrincipalLocalizationRing methodsFor: 'as yet unclassified' stamp: 'len 4/4/2025 20:04:59'!
-numerators
-	^ self base parent! !
-
-!PrincipalLocalizationRing methodsFor: 'as yet unclassified' stamp: 'len 4/7/2025 12:46:19'!
+!PrincipalLocalizationRing methodsFor: 'printing' stamp: 'len 4/7/2025 12:46:19'!
 printOn: aStream
 	aStream print: self numerators; nextPut: $[.
 	self base printString isAlphaNumeric ifTrue: [aStream print: self base] ifFalse: [aStream nextPut: $(; print: self base; nextPut: $)].
 	aStream nextPutAll: '⁻¹]'! !
 
-!PrincipalLocalizationRing methodsFor: 'as yet unclassified' stamp: 'len 4/7/2025 21:20:39'!
-to: aRing
-	(aRing isLocalization and: [aRing denominatorsInclude: self base]) ifTrue: [^ self to: aRing map: [:f| aRing reducedNumerator: f numerator denominator: f denominator]].
-	^ super to: aRing! !
+!PrincipalLocalizationRing methodsFor: 'testing' stamp: 'len 4/9/2025 18:51:37'!
+denominatorsInclude: anElement
+	| f g |
+	(self numerators includes: anElement) ifFalse: [^ false].
+	anElement isZeroDivisor ifTrue: [^ false].
+	f := self base.
+	g := anElement.
+	[f | g] whileTrue: [g := g / f].
+	^ g isUnit! !
+
+!PrincipalLocalizationRing methodsFor: 'testing' stamp: 'len 4/7/2025 12:15:03'!
+isFinitelyGenerated
+	^ self numerators isFinitelyGenerated! !
 
 !PrincipalLocalizationRing class methodsFor: 'instance creation' stamp: 'len 4/4/2025 20:10:53'!
 base: anElement
@@ -21171,6 +21200,13 @@ characteristic
 	self scalars isField ifTrue: [^ self scalars characteristic].
 	^ super characteristic! !
 
+!AffineAlgebra methodsFor: 'accessing' stamp: 'len 4/9/2025 12:50:46'!
+degree
+	"Answer the dimension of the receiver as vector space over the coefficients field."
+	self scalars isField ifFalse: [self error: 'not over a field'].
+	self isZeroDimensional ifFalse: [^ Infinity positive].
+	^ self hilbertSeries numerator coefficients sum! !
+
 !AffineAlgebra methodsFor: 'accessing' stamp: 'len 10/26/2023 13:41:00'!
 dimension
 	"Answer the Krull dimension of the receiver.
@@ -21214,9 +21250,13 @@ monomials
 ordering
 	^ self cover ordering! !
 
-!AffineAlgebra methodsFor: 'accessing' stamp: 'len 6/10/2022 11:50:30'!
+!AffineAlgebra methodsFor: 'accessing' stamp: 'len 4/9/2025 12:46:22'!
+presentation
+	^ self! !
+
+!AffineAlgebra methodsFor: 'accessing' stamp: 'len 4/9/2025 16:58:27'!
 rank
-	"Answer the number of indeterminates in the receiver."
+	"Answer the number of indeterminates."
 	^ self cover rank! !
 
 !AffineAlgebra methodsFor: 'accessing' stamp: 'len 10/13/2023 16:02:27'!
@@ -21226,13 +21266,6 @@ size
 	self scalars isField ifTrue:
 		[^ self isZeroDimensional ifTrue: [self scalars size ^ self basis size] ifFalse: [self cover size]].
 	^ super size! !
-
-!AffineAlgebra methodsFor: 'accessing' stamp: 'len 4/5/2024 19:08:20'!
-vectorSpaceDimension
-	"Answer the dimension of the receiver as vector space over the coefficients field."
-	self scalars isField ifFalse: [self error: 'not over a field'].
-	self isZeroDimensional ifFalse: [^ Infinity positive].
-	^ self hilbertSeries numerator coefficients sum! !
 
 !AffineAlgebra methodsFor: 'converting' stamp: 'len 7/31/2019 08:21:30'!
 orderedBy: aMonomialOrdering
@@ -21290,9 +21323,8 @@ from: aRing
 	aRing ⇢ self scalars ifNotNil: [:aMorphism| ^ self scalars → self ∘ aMorphism].
 	^ super from: aRing! !
 
-!AffineAlgebra methodsFor: 'operations' stamp: 'len 10/7/2023 12:31:54'!
+!AffineAlgebra methodsFor: 'operations' stamp: 'len 4/11/2025 13:51:04'!
 \ anElement
-	"Answer anElement expressed as a word on the generators."
 	^ anElement representative! !
 
 !AffineAlgebra methodsFor: 'operations' stamp: 'len 10/24/2024 10:55:28'!
@@ -21340,19 +21372,6 @@ fractions
 hilbertSeriesAt: t
 	"Answer the Hilbert series of the receiver."
 	^ (self cover hilbertSeriesAt: t) - (self relations hilbertSeriesAt: t)! !
-
-!AffineAlgebra methodsFor: 'operations' stamp: 'len 3/22/2025 16:39:30'!
-localizationAwayFrom: anElement
-	"Answer the localization of the receiver away from anElement, i.e. a new ring where anElement is invertible."
-	| E n L F |
-	anElement isUnit ifTrue: [^ self].
-	E := self ⊗ self scalars polynomials.
-	n := self rank + 1.
-	L := E / ((E x: n) * (E cover !! anElement representative) - 1).
-	F := self fractions.
-	L addMap: (self to: L map: [:f| L !! (E !! f)]).
-	L addMap: (L to: F map: [:f| (f representative asUnivariateIn: n) terms sum: [:each| (F !! (self !! each leadingCoefficient)) / (F !! (anElement ^ each degree))] ifEmpty: [F zero]]).
-	^ L! !
 
 !AffineAlgebra methodsFor: 'operations' stamp: 'len 10/26/2023 13:43:20'!
 normalization
@@ -21406,10 +21425,6 @@ isFiniteAlgebra
 
 !AffineAlgebra methodsFor: 'testing' stamp: 'len 12/20/2024 07:04:54'!
 isFinitelyGenerated
-	^ true! !
-
-!AffineAlgebra methodsFor: 'testing' stamp: 'len 3/24/2025 08:56:23'!
-isFinitelyPresented
 	^ true! !
 
 !AffineAlgebra methodsFor: 'private' stamp: 'len 7/19/2021 20:21:38'!
@@ -22735,6 +22750,45 @@ unitsSize
 	This is Euler's totient function at the modulus of the receiver."
 	^ modulus / self base * (self base - 1)! !
 
+!LocalModularRing methodsFor: 'computing-polynomials' stamp: 'len 11/17/2023 16:45:42'!
+polynomial: aPolynomial liftFactors: anArray
+	"Answer the Hensel lifting of a factorization over the residue field to a factorization over the receiver."
+	| r mid g h s t euclid gFactors hFactors |
+"	p _ factors anyOne scalars characteristic."
+	r := anArray size.
+	r = 1 ifTrue: "can be optimized, compute inverse modulo p using extended euclid, then lift to p^k with newton iteration algorithm 9.10 (modern computer algebra)"
+		[^ {aPolynomial * aPolynomial leadingCoefficient inverse}].
+	mid := r // 2.
+	gFactors := anArray copyFrom: 1 to: mid.
+	hFactors := anArray copyFrom: mid+1 to: r.
+	g := gFactors product * aPolynomial leadingCoefficient.
+	h := hFactors product.
+	euclid := g xgcd: h.
+	s := euclid at: 2.
+	t := euclid at: 3.
+"	m _ p."
+	self quadraticLiftingsDo: [:phi| "Hensel step:"
+		| e division c d b |
+"		self assert: (self % m - (g*h)) isZero.
+		self assert: (s*g + (t*h) - 1) isZero.
+		m _ m squared."
+		g := g apply: phi. h := h apply: phi. s := s apply: phi. t := t apply: phi.
+		e := (aPolynomial over: phi codomain) - (g*h).
+		division := s*e divisionBy: h.
+		c := division quotient.
+		d := division remainder.
+		g := g + (t*e) + (c*g).
+		h := h + d.
+		b := s*g + (t*h) - 1.
+		division := s*b divisionBy: h.
+		c := division quotient.
+		d := division remainder.
+		s := s - d.
+		t := t - (t*b) - (c*g).
+"		self assert: (self % m - (g*h)) isZero.
+		self assert: (s*g + (t*h) - 1) isZero"].
+	^ (self polynomial: g liftFactors: gFactors), (self polynomial: h liftFactors: hFactors)! !
+
 !LocalModularRing methodsFor: 'enumerating' stamp: 'len 9/8/2023 17:02:54'!
 idealsDo: aBlock
 	"The ideals of ℤ/(p^n)ℤ are {0} and <p^i> for 0 <= i < n-1."
@@ -22838,45 +22892,6 @@ extensionClass
 modulus: aPrime to: anInteger
 	self modulus: aPrime^anInteger.
 	self propertyAt: #modulusFactors put: (Bag new add: aPrime withOccurrences: anInteger; yourself)! !
-
-!LocalModularRing methodsFor: 'as yet unclassified' stamp: 'len 11/17/2023 16:45:42'!
-polynomial: aPolynomial liftFactors: anArray
-	"Answer the Hensel lifting of a factorization over the residue field to a factorization over the receiver."
-	| r mid g h s t euclid gFactors hFactors |
-"	p _ factors anyOne scalars characteristic."
-	r := anArray size.
-	r = 1 ifTrue: "can be optimized, compute inverse modulo p using extended euclid, then lift to p^k with newton iteration algorithm 9.10 (modern computer algebra)"
-		[^ {aPolynomial * aPolynomial leadingCoefficient inverse}].
-	mid := r // 2.
-	gFactors := anArray copyFrom: 1 to: mid.
-	hFactors := anArray copyFrom: mid+1 to: r.
-	g := gFactors product * aPolynomial leadingCoefficient.
-	h := hFactors product.
-	euclid := g xgcd: h.
-	s := euclid at: 2.
-	t := euclid at: 3.
-"	m _ p."
-	self quadraticLiftingsDo: [:phi| "Hensel step:"
-		| e division c d b |
-"		self assert: (self % m - (g*h)) isZero.
-		self assert: (s*g + (t*h) - 1) isZero.
-		m _ m squared."
-		g := g apply: phi. h := h apply: phi. s := s apply: phi. t := t apply: phi.
-		e := (aPolynomial over: phi codomain) - (g*h).
-		division := s*e divisionBy: h.
-		c := division quotient.
-		d := division remainder.
-		g := g + (t*e) + (c*g).
-		h := h + d.
-		b := s*g + (t*h) - 1.
-		division := s*b divisionBy: h.
-		c := division quotient.
-		d := division remainder.
-		s := s - d.
-		t := t - (t*b) - (c*g).
-"		self assert: (self % m - (g*h)) isZero.
-		self assert: (s*g + (t*h) - 1) isZero"].
-	^ (self polynomial: g liftFactors: gFactors), (self polynomial: h liftFactors: hFactors)! !
 
 !LocalModularRing class methodsFor: 'instance creation' stamp: 'len 11/26/2023 10:44:08'!
 modulus: p to: n
@@ -25560,13 +25575,6 @@ space: aVectorSpace
 new: anInteger over: aSpace
 	^ self new space: aSpace; rank: anInteger! !
 
-!AffineScheme methodsFor: 'accessing' stamp: 'len 4/5/2025 21:00:31'!
-∩ aScheme
-	self assert: self ambient = aScheme ambient.
-	(self isClosed and: [aScheme isClosed]) ifTrue: [^ self ambient sub: self definingIdeal + aScheme definingIdeal].
-"	(self isPrincipalOpen and: [aScheme isPrincipalOpen]) ifTrue: [^ self ambient open: self center * aScheme center]."
-	^ (self → self ambient ∧ (aScheme → self ambient)) π₁ image! !
-
 !AffineScheme methodsFor: 'accessing' stamp: 'len 4/7/2025 08:06:16'!
 ambient
 	^ self coordinateRing coambient spec! !
@@ -25595,10 +25603,10 @@ definingIdeal
 	"Answer the defining ideal of the receiver as an ideal of the ambient coordinate ring or a localization of it."
 	^ self coordinateRing isQuotient ifTrue: [self coordinateRing relations] ifFalse: [self coordinateRing asIdeal null]! !
 
-!AffineScheme methodsFor: 'accessing' stamp: 'len 3/30/2025 08:15:11'!
+!AffineScheme methodsFor: 'accessing' stamp: 'len 4/9/2025 12:50:22'!
 degree
 	self assert: self dimension isZero.
-	^ self coordinateRing carrier rank! !
+	^ self coordinateRing degree! !
 
 !AffineScheme methodsFor: 'accessing' stamp: 'len 3/15/2025 10:35:40'!
 dimension
@@ -25617,11 +25625,6 @@ genericPoint
 	"If the receiver is an integral scheme, answer the generic point."
 	self isIntegral ifFalse: [^ self error: 'not integral scheme'].
 	^ self !! self coordinateRing asIdeal null! !
-
-!AffineScheme methodsFor: 'accessing' stamp: 'len 4/5/2025 08:06:32'!
-open: anElement
-	"Answer the principal open subscheme D(f) corresponding to the spectrum of the localization of the coordinate ring R away from f, where f is anElement. Points of D(f) correspond to the prime ideals of R that don't contain f, i.e. the nonvanishing locus of f. The set of all D(f) for each f ∈ R is a basis for the Zariski topology."
-	^ (self coordinateRing localizationAwayFrom: anElement) spec! !
 
 !AffineScheme methodsFor: 'accessing' stamp: 'len 2/23/2025 06:57:53'!
 patches
@@ -25727,6 +25730,13 @@ to: aScheme
 	(aScheme isKindOf: AffineScheme) ifFalse: [^ super × aScheme].
 	^ (self coordinateRing ⊗ aScheme coordinateRing) spec! !
 
+!AffineScheme methodsFor: 'operations' stamp: 'len 4/5/2025 21:00:31'!
+∩ aScheme
+	self assert: self ambient = aScheme ambient.
+	(self isClosed and: [aScheme isClosed]) ifTrue: [^ self ambient sub: self definingIdeal + aScheme definingIdeal].
+"	(self isPrincipalOpen and: [aScheme isPrincipalOpen]) ifTrue: [^ self ambient open: self center * aScheme center]."
+	^ (self → self ambient ∧ (aScheme → self ambient)) π₁ image! !
+
 !AffineScheme methodsFor: 'operations' stamp: 'len 4/5/2025 07:59:19'!
 ∪ aScheme
 	"Answer the (quasi) union of the receiver and another closed subcheme of the same ambient."
@@ -25734,17 +25744,21 @@ to: aScheme
 	self assert: (self isClosed and: [aScheme isClosed]).
 	^ self ambient sub: self definingIdeal ∩ aScheme definingIdeal! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 3/21/2025 09:01:42'!
-⊍ aScheme
-	"Answer the disjoint union of the receiver and the argument."
-	(aScheme isKindOf: AffineScheme) ifTrue: [^ (self coordinateRing × aScheme coordinateRing) spec].
-	^ super ⊍ aScheme! !
-
 !AffineScheme methodsFor: 'operations' stamp: 'len 3/4/2025 07:49:21'!
 ⊔ aScheme
 	"Answer the disjoint union of the receiver and the argument. This is the coproduct."
 	(aScheme isKindOf: AffineScheme) ifFalse: [^ super ⊔ aScheme].
 	^ (self coordinateRing × aScheme coordinateRing) spec! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 4/8/2025 09:37:56'!
+closure
+	"Answer the closure of the receiver in its ambient space."
+	^ self closureIn: self ambient! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 4/8/2025 09:37:32'!
+closureIn: aScheme
+	self assert: self ⊆ aScheme.
+	self notYetImplemented! !
 
 !AffineScheme methodsFor: 'operations' stamp: 'len 4/5/2025 07:48:57'!
 decomposition
@@ -25762,10 +25776,10 @@ inverseImage: aMorphism
 		ifTrue: [^ aMorphism domain open: (aMorphism comorphism value: self center)]."
 	^ super inverseImage: aMorphism! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 4/6/2025 08:22:26'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 4/9/2025 09:22:18'!
 reduced
 	"Answer the reduced subscheme of the receiver, corresponding to the spectrum of the reduced coordinate ring.
-	For a closed subscheme Spec R/I ⊆ Spec R, this is Spec R/√I."
+	For a closed subscheme Spec(R/I) ⊆ Spec(R), this is Spec(R/√I)."
 	^ self coordinateRing reduced spec! !
 
 !AffineScheme methodsFor: 'operations' stamp: 'len 3/14/2025 18:57:43'!
@@ -25775,9 +25789,9 @@ sub: anObject
 	I := (anObject isKindOf: Ideal) ifTrue: [anObject] ifFalse: [self coordinateRing * anObject].
 	^ (self coordinateRing / I) spec! !
 
-!AffineScheme methodsFor: 'printing' stamp: 'len 7/30/2022 12:12:34'!
+!AffineScheme methodsFor: 'printing' stamp: 'len 4/9/2025 09:22:01'!
 printOn: aStream
-	aStream nextPutAll: 'Spec '; print: self coordinateRing! !
+	aStream nextPutAll: 'Spec('; print: self coordinateRing; nextPut: $)! !
 
 !AffineScheme methodsFor: 'testing' stamp: 'len 4/5/2025 07:45:33'!
 isClosed
@@ -26047,9 +26061,9 @@ newFrom: anObject
 ambient
 	^ self! !
 
-!AffineSpace methodsFor: 'accessing' stamp: 'len 12/23/2023 10:32:26'!
+!AffineSpace methodsFor: 'accessing' stamp: 'len 4/9/2025 09:23:47'!
 rank
-	"Answer the number of affine coordinates, i.e. the number of indeterminates of the coordinate ring. This can be different from the Krull dimension, for example Spec ℤ[x] has rank 1 and Krull dimension 2."
+	"Answer the number of affine coordinates, i.e. the number of indeterminates of the coordinate ring. This can be different from the Krull dimension, for example Spec(ℤ[x]) has rank 1 and Krull dimension 2."
 	^ self coordinateRing rank! !
 
 !AffineSpace methodsFor: 'operations' stamp: 'len 2/25/2025 15:46:19'!
@@ -26189,9 +26203,9 @@ sub: anObject
 	I := (anObject isKindOf: Ideal) ifTrue: [anObject] ifFalse: [self homogeneousCoordinateRing * anObject].
 	^ (self homogeneousCoordinateRing / I) proj! !
 
-!ProjectiveScheme methodsFor: 'printing' stamp: 'len 2/19/2025 07:47:04'!
+!ProjectiveScheme methodsFor: 'printing' stamp: 'len 4/9/2025 09:27:44'!
 printOn: aStream
-	aStream nextPutAll: 'Proj '; print: self homogeneousCoordinateRing! !
+	aStream nextPutAll: 'Proj('; print: self homogeneousCoordinateRing; nextPut: $)! !
 
 !ProjectiveScheme methodsFor: 'testing' stamp: 'len 2/19/2025 07:46:51'!
 isIntegral
@@ -31089,9 +31103,9 @@ preimageElement: anElement
 	self isFinite ifTrue: [^ self domain !! (self carrier preimageElement: self codomain carrier !! anElement)].
 	^ super preimageElement: anElement! !
 
-!RingMap methodsFor: 'operations' stamp: 'len 2/23/2025 18:40:06'!
+!RingMap methodsFor: 'operations' stamp: 'len 4/9/2025 09:25:29'!
 spec
-	"This is the Spec functor. Answer the morphism between affine schemes induced by the receiver, i.e. given a ring homomorphism f:R→S, Spec(f) is a scheme morphism Spec(S)→Spec(R)."	
+	"This is the Spec functor. Answer the morphism between affine schemes induced by the receiver, i.e. given a ring homomorphism f:R→S, Spec(f) is a scheme morphism Spec(S) → Spec(R)."	
 	| representatives |
 	(self isFiniteType and: [self domain isAffineAlgebra and: [self codomain isAffineAlgebra]])
 		ifFalse: [^ AffineMorphism comorphism: self].
@@ -33423,9 +33437,9 @@ isClosedImmersion
 	"The property of being a closed immersion is affine-local on the target."
 	^ self notYetImplemented! !
 
-!SchemeMorphism methodsFor: 'testing' stamp: 'len 2/4/2025 12:33:46'!
+!SchemeMorphism methodsFor: 'testing' stamp: 'len 4/9/2025 09:24:34'!
 isFinite
-	"Finiteness is affine-local on the target. A morphism π:X→Y is finite if there's a cover of Y by affine open sets Spec A such that π⁻¹(Spec A) is the spectrum of a finite A-algebra. See [Val17, 7.3.G].
+	"Finiteness is affine-local on the target. A morphism π:X→Y is finite if there's a cover of Y by affine open sets Spec A such that π⁻¹(Spec(A)) is the spectrum of a finite A-algebra. See [Val17, 7.3.G].
 	Also finite = integral + finite type [Val17, 7.3.P]."
 	^ self notYetImplemented! !
 
@@ -33433,9 +33447,9 @@ isFinite
 isFiniteType
 	^ self isLocallyFiniteType and: [self isQuasicompact]! !
 
-!SchemeMorphism methodsFor: 'testing' stamp: 'len 2/4/2025 14:19:07'!
+!SchemeMorphism methodsFor: 'testing' stamp: 'len 4/9/2025 09:24:55'!
 isIntegral
-	"A morphism π:X→Y is integral is π is affine, and for every affine open subset Spec B ⊂ Y, with π⁻¹(Spec B) = Spec A, the induced map B → A is an integral ring homomorphism."
+	"A morphism π:X→Y is integral is π is affine, and for every affine open subset Spec(B) ⊂ Y, with π⁻¹(Spec(B)) = Spec(A), the induced map B → A is an integral ring homomorphism."
 	"Integrality is affine-local. See [Val17, 7.3.10]."
 	^ self notYetImplemented! !
 
@@ -33570,9 +33584,9 @@ stalkAt: aPoint
 value: aPoint
 	^ self codomain !! (self comorphism preimage: aPoint asIdeal)! !
 
-!AffineMorphism methodsFor: 'testing' stamp: 'len 4/2/2025 07:35:41'!
+!AffineMorphism methodsFor: 'testing' stamp: 'len 4/9/2025 09:25:52'!
 isClosedImmersion
-	"A morphism π:X→Y is a 'closed immersion' (or 'closed immersion') if it is an affine morphism, and for every affine open subset Spec B ⊂ Y with π⁻¹(Spec B) ~ Spec A, the map B → A is surjective."
+	"A morphism π:X→Y is a 'closed immersion' (or 'closed immersion') if it is an affine morphism, and for every affine open subset Spec(B) ⊂ Y with π⁻¹(Spec(B)) ~ Spec(A), the map B → A is surjective."
 	^ self comorphism isSurjective! !
 
 !AffineMorphism methodsFor: 'testing' stamp: 'len 2/23/2025 18:42:30'!
@@ -36856,6 +36870,10 @@ lift: anElement
 	self parent isFinite ifTrue: [^ self parent detect: [:x| self * x = anElement] ifNone: []].
 	^ self subclassResponsibility! !
 
+!RingElement methodsFor: 'operations' stamp: 'len 4/9/2025 16:37:01'!
+localization
+	^ self parent localizationAwayFrom: self! !
+
 !RingElement methodsFor: 'operations' stamp: 'len 6/23/2023 17:51:51'!
 log
 	"If the receiver is a unit and the group of units is cyclic with a fixed generator (for example a distinguished primitive element), answer the logarithm of the receiver with base the generator."
@@ -36883,9 +36901,10 @@ multiplicativeOrder
 negated
 	^ self * -1! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 3/30/2025 16:37:00'!
+!RingElement methodsFor: 'operations' stamp: 'len 4/9/2025 16:39:53'!
 nonvanishingLocus
-	^ self parent spec open: self! !
+	"Answer the principal open subscheme D(f) of Spec(R) corresponding to the spectrum of the localization of the coordinate ring R away from f, where f is the receiver. Points of D(f) correspond to the prime ideals of R that don't contain f, i.e. the nonvanishing locus of f. The set of all D(f) for each f ∈ R is a basis for the Zariski topology."
+	^ self localization spec! !
 
 !RingElement methodsFor: 'operations' stamp: 'len 11/17/2023 14:39:12'!
 norm
@@ -41345,15 +41364,17 @@ value: anObject
 valueWithArguments: anArray
 	^ (numerator valueWithArguments: anArray) / (denominator valueWithArguments: anArray)! !
 
-!LocalizationRingElement methodsFor: 'printing' stamp: 'len 7/16/2019 16:40:18'!
+!LocalizationRingElement methodsFor: 'printing' stamp: 'len 4/11/2025 14:10:32'!
 printOn: aStream
-	| string |
 	self isIntegral ifTrue: [aStream print: numerator. ^ self].
-	aStream print: numerator; nextPutAll: ' / '.
-	string _ denominator printString.
-	((string includes: $+) or: [string includes: $-])
-		ifTrue: [aStream nextPut: $(; print: denominator; nextPut: $)]
-		ifFalse: [aStream print: denominator]! !
+	numerator printString isAlphaNumeric
+		ifTrue: [aStream print: numerator]
+		ifFalse: [aStream nextPut: $(; print: numerator; nextPut: $)].
+	aStream nextPutAll: ' / '.
+	denominator printString isAlphaNumeric
+		ifTrue: [aStream print: denominator]
+		ifFalse: [aStream nextPut: $(; print: denominator; nextPut: $)]
+		! !
 
 !LocalizationRingElement methodsFor: 'printing' stamp: 'len 4/5/2025 21:40:40'!
 printRationalFunctionOn: aStream
@@ -42958,11 +42979,11 @@ closure
 codimension
 	^ ideal height! !
 
-!SchemePoint methodsFor: 'accessing' stamp: 'len 3/30/2025 16:37:53'!
+!SchemePoint methodsFor: 'accessing' stamp: 'len 4/8/2025 15:39:33'!
 complement
 	"Answer the scheme corresponding to the complement of the receiver.
 	If the receiver is a point in an affine scheme Spec(R) corresponding to a principal ideal ⟨f⟩, this is Spec(R[1/f])."
-	((parent isKindOf: AffineScheme) and: [ideal generators size = 1]) ifTrue: [^ parent open: ideal generator].
+	((parent isKindOf: AffineScheme) and: [ideal generators size = 1]) ifTrue: [^ ideal generator nonvanishingLocus].
 	^ self notYetImplemented! !
 
 !SchemePoint methodsFor: 'accessing' stamp: 'len 3/14/2025 09:13:59'!

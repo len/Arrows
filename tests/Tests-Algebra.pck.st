@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7092] on 7 April 2025 at 9:32:45 pm'!
+'From Cuis7.3 [latest update: #7092] on 11 April 2025 at 2:54:44 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 152!
+!provides: 'Tests-Algebra' 1 153!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -5056,7 +5056,7 @@ testGroebnerTrivial
 	I := Qx * {x + y. x^2 - 1. y^2 - (x*2)}.
 	self assert: I isOne! !
 
-!CommutativeAlgebraTest methodsFor: 'hilbert series' stamp: 'len 10/9/2023 09:44:28'!
+!CommutativeAlgebraTest methodsFor: 'hilbert series' stamp: 'len 4/9/2025 12:50:36'!
 testAffineRingDimensionAsVectorSpace
 	"Example from answer in math.stackexchange 'What does Hilbert series of monomial ideals describe?'."
 	| S a b I |
@@ -5064,7 +5064,7 @@ testAffineRingDimensionAsVectorSpace
 	a := S x: 1.
 	b := S x: 2.
 	I := S * {a^6. a^3*b. a^2*(b^4). b^5}.
-	self assert: (S/I) vectorSpaceDimension = 17.
+	self assert: (S/I) degree = 17.
 	self assert: (S/I) basis size = 17! !
 
 !CommutativeAlgebraTest methodsFor: 'hilbert series' stamp: 'len 7/13/2023 16:09:59'!
