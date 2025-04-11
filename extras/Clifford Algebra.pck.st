@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7034] on 28 January 2025 at 8:56:53 pm'!
+'From Cuis7.3 [latest update: #7092] on 11 April 2025 at 2:54:15 pm'!
 'Description '!
-!provides: 'Clifford Algebra' 1 4!
+!provides: 'Clifford Algebra' 1 5!
 SystemOrganization addCategory: #'Clifford Algebra'!
 
 
@@ -28,18 +28,14 @@ Multivector class
 !Multivector commentStamp: 'len 7/15/2020 06:06:04' prior: 0!
 Elements of a Clifford algebra or an exterior algebra. See CliffordAlgebra.!
 
-!CliffordAlgebra methodsFor: 'accessing' stamp: 'len 7/5/2020 09:59:31'!
-degree
-	^ self space rank! !
-
 !CliffordAlgebra methodsFor: 'accessing' stamp: 'len 12/1/2024 14:45:12'!
 evenSubalgebra
 	"Answer the subalgebra of the receiver spanned by the product of an even number of basis elements of the receiver. This are the fixed points of the main involution."
 	^ self sub: (((1 to: self carrier rank) select: [:i| (i-1) bitParity = 0]) collect: [:i| self basis at: i])! !
 
-!CliffordAlgebra methodsFor: 'accessing' stamp: 'len 7/7/2020 10:44:05'!
+!CliffordAlgebra methodsFor: 'accessing' stamp: 'len 4/9/2025 13:16:22'!
 generators
-	^ self propertyAt: #generators ifAbsentPut: [(0 to: self degree - 1) collect: [:i| self basis at: 1 << i + 1]]! !
+	^ self propertyAt: #generators ifAbsentPut: [(0 to: self order - 1) collect: [:i| self basis at: 1 << i + 1]]! !
 
 !CliffordAlgebra methodsFor: 'accessing' stamp: 'len 12/28/2024 10:11:06'!
 grade: anInteger
@@ -49,6 +45,10 @@ grade: anInteger
 !CliffordAlgebra methodsFor: 'accessing' stamp: 'len 11/5/2022 13:45:22'!
 one
 	^ self basis first! !
+
+!CliffordAlgebra methodsFor: 'accessing' stamp: 'len 4/9/2025 13:15:32'!
+order
+	^ self space rank! !
 
 !CliffordAlgebra methodsFor: 'accessing' stamp: 'len 7/22/2020 13:18:15'!
 orthogonalBasis
@@ -107,7 +107,7 @@ isExteriorAlgebra
 isInvolutive
 	^ true! !
 
-!CliffordAlgebra methodsFor: 'private' stamp: 'len 12/1/2024 10:24:59'!
+!CliffordAlgebra methodsFor: 'private' stamp: 'len 4/9/2025 17:18:58'!
 quadraticForm: aQuadraticForm
 	| V n basis C T table |
 	self propertyAt: #quadraticForm put: aQuadraticForm.
@@ -121,12 +121,12 @@ quadraticForm: aQuadraticForm
 	T := (V to: C images: ((1 to: n) collect: [:i| C basis at: 1 << (i-1) + 1])) · (V endomorphisms images: basis) inverse.
 	self addCoercionFrom: V map: [:v| self fromModuleElement: (T value: v)].
 	"Compute the multiplication table of the basis elements:"
-	table := (0 to: self rank - 1) collect: [:x|
-		(0 to: self rank - 1) collect: [:y|
+	table := (0 to: self order - 1) collect: [:x|
+		(0 to: self order - 1) collect: [:y|
 			| scalar index |
 			scalar := self scalars one.
 			index := x.
-			1 to: self degree do: [:i|
+			1 to: self order do: [:i|
 				(y bitAt: i) = 1 ifTrue:
 					[(index >> i) bitParity = 1 ifTrue: [scalar := scalar negated].
 					(index bitAt: i) = 1 ifTrue: [scalar := scalar * (aQuadraticForm value: (basis at: i))].
