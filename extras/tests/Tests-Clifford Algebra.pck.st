@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7092] on 11 April 2025 at 2:54:27 pm'!
+'From Cuis7.3 [latest update: #7092] on 13 April 2025 at 12:41:40 pm'!
 'Description '!
-!provides: 'Tests-Clifford Algebra' 1 5!
+!provides: 'Tests-Clifford Algebra' 1 6!
 SystemOrganization addCategory: #'Tests-Clifford Algebra'!
 
 
@@ -159,10 +159,10 @@ testCliffordAlgebraProductsPropertiesWithVectors
 	self assert: v ∧ x = (x reflection ∧ v).
 	self assert: v ∙| (x*y) = ((v ∙| x)*y + (x reflection * (v ∙| y)))! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 4/9/2025 16:56:12'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 4/11/2025 22:15:04'!
 testCliffordAlgebraProperties
 	self assert: R isCommutative not.
-	self assert: R order = (2^R space rank).
+	self assert: R degree = (2^R space rank).
 	self assert: R scalars = ℚ.
 	self assert: R zero isZero.
 	self assert: R one isOne.
