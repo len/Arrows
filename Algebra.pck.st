@@ -1,4 +1,4 @@
-'From Cuis7.3 [latest update: #7092] on 13 April 2025 at 12:41:49 pm'!
+'From Cuis7.3 [latest update: #7092] on 17 April 2025 at 12:44:44 pm'!
 'Description This package implements among other things: permutation groups, linear groups, finite fields, Galois rings, affine algebras, number fields, function fields, finitely presented modules, finite-dimensional associative algebras, schemes, finite-dimensional representations of finite groups.
 
 References:
@@ -104,7 +104,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 245!
+!provides: 'Algebra' 1 246!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'GAS' 1 1 nil!
@@ -12593,7 +12593,7 @@ annihilatorSpace
 	See also >>complement."
 	^ (self → self ambient) dual kernel! !
 
-!Module methodsFor: 'operations' stamp: 'len 3/6/2025 15:54:10'!
+!Module methodsFor: 'operations' stamp: 'len 4/15/2025 12:00:47'!
 associatedPrimes
 	"An 'associated prime' of an R-module M is an ideal of the form Ann(N), where N is a prime submodule of M.
 	Equivalently, if R is commutative, an associated prime is a prime ideal of the form Ann(m) for a nonzero m ∈ M."
@@ -12692,6 +12692,11 @@ grassmannian: r
 	self assert: (r <= self rank and: [r >= 0]).
 	^ Grassmannian new: r over: self! !
 
+!Module methodsFor: 'operations' stamp: 'len 4/16/2025 13:28:14'!
+jacobsonRadical
+	"Answer the Jacobson radical J(M) of the receiver M, i.e. the intersection of all maximal submodules."
+	^ self * self scalars jacobsonRadical! !
+
 !Module methodsFor: 'operations' stamp: 'len 6/26/2023 12:59:10'!
 leadingSubmodule
 	"Answer the initial submodule. This is the submodule of all leading terms of the receiver."
@@ -12700,11 +12705,11 @@ leadingSubmodule
 	self basis do: [:each| | t | t := each leadingTerm. (t \\ leadingTerms) isZero ifFalse: [leadingTerms add: t]].
 	^ self ambient sub: leadingTerms! !
 
-!Module methodsFor: 'operations' stamp: 'len 4/1/2025 18:13:13'!
+!Module methodsFor: 'operations' stamp: 'len 4/15/2025 12:05:07'!
 minimalAssociatedPrimes
 	"The 'minimal primes' (or 'isolated primes') of a module are the associated primes minimal with respect to inclusion. The associated primes that are not minimal are called 'embedded primes'."
-	| P |
-	^ (P := self associatedPrimes) select: [:p| P noneSatisfy: [:q| p ⊊ q]]! !
+	| Q |
+	^ (Q := self associatedPrimes) select: [:p| Q noneSatisfy: [:q| p ⊊ q]]! !
 
 !Module methodsFor: 'operations' stamp: 'len 2/28/2025 13:07:24'!
 orderOf: anElement
@@ -12728,17 +12733,12 @@ orderOf: anElement
 		[g1 = id] whileFalse: [g1 := g1 * p. e := e * p]].
 	^ e"! !
 
-!Module methodsFor: 'operations' stamp: 'len 3/8/2025 08:42:49'!
+!Module methodsFor: 'operations' stamp: 'len 4/15/2025 10:58:29'!
 primaryDecomposition
 	"Answer the primary decomposition of the submodule N ⊆ M, where N is the receiver and M is the ambient module, writing N as the intersection of finitely many primary submodules of M.
-	When the receiver is an ideal, this is the decomposition from Lasker-Noether theorem for ideals over Noetherian rings, that states that any ideal can be decomposed as the intersection of finitely many primary ideals.
+	When the receiver is an ideal, this is the decomposition from Lasker-Noether theorem, that states that any ideal in a Noetherian commutative ring can be decomposed as the intersection of finitely many primary ideals
 	For finitely generated modules over a PID, this is equivalent to the structure theorem but expressed in dual language (sum of coprimary modules instead of intersection of primary submodules)."
 	^ self notYetImplemented! !
-
-!Module methodsFor: 'operations' stamp: 'len 3/8/2025 08:38:01'!
-radical
-	"Answer the Jacobson radical J(M) of the receiver M, i.e. the intersection of all maximal submodules."
-	^ self * self scalars radical! !
 
 !Module methodsFor: 'operations' stamp: 'len 10/6/2022 11:50:40'!
 reduce: anElement
@@ -12763,12 +12763,12 @@ saturation: anIdeal
 	"Answer the saturation ideal M : J^∞ of the receiver M with the argument J."
 	^ (self saturationAndExponent: anIdeal) first! !
 
-!Module methodsFor: 'operations' stamp: 'len 3/31/2025 08:17:24'!
+!Module methodsFor: 'operations' stamp: 'len 4/16/2025 11:41:20'!
 saturationAndExponent: anIdeal
 	"Answer the saturation ideal M : J^∞ of the receiver M with the argument J, and the saturation exponent."
 	| saturation exponent J |
 	saturation := self.
-	exponent := 1.
+	exponent := 0.
 	J := self scalars asIdeal.
 	[saturation = (saturation := self : (J := J * anIdeal))] whileFalse: [exponent := exponent + 1].
 	^ {saturation. exponent}! !
@@ -12802,11 +12802,11 @@ sub: aCollectionOrMatrix
 	(self freeCover id reductionBy: G modulo: self relationsMatrix) isZero ifTrue: [^ self].
 	^ self species new ambient: self; generatorMatrix: G! !
 
-!Module methodsFor: 'operations' stamp: 'len 2/28/2025 19:14:40'!
+!Module methodsFor: 'operations' stamp: 'len 4/15/2025 15:31:54'!
 support
 	"The support of an R-module M over a commutative ring R is the set of prime ideals p of R such that the localization of M at p is not the trivial module.
 	By definition, the support is a subset of Spec(R)."
-	^ (self scalars / self annihilator) spec! !
+	^ self annihilator quotientRing spec! !
 
 !Module methodsFor: 'operations' stamp: 'len 12/2/2024 09:00:33'!
 symmetricSquare
@@ -12819,10 +12819,10 @@ symmetricSquare
 tensorAlgebra
 	^ self propertyAt: #tensorAlgebra ifAbsentPut: [self scalars freeAlgebraIn: (self coordinateNames ifNil: [self rank])]! !
 
-!Module methodsFor: 'operations' stamp: 'len 1/31/2025 17:23:27'!
+!Module methodsFor: 'operations' stamp: 'len 4/16/2025 13:28:14'!
 top
 	"Answer the top of the receiver M, defined as the quotient by the Jacobson radical M / J(M)."
-	^ self propertyAt: #top ifAbsentPut: [self / self radical]! !
+	^ self propertyAt: #top ifAbsentPut: [self / self jacobsonRadical]! !
 
 !Module methodsFor: 'operations' stamp: 'len 4/15/2024 08:25:54'!
 tor: aModule
@@ -12903,7 +12903,7 @@ isArtinian
 	See also >>isNoetherian."
 	^ self scalars isArtinian "because the receiver is finitely generated"! !
 
-!Module methodsFor: 'testing' stamp: 'len 3/8/2025 08:19:04'!
+!Module methodsFor: 'testing' stamp: 'len 4/15/2025 12:02:10'!
 isCoprimary
 	"An R-module M is called 'coprimary' if xm = 0 for some nonzero m ∈ M implies xⁿM = 0 for some n > 0, i.e. for every x ∈ R, the R-endomorphism produced by multiplication by x is either surjective or nilpotent.
 	A nontrivial finitely generated module over a commutative Noetherian ring is coprimary iff it has exactly one associated prime (and the trivial module has no associated primes)."
@@ -13049,12 +13049,12 @@ isReflexive
 	"Answer true if the receiver is a reflexive module."
 	^ (self → self dual dual) isBijective! !
 
-!Module methodsFor: 'testing' stamp: 'len 1/31/2025 17:23:07'!
+!Module methodsFor: 'testing' stamp: 'len 4/16/2025 13:28:14'!
 isSemisimple
 	"A module is 'semisimple' (or 'completely reducible') if it is the direct sum of simple (or irreducible) submodules."
 	self scalars isSemisimple ifTrue: [^ true].
 	"A finitely generated module is semisimple if and only if it is Artinian and its Jacobson radical is zero:"
-	^ self scalars isArtinian and: [self radical isTrivial]! !
+	^ self scalars isArtinian and: [self jacobsonRadical isTrivial]! !
 
 !Module methodsFor: 'testing' stamp: 'len 12/30/2024 07:54:00'!
 isSimple
@@ -13884,11 +13884,12 @@ carrier
 	self isOne ifTrue: [^ self scalars carrier].
 	^ (self scalars representation asModule sub: self generators) carrier! !
 
-!Ideal methodsFor: 'accessing' stamp: 'len 3/14/2025 07:59:28'!
+!Ideal methodsFor: 'accessing' stamp: 'len 4/16/2025 13:59:30'!
 coheight
 	"The 'coheight' (or dimension) of a prime ideal p ⊂ R is the supremum of all chains of prime ideals containing it (p ⊆ p₀ ⊊ ... ⊊ pₙ).
-	The coheight of a general ideal I ⊆ R is defined as the supremum of the coheights of all prime ideals containing it, and it is equal to the Krull dimension of the quotient ring R/I."
-	^ (self scalars / self) dimension! !
+	The coheight of a general ideal I ⊆ R is defined as the supremum of the coheights of all prime ideals containing it, and it is equal to the Krull dimension of the quotient ring R/I.
+	Note: many authors call it the 'dimension' of the ideal, but this conflicts with the Krull dimension of I as R-module, which is defined a the Krull dimension of the quotient ring R/Ann(I)."
+	^ self quotientRing dimension! !
 
 !Ideal methodsFor: 'accessing' stamp: 'len 12/15/2021 15:17:28'!
 generators
@@ -13901,10 +13902,10 @@ height
 	self isPrime ifTrue: [^ self localRing dimension].
 	^ self notYetImplemented! !
 
-!Ideal methodsFor: 'accessing' stamp: 'len 12/25/2021 12:44:56'!
+!Ideal methodsFor: 'accessing' stamp: 'len 4/15/2025 15:33:42'!
 norm
 	"Answer the ideal norm of the receiver, i.e. the order of the quotient ring."
-	^ (self scalars / self) size! !
+	^ self quotientRing size! !
 
 !Ideal methodsFor: 'accessing' stamp: 'len 4/12/2025 13:15:45'!
 numerator
@@ -13950,6 +13951,13 @@ representativeSaturated
 | anIdeal
 	"Answer true if the receiver divides the argument."
 	^ anIdeal ⊆ self! !
+
+!Ideal methodsFor: 'comparing' stamp: 'len 4/14/2025 16:03:55'!
+⊆ anIdeal
+	"Abuse notation identifying ideals across quotients and localizations. See also >>∩."
+	self scalars = anIdeal scalars ifTrue: [^ super ⊆ anIdeal].
+	self assert: self scalars coambient = anIdeal scalars coambient.
+	^ self notYetImplemented! !
 
 !Ideal methodsFor: 'comparing' stamp: 'len 5/23/2022 11:35:10'!
 ⊥ anIdeal
@@ -14006,15 +14014,27 @@ apply: aMap
 	self assert: anInteger positive.
 	^ anInteger even ifTrue: [self squared ^ (anInteger // 2)] ifFalse: [self squared ^ (anInteger // 2) * self]! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 4/11/2025 21:04:55'!
+!Ideal methodsFor: 'operations' stamp: 'len 4/14/2025 16:03:30'!
 ∩ anIdeal
 	"Answer the intersection of the receiver and the argument.
-	If the argument is a subring of the receiver, answer the contraction."
+	If the argument is a ring, answer the contraction."
 	(anIdeal isKindOf: Ring) ifTrue: [^ self contraction: anIdeal].
 	self isAmbient ifTrue: [^ anIdeal].
 	anIdeal isAmbient ifTrue: [^ self].
 	self scalars isEuclidean ifTrue: [^ self scalars * (self generator lcm: anIdeal generator)].
+	self scalars isLocalization ifTrue: [^ (self numerator ∩ anIdeal numerator) ⊗ self scalars].
 	^ super ∩ anIdeal! !
+
+!Ideal methodsFor: 'operations' stamp: 'len 4/16/2025 13:33:30'!
+coassociatedPrimes
+	"Answer the associated primes of the R-module R/I, where the receiver is I ⊆ R.
+	This is equivalent to the primary decomposition of the radical of the receiver.
+	Note: some authors refer to Ass(R/I) as 'the associated primes of I' and write Ass(I), but this conflicts with Ass(I) considering I as R-module. See Module>>associatedPrimes."
+	^ self primaryDecomposition collect: [:each| each radical]
+
+"	self propertyAt: #coassociatedPrimes ifPresent: [:aCollection| ^ aCollection].
+	(self generators size = 1 and: [self scalars isUFD]) ifFalse: [^ self subclassResponsibility].
+	^ self propertyAt: #coassociatedPrimes put: (self generator factorization asSet collect: [:each| self scalars * each])"! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 4/13/2025 09:01:25'!
 contraction: aRing
@@ -14036,26 +14056,18 @@ equidimensionalDecomposition
 	[(answer add:​ I equidimensionalHull) = I] whileFalse: [I := I : answer last].
 	^ answer! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 3/29/2025 17:06:02'!
+!Ideal methodsFor: 'operations' stamp: 'len 4/16/2025 14:02:05'!
 equidimensionalHull
-	"Given an ideal I over a Noetherian ring, with irredundant primary decomposition I = Q₁ ∩ ⋯ ∩ Qₛ, the 'equidimensional hull' of I is the intersection of all primary ideals Qᵢ with same dimension as I.
-	See [GP08, ALgorithm 4.4.2]."
-	^ self reductionToZeroDimensionDo: [:u :G :h|
+	"Given an ideal I over a Noetherian ring with irredundant primary decomposition I = Q₁ ∩ ⋯ ∩ Qₛ, the 'equidimensional hull' of I is the intersection of all primary ideals Qᵢ with same dimension as I.
+	See [GP08, Algorithm 4.4.2]."
+	^ self reductionToZeroDimensionDo: [:E :G :h|
 		| J H |
 		H := self + (self scalars * h).
 		J := (self scalars * G) : (self scalars * h).
-		(self scalars / H) dimension < (self scalars / self) dimension
-			ifTrue: [J]
-			ifFalse: [J ∩ H equidimensionalHull]]
+		H coheight < self coheight ifTrue: [J] ifFalse: [J ∩ H equidimensionalHull]]
 
 "alternative:
 	^ self equidimensionalPart: self coheight"! !
-
-!Ideal methodsFor: 'operations' stamp: 'len 3/14/2025 08:02:00'!
-equidimensionalPart: n
-	"Given an ideal I over a Noetherian ring, with irredundant primary decomposition I = Q₁ ∩ ⋯ ∩ Qₛ, the equidimensional part of dimension n of I is the intersection of all primary ideals Qᵢ with dimension n."
-	self flag: #fixme. "implement singular algorithm 4.4.3"
-	^ (self primaryDecomposition select: [:Q| Q coheight = n]) fold: [:I :J| I ∩ J]! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 6/15/2022 10:04:10'!
 leadingIdeal
@@ -14067,12 +14079,20 @@ localRing
 	"Assuming the receiver is prime, answer the localization at the receiver, i.e. the ring of fractions a/b where b is not in anIndeal."
 	^ self propertyAt: #localRing ifAbsentPut: [self scalars localizationAt: self]! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 2/28/2025 13:16:53'!
+!Ideal methodsFor: 'operations' stamp: 'len 4/15/2025 12:06:24'!
+minimalCoassociatedPrimes
+	"The 'minimal primes' (or 'isolated primes') of an ideal are the associated primes minimal with respect to inclusion. The associated primes that are not minimal are called 'embedded primes'."
+	| Q |
+	^ (Q := self coassociatedPrimes) select: [:p| Q noneSatisfy: [:q| p ⊊ q]]! !
+
+!Ideal methodsFor: 'operations' stamp: 'len 4/15/2025 12:12:52'!
 primaryDecomposition
-	"Answer the primary decomposition of the ideal I of a commutative ring R.
-	This is the decomposition from Lasker-Noether theorem for ideals over Noetherian rings, that states that any ideal can be decomposed as the intersection of finitely many primary ideals."
+	"Answer the primary decomposition of the ideal I of a Noetherian commutative ring R.
+	This is the decomposition from Lasker-Noether theorem, that states that any ideal in a Noetherian commutative ring can be decomposed as the intersection of finitely many primary ideals."
 	| answer |
 	self propertyAt: #primaryDecomposition ifPresent: [:aCollection| ^ aCollection].
+	self scalars isLocalization ifTrue: [^ self propertyAt: #primaryDecomposition put: (self numeratorSaturated primaryDecomposition collect: [:each| self scalars * each generators] thenSelect: [:each| each isOne not])].
+	self scalars isQuotient ifTrue: [^ self propertyAt: #primaryDecomposition put: (self representativeSaturated primaryDecomposition collect: [:each| self scalars * each generators] thenSelect: [:each| each isOne not])].
 	(self generators size = 1 and: [self scalars isUFD]) ifFalse: [^ self subclassResponsibility].
 	answer := OrderedCollection new.
 	self generator factorizationDo: [:p :e| answer add: self scalars * (p^e)].
@@ -14082,20 +14102,12 @@ primaryDecomposition
 quotientRing
 	^ self propertyAt: #quotientRing ifAbsentPut: [self scalars / self]! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 3/10/2025 08:49:36'!
-radicalDecomposition
-	"Answer the associated primes of the R-module R/I, where the receiver is I ⊆ R.
-	This is equivalent to the primary decomposition of the radical of the receiver.
-	Note: some authors refer to Ass(R/I) as 'the associated primes of I', but this conflicts with Ass(I) considering I as R-module. See also Module>>associatedPrimes."
-	self propertyAt: #radicalDecomposition ifPresent: [:aCollection| ^ aCollection].
-	(self generators size = 1 and: [self scalars isUFD]) ifFalse: [^ self subclassResponsibility].
-	^ self propertyAt: #radicalDecomposition put: (self generator factorization asSet collect: [:each| self scalars * each])! !
-
-!Ideal methodsFor: 'operations' stamp: 'len 4/13/2025 09:03:16'!
-radicalization
+!Ideal methodsFor: 'operations' stamp: 'len 4/16/2025 13:34:29'!
+radical
 	"Answer the radical ideal √I of the receiver I. This is the ideal all elements x such that some power of x is in I.
-	Note: not to be confused with the Jacobson radical of a module, see Module>>#radical."
-	self scalars isQuotient ifTrue: [^ self representativeSaturated radicalization ⊗ self scalars].
+	Note: not to be confused with the Jacobson radical of a module, see Module>>#jacobsonRadical."
+	self scalars isLocalization ifTrue: [^ self numerator radical ⊗ self scalars].
+	self scalars isQuotient ifTrue: [^ self representativeSaturated radical ⊗ self scalars].
 	((self isTrivial and: [self scalars isIntegralDomain]) or: [self isOne]) ifTrue: [^ self].
 	(self generators size = 1 and: [self scalars isUFR]) ifTrue: [^ self scalars * self generator radicalPart].
 	^ self subclassResponsibility! !
@@ -14130,9 +14142,16 @@ sub: aCollectionOrMatrix
 	(self isAmbient and: [generators anySatisfy: [:any| any isUnit]]) ifTrue: [^ self].
 	^ super sub: generators! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 3/26/2025 09:31:22'!
+!Ideal methodsFor: 'operations' stamp: 'len 4/15/2025 10:51:15'!
+triangularDecomposition
+	"Triangular decomposition of a zero-dimensional ideal.
+	If the receiver is a zero-dimensional ideal I = ⟨f₁, ..., fₘ⟩, answer a list of triangular sets F₁, ..., Fₛ such that √I = ∩ᵢ √⟨Fᵢ⟩.
+	See [GP08, Algorithm 4.7.8]."
+	^ self notYetImplemented! !
+
+!Ideal methodsFor: 'operations' stamp: 'len 4/16/2025 13:33:30'!
 vanishingLocus
-	^ (self scalars / self radicalization) spec! !
+	^ self radical quotientRing spec! !
 
 !Ideal methodsFor: 'printing' stamp: 'len 7/1/2022 10:48:22'!
 printGeneratorsOn: aStream
@@ -14155,6 +14174,11 @@ contains: anElement
 !Ideal methodsFor: 'testing' stamp: 'len 12/15/2021 14:52:19'!
 includes: anObject
 	^ (self scalars includes: anObject) and: [self contains: anObject]! !
+
+!Ideal methodsFor: 'testing' stamp: 'len 4/16/2025 11:25:53'!
+isEquidimensional
+	"An ideal I ⊆ R in a Noetherian commutative ring R (respectively the ring R/I) is called 'equidimensional' if I is equal to its equidimensional hull."
+	^ self equidimensionalHull = self! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 5/7/2022 07:27:46'!
 isFree
@@ -14215,12 +14239,13 @@ isPrimary
 	self scalars = ℤ ifTrue: [^ self isTrivial or: [self generator isPrimePower]].
 	^ self primaryDecomposition size = 1! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 4/13/2025 09:02:35'!
+!Ideal methodsFor: 'testing' stamp: 'len 4/15/2025 11:24:29'!
 isPrime
 	"An ideal I of R is prime iff R/I is an integral domain.
 	Every maximal ideal is prime.
 	In a PID every nonzero prime ideal is maximal.
 	In a zero-dimensional ring every prime ideal is maximal."
+	self scalars isLocalization ifTrue: [^ self numeratorSaturated isPrime].
 	self scalars isQuotient ifTrue: [^ self representativeSaturated isPrime].
 	(self scalars isIntegralDomain and: [self isZero]) ifTrue: [^ true].
 	(self scalars isUFD and: [self isPrincipal]) ifTrue: [^ self generator isIrreducible].
@@ -14229,7 +14254,7 @@ isPrime
 		ifTrue: [^ self scalars allSatisfy: [:a|
 					self scalars allSatisfy: [:b|
 						(self includes: a*b) not or: [(self includes: a) or: [self includes: b]]]]].
-	^ self radicalDecomposition size = 1 and: [self radicalDecomposition any = self]! !
+	^ self coassociatedPrimes size = 1 and: [self coassociatedPrimes any = self]! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 2/20/2024 13:54:48'!
 isPrincipal
@@ -14245,10 +14270,10 @@ isPrincipal
 isProper
 	^ self isZero not and: [self isOne not]! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 1/31/2025 11:28:42'!
+!Ideal methodsFor: 'testing' stamp: 'len 4/16/2025 13:33:30'!
 isRadical
 	"Answer true if the receiver I is a radical ideal, i.e. I = √I."
-	^ self = self radicalization! !
+	^ self = self radical! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 6/6/2022 11:48:53'!
 isSemiprime
@@ -14257,10 +14282,10 @@ isSemiprime
 	self scalars = ℤ ifTrue: [^ self isTrivial or: [self generator isSquarefree]].
 	^ self notYetImplemented! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 1/31/2025 11:28:19'!
-radicalizationContains: anElement
+!Ideal methodsFor: 'testing' stamp: 'len 4/16/2025 13:33:30'!
+radicalContains: anElement
 	"Answer true if the radical of the receiver includes anElement, i.e. if some power of anElement is in the receiver."
-	^ self radicalization contains: anElement! !
+	^ self radical contains: anElement! !
 
 !Ideal methodsFor: 'private' stamp: 'len 7/15/2021 12:09:46'!
 species
@@ -14283,6 +14308,25 @@ degree
 !PolynomialIdeal methodsFor: 'accessing' stamp: 'len 5/4/2023 22:47:10'!
 gradedBasis
 	^ self propertyAt: #gradedBasis ifAbsentPut: [(self scalars isGraded ifTrue: [self] ifFalse: [self orderedBy: #grevlex]) basis]! !
+
+!PolynomialIdeal methodsFor: 'accessing' stamp: 'len 4/15/2025 15:28:34'!
+maximallyIndependentIndeterminates
+	"Answer a maximimally independent set of indeterminates.
+	A set of indeterminats Y is called independent modulo I if the canonical map K[Y] → R/I is injective.
+	The size of a maximally independent set is called the 'combinatorial dimension' of the ideal, and it is actually equal to the Krull dimension of the quotient ring R/I defined by the ideal. Seeing the quotient ring as a field extension, the Krull dimension is its transcendence degree."
+	"See [DK02], Algorithm 1.2.4 (Dimension of an ideal)."
+	| G leadingMonomials indeterminates |
+	self isTrivial ifTrue: [^ #()].
+	G := self gradedBasis.
+	"G _ G minimal." "is this necesary?"
+	leadingMonomials := Set new.
+	G do: [:each| leadingMonomials add: each leadingMonomial].
+	indeterminates := self scalars indeterminates.
+	1 to: indeterminates size do: [:k|
+		indeterminates combinations: k atATimeDo: [:combination|
+			(leadingMonomials allSatisfy: [:monomial| combination includesAnyOf: monomial indeterminates])
+				ifTrue: [^ indeterminates reject: [:any| combination includes: any]]]].
+	^ indeterminates! !
 
 !PolynomialIdeal methodsFor: 'accessing' stamp: 'len 4/6/2021 13:14:53'!
 minimalMonomialGeneratingSet
@@ -14367,16 +14411,15 @@ dehomogenizedIn: anIndeterminate
 	S _ R slice: (R indeterminates select: [:i| i ~= anIndeterminate]).
 	^ S * (self generators collect: [:each| S !! (each dehomogenizedIn: anIndeterminate)])! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 10/21/2023 21:51:39'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 4/15/2025 13:41:00'!
 eliminateAll: aCollection
 	"Answer the elimination ideal for the indeterminates in aCollection = {xᵢ}, i.e. the subideal of polynomials without indeterminates {xᵢ}."
-	| freeIndeterminates G newGenerators |
+	| freeIndeterminates G |
 	freeIndeterminates := self scalars ordering indeterminates reject: [:each| aCollection includes: each].
 	self scalars ordering isGlobal ifFalse: [self notYetImplemented].
 	"if the ideal is homogeneous, should we use use glex?"
 	G := (self orderedBy: (MonomialOrdering lex: aCollection), (MonomialOrdering grevlex: freeIndeterminates)) basis.
-	newGenerators := G asArray select: [:each| (aCollection noneSatisfy: [:none| each has: none])].
-	^ self scalars * (newGenerators collect: [:each| self scalars !! each])! !
+	^ self scalars * (G asArray select: [:g| (aCollection noneSatisfy: [:i| g has: i])])! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 8/3/2021 14:43:11'!
 highestCorner
@@ -14446,11 +14489,19 @@ primaryDecomposition
 	^ self asSimplicialComplex facets collect: [:each|
 		self scalars * (self scalars indeterminates \ each vertices collect: [:i| self scalars x: i])]! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 1/31/2025 11:32:11'!
-radicalization
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 4/16/2025 14:25:04'!
+radical
 	self isMonomial ifTrue: [^ self scalars * (self generators collect: [:each| each radicalPart])]. "[HH11] Proposition 1.2.4"
-	(self scalars scalars characteristic > 0 and: [self scalars scalars isPerfectField]) ifTrue: [^ self radicalizationMatsumoto].
-	self isZeroDimensional ifTrue: [^ self radicalizationZeroDimensional].
+	(self scalars scalars characteristic > 0 and: [self scalars scalars isPerfectField]) ifTrue: [^ self radicalMatsumoto].
+	self isZeroDimensional ifTrue: [^ self radicalZeroDimensional].
+"	R := self scalars.
+	self reductionToZeroDimensionDo: [:E :L :G :h|
+		J := L * (E * G) radicalZeroDimensional basis.	
+		p := J basis product: [:g| self scalars !! g leadingCoefficient numerator].
+		J := J basis collect
+	m := (self saturationAndExponent: R * h) second.
+		J := J generators collect: [:each
+"			
 	self flag: #fixme. "this is not right, maybe only works for ℚ[x₁...xₙ] and monomial ideals"
 	^ self scalars * (self generators collect: [:each| each radicalPart])! !
 
@@ -14474,7 +14525,7 @@ saturation: anIdeal
 		J := J eliminate: P rank].
 	^ self scalars * (J generators collect: [:each| self scalars !! each])! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 3/29/2025 12:54:15'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 4/16/2025 14:26:32'!
 singularEquidimensionalLocusIdeal
 	"Answer the singular locus of the receiver (or more precisely of the quotient by the receiver). The singular locus is defined as:
 		Sing(A) := {P in Spec(A) | the localization of A at P is not regular}.
@@ -14483,7 +14534,7 @@ singularEquidimensionalLocusIdeal
 	| R n d jacobian J |
 	R := self scalars.
 	n := R rank.
-	d := (R/self) dimension.
+	d := self coheight.
 	jacobian := self freeCover to: R^n fill: [:i :j| (self generators at: j) derivativeIn: i].
 	J := self scalars * (jacobian minors: n - d).
 	^ self + J! !
@@ -14521,14 +14572,14 @@ isIrreducible
 	self isMonomial ifTrue: [^ self minimalMonomialGeneratingSet allSatisfy: [:each| each monomials any support size = 1]].
 	^ super isIrreducible! !
 
-!PolynomialIdeal methodsFor: 'testing' stamp: 'len 12/24/2024 08:52:34'!
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 4/15/2025 15:34:39'!
 isMaximal
 	"A proper ideal I of R is called 'maximal' if it is not contained in any other proper ideal.
 	See [ABPR19, Algorithm 4.16 IsMaximal]."
 	| K Q d μ ℓ |
 	(K := self scalars scalars) isPerfectField ifFalse: [^ super isMaximal].
 	self isZeroDimensional ifFalse: [^ false].
-	Q := self scalars / self.
+	Q := self quotientRing.
 	d := Q carrier rank.
 	Q generators do: [:xᵢ|
 		μ := xᵢ minimalPolynomial.
@@ -14566,8 +14617,8 @@ isRadical
 isZeroDimensional
 	^ self propertyAt: #isZeroDimensional ifAbsentPut: [(self scalars / self) isZeroDimensional]! !
 
-!PolynomialIdeal methodsFor: 'testing' stamp: 'len 1/31/2025 11:28:19'!
-radicalizationContains: aPolynomial
+!PolynomialIdeal methodsFor: 'testing' stamp: 'len 4/16/2025 13:31:15'!
+radicalContains: aPolynomial
 	"(Radical Membership Problem)
 	Answer true if the radical of the receiver includes aPolynomial.
 	Use Rabinowitsch's trick introducing a new indeterminate."
@@ -14580,12 +14631,29 @@ radicalizationContains: aPolynomial
 	X add: S !! aPolynomial * t - S one.
 	^ (S * X) isOne! !
 
-!PolynomialIdeal methodsFor: 'private' stamp: 'len 12/24/2024 08:52:41'!
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 4/15/2025 17:54:11'!
+asZeroDimensional
+	"See [GP08, ALgorithm 4.3.2]."
+	| R u ū F E images k |
+	R := self scalars.
+	u := self maximallyIndependentIndeterminates.
+	ū := (1 to: R rank) \ u.
+	F := (R slice: u) fractions.
+	E := F polynomialsIn: (ū collect: [:i| R names at: i]).
+	images := Array new: R rank.
+	k := 0.
+	u do: [:i| images at: i put: (E constant: (F x: (k := k + 1)))].
+	k := 0.
+	ū do: [:i| images at: i put: (E x: (k := k + 1))].
+	E addMap: (R to: E images: images).
+	^​ E !! self! !
+
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 4/15/2025 15:51:22'!
 isPrimaryZeroDimensional
 	"See [ABPR19, Algorithm 4.19 IsPrimary0Dim]."
 	| J Q d μ factorization K ℓ |
 	J := self.
-	Q := self scalars / J.
+	Q := J quotientRing.
 	d := Q carrier rank.
 	Q generators do: [:xᵢ|
 		μ := xᵢ minimalPolynomial.
@@ -14595,33 +14663,33 @@ isPrimaryZeroDimensional
 		factorization size = 1 ifFalse: "is it square-free?"
 			[μ := factorization any. "get the square-free part"
 			J := J + (self scalars * (μ value: xᵢ)).
-			Q := self scalars / J.
+			Q := J quotientRing.
 			d := Q carrier rank.
 			μ degree = d ifTrue: [^ true]]].
 	K := self scalars scalars.
 	"If K is a finite field GF(q), compute the q-Frobenius space and check if dimension is 1:" 
-	K isFinite ifTrue: [^ (self scalars / self) frobeniusSubspace rank = 1].
+	K isFinite ifTrue: [^ self quotientRing frobeniusSubspace rank = 1].
 	"If K is infinite, test random linear forms:"
 	[ℓ := Q generators sum: [:each| each * K atRandom].
 	μ := ℓ minimalPolynomial.
 	μ isIrreducible ifFalse: [^ false].
 	μ degree = d ifTrue: [^ true]] repeat! !
 
-!PolynomialIdeal methodsFor: 'private' stamp: 'len 7/30/2021 12:34:27'!
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 4/15/2025 15:53:23'!
 isRadicalZeroDimensional
-	"Answer true if the receiver is radical, assuming its quotient is zero-dimensional.
+	"Answer true if the receiver is radical, assuming it is zero-dimensional.
 	See [BW93], Table 8.2, Algorithm ZRADICALTEST."
 	self scalars indeterminates do: [:i| | f |
-		f _ (self eliminateAllBut: i) generator.
+		f := (self eliminateAllBut: i) generator.
 		(f gcd: (f derivativeIn: i)) isConstant ifFalse: [^ false]].
 	^ true! !
 
-!PolynomialIdeal methodsFor: 'private' stamp: 'len 12/1/2024 14:47:42'!
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 4/15/2025 15:35:11'!
 isRadicalZeroDimensional2
 	"Answer true if the receiver is radical, assuming it is zero-dimensional.
 	See [ABPR19, Algorithm 4.7 IsRadical0Dim]."
 	| Q d |
-	Q := self scalars / self.
+	Q := self quotientRing.
 	d := Q carrier rank.
 	Q generators do: [:xᵢ| | μ |
 		μ := xᵢ minimalPolynomial.
@@ -14629,8 +14697,8 @@ isRadicalZeroDimensional2
 		μ degree = d ifTrue: [^ true]].
 	^ true! !
 
-!PolynomialIdeal methodsFor: 'private' stamp: 'len 1/31/2025 11:29:36'!
-radicalizationMatsumoto
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 4/16/2025 13:31:46'!
+radicalMatsumoto
 	"Matsumoto's algorithm for computing the radical ideal over a perfect field of characteristic p > 0.
 	See [DK02, Algorithm 1.5.1]."
 	| R K p n S I J L I₂ |
@@ -14647,14 +14715,14 @@ radicalizationMatsumoto
 	I₂ ⊆ I ifTrue: [^ I].
 	I := I₂] repeat! !
 
-!PolynomialIdeal methodsFor: 'private' stamp: 'len 1/31/2025 11:32:20'!
-radicalizationZeroDimensional
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 4/16/2025 13:32:07'!
+radicalZeroDimensional
 	"Answer the radical of the receiver, assuming it is zero-dimensional.
 	See [BW93] Table 8.3, Algorithm ZRADICAL."
-	^ self scalars * (self scalars indeterminates collect: [:i| (self eliminateAllBut: i) generator radicalPart])! !
+	^ self scalars * (self generators, (self scalars indeterminates collect: [:i| (self eliminateAllBut: i) generator radicalPart]))! !
 
-!PolynomialIdeal methodsFor: 'private' stamp: 'len 1/31/2025 11:32:32'!
-radicalizationZeroDimensional2
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 4/16/2025 13:32:22'!
+radicalZeroDimensional2
 	"Answer the radical of the receiver, assuming it is zero-dimensional over a perfect field.
 	See [ABPR19, Algorithm 4.8 Radical0Dim]."
 	| R n J Q d |
@@ -14674,13 +14742,26 @@ radicalizationZeroDimensional2
 		μ degree = d ifTrue: [^ J]].
 	^ J! !
 
-!PolynomialIdeal methodsFor: 'private' stamp: 'len 3/29/2025 17:11:34'!
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 4/16/2025 14:17:46'!
 reductionToZeroDimensionDo: aBlock
-	"Evaluate aBlock with u, G, h where:
-		- u is a maximal independent subset of the indeterminates with respect to the receiver,
-		- G..
-	See [GP08, ALgorithm 4.3.2]."
-	self notYetImplemented! !
+	"See [GP08, ALgorithm 4.3.2]."
+	| R u ū F E images k G h m |
+	self flag: #fixme. "should cache"
+	R := self scalars.
+	u := self maximallyIndependentIndeterminates.
+	ū := (1 to: R rank) \ u.
+	F := (R slice: u) fractions.
+	E := F polynomialsIn: (ū collect: [:i| R names at: i]).
+	images := Array new: R rank.
+	k := 0.
+	u do: [:i| images at: i put: (E constant: (F x: (k := k + 1)))].
+	k := 0.
+	ū do: [:i| images at: i put: (E x: (k := k + 1))].
+	E addMap: (R to: E images: images).
+	G := (self orderedBy: (MonomialOrdering lex: u, ū)) basis.
+	h := G product: [:g| R !! (E !! (R !! g)) leadingCoefficient numerator].
+	m := (self saturationAndExponent: R * h) second.
+	^ aBlock value: E value: G value: h^m! !
 
 !PolynomialIdeal class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
 cyclic3
@@ -15440,12 +15521,12 @@ isIndecomposable
 	Being indecomposable is a weaker condition than being simple."
 	^ self decomposition isSingleton! !
 
-!RepresentationModule methodsFor: 'testing' stamp: 'len 1/31/2025 17:23:43'!
+!RepresentationModule methodsFor: 'testing' stamp: 'len 4/16/2025 13:28:54'!
 isSemisimple
 	"A module is 'semisimple' (or 'completely reducible') if it is the direct sum of simple (or irreducible) submodules."
 	self scalars isSemisimple ifTrue: [^ true].
 	"A finitely generated module is semisimple if and only if it is Artinian and its Jacobson radical is zero:"
-	^ self scalars isArtinian and: [self radical isTrivial]! !
+	^ self scalars isArtinian and: [self jacobsonRadical isTrivial]! !
 
 !RepresentationModule methodsFor: 'testing' stamp: 'len 12/30/2024 07:53:50'!
 isSimple
@@ -15931,9 +16012,9 @@ asVectorSpace
 	self assert: self scalars isField.
 	^ self asModule! !
 
-!Ring methodsFor: 'elements' stamp: 'len 8/7/2019 17:49:30'!
+!Ring methodsFor: 'elements' stamp: 'len 4/15/2025 13:08:49'!
 !! anObject
-	(anObject isKindOf: Ideal) ifTrue: [^ self * (anObject generators collect: [:each| self !! each])].
+	(anObject isKindOf: Ideal) ifTrue: [^ self * anObject generators].
 	^ super !! anObject! !
 
 !Ring methodsFor: 'elements' stamp: 'len 5/6/2023 18:05:51'!
@@ -16375,6 +16456,33 @@ ideals
 irreducibles
 	^ self select: [:each| each isIrreducible]! !
 
+!Ring methodsFor: 'operations' stamp: 'len 4/16/2025 13:28:14'!
+jacobsonRadical
+	"Answer the Jacobson radical J(R) of the receiver R. This is the ideal consisting of all elements that annihilate all simple R-modules. It is the intersection of all maximal ideals. (See also >>nilradical.)"
+	self isLocal ifTrue: [^ self maximalIdeal].
+	(self isFiniteAlgebra and: [self scalars isField]) ifFalse:
+		[| generators one |
+		self isFinite ifFalse: [^ self notYetImplemented].
+		generators := Set new.
+		one := self one.
+		self do: [:x| (self elements allSatisfy: [:y| (one - (x*y)) isUnit]) ifTrue: [generators add: x]].
+		^ self * generators].
+	"In characteristic 0, or more generally when n!! is invertible, where n is the dimension of the underlying vector space, Dickson's criterium holds: x ∈ J(A) ⟺ Tr(xy) = 0 for every y ∈ A."
+	(self scalars characteristic = 0 or: [self scalars characteristic > self carrier rank])
+		ifTrue: [^ (self carrier to: self carrier freeCover map: [:x| self linearGenerators collect: [:y| ((self !! x) * y) representation trace]]) kernel].
+	"TODO: implement Cohen-Ivanov-Wales algorithm for jacobson radical in char p, [Sto00, pp 95], [CIW97]"
+	^ self notYetImplemented! !
+
+!Ring methodsFor: 'operations' stamp: 'len 4/16/2025 13:29:57'!
+jacobsonRadicalContains: anElement
+	"Answer true if the Jacobson radical J(R) of the receiver R contains anElement.
+	In characteristic 0, or more generally when n!! is invertible, where n is the dimension of the underlying vector space, Dickson's criterium holds: x ∈ J(A) ⟺ Tr(xy) = 0 for every y ∈ A. If n!! is not invertible, the forward direction still holds.
+	See [Ebe89, Theorem 2.3.2 and Corollary 2.3.3]."
+	(self isFiniteAlgebra and: [self scalars isField]) ifTrue:
+		[(self linearGenerators allSatisfy: [:each| (anElement * each) trace isZero]) ifFalse: [^ false].
+		(self scalars characteristic = 0 or: [self scalars characteristic > self carrier rank]) ifTrue: [^ true]].
+	^ self jacobsonRadical contains: anElement! !
+
 !Ring methodsFor: 'operations' stamp: 'len 11/7/2023 21:40:17'!
 jet: k
 	"If the receiver is a local ring R, answer the k-th jet R/M^(k+1) at the maximal ideal M."
@@ -16414,12 +16522,12 @@ localizationAwayFrom: anElement
 maximalIdeals
 	^ Iterator on: self performing: #maximalIdealsDo:! !
 
-!Ring methodsFor: 'operations' stamp: 'len 3/9/2025 08:02:24'!
+!Ring methodsFor: 'operations' stamp: 'len 4/16/2025 13:50:49'!
 nilradical
-	"Answer the ideal consisting of all nilpotent elements, i.e. all x such that there exists some n with x^n = 0. It is the intersection of all prime ideals. (See also >>radical.)"
+	"Answer the ideal consisting of all nilpotent elements, i.e. all x such that there exists some n with x^n = 0. It is the intersection of all prime ideals. (See also >>#jacobsonRadical.)"
 	self assert: self isCommutative. "In the non-commutative case, the nilradical of a Noetherian ring can be defined as the unique largest (left, right or two-sided) nilpotent ideal of the ring."
-	(self isFinitelyGenerated and: [self scalars isField "or: [self scalars = ℤ]"]) ifTrue: [^ self radical].
-	^ self propertyAt: #nilradical ifAbsentPut: [self asIdeal null radicalization]! !
+	(self isFinitelyGenerated and: [self scalars isField "or: [self scalars = ℤ]"]) ifTrue: [^ self jacobsonRadical].
+	^ self propertyAt: #nilradical ifAbsentPut: [self asIdeal null radical]! !
 
 !Ring methodsFor: 'operations' stamp: 'len 3/4/2025 07:31:43'!
 normalization
@@ -16498,7 +16606,7 @@ primitiveCentralIdempotentDecompositionOf: anIdempotent
 	self assert: e₁ + e₂ = anIdempotent. 
 	^ (self primitiveCentralIdempotentDecompositionOf: e₁), (self primitiveCentralIdempotentDecompositionOf: e₂)! !
 
-!Ring methodsFor: 'operations' stamp: 'len 3/8/2025 09:05:24'!
+!Ring methodsFor: 'operations' stamp: 'len 4/16/2025 13:28:14'!
 primitiveCentralIdempotents
 	"Answer a complete set of primitive central orthogonal idempotents.
 	See [Str00, §5.7, pp 123] and [EG96]."
@@ -16511,7 +16619,7 @@ primitiveCentralIdempotents
 		P := Z frobeniusSubalgebra.
 		self flag: #fix. "TODO: implement DavisIdempotents, pp , use p-power subalgebra"
 		^ P primitiveCentralIdempotentDecompositionOf: P one].
-	J := Z radical.
+	J := Z jacobsonRadical.
 	J isTrivial ifTrue: [^ Z primitiveCentralIdempotentsLargeField].
 	"Compute the idempotents of the semisimple quotient, and then lift the idempotents:"
 	π := Z →​ (Z / J).
@@ -16545,33 +16653,6 @@ proj
 	self assert: self isCommutative.
 	self assert: self isGraded.
 	^ self propertyAt: #proj ifAbsentPut: [ProjectiveScheme homogeneousCoordinateRing: self]! !
-
-!Ring methodsFor: 'operations' stamp: 'len 3/8/2025 09:05:24'!
-radical
-	"Answer the Jacobson radical J(R) of the receiver R. This is the ideal consisting of all elements that annihilate all simple R-modules. It is the intersection of all maximal ideals. (See also >>nilradical.)"
-	self isLocal ifTrue: [^ self maximalIdeal].
-	(self isFiniteAlgebra and: [self scalars isField]) ifFalse:
-		[| generators one |
-		self isFinite ifFalse: [^ self notYetImplemented].
-		generators := Set new.
-		one := self one.
-		self do: [:x| (self elements allSatisfy: [:y| (one - (x*y)) isUnit]) ifTrue: [generators add: x]].
-		^ self * generators].
-	"In characteristic 0, or more generally when n!! is invertible, where n is the dimension of the underlying vector space, Dickson's criterium holds: x ∈ J(A) ⟺ Tr(xy) = 0 for every y ∈ A."
-	(self scalars characteristic = 0 or: [self scalars characteristic > self carrier rank])
-		ifTrue: [^ (self carrier to: self carrier freeCover map: [:x| self linearGenerators collect: [:y| ((self !! x) * y) representation trace]]) kernel].
-	"TODO: implement Cohen-Ivanov-Wales algorithm for jacobson radical in char p, [Sto00, pp 95], [CIW97]"
-	^ self notYetImplemented! !
-
-!Ring methodsFor: 'operations' stamp: 'len 3/8/2025 09:05:24'!
-radicalContains: anElement
-	"Answer true if the Jacobson radical J(R) of the receiver R contains anElement.
-	In characteristic 0, or more generally when n!! is invertible, where n is the dimension of the underlying vector space, Dickson's criterium holds: x ∈ J(A) ⟺ Tr(xy) = 0 for every y ∈ A. If n!! is not invertible, the forward direction still holds.
-	See [Ebe89, Theorem 2.3.2 and Corollary 2.3.3]."
-	(self isFiniteAlgebra and: [self scalars isField]) ifTrue:
-		[(self linearGenerators allSatisfy: [:each| (anElement * each) trace isZero]) ifFalse: [^ false].
-		(self scalars characteristic = 0 or: [self scalars characteristic > self carrier rank]) ifTrue: [^ true]].
-	^ self radical contains: anElement! !
 
 !Ring methodsFor: 'operations' stamp: 'len 4/6/2025 08:17:34'!
 reduced
@@ -16765,6 +16846,11 @@ isElementaryDivisorRing
 	Warning: it might be an elementary divisor ring without being Euclidean, but in the constructive setting we may not have a way of testing if it is, or we may not have an algorithm to compute the Smith normal form."
 	^ self isEuclidean! !
 
+!Ring methodsFor: 'testing' stamp: 'len 4/16/2025 11:21:52'!
+isEquidimensional
+	"A Noetherian ring R is called equidimensional if the equidimensional hull of the zero ideal is trivial."
+	^ self asIdeal null isEquidimensional! !
+
 !Ring methodsFor: 'testing' stamp: 'len 6/3/2022 06:54:43'!
 isEuclidean
 	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder."
@@ -16934,22 +17020,22 @@ isReduced
 "alternatively:
 	^ self noneSatisfy: [:any| any squared isZero and: [any isZero not]]"! !
 
-!Ring methodsFor: 'testing' stamp: 'len 3/16/2025 08:56:46'!
+!Ring methodsFor: 'testing' stamp: 'len 4/16/2025 13:28:14'!
 isSemilocal
 	"A ring R is called 'semilocal' if R/J(R) is semisimple.
 	In for commutative unital rings, the following definition is equivalent: a ring is called 'semilocal' if it contains a finite number of maximal ideals."
 	self isFinite ifTrue: [^ true]. "Finite rings are semilocal."
 	self isLocal ifTrue: [^ true]. "Local rings have 1 maximal ideal"
-	^ (self / self radical) isSemisimple! !
+	^ self jacobsonRadical quotientRing isSemisimple! !
 
-!Ring methodsFor: 'testing' stamp: 'len 10/18/2023 09:37:25'!
+!Ring methodsFor: 'testing' stamp: 'len 4/16/2025 13:28:14'!
 isSemisimple
 	"A semisimple ring R is one obeying any of the following equivalent conditions:
 	- R is Artinian ring with vanishing Jacobson radical;
 	- R is a finite product of simple Artinian rings;
 	- Every (left or right) R-module is projective.
 	A commutative ring is semisimple iff it is both Artinian and reduced." 
-	^ self isArtinian and: [self radical isTrivial]! !
+	^ self isArtinian and: [self jacobsonRadical isTrivial]! !
 
 !Ring methodsFor: 'testing' stamp: 'len 10/18/2023 09:33:57'!
 isSimple
@@ -17635,16 +17721,16 @@ hilbertSeriesAt: t
 	self isGraded ifFalse: [^ self error: 'not a graded ring'].
 	^ (self indeterminates product: [:i| 1 - (t ^ (self ordering weightOf: i))]) reciprocal! !
 
+!PolynomialRing methodsFor: 'operations' stamp: 'len 4/16/2025 13:33:30'!
+jacobsonRadical
+	"In a polynomial ring, the Jacobson radical is the same as the nilradical."
+	^ self propertyAt: #jacobsonRadical ifAbsentPut: [self asIdeal null radical]! !
+
 !PolynomialRing methodsFor: 'operations' stamp: 'len 2/19/2025 07:38:18'!
 proj
 	"This is the Proj construction. Answer the projective space with the receiver as homogeneous coordinate ring."
 	self assert: self isGraded.
 	^ self propertyAt: #proj ifAbsentPut: [ProjectiveSpace homogeneousCoordinateRing: self]! !
-
-!PolynomialRing methodsFor: 'operations' stamp: 'len 1/31/2025 11:33:48'!
-radical
-	"In a polynomial ring, the Jacobson radical is the same as the nilradical."
-	^ self propertyAt: #radical ifAbsentPut: [self asIdeal null radicalization]! !
 
 !PolynomialRing methodsFor: 'operations' stamp: 'len 12/11/2021 19:13:41'!
 spec
@@ -19207,11 +19293,11 @@ from: aRing
 center
 	^ self propertyAt: #center ifAbsentPut: [self sub: (group conjugacyClasses collect: [:each| self coefficients: (Dictionary new atAll: each put: self scalars one; yourself)])]! !
 
-!GroupAlgebra methodsFor: 'operations' stamp: 'len 12/15/2024 18:37:55'!
-radical
+!GroupAlgebra methodsFor: 'operations' stamp: 'len 4/16/2025 13:28:14'!
+jacobsonRadical
 	"If semisimple, the Jacobson radical is trivial."
 	self isSemisimple ifTrue: [^ self asIdeal null].
-	^ super radical! !
+	^ super jacobsonRadical! !
 
 !GroupAlgebra methodsFor: 'printing' stamp: 'len 8/7/2016 08:38'!
 printOn: aStream
@@ -19678,8 +19764,8 @@ to: aRing
 fractions
 	^ ℚ! !
 
-!IntegerRing methodsFor: 'operations' stamp: 'len 12/27/2024 08:38:14'!
-radical
+!IntegerRing methodsFor: 'operations' stamp: 'len 4/16/2025 13:28:14'!
+jacobsonRadical
 	^ self asIdeal null! !
 
 !IntegerRing methodsFor: 'operations' stamp: 'len 5/7/2022 07:35:14'!
@@ -19811,6 +19897,10 @@ saturationOf: anIdeal
 !LocalizationRing methodsFor: 'computing-matrices' stamp: 'len 4/4/2025 18:56:15'!
 syzygiesOf: aMatrix
 	^ aMatrix numerator syzygies over: self! !
+
+!LocalizationRing methodsFor: 'computing-polynomials' stamp: 'len 4/17/2025 12:38:41'!
+polynomial: aPolynomial factorizationDo: aBlock
+	aPolynomial numerator primitivePart factorizationDo: [:f :r| aBlock value: aPolynomial parent !! f value: r]! !
 
 !LocalizationRing methodsFor: 'elements' stamp: 'len 3/30/2025 09:28:40'!
 adapt: anElement
@@ -20069,10 +20159,6 @@ size
 hash
 	^ self class hash! !
 
-!RationalField methodsFor: 'computing-polynomials' stamp: 'len 6/25/2023 12:05:42'!
-polynomial: aPolynomial factorizationDo: aBlock
-	aPolynomial numerator primitivePart factorizationDo: [:f :r| aBlock value: aPolynomial parent !! f value: r]! !
-
 !RationalField methodsFor: 'computing-polynomials' stamp: 'len 12/1/2024 16:59:10'!
 rootsOf: aPolynomial withMultiplicitiesDo: aBlock
 	"Enumerate the (real) rational roots of aPolynomial with multiplicities."
@@ -20271,11 +20357,11 @@ hash
 findDenominatorIn: anIdeal ifNone: exceptionBlock
 	^ anIdeal generators detect: [:g| self denominatorsInclude: g] ifNone: exceptionBlock! !
 
-!LocalRing methodsFor: 'computing' stamp: 'len 4/11/2025 21:58:38'!
+!LocalRing methodsFor: 'computing' stamp: 'len 4/16/2025 13:33:30'!
 saturationOf: anIdeal
 	| answer |
 	answer := self numerators asIdeal.
-	anIdeal numerator primaryDecomposition do: [:Q| Q radicalization ⊆ self baseIdeal ifTrue: [answer := answer ∩ Q]].
+	anIdeal numerator primaryDecomposition do: [:Q| Q radical ⊆ self baseIdeal ifTrue: [answer := answer ∩ Q]].
 	^ answer! !
 
 !LocalRing methodsFor: 'computing-matrices' stamp: 'len 4/11/2025 21:32:46'!
@@ -20480,10 +20566,10 @@ presentation
 hash
 	^ self base hash! !
 
-!PrincipalLocalizationRing methodsFor: 'computing' stamp: 'len 4/11/2025 21:41:56'!
+!PrincipalLocalizationRing methodsFor: 'computing' stamp: 'len 4/16/2025 13:31:15'!
 findDenominatorIn: anIdeal ifNone: exceptionBlock
 	| answer |
-	(anIdeal radicalizationContains: self base) ifFalse: [^ exceptionBlock value].
+	(anIdeal radicalContains: self base) ifFalse: [^ exceptionBlock value].
 	answer := self base.
 	[anIdeal includes: answer] whileFalse: [answer := answer * self base].
 	^ answer! !
@@ -21038,10 +21124,10 @@ projection
 			yourself).
 	^ answer! !
 
-!QuotientRing methodsFor: 'operations' stamp: 'len 12/22/2024 08:57:05'!
-radical
-	self cover isArtinian ifTrue: [^ self cover radical apply: self projection].
-	^ super radical! !
+!QuotientRing methodsFor: 'operations' stamp: 'len 4/16/2025 13:28:14'!
+jacobsonRadical
+	self cover isArtinian ifTrue: [^ self cover jacobsonRadical apply: self projection].
+	^ super jacobsonRadical! !
 
 !QuotientRing methodsFor: 'printing' stamp: 'len 8/9/2022 10:21:33'!
 printOn: aStream
@@ -21227,39 +21313,21 @@ degree
 	self isZeroDimensional ifFalse: [^ Infinity positive].
 	^ self hilbertSeries numerator coefficients sum! !
 
-!AffineAlgebra methodsFor: 'accessing' stamp: 'len 10/26/2023 13:41:00'!
+!AffineAlgebra methodsFor: 'accessing' stamp: 'len 4/15/2025 15:38:57'!
 dimension
 	"Answer the Krull dimension of the receiver.
 	Seen as a field extension, this is its transcendence degree."
 	"See [DK02, Algorithm 1.2.4 (Dimension of an ideal)]."
 	self relations isZero ifTrue: [^ self cover dimension].
 	self isTrivial ifTrue: [^ Infinity negative]. "i.e., the ideal is the whole polynomial ring"
-	self scalars isField ifTrue: [^ self maximallyIndependentIndeterminates size].
+	self scalars isField ifTrue: [^ self relations maximallyIndependentIndeterminates size].
+	"maybe:
+	^ self scalars dimension + self relations maximallyIndependentIndeterminates size"
 	^ super dimension! !
 
 !AffineAlgebra methodsFor: 'accessing' stamp: 'len 6/10/2022 11:50:00'!
 indeterminates
 	^ self cover indeterminates! !
-
-!AffineAlgebra methodsFor: 'accessing' stamp: 'len 6/29/2023 19:42:15'!
-maximallyIndependentIndeterminates
-	"Answer a maximimally independent set of indeterminates.
-	A set of indeterminats Y is called independent modulo I if the canonical map K[Y] → P/I is injective.
-	The size of a maximally independent set is called the 'combinatorial dimension' of the ideal, and it is actually equal to the Krull dimension of the quotient ring P/I defined by the ideal. Seeing the quotient ring as a field extension, the Krull dimension is its transcendence degree."
-	"See [DK02], Algorithm 1.2.4 (Dimension of an ideal)."
-	| G leadingMonomials indeterminates |
-	self relations isTrivial ifTrue: [^ #()].
-"	self isTrivial ifTrue: [^ self error: 'trivial quotient']."
-	G := self relations gradedBasis.
-	"G _ G minimal." "is this necesary?"
-	leadingMonomials := Set new.
-	G do: [:each| leadingMonomials add: each leadingMonomial].
-	indeterminates := self indeterminates.
-	1 to: indeterminates size do: [:k|
-		indeterminates combinations: k atATimeDo: [:combination|
-			(leadingMonomials allSatisfy: [:monomial| combination includesAnyOf: monomial indeterminates])
-				ifTrue: [^ indeterminates reject: [:any| combination includes: any]]]].
-	^ indeterminates! !
 
 !AffineAlgebra methodsFor: 'accessing' stamp: 'len 6/10/2022 11:50:25'!
 monomials
@@ -21365,7 +21433,7 @@ from: aRing
 	aRing relators do: [:g| relators add: (R !! g substitute: [:i| i + self rank])].
 	^​ R / relators! !
 
-!AffineAlgebra methodsFor: 'operations' stamp: 'len 10/26/2023 13:41:18'!
+!AffineAlgebra methodsFor: 'operations' stamp: 'len 4/15/2025 15:29:00'!
 fractions
 	"Answer the total ring of fractions of the receiver, with the receiver an affine algebra R = K[x₁,...,xₙ]/I over a field K.
 	The ring of fractions is constructed as an affine algebra over the rational function field whose indeterminates correspond to maximally independent indeterminates of R."
@@ -21375,7 +21443,7 @@ fractions
 	K isField ifFalse:
 		[K isIntegralDomain ifFalse: [^ super fractions].
 		^ self propertyAt: #fractions put: (self ⊗ K fractions) fractions].
-	independentIndeterminates := self maximallyIndependentIndeterminates.
+	independentIndeterminates := self relations maximallyIndependentIndeterminates.
 	independentIndeterminates isEmpty ifTrue: [^ self propertyAt: #fractions put: self]. "is this correct? is it a field?"
 	dependentIndeterminates := (1 to: self rank) reject: [:i| independentIndeterminates includes: i].
 	F := (K polynomialsIn: (independentIndeterminates collect: [:i| self cover names at: i])) fractions.
@@ -21393,6 +21461,11 @@ hilbertSeriesAt: t
 	"Answer the Hilbert series of the receiver."
 	^ (self cover hilbertSeriesAt: t) - (self relations hilbertSeriesAt: t)! !
 
+!AffineAlgebra methodsFor: 'operations' stamp: 'len 4/16/2025 13:33:30'!
+jacobsonRadical
+	(self scalars isField or: [self scalars = ℤ]) ifTrue: [^ self propertyAt: #jacobsonRadical ifAbsentPut: [self asIdeal null radical]].
+	^ super jacobsonRadical! !
+
 !AffineAlgebra methodsFor: 'operations' stamp: 'len 10/26/2023 13:43:20'!
 normalization
 	"Answer the integral closure of the receiver in its field of fractions."
@@ -21404,11 +21477,6 @@ proj
 	"This is the Proj construction. Answer the subscheme of projective space with the receiver as its homogeneous coordinate ring."
 	self assert: self isGraded.
 	^ self propertyAt: #proj ifAbsentPut: [ProjectiveAlgebraicScheme homogeneousCoordinateRing: self]! !
-
-!AffineAlgebra methodsFor: 'operations' stamp: 'len 1/31/2025 11:34:15'!
-radical
-	(self scalars isField or: [self scalars = ℤ]) ifTrue: [^ self propertyAt: #radical ifAbsentPut: [self asIdeal null radicalization]].
-	^ super radical! !
 
 !AffineAlgebra methodsFor: 'operations' stamp: 'len 2/3/2025 08:14:36'!
 spec
@@ -25175,7 +25243,7 @@ multiplication: μ unit: η
 multiplication: μ unit: η
 	^ self new multiplication: μ unit: η! !
 
-!CoherentSheaf methodsFor: 'accessing' stamp: 'len 3/22/2025 16:53:00'!
+!CoherentSheaf methodsFor: 'accessing' stamp: 'len 4/15/2025 12:02:38'!
 associatedPoints
 	| answer |
 	answer := Set new.
@@ -25599,9 +25667,9 @@ new: anInteger over: aSpace
 ambient
 	^ self coordinateRing coambient spec! !
 
-!AffineScheme methodsFor: 'accessing' stamp: 'len 4/5/2025 07:49:39'!
+!AffineScheme methodsFor: 'accessing' stamp: 'len 4/15/2025 11:24:48'!
 associatedPoints
-	^ self definingIdeal radicalDecomposition collect: [:each| self !! each]! !
+	^ self definingIdeal coassociatedPrimes collect: [:each| self !! each]! !
 
 !AffineScheme methodsFor: 'accessing' stamp: 'len 7/9/2019 08:17:49'!
 base
@@ -25780,10 +25848,10 @@ closureIn: aScheme
 	self assert: self ⊆ aScheme.
 	self notYetImplemented! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 4/5/2025 07:48:57'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 4/15/2025 11:25:00'!
 decomposition
 	"Answer the irreducible components of the receiver."
-	^ self definingIdeal radicalDecomposition collect: [:each| self sub: each]! !
+	^ self definingIdeal coassociatedPrimes collect: [:each| self sub: each]! !
 
 !AffineScheme methodsFor: 'operations' stamp: 'len 4/5/2025 08:03:36'!
 inverseImage: aMorphism
@@ -26201,9 +26269,9 @@ affineCone
 	"If the receiver is defined by an homogeneous ideal I, the affine cone is the affine variety defined by I."
 	^ self homogeneousCoordinateRing spec! !
 
-!ProjectiveScheme methodsFor: 'operations' stamp: 'len 4/6/2025 08:22:33'!
+!ProjectiveScheme methodsFor: 'operations' stamp: 'len 4/16/2025 13:33:30'!
 reduced
-	^ self propertyAt: #reduced ifAbsentPut: [self ambient sub: self definingIdeal radicalization]! !
+	^ self propertyAt: #reduced ifAbsentPut: [self ambient sub: self definingIdeal radical]! !
 
 !ProjectiveScheme methodsFor: 'operations' stamp: 'len 4/3/2025 14:42:45'!
 saturated
@@ -26350,12 +26418,12 @@ apply: aMap
 	(aMap isKindOf: RationalMap) ifTrue: [^ aMap codomain sub: (aMap value: self definingIdeal)].
 	^ super apply: aMap! !
 
-!ProjectiveAlgebraicScheme methodsFor: 'operations' stamp: 'len 4/3/2025 14:42:56'!
+!ProjectiveAlgebraicScheme methodsFor: 'operations' stamp: 'len 4/15/2025 11:25:24'!
 decomposition
 	"Answer the irreducible components of the receiver.
 	This is the irreducible components of the affine cone not containing the irrelevant ideal.
 	Since the scheme is projective, remove the primes containing the irrelevant ideal:"
-	^ (self definingIdeal radicalDecomposition reject: [:each| self ambient homogeneousCoordinateRing generators anySatisfy: [:xi| each includes: xi]]) collect: [:each| self sub: each]! !
+	^ (self definingIdeal coassociatedPrimes reject: [:each| self ambient homogeneousCoordinateRing generators anySatisfy: [:xi| each includes: xi]]) collect: [:each| self sub: each]! !
 
 !ProjectiveAlgebraicScheme methodsFor: 'operations' stamp: 'len 4/3/2025 14:43:28'!
 singularLocus
@@ -37796,6 +37864,15 @@ xgcd: aPolynomial
 	anObject isBlock ifTrue: [^ [:x| self value: (anObject value: x)]].
 	^ self value: anObject! !
 
+!Polynomial methodsFor: 'operations' stamp: 'len 2/28/2025 09:45:54'!
+annihilator
+	"Answer the ideal of all elements that multiplied by the receiver are zero.
+	McCoy's theorem: a polynomial f in R[X] is a zero divisor iff there is nonzero r in R with fr = 0 (see [McC42])."
+	| answer |
+	answer _ self parent scalars asIdeal.
+	self coefficients do: [:each| each isZero ifFalse: [(answer _ answer ∩ each annihilator) isTrivial ifTrue: [^ answer]]].
+	^ answer apply: self parent scalars → self parent! !
+
 !Polynomial methodsFor: 'operations' stamp: 'len 10/30/2024 08:04:48'!
 apply: aMap
 	"Answer a new polynomial with coefficients obtainted by applying aMap to the coefficients of the receiver.
@@ -38403,15 +38480,6 @@ validate
 		self assert: (each indeterminates allSatisfy: [:i| self parent has: i]).
 		self assert: each exponents size = self parent rank].
 	self assert: (self coefficients allSatisfy: [:each| self parent scalars includes: each])! !
-
-!Polynomial methodsFor: 'as yet unclassified' stamp: 'len 2/28/2025 09:45:54'!
-annihilator
-	"Answer the ideal of all elements that multiplied by the receiver are zero.
-	McCoy's theorem: a polynomial f in R[X] is a zero divisor iff there is nonzero r in R with fr = 0 (see [McC42])."
-	| answer |
-	answer _ self parent scalars asIdeal.
-	self coefficients do: [:each| each isZero ifFalse: [(answer _ answer ∩ each annihilator) isTrivial ifTrue: [^ answer]]].
-	^ answer apply: self parent scalars → self parent! !
 
 !Polynomial class methodsFor: 'instance creation' stamp: 'len 2/6/2017 05:43:55'!
 new
