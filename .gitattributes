@@ -1,3 +1,3 @@
 # Disable line ending conversions for all files
 * -text
-*.st text linguist-language=Smalltalk
+*.st -text linguist-language=Smalltalk
