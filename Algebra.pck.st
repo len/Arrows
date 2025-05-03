@@ -1,4 +1,4 @@
-'From Cuis7.3 [latest update: #7092] on 29 April 2025 at 11:19:31 am'!
+'From Cuis7.3 [latest update: #7092] on 3 May 2025 at 8:48:40 pm'!
 'Description This package implements among other things: permutation groups, linear groups, finite fields, Galois rings, affine algebras, number fields, function fields, finitely presented modules, finite-dimensional associative algebras, schemes, finite-dimensional representations of finite groups.
 
 References:
@@ -105,7 +105,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 248!
+!provides: 'Algebra' 1 249!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'GAS' 1 1 nil!
@@ -14011,12 +14011,10 @@ adapt: anElement
 	(self includes: anElement) ifTrue: [^ anElement].
 	^ (super adapt: anElement) ifNil: [self scalars adapt: anElement]! !
 
-!Ideal methodsFor: 'morphisms' stamp: 'len 9/25/2024 14:30:06'!
+!Ideal methodsFor: 'morphisms' stamp: 'len 5/1/2025 10:46:49'!
 apply: aMap
-	aMap isMorphism
-		ifFalse: [^ self scalars * (self generators collect: aMap)].
-	aMap domain = self scalars
-		ifTrue: [^ aMap codomain * (self generators collect: aMap)].
+	aMap isMorphism ifFalse: [^ self scalars * (self generators collect: aMap)].
+	aMap domain = self scalars ifTrue: [^ aMap codomain * (self generators collect: aMap)].
 	^ super apply: aMap! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 4/17/2025 13:39:06'!
@@ -14071,27 +14069,30 @@ contraction: aRing
 	R isQuotient ifTrue: [^ self representativeSaturated ∩ aRing].
 	^ aRing → R preimage: self! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 3/3/2025 16:06:09'!
+!Ideal methodsFor: 'operations' stamp: 'len 5/1/2025 10:44:55'!
 equidimensionalDecomposition
 	"See [GP08, Algorithm 4.4.9]."
 	| answer I |
+	self propertyAt: #equidimensionalDecomposition ifPresent: [:aCollection| ^ aCollection].
 	answer := OrderedCollection new.
 	I := self.
 	[(answer add:​ I equidimensionalHull) = I] whileFalse: [I := I : answer last].
-	^ answer! !
+	^ self propertyAt: #equidimensionalDecomposition put: answer! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 4/16/2025 14:02:05'!
+!Ideal methodsFor: 'operations' stamp: 'len 5/1/2025 10:48:25'!
 equidimensionalHull
-	"Given an ideal I over a Noetherian ring with irredundant primary decomposition I = Q₁ ∩ ⋯ ∩ Qₛ, the 'equidimensional hull' of I is the intersection of all primary ideals Qᵢ with same dimension as I.
+	"Given an ideal I over a Noetherian ring with irredundant primary decomposition I = Q₁ ∩ ⋯ ∩ Qₛ, the 'equidimensional hull' of I is the intersection of all primary ideals Qᵢ with same dimension (coheight) as I, i.e. the intersection of the primary components of maximal coheight.
 	See [GP08, Algorithm 4.4.2]."
-	^ self reductionToZeroDimensionDo: [:E :G :h|
+	self propertyAt: #equidimensionalHull ifPresent: [:anIdeal| ^ anIdeal].
+	self scalars isLocalization
+		ifTrue: [^ self propertyAt: #equidimensionalHull put: self numeratorSaturated equidimensionalHull ⊗ self scalars].
+	self scalars isQuotient
+		ifTrue: [^ self propertyAt: #equidimensionalHull put: self representativeSaturated equidimensionalHull ⊗ self scalars].
+	self reductionToZeroDimensionDo: [:E :G :h|
 		| J H |
 		H := self + (self scalars * h).
 		J := (self scalars * G) : (self scalars * h).
-		H coheight < self coheight ifTrue: [J] ifFalse: [J ∩ H equidimensionalHull]]
-
-"alternative:
-	^ self equidimensionalPart: self coheight"! !
+		^ self propertyAt: #equidimensionalHull put: (H coheight < self coheight ifTrue: [J] ifFalse: [J ∩ H equidimensionalHull])]! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 6/15/2022 10:04:10'!
 leadingIdeal
@@ -14126,14 +14127,14 @@ primaryDecomposition
 quotientRing
 	^ self propertyAt: #quotientRing ifAbsentPut: [self scalars / self]! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 4/16/2025 13:34:29'!
+!Ideal methodsFor: 'operations' stamp: 'len 5/2/2025 10:05:39'!
 radical
 	"Answer the radical ideal √I of the receiver I. This is the ideal all elements x such that some power of x is in I.
 	Note: not to be confused with the Jacobson radical of a module, see Module>>#jacobsonRadical."
 	self scalars isLocalization ifTrue: [^ self numerator radical ⊗ self scalars].
 	self scalars isQuotient ifTrue: [^ self representativeSaturated radical ⊗ self scalars].
 	((self isTrivial and: [self scalars isIntegralDomain]) or: [self isOne]) ifTrue: [^ self].
-	(self generators size = 1 and: [self scalars isUFR]) ifTrue: [^ self scalars * self generator radicalPart].
+	(self generators size = 1 and: [self scalars isUFR]) ifTrue: [^ self scalars * self generator squarefreePart].
 	^ self subclassResponsibility! !
 
 !Ideal methodsFor: 'operations' stamp: 'len 10/6/2022 11:49:54'!
@@ -14513,9 +14514,9 @@ primaryDecomposition
 	^ self asSimplicialComplex facets collect: [:each|
 		self scalars * (self scalars indeterminates \ each vertices collect: [:i| self scalars x: i])]! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 4/16/2025 14:25:04'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 5/2/2025 10:05:39'!
 radical
-	self isMonomial ifTrue: [^ self scalars * (self generators collect: [:each| each radicalPart])]. "[HH11] Proposition 1.2.4"
+	self isMonomial ifTrue: [^ self scalars * (self generators collect: [:each| each squarefreePart])]. "[HH11] Proposition 1.2.4"
 	(self scalars scalars characteristic > 0 and: [self scalars scalars isPerfectField]) ifTrue: [^ self radicalMatsumoto].
 	self isZeroDimensional ifTrue: [^ self radicalZeroDimensional].
 "	R := self scalars.
@@ -14527,7 +14528,7 @@ radical
 		J := J generators collect: [:each
 "			
 	self flag: #fixme. "this is not right, maybe only works for ℚ[x₁...xₙ] and monomial ideals"
-	^ self scalars * (self generators collect: [:each| each radicalPart])! !
+	^ self scalars * (self generators collect: [:each| each squarefreePart])! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 6/3/2022 21:27:56'!
 reduce: anElement
@@ -14739,13 +14740,13 @@ radicalMatsumoto
 	I₂ ⊆ I ifTrue: [^ I].
 	I := I₂] repeat! !
 
-!PolynomialIdeal methodsFor: 'private' stamp: 'len 4/16/2025 13:32:07'!
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 5/2/2025 10:05:39'!
 radicalZeroDimensional
 	"Answer the radical of the receiver, assuming it is zero-dimensional.
 	See [BW93] Table 8.3, Algorithm ZRADICAL."
-	^ self scalars * (self generators, (self scalars indeterminates collect: [:i| (self eliminateAllBut: i) generator radicalPart]))! !
+	^ self scalars * (self generators, (self scalars indeterminates collect: [:i| (self eliminateAllBut: i) generator squarefreePart]))! !
 
-!PolynomialIdeal methodsFor: 'private' stamp: 'len 4/16/2025 13:32:22'!
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 5/2/2025 10:05:39'!
 radicalZeroDimensional2
 	"Answer the radical of the receiver, assuming it is zero-dimensional over a perfect field.
 	See [ABPR19, Algorithm 4.8 Radical0Dim]."
@@ -14759,7 +14760,7 @@ radicalZeroDimensional2
 		xᵢ := Q x: i.
 		μ := xᵢ minimalPolynomial.
 		μ isSquarefree ifFalse:
-			[μ := μ radicalPart.
+			[μ := μ squarefreePart.
 			J := J + (R * (μ value: xᵢ)).
 			Q := Q / J.
 			d := Q carrier rank].
@@ -15960,12 +15961,38 @@ rootsOf: aPolynomial withMultiplicitiesDo: aBlock
 		^ self].
 	^ self notYetImplemented! !
 
-!Ring methodsFor: 'computing-polynomials-private' stamp: 'len 11/7/2023 14:17:26'!
+!Ring methodsFor: 'computing-polynomials-private' stamp: 'len 5/2/2025 16:01:55'!
+multivariatePolynomialOverFieldChar0: aPolynomial squarefreeFactorizationDo: aBlock
+	"Iterate a squarefree decomposition of the receiver.
+	Use Yun's algorithm generalized to multivariate polynomials. Assume the coefficients are in a field of characteristic 0."
+	| p q g count indeterminates |
+	count := 1.
+	p := aPolynomial.
+	"TODO: content and monomial content"
+	p isMonic ifFalse: [p := p normalized].
+	indeterminates := p indeterminates.
+	q := indeterminates collect: [:i| p derivativeIn: i].
+	g := p.
+	q do: [:f| g := g gcd: f].
+	g isConstant ifFalse:
+		[p := p / g.
+		q := q with: indeterminates collect: [:f :i| f / g - (p derivativeIn: i)].
+		[q isZero] whileFalse:
+			[g := p.
+			q do: [:f| g := g gcd: f].
+			g isConstant ifFalse: [aBlock value: g value: count].
+			count := count + 1.
+			p := p / g.
+			q := q with: indeterminates collect: [:f :i| f / g - (p derivativeIn: i)]]].
+	aBlock value: p value: count! !
+
+!Ring methodsFor: 'computing-polynomials-private' stamp: 'len 5/2/2025 15:43:28'!
 polynomialOverFieldChar0: aPolynomial squarefreeFactorizationDo: aBlock
 	"Iterate a squarefree decomposition of the receiver.
 	Use Yun's algorithm. Assume the coefficients are in a field of characteristic 0.
 	Yun's algorithm on an input polynomial of degree n uses O(M(n)log(n)) operations in the base field F, where M(n) is the number of operations in F required to multiply two polynomias of degree n in F[x]."
 	| p q gcd count |
+	aPolynomial isUnivariate ifFalse: [^ self multivariatePolynomialOverFieldChar0: aPolynomial squarefreeFactorizationDo: aBlock].
 	count := 1.
 	p := aPolynomial.
 	p isMonic ifFalse: [p := p normalized].
@@ -22113,10 +22140,10 @@ example
 	"The Gaussian numbers, i.e. complex numbers with real and imaginary parts both rational."
 	^ QuadraticField new: -1! !
 
-!QuadraticField class methodsFor: 'instance creation' stamp: 'len 4/5/2024 19:07:57'!
+!QuadraticField class methodsFor: 'instance creation' stamp: 'len 5/1/2025 16:37:17'!
 new: anInteger
 	| d |
-	d := anInteger squarefreePart.
+	d := anInteger core.
 	(d = 0 or: [d = 1]) ifTrue: [self error: 'not a quadratic field'].
 "	P := ℚ polynomialsIn: {d = -1 ifTrue: ['i' italic] ifFalse: ['√', d printString]}."
 	^ self modulus: ℚ polynomials x squared - d! !
@@ -35879,6 +35906,11 @@ root: anInteger in: anIndeterminate
 squared
 	^ self ^ 2! !
 
+!Monomial methodsFor: 'operations' stamp: 'len 5/2/2025 10:08:02'!
+squarefreePart
+	self isSquarefree ifTrue: [^ self].
+	^ parent exponents: (exponents collect: [:each| each == 0 ifTrue: [0] ifFalse: [1]])! !
+
 !Monomial methodsFor: 'operations' stamp: 'len 2/9/2017 03:20:49'!
 substitute: aBlock
 	"Answer the receiver after substituting indeterminates by aBlock."
@@ -36851,6 +36883,180 @@ asSingletonMatrix
 	"Answer the 1x1 matrix with the receiver as its only coefficient."
 	^ self parent !!!!!! {{self}}! !
 
+!RingElement methodsFor: 'euclidean division' stamp: 'len 11/22/2023 16:08:29'!
+// anElement
+	"Answer the quotient of the division of the receiver by the argument.
+	In Euclidean rings, this is the quotient of the Euclidean division.
+	See also #\\ and #gauge."
+	^ self / anElement! !
+
+!RingElement methodsFor: 'euclidean division' stamp: 'len 5/26/2022 12:21:18'!
+\\ anElement
+	"Answer the remainder of the division of the receiver by the argument.
+	In Euclidean rings, this is the remainder of the Euclidean division.
+	See also #// and #gauge."
+	^ self - (anElement * (self // anElement))! !
+
+!RingElement methodsFor: 'euclidean division' stamp: 'len 5/2/2025 10:10:04'!
+divides: anElement ifTrue: trueBlock
+	^ self divides: anElement ifTrue: trueBlock ifFalse: []! !
+
+!RingElement methodsFor: 'euclidean division' stamp: 'len 5/1/2025 10:36:47'!
+divides: anElement ifTrue: trueBlock ifFalse: falseBlock
+	"If the receiver divides the argument, evaluate trueBlock with the quotient as argument. Otherwise, evaluate falseBlock."
+	anElement isZero ifTrue: [^ trueBlock value: anElement].
+	self isZero ifTrue: [^ falseBlock value].
+"	self parent isField ifTrue: [^ trueBlock value: self inverse]."
+	(self lift: anElement) ifNotNil: [:q| ^ trueBlock value: q].
+	^ falseBlock value! !
+
+!RingElement methodsFor: 'euclidean division' stamp: 'len 5/15/2020 06:15:27'!
+divisionBy: anElement
+	^ Division divide: self by: anElement! !
+
+!RingElement methodsFor: 'euclidean division' stamp: 'len 12/18/2022 08:45:51'!
+gauge
+	"Answer the value of the Euclidean function at the receiver."
+	self parent isDVR ifTrue: [^ self isZero ifTrue: [0] ifFalse: [self valuation + 1]].
+	self parent isField ifTrue: [^ self isZero ifTrue: [0] ifFalse: [1]].
+	^ self subclassResponsibility! !
+
+!RingElement methodsFor: 'euclidean division' stamp: 'len 5/25/2022 19:56:39'!
+quotientBy: anElement modulo: m
+	"Answer the Euclidean quotient of the receiver by anElement modulo m.
+	If the receiver is 'r' and anElement is 's', answer 'q' such that 's*q = r mod m', or in other words 's*q - r' is divisible by 'm' and 'q' is either 0 (if 'r' is divisible by 'm') or the Euclidean degree of 'q' is strictly smaller than the Euclidean degree of 'm'."
+	| f g fs gs h hs q r |
+	f _ anElement. fs _ self one.
+	g _ m. gs _ self zero.
+	[g isZero] whileFalse:
+		[q _ f // g. r _ f - (g*q).
+		h _ g. hs _ gs.
+		g _ r. gs _ fs - (q*gs).
+		f _ h. fs _ hs].
+	q _ self // f.
+	^ fs * q \\ m
+	
+"alternative:
+	xgcd _ anElement xgcd: m.
+	^ self // (xgcd at: 1) * (xgcd at: 2) \\ m"! !
+
+!RingElement methodsFor: 'euclidean division' stamp: 'len 5/10/2020 11:00:58'!
+stabilizerWith: b modulo: N
+	"If the receiver is 'a', answer 'c' such that '<a + cb, N> = <a, b, N>'."
+	self notYetImplemented! !
+
+!RingElement methodsFor: 'factorization' stamp: 'len 4/25/2025 15:34:18'!
+coprimeFactorizationWith: b
+	"Answer gcd(a,b), the powers of primes in a inside b, and the powers of primes in a outside b.
+	See [Ber98, Algorithm 11.3].
+	See also >>gppgle:."
+	| g g₀ x y |
+	g₀ := self gcd: b.
+	x := g₀.
+	y := self ÷ x.
+	[(g := x gcd: y) isOne] whileFalse: [x := x * g. y := y ÷ g].
+	^ {g₀. x. y}! !
+
+!RingElement methodsFor: 'factorization' stamp: 'len 6/25/2023 09:54:56'!
+factorization
+	"Answer a collection with the irreducible factors of the receiver (with multiplicity)."
+	| answer |
+	answer := Bag new.
+	self factorizationDo: [:p :e| answer add: p withOccurrences: e].
+	^ answer! !
+
+!RingElement methodsFor: 'factorization' stamp: 'len 3/15/2025 10:50:22'!
+factorizationDo: aBlock
+	"Enumerate the irreducible factors of the receiver and their multiplicities."
+	self assert: self parent isUFR.
+	self isUnit ifTrue: [^ self].
+	^ self subclassResponsibility! !
+
+!RingElement methodsFor: 'factorization' stamp: 'len 4/22/2025 22:16:31'!
+gppgle: b
+	"Answer gcd(a,b), the powers of primes in a grater than those in b, and the powers of primes in a less than or equal to those in b.
+	See [Ber98, Algorithm 11.4]."
+	| g g₀ x y |
+	g₀ := self gcd: b.
+	y := g₀.
+	x := self ÷ y.
+	[(g := x gcd: y) isOne] whileFalse: [x := x * g. y := y ÷ g].
+	^ {g₀. x. y}! !
+
+!RingElement methodsFor: 'factorization' stamp: 'len 5/1/2025 17:09:15'!
+squarefreeFactorization
+	| answer |
+	answer := Bag new.
+	self squarefreeFactorizationDo: [:f :r| answer add: f withOccurrences: r].
+	^ answer! !
+
+!RingElement methodsFor: 'factorization' stamp: 'len 5/1/2025 17:09:12'!
+squarefreeFactorizationDo: aBlock
+	^ self factorizationDo: aBlock! !
+
+!RingElement methodsFor: 'factorization' stamp: 'len 5/2/2025 10:08:54'!
+squarefreePart
+	"The 'squarefree part' or 'radical part' of an element of a ring is the maximal squarefree divisor."
+	| answer |
+	answer := self one.
+	self squarefreeFactorizationDo: [:f :e| answer := answer * f].
+	^ answer! !
+
+!RingElement methodsFor: 'gcd' stamp: 'len 6/1/2022 18:05:51'!
+gcd: anElement
+	"Answer the greatest common divisor of the receiver and the argument,
+	i.e. the normalized generator of the principal ideal generated by the reciever and the argument.
+	This is the Euclidean algorithm, and assumes the receiver and argument are element of an Euclidean ring."
+	| a b |
+	a _ self.
+	b _ anElement.
+	[a isZero] whileFalse: [a _ b \\ (b _ a)].
+	^ b normalized! !
+
+!RingElement methodsFor: 'gcd' stamp: 'len 12/10/2021 19:41:57'!
+lcm: anElement
+	"Answer the least common multiple of the receiver and the argument.
+	The result is the canonical associate (normalized)."
+	self isZero ifTrue: [^ self].
+	anElement isZero ifTrue: [^ anElement].
+	^ (self / (self gcd: anElement) * anElement) normalized! !
+
+!RingElement methodsFor: 'gcd' stamp: 'len 6/9/2023 09:58:15'!
+xgcd: anElement
+	"Answer the GCD of the receiver and the argument and the Bézout coefficients.
+	If the receiver is 'a', the argument is 'b' and their GCD is 'g', answer an array {g. s. t} where as + bt = g.
+	This is the extended Euclidean algorithm."
+	| a b zero one s₁ t₁ s t r₁ r u |
+	a := self.
+	b := anElement.
+	zero := a zero. one := a one.
+	s₁ := zero. s := one.
+	t₁ := one. t := zero.
+	r₁ := a normalized.
+	r := b normalized.
+	[r₁ isZero]
+		whileFalse:
+			[ | q temp |
+			q := r // r₁.
+			temp := r₁. r₁ := r - (q * r₁). r := temp.
+			temp := s₁. s₁ := s - (q * s₁). s := temp.
+			temp := t₁. t₁ := t - (q * t₁). t := temp].
+	s := s * b normalization. t := t * a normalization.
+	u := r normalization.
+	s := s * u. t := t * u. r := r * u.
+	^ {r. t. s}! !
+
+!RingElement methodsFor: 'gcd' stamp: 'len 5/26/2022 12:36:03'!
+xxgcd: anElement
+	"(More) Extended GCD.
+	If the receiver is 'a', the argument is 'b' and their GCD is 'g'. answer an array {g. s. t. u. v} where as + bt = g, au + bv = 0, and sv - ut = 1, i.e. answer the coefficients of a unimodular matrix such that:.
+		[s  t] [a]     [g]
+		[u v] [b] = [0]."
+	| xgcd g |
+	(self isZero and: [anElement isZero]) ifTrue: [^ {self. self parent one. self. self. self parent one}].
+"	self parent isIntegralDomain ifFalse: [^ DomainError signal]."
+	^ (xgcd _ self xgcd: anElement), {(anElement / (g _ xgcd at: 1)) negated. self / g}! !
+
 !RingElement methodsFor: 'operations' stamp: 'len 6/17/2019 11:19:47'!
 * anElement
 	^ self subclassResponsibility! !
@@ -36874,26 +37080,12 @@ asSingletonMatrix
 	(self parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #/].
 	^ (anElement colift: self) ifNil: [DivisibilityError new signalReceiver: self selector: #/ argument: anElement]! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 11/22/2023 16:08:29'!
-// anElement
-	"Answer the quotient of the division of the receiver by the argument.
-	In Euclidean rings, this is the quotient of the Euclidean division.
-	See also #\\ and #gauge."
-	^ self / anElement! !
-
 !RingElement methodsFor: 'operations' stamp: 'len 5/29/2022 19:39:19'!
 \ anElement
 	"Answer x such that ax = b, where a is the receiver and b is the argument.
 	This is the left division of b by a, written a \ b."
 	(self parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #\].
 	^ (self lift: anElement) ifNil: [DivisibilityError new signalReceiver: self selector: #\ argument: anElement]! !
-
-!RingElement methodsFor: 'operations' stamp: 'len 5/26/2022 12:21:18'!
-\\ anElement
-	"Answer the remainder of the division of the receiver by the argument.
-	In Euclidean rings, this is the remainder of the Euclidean division.
-	See also #// and #gauge."
-	^ self - (anElement * (self // anElement))! !
 
 !RingElement methodsFor: 'operations' stamp: 'len 5/28/2023 19:46:10'!
 ^ anInteger
@@ -36980,41 +37172,10 @@ commutator: anElement
 	Note that this is not the Lie bracket."
 	^ self inverse · anElement inverse · self · anElement! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 4/25/2025 15:34:18'!
-coprimeFactorizationWith: b
-	"Answer gcd(a,b), the powers of primes in a inside b, and the powers of primes in a outside b.
-	See [Ber98, Algorithm 11.3].
-	See also >>gppgle:."
-	| g g₀ x y |
-	g₀ := self gcd: b.
-	x := g₀.
-	y := self ÷ x.
-	[(g := x gcd: y) isOne] whileFalse: [x := x * g. y := y ÷ g].
-	^ {g₀. x. y}! !
-
-!RingElement methodsFor: 'operations' stamp: 'len 5/15/2020 06:15:27'!
-divisionBy: anElement
-	^ Division divide: self by: anElement! !
-
 !RingElement methodsFor: 'operations' stamp: 'len 11/26/2023 13:43:09'!
 evaluate: aPolynomial
 	"Answer the result of evaluating aPolynomial at the receiver."
 	^ aPolynomial value: self! !
-
-!RingElement methodsFor: 'operations' stamp: 'len 6/25/2023 09:54:56'!
-factorization
-	"Answer a collection with the irreducible factors of the receiver (with multiplicity)."
-	| answer |
-	answer := Bag new.
-	self factorizationDo: [:p :e| answer add: p withOccurrences: e].
-	^ answer! !
-
-!RingElement methodsFor: 'operations' stamp: 'len 3/15/2025 10:50:22'!
-factorizationDo: aBlock
-	"Enumerate the irreducible factors of the receiver and their multiplicities."
-	self assert: self parent isUFR.
-	self isUnit ifTrue: [^ self].
-	^ self subclassResponsibility! !
 
 !RingElement methodsFor: 'operations' stamp: 'len 4/28/2025 08:55:27'!
 findFirstPower: aBlock
@@ -37042,35 +37203,6 @@ frobenius
 	See also >>inverseFrobenius."
 	^ self ^ self parent characteristic! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 12/18/2022 08:45:51'!
-gauge
-	"Answer the value of the Euclidean function at the receiver."
-	self parent isDVR ifTrue: [^ self isZero ifTrue: [0] ifFalse: [self valuation + 1]].
-	self parent isField ifTrue: [^ self isZero ifTrue: [0] ifFalse: [1]].
-	^ self subclassResponsibility! !
-
-!RingElement methodsFor: 'operations' stamp: 'len 6/1/2022 18:05:51'!
-gcd: anElement
-	"Answer the greatest common divisor of the receiver and the argument,
-	i.e. the normalized generator of the principal ideal generated by the reciever and the argument.
-	This is the Euclidean algorithm, and assumes the receiver and argument are element of an Euclidean ring."
-	| a b |
-	a _ self.
-	b _ anElement.
-	[a isZero] whileFalse: [a _ b \\ (b _ a)].
-	^ b normalized! !
-
-!RingElement methodsFor: 'operations' stamp: 'len 4/22/2025 22:16:31'!
-gppgle: b
-	"Answer gcd(a,b), the powers of primes in a grater than those in b, and the powers of primes in a less than or equal to those in b.
-	See [Ber98, Algorithm 11.4]."
-	| g g₀ x y |
-	g₀ := self gcd: b.
-	y := g₀.
-	x := self ÷ y.
-	[(g := x gcd: y) isOne] whileFalse: [x := x * g. y := y ÷ g].
-	^ {g₀. x. y}! !
-
 !RingElement methodsFor: 'operations' stamp: 'len 4/23/2021 11:13:08'!
 inverse
 	^ self \ self one! !
@@ -37081,14 +37213,6 @@ inverseFrobenius
 	Assume the receiver is an element in a ring of positive characteristic.
 	See also >>frobenius."
 	^ self root: self parent characteristic! !
-
-!RingElement methodsFor: 'operations' stamp: 'len 12/10/2021 19:41:57'!
-lcm: anElement
-	"Answer the least common multiple of the receiver and the argument.
-	The result is the canonical associate (normalized)."
-	self isZero ifTrue: [^ self].
-	anElement isZero ifTrue: [^ anElement].
-	^ (self / (self gcd: anElement) * anElement) normalized! !
 
 !RingElement methodsFor: 'operations' stamp: 'len 3/8/2025 09:05:24'!
 lift: anElement
@@ -37163,33 +37287,6 @@ order
 	"Answer a generator of the ideal of all elements that multiplied by the receiver are zero."
 	self parent isIntegralDomain ifTrue: [^ self isZero ifTrue: [self parent one] ifFalse: [self parent zero]].
 	^ self annihilator generator! !
-
-!RingElement methodsFor: 'operations' stamp: 'len 5/25/2022 19:56:39'!
-quotientBy: anElement modulo: m
-	"Answer the Euclidean quotient of the receiver by anElement modulo m.
-	If the receiver is 'r' and anElement is 's', answer 'q' such that 's*q = r mod m', or in other words 's*q - r' is divisible by 'm' and 'q' is either 0 (if 'r' is divisible by 'm') or the Euclidean degree of 'q' is strictly smaller than the Euclidean degree of 'm'."
-	| f g fs gs h hs q r |
-	f _ anElement. fs _ self one.
-	g _ m. gs _ self zero.
-	[g isZero] whileFalse:
-		[q _ f // g. r _ f - (g*q).
-		h _ g. hs _ gs.
-		g _ r. gs _ fs - (q*gs).
-		f _ h. fs _ hs].
-	q _ self // f.
-	^ fs * q \\ m
-	
-"alternative:
-	xgcd _ anElement xgcd: m.
-	^ self // (xgcd at: 1) * (xgcd at: 2) \\ m"! !
-
-!RingElement methodsFor: 'operations' stamp: 'len 1/31/2025 16:37:41'!
-radicalPart
-	"Assuming the receiver is an element in a UFR, answer the radical or squarefree part, i.e. the maximal squarefree divisor."
-	| answer |
-	answer := self one.
-	self factorizationDo: [:p :e| answer := answer * p].
-	^ answer! !
 
 !RingElement methodsFor: 'operations' stamp: 'len 6/30/2023 14:32:52'!
 raisedTo: anInteger
@@ -37269,11 +37366,6 @@ squareRoot
 squared
 	^ self * self! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 5/10/2020 11:00:58'!
-stabilizerWith: b modulo: N
-	"If the receiver is 'a', answer 'c' such that '<a + cb, N> = <a, b, N>'."
-	self notYetImplemented! !
-
 !RingElement methodsFor: 'operations' stamp: 'len 11/17/2023 14:35:28'!
 trace
 	"Answer the relative trace of the receiver."
@@ -37294,42 +37386,6 @@ valuation: p
 	"Answer the p-adic valuation of the receiver.
 	This is the exponent of the highest power of p that divides the receiver."
 	^ (self removePower: p) first! !
-
-!RingElement methodsFor: 'operations' stamp: 'len 6/9/2023 09:58:15'!
-xgcd: anElement
-	"Answer the GCD of the receiver and the argument and the Bézout coefficients.
-	If the receiver is 'a', the argument is 'b' and their GCD is 'g', answer an array {g. s. t} where as + bt = g.
-	This is the extended Euclidean algorithm."
-	| a b zero one s₁ t₁ s t r₁ r u |
-	a := self.
-	b := anElement.
-	zero := a zero. one := a one.
-	s₁ := zero. s := one.
-	t₁ := one. t := zero.
-	r₁ := a normalized.
-	r := b normalized.
-	[r₁ isZero]
-		whileFalse:
-			[ | q temp |
-			q := r // r₁.
-			temp := r₁. r₁ := r - (q * r₁). r := temp.
-			temp := s₁. s₁ := s - (q * s₁). s := temp.
-			temp := t₁. t₁ := t - (q * t₁). t := temp].
-	s := s * b normalization. t := t * a normalization.
-	u := r normalization.
-	s := s * u. t := t * u. r := r * u.
-	^ {r. t. s}! !
-
-!RingElement methodsFor: 'operations' stamp: 'len 5/26/2022 12:36:03'!
-xxgcd: anElement
-	"(More) Extended GCD.
-	If the receiver is 'a', the argument is 'b' and their GCD is 'g'. answer an array {g. s. t. u. v} where as + bt = g, au + bv = 0, and sv - ut = 1, i.e. answer the coefficients of a unimodular matrix such that:.
-		[s  t] [a]     [g]
-		[u v] [b] = [0]."
-	| xgcd g |
-	(self isZero and: [anElement isZero]) ifTrue: [^ {self. self parent one. self. self. self parent one}].
-"	self parent isIntegralDomain ifFalse: [^ DomainError signal]."
-	^ (xgcd _ self xgcd: anElement), {(anElement / (g _ xgcd at: 1)) negated. self / g}! !
 
 !RingElement methodsFor: 'testing' stamp: 'len 4/27/2021 12:41:11'!
 isCentral
@@ -37398,6 +37454,13 @@ isReducible
 isSquare
 	"Answer true if the receiver is a perfect square, i.e. it has a square root."
 	^ (self parent polynomials x squared - self) roots notEmpty! !
+
+!RingElement methodsFor: 'testing' stamp: 'len 5/1/2025 17:01:27'!
+isSquarefree
+	"An element in a UFR is 'squarefree' if it is not divisible by any nontrivial square, i.e. the factorization has no repeated factors."
+	self isZero ifTrue: [^ false].
+	self squarefreeFactorizationDo: [:f :r| r > 1 ifTrue: [^ false]].
+	^ true! !
 
 !RingElement methodsFor: 'testing' stamp: 'len 10/19/2023 19:44:16'!
 isUnit
@@ -37678,6 +37741,15 @@ integralPrimitivePart
 		b := b lcm: each denominator].
 	^ self * (self scalars reducedNumerator: b * self leadingCoefficient numerator normalization denominator: a)! !
 
+!Polynomial methodsFor: 'factorization' stamp: 'len 5/1/2025 11:21:49'!
+monomialContent
+	"Answer the GCD of the monomials of the receiver."
+	| answer |
+	self isZero ifTrue: [^ self parent monomials identity].
+	answer := nil.
+	self monomialsDo: [:each| answer := answer isNil ifTrue: [each] ifFalse: [answer gcd: each]. answer isIdentity ifTrue: [^ answer]].
+	^ answer! !
+
 !Polynomial methodsFor: 'factorization' stamp: 'len 12/23/2023 10:10:04'!
 primitivePart
 	"Answer the primitive part of the receiver."
@@ -37688,24 +37760,18 @@ sign
 	"Answer the sign of the receiver, i.e. the sign if its leading coefficient."
 	^ self leadingCoefficient sign! !
 
-!Polynomial methodsFor: 'factorization' stamp: 'len 4/17/2025 20:44:30'!
-squarefreeFactorizationIn: i do: aBlock
-	| p q u count |
-	count := 1.
-	p := self.
-	p isMonic ifFalse: [p := p normalized].
-	q := p derivativeIn: i.
-	u := p gcd: q.
-	u isConstant ifFalse:
-		[p := p // u.
-		q := q // u - (p derivativeIn: i).
-		[q isZero] whileFalse:
-			[u := p gcd: q.
-			u isConstant ifFalse: [aBlock value: u value: count].
-			count := count + 1.
-			p := p // u.
-			q := q // u - (p derivativeIn: i)]].
-	aBlock value: p value: count! !
+!Polynomial methodsFor: 'factorization' stamp: 'len 5/2/2025 15:41:03'!
+squarefreeFactorizationDo: aBlock
+	self scalars polynomial: self squarefreeFactorizationDo: aBlock! !
+
+!Polynomial methodsFor: 'factorization' stamp: 'len 5/2/2025 15:59:04'!
+squarefreePart
+	"Answer the maximal squarefree divisor of the receiver."
+	| g |
+	self parent scalars characteristic = 0 ifFalse: [^ super squarefreePart].
+	g := self.
+	self indeterminates do: [:i| g := g gcd: (self derivativeIn: i)].
+	^ self / g! !
 
 !Polynomial methodsFor: 'gcd' stamp: 'len 6/16/2023 17:36:33'!
 gcd: aPolynomial
@@ -38270,16 +38336,6 @@ pseudoRem4: aPolynomial
 	w degree < n ifTrue: [^ w * (b ^ k)].
 	k > e ifTrue: [w _ w * (b ^ (k - e))]] repeat! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 1/31/2025 11:31:25'!
-radicalPart
-	"Answer the maximal squarefree divisor of the receiver.
-	This is often called 'squarefree part', but we call it 'radical' to be consistent with integers and ideals."
-	| g |
-	self parent scalars characteristic = 0 ifFalse: [^ super radicalPart].
-	g := self.
-	self indeterminates do: [:each| g := g gcd: (self derivativeIn: each)].
-	^ self / g! !
-
 !Polynomial methodsFor: 'operations' stamp: 'len 12/9/2022 08:22:24'!
 squared
 	^ self class coefficients: coefficients autoconvolution parent: parent! !
@@ -38606,12 +38662,12 @@ isSeparable
 	self scalars isLocal ifTrue: [^ self isBasicIrreducible].
 	^ self notYetImplemented! !
 
-!Polynomial methodsFor: 'testing' stamp: 'len 4/17/2025 13:45:17'!
+!Polynomial methodsFor: 'testing' stamp: 'len 5/1/2025 16:57:38'!
 isSquarefree
-	"A polynomial is called 'squarefree' if its factorization has no repeated nunconstant factors."
 	self isMonomial ifTrue: [^ self monomials any isSquarefree].
 	self isZero ifTrue: [^ false].
 	self scalars characteristic = 0 ifTrue: [^ (self gcd: self derivative) isConstant].
+	self flag: #fix. "why discriminate constant factors?"
 	self squarefreeFactorizationDo: [:f :r| (r > 1 and: [f isConstant not]) ifTrue: [^ false]].
 	^ true! !
 
@@ -38932,18 +38988,10 @@ factorizationDo: aBlock
 	self isZero ifTrue: [^ self error: 'factorization of zero'].
 	self scalars polynomial: self factorizationDo: aBlock! !
 
-!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 11/5/2023 08:32:08'!
-squarefreeFactorization
-	"Answer a squarefree factorization of the receiver."
-	| answer |
-	answer := Bag new.
-	self squarefreeFactorizationDo: [:f :r| answer add: f withOccurrences: r].
-	^ answer! !
-
-!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 11/5/2023 09:05:05'!
-squarefreeFactorizationDo: aBlock
-	"Iterate over a squarefree factorization of the receiver."
-	self scalars polynomial: self squarefreeFactorizationDo: aBlock! !
+!UnivariatePolynomial methodsFor: 'factorization' stamp: 'len 5/1/2025 16:24:24'!
+monomialContent
+	self isZero ifTrue: [^ self parent monomials identity].
+	^ self parent monomials x: 1 to: self lowestDegree! !
 
 !UnivariatePolynomial methodsFor: 'factorization-private' stamp: 'len 11/17/2023 16:46:57'!
 henselLiftFactors: anArray
@@ -40395,13 +40443,13 @@ asReal
 	self assert: (bounds center imaginary within: bounds radius).
 	^ RealAlgebraicNumber minimalPolynomial: minimalPolynomial bounds: (Ball center: bounds center real radius: bounds radius)! !
 
-!ComplexAlgebraicNumber methodsFor: 'operations' stamp: 'len 1/31/2025 11:35:04'!
+!ComplexAlgebraicNumber methodsFor: 'operations' stamp: 'len 5/2/2025 10:05:39'!
 * aNumber
 	| isolator B₁ B₂ B |
 	(aNumber isRational and: [self isRational]) ifTrue: [^ self class fromRational: self asRational * aNumber asRational].
 	aNumber class = self class ifFalse: [^ self adapt: aNumber andSend: #*].
 	"TODO: optimize for when either the receiver or the argument is rational, we dont need to factorize again:"
-	isolator := self rootIsolatorClass on: (minimalPolynomial zeroProduct: aNumber minimalPolynomial) radicalPart.
+	isolator := self rootIsolatorClass on: (minimalPolynomial zeroProduct: aNumber minimalPolynomial) squarefreePart.
 	B₁ := bounds.
 	B₂ := aNumber bounds.
 	"TODO: alternate refining B₁ and B₂, or other strategy"
@@ -40411,13 +40459,13 @@ asReal
 			B₂ := aNumber refine: B₂].
 	^ self class polynomial: isolator polynomial bounds: B! !
 
-!ComplexAlgebraicNumber methodsFor: 'operations' stamp: 'len 1/31/2025 11:35:15'!
+!ComplexAlgebraicNumber methodsFor: 'operations' stamp: 'len 5/2/2025 10:05:39'!
 + aNumber
 	| isolator B₁ B₂ B |
 	(aNumber isRational and: [self isRational]) ifTrue: [^ self class fromRational: self asRational + aNumber asRational].
 	aNumber class = self class ifFalse: [^ self adapt: aNumber andSend: #+].
 	"TODO: optimize for when either the receiver or the argument is rational, we dont need to factorize again:"
-	isolator := self rootIsolatorClass on: (minimalPolynomial zeroAddition: aNumber minimalPolynomial) radicalPart.
+	isolator := self rootIsolatorClass on: (minimalPolynomial zeroAddition: aNumber minimalPolynomial) squarefreePart.
 	B₁ := bounds.
 	B₂ := aNumber bounds.
 	"TODO: alternate refining B₁ and B₂, or other strategy"
@@ -40567,7 +40615,7 @@ printOn: aStream base: base
 printPrecision
 	^ 0.00001! !
 
-!ComplexAlgebraicNumber methodsFor: 'printing' stamp: 'len 12/23/2023 10:29:26'!
+!ComplexAlgebraicNumber methodsFor: 'printing' stamp: 'len 5/1/2025 16:37:17'!
 printQuadraticOn: aStream base: base
 	| f a b c Δ z y x1 x2 sign |
 	f := minimalPolynomial integralPrimitivePart.
@@ -40575,7 +40623,7 @@ printQuadraticOn: aStream base: base
 	b := (f at: 1) asInteger.
 	c := (f at: 0) asInteger.
 	Δ := b squared - (4*a*c).
-	z := Δ squarefreePart.
+	z := Δ core.
 	y := (Δ / z) sqrt.
 	x1 := b negated + (Δ negative ifTrue: [Δ negated sqrt i] ifFalse: [Δ sqrt]) / (2*a).
 	x2 := b negated - (Δ negative ifTrue: [Δ negated sqrt i] ifFalse: [Δ sqrt]) / (2*a).
@@ -47109,6 +47157,16 @@ coprimeFactorizationWith: b
 	[(g := x gcd: y) isOne] whileFalse: [x := x * g. y := y ÷ g].
 	^ {g₀. x. y}! !
 
+!Integer methodsFor: '*algebra' stamp: 'len 5/2/2025 10:06:20'!
+core
+	"Decompose the receiver as n = zy² with z squarefree, and answer z.
+	The 'squarefree part' of n is the smallest integer m such that n/m is a square, and it is also called the 'core' of n.
+	Not to be confused with the 'radical' or 'squarefree kernel' of n. See >>squarefreePart."
+	| answer |
+	answer := self sign.
+	self factorizationDo: [:p :e| e even ifFalse: [answer := answer * p]].
+	^ answer! !
+
 !Integer methodsFor: '*algebra' stamp: 'len 4/23/2016 19:35'!
 count: aBlock
 	| answer |
@@ -47131,6 +47189,17 @@ decompositionWith: anInteger into: aBlock
 	[(s := anInteger gcd: n₁) = 1 ifTrue: [^ aBlock value: n₀ value: n₁].
 	n₀ := n₀ * s.
 	n₁ := n₁ ÷ s] repeat! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 5/1/2025 10:28:55'!
+divides: anInteger ifTrue: trueBlock
+	^ self divides: anInteger ifTrue: trueBlock ifFalse: []! !
+
+!Integer methodsFor: '*algebra' stamp: 'len 4/29/2025 11:39:45'!
+divides: anInteger ifTrue: trueBlock ifFalse: falseBlock
+	"If the receiver divides the argument, evaluate trueBlock with the quotient as argument. Otherwise, evaluate falseBlock."
+	anInteger = 0 ifTrue: [^ trueBlock value: 0].
+	self = 0 ifTrue: [^ falseBlock value].
+	^ anInteger \\ self = 0 ifTrue: [trueBlock value: anInteger // self] ifFalse: [falseBlock value]! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 5/15/2020 06:15:20'!
 divisionBy: anElement
@@ -47405,9 +47474,9 @@ isSquare
 	"Answer true if the receiver is a perfect square, i.e. it has a square root."
 	^ self sqrtFloor squared = self! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 1/31/2025 16:19:03'!
+!Integer methodsFor: '*algebra' stamp: 'len 5/1/2025 16:59:44'!
 isSquarefree
-	"Answer true if the factorization of the receiver is squarefree."
+	"An integer is 'squarefree' if it is not divisible by any nontrivial square, i.e. the factorization has no repeated factors."
 	self factorizationDo: [:p :e| e > 1 ifTrue: [^ false]].
 	^ true
 
@@ -47715,16 +47784,6 @@ quotientBy: anInteger modulo: m
 	q _ self // f.
 	^ fs * q \\ m! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 4/22/2025 14:21:42'!
-radicalPart
-	"The 'radical' or 'squarefree kernel' of an integer n is the product its distinct prime divisors.
-	The radical is the largest squarefree divisor of n.
-	Not to be confused with the 'squarefree part' or 'core' of n. See >>squarefreePart"
-	| answer |
-	answer := self sign.
-	self factorizationDo: [:p :e| answer := answer * p].
-	^ answer! !
-
 !Integer methodsFor: '*algebra' stamp: 'len 6/25/2023 13:32:23'!
 raisedToInteger2: anInteger
 	| n x y |
@@ -47794,13 +47853,15 @@ reciprocalModulo2: n
 	xgcd _ self xgcd: n.
 	^ (xgcd at: 1) == 1 ifTrue: [^ (xgcd at: 2) \\ n]! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 4/28/2025 09:40:57'!
+!Integer methodsFor: '*algebra' stamp: 'len 4/29/2025 11:27:13'!
 removePower: p
 	"Answer the exponent of the highest power of p that divides the receiver, and the corresponding cofactor."
 	| q v |
-	self flag: #duplicated. "duplicated in RingElement"
 	self = 0 ifTrue: [^ {Infinity positive. 0}].
-	q := self abs.
+	q := self.
+	p = 2 ifTrue:
+		[v := q lowBit - 1.
+		^ {v. q bitShift: v negated}].
 	v := 0.
 	[p | q] whileTrue: [v := v + 1. q := q // p].
 	^ {v. q}! !
@@ -47814,14 +47875,14 @@ split: anInteger
 	anInteger highBit highBit timesRepeat: [a := a squared \\ anInteger].
 	^ anInteger // (a gcd: anInteger)! !
 
-!Integer methodsFor: '*algebra' stamp: 'len 4/22/2025 14:21:32'!
+!Integer methodsFor: '*algebra' stamp: 'len 5/2/2025 10:05:39'!
 squarefreePart
-	"Decompose the receiver as n = zy² with z squarefree, and answer z.
-	The 'squarefree part' of n is the smallest integer m such that n/m is a square, and it is also called the 'core' of n.
-	Not to be confused with the 'radical' or 'squarefree kernel' of n. See >>radicalPart."
+	"The 'radical' or 'squarefree kernel' of an integer n is the product its distinct prime divisors.
+	The radical is the largest squarefree divisor of n.
+	Not to be confused with the 'core' of n, which is often called 'squarefree part'. See >>core"
 	| answer |
 	answer := self sign.
-	self factorizationDo: [:p :e| e even ifFalse: [answer := answer * p]].
+	self factorizationDo: [:p :e| answer := answer * p].
 	^ answer! !
 
 !Integer methodsFor: '*algebra' stamp: 'len 12/12/2016 09:35:43'!

@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7092] on 17 April 2025 at 12:45:07 pm'!
+'From Cuis7.3 [latest update: #7092] on 3 May 2025 at 8:49:06 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 154!
+!provides: 'Tests-Algebra' 1 155!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -5757,9 +5757,9 @@ testFunctionComposition3
 	g := ℤ underlyingSet to: ℤ underlyingSet map: [:x| x + 1].
 	self should: [g · f] raise: Error! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 1/31/2025 16:51:22'!
-testIntegerSquarefreePart
-	self assert: ((1 to: 21) collect: [:x| x squarefreePart]) = #(1 2 3 1 5 6 7 2 1 10 11 3 13 14 15 1 17 2 19 5 21)! !
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2025 16:37:17'!
+testIntegerCore
+	self assert: ((1 to: 21) collect: [:x| x core]) = #(1 2 3 1 5 6 7 2 1 10 11 3 13 14 15 1 17 2 19 5 21)! !
 
 !MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 11/29/2024 08:25:26'!
 testIteratorCovering
@@ -6714,7 +6714,7 @@ testShift
 	self assert: f * (x^3) = (f << 3).
 	self assert: (f * (x^3) << -3) = f! !
 
-!PolynomialTest methodsFor: 'etc' stamp: 'len 1/31/2025 11:36:20'!
+!PolynomialTest methodsFor: 'etc' stamp: 'len 5/2/2025 10:05:39'!
 testSquarefreePart
 	| P x f1 f2 f3 f |
 	P := ℚ polynomials.
@@ -6723,9 +6723,9 @@ testSquarefreePart
 	f2 := 1 - x.
 	f3 := x - 2.
 	f := f1*f1*f2*f3*f3*f3.
-	self assert: f radicalPart = (f1 * f2 * f3)! !
+	self assert: f squarefreePart = (f1 * f2 * f3)! !
 
-!PolynomialTest methodsFor: 'etc' stamp: 'len 1/31/2025 11:36:26'!
+!PolynomialTest methodsFor: 'etc' stamp: 'len 5/2/2025 10:05:39'!
 testSquarefreePartMultivariate
 	| P x y f1 f2 f |
 	P := ℚ polynomialsIn: #(x y).
@@ -6734,7 +6734,7 @@ testSquarefreePartMultivariate
 	f1 := x + 1.
 	f2 := y + 1.
 	f := f1*f1*f2*f2.
-	self assert: f radicalPart = (f1 * f2)! !
+	self assert: f squarefreePart = (f1 * f2)! !
 
 !PolynomialTest methodsFor: 'etc' stamp: 'len 3/6/2021 15:10:54'!
 testUnivariateMultivariateConversion
@@ -8958,11 +8958,11 @@ setUp
 	super setUp.
 	scalars := (CyclotomicField new: (3 atRandom: random) + 2) integers! !
 
-!QuadraticRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 11:23:23'!
+!QuadraticRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2025 16:37:17'!
 setUp
 	| n |
 	super setUp.
-	[(n := ((2 to: 100) atRandom: random) squarefreePart) > 1] whileFalse.
+	[(n := ((2 to: 100) atRandom: random) core) > 1] whileFalse.
 	random nextBoolean ifTrue: [n := n negated].
 	scalars := (QuadraticField new: n) integers! !
 
@@ -9226,11 +9226,11 @@ setUp
 	super setUp.
 	scalars := CyclotomicField new: 4! !
 
-!QuadraticFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 11:23:16'!
+!QuadraticFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2025 16:37:17'!
 setUp
 	| n |
 	super setUp.
-	[(n := ((2 to: 100) atRandom: random) squarefreePart) > 1] whileFalse.
+	[(n := ((2 to: 100) atRandom: random) core) > 1] whileFalse.
 	random nextBoolean ifTrue: [n := n negated].
 	scalars := QuadraticField new: n! !
 
@@ -11393,11 +11393,11 @@ setUp
 	super setUp.
 	scalars := ℤ × (ℤ/((64 atRandom: random) + 1))! !
 
-!QuadraticRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 11:23:36'!
+!QuadraticRingModuleTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2025 16:43:18'!
 setUp
 	| n |
 	super setUp.
-	[(n := ((2 to: 100) atRandom: random) squarefreePart) > 1] whileFalse.
+	[(n := ((2 to: 100) atRandom: random) core) > 1] whileFalse.
 	random nextBoolean ifTrue: [n := n negated].
 	scalars := (QuadraticField new: n) integers! !
 
@@ -11712,11 +11712,11 @@ testComplexEmbedding
 		self assert: (ℂ !! a) * (ℂ !! b) = (ℂ !! (a*b)).
 		self assert: (ℂ !! a) + (ℂ !! b) = (ℂ !! (a+b))]! !
 
-!QuadraticRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 11:22:51'!
+!QuadraticRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2025 16:37:17'!
 setUp
 	| n |
 	super setUp.
-	[((n := (2 to: 100) atRandom: random) squarefreePart) > 1] whileFalse.
+	[((n := (2 to: 100) atRandom: random) core) > 1] whileFalse.
 	random nextBoolean ifTrue: [n := n negated].
 	R := (QuadraticField new: n) integers! !
 
@@ -12490,11 +12490,11 @@ testComplexEmbedding
 		self assert: (ℂ !! a) * (ℂ !! b) = (ℂ !! (a*b)).
 		self assert: (ℂ !! a) + (ℂ !! b) = (ℂ !! (a+b))]! !
 
-!QuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 11/23/2023 10:20:36'!
+!QuadraticFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/1/2025 16:37:17'!
 setUp
 	| n |
 	super setUp.
-	[(n := ((2 to: 10) atRandom: random) squarefreePart) > 1] whileFalse.
+	[(n := ((2 to: 10) atRandom: random) core) > 1] whileFalse.
 	random nextBoolean ifTrue: [n := n negated].
 	R := QuadraticField new: n! !
 
@@ -12892,11 +12892,11 @@ testPrimeSignature
 	self assert: 42 primeSignature = #(1 1 1).
 	self assert: 16 primeSignature = #(4)! !
 
-!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 1/31/2025 11:36:40'!
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/2/2025 10:05:39'!
 testRadicalAndIsSquarefree
 	| n |
 	n := (-1000 to: 1000) atRandom: random.
-	self assert: n isSquarefree = (n radicalPart = n)! !
+	self assert: n isSquarefree = (n squarefreePart = n)! !
 
 !AbstractGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/23/2023 14:52:24'!
 testAdicExpansion
