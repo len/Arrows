@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7092] on 3 May 2025 at 8:49:06 pm'!
+'From Cuis7.3 [latest update: #7119] on 8 May 2025 at 6:59:40 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 155!
+!provides: 'Tests-Algebra' 1 156!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -12143,10 +12143,10 @@ testSquarefreeFactorizationExample
 	self assert: (factors occurrencesOf: x^2 + 1) = 3.
 	self assert: (factors occurrencesOf: x + 1) = 1! !
 
-!TernaryExtensionFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/25/2023 08:18:10'!
+!TernaryExtensionFieldPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/8/2025 17:06:38'!
 setUp
 	super setUp.
-	R := (	GaloisField new: 3 to: (8 atRandom: random) + 1) polynomials! !
+	R := (GaloisField new: 3 to: (8 atRandom: random) + 1) polynomials! !
 
 !RationalPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:37:57'!
 setUp

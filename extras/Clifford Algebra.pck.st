@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7092] on 13 April 2025 at 12:41:31 pm'!
+'From Cuis7.3 [latest update: #7119] on 8 May 2025 at 6:59:36 pm'!
 'Description '!
-!provides: 'Clifford Algebra' 1 6!
+!provides: 'Clifford Algebra' 1 7!
 SystemOrganization addCategory: #'Clifford Algebra'!
 
 
@@ -103,7 +103,7 @@ isExteriorAlgebra
 isInvolutive
 	^ true! !
 
-!CliffordAlgebra methodsFor: 'private' stamp: 'len 4/11/2025 22:14:23'!
+!CliffordAlgebra methodsFor: 'private' stamp: 'len 5/8/2025 00:17:29'!
 quadraticForm: aQuadraticForm
 	| V n basis C T table |
 	self propertyAt: #quadraticForm put: aQuadraticForm.
@@ -117,8 +117,8 @@ quadraticForm: aQuadraticForm
 	T := (V to: C images: ((1 to: n) collect: [:i| C basis at: 1 << (i-1) + 1])) · (V endomorphisms images: basis) inverse.
 	self addCoercionFrom: V map: [:v| self fromModuleElement: (T value: v)].
 	"Compute the multiplication table of the basis elements:"
-	table := (0 to: self degree - 1) collect: [:x|
-		(0 to: self degree - 1) collect: [:y|
+	table := (0 to: self carrier rank - 1) collect: [:x|
+		(0 to: self carrier rank - 1) collect: [:y|
 			| scalar index |
 			scalar := self scalars one.
 			index := x.

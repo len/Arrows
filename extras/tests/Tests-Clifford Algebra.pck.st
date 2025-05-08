@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7092] on 13 April 2025 at 12:41:40 pm'!
+'From Cuis7.3 [latest update: #7119] on 8 May 2025 at 6:59:44 pm'!
 'Description '!
-!provides: 'Tests-Clifford Algebra' 1 6!
+!provides: 'Tests-Clifford Algebra' 1 7!
 SystemOrganization addCategory: #'Tests-Clifford Algebra'!
 
 
@@ -52,12 +52,12 @@ setUp
 	super setUp.
 	R := CliffordAlgebra on: (QuadraticForm from: ℚ^3 coefficients: #(1 0 0 1 0 1))! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2024 10:16:16'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/8/2025 00:17:02'!
 testCliffordAlgebraDualGrade
 	| x k |
-	k := (0 to: R degree) atRandom: random.
+	k := (0 to: R carrier rank) atRandom: random.
 	x := R !! ((R grade: k) atRandom: random bits: 10).
-	self assert: ((R grade: R degree - k) includes: R carrier !! x dual)! !
+	self assert: ((R grade: R carrier rank - k) includes: R carrier !! x dual)! !
 
 !CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/9/2024 12:54:02'!
 testCliffordAlgebraDualProperties
@@ -83,11 +83,11 @@ testCliffordAlgebraGradeInvolution
 	self assert: (x*y) reflection = (x reflection * y reflection).
 	self assert: v reflection = v negated! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 12/28/2024 10:15:38'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/8/2025 00:16:40'!
 testCliffordAlgebraGradeProjection
 	| x k j |
-	k := (0 to: R degree) atRandom: random.
-	[j := (0 to: R degree) atRandom: random. j = k] whileTrue.
+	k := (0 to: R carrier rank) atRandom: random.
+	[j := (0 to: R carrier rank) atRandom: random. j = k] whileTrue.
 	x := self newElement.
 	self assert: ((R grade: k) includes: R carrier !! (x grade: k)).
 	self assert: (((R grade: j) includes: R carrier !! (x grade: k)) not or: [(x grade: k) isZero]).
@@ -159,10 +159,10 @@ testCliffordAlgebraProductsPropertiesWithVectors
 	self assert: v ∧ x = (x reflection ∧ v).
 	self assert: v ∙| (x*y) = ((v ∙| x)*y + (x reflection * (v ∙| y)))! !
 
-!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 4/11/2025 22:15:04'!
+!CliffordAlgebraTest methodsFor: 'as yet unclassified' stamp: 'len 5/8/2025 00:16:20'!
 testCliffordAlgebraProperties
 	self assert: R isCommutative not.
-	self assert: R degree = (2^R space rank).
+	self assert: R carrier rank = (2^R space rank).
 	self assert: R scalars = ℚ.
 	self assert: R zero isZero.
 	self assert: R one isOne.

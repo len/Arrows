@@ -1,4 +1,4 @@
-'From Cuis7.3 [latest update: #7092] on 3 May 2025 at 8:48:40 pm'!
+'From Cuis7.3 [latest update: #7119] on 8 May 2025 at 6:59:31 pm'!
 'Description This package implements among other things: permutation groups, linear groups, finite fields, Galois rings, affine algebras, number fields, function fields, finitely presented modules, finite-dimensional associative algebras, schemes, finite-dimensional representations of finite groups.
 
 References:
@@ -105,7 +105,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 249!
+!provides: 'Algebra' 1 250!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'GAS' 1 1 nil!
@@ -18049,9 +18049,9 @@ adapt: anElement
 fromModuleElement: anElement
 	^ FiniteAlgebraElement parent: self carrier: anElement! !
 
-!FiniteAlgebra methodsFor: 'elements' stamp: 'len 12/1/2024 14:41:52'!
+!FiniteAlgebra methodsFor: 'elements' stamp: 'len 5/8/2025 00:13:08'!
 newFrom: anObject
-	(anObject isSequenceable and: [anObject size = self rank])
+	(anObject isSequenceable and: [anObject size = self carrier rank])
 		ifTrue: [^ self fromModuleElement: (self carrier elementAt: anObject)].
 	^ super newFrom: anObject! !
 
@@ -23972,6 +23972,14 @@ ridges
 support
 	"Answer the collection of vertices that belong to any face in the receiver."
 	^ self vertices select: [:each| self facets anySatisfy: [:any| any includes: each]]! !
+
+!SimplicialComplex methodsFor: 'comparing' stamp: 'len 5/8/2025 18:55:11'!
+= anObject
+	^ (anObject isKindOf: SimplicialComplex) and: [self elements asSet = anObject elements asSet]! !
+
+!SimplicialComplex methodsFor: 'comparing' stamp: 'len 5/8/2025 18:55:24'!
+hash
+	^ 0! !
 
 !SimplicialComplex methodsFor: 'enumerating' stamp: 'len 2/15/2017 11:20:19'!
 cells: n do: aBlock
@@ -37207,11 +37215,12 @@ frobenius
 inverse
 	^ self \ self one! !
 
-!RingElement methodsFor: 'operations' stamp: 'len 4/18/2025 19:57:09'!
+!RingElement methodsFor: 'operations' stamp: 'len 5/8/2025 18:51:28'!
 inverseFrobenius
 	"Answer the result of applying the inverse of the Frobenius endomorphism to the receiver.
 	Assume the receiver is an element in a ring of positive characteristic.
 	See also >>frobenius."
+	self parent isFiniteAlgebra ifTrue: [^ self parent frobenius inverse value: self].
 	^ self root: self parent characteristic! !
 
 !RingElement methodsFor: 'operations' stamp: 'len 3/8/2025 09:05:24'!
