@@ -1,4 +1,4 @@
-'From Cuis7.3 [latest update: #7119] on 8 May 2025 at 6:59:31 pm'!
+'From Cuis7.3 [latest update: #7122] on 15 May 2025 at 10:54:13 pm'!
 'Description This package implements among other things: permutation groups, linear groups, finite fields, Galois rings, affine algebras, number fields, function fields, finitely presented modules, finite-dimensional associative algebras, schemes, finite-dimensional representations of finite groups.
 
 References:
@@ -105,7 +105,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 250!
+!provides: 'Algebra' 1 251!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'GAS' 1 1 nil!
@@ -9510,12 +9510,12 @@ do: aBlock
 	previous size < current size] whileTrue.
 "	self propertyAt: #elements put: current"! !
 
-!Group methodsFor: 'graphs' stamp: 'len 8/29/2024 15:17:40'!
+!Group methodsFor: 'graphs' stamp: 'len 5/14/2025 13:41:14'!
 cayleyGraph: generators
 	"Answer the 'colored' Cayley graph of the receiver for the given set of generators.
 	The set of generators is usually assumed to be symmetric (contains all inverses too) and to not contain the identity."
 	| G |
-	self isFinite ifFalse: [^ self error: 'not a finite group'].
+	self assert: self isFinite.
 	G := Digraph unorderedLabeled.
 	self isAbelianGroup
 		ifTrue:
@@ -9528,10 +9528,10 @@ cayleyGraph: generators
 					G addEdgeFrom: g to: g · x label: x]]].
 	^ G! !
 
-!Group methodsFor: 'graphs' stamp: 'len 8/29/2024 15:17:40'!
+!Group methodsFor: 'graphs' stamp: 'len 5/14/2025 13:41:24'!
 cycleGraph
 	| G elements id |
-	self isFinite ifFalse: [^ self error: 'not a finite group'].
+	self assert: self isFinite.
 	G := Graph unordered.
 	id := self identity.
 	elements := self elements asSet copyWithout: id.
@@ -12708,11 +12708,11 @@ fittingIdeal: anInteger
 	(n > M height or: [n > M width]) ifTrue: [^ self scalars zero asIdeal].
 	^ self scalars * (M minors: n)! !
 
-!Module methodsFor: 'operations' stamp: 'len 4/5/2024 19:06:45'!
+!Module methodsFor: 'operations' stamp: 'len 5/14/2025 13:41:43'!
 grassmannian: r
 	"Answer the set of r-dimensional subspaces of the receiver."
 "	self isVectorSpace ifFalse: [DomainError signal: 'not a vector space']."
-	self scalars isPID ifFalse: [^ self error: 'not a module over a PID'].
+	self assert: self scalars isPID.
 	self assert: (r <= self rank and: [r >= 0]).
 	^ Grassmannian new: r over: self! !
 
@@ -13945,6 +13945,11 @@ numeratorSaturated
 !Ideal methodsFor: 'accessing' stamp: 'len 8/3/2021 14:55:43'!
 ordering
 	^ self scalars ordering! !
+
+!Ideal methodsFor: 'accessing' stamp: 'len 5/14/2025 13:37:44'!
+projection: anInteger
+	"If the coefficients ring is a product ring, answer the ideal induced by the projection to the anInteger-th component."
+	^ (self scalars components at: anInteger) * (self generators collect: [:each| each at: anInteger])! !
 
 !Ideal methodsFor: 'accessing' stamp: 'len 10/5/2022 18:38:50'!
 relationsMatrix
@@ -15961,10 +15966,11 @@ rootsOf: aPolynomial withMultiplicitiesDo: aBlock
 		^ self].
 	^ self notYetImplemented! !
 
-!Ring methodsFor: 'computing-polynomials-private' stamp: 'len 5/2/2025 16:01:55'!
-multivariatePolynomialOverFieldChar0: aPolynomial squarefreeFactorizationDo: aBlock
+!Ring methodsFor: 'computing-polynomials-private' stamp: 'len 5/14/2025 15:32:14'!
+polynomialOverFieldChar0: aPolynomial squarefreeFactorizationDo: aBlock
 	"Iterate a squarefree decomposition of the receiver.
-	Use Yun's algorithm generalized to multivariate polynomials. Assume the coefficients are in a field of characteristic 0."
+	Use Yun's algorithm generalized to multivariate polynomials. Assume the coefficients are in a field of characteristic 0.
+	Yun's algorithm on an input polynomial univariate of degree n uses O(M(n)log(n)) operations in the base field F, where M(n) is the number of operations in F required to multiply two polynomias of degree n in F[x]."
 	| p q g count indeterminates |
 	count := 1.
 	p := aPolynomial.
@@ -15984,15 +15990,9 @@ multivariatePolynomialOverFieldChar0: aPolynomial squarefreeFactorizationDo: aBl
 			count := count + 1.
 			p := p / g.
 			q := q with: indeterminates collect: [:f :i| f / g - (p derivativeIn: i)]]].
-	aBlock value: p value: count! !
+	aBlock value: p value: count
 
-!Ring methodsFor: 'computing-polynomials-private' stamp: 'len 5/2/2025 15:43:28'!
-polynomialOverFieldChar0: aPolynomial squarefreeFactorizationDo: aBlock
-	"Iterate a squarefree decomposition of the receiver.
-	Use Yun's algorithm. Assume the coefficients are in a field of characteristic 0.
-	Yun's algorithm on an input polynomial of degree n uses O(M(n)log(n)) operations in the base field F, where M(n) is the number of operations in F required to multiply two polynomias of degree n in F[x]."
-	| p q gcd count |
-	aPolynomial isUnivariate ifFalse: [^ self multivariatePolynomialOverFieldChar0: aPolynomial squarefreeFactorizationDo: aBlock].
+"univariate version:
 	count := 1.
 	p := aPolynomial.
 	p isMonic ifFalse: [p := p normalized].
@@ -16007,7 +16007,7 @@ polynomialOverFieldChar0: aPolynomial squarefreeFactorizationDo: aBlock
 			count := count + 1.
 			p := p // gcd.
 			q := q // gcd - p derivative]].
-	aBlock value: p value: count! !
+	aBlock value: p value: count"! !
 
 !Ring methodsFor: 'computing-polynomials-private' stamp: 'len 11/5/2023 08:31:14'!
 polynomialOverFiniteField: aPolynomial factorizationDo: aBlock
@@ -28519,9 +28519,9 @@ numeratorByRows
 	denominators := self denominatorsByRows.
 	^ self propertyAt: #numeratorByRows put: (self domain numerators to: self codomain numerators fill: [:i :j| ((self at: i@j) * (denominators at: i)) numerator])! !
 
-!Matrix methodsFor: 'accessing' stamp: 'len 12/2/2022 14:13:06'!
+!Matrix methodsFor: 'accessing' stamp: 'len 5/14/2025 13:32:46'!
 projection: anInteger
-	"If the coefficients ring is a product ring, answer matrix induced by the projection to the anInteger-th component."
+	"If the coefficients ring is a product ring, answer the matrix induced by the projection to the anInteger-th component."
 	^ self class from: (domain over: (domain scalars at: anInteger)) to: (codomain over: (domain scalars at: anInteger)) fill: [:i :j| (self atRow: i column: j) at: anInteger]! !
 
 !Matrix methodsFor: 'accessing' stamp: 'len 11/23/2022 21:34:45'!
@@ -28691,9 +28691,9 @@ copyWithoutZeroColumns
 copyWithoutZeroRows
 	^ Matrix from: domain rows: (self rows select: [:each| each isZero not])! !
 
-!Matrix methodsFor: 'copying' stamp: 'len 4/26/2022 04:53:06'!
+!Matrix methodsFor: 'copying' stamp: 'len 5/14/2025 13:30:37'!
 project: anArray
-	^ self class from: domain to: (self scalars ^ anArray size) rows: (anArray collect: [:i| self rowAt: i])! !
+	^ self class from: domain to: self scalars ^ anArray size rows: (anArray collect: [:i| self rowAt: i])! !
 
 !Matrix methodsFor: 'enumerating' stamp: 'len 3/24/2018 19:27:46'!
 allSatisfy: aBlock
@@ -30043,9 +30043,8 @@ lift
 	(self scalars cover = ℤ and: [self isFull]) ifTrue: [^ self class from: domain lift to: codomain lift coefficients: coefficients lift].
 	^ super lift! !
 
-!DenseMatrix methodsFor: 'accessing' stamp: 'len 1/7/2025 08:10:22'!
+!DenseMatrix methodsFor: 'accessing' stamp: 'len 5/14/2025 13:32:53'!
 projection: anInteger
-	"If the coefficients ring is a product ring, answer matrix induced by the projection to the anInteger-th component."
 	self isFull ifTrue: [^ self class from: (domain over: (domain scalars at: anInteger)) to: (codomain over: (domain scalars at: anInteger)) coefficients: (coefficients projection: anInteger)].
 	^ super projection: anInteger! !
 
@@ -37750,6 +37749,13 @@ integralPrimitivePart
 		b := b lcm: each denominator].
 	^ self * (self scalars reducedNumerator: b * self leadingCoefficient numerator normalization denominator: a)! !
 
+!Polynomial methodsFor: 'factorization' stamp: 'len 5/14/2025 15:48:22'!
+kroneckerSubsitution: anInteger
+	"Perform Knonecker subsitution and return an univariate polynomial."
+	| x |
+	x := self parent scalars polynomials x.
+	^ self value: (self parent indeterminates collect: [:i| x ^ ((anInteger+1) ^ (i-1))])! !
+
 !Polynomial methodsFor: 'factorization' stamp: 'len 5/1/2025 11:21:49'!
 monomialContent
 	"Answer the GCD of the monomials of the receiver."
@@ -37773,14 +37779,11 @@ sign
 squarefreeFactorizationDo: aBlock
 	self scalars polynomial: self squarefreeFactorizationDo: aBlock! !
 
-!Polynomial methodsFor: 'factorization' stamp: 'len 5/2/2025 15:59:04'!
+!Polynomial methodsFor: 'factorization' stamp: 'len 5/14/2025 14:57:24'!
 squarefreePart
 	"Answer the maximal squarefree divisor of the receiver."
-	| g |
-	self parent scalars characteristic = 0 ifFalse: [^ super squarefreePart].
-	g := self.
-	self indeterminates do: [:i| g := g gcd: (self derivativeIn: i)].
-	^ self / g! !
+	self parent scalars characteristic = 0 ifTrue: [^ self / (self indeterminates inject: self into: [:g :i| g gcd: (self derivativeIn: i)])].
+	^ super squarefreePart! !
 
 !Polynomial methodsFor: 'gcd' stamp: 'len 6/16/2023 17:36:33'!
 gcd: aPolynomial
@@ -38142,13 +38145,13 @@ dehomogenizedIn: anIndeterminate
 	"Answer the dehomogenization of the receiver in the given indeterminate."
 	^ self applyToMonomials: [:each| each dehomogenizedIn: anIndeterminate]! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 1/11/2017 14:26:35'!
+!Polynomial methodsFor: 'operations' stamp: 'len 5/14/2025 14:57:55'!
 derivative: n in: anIndeterminate
 	"Answer the n-th derivative in the given indeterminate."
 	| answer |
-	n < 0 ifTrue: [^ self error: 'the order of the derivative should be positive'].
-	answer _ self.
-	n timesRepeat: [answer _ answer derivativeIn: anIndeterminate].
+	self assert: n >= 0.
+	answer := self.
+	n timesRepeat: [answer := answer derivativeIn: anIndeterminate].
 	^ answer! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 6/27/2023 00:20:08'!
@@ -38671,11 +38674,11 @@ isSeparable
 	self scalars isLocal ifTrue: [^ self isBasicIrreducible].
 	^ self notYetImplemented! !
 
-!Polynomial methodsFor: 'testing' stamp: 'len 5/1/2025 16:57:38'!
+!Polynomial methodsFor: 'testing' stamp: 'len 5/14/2025 14:59:29'!
 isSquarefree
-	self isMonomial ifTrue: [^ self monomials any isSquarefree].
 	self isZero ifTrue: [^ false].
-	self scalars characteristic = 0 ifTrue: [^ (self gcd: self derivative) isConstant].
+	self isMonomial ifTrue: [^ self monomials any isSquarefree].
+	self parent scalars characteristic = 0 ifTrue: [^ (self indeterminates inject: self into: [:g :i| g gcd: (self derivativeIn: i)]) isConstant].
 	self flag: #fix. "why discriminate constant factors?"
 	self squarefreeFactorizationDo: [:f :r| (r > 1 and: [f isConstant not]) ifTrue: [^ false]].
 	^ true! !

@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7119] on 8 May 2025 at 6:59:40 pm'!
+'From Cuis7.3 [latest update: #7122] on 15 May 2025 at 10:54:21 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 156!
+!provides: 'Tests-Algebra' 1 157!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -6713,6 +6713,19 @@ testShift
 	self assert: ((f << 10) << -10) = f.
 	self assert: f * (x^3) = (f << 3).
 	self assert: (f * (x^3) << -3) = f! !
+
+!PolynomialTest methodsFor: 'etc' stamp: 'len 5/14/2025 15:37:57'!
+testSquarefreeFactorizationCharacteristic0
+	| R f f₁ f₂ factorization |
+	R := ℚ polynomialsIn: #(x y z).
+	f₁ := R !! [:x :y :z| x+y].
+	f₂ := R !! [:x :y :z| z^2 + y].
+	f := R !! [:x :y :z| f₁^3*f₂].
+	factorization := f squarefreeFactorization.
+	self assert: factorization product = f.
+	self assert: factorization size = 4.
+	self assert: (factorization occurrencesOf: f₁) = 3.
+	self assert: (factorization occurrencesOf: f₂) = 1! !
 
 !PolynomialTest methodsFor: 'etc' stamp: 'len 5/2/2025 10:05:39'!
 testSquarefreePart
