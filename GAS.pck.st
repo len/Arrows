@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7066] on 14 March 2025 at 9:02:16 am'!
+'From Cuis7.3 [latest update: #7158] on 18 May 2025 at 8:33:25 pm'!
 'Description General Algebra Subrutines. This package provides low-level support for algebra on arrays.'!
-!provides: 'GAS' 1 20!
+!provides: 'GAS' 1 21!
 !requires: 'Collections-Extras' 1 14 nil!
 
 
@@ -1085,6 +1085,10 @@ swapFrom: start to: stop with: anArray startingAt: start2
 weight
 	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
 	^ (1 to: self size) count: [:each| (self isZeroAt: each) not]! !
+
+!ArrayedCollection methodsFor: '*gas' stamp: 'len 5/16/2025 14:35:03'!
+withSupportDo: aBlock
+	self supportDo: [:i| aBlock value: (self at: i) value: i]! !
 
 !ArrayedCollection methodsFor: '*gas' stamp: 'len 6/6/2023 08:47:31'!
 zeros

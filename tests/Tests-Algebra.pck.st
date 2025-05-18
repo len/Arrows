@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7122] on 15 May 2025 at 10:54:21 pm'!
+'From Cuis7.3 [latest update: #7158] on 18 May 2025 at 8:33:18 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 157!
+!provides: 'Tests-Algebra' 1 158!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -6714,41 +6714,6 @@ testShift
 	self assert: f * (x^3) = (f << 3).
 	self assert: (f * (x^3) << -3) = f! !
 
-!PolynomialTest methodsFor: 'etc' stamp: 'len 5/14/2025 15:37:57'!
-testSquarefreeFactorizationCharacteristic0
-	| R f f₁ f₂ factorization |
-	R := ℚ polynomialsIn: #(x y z).
-	f₁ := R !! [:x :y :z| x+y].
-	f₂ := R !! [:x :y :z| z^2 + y].
-	f := R !! [:x :y :z| f₁^3*f₂].
-	factorization := f squarefreeFactorization.
-	self assert: factorization product = f.
-	self assert: factorization size = 4.
-	self assert: (factorization occurrencesOf: f₁) = 3.
-	self assert: (factorization occurrencesOf: f₂) = 1! !
-
-!PolynomialTest methodsFor: 'etc' stamp: 'len 5/2/2025 10:05:39'!
-testSquarefreePart
-	| P x f1 f2 f3 f |
-	P := ℚ polynomials.
-	x := P x.
-	f1 := x^2 + x + 1.
-	f2 := 1 - x.
-	f3 := x - 2.
-	f := f1*f1*f2*f3*f3*f3.
-	self assert: f squarefreePart = (f1 * f2 * f3)! !
-
-!PolynomialTest methodsFor: 'etc' stamp: 'len 5/2/2025 10:05:39'!
-testSquarefreePartMultivariate
-	| P x y f1 f2 f |
-	P := ℚ polynomialsIn: #(x y).
-	x := P x.
-	y := P y.
-	f1 := x + 1.
-	f2 := y + 1.
-	f := f1*f1*f2*f2.
-	self assert: f squarefreePart = (f1 * f2)! !
-
 !PolynomialTest methodsFor: 'etc' stamp: 'len 3/6/2021 15:10:54'!
 testUnivariateMultivariateConversion
 	| Qx x y f |
@@ -6846,6 +6811,41 @@ testFiniteFieldFactorization3
 	self assert: factors size = 3.
 	self assert: (factors occurrencesOf: x-1) = 2.
 	self assert: (factors occurrencesOf: x-2) = 1! !
+
+!PolynomialTest methodsFor: 'factorization' stamp: 'len 5/14/2025 15:37:57'!
+testSquarefreeFactorizationCharacteristic0
+	| R f f₁ f₂ factorization |
+	R := ℚ polynomialsIn: #(x y z).
+	f₁ := R !! [:x :y :z| x+y].
+	f₂ := R !! [:x :y :z| z^2 + y].
+	f := R !! [:x :y :z| f₁^3*f₂].
+	factorization := f squarefreeFactorization.
+	self assert: factorization product = f.
+	self assert: factorization size = 4.
+	self assert: (factorization occurrencesOf: f₁) = 3.
+	self assert: (factorization occurrencesOf: f₂) = 1! !
+
+!PolynomialTest methodsFor: 'factorization' stamp: 'len 5/2/2025 10:05:39'!
+testSquarefreePart
+	| P x f1 f2 f3 f |
+	P := ℚ polynomials.
+	x := P x.
+	f1 := x^2 + x + 1.
+	f2 := 1 - x.
+	f3 := x - 2.
+	f := f1*f1*f2*f3*f3*f3.
+	self assert: f squarefreePart = (f1 * f2 * f3)! !
+
+!PolynomialTest methodsFor: 'factorization' stamp: 'len 5/2/2025 10:05:39'!
+testSquarefreePartMultivariate
+	| P x y f1 f2 f |
+	P := ℚ polynomialsIn: #(x y).
+	x := P x.
+	y := P y.
+	f1 := x + 1.
+	f2 := y + 1.
+	f := f1*f1*f2*f2.
+	self assert: f squarefreePart = (f1 * f2)! !
 
 !PolynomialTest methodsFor: 'gcd' stamp: 'len 12/23/2023 15:07:07'!
 testContentAndPrimitivePart
@@ -11872,7 +11872,7 @@ testEuclideanDivision
 		[b := self newElement. b isZero] whileTrue.
 		self testEuclideanDivisionOf: a by: b]! !
 
-!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/16/2022 10:44:43'!
+!AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/18/2025 15:30:43'!
 testEuclideanDivisionOf: a by: b
 	| q r |
 	b isZero ifTrue:
@@ -11882,7 +11882,7 @@ testEuclideanDivisionOf: a by: b
 	q _ a // b.
 	r _ a \\ b.
 	self assert: a = (q * b + r).
-	self assert: (r isZero or: [r gauge < b gauge])! !
+	self assert: (r isZero or: [r euclideanValuation < b euclideanValuation])! !
 
 !AbstractEuclideanRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 11:09:42'!
 testExactDivisionCompatibleWithEuclideanDivision
@@ -13037,7 +13037,7 @@ testEuclideanDivisionCompatibleWithModularIntegerRing
 		s2 := S !! r2 representative.
 		self assert: (r1 // r2) representative = (s1 // s2) representative]! !
 
-!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/23/2024 15:12:45'!
+!PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/18/2025 15:30:43'!
 testEuclideanFunctionCompatibleWithModularIntegerRing
 	| S r s |
 	"Hacky way to instantiate a ModularIntegerRing, otherwise we might get the cached original one"
@@ -13045,7 +13045,7 @@ testEuclideanFunctionCompatibleWithModularIntegerRing
 	100 timesRepeat:
 		[r := R atRandom: random.
 		s := S !! r representative.
-		self assert: r gauge = s gauge]! !
+		self assert: r euclideanValuation = s euclideanValuation]! !
 
 !PrimePowerRingTest methodsFor: 'as yet unclassified' stamp: 'len 12/23/2024 15:12:45'!
 testGCDCompatibleWithModularIntegerRing
