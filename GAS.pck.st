@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7158] on 18 May 2025 at 8:33:25 pm'!
+'From Cuis7.3 [latest update: #7158] on 21 June 2025 at 4:33:49 pm'!
 'Description General Algebra Subrutines. This package provides low-level support for algebra on arrays.'!
-!provides: 'GAS' 1 21!
+!provides: 'GAS' 1 22!
 !requires: 'Collections-Extras' 1 14 nil!
 
 
@@ -564,16 +564,17 @@ replaceFrom: start by: step plusMatrix: anArray1 startingAt: start1 by: step1 wi
 						i := i + step.
 						j := j + step1]]]! !
 
-!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 2/2/2024 10:51:05'!
-replaceFrom: start by: step width: width preLowerTriangularMatrix: anArray1 startingAt: start1 by: step1 width: width1 height: height
+!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 6/20/2025 20:26:10'!
+replaceFrom: start by: step width: width preSolveLowerTriangularMatrix: anArray1 startingAt: start1 by: step1 width: width1 height: height
 	self notYetImplemented! !
 
-!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 2/2/2024 10:51:14'!
-replaceFrom: start by: step width: width preUpperTriangularMatrix: anArray1 startingAt: start1 by: step1 width: width1 height: height
+!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 6/20/2025 20:26:27'!
+replaceFrom: start by: step width: width preSolveUpperTriangularMatrix: anArray1 startingAt: start1 by: step1 width: width1 height: height
 	self notYetImplemented! !
 
-!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 2/2/2024 10:47:25'!
+!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 6/20/2025 20:28:29'!
 replaceFrom: start by: step width: width solveLowerTriangularMatrix: anArray1 startingAt: start1 by: step1 width: width1 height: height
+	"Forward substitution."
 	self notYetImplemented! !
 
 !ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 2/2/2024 10:47:13'!

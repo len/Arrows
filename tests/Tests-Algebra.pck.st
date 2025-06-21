@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7158] on 18 May 2025 at 8:33:18 pm'!
+'From Cuis7.3 [latest update: #7158] on 21 June 2025 at 4:33:58 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 158!
+!provides: 'Tests-Algebra' 1 160!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -2555,9 +2555,30 @@ testGaussianElimination	1.81 per second.
 testSquared	1.32 per second.
 testTransposition	66.9 per second.!
 
-!PolynomialBenchmark commentStamp: 'len 5/26/2018 19:40:36' prior: 0!
+!PolynomialBenchmark commentStamp: '<historical>' prior: 0!
 PolynomialBenchmark new run
 
+"Macbook Air M4"
+testAdditionOverZ	142.31  runs per second
+testAdditionOverZ2	320.40  runs per second
+testDivisionOverQ	12.91  runs per second
+testDivisionOverZ	98.28  runs per second
+testFactorizationOverZ17Degree100	49.83  runs per second
+testFactorizationOverZ3Degree11Times20	719.91  runs per second
+testFiniteField	164.77  runs per second
+testGCDOverQ	9.52  runs per second
+testGCDOverZ	13.07  runs per second
+testGCDOverZ2	89.08  runs per second
+testMultiplication2OverZ	434.11  runs per second
+testMultiplication2OverZ2	4.78 k runs per second
+testMultiplicationOverZ	1.04  seconds per run
+testMultiplicationOverZ2	8.69 k runs per second
+testMultivariatePolynomialAdditionOverZ	277.12  runs per second
+testPseudoDivision	16.22 k runs per second
+testPseudoRemainder	16.28 k runs per second
+testRationalRoots	71.32 k runs per second'.
+
+"Old (Thinkpad X1):"
 testAdditionOverZ	25.4 per second.
 testAdditionOverZ2	283 per second.
 testDivisionOverQ	5.23 per second.
@@ -3222,12 +3243,12 @@ testFactorizationOverZ3Degree11Times20
 	f _ x^11 + (x^9 * 2) + (x^8 * 2) + (x^6) + (x^5) + (x^3 * 2) + (x^2 * 2) + one.
 	20 timesRepeat: [f factorization]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/17/2024 08:28:54'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/28/2025 16:30:05'!
 testFiniteField
 	"Benchmark Polynomial>>#= and ResidueClass#>>="
 	| F |
 	F := GaloisField new: 9.
-	(F^3 elements first: 9^3) asSet size = (9^3) ifFalse: [self halt]! !
+	((F^3) elements first: 9^3) asSet size = (9^3) ifFalse: [self halt]! !
 
 !PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
 testGCDOverQ
@@ -4815,7 +4836,7 @@ testExtendedBuchberger
 	T _ basisAndTransformation second.
 	self assert: (A * T) = G! !
 
-!CommutativeAlgebraTest methodsFor: 'algorithms' stamp: 'len 4/16/2025 11:34:18'!
+!CommutativeAlgebraTest methodsFor: 'algorithms' stamp: 'len 5/23/2025 19:28:34'!
 testReductionToZeroDimension
 	"[GP08, Example 4.3.3."
 	| R a1 a2 a3 I |
@@ -4824,7 +4845,7 @@ testReductionToZeroDimension
 	a2 := R * [:x :y| {y^2 + (2*y) + 1. x - 1}].
 	a3 := R * [:x :y| {y^2 - (2*y) + 1. x - 1}].
 	I := a1 ∩ a2 ∩ a3.
-	I reductionToZeroDimensionDo: [:E :G :h|
+	I reductionToZeroDimension: [:E :G :h|
 		self assert: h = (R !! [:x :y| y^4 - (y^2*2) + 1]).
 		self assert: (R * G : (R * h)) = (R * R x)]! !
 
@@ -4909,6 +4930,16 @@ testGroebnerBasis: G ideal: I
 	division validate.
 "	self assert: G reduced isReduced.
 	self assert: G minimal isMinimal"! !
+
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 6/20/2025 19:12:58'!
+testGroebnerBasisReordering
+	| R I G H |
+	R := ℚ polynomialsIn: 3.
+	I := R cyclicIdeal.
+	#(lex glex grevlex llex lglex lgrevlex) do: [:each|
+		G := (I orderedBy2: each).
+		H := ((R orderedBy: each) * I generators) basis.
+		self assert: G = H]! !
 
 !CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:33:38'!
 testGroebnerCyclic3
@@ -5865,11 +5896,11 @@ testSplittingField3
 	self assert: K characteristic = p.
 	self assert: K degree = r! !
 
-!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 12/4/2023 20:44:16'!
+!MathematicsTest methodsFor: 'as yet unclassified' stamp: 'len 6/18/2025 15:15:38'!
 testWord
 	| x y |
-	x := Word x: #x.
-	y := Word x: #y.
+	x := Word syllables: {#x -> 1} parent: nil.
+	y := Word syllables: {#y -> 1} parent: nil.
 	self assert: (x*y) * y inverse = x.
 	self assert: (x*y * (y inverse * x inverse)) isEmpty.
 	self assert: x*y*y * (y inverse * y inverse * x) = (x^2).
@@ -7018,6 +7049,36 @@ testCovariantInternalHom
 	self assert: (H value₀: y) = (x ⇒ y).
 	g := ℤ^2 to: ℤ asIdeal map: [:v| (v at: 1) * 2].
 	self assert: (x ⇒ g domain ⇒ (x ⇒ g codomain) includes: (H value: g))! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 5/30/2025 01:49:09'!
+testEquidimensionalHullNotZeroDimensionalExample
+	| R I |
+	"[GP08, Example 4.4.4]."
+	R := ℚ polynomialsIn: #(x y).
+	I := R * [:x :y| {x*(y^4) - (2*x*(y^2)) + x. x^2 - x}].
+"I reductionToZeroDimension: [:E :G :h| {E. G. h}]
+ (ℚ(y)[x], (xy4 - 2xy2 + x, x2 - x), y4 - 2y2 + 1)."
+	self assert: I equidimensionalHull = (R * R x)! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 5/30/2025 01:49:26'!
+testEquidimensionalHullZeroDimensionalExamples
+	| R I |
+	"[GP08, Example 4.4.2]."
+	R := ℚ polynomialsIn: #(x y).
+	I := R * [:x :y| {x^2. x*y}].
+	self assert: I equidimensionalHull = (R * R x).
+	R := ℚ polynomialsIn: #(x y z).
+	I := R * [:x :y :z| {x*y. x*z}].
+	self assert: I equidimensionalHull = (R * R x)! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 5/30/2025 16:31:53'!
+testEquidimensionalPartExample
+	"[GP08, Example 4.4.6]."
+	| R I |
+	R := ℚ polynomialsIn: #(x y z).
+	I := R * [:x :y :z| {x*y. x*z}].
+	self assert: (I equidimensionalPart: 2) = (R * R x).
+	self assert: (I equidimensionalPart: 1) = (R * {R y. R z})! !
 
 !AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 7/22/2024 09:07:01'!
 testEvaluationCoevaluationIdentityExample1
@@ -8264,6 +8325,16 @@ testGroebnerBasis: G ideal: I
 	division validate.
 "	self assert: G isMinimalStandardBasis.
 	self assert: G isReducedStandardBasis"! !
+
+!AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 6/20/2025 19:26:58'!
+testGroebnerBasisReordering
+	| R G H |
+	R := scalars polynomialsIn: 3.
+	{R cyclicIdeal. R katsuraIdeal} do: [:I|
+		#(lex glex grevlex llex lglex lgrevlex) do: [:ordering|
+			G := (I orderedBy2: ordering).
+			H := ((R orderedBy: ordering) * I generators) basis.
+			self assert: G = H].]! !
 
 !AbstractGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/23/2022 19:06:13'!
 testGroebnerCyclic3
@@ -10069,10 +10140,10 @@ setUp
 	super setUp.
 	scalars := (GaloisRing new: (3 atRandom: random) nextPrime to: (2 atRandom: random) to: (2 atRandom: random)) polynomialsIn: (3 atRandom: random)! !
 
-!ModularMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:16:01'!
+!ModularMultivariatePolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/8/2025 15:34:27'!
 setUp
 	super setUp.
-	scalars := ℤ/(1024 atRandom: random) polynomialsIn: (3 atRandom: random)! !
+	scalars := ℤ/(1024 atRandom: random) polynomialsIn: 2! !
 
 !ModularPolynomialRingPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/17/2023 15:00:13'!
 setUp
@@ -11360,19 +11431,19 @@ testSubquotientContainsBug
 	S := V sub: {v}.
 	self assert: (S contains: v * 3)! !
 
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2022 11:22:25'!
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/8/2025 15:35:07'!
 testSyzygies1
 	| V |
-	V _ ℤ^2 / {(2,0)}.
-	self assert: (V elementAt: (V relations atRandom: random bits: 100)) isZero! !
+	V := ℤ^2 / {(2,0)}.
+	self assert: (V elementAt: (V syzygies atRandom: random bits: 100)) isZero! !
 
-!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:15:49'!
+!IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 6/8/2025 15:34:54'!
 testSyzygies2
 	| V W X |
-	V _ ℤ^2 / {(2,0)}.
-	W _ ℤ^3 / {(2,2,2)}.
-	X _ V ⇒ W.
-	self assert: (X elementAt: (X relations atRandom: random bits: 100)) isZero! !
+	V := ℤ^2 / {(2,0)}.
+	W := ℤ^3 / {(2,2,2)}.
+	X := V ⇒ W.
+	self assert: (X elementAt: (X syzygies atRandom: random bits: 100)) isZero! !
 
 !IntegerModuleTest methodsFor: 'as yet unclassified' stamp: 'len 4/5/2021 04:13:27'!
 testTensorProductExample
@@ -12266,12 +12337,9 @@ testIsField
 testIsIntegralDomain
 	self assert: R isIntegralDomain! !
 
-!AbstractFieldTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2022 11:52:48'!
-testZeroIdealIsPrimeAndMinimalPrime
-	| P |
-	P _ R * 0.
-	self assert: P isPrime.
-	self assert: P isMinimalPrime! !
+!AbstractFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2025 16:00:03'!
+testZeroIdealIsPrime
+	self assert: (R*0) isPrime! !
 
 !AbstractFiniteFieldTest methodsFor: 'as yet unclassified' stamp: 'len 10/31/2023 10:02:20'!
 testEmbeddingIntoOverfield
@@ -12667,6 +12735,14 @@ testNormAndTrace
 	self assert: (x * a + y) trace = (x trace * a + y trace).
 	self assert: (x * y) norm = (x norm * y norm)! !
 
+!RationalAbelianClosureTest methodsFor: 'as yet unclassified' stamp: 'len 5/29/2025 16:28:27'!
+testNormAndTraceBug
+	| x y |
+	x := R !! (1/2). "rational"
+	y := self newElement.
+	self assert: (x + y) trace = (x trace + y trace).
+	self assert: (x * y) norm = (x norm * y norm)! !
+
 !RationalFieldTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:32:28'!
 setUp
 	super setUp.
@@ -12760,12 +12836,12 @@ setUp
 	super setUp.
 	R := (CyclotomicField new: 3) integers! !
 
-!EisensteinRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:35:20'!
+!EisensteinRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2025 16:11:45'!
 testIsPrimary
 	| a |
 	200 timesRepeat:
 		[a := R atRandom: random.
-		a isPrimary ifTrue: [self assert: a norm \\ 3 = 1]]! !
+		a isPrimaryEisensteinInteger ifTrue: [self assert: a norm \\ 3 = 1]]! !
 
 !GaussianRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/5/2023 21:31:00'!
 setUp
@@ -12831,12 +12907,12 @@ testIsFundamentalDiscriminant
 	self assert: ((0 to: -31 by: -1) select: [:each| each isFundamentalDiscriminant]) = #(-3 -4 -7 -8 -11 -15 -19 -20 -23 -24 -31) 
 ! !
 
-!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/24/2023 18:43:55'!
-testIsPrimePower
-	self assert: 0 isPrimePower not.
-	self assert: 1 isPrimePower.
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2025 17:02:32'!
+testIsPrimary
+	self assert: 0 isPrimary not.
+	self assert: 1 isPrimary.
 	2 to: 10000 do: [:each|
-		self assert: each isPrimePower = (each factorization asSet size = 1)]! !
+		self assert: each isPrimary = (each factorization asSet size = 1)]! !
 
 !IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/24/2023 18:54:25'!
 testJacobiAndLegendreSymbols
@@ -12888,10 +12964,10 @@ testPrimeNotMaximalIdeal
 	self assert: I isPrime.
 	self assert: I isMaximal not! !
 
-!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/24/2023 18:46:40'!
+!IntegerRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2025 17:01:26'!
 testPrimePowerFactorization
 	2 to: 10000 do: [:each|
-		each isPrimePower
+		each isPrimary
 			ifTrue: [self assert: each primePowerFactorizationOrNil = each factorization]
 			ifFalse: [self assert: each primePowerFactorizationOrNil isNil]]! !
 
@@ -12911,12 +12987,12 @@ testRadicalAndIsSquarefree
 	n := (-1000 to: 1000) atRandom: random.
 	self assert: n isSquarefree = (n squarefreePart = n)! !
 
-!AbstractGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/23/2023 14:52:24'!
+!AbstractGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2025 15:40:08'!
 testAdicExpansion
 	| a p |
 	p := R base.
 	a := R atRandom: random.
-	self assert: a = (a expansion reversed inject: R zero into: [:total :each| total * p + each])! !
+	self assert: a = (a expansion reversed inject: R zero into: [:last :each| last * p + each])! !
 
 !AbstractGaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 9/8/2023 17:08:43'!
 testCharacteristicAndSize
@@ -12995,9 +13071,15 @@ setUp
 	super setUp.
 	R := GaloisRing new: (3 atRandom: random) nextPrime to: (2 atRandom: random) to: (2 atRandom: random) + 1! !
 
-!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/24/2023 10:50:34'!
-testGeneralizedFrobenius
+!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2025 15:46:58'!
+testGeneralizedFrobeniusEndomorphism
 	self testRingHomomorphism: R generalizedFrobenius! !
+
+!GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/31/2025 15:46:27'!
+testGeneralizedFrobeniusEndomorphismMatchesElementsGeneralizedFrobenius
+	| a |
+	a := R atRandom: random.
+	self assert: (R generalizedFrobenius value: a) = a generalizedFrobenius! !
 
 !GaloisRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/24/2023 10:50:40'!
 testGeneralizedFrobeniusFixesScalars
@@ -13132,9 +13214,9 @@ testCongruenceSolvingExample2
 testIsFieldIffIsIntegralDomain
 	self assert: R isField = R isIntegralDomain! !
 
-!ModularRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:27:07'!
+!ModularRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2025 17:01:33'!
 testIsLocalIffModulusIsPrimePower
-	self assert: R modulus isPrimePower = R isLocal! !
+	self assert: R modulus isPrimary = R isLocal! !
 
 !ModularRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2023 15:26:46'!
 testIsPrimeIffModulusIsPrime
@@ -14084,7 +14166,7 @@ testPrimitiveCentralIdempotentsExample2
 	self assert: E sum = A one.
 	self assert: (E allSatisfy: [:e| e isIdempotent and: [E allSatisfy: [:f| e = f or: [(e * f) isZero]]]])! !
 
-!RepresentationsTest methodsFor: 'as yet unclassified' stamp: 'len 1/14/2025 13:40:08'!
+!RepresentationsTest methodsFor: 'as yet unclassified' stamp: 'len 6/1/2025 15:55:57'!
 testPrimitiveCentralIdempotentsExample3
 	| A E |
 	A := (SymmetricGroup new: 5) groupAlgebraOver: (GaloisField new: 7 to: 2).
