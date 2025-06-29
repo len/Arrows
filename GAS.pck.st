@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7158] on 21 June 2025 at 4:33:49 pm'!
+'From Cuis7.3 [latest update: #7158] on 29 June 2025 at 2:37:50 pm'!
 'Description General Algebra Subrutines. This package provides low-level support for algebra on arrays.'!
-!provides: 'GAS' 1 22!
+!provides: 'GAS' 1 23!
 !requires: 'Collections-Extras' 1 14 nil!
 
 
@@ -564,21 +564,38 @@ replaceFrom: start by: step plusMatrix: anArray1 startingAt: start1 by: step1 wi
 						i := i + step.
 						j := j + step1]]]! !
 
-!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 6/20/2025 20:26:10'!
-replaceFrom: start by: step width: width preSolveLowerTriangularMatrix: anArray1 startingAt: start1 by: step1 width: width1 height: height
+!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 6/23/2025 15:21:49'!
+replaceFrom: start by: step width: width preSolveLowerTriangularMatrix: anArray1 startingAt: start1 by: step1 width: width1 unitDiagonal: unitDiagonal
 	self notYetImplemented! !
 
-!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 6/20/2025 20:26:27'!
-replaceFrom: start by: step width: width preSolveUpperTriangularMatrix: anArray1 startingAt: start1 by: step1 width: width1 height: height
+!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 6/23/2025 15:21:24'!
+replaceFrom: start by: step width: width preSolveUpperTriangularMatrix: anArray1 startingAt: start1 by: step1 width: width1 unitDiagonal: unitDiagonal
 	self notYetImplemented! !
 
-!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 6/20/2025 20:28:29'!
-replaceFrom: start by: step width: width solveLowerTriangularMatrix: anArray1 startingAt: start1 by: step1 width: width1 height: height
-	"Forward substitution."
-	self notYetImplemented! !
+!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 6/23/2025 15:20:33'!
+replaceFrom: start by: step width: width solveLowerTriangularMatrix: anArray1 startingAt: start1 by: step1 width: width1 unitDiagonal: unitDiagonal
+"	i := start.
+	j := start1.
+	width timesRepeat:
+		[i := 
+		1 to: width do: [:j| (
+		anArray at: start1
+		i := i + step]
+		
+		1 to: width do: [:i|
+		x := self at: start + i - 1.
+		1 to: i-1 do: [:j| x := (self at: start + 
+		width timesRepeat:
+		[i+1 to: i+width-1 do: [:
+			
+		λ := (anArray1 at: j) inverse.
+		self replaceFrom: i to: i + width - 1 with: self timesScalar: λ.
+		i := i + step
+		]
+"! !
 
-!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 2/2/2024 10:47:13'!
-replaceFrom: start by: step width: width solveUpperTriangularMatrix: anArray1 startingAt: start1 by: step1 width: width1 height: height
+!ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 6/23/2025 15:20:53'!
+replaceFrom: start by: step width: width solveUpperTriangularMatrix: anArray1 startingAt: start1 by: step1 width: width1 unitDiagonal: unitDiagonal
 	self notYetImplemented! !
 
 !ArrayedCollection methodsFor: '*gas-low level' stamp: 'len 2/3/2024 16:30:33'!

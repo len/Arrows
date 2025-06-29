@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7158] on 21 June 2025 at 4:33:58 pm'!
+'From Cuis7.3 [latest update: #7158] on 29 June 2025 at 2:37:58 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 160!
+!provides: 'Tests-Algebra' 1 161!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -3046,30 +3046,30 @@ testRealAlgebraicNumberSquare
 	sqrt2 := (ℝ !! 2) sqrt.
 	10 timesRepeat: [sqrt2 squared]! !
 
-!CharacteristicPolynomialOverIntegersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/25/2022 10:46:22'!
+!CharacteristicPolynomialOverIntegersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/25/2025 14:16:51'!
 setUp
-	M _ ℤ matrix: 80 @ 80 fill: [:i :j| (-20 to: 20) atRandom]! !
+	M := ℤ new: 80 by: 80 fill: [:i :j| (-20 to: 20) atRandom]! !
 
 !CharacteristicPolynomialOverIntegersBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/25/2022 10:49:34'!
 testCharacteristicPolynomial
 	M copy characteristicPolynomial! !
 
-!DeterminantOverCommutativeRingBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/25/2022 10:57:20'!
+!DeterminantOverCommutativeRingBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/25/2025 14:17:03'!
 setUp
 	| n R |
-	n _ 2003*1009.
-	R _ (ℤ/n) polynomials.
-	M _ R matrix: 80 @ 80 fill: [:i :j| R coefficients: ((1 to: 6) collect: [:k| R scalars !! (-100 to: 100) atRandom])]! !
+	n := 2003*1009.
+	R := (ℤ/n) polynomials.
+	M := R new: 80 by: 80 fill: [:i :j| R coefficients: ((1 to: 6) collect: [:k| R scalars !! (-100 to: 100) atRandom])]! !
 
 !DeterminantOverCommutativeRingBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/25/2022 10:55:39'!
 testDeterminant
 	M copy determinant! !
 
-!DeterminantOverPolynomialRingBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/25/2022 10:42:27'!
+!DeterminantOverPolynomialRingBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/25/2025 14:17:10'!
 setUp
 	| R |
-	R _ ℤ polynomials.
-	M _ R matrix: 40 @ 40 fill: [:i :j| R coefficients: ((1 to: 3) collect: [:k| (-20 to: 20) atRandom])]! !
+	R := ℤ polynomials.
+	M := R new: 40 by: 40 fill: [:i :j| R coefficients: ((1 to: 3) collect: [:k| (-20 to: 20) atRandom])]! !
 
 !DeterminantOverPolynomialRingBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/25/2022 10:43:00'!
 testDeterminant
@@ -3158,12 +3158,12 @@ test1000Factorial
 field: aField
 	field _ aField! !
 
-!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/23/2022 21:40:24'!
+!ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 6/25/2025 14:17:19'!
 setUp
 	| random |
-	random _ Random seed: 1234.
-	field isNil ifTrue: [field _ 	PrimeField new: 32003].
-	matrix _ field matrix: 300@300 fill: [:i :j| field atRandom: random]! !
+	random := Random seed: 1234.
+	field isNil ifTrue: [field := 	PrimeField new: 32003].
+	matrix := field new: 300 by: 300 fill: [:i :j| field atRandom: random]! !
 
 !ModularMatrixBenchmark methodsFor: 'as yet unclassified' stamp: 'len 11/22/2016 11:55:20'!
 testAddition
@@ -9629,18 +9629,18 @@ setUp
 	super setUp.
 	scalars := ℤ! !
 
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:03:53'!
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2025 15:08:26'!
 testAdjugateExample
 	| A I |
-	A _ Matrix rows: { (2,1,1). (-1,0,1). (0,2,1) }.
-	I _ A identity.
+	A := ℤ !!!!!! #((2 1 1) (-1 0 1) (0 2 1)).
+	I := A identity.
 	self assert: A * A adjugate = (I * A determinant)! !
 
-!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 3/28/2021 11:04:04'!
+!IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2025 15:09:26'!
 testAdjugateExample2
 	| A B |
-	A _ Matrix rows: { (-3,2,-5). (-1,0,-2). (3,-4,1) }.
-	B _ Matrix rows: { (-8,18,-4). (-5,12,-1). (4,-6,2) }.
+	A := ℤ !!!!!! #((-3 2 -5) (-1 0 -2) (3 -4 1)).
+	B := ℤ !!!!!! #((-8 18 -4) (-5 12 -1) (4 -6 2)).
 	self assert: A adjugate = B! !
 
 !IntegerMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/5/2022 17:10:21'!

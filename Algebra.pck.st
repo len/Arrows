@@ -1,4 +1,4 @@
-'From Cuis7.3 [latest update: #7158] on 21 June 2025 at 4:34:09 pm'!
+'From Cuis7.3 [latest update: #7158] on 29 June 2025 at 2:37:38 pm'!
 'Description This package implements among other things: permutation groups, linear groups, finite fields, Galois rings, affine algebras, number fields, function fields, finitely presented modules, finite-dimensional associative algebras, schemes, finite-dimensional representations of finite groups.
 
 References:
@@ -110,7 +110,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 254!
+!provides: 'Algebra' 1 255!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'GAS' 1 1 nil!
@@ -291,7 +291,7 @@ LagrangeGaussReduction class
 
 !classDefinition: #LinearRelationFinder category: #'Algebra-Algorithms'!
 Object subclass: #LinearRelationFinder
-	instanceVariableNames: 'matrix position'
+	instanceVariableNames: 'matrix position pivots'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms'!
@@ -5078,12 +5078,29 @@ shortVector
 	shortVector isNil ifTrue: [self computeShortVector].
 	^ shortVector! !
 
-!LinearRelationFinder methodsFor: 'as yet unclassified' stamp: 'len 6/19/2025 16:27:03'!
+!LinearRelationFinder methodsFor: 'computing' stamp: 'len 6/29/2025 14:31:39'!
 append: aTuple
-	matrix ifNil: [matrix := aTuple parent to: aTuple parent coefficients: (aTuple scalars zeros: aTuple size squared). position := 0].
-	matrix rowAt: position + 1 put: aTuple.
-	"reduce 1 step"
-	! !
+	matrix rowAt: position put: aTuple, (aTuple scalars ^ (aTuple size + 1) x: position).
+	pivots do: [:each|
+		(matrix isZeroAt: position @ each y) ifFalse: 
+			[matrix addRow: each x times: (matrix at: position @ each y) negated / (matrix at: each) to: position from: 1 to: aTuple size + each x]].
+	(matrix firstNonzeroAtRow: position from: 1 to: aTuple size)
+		ifNotNil: [:j| pivots add: position @ j. position := position + 1. ^ nil].
+	^ ((matrix rowAt: position) copyFrom: aTuple size + 1 to: aTuple size + position) coefficients! !
+
+!LinearRelationFinder methodsFor: 'computing' stamp: 'len 6/29/2025 14:28:22'!
+reset
+	position := 1! !
+
+!LinearRelationFinder methodsFor: 'private' stamp: 'len 6/27/2025 16:01:10'!
+initialize: anInteger over: aField
+	matrix := aField zeros: anInteger+1 by: anInteger*2+1.
+	position := 1.
+	pivots := OrderedCollection new: anInteger! !
+
+!LinearRelationFinder class methodsFor: 'instance creation' stamp: 'len 6/27/2025 15:20:22'!
+new: anInteger over: aField
+	^ self new initialize: anInteger over: aField! !
 
 !NewtonInterpolation methodsFor: 'as yet unclassified' stamp: 'len 6/8/2023 19:47:55'!
 interpolate: values
@@ -11992,9 +12009,9 @@ on: aRing
 basis
 	^ self propertyAt: #basis ifAbsentPut: [self basisMatrix columns collect: [:each| self ambient elementAt: each]]! !
 
-!Module methodsFor: 'accessing' stamp: 'len 1/13/2022 11:59:03'!
+!Module methodsFor: 'accessing' stamp: 'len 6/25/2025 15:57:26'!
 basisMatrix
-"	(self isFreelyGenerated and: [self scalars isPID]) ifTrue: [^ self generatorMatrix]."
+"	(self isFreelyGenerated and: [self scalars isEuclidean]) ifTrue: [^ self generatorMatrix]."
 	^ self propertyAt: #basisMatrix ifAbsentPut: [self generatorMatrix basis]! !
 
 !Module methodsFor: 'accessing' stamp: 'len 12/12/2023 19:55:47'!
@@ -12798,13 +12815,13 @@ reduce: anElement
 	self isTrivial ifTrue: [^ anElement].
 	^ self ambient elementAt: ((self ambient \ anElement) asMatrix reductionBy: self generatorMatrix modulo: self ambient syzygiesMatrix) asTuple! !
 
-!Module methodsFor: 'operations' stamp: 'len 4/13/2025 12:20:29'!
+!Module methodsFor: 'operations' stamp: 'len 6/25/2025 15:57:47'!
 saturation
 	"If the receiver is a submodule M ⊆ Rⁿ over a Euclidean domain R with fraction field K, the saturation is MK ∩ Rⁿ.
 	See [PS09, Section 8]."
 	(self scalars isEuclideanDomain and: [self ambient isFreelyGenerated])
 		ifFalse: [^ self error: 'not a submodule of a free module over a Euclidean domain'].
-	^ self ambient sub: (self basisMatrix HNF copyWithoutZeroRows \ self basisMatrix transpose) transpose! !
+	^ self ambient sub: (self generatorMatrix HNF copyWithoutZeroRows \ self generatorMatrix transpose) transpose! !
 
 !Module methodsFor: 'operations' stamp: 'len 3/31/2025 08:17:44'!
 saturation: anIdeal
@@ -14903,10 +14920,11 @@ asZeroDimensional
 	E addMap: (R to: E images: images).
 	^​ E * self generators! !
 
-!PolynomialIdeal methodsFor: 'private' stamp: 'len 4/15/2025 15:53:23'!
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 6/26/2025 15:13:12'!
 isRadicalZeroDimensional
 	"Answer true if the receiver is radical, assuming it is zero-dimensional.
 	See [BW93], Table 8.2, Algorithm ZRADICALTEST."
+	self flag: #deprecated.
 	self scalars indeterminates do: [:i| | f |
 		f := (self eliminateAllBut: i) generator.
 		(f gcd: (f derivativeIn: i)) isConstant ifFalse: [^ false]].
@@ -15029,9 +15047,9 @@ asFractionalIdeal
 	self assert: self scalars isDedekindDomain.
 	^ FractionalIdeal numerator: self denominator: self scalars one! !
 
-!IntegralIdeal methodsFor: 'as yet unclassified' stamp: 'len 7/6/2023 22:02:30'!
+!IntegralIdeal methodsFor: 'as yet unclassified' stamp: 'len 6/25/2025 15:51:30'!
 minimum
-	^ self basisMatrix at: 1@1 "assuming it's HNF"! !
+	^ self basis first "assuming it's HNF"! !
 
 !IntegralIdeal methodsFor: 'as yet unclassified' stamp: 'len 7/6/2023 19:43:30'!
 norm
@@ -15962,25 +15980,6 @@ zero
 	^ (self generators allSatisfy: [:each| anObject contains: each])
 		and: [anObject generators allSatisfy: [:each| self contains: each]]! !
 
-!Ring methodsFor: 'computing-ideals' stamp: 'len 6/15/2025 16:24:43'!
-radicalOf: anIdeal
-	"Compute the radical of the given ideal of the receiver."
-	| Q answer |
-	self flag: #deprecated.
-	((anIdeal isTrivial and: [self isIntegralDomain]) or: [anIdeal isOne]) ifTrue: [^ anIdeal].
-	(anIdeal generators isSingleton and: [self isUFR]) ifTrue: [^ self * anIdeal generator squarefreePart].
-	(self scalars isPerfectField and: [anIdeal isZeroDimensional]) ifFalse: [^ self notYetImplemented].
-	"See [ABPR19, Algorithm 4.8 Radical0Dim]."
-	Q := anIdeal quotientRing.
-	answer := anIdeal.
-	self generators do: [:xᵢ| | μ |
-		μ := (Q !! xᵢ) minimalPolynomial.
-		μ isSquarefree ifFalse:
-			[μ := μ squarefreePart.
-			answer := answer + (self * (μ value: xᵢ))]. "or Q !! xᵢ ?"
-		μ degree = Q carrier rank ifTrue: [^ answer]].
-	^ answer! !
-
 !Ring methodsFor: 'computing-matrices' stamp: 'len 12/28/2022 11:11:19'!
 basisAndTransformationOf: aMatrix
 	| coechelonization E T |
@@ -16003,12 +16002,12 @@ echelonAndTransformationOf: aMatrix
 echelonOf: aMatrix
 	^ (self echelonizationAlgorithm on: aMatrix) echelon! !
 
-!Ring methodsFor: 'computing-matrices' stamp: 'len 3/8/2025 09:05:24'!
+!Ring methodsFor: 'computing-matrices' stamp: 'len 6/22/2025 15:33:37'!
 matrix: B quotientBy: A
 	"Answer X such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
 	self isField ifTrue: [^ self matrixOverField: B quotientBy: A].
 	self isEuclideanDomain ifTrue: [^ self matrixOverEuclideanDomain: B quotientBy: A].
-	self isFiniteAlgebra ifTrue: [^ self matrixOverFiniteExtension: B quotientBy: A].
+	self isFiniteAlgebra ifTrue: [^ self matrixOverFiniteAlgebra: B quotientBy: A].
 	^ self notYetImplemented! !
 
 !Ring methodsFor: 'computing-matrices' stamp: 'len 6/4/2022 21:11:48'!
@@ -16085,12 +16084,12 @@ smithNormalFormOf: aMatrix
 	S isSmithNormalForm] whileFalse.
 	^ S! !
 
-!Ring methodsFor: 'computing-matrices' stamp: 'len 3/8/2025 09:05:24'!
+!Ring methodsFor: 'computing-matrices' stamp: 'len 6/22/2025 15:33:11'!
 syzygiesOf: aMatrix
 	"Answer a matrix whose rows span the kernel of the given matrix.
 	For a matrix A, the output is X with AX = 0."
 	self isEuclideanDomain ifTrue: [^ self syzygiesOverEuclideanDomainOf: aMatrix].
-	self isFiniteAlgebra ifTrue: [^ self syzygiesOverFiniteExtensionOf: aMatrix].
+	self isFiniteAlgebra ifTrue: [^ self syzygiesOverFiniteAlgebraOf: aMatrix].
 	^ self notYetImplemented! !
 
 !Ring methodsFor: 'computing-matrices-private' stamp: 'len 5/19/2023 07:10:23'!
@@ -16149,8 +16148,8 @@ matrixOverField: B quotientBy: A
 	A width - X height timesRepeat: [X := X ⊓ B domain zero].
 	^ X! !
 
-!Ring methodsFor: 'computing-matrices-private' stamp: 'len 3/7/2025 15:25:21'!
-matrixOverFiniteExtension: B quotientBy: A
+!Ring methodsFor: 'computing-matrices-private' stamp: 'len 6/22/2025 15:33:37'!
+matrixOverFiniteAlgebra: B quotientBy: A
 	"Answer X such that AX + N = B, satisfying that if the i-th column of B is a linear combination of the columns of A then the i-th column of N is zero."
 	^ self extendMatrix: (B carrier quotientBy: A carrier)! !
 
@@ -16161,8 +16160,8 @@ syzygiesOverEuclideanDomainOf: aMatrix
 	E _ aMatrix coechelon.
 	^ Matrix to: aMatrix domain columns: (((1 to: E width) select: [:i| E isZeroAtColumn: i]) collect: [:i| T columnAt: i])! !
 
-!Ring methodsFor: 'computing-matrices-private' stamp: 'len 3/7/2025 15:25:54'!
-syzygiesOverFiniteExtensionOf: aMatrix
+!Ring methodsFor: 'computing-matrices-private' stamp: 'len 6/22/2025 15:33:11'!
+syzygiesOverFiniteAlgebraOf: aMatrix
 	"Answer a matrix whose rows span the kernel of the given matrix.
 	For a matrix A, the output is X with AX = 0."
 	| X d |
@@ -16477,11 +16476,15 @@ elementAt: aPolynomial
 	See also >>#\."
 	^ self evaluate: aPolynomial at: self generators! !
 
-!Ring methodsFor: 'elements' stamp: 'len 11/23/2022 21:37:31'!
-matrix: shape fill: aBlock
-	| n m |
-	shape isInteger ifTrue: [n _ m _ shape] ifFalse: [n _ shape x. m _ shape y].
-	^ self^m to: self^n fill: aBlock! !
+!Ring methodsFor: 'elements' stamp: 'len 6/25/2025 14:05:24'!
+new: anInteger by: anotherInteger
+	"Answer a new blank dense matrix of the given dimensions."
+	^ DenseMatrix from: self^anotherInteger to: self^anInteger coefficients: (self new: anInteger*anotherInteger)! !
+
+!Ring methodsFor: 'elements' stamp: 'len 6/25/2025 14:05:01'!
+new: anInteger by: anotherInteger fill: aBlock
+	self flag: #fix. "implement here"
+	^ self^anotherInteger to: self^anInteger fill: aBlock! !
 
 !Ring methodsFor: 'elements' stamp: 'len 5/3/2020 07:42:35'!
 newFrom: anObject
@@ -16492,6 +16495,11 @@ newFrom: anObject
 zeros: anInteger
 	"Answer a new array suitable for storing elements of the receiver filled with zeros."
 	^ (self new: anInteger) atAllPut: self zero! !
+
+!Ring methodsFor: 'elements' stamp: 'len 6/25/2025 14:06:49'!
+zeros: anInteger by: anotherInteger
+	"Answer a new dense matrix of the given dimensions filled with zeros."
+	^ DenseMatrix from: self^anotherInteger to: self^anInteger coefficients: (self zeros: anInteger*anotherInteger)! !
 
 !Ring methodsFor: 'enumerating' stamp: 'len 3/8/2025 09:05:24'!
 do: aBlock
@@ -17639,85 +17647,6 @@ syzygies
 !PolynomialRing methodsFor: 'comparing' stamp: 'len 4/28/2022 07:45:40'!
 hash
 	^ scalars hash + monomials hash hashMultiply! !
-
-!PolynomialRing methodsFor: 'computing-ideals' stamp: 'len 5/29/2025 15:13:12'!
-matsumotoRadicalOf: anIdeal
-	"Matsumoto's algorithm for computing the radical ideal over a perfect field of characteristic p > 0.
-	See [DK02, Algorithm 1.5.1]."
-	| R K p n S I J L I₂ |
-	R := self.
-	K := R scalars.
-	p := K characteristic.
-	n := R rank.
-	S := K polynomialsIn: n * 2 ordering: (MonomialOrdering lex: (1 to: n)), (MonomialOrdering grevlex: (n+1 to: n*2)).
-	I := anIdeal.
-	[J := S * ((I generators collect: [:g| S !! g]), ((1 to: R rank) collect: [:i| (S x: i) ^ p - (S x: n + i)])).
-	L := (J eliminateAll: (1 to: n)) generators.
-	L := L collect: [:g| (g substitute: [:i| i - n]) apply: [:a| a inverseFrobenius]].
-	I₂ := R * L.
-	I₂ ⊆ I ifTrue: [^ I].
-	I := I₂] repeat! !
-
-!PolynomialRing methodsFor: 'computing-ideals' stamp: 'len 6/15/2025 16:24:50'!
-radicalOf: anIdeal
-	self flag: #deprecated.
-	anIdeal isMonomial ifTrue: [^ self * (anIdeal generators collect: [:each| each squarefreePart])]. "[HH11] Proposition 1.2.4"
-	(anIdeal generators isSingleton and: [self isUFR]) ifTrue: [^ self * anIdeal generator squarefreePart].
-	(self scalars characteristic > 0 and: [self scalars isPerfectField]) ifTrue: [^ self matsumotoRadicalOf: anIdeal].
-	"See [BW93] Table 8.3, Algorithm ZRADICAL."
-	"(Alternative without Groebner bases: [ABPR19, Algorithm 4.8 Radical0Dim], implemented in Ring>>radicalOf:.)"
-	anIdeal isZeroDimensional ifTrue: [^ self * (anIdeal generators, (self indeterminates collect: [:i| (anIdeal eliminateAllBut: i) generator squarefreePart]))].
-	"Reduction to the zero-dimensional case, see [GP08, Algorithm 4.5.3] and Krick-Logar algorithm."
-	anIdeal reductionToZeroDimension: [:E :G :h|
-		| J p |
-		"Compute the radical in K(u)[x \ u] (zero dimensional case) and bring back to K[x]:"
-		J := E * (G collect: [:each| self !! each]).
-		self assert: J isZeroDimensional.
-		J := J radical.
-		p := J basis product: [:each| self !! each leadingCoefficient numerator].
-		J := (self * (J basis collect: [:each| each numerator])) saturation: p.
-		"And continue recursively:"
-		^ J ∩ (anIdeal + (self * h)) radical]! !
-
-!PolynomialRing methodsFor: 'computing-ideals' stamp: 'len 6/15/2025 16:24:53'!
-radicalOf2: anIdeal
-	self flag: #deprecated.
-	anIdeal isMonomial ifTrue: [^ self * (anIdeal generators collect: [:each| each squarefreePart])]. "[HH11] Proposition 1.2.4"
-	(anIdeal generators isSingleton and: [self isUFR]) ifTrue: [^ self * anIdeal generator squarefreePart].
-	(self scalars characteristic > 0 and: [self scalars isPerfectField]) ifTrue: [^ self matsumotoRadicalOf: anIdeal].
-	"See [BW93] Table 8.3, Algorithm ZRADICAL."
-	"(Alternative without Groebner bases: [ABPR19, Algorithm 4.8 Radical0Dim], implemented in Ring>>radicalOf:.)"
-	anIdeal isZeroDimensional ifTrue: [^ self * (anIdeal generators, (self indeterminates collect: [:i| (anIdeal eliminateAllBut: i) generator squarefreePart]))].
-	"Reduction to the zero-dimensional case, see [GP08, Algorithm 4.5.3] and Krick-Logar algorithm."
-	anIdeal reductionToZeroDimension: [:E :G :h|
-		| J p |
-		"Compute the radical in K(u)[x \ u] (zero dimensional case) and bring back to K[x]:"
-		J := E * (G collect: [:each| self !! each]).
-		self assert: J isZeroDimensional.
-		J := J radical.
-		p := J basis product: [:each| self !! each leadingCoefficient numerator].
-		J := (self * (J basis collect: [:each| each numerator])) saturation: p.
-		"And continue recursively:"
-		^ J ∩ (anIdeal + (self * h)) radical]! !
-
-!PolynomialRing methodsFor: 'computing-ideals' stamp: 'len 6/15/2025 16:25:00'!
-radicalOfSL1: anIdeal
-	| I J |
-	self flag: #deprecated.
-	anIdeal isMonomial ifTrue: [^ self * (anIdeal generators collect: [:each| each squarefreePart])]. "[HH11] Proposition 1.2.4"
-	(anIdeal generators isSingleton and: [self isUFR]) ifTrue: [^ self * anIdeal generator squarefreePart].
-	(self scalars characteristic > 0 and: [self scalars isPerfectField]) ifTrue: [^ self matsumotoRadicalOf: anIdeal].
-	"See [BW93] Table 8.3, Algorithm ZRADICAL."
-	"(Alternative without Groebner bases: [ABPR19, Algorithm 4.8 Radical0Dim], implemented in Ring>>radicalOf:.)"
-	anIdeal isZeroDimensional ifTrue: [^ self * (anIdeal generators, (self indeterminates collect: [:i| (anIdeal eliminateAllBut: i) generator squarefreePart]))].
-	"Reduction to the zero-dimensional case:"
-	"TODO: make linear coodinate change of variables so that it is in Noether position"
-	I := anIdeal.
-	J := I asZeroDimensional radical.
-	"Contraction:"
-	J := J ∩ self.
-"	E := I scalars."
-	^ J ∩ (I saturation: J) radical! !
 
 !PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/14/2025 16:01:40'!
 basisAndTransformationOf: aMatrix
@@ -20453,11 +20382,6 @@ findDenominatorIn: anIdeal ifNone: exceptionBlock
 saturationOf: anIdeal
 	^ self subclassResponsibility! !
 
-!LocalizationRing methodsFor: 'computing-ideals' stamp: 'len 6/21/2025 16:02:13'!
-radicalOf: anIdeal
-	self flag: #deprecated.
-	^ anIdeal numerator radical * self! !
-
 !LocalizationRing methodsFor: 'computing-matrices' stamp: 'len 4/4/2025 18:56:15'!
 syzygiesOf: aMatrix
 	^ aMatrix numerator syzygies over: self! !
@@ -21323,48 +21247,50 @@ zero
 hash
 	^ components hash! !
 
-!ProductRing methodsFor: 'computing-matrices' stamp: 'len 10/17/2024 08:51:34'!
+!ProductRing methodsFor: 'computing-matrices' stamp: 'len 6/25/2025 14:10:36'!
 basisAndTransformationOf: aMatrix
 	| results |
 	results := (1 to: components size) collect: [:i| (aMatrix projection: i) basisAndTransformation].
-	^ {self matrix: aMatrix height @ (results max: [:each| each first width]) fill: [:i :j| self compose: (results withIndexCollect: [:each :k| each first at: i@j ifAbsent: [(components at: k) zero]])].
-		self matrix: aMatrix width @ (results max: [:each| each second width]) fill: [:i :j| self compose: (results withIndexCollect: [:each :k| each second at: i@j ifAbsent: [(components at: k) zero]])]}! !
+	^ {self new: aMatrix height by: (results max: [:each| each first width]) fill: [:i :j| self compose: (results withIndexCollect: [:each :k| each first at: i@j ifAbsent: [(components at: k) zero]])].
+		self new: aMatrix width by: (results max: [:each| each second width]) fill: [:i :j| self compose: (results withIndexCollect: [:each :k| each second at: i@j ifAbsent: [(components at: k) zero]])]}! !
 
-!ProductRing methodsFor: 'computing-matrices' stamp: 'len 10/17/2024 08:51:11'!
+!ProductRing methodsFor: 'computing-matrices' stamp: 'len 6/25/2025 14:10:46'!
 basisOf: aMatrix
 	| results |
 	results := (1 to: components size) collect: [:i| (aMatrix projection: i) basis].
-	^ self matrix: aMatrix height @ (results max: [:each| each width]) fill: [:i :j| self compose: (results withIndexCollect: [:each :k| each at: i@j ifAbsent: [(components at: k) zero]])]! !
+	^ self new: aMatrix height by: (results max: [:each| each width]) fill: [:i :j| self compose: (results withIndexCollect: [:each :k| each at: i@j ifAbsent: [(components at: k) zero]])]! !
 
-!ProductRing methodsFor: 'computing-matrices' stamp: 'len 4/4/2025 18:57:49'!
+!ProductRing methodsFor: 'computing-matrices' stamp: 'len 6/25/2025 14:11:00'!
 matrix: B quotientBy: A
 	"The algorithm solves the system for each projection and then composes back to the product ring."
 	| results |
 	results := (1 to: components size) collect: [:i| (B projection: i) quotientBy: (A projection: i)].
-	^ self matrix: A width @ B width fill: [:i :j| self compose: (results collect: [:each| each at: i@j])]! !
+	^ self new: A width by: B width fill: [:i :j| self compose: (results collect: [:each| each at: i@j])]! !
 
-!ProductRing methodsFor: 'computing-matrices' stamp: 'len 10/17/2024 08:50:06'!
+!ProductRing methodsFor: 'computing-matrices' stamp: 'len 6/25/2025 14:13:34'!
 smithNormalFormAndTransformationsOf: aMatrix
 	"Answer the Smith normal form S of the argument A and the unique unimodular matrices P and Q such that P*A*Q = S."
-	| results |
+	| results n |
 	results := (1 to: components size) collect: [:i| (aMatrix projection: i) SNFAndTransformations].
-	^ {self matrix: (aMatrix width min: aMatrix height) fill: [:i :j| self compose: (results withIndexCollect: [:each :k| (each at: 1) at: i@j])].
-		self matrix: aMatrix height fill: [:i :j| self compose: ((results withIndexCollect: [:each :k| (each at: 2) at: i@j]))].
-		self matrix: aMatrix width fill: [:i :j| self compose: ((results withIndexCollect: [:each :k| (each at: 3) at: i@j]))]}! !
+	n := aMatrix width min: aMatrix height.
+	^ {self new: n by: n fill: [:i :j| self compose: (results withIndexCollect: [:each :k| (each at: 1) at: i@j])].
+		self new: aMatrix height by: aMatrix height fill: [:i :j| self compose: ((results withIndexCollect: [:each :k| (each at: 2) at: i@j]))].
+		self new: aMatrix width by: aMatrix width fill: [:i :j| self compose: ((results withIndexCollect: [:each :k| (each at: 3) at: i@j]))]}! !
 
-!ProductRing methodsFor: 'computing-matrices' stamp: 'len 10/17/2024 08:49:42'!
+!ProductRing methodsFor: 'computing-matrices' stamp: 'len 6/25/2025 14:12:24'!
 smithNormalFormOf: aMatrix
 	"Answer the Smith normal form of the aMatrix."
-	| results |
+	| results n |
 	results := (1 to: components size) collect: [:i| (aMatrix projection: i) SNF].
-	^ self matrix: (aMatrix width min: aMatrix height) fill: [:i :j| self compose: (results collect: [:each| each at: i@j])]! !
+	n := aMatrix width min: aMatrix height.
+	^ self new: n by: n fill: [:i :j| self compose: (results collect: [:each| each at: i@j])]! !
 
-!ProductRing methodsFor: 'computing-matrices' stamp: 'len 4/4/2025 18:56:29'!
+!ProductRing methodsFor: 'computing-matrices' stamp: 'len 6/25/2025 14:13:45'!
 syzygiesOf: aMatrix
 	"The algorithm computes syzygies for each projection and then composes back to the product ring."
 	| results |
 	results := (1 to: components size) collect: [:i| (aMatrix projection: i) syzygies].
-	^ self matrix: aMatrix width @ (results max: [:each| each width]) fill: [:i :j| self compose: (results withIndexCollect: [:each :k| each at: i@j ifAbsent: [(components at: k) zero]])]! !
+	^ self new: aMatrix width by: (results max: [:each| each width]) fill: [:i :j| self compose: (results withIndexCollect: [:each :k| each at: i@j ifAbsent: [(components at: k) zero]])]! !
 
 !ProductRing methodsFor: 'converting' stamp: 'len 5/1/2024 10:22:12'!
 asAbelianGroup
@@ -21585,11 +21511,6 @@ zero
 !QuotientRing methodsFor: 'comparing' stamp: 'len 2/27/2017 20:53:58'!
 hash
 	^ self relations hash! !
-
-!QuotientRing methodsFor: 'computing-ideals' stamp: 'len 6/21/2025 16:02:20'!
-radicalOf: anIdeal
-	self flag: #deprecated.
-	^ anIdeal representativeSaturated radical * self! !
 
 !QuotientRing methodsFor: 'computing-matrices' stamp: 'len 6/8/2025 15:37:43'!
 matrix: B quotientBy: A
@@ -29153,32 +29074,32 @@ copyFromColumn: start to: end
 copyFromRow: start to: end
 	^ self copyFrom: start @ 1 to: end @ self width! !
 
-!Matrix methodsFor: 'copying' stamp: 'len 11/23/2022 21:39:09'!
+!Matrix methodsFor: 'copying' stamp: 'len 6/25/2025 14:14:00'!
 copyWithout: aPoint
 	"Answer the matrix obtained by removing the row i and column j from the receiver, where the argument is the point i@j."
 	^ self scalars
-		matrix: self height - 1 @ (self width - 1)
+		new: self height - 1 by: self width - 1
 		fill: [:i :j| self at: (i < aPoint x ifTrue: [i] ifFalse: [i + 1]) @ (j < aPoint y ifTrue: [j] ifFalse: [j + 1])]! !
 
-!Matrix methodsFor: 'copying' stamp: 'len 11/23/2022 21:39:15'!
+!Matrix methodsFor: 'copying' stamp: 'len 6/25/2025 14:14:12'!
 copyWithoutColumn: anInteger
 	"Answer the matrix obtained by removing the anInteger-th column from the receiver."
 	^ self scalars
-		matrix: self height @ (self width - 1)
+		new: self height by: self width - 1
 		fill: [:i :j| self at: i @ (j < anInteger ifTrue: [j] ifFalse: [j + 1])]! !
 
-!Matrix methodsFor: 'copying' stamp: 'len 11/23/2022 21:39:20'!
+!Matrix methodsFor: 'copying' stamp: 'len 6/25/2025 14:14:29'!
 copyWithoutRow: anInteger
 	"Answer the matrix obtained by removing the anInteger-th column from the receiver."
 	^ self scalars
-		matrix: self height - 1 @ self width
+		new: self height - 1 by: self width
 		fill: [:i :j| self at: (i < anInteger ifTrue: [i] ifFalse: [i + 1]) @ j]! !
 
-!Matrix methodsFor: 'copying' stamp: 'len 12/24/2022 17:13:34'!
+!Matrix methodsFor: 'copying' stamp: 'len 6/25/2025 14:14:43'!
 copyWithoutRowAndColumn: aPoint
 	"Answer the matrix obtained by removing the row i and column j from the receiver, where the argument is the point i@j."
 	^ self scalars
-		matrix: self height - 1 @ (self width - 1)
+		new: self height - 1 by: self width - 1
 		fill: [:i :j| self at: (i < aPoint x ifTrue: [i] ifFalse: [i + 1]) @ (j < aPoint y ifTrue: [j] ifFalse: [j + 1])]! !
 
 !Matrix methodsFor: 'copying' stamp: 'len 4/26/2022 04:52:22'!
@@ -29934,9 +29855,29 @@ lcm: aMatrix
 	"The LCM is well defined for scalar matrices over a ring with GCD."
 	^ self domain to: self codomain scalar: (self asScalar lcm: aMatrix asScalar)! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 10/19/2023 09:55:58'!
+!Matrix methodsFor: 'operations' stamp: 'len 6/29/2025 14:27:59'!
 minimalPolynomial
+	| P n answer L |
+	self assert: self isSquare.
+	self assert: self scalars isIntegralDomain.
+	P := self scalars polynomials.
+	n := self width.
+	answer := P one.
+	L := LinearRelationFinder new: n over: self scalars.
+	self codomain basis do: [:eᵢ| "It's not necessary to iterate over the whole basis"
+		| v s |
+		v := eᵢ.
+		L reset; append: v.
+		[v := self * v.
+		(s := L append: v) isNil] whileTrue.
+		answer := answer lcm: (P coefficients: s / s last).
+		answer degree = n ifTrue: [^ answer]].
+	^ answer! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 6/29/2025 14:26:39'!
+minimalPolynomialOld
 	| P n answer |
+	self flag: #deprecated.
 	self assert: self isSquare.
 	self assert: self scalars isIntegralDomain.
 	P := self scalars polynomials.
@@ -29953,6 +29894,7 @@ minimalPolynomial
 		K isZero] whileTrue.
 		K := K coechelon.
 		s := K columns first coefficients.
+		self halt.
 		answer := answer lcm: (P coefficients: s / s last).
 		answer degree = n ifTrue: [^ answer]].
 	^ answer! !
@@ -29962,14 +29904,14 @@ minor: aPoint
 	"Answer the (i,j)-minor, i.e. the determinant of the matrix obtained by removing row i and column j from the receiver."
 	^ (self copyWithoutRowAndColumn: aPoint) determinant! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 11/23/2022 21:39:32'!
+!Matrix methodsFor: 'operations' stamp: 'len 6/25/2025 14:14:56'!
 minors: k
 	"Answer the list of all the k-minors of the receiver, i.e. the determinants of all matrices obtained by deleting m - k rows and n - k columns."
 	| answer |
-	answer _ OrderedCollection new.
+	answer := OrderedCollection new.
 	(1 to: self height) combinations: k atATimeDo: [:rows|
 		(1 to: self width) combinations: k atATimeDo: [:columns|
-			answer add: (self scalars matrix: k@k fill: [:i :j| self at: (rows at: i) @ (columns at: j)]) determinant]].
+			answer add: (self scalars new: k by: k fill: [:i :j| self at: (rows at: i) @ (columns at: j)]) determinant]].
 	^ answer! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 3/23/2016 00:23'!
@@ -30572,13 +30514,13 @@ zero
 = anObject
 	^ (self class = anObject class and: [self isFull and: [anObject isFull and: [coefficients = anObject coefficients]]]) or: [super = anObject]! !
 
-!DenseMatrix methodsFor: 'comparing' stamp: 'len 1/8/2025 10:07:53'!
+!DenseMatrix methodsFor: 'comparing' stamp: 'len 6/29/2025 14:35:48'!
 apply: aMap
 	"Answer a new tuple with coefficients obtainted by applying aMap to the coefficients of the receiver.
 	If aMap is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
 	self isFull ifFalse: [^ super apply: aMap].
-	aMap isMorphism ifFalse: [^ self class from: domain to: codomain coefficients: coefficients ≫ aMap].
-	^ self class from: (domain over: aMap codomain) to: (codomain over: aMap codomain) coefficients: coefficients ≫ aMap! !
+	aMap isMorphism ifFalse: [^ self class from: domain to: codomain coefficients: (coefficients apply: aMap)].
+	^ self class from: (domain over: aMap codomain) to: (codomain over: aMap codomain) coefficients: (coefficients apply: aMap)! !
 
 !DenseMatrix methodsFor: 'converting' stamp: 'len 1/7/2025 08:18:37'!
 asTuple
@@ -30602,19 +30544,22 @@ copy
 			((self scalars new: self width * self height)
 				replaceFrom: 1 by: self width withMatrix: coefficients startingAt: startIndex by: stride width: self width height: self height)! !
 
-!DenseMatrix methodsFor: 'copying' stamp: 'len 1/7/2025 08:21:06'!
+!DenseMatrix methodsFor: 'copying' stamp: 'len 6/25/2025 15:30:34'!
 copyFrom: start to: stop
 	"Answer a new dense matrix containing the submatrix of the receiver from start to stop."
 	| w h |
 	(stop x > self height or: [stop y > self width]) ifTrue: [^ self error: 'index out of bounds'].
 	w := stop y - start y + 1 max: 0.
 	h := stop x - start x + 1 max: 0.
-	^ self class
+	^ (self scalars new: h by: w)
+		replaceFrom: 1@1 to: h@w with: self startingAt: start
+
+"	^ self class
 		from: (domain copyFrom: start y to: stop y)
 		to: (codomain copyFrom: start x to: stop x)
 		coefficients:
 			((self scalars new: w * h)
-				replaceFrom: 1 by: w withMatrix: coefficients startingAt: (self rowIndexAt: start x) + start y - 1 by: stride width: w height: h)! !
+				replaceFrom: 1 by: w withMatrix: coefficients startingAt: (self rowIndexAt: start x) + start y - 1 by: stride width: w height: h)"! !
 
 !DenseMatrix methodsFor: 'copying' stamp: 'len 1/6/2025 15:17:16'!
 from: start to: stop
@@ -30631,6 +30576,14 @@ from: start to: stop
 		coefficients: coefficients
 		startIndex: (self rowIndexAt: start x) + start y - 1
 		stride: stride! !
+
+!DenseMatrix methodsFor: 'copying' stamp: 'len 6/25/2025 15:33:40'!
+replaceFrom: start to: stop with: aMatrix startingAt: start1
+	| w h |
+	(stop x > self height or: [stop y > self width]) ifTrue: [^ self error: 'index out of bounds'].
+	w := stop y - start y + 1 max: 0.
+	h := stop x - start x + 1 max: 0.
+	coefficients replaceFrom: (self rowIndexAt: start x) + start y - 1 by: stride withMatrix: aMatrix coefficients startingAt: (aMatrix rowIndexAt: start1 x) + start1 y - 1 by: aMatrix stride width: w height: h! !
 
 !DenseMatrix methodsFor: 'deprecated' stamp: 'len 1/5/2025 09:17:53'!
 replaceWith: aMatrix1 timesLowerTriangular: aMatrix2
@@ -30712,28 +30665,41 @@ allSatisfy: aBlock
 	self isFull ifTrue: [^ coefficients allSatisfy: aBlock].
 	^ super allSatisfy: aBlock! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/17/2025 09:22:27'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 6/24/2025 17:06:39'!
 * anObject
-	self isFull ifFalse: [^ super * anObject].
-	((self scalars includes: anObject) or: [anObject isInteger]) ifTrue: [^ self class from: domain to: codomain coefficients: coefficients * anObject].
+	((self scalars includes: anObject) or: [anObject isInteger]) ifTrue: [^ self copy scaleBy: anObject].
 	anObject isMatrix ifTrue: [^ self ∘ anObject].
 	anObject isTuple ifTrue: [^ self value: anObject].
 	(anObject isKindOf: ModuleMap) ifTrue: [^ self ∘ anObject].
-	^ self class from: domain to: codomain coefficients: coefficients * (self scalars !! anObject)! !
+	^ self copy scaleBy: self scalars !! anObject! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/7/2025 09:00:55'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 6/24/2025 17:03:48'!
 + aMatrix
-	(self class = aMatrix class and: [self isFull and: [aMatrix isFull]]) ifFalse: [^ super + aMatrix].
+	| newCoefficients |
+	self class = aMatrix class ifFalse: [^ super + aMatrix].
 	self checkDomainsMatch: aMatrix.
 	self checkCodomainsMatch: aMatrix.
-	^ self class from: domain to: codomain coefficients: coefficients + aMatrix coefficients! !
+	(self isFull and: [aMatrix isFull]) ifTrue: [^ self class from: domain to: codomain coefficients: coefficients + aMatrix coefficients].
+	(newCoefficients := self scalars new: self width * self height)
+		replaceFrom: 1 by: self width
+		withMatrix: coefficients startingAt: startIndex by: stride width: self width height: self height
+		plusMatrix: aMatrix coefficients startingAt: aMatrix startIndex by: aMatrix stride
+		timesScalar: 1.
+	^ self class from: domain to: codomain coefficients: newCoefficients! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/7/2025 08:53:05'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 6/24/2025 17:04:37'!
 - aMatrix
+	| newCoefficients |
 	(self class = aMatrix class and: [self isFull and: [aMatrix isFull]]) ifFalse: [^ super - aMatrix].
 	self checkDomainsMatch: aMatrix.
 	self checkCodomainsMatch: aMatrix.
-	^ self class from: domain to: codomain coefficients: coefficients - aMatrix coefficients! !
+	(self isFull and: [aMatrix isFull]) ifTrue: [^ self class from: domain to: codomain coefficients: coefficients - aMatrix coefficients].
+	(newCoefficients := self scalars new: self width * self height)
+		replaceFrom: 1 by: self width
+		withMatrix: coefficients startingAt: startIndex by: stride width: self width height: self height
+		plusMatrix: aMatrix coefficients startingAt: aMatrix startIndex by: aMatrix stride
+		timesScalar: -1.
+	^ self class from: domain to: codomain coefficients: newCoefficients! !
 
 !DenseMatrix methodsFor: 'operations' stamp: 'len 1/7/2025 08:54:26'!
 ∘ aMatrix
@@ -30746,52 +30712,77 @@ allSatisfy: aBlock
 		timesMatrix: aMatrix coefficients startingAt: aMatrix startIndex by: aMatrix stride width: aMatrix width.
 	^ self class from: aMatrix domain to: codomain coefficients: newCoefficients! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/7/2025 08:54:50'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 6/24/2025 20:20:50'!
 ⊓ aMatrix
 	"Answer the pairing of the receiver and the argument.
 	This is the row-augmented matrix with the receiver stacked on top of the argument.
 	If the receiver is A and the argument is B, output a matrix of the form:
 	  [A]
 	  [B]"
-	(self class = aMatrix class and: [self isFull and: [aMatrix isFull]]) ifFalse: [^ super ⊓ aMatrix].
+	| h newCoefficients |
+	self class = aMatrix class ifFalse: [^ super ⊓ aMatrix].
 	self checkDomainsMatch: aMatrix.
-	^ self class from: domain to: codomain ⊕ aMatrix codomain coefficients: coefficients, aMatrix coefficients! !
+	(self isFull and: [aMatrix isFull]) ifTrue: [^ self class from: domain to: codomain ⊕ aMatrix codomain coefficients: coefficients, aMatrix coefficients].
+	h := self height + aMatrix height.
+	(newCoefficients := self scalars zeros: h * self width)
+		replaceFrom: 1 by: self width withMatrix: coefficients startingAt: startIndex by: stride width: self width height: self height;
+		replaceFrom: self width * self height + 1 by: self width withMatrix: aMatrix coefficients startingAt: aMatrix startIndex by: aMatrix stride width: aMatrix width height: aMatrix height.
+	^ self class from: domain to: codomain ⊕ aMatrix codomain coefficients: newCoefficients! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/7/2025 08:55:43'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 6/24/2025 20:21:08'!
 ⊔ aMatrix
 	"Answer the copairing of the receiver and the argument.
 	This is the column-augmented matrix with the receiver concatenated with the argument.
 	If the receiver is A and the argument is B, output a matrix of the form:
 	  [A B]"
 	| newCoefficients w |
-	(self class = aMatrix class and: [self isFull and: [aMatrix isFull]]) ifFalse: [^ super ⊔ aMatrix].
+	self class = aMatrix class ifFalse: [^ super ⊔ aMatrix].
 	self checkCodomainsMatch: aMatrix.
-	newCoefficients := self scalars new: coefficients size + aMatrix coefficients size.
 	w := self width + aMatrix width.
-	1 to: self height do: [:i|
-		newCoefficients
-			replaceFrom: i - 1 * w + 1 to: i - 1 * w + self width with: coefficients startingAt: i - 1 * self width + 1;
-			replaceFrom: i - 1 * w + self width + 1 to: i * w with: aMatrix coefficients startingAt: i - 1 * aMatrix width + 1].
+	(newCoefficients := self scalars new: w * self height)
+		replaceFrom: 1 by: w withMatrix: coefficients startingAt: startIndex by: stride width: self width height: self height;
+		replaceFrom: self width + 1 by: w withMatrix: aMatrix coefficients startingAt: aMatrix startIndex by: aMatrix stride width: aMatrix width height: aMatrix height.
 	^ self class from: domain ⊕ aMatrix domain to: codomain coefficients: newCoefficients! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/7/2025 08:56:12'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 6/24/2025 20:21:41'!
 ⊕ aMatrix
 	"Answer the block sum of the receiver and the argument.
 	If the receiver is A and the argument is B, output a matrix of the form:
 	  [A 0]
 	  [0 B]"
 	| newCoefficients w |
-	(self class = aMatrix class and: [self isFull and: [aMatrix isFull]]) ifFalse: [^ super ⊕ aMatrix].
+	self class = aMatrix class ifFalse: [^ super ⊕ aMatrix].
 	w := self width + aMatrix width.
-	newCoefficients := self scalars zeros: w * (self height + aMatrix height).
-	1 to: self height do: [:i|
-		newCoefficients replaceFrom: i - 1 * w + 1 to: i - 1 * w + self width with: coefficients startingAt: i - 1 * self width + 1].
-	1 to: aMatrix height do: [:i|
-		newCoefficients replaceFrom: i - 1 + self height * w + self width + 1 to: i + self height * w with: aMatrix coefficients startingAt: i - 1 * aMatrix width + 1].
-	^ self class from: domain ⊕ aMatrix domain to: codomain ⊕ aMatrix codomain coefficients: newCoefficients
-! !
+	(newCoefficients := self scalars zeros: w * (self height + aMatrix height))
+		replaceFrom: 1 by: w withMatrix: coefficients startingAt: startIndex by: stride width: self width height: self height;
+		replaceFrom: w * self height + self width + 1 by: w withMatrix: aMatrix coefficients startingAt: aMatrix startIndex by: aMatrix stride width: aMatrix width height: aMatrix height.
+	^ self class from: domain ⊕ aMatrix domain to: codomain ⊕ aMatrix codomain coefficients: newCoefficients! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/11/2025 14:19:07'!
+!DenseMatrix methodsFor: 'operations' stamp: 'len 6/24/2025 17:08:02'!
+negated
+	self isFull ifTrue: [^ self class from: domain to: codomain coefficients: coefficients negated].
+	^ self * -1! !
+
+!DenseMatrix methodsFor: 'operations' stamp: 'len 1/7/2025 08:51:19'!
+transpose
+	self isFull ifFalse: [^ super transpose].
+	^ self class from: codomain to: domain coefficients: ((coefficients species new: coefficients size) replaceWithMatrixTranspose: coefficients width: self width)! !
+
+!DenseMatrix methodsFor: 'operations' stamp: 'len 2/3/2024 17:03:19'!
+value: aTuple
+	(coefficients isEmpty or: [aTuple isEmpty]) ifTrue: [^ codomain zero].
+	^ codomain coefficients:
+		((codomain scalars zeros: self height)
+			replaceFrom: 1 to: self height
+			plusMatrix: coefficients startingAt: startIndex by: stride width: self width
+			timesVector: aTuple coefficients startingAt: 1)! !
+
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 6/24/2025 20:24:21'!
+PLE
+	"PLE decomposition: LE = PA."
+	self PLE: [:P :Q :r| ^ {P. Q. r}]! !
+
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 1/11/2025 14:19:07'!
 PLE: aBlock
 	"PLE decomposition: LE = PA.
 	Evaluates aBlock with arguments P (row permutation), Q (column permutation) and r (the rank).
@@ -30824,12 +30815,12 @@ PLE: aBlock
 						r′ to: r′ + r′′ - 1 do: [:i| self swapColumn: j with: i startingAt: i].
 						aBlock value: P value: Q value: r′ + r′′]]]]]! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/11/2025 14:11:46'!
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 1/11/2025 14:11:46'!
 PLUQ: aBlock
 	"PLUQ decomposition: LUQ = PA."
 	self notYetImplemented! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/6/2025 09:31:37'!
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 1/6/2025 09:31:37'!
 accumulateWith: aMatrix1 times: aMatrix2
 	"C ← C + AB."
 	(aMatrix1 isEmpty or: [aMatrix2 isEmpty]) ifTrue: [^ self].
@@ -30838,7 +30829,7 @@ accumulateWith: aMatrix1 times: aMatrix2
 		plusMatrix: aMatrix1 coefficients startingAt: aMatrix1 startIndex by: aMatrix1 stride width: aMatrix1 width height: aMatrix1 height
 		timesMatrix: aMatrix2 coefficients startingAt: aMatrix2 startIndex by: aMatrix2 stride width: aMatrix2 width! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/6/2025 09:31:23'!
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 1/6/2025 09:31:23'!
 accumulateWithNegated: aMatrix1 times: aMatrix2
 	"C ← C - AB."
 	(aMatrix1 isEmpty or: [aMatrix2 isEmpty]) ifTrue: [^ self].
@@ -30847,12 +30838,7 @@ accumulateWithNegated: aMatrix1 times: aMatrix2
 		minusMatrix: aMatrix1 coefficients startingAt: aMatrix1 startIndex by: aMatrix1 stride width: aMatrix1 width height: aMatrix1 height
 		timesMatrix: aMatrix2 coefficients startingAt: aMatrix2 startIndex by: aMatrix2 stride width: aMatrix2 width! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/7/2025 08:53:22'!
-negated
-	self isFull ifFalse: [^ super negated].
-	^ self class from: domain to: codomain coefficients: coefficients negated! !
-
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/2/2025 15:14:50'!
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 1/2/2025 15:14:50'!
 replacePeelingStrassenWinogradWith: aMatrix1 times: aMatrix2
 	"Apply dynamic peeling if needed and perform Strassen-Winograd on submatrices with even dimensions.
 	Assumes the matrices are square."
@@ -30866,7 +30852,7 @@ replacePeelingStrassenWinogradWith: aMatrix1 times: aMatrix2
 	(self from: 1@n to: n-1@n) replaceWith: (A from: 1@1 to: n-1@n) times: (B from: 1@n to: n@n).
 	(self from: n@1 to: n@n) replaceWith: (A from: n@1 to: n@n) times: B! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/5/2025 09:18:20'!
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 1/5/2025 09:18:20'!
 replacePreSolveUpperTriangular: aMatrix
 	"Triangular system solve (TRSM). Solves a triangular system XA = B, where A is the argument and B is the receiver, and overwrittes the receiver with the solution.
 	Input: A ∈ Kᵐˣᵐ nonsingular upper triangular, B ∈ Kᵐˣⁿ
@@ -30881,7 +30867,7 @@ replacePreSolveUpperTriangular: aMatrix
 			B₂ accumulateWithNegated: B₁ times: A₂.
 			B₂ replacePreSolveUpperTriangular: A₃]]! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/21/2025 18:13:37'!
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 1/21/2025 18:13:37'!
 replacePreTimesLowerTriangularUnit: aMatrix
 	aMatrix width <= 1 ifTrue: [^ self].
 	self assert: aMatrix isSquare.
@@ -30892,7 +30878,7 @@ replacePreTimesLowerTriangularUnit: aMatrix
 			B₂ accumulateWith: L₂ times: B₁.
 			B₁ replacePreTimesLowerTriangularUnit: L₁]]! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/6/2025 10:09:37'!
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 1/6/2025 10:09:37'!
 replacePreTimesUpperTriangular: aMatrix
 	aMatrix width <= 1 ifTrue: [^ self scaleBy: (aMatrix at: 1@1)].
 	self assert: aMatrix isSquare.
@@ -30903,7 +30889,7 @@ replacePreTimesUpperTriangular: aMatrix
 			B₁ accumulateWith: U₂ times: B₂.
 			B₂ replacePreTimesUpperTriangular: U₃]]! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/5/2025 09:17:23'!
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 1/5/2025 09:17:23'!
 replaceSharedLowerTimesUpper
 	"Shared lower-upper unit matrix multiplication (TRLUM).
 	Input: A = [L\U] ∈ Kⁿˣⁿ with 1 in the diagonal
@@ -30918,7 +30904,7 @@ replaceSharedLowerTimesUpper
 		A₂₁ replaceTimesUpperTriangular: A₁₁.
 		A₁₁ replaceSharedLowerTimesUpper]! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/5/2025 09:17:23'!
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 1/5/2025 09:17:23'!
 replaceSharedUpperTimesLower
 	"Shared upper-lower unit matrix multiplication (TRULM).
 	Input: A = [L\U] ∈ Kⁿˣⁿ with 1 in the diagonal
@@ -30933,7 +30919,7 @@ replaceSharedUpperTimesLower
 		A₂₁ replacePreTimesUpperTriangular: A₂₂.
 		A₂₂ replaceSharedUpperTimesLower]! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/12/2025 07:25:36'!
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 6/23/2025 16:08:09'!
 replaceSolveLowerTriangular: aMatrix
 	"Triangular system solve inplace (TRSM). Solves a triangular system AX = B, where A is the argument and B is the receiver, and overwrittes the receiver with the solution.
 	Input: A ∈ Kᵐˣᵐ nonsingular lower triangular, B ∈ Kᵐˣⁿ
@@ -30942,14 +30928,20 @@ replaceSolveLowerTriangular: aMatrix
 	self assert: aMatrix isLowerTriangular.
 	self assert: aMatrix isSquare.
 	self assert: aMatrix width = self height.
-	aMatrix width <= 1 ifTrue: [^ self scaleBy: (aMatrix at: 1@1) inverse].
+	"Base case:"
+	aMatrix width <= self recursiveTriangularSolveThreshold ifTrue:
+		[1 to: self height do: [:i| | λ |
+			1 to: i-1 do: [:j| self addRow: j times: (aMatrix at: i@j) negated to: i].
+			(λ := aMatrix at: i@i) isOne ifFalse: [self multiplyRow: i by: λ inverse]].
+		^ self].
+"	aMatrix width <= 1 ifTrue: [^ self scaleBy: (aMatrix at: 1@1) inverse]."
 	aMatrix lowerTriangularBlocksInto: [:A₁ :A₂ :A₃|
 		self topAndBottomBlocksInto: [:B₁ :B₂|
 			B₁ replaceSolveLowerTriangular: A₁.
 			B₂ accumulateWithNegated: A₂ times: B₁.
 			B₂ replaceSolveLowerTriangular: A₃]]! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/12/2025 07:25:18'!
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 6/24/2025 15:37:53'!
 replaceSolveUpperTriangular: aMatrix
 	"Triangular system solve inplace (TRSM). Solves a triangular system AX = B, where A is the argument and B is the receiver, and overwrittes the receiver with the solution.
 	Input: A ∈ Kᵐˣᵐ nonsingular upper triangular, B ∈ Kᵐˣⁿ
@@ -30958,16 +30950,27 @@ replaceSolveUpperTriangular: aMatrix
 	self assert: aMatrix isUpperTriangular.
 	self assert: aMatrix isSquare.
 	self assert: aMatrix width = self height.
-	aMatrix width <= 1 ifTrue: [^ self scaleBy: (aMatrix at: 1@1) inverse].
+	"Base case:"
+	aMatrix width <= self recursiveTriangularSolveThreshold ifTrue:
+		[self height to: 1 by: -1 do: [:i| | λ |
+			i+1 to: self height do: [:j| self addRow: j times: (aMatrix at: i@j) negated to: i].
+			(λ := aMatrix at: i@i) isOne ifFalse: [self multiplyRow: i by: λ inverse]].
+		^ self].
+"	aMatrix width <= 1 ifTrue: [^ self scaleBy: (aMatrix at: 1@1) inverse]."
 	aMatrix upperTriangularBlocksInto: [:A₁ :A₂ :A₃|
 		self topAndBottomBlocksInto: [:B₁ :B₂|
 			B₂ replaceSolveUpperTriangular: A₃.
 			B₁ accumulateWithNegated: A₂ times: B₂.
 			B₁ replaceSolveUpperTriangular: A₁]]! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/5/2025 09:18:20'!
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 6/24/2025 15:46:02'!
 replaceSolveUpperTriangularNegated: aMatrix
-	self assert: aMatrix isUpperTriangular.
+	"B := -A^-1 B"
+	self flag: #deprecated.
+	self replaceSolveUpperTriangular: aMatrix.
+	self scaleBy: self scalars one negated.
+
+"	self assert: aMatrix isUpperTriangular.
 	self assert: aMatrix isSquare.
 	self assert: aMatrix width = self height.
 	aMatrix width <= 1 ifTrue: [^ self scaleBy: (aMatrix at: 1@1) inverse negated].
@@ -30975,9 +30978,9 @@ replaceSolveUpperTriangularNegated: aMatrix
 		self topAndBottomBlocksInto: [:B₁ :B₂|
 			B₂ replaceSolveUpperTriangularNegated: A₃.
 			B₁ accumulateWith: A₂ times: B₂.
-			B₁ replaceSolveUpperTriangularNegated: A₁]]! !
+			B₁ replaceSolveUpperTriangularNegated: A₁]]"! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/2/2025 15:15:12'!
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 1/2/2025 15:15:12'!
 replaceStrassenWinogradWith: aMatrix1 times: aMatrix2
 	"Strassen-Winograd matrix multiplication algorithm with complexity O(n^ω), ω = log₂(7) ≈ 2.8074.
 	Schedule with 2 temporary matrices from [BDPZ07] and dynamic peeling as [HLJJ+96].
@@ -31040,7 +31043,7 @@ replaceStrassenWinogradWith: aMatrix1 times: aMatrix2
 	U₅ := U₄ + P₃. U₆ := U₃ - P₄. U₇ := U₃ + P₅.
 	^ U₁ ⊔ U₅ ⊓ (U₆ ⊔ U₇)"! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/15/2025 08:00:22'!
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 1/15/2025 08:00:22'!
 replaceTimesLowerTriangular: aMatrix
 	aMatrix width <= 1 ifTrue: [^ self scaleBy: (aMatrix at: 1@1)].
 	self assert: aMatrix isSquare.
@@ -31051,7 +31054,7 @@ replaceTimesLowerTriangular: aMatrix
 			B₁ accumulateWith: B₂ times: L₂.
 			B₂ replaceTimesLowerTriangular: L₃]]! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/15/2025 08:00:31'!
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 1/15/2025 08:00:31'!
 replaceTimesLowerTriangularUnit: aMatrix
 	aMatrix width <= 1 ifTrue: [^ self].
 	self assert: aMatrix isSquare.
@@ -31062,7 +31065,7 @@ replaceTimesLowerTriangularUnit: aMatrix
 			B₁ accumulateWith: B₂ times: L₂.
 			B₂ replaceTimesLowerTriangular: L₃]]! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/21/2025 18:18:03'!
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 1/21/2025 18:18:03'!
 replaceTimesUpperTriangular: aMatrix
 	aMatrix width <= 1 ifTrue: [^ self scaleBy: (aMatrix at: 1@1)].
 	self assert: aMatrix isSquare.
@@ -31073,7 +31076,7 @@ replaceTimesUpperTriangular: aMatrix
 			B₂ accumulateWith: B₁ times: U₂.
 			B₁ replaceTimesUpperTriangular: U₁]]! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/5/2025 09:18:20'!
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 1/5/2025 09:18:20'!
 replaceUpperTriangularInverse
 	"Triangular matrix inversion (TRTRI).
 	Input: A ∈ Kⁿˣⁿ nonsingular upper triangular
@@ -31087,7 +31090,7 @@ replaceUpperTriangularInverse
 		A₁ replaceUpperTriangularInverse.
 		A₃ replaceUpperTriangularInverse]! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/1/2024 08:04:19'!
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 1/1/2024 08:04:19'!
 replaceWith: aMatrix1 minus: aMatrix2
 	coefficients
 		replaceFrom: startIndex by: stride
@@ -31095,7 +31098,7 @@ replaceWith: aMatrix1 minus: aMatrix2
 		plusMatrix: aMatrix2 coefficients startingAt: aMatrix2 startIndex by: aMatrix2 stride
 		timesScalar: -1! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/1/2024 08:04:28'!
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 1/1/2024 08:04:28'!
 replaceWith: aMatrix1 plus: aMatrix2
 	coefficients
 		replaceFrom: startIndex by: stride
@@ -31103,47 +31106,40 @@ replaceWith: aMatrix1 plus: aMatrix2
 		plusMatrix: aMatrix2 coefficients startingAt: aMatrix2 startIndex by: aMatrix2 stride
 		timesScalar: 1! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/3/2025 13:04:19'!
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 1/3/2025 13:04:19'!
 replaceWith: aMatrix1 times: aMatrix2
 	"C ← AB."
 	self atAllPut: self scalars zero.
 	self accumulateWith: aMatrix1 times: aMatrix2! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/2/2025 21:11:04'!
+!DenseMatrix methodsFor: 'operations-inplace' stamp: 'len 6/24/2025 17:10:40'!
 scaleBy: anElement
 	| i |
+	stride = self width ifTrue:
+		[coefficients replaceFrom: startIndex to: startIndex + (stride * self height) - 1 with: coefficients startingAt: startIndex timesScalar: anElement.
+		^ self].
 	i := startIndex.
 	self height timesRepeat:
 		[coefficients replaceFrom: i to: i + self width - 1 with: coefficients startingAt: i timesScalar: anElement.
 		i := i + stride]! !
 
-!DenseMatrix methodsFor: 'operations' stamp: 'len 1/7/2025 08:51:19'!
-transpose
-	self isFull ifFalse: [^ super transpose].
-	^ self class from: codomain to: domain coefficients: ((coefficients species new: coefficients size) replaceWithMatrixTranspose: coefficients width: self width)! !
-
-!DenseMatrix methodsFor: 'operations' stamp: 'len 2/3/2024 17:03:19'!
-value: aTuple
-	(coefficients isEmpty or: [aTuple isEmpty]) ifTrue: [^ codomain zero].
-	^ codomain coefficients:
-		((codomain scalars zeros: self height)
-			replaceFrom: 1 to: self height
-			plusMatrix: coefficients startingAt: startIndex by: stride width: self width
-			timesVector: aTuple coefficients startingAt: 1)! !
-
 !DenseMatrix methodsFor: 'operations-rows' stamp: 'len 1/7/2025 08:26:36'!
 addRow: i₁ times: anElement to: i₂
 	self addRow: i₁ times: anElement to: i₂ startingAt: 1! !
 
-!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 1/7/2025 08:40:52'!
-addRow: i₁ times: anElement to: i₂ startingAt: startColumn
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 6/27/2025 15:59:06'!
+addRow: i₁ times: anElement to: i₂ from: startColumn to: endColumn
 	| start₁ start₂ |
 	start₁ := i₁ - 1 * stride + startIndex + startColumn - 1.
 	start₂ := i₂ - 1 * stride + startIndex + startColumn - 1.
 	coefficients
-		replaceFrom: start₂ to: start₂ + self width - startColumn
+		replaceFrom: start₂ to: start₂ + endColumn - startColumn
 		plus: coefficients startingAt: start₁
 		timesScalar: anElement! !
+
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 6/29/2025 14:33:06'!
+addRow: i₁ times: anElement to: i₂ startingAt: startColumn
+	self addRow: i₁ times: anElement to: i₂ from: startColumn to: self width! !
 
 !DenseMatrix methodsFor: 'operations-rows' stamp: 'len 1/7/2025 08:39:54'!
 cancelRow: i₁ and: i₂ with: mgcd
@@ -31184,6 +31180,12 @@ copyRow: i₁ to: i₂ startingAt: startColumn
 	coefficients
 		replaceFrom: start₂ to: start₂ + self width - startColumn
 		with: coefficients startingAt: start₁! !
+
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 6/27/2025 15:17:25'!
+firstNonzeroAtRow: i from: startColumn to: endColumn
+	| rowIndex |
+	rowIndex := self rowIndexAt: i.
+	^ (coefficients findFirstNonzeroFrom: rowIndex + startColumn - 1 to: rowIndex + endColumn - 1) ifNotNil: [:j| j - rowIndex + 1]! !
 
 !DenseMatrix methodsFor: 'operations-rows' stamp: 'len 1/7/2025 08:36:23'!
 multiplyRow: i by: anElement
@@ -31288,6 +31290,10 @@ coefficients: anArray startIndex: anInteger stride: anotherInteger
 !DenseMatrix methodsFor: 'private' stamp: 'len 1/7/2025 08:08:36'!
 isFull
 	^ startIndex = 1 and: [self width * self height = coefficients size]! !
+
+!DenseMatrix methodsFor: 'private' stamp: 'len 6/23/2025 16:07:05'!
+recursiveTriangularSolveThreshold
+	^ 5! !
 
 !DenseMatrix methodsFor: 'private' stamp: 'len 1/10/2024 10:15:40'!
 rowIndexAt: anInteger
@@ -31405,11 +31411,11 @@ gramian
 	two _ R !! 2.
 	^ self hessian collect: [:each| R !! (each / two)]! !
 
-!QuadraticForm methodsFor: 'accessing' stamp: 'len 11/23/2022 21:39:39'!
+!QuadraticForm methodsFor: 'accessing' stamp: 'len 6/25/2025 14:15:43'!
 hessian
 	"Answer the Hessian matrix H for the receiver Q.
 	This is a matrix H such that Q(x) = x^t * H * x / 2."
-	^ self scalars matrix: self domain rank fill: [:i :j| i = j ifTrue: [(self at: i@j)*2] ifFalse: [self at: i@j]]! !
+	^ self scalars new: self domain rank by: self domain rank fill: [:i :j| i = j ifTrue: [(self at: i@j)*2] ifFalse: [self at: i@j]]! !
 
 !QuadraticForm methodsFor: 'accessing' stamp: 'len 3/27/2018 23:58:26'!
 rank
@@ -32035,11 +32041,11 @@ implicitization
 	"Magma uses the algorithm in p. 97 of [CLO97]."
 	self notYetImplemented! !
 
-!RationalMap methodsFor: 'operations' stamp: 'len 2/4/2025 20:26:07'!
+!RationalMap methodsFor: 'operations' stamp: 'len 6/25/2025 14:15:53'!
 jacobian
 	"Answer the Jacobian matrix of the receiver."
 	^ self domain ambient coordinateRing fractions
-		matrix: self codomain ambient rank @ self domain ambient rank
+		new: self codomain ambient rank by: self domain ambient rank
 		fill: [:i :j| (self coordinates at: i) derivativeIn: j]! !
 
 !RationalMap methodsFor: 'operations' stamp: 'len 2/4/2025 20:26:13'!
@@ -35539,11 +35545,11 @@ postCopy
 	super postCopy.
 	coefficients _ coefficients copy! !
 
-!Tuple methodsFor: 'enumerating' stamp: 'len 10/30/2024 08:04:12'!
+!Tuple methodsFor: 'enumerating' stamp: 'len 6/24/2025 20:18:10'!
 apply: aMap
 	"Answer a new tuple with coefficients obtainted by applying aMap to the coefficients of the receiver.
 	If aMap is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
-	^ self class coefficients: coefficients ≫ aMap parent: (aMap isMorphism ifTrue: [parent over: aMap codomain] ifFalse: [parent])! !
+	^ self class coefficients: (coefficients apply: aMap) parent: (aMap isMorphism ifTrue: [parent over: aMap codomain] ifFalse: [parent])! !
 
 !Tuple methodsFor: 'enumerating' stamp: 'len 5/5/2023 17:43:59'!
 collect: aBlock
@@ -38687,11 +38693,11 @@ annihilator
 	self coefficients do: [:each| each isZero ifFalse: [(answer _ answer ∩ each annihilator) isTrivial ifTrue: [^ answer]]].
 	^ answer apply: self parent scalars → self parent! !
 
-!Polynomial methodsFor: 'operations' stamp: 'len 10/30/2024 08:04:48'!
+!Polynomial methodsFor: 'operations' stamp: 'len 6/24/2025 20:18:36'!
 apply: aMap
 	"Answer a new polynomial with coefficients obtainted by applying aMap to the coefficients of the receiver.
 	If aMap is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
-	^ self class coefficients: coefficients ≫ aMap parent: (aMap isMorphism ifTrue: [parent over: aMap codomain] ifFalse: [parent])! !
+	^ self class coefficients: (coefficients apply: aMap) parent: (aMap isMorphism ifTrue: [parent over: aMap codomain] ifFalse: [parent])! !
 
 !Polynomial methodsFor: 'operations' stamp: 'len 4/2/2025 07:51:13'!
 colift: aPolynomial
@@ -39613,7 +39619,7 @@ colift: aPolynomial
 			division := aPolynomial coefficients polynomialPartialDivisionBy: coefficients].
 	^ division second isZero ifTrue: [self class coefficients: division first parent: parent]! !
 
-!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 11/29/2023 10:03:24'!
+!UnivariatePolynomial methodsFor: 'operations' stamp: 'len 6/25/2025 14:16:23'!
 companionMatrix
 	"Answer the Frobenius companion matrix of the receiver.
 	The companion matrix of a polynomial f in R[x] is the matrix of the 'multiplication by x' map on the R-algebra R[x]/⟨f⟩. This is a matrix that has f as both the characteristic and minimal polynomial.
@@ -39624,7 +39630,7 @@ companionMatrix
 	zero := self scalars zero.
 	one := self scalars one.
 	self flag: #fixme. "this could be made very fast, make low level operation replaceWithCompanionMatrix:"
-	^ self scalars matrix: n@n fill: [:i :j| i-1 = j ifTrue: [one] ifFalse: [j < n ifTrue: [zero] ifFalse: [(self at: i-1) negated]]]! !
+	^ self scalars new: n by: n fill: [:i :j| i-1 = j ifTrue: [one] ifFalse: [j < n ifTrue: [zero] ifFalse: [(self at: i-1) negated]]]! !
 
 !UnivariatePolynomial methodsFor: 'operations' stamp: 'len 6/10/2023 09:58:40'!
 composeWith: aPolynomial modulo: anotherPolynomial
@@ -40853,11 +40859,11 @@ monomialsDo: aBlock
 	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #-].
 	^ self class coefficients: coefficients - anElement coefficients parent: parent! !
 
-!FreePolynomial methodsFor: 'operations' stamp: 'len 10/30/2024 08:04:30'!
+!FreePolynomial methodsFor: 'operations' stamp: 'len 6/24/2025 20:18:52'!
 apply: aMap
 	"Answer a new polynomial with coefficients obtainted by applying aMap to the coefficients of the receiver.
 	If aMap is a block we assume the parent doesn't change, i.e. the block must evaluate to values within the scalars ring of the receiver."
-	^ self class coefficients: coefficients ≫ aMap parent: (aMap isMorphism ifTrue: [parent over: aMap codomain] ifFalse: [parent])! !
+	^ self class coefficients: (coefficients apply: aMap) parent: (aMap isMorphism ifTrue: [parent over: aMap codomain] ifFalse: [parent])! !
 
 !FreePolynomial methodsFor: 'operations' stamp: 'len 4/28/2022 06:53:41'!
 negated
