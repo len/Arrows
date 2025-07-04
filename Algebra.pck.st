@@ -1,4 +1,4 @@
-'From Cuis7.3 [latest update: #7158] on 29 June 2025 at 2:37:38 pm'!
+'From Cuis7.3 [latest update: #7158] on 4 July 2025 at 4:55:44 pm'!
 'Description This package implements among other things: permutation groups, linear groups, finite fields, Galois rings, affine algebras, number fields, function fields, finitely presented modules, finite-dimensional associative algebras, schemes, finite-dimensional representations of finite groups.
 
 References:
@@ -39,6 +39,7 @@ References:
 [EIP00] Michele Elia; J. Carmelo Interlando; Reginaldo Palazzo Jr.; "Computing the reciprocal of units in Galois rings" (2000)
 [EH19] Christian Eder; Tommy Hofmann; "Efficient Groebner Bases Computation over Principal Ideal Rings" (2019)
 [EPP18] Christian Eder; Gerhard Pfister; Adrian Popescu; "Standard Bases over Euclidean Domains" (2018)
+[FGLM93] J.C. Faugere; P. Gianni; D. Lazard; T. Mora; "Efficient Computation of Zero-dimensional Groebner Bases by Change of Ordering" (1993)
 [Fie71] D. E. Fields; "Zero divisors and nilpotent elements in power series rings" (1971)
 [FH16] Claus Flieker, Tommy Hofmann, "Computing in quotients of rings of integers" (2016)
 [Fle69] Fletcher, C. R., "Unique Factorization Rings" (1969)
@@ -110,7 +111,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 255!
+!provides: 'Algebra' 1 262!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'GAS' 1 1 nil!
@@ -4015,22 +4016,23 @@ Tuples with coefficients in a polynomial ring R. They are elements of free modul
 !
 
 !ModuleMonomial commentStamp: '<historical>' prior: 0!
-Monomials of free modules R^n where R is a polynomial ring. They are the formal product of a monomial of R by a basis element.!
+Monomials of free modules Rⁿ where R is a polynomial ring. They are formal products mεᵢ, also written m[i], with m a monomial of R and εᵢ = (0,...,1,...,0) the i-th element of the canonical basis.!
 
 !ModuleMonomialOrdering commentStamp: '<historical>' prior: 0!
-Monomial orderings for free modules R^n where R is a polynomial ring. They extend the monomial ordering of R to tuples with coefficients in R.!
+Monomial orderings for free modules Rⁿ, where R is a polynomial ring. They extend the monomial ordering of R to tuples with coefficients in R.!
 
 !POTMonomialOrdering commentStamp: '<historical>' prior: 0!
-"Position Over Term" ordering.
-
-Given tuple monomials x[i] and y[i], x[i] < y[j] iff i < j or i = j and x < y.
+Position-Over-Term (POT) ordering. Given tuple monomials x[i] and y[i], x[i] < y[j] if: i > j, or i = j and x < y. Note that the position 1 is the greatest.
 
 A Grobner basis computed with the POT ordering is analogous to a matrix echelon form.!
 
 !TOPMonomialOrdering commentStamp: '<historical>' prior: 0!
-"Term Over Position" ordering.
+Term-Over-Position (TOP) ordering. Given tuple monomials x[i] and y[i], x[i] < y[j] if: x < y, or x = y and i > j. Note that the position 1 is the greatest.!
 
-Given tuple monomials x[i] and y[i], x[i] < y[j] iff x < y or x = y and i < j.!
+!TOPWMonomialOrdering commentStamp: '<historical>' prior: 0!
+Term-Over-Position Weighted (TOPW) ordering. This ordering is determined by a positive integer weight Wᵢ for each position i, and defines the degree of a module monomial deg(x[i]) := deg(x) + Wᵢ.
+
+Given tuple monomials x[i] and y[i], x[i] < y[j] if: deg(x[i]) < deg(y[j]), or deg(x[i]) = deg(y[j]) and x < y, or deg(x[i]) = deg(y[j]) and x = y and i > j.!
 
 !Monomial commentStamp: '<historical>' prior: 0!
 Commutative power products of one or many indeterminates. They form a monoid (see FreeAbelianMonoid). Their formal linear combinations over a ring are Polynomials (see also PolynomialRing).
@@ -5078,19 +5080,27 @@ shortVector
 	shortVector isNil ifTrue: [self computeShortVector].
 	^ shortVector! !
 
-!LinearRelationFinder methodsFor: 'computing' stamp: 'len 6/29/2025 14:31:39'!
+!LinearRelationFinder methodsFor: 'computing' stamp: 'len 6/30/2025 15:27:59'!
 append: aTuple
-	matrix rowAt: position put: aTuple, (aTuple scalars ^ (aTuple size + 1) x: position).
+	matrix replaceRow: position from: 1 to: aTuple size with: aTuple coefficients startingAt: 1.
+	matrix replaceRow: position from: aTuple size + 1 to: aTuple size + position - 1 put: matrix scalars zero.
+	matrix at: position @ (aTuple size + position) put: matrix scalars one.
 	pivots do: [:each|
 		(matrix isZeroAt: position @ each y) ifFalse: 
 			[matrix addRow: each x times: (matrix at: position @ each y) negated / (matrix at: each) to: position from: 1 to: aTuple size + each x]].
 	(matrix firstNonzeroAtRow: position from: 1 to: aTuple size)
-		ifNotNil: [:j| pivots add: position @ j. position := position + 1. ^ nil].
-	^ ((matrix rowAt: position) copyFrom: aTuple size + 1 to: aTuple size + position) coefficients! !
+		ifNotNil: [:j|
+			pivots add: position @ j.
+"			matrix at: position @ (aTuple size + position) put: matrix scalars one."
+			position := position + 1.
+			^ nil].
+	^ matrix copyRow: position from: aTuple size + 1 to: aTuple size + position! !
 
-!LinearRelationFinder methodsFor: 'computing' stamp: 'len 6/29/2025 14:28:22'!
+!LinearRelationFinder methodsFor: 'computing' stamp: 'len 6/30/2025 15:20:18'!
 reset
-	position := 1! !
+"	matrix atAllPut: matrix scalars zero."
+	position := 1.
+	pivots removeAll! !
 
 !LinearRelationFinder methodsFor: 'private' stamp: 'len 6/27/2025 16:01:10'!
 initialize: anInteger over: aField
@@ -12844,7 +12854,7 @@ socle
 	If R is a finite-dimensional algebra and M is a finitely generated R-module, then the socle of M consists precisely of the elements annihilated by the Jacobson radical of R."
 	self notYetImplemented! !
 
-!Module methodsFor: 'operations' stamp: 'len 6/8/2025 15:20:51'!
+!Module methodsFor: 'operations' stamp: 'len 6/30/2025 14:51:50'!
 sub: aCollectionOrMatrix
 	"Answer the submodule generated by the argument, which can be either a collection containing any objects that can be coerced to the receiver, or a generator matrix relative to the receiver's presentation."
 	| G |
@@ -12855,6 +12865,7 @@ sub: aCollectionOrMatrix
 		ifFalse:
 			[self isAmbient ifFalse: [^ self ambient sub: aCollectionOrMatrix].
 			G := Matrix to: self freeCover columns: (((aCollectionOrMatrix asArray collect: [:each| self !! each]) select: [:each| each isZero not]) collect: [:each| self \ each])].
+	G isEmpty ifTrue: [^ self species new ambient: self; generatorMatrix: G].
 	"If the receiver is a vector space:"
 	self scalars isField ifTrue:
 		[G := G basis.
@@ -14252,11 +14263,12 @@ reduce: anElement
 squared
 	^ self * self! !
 
-!Ideal methodsFor: 'operations' stamp: 'len 5/26/2025 16:39:05'!
+!Ideal methodsFor: 'operations' stamp: 'len 6/30/2025 14:52:18'!
 sub: aCollectionOrMatrix
 	| generator generators |
 	aCollectionOrMatrix isMatrix ifTrue: [^ super sub: aCollectionOrMatrix].
 	generators := aCollectionOrMatrix asSet select: [:each| each isZero not].
+	generators isEmpty ifTrue: [^ super sub: generators].
 	self scalars isEuclidean ifTrue:
 		[generator := self scalars zero.
 		(generators asArray sort: [:a :b| a euclideanValuation <= b euclideanValuation]) do: [:each| generator := generator gcd: each].
@@ -14552,6 +14564,34 @@ univariateExponent
 		f factorizationDo: [:p :s| mu _ mu max: s].
 		answer _ answer + (mu - 1)].
 	^ answer! !
+
+!PolynomialIdeal methodsFor: 'converting' stamp: 'len 7/4/2025 16:53:28'!
+orderedBy: aMonomialOrdering
+	"Apply the FGLM algorithm when the ideal is zero-dimensional. See [FGLM93]."
+	| S Q queue processed basis L G |
+	self flag: #todo. "see how it works with dense representation matrices instead of doing division with sparse polynomials"
+	(self ordering isGlobal and: [(S := self scalars orderedBy: aMonomialOrdering) ordering isGlobal]) ifFalse: [^ super orderedBy: aMonomialOrdering].
+	S ordering = self ordering ifTrue: [^ self].
+	(S ordering type = #grevlex or: [(Q := self quotientRing) isZeroDimensional not]) ifTrue: [^ S !! self].
+"	T := self quotientRing generators collect: [:each| each representation]."
+	G := OrderedCollection new.
+	queue := SortedCollection with: S monomials identity.
+	processed := Set with: S monomials identity.
+	basis := OrderedCollection new.
+	L := LinearRelationFinder new: Q carrier rank over: Q scalars.
+	[queue isEmpty] whileFalse:
+		[| m v f r |
+		m := queue removeFirst.
+		(G anySatisfy: [:g| g leadingMonomial | m]) ifFalse:
+			[v := Q carrier !! (Q !! (self scalars monomials !! m)).
+			(r := L append: v) isNil
+				ifTrue:
+					[basis add: S !! m.
+					S monomials generators do: [:each| | m′ | processed add: (m′ := each*m) ifAbsent: [queue add: m′]]]
+				ifFalse:
+					[f := (basis · r asArray allButLast) / r last + (S !! m).
+					G add: f]]].
+	^ S * G asArray reversed! !
 
 !PolynomialIdeal methodsFor: 'decomposition' stamp: 'len 6/4/2025 21:30:21'!
 equidimensionalHull
@@ -15001,35 +15041,6 @@ reductionToZeroDimension: aBlock
 	data := {E. G. h^m}.
 	self propertyAt: #zeroDimensionalReductionData put: data.
 	^ aBlock valueWithArguments: data! !
-
-!PolynomialIdeal methodsFor: 'as yet unclassified' stamp: 'len 6/21/2025 16:05:56'!
-orderedBy2: aMonomialOrdering
-	"FGLM algorithm."
-	| S G Q processed basis images |
-	self flag: #todo.
-	(self ordering isGlobal and: [self quotientRing isZeroDimensional and: [(S := self scalars orderedBy: aMonomialOrdering) ordering isGlobal]]) ifFalse: [^ ((self scalars orderedBy: aMonomialOrdering) !! self) basis].
-"	T := self quotientRing generators collect: [:each| each representation]."
-	G := OrderedCollection new.
-	Q := SortedCollection with: S monomials identity.
-	processed := Set with: S monomials identity.
-	basis := OrderedCollection new.
-	images := OrderedCollection new.
-	[Q isEmpty] whileFalse:
-		[| m v K f r |
-		m := Q removeFirst.
-		(G anySatisfy: [:g| g leadingMonomial | m]) ifFalse:
-			[v := self quotientRing carrier !! (self quotientRing !! (self scalars monomials !! m)).
-			K := (Matrix columns: (images copyWith: v)) kernel.
-			K isTrivial
-				ifTrue:
-					[basis add: S !! m.
-					images add: v.
-					S monomials generators do: [:each| processed add: each*m ifAbsent: [Q add: each*m]]]
-				ifFalse:
-					[r := K generators any.
-					f := (basis · r asArray allButLast) / r last + (S !! m).
-					G add: f]]].
-	^ G asArray reversed! !
 
 !PolynomialIdeal class methodsFor: 'examples' stamp: 'len 5/23/2020 09:11:37'!
 cyclic3
@@ -15753,11 +15764,12 @@ invariants
 	This is the largest submodule of V with trivial action of G. This is also the cohomology group H⁰(G,V)."
 	self notYetImplemented! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 12/20/2024 07:25:34'!
+!RepresentationModule methodsFor: 'operations' stamp: 'len 7/4/2025 16:54:18'!
 spin: anObject
 	"Answer the smallest invariant subspace that contains the given vectors.
 	Use the spinning algorithm to compute the closure under the action of the generators of the algebra."
 	| W L |
+	self flag: #todo. "implement with incremental echelonization inplace"
 	W := (anObject isKindOf: Module) ifTrue: [anObject] ifFalse: [self carrier sub: anObject].
 	[L := OrderedCollection new.
 	W generators do: [:v|
@@ -16542,21 +16554,13 @@ unitsDo: aBlock
 algebras
 	^ self propertyAt: #algebras ifAbsentPut: [AlgebraCategory over: self]! !
 
-!Ring methodsFor: 'internalization' stamp: 'len 5/30/2025 17:10:15'!
+!Ring methodsFor: 'internalization' stamp: 'len 7/4/2025 16:22:05'!
 carrier
-	| W L |
 	self propertyAt: #carrier ifPresent: [:aModule| ^ aModule].
 	self scalars = self ifTrue: [^ self asIdeal].
 	self isAmbient ifTrue: [^ self subclassResponsibility].
-	"Spinning algorithm. Start with the subspace generated by 1, and spin it up by the given generators:"
-	W := self ambient carrier sub: {self ambient one}.
-	[L := OrderedCollection new.
-	W generators do: [:v|
-		self generators do: [:x| | w |
-			w := self ambient carrier !! (x * (self ambient !! v)).
-			(W contains: w) ifFalse: [L add: w]]].
-	L isEmpty "or: [W isAmbient]"] whileFalse: [W := W + (self ambient carrier sub: L)].
-	^ self propertyAt: #carrier put: W! !
+	"this is slower, fix it: ^ self propertyAt: #carrier put: (self ambient representation asModule ↓ self sub: {self ambient one}) carrier"
+	^ self propertyAt: #carrier put: ((self to: self ambient carrier endomorphisms images: (self generators collect: [:each| each representation])) asModule spin: {self one})! !
 
 !Ring methodsFor: 'internalization' stamp: 'len 3/8/2025 09:05:24'!
 isMonoid
@@ -16643,9 +16647,11 @@ rightUnitor
 times: anAlgebra to: anotherAlgebra map: aBlock
 	^ self ⊗ anAlgebra to: anotherAlgebra carrier: (self carrier times: anAlgebra carrier to: anotherAlgebra carrier map: [:x :y| aBlock value: self !! x value: anAlgebra !! y])! !
 
-!Ring methodsFor: 'morphisms' stamp: 'len 12/5/2024 08:23:10'!
+!Ring methodsFor: 'morphisms' stamp: 'len 7/4/2025 16:26:46'!
 to: aRing
 	aRing isTrivial ifTrue: [^ self to: aRing map: [:x| aRing zero]].
+	"this is necessary to specify the scalars and make the inclusion morphism a k-algebra morphism:"
+	(self ⊆ aRing and: [self scalars = aRing scalars]) ifTrue: [^ self to: aRing over: self scalars map: [:x| x]].
 	^ super to: aRing! !
 
 !Ring methodsFor: 'morphisms' stamp: 'len 3/10/2025 08:33:58'!
@@ -16908,12 +16914,12 @@ ideals
 irreducibles
 	^ self select: [:each| each isIrreducible]! !
 
-!Ring methodsFor: 'operations' stamp: 'len 5/26/2025 15:42:02'!
+!Ring methodsFor: 'operations' stamp: 'len 6/30/2025 14:56:55'!
 jacobsonRadical
 	"Answer the Jacobson radical J(R) of the receiver R. This is the ideal consisting of all elements that annihilate all simple R-modules. It is the intersection of all maximal ideals. (See also >>nilradical.)"
-	self isLocal ifTrue: [^ self maximalIdeal].
 	(self isFiniteAlgebra and: [self scalars isField]) ifFalse:
 		[| generators one |
+		self isLocal ifTrue: [^ self maximalIdeal].
 		self isFinite ifFalse: [^ self notYetImplemented].
 		generators := Set new.
 		one := self one.
@@ -16922,6 +16928,7 @@ jacobsonRadical
 	"In characteristic 0, or more generally when n!! is invertible, where n is the dimension of the underlying vector space, Dickson's criterium holds: x ∈ J(A) ⟺ Tr(xy) = 0 for every y ∈ A."
 	(self scalars characteristic = 0 or: [self scalars characteristic > self carrier rank])
 		ifTrue: [^ (self carrier to: self carrier freeCover map: [:x| self basis collect: [:y| ((self !! x) * y) representation trace]]) kernel].
+	self isLocal ifTrue: [^ self maximalIdeal].
 	"TODO: implement Cohen-Ivanov-Wales algorithm for jacobson radical in char p, [Sto00, pp 95], [CIW97]"
 	^ self notYetImplemented! !
 
@@ -17212,11 +17219,11 @@ isCommutative
 	^ self propertyAt: #isCommutative ifAbsentPut:
 		[self generators allSatisfy: [:x| self generators allSatisfy: [:y| x == y or: [x*y = (y*x)]]]]! !
 
-!Ring methodsFor: 'testing' stamp: 'len 8/7/2019 12:33:03'!
+!Ring methodsFor: 'testing' stamp: 'len 7/4/2025 14:46:05'!
 isDVR
 	"Answer true if the receiver is a discrete valuation ring, i.e. a local PID that is not a field.
 	Equivalently, a DVR is a Noetherian local domain whose maximal ideal is principal and different from {0}."
-	^ self isLocal and: [self isPID and: [self isField not]]! !
+	^ self isField not and: [self isPID and: [self isLocal]]! !
 
 !Ring methodsFor: 'testing' stamp: 'len 1/12/2022 17:54:34'!
 isDedekindDomain
@@ -17275,9 +17282,10 @@ isFiniteAlgebra
 isFiniteField
 	^ self isFinite and: [self isField]! !
 
-!Ring methodsFor: 'testing' stamp: 'len 4/7/2025 12:55:27'!
+!Ring methodsFor: 'testing' stamp: 'len 7/2/2025 16:01:20'!
 isFinitelyGenerated
 	"Answer true if the receiver is a finitely generated R-algebra. See also >>scalars, >>generators and >>freeCover."
+	self isFiniteAlgebra ifTrue: [^ true].
 	self isAmbient ifFalse: [^ self ambient isFinitelyGenerated].
 	^ false! !
 
@@ -31154,6 +31162,11 @@ cancelRow: i₁ and: i₂ with: mgcd
 	self rowAt: i₁ put: A₁*s + (A₂*t).
 	self rowAt: i₂ put: A₁*u + (A₂*v)! !
 
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 6/30/2025 15:27:51'!
+copyRow: i from: start to: stop
+	| i₀ |
+	^ coefficients copyFrom: (i₀ := self rowIndexAt: i) + start - 1 to: i₀ + stop - 1! !
+
 !DenseMatrix methodsFor: 'operations-rows' stamp: 'len 1/7/2025 08:39:46'!
 copyRow: i₁ times: anElement to: i₂
 	self copyRow: i₁ times: anElement to: i₂ startingAt: 1! !
@@ -31206,6 +31219,20 @@ permuteRowsBy: aPermutation
 	aPermutation transpositionsDo: [:j :i|
 		self assert: j >= i.
 		self swapRow: i with: j]! !
+
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 6/30/2025 15:21:26'!
+replaceRow: i from: start to: stop put: anElement
+	| rowIndex |
+	stop > self width ifTrue: [^ self error: 'index out of bounds'].
+	rowIndex := self rowIndexAt: i.
+	coefficients from: rowIndex + start - 1 to: rowIndex + stop - 1 put: anElement! !
+
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 6/30/2025 15:08:05'!
+replaceRow: i from: start to: stop with: anArray startingAt: start1
+	| rowIndex |
+	stop > self width ifTrue: [^ self error: 'index out of bounds'].
+	rowIndex := self rowIndexAt: i.
+	coefficients replaceFrom: rowIndex + start - 1 to: rowIndex + stop - 1 with: anArray startingAt: start1! !
 
 !DenseMatrix methodsFor: 'operations-rows' stamp: 'len 1/7/2025 08:32:05'!
 swapRow: i₁ with: i₂
@@ -36106,21 +36133,21 @@ topw: anArray
 hash
 	^ self class hash! !
 
-!POTMonomialOrdering methodsFor: 'ordering' stamp: 'len 5/5/2023 01:03:25'!
+!POTMonomialOrdering methodsFor: 'ordering' stamp: 'len 7/1/2025 15:49:50'!
 compare: aModuleMonomial with: anotherModuleMonomial
 	| result |
-	(result _ (aModuleMonomial position - anotherModuleMonomial position) sign) == 0 ifFalse: [^ result].
+	(result := (anotherModuleMonomial position - aModuleMonomial position) sign) == 0 ifFalse: [^ result].
 	^ aModuleMonomial monomial compare: anotherModuleMonomial monomial! !
 
-!POTMonomialOrdering methodsFor: 'ordering' stamp: 'len 6/15/2023 12:21:20'!
+!POTMonomialOrdering methodsFor: 'ordering' stamp: 'len 7/1/2025 15:49:36'!
 leadingMonomialOf: aTuple
-	aTuple size to: 1 by: -1 do: [:i| | f |
+	1 to: aTuple size do: [:i| | f |
 		(f := aTuple at: i) isZero ifFalse: [^ ModuleMonomial monomial: f leadingMonomial position: i ordering: self]].
 	^ nil! !
 
-!POTMonomialOrdering methodsFor: 'printing' stamp: 'len 7/28/2021 11:54:21'!
+!POTMonomialOrdering methodsFor: 'printing' stamp: 'len 6/29/2025 18:20:31'!
 printOn: aStream
-	aStream nextPutAll: 'POT'! !
+	aStream nextPutAll: 'pot'! !
 
 !SchreyerMonomialOrdering methodsFor: 'accessing' stamp: 'len 1/5/2018 11:25:47'!
 type
@@ -36148,9 +36175,9 @@ weights: anArray
 weights: anArray
 	^ self new weights: anArray! !
 
-!TOPMonomialOrdering methodsFor: 'printing' stamp: 'len 7/28/2021 11:54:12'!
+!TOPMonomialOrdering methodsFor: 'printing' stamp: 'len 6/29/2025 18:20:40'!
 printOn: aStream
-	aStream nextPutAll: 'TOP'! !
+	aStream nextPutAll: 'top'! !
 
 !TOPMonomialOrdering methodsFor: 'comparing' stamp: 'len 7/28/2021 11:51:16'!
 = anObject
@@ -36160,11 +36187,11 @@ printOn: aStream
 hash
 	^ self class hash! !
 
-!TOPMonomialOrdering methodsFor: 'ordering' stamp: 'len 5/5/2023 01:04:22'!
+!TOPMonomialOrdering methodsFor: 'ordering' stamp: 'len 7/1/2025 15:44:44'!
 compare: aModuleMonomial with: anotherModuleMonomial
 	| result |
-	(result _ aModuleMonomial monomial compare: anotherModuleMonomial monomial) == 0 ifFalse: [^ result].
-	^ (aModuleMonomial position - anotherModuleMonomial position) sign! !
+	(result := aModuleMonomial monomial compare: anotherModuleMonomial monomial) == 0 ifFalse: [^ result].
+	^ (anotherModuleMonomial position - aModuleMonomial position) sign! !
 
 !TOPMonomialOrdering methodsFor: 'ordering' stamp: 'len 12/3/2023 21:24:37'!
 leadingMonomialOf: aTuple
@@ -36193,9 +36220,9 @@ degreeAt: anInteger
 weights: anArray
 	weights _ anArray! !
 
-!TOPWMonomialOrdering methodsFor: 'printing' stamp: 'len 5/7/2023 01:49:43'!
+!TOPWMonomialOrdering methodsFor: 'printing' stamp: 'len 6/29/2025 18:20:47'!
 printOn: aStream
-	aStream nextPutAll: 'TOPW('.
+	aStream nextPutAll: 'topw('.
 	weights do: [:each| aStream print: each] separatedBy: [aStream nextPut: $,].
 	aStream nextPut: $)! !
 
@@ -36839,10 +36866,6 @@ grevlex: anArray
 !MonomialOrdering class methodsFor: 'examples' stamp: 'len 7/31/2021 10:59:31'!
 grevlex: anArray weights: anotherArray
 	^ GradedReverseLexicographicWeightedOrdering indeterminates: anArray weights: anotherArray! !
-
-!MonomialOrdering class methodsFor: 'examples' stamp: 'len 7/30/2021 13:27:29'!
-invlex: anArray
-	^ LexicographicOrdering indeterminates: anArray reversed! !
 
 !MonomialOrdering class methodsFor: 'examples' stamp: 'len 7/4/2016 00:45'!
 lex: anArray
