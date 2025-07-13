@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7158] on 29 June 2025 at 2:37:50 pm'!
+'From Cuis7.3 [latest update: #7158] on 13 July 2025 at 5:45:58 pm'!
 'Description General Algebra Subrutines. This package provides low-level support for algebra on arrays.'!
-!provides: 'GAS' 1 23!
+!provides: 'GAS' 1 24!
 !requires: 'Collections-Extras' 1 14 nil!
 
 
@@ -898,7 +898,7 @@ replaceFrom: start with: anArray1 from: start1 to: stop1 convolution: anArray2 f
 	tempArray := self species new: tempSize.
 	self replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionKaratsuba: anArray2 from: start2 to: stop2 temporary: tempArray startingAt: 1! !
 
-!ArrayedCollection methodsFor: '*gas-low level-karatsuba' stamp: 'len 2/1/2024 20:14:07'!
+!ArrayedCollection methodsFor: '*gas-low level-karatsuba' stamp: 'len 7/6/2025 15:58:02'!
 replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionKaratsuba: anArray2 from: start2 to: stop2 temporary: tempArray startingAt: tempStart
 	| s1 s2 m m2 r1 r2 nextTempStart |
 	s1 := stop1 - start1 + 1.
@@ -929,10 +929,10 @@ replaceFrom: start with: anArray1 from: start1 to: stop1 convolutionKaratsuba: a
 	self replaceFrom: start + m + r2 to: start + m2 - 1 with: anArray2 startingAt: start2 + r2.
 	"recursively compute t3 = t1 * t2:"
 	tempArray replaceFrom: tempStart with: self from: start to: start + m - 1 convolutionKaratsuba: self from: start + m to: start + m2 - 1 temporary: tempArray startingAt: nextTempStart.
-	"recursively compute f_hi * g_hi into high part of result and substract from t3:"
+	"recursively compute f_hi * g_hi into high part of result and subtract from t3:"
 	self replaceFrom: start + m2 with: anArray1 from: start1 + m to: stop1 convolutionKaratsuba: anArray2 from: start2 + m to: stop2 temporary: tempArray startingAt: nextTempStart.
 	tempArray replaceFrom: tempStart to: tempStart + r1 + r2 - 2 minus: self startingAt: start + m2.
-	"recursively compute f_lo * g_lo into low part of result and substract from t3:"
+	"recursively compute f_lo * g_lo into low part of result and subtract from t3:"
 	self replaceFrom: start with: anArray1 from: start1 to: start1 + m - 1 convolutionKaratsuba: anArray2 from: start2 to: start2 + m - 1 temporary: tempArray startingAt: nextTempStart.
 	tempArray replaceFrom: tempStart to: tempStart + m2 - 2 minus: self startingAt: start.
 	self at: start + m2 - 1 put: (anArray1 at: start1) zero.
@@ -981,7 +981,7 @@ replaceFrom: start withAutoconvolution: anArray1 from: start1 to: stop1
 	tempArray _ self species new: tempSize.
 	self replaceFrom: start withAutoconvolutionKaratsuba: anArray1 from: start1 to: stop1 temporary: tempArray startingAt: 1! !
 
-!ArrayedCollection methodsFor: '*gas-low level-karatsuba' stamp: 'len 2/1/2024 20:14:37'!
+!ArrayedCollection methodsFor: '*gas-low level-karatsuba' stamp: 'len 7/6/2025 15:58:14'!
 replaceFrom: start withAutoconvolutionKaratsuba: anArray1 from: start1 to: stop1 temporary: tempArray startingAt: tempStart
 	| s m m2 r nextTempStart |
 	s := stop1 - start1 + 1.
@@ -998,10 +998,10 @@ replaceFrom: start withAutoconvolutionKaratsuba: anArray1 from: start1 to: stop1
 	self replaceFrom: start + m to: start + m2 - 1 with: self startingAt: start.
 	"recursively compute t2 = t1^2:"
 	tempArray replaceFrom: tempStart withAutoconvolutionKaratsuba: self from: start to: start + m - 1 temporary: tempArray startingAt: nextTempStart.
-	"recursively compute f_hi^2 into high part of result and substract from t2:"
+	"recursively compute f_hi^2 into high part of result and subtract from t2:"
 	self replaceFrom: start + m2 withAutoconvolutionKaratsuba: anArray1 from: start1 + m to: stop1 temporary: tempArray startingAt: nextTempStart.
 	tempArray replaceFrom: tempStart to: tempStart + (r*2) - 2 minus: self startingAt: start + m2.
-	"recursively compute f_lo^2 into low part of result and substract from t2:"
+	"recursively compute f_lo^2 into low part of result and subtract from t2:"
 	self replaceFrom: start withAutoconvolutionKaratsuba: anArray1 from: start1 to: start1 + m - 1 temporary: tempArray startingAt: nextTempStart.
 	tempArray replaceFrom: tempStart to: tempStart + m2 - 2 minus: self startingAt: start.
 	self at: start + m2 - 1 put: (anArray1 at: start1) zero.

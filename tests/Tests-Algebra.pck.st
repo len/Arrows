@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7158] on 4 July 2025 at 4:24:22 pm'!
+'From Cuis7.3 [latest update: #7158] on 13 July 2025 at 5:46:03 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 164!
+!provides: 'Tests-Algebra' 1 165!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -7994,8 +7994,8 @@ testDotProduct
 	b _ self newArray.
 	self assert: a · b = (a asArray · b asArray)! !
 
-!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 5/6/2023 17:20:01'!
-testSubstraction
+!AbstractArrayTest methodsFor: 'arithmetic' stamp: 'len 7/6/2025 15:58:52'!
+testSubtraction
 	| a b c |
 	a _ self newArray.
 	b _ self newArray: a size.
@@ -8476,8 +8476,8 @@ testMutableMultiplication
 	C replaceWith: A times: B.
 	self assert: A * B = C! !
 
-!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 1/2/2025 08:29:07'!
-testMutableSubstraction
+!AbstractMatrixTest methodsFor: 'arithmetic' stamp: 'len 7/6/2025 15:59:31'!
+testMutableSubtraction
 	| A B C |
 	A := self newMatrix.
 	B := self newMatrix: A height @ A width.
@@ -8634,8 +8634,8 @@ testMatrixSubmatrixInplaceAdditionIntoMatrix
 	C replaceWith: B plus: S.
 	self assert: S + B = C! !
 
-!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 16:54:02'!
-testMatrixSubmatrixInplaceSubstractionIntoMatrix
+!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 7/6/2025 15:59:12'!
+testMatrixSubmatrixInplaceSubtractionIntoMatrix
 	| A B S C |
 	A := self newNonemptyMatrix.
 	S := self newSubmatrixOf: A.
@@ -8691,8 +8691,8 @@ testSubmatrixSubmatrixInplaceAdditionIntoMatrix
 	self assert: S + T = C.
 ! !
 
-!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 5/20/2023 16:57:10'!
-testSubmatrixSubmatrixInplaceSubstractionIntoMatrix
+!AbstractMatrixTest methodsFor: 'submatrices' stamp: 'len 7/6/2025 15:59:44'!
+testSubmatrixSubmatrixInplaceSubtractionIntoMatrix
 	| A S T C |
 	A := self newNonemptyMatrix.
 	S := self newSubmatrixOf: A.
@@ -13790,8 +13790,8 @@ testShift
 	1 to: b size do: [:i|
 		self assert: (b at: i) = ((i-n between: 1 and: a size) ifTrue: [a at: i-n] ifFalse: [scalars zero])]! !
 
-!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 11/24/2022 11:16:36'!
-testSubstraction
+!AbstractTupleTest methodsFor: 'as yet unclassified' stamp: 'len 7/6/2025 15:58:52'!
+testSubtraction
 	| a b c |
 	a _ self newTuple.
 	b _ self newTuple: a size.

@@ -1,4 +1,4 @@
-'From Cuis7.3 [latest update: #7158] on 4 July 2025 at 4:55:44 pm'!
+'From Cuis7.3 [latest update: #7158] on 13 July 2025 at 5:45:47 pm'!
 'Description This package implements among other things: permutation groups, linear groups, finite fields, Galois rings, affine algebras, number fields, function fields, finitely presented modules, finite-dimensional associative algebras, schemes, finite-dimensional representations of finite groups.
 
 References:
@@ -111,7 +111,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 262!
+!provides: 'Algebra' 1 263!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'GAS' 1 1 nil!
@@ -290,16 +290,6 @@ Object subclass: #LagrangeGaussReduction
 LagrangeGaussReduction class
 	instanceVariableNames: ''!
 
-!classDefinition: #LinearRelationFinder category: #'Algebra-Algorithms'!
-Object subclass: #LinearRelationFinder
-	instanceVariableNames: 'matrix position pivots'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Algorithms'!
-!classDefinition: 'LinearRelationFinder class' category: #'Algebra-Algorithms'!
-LinearRelationFinder class
-	instanceVariableNames: ''!
-
 !classDefinition: #NewtonInterpolation category: #'Algebra-Algorithms'!
 Object subclass: #NewtonInterpolation
 	instanceVariableNames: 'points inverses'
@@ -408,6 +398,46 @@ Echelonization subclass: #HowellEchelonization
 	category: 'Algebra-Algorithms-Echelonization'!
 !classDefinition: 'HowellEchelonization class' category: #'Algebra-Algorithms-Echelonization'!
 HowellEchelonization class
+	instanceVariableNames: ''!
+
+!classDefinition: #RationalSyzygyFinder category: #'Algebra-Algorithms-Echelonization'!
+Object subclass: #RationalSyzygyFinder
+	instanceVariableNames: 'basis denominators residueSyzygyFinder'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algorithms-Echelonization'!
+!classDefinition: 'RationalSyzygyFinder class' category: #'Algebra-Algorithms-Echelonization'!
+RationalSyzygyFinder class
+	instanceVariableNames: ''!
+
+!classDefinition: #Spinning category: #'Algebra-Algorithms-Echelonization'!
+Object subclass: #Spinning
+	instanceVariableNames: 'triangularization generators'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algorithms-Echelonization'!
+!classDefinition: 'Spinning class' category: #'Algebra-Algorithms-Echelonization'!
+Spinning class
+	instanceVariableNames: ''!
+
+!classDefinition: #Triangularization category: #'Algebra-Algorithms-Echelonization'!
+Object subclass: #Triangularization
+	instanceVariableNames: 'matrix position rankProfile'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algorithms-Echelonization'!
+!classDefinition: 'Triangularization class' category: #'Algebra-Algorithms-Echelonization'!
+Triangularization class
+	instanceVariableNames: ''!
+
+!classDefinition: #ExtendedTriangularization category: #'Algebra-Algorithms-Echelonization'!
+Triangularization subclass: #ExtendedTriangularization
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algorithms-Echelonization'!
+!classDefinition: 'ExtendedTriangularization class' category: #'Algebra-Algorithms-Echelonization'!
+ExtendedTriangularization class
 	instanceVariableNames: ''!
 
 !classDefinition: #MultivariateDivision category: #'Algebra-Algorithms-Standard Bases'!
@@ -3171,6 +3201,16 @@ The algorithm is essentially Algorithm 2.4.4 in [Coh96] but modified to do row r
 !HowellEchelonization commentStamp: '<historical>' prior: 0!
 This is the Howell row reduction algorithm. Given a matrix with coefficients in a PIR with an extended GCD algorithm to compute Bézout coefficients (for example ℤ/nℤ or other Euclidean ring, possibly with zero divisors), it reduces the matrix to its Howell normal form. See [How86], [Sto00], [SM98], [FH16].!
 
+!Spinning commentStamp: '<historical>' prior: 0!
+This is the spinning algorithm for building invariant subspaces of representations. Given a vector or a list of square matrices corresponding to a representation, and a list of vectors, it computes the subspace spanned by the orbit of the vectors under the action of the matrices.!
+
+!Triangularization commentStamp: '<historical>' prior: 0!
+This is an incremental triangularization algorithm that doesn't perform row swaps. It allows to build a basis of a subspace incrementally, adding one vector at a time, and detecting linear dependent vectors.!
+
+!ExtendedTriangularization commentStamp: '<historical>' prior: 0!
+This variation of the incremental triangularization algorithm keeps track of the elementary matrix operations performed during the triangularization process, and when a linear dependency is detected it returns the coefficients of the linear relation (or syzygy).
+!
+
 !MultivariateDivision commentStamp: '<historical>' prior: 0!
 This is the multivariate polynomial division algorithm for polynomials over a commutative ring.
 
@@ -4541,10 +4581,13 @@ moduli: anArray
 moduli: anArray
 	^ self new moduli: anArray! !
 
-!CRT class methodsFor: 'instance creation' stamp: 'len 12/28/2024 08:13:57'!
+!CRT class methodsFor: 'instance creation' stamp: 'len 7/9/2025 19:41:25'!
 solve: aCollection
+	"Run the CRT algorithm on a list of residue classes of integers (with different moduli).
+	Warning: only for ℤ."
 	| x m |
 	x := aCollection first.
+	self assert: (x isKindOf: ModularInteger).
 	m := x modulus.
 	aCollection allButFirstDo: [:each| | xᵢ mᵢ euclid |
 		xᵢ := each.
@@ -5079,38 +5122,6 @@ computeShortVector
 shortVector
 	shortVector isNil ifTrue: [self computeShortVector].
 	^ shortVector! !
-
-!LinearRelationFinder methodsFor: 'computing' stamp: 'len 6/30/2025 15:27:59'!
-append: aTuple
-	matrix replaceRow: position from: 1 to: aTuple size with: aTuple coefficients startingAt: 1.
-	matrix replaceRow: position from: aTuple size + 1 to: aTuple size + position - 1 put: matrix scalars zero.
-	matrix at: position @ (aTuple size + position) put: matrix scalars one.
-	pivots do: [:each|
-		(matrix isZeroAt: position @ each y) ifFalse: 
-			[matrix addRow: each x times: (matrix at: position @ each y) negated / (matrix at: each) to: position from: 1 to: aTuple size + each x]].
-	(matrix firstNonzeroAtRow: position from: 1 to: aTuple size)
-		ifNotNil: [:j|
-			pivots add: position @ j.
-"			matrix at: position @ (aTuple size + position) put: matrix scalars one."
-			position := position + 1.
-			^ nil].
-	^ matrix copyRow: position from: aTuple size + 1 to: aTuple size + position! !
-
-!LinearRelationFinder methodsFor: 'computing' stamp: 'len 6/30/2025 15:20:18'!
-reset
-"	matrix atAllPut: matrix scalars zero."
-	position := 1.
-	pivots removeAll! !
-
-!LinearRelationFinder methodsFor: 'private' stamp: 'len 6/27/2025 16:01:10'!
-initialize: anInteger over: aField
-	matrix := aField zeros: anInteger+1 by: anInteger*2+1.
-	position := 1.
-	pivots := OrderedCollection new: anInteger! !
-
-!LinearRelationFinder class methodsFor: 'instance creation' stamp: 'len 6/27/2025 15:20:22'!
-new: anInteger over: aField
-	^ self new initialize: anInteger over: aField! !
 
 !NewtonInterpolation methodsFor: 'as yet unclassified' stamp: 'len 6/8/2023 19:47:55'!
 interpolate: values
@@ -5690,14 +5701,14 @@ modulus: anInteger
 	(n kronecker: p) == -1] whileFalse.
 	z _ n raisedTo: q modulo: p.! !
 
-!Echelonization methodsFor: 'accessing' stamp: 'len 5/12/2023 20:47:41'!
+!Echelonization methodsFor: 'accessing' stamp: 'len 7/5/2025 15:56:19'!
 echelon
-	echelon isNil ifTrue: [echelon _ matrix copy. transformation _ nil. self run].
+	echelon isNil ifTrue: [echelon := matrix. transformation := nil. self run].
 	^ echelon! !
 
-!Echelonization methodsFor: 'accessing' stamp: 'len 5/12/2023 20:47:53'!
+!Echelonization methodsFor: 'accessing' stamp: 'len 7/5/2025 15:56:27'!
 echelonAndTransformation
-	transformation isNil ifTrue: [echelon _ matrix copy. transformation _ matrix codomain id copy. self run].
+	transformation isNil ifTrue: [echelon := matrix. transformation := matrix codomain id copy. self run].
 	^ {echelon. transformation}! !
 
 !Echelonization methodsFor: 'row operations' stamp: 'len 12/29/2022 10:24:10'!
@@ -5897,6 +5908,151 @@ copyRow: i₁ to: i₂
 copyRow: i₁ to: i₂ startingAt: startColumn
 	echelon copyRow: i₁ to: i₂ startingAt: startColumn.
 	transformation ifNotNil: [transformation copyRow: i₁ to: i₂]! !
+
+!RationalSyzygyFinder methodsFor: 'computing' stamp: 'len 7/10/2025 16:02:47'!
+append: aTuple
+	| d v κ r p lengths m M x pp |
+	d := aTuple denominator.
+	v := ℤ !!!! (aTuple * d). "make it integer tuple, not rational"
+	κ := residueSyzygyFinder scalars.
+	(r := residueSyzygyFinder append: κ !!!! v)
+		ifNil: [basis add: v. denominators add: d. ^ nil].
+	p := κ modulus.
+	lengths := OrderedCollection new: basis size + 1. ">= Euclidean length"
+	lengths add: v norm sqrtFloor + 1.
+	basis do: [:each| lengths add: each norm sqrtFloor + 1].
+	m := ((lengths sorted allButFirst sum: [:each| each log]) + 0.20898764024997868 / p log * 2) ceiling. "the constant is -log(λ)"
+	M := (LocalModularRing new: p to: m)^aTuple size.
+	r := r lift.
+	x := M !! r.
+	pp := 1.
+	m timesRepeat:
+		[v := v - (basis · r) // p. "do it inplace"
+		r := (residueSyzygyFinder syzygyWith: κ !!!! v) lift.
+		pp := pp * p.
+		"do this inplace:"
+		x := x + (M !! r * pp)].
+	^ x lift coefficients with: (denominators copyWith: d) collect: [:each :den| den * each]! !
+
+!RationalSyzygyFinder methodsFor: 'computing' stamp: 'len 7/7/2025 16:15:12'!
+reset
+	basis removeAll.
+	denominators removeAll.
+	residueSyzygyFinder reset! !
+
+!RationalSyzygyFinder methodsFor: 'private' stamp: 'len 7/12/2025 20:18:14'!
+initialize: anInteger
+	| p |
+	basis := OrderedCollection new.
+	denominators := OrderedCollection new.
+	"Use 27-bit primes to take advantage of delayed reduction in blocked matrix-matrix multiplication in pure Smalltalk:"
+	p := 16r7FFFFFF atRandom nextPrime.
+	residueSyzygyFinder := ExtendedTriangularization new: anInteger over: (PrimeField new: p)! !
+
+!RationalSyzygyFinder class methodsFor: 'instance creation' stamp: 'len 7/5/2025 20:23:46'!
+new: anInteger
+	^ self new initialize: anInteger! !
+
+!Spinning methodsFor: 'computing' stamp: 'len 7/13/2025 15:23:58'!
+spin: aCollection
+	| L |
+	triangularization reset.
+	L := aCollection asOrderedCollection.
+	[L isEmpty] whileFalse:
+		[| v |
+		v := L removeFirst.
+		(triangularization append: v) ifTrue:
+			[generators do:
+				[:g| | w |
+				w := g * v.
+				(triangularization append: w) ifFalse: [L add: w]]]].
+	^ triangularization generatorMatrix! !
+
+!Spinning methodsFor: 'private' stamp: 'len 7/12/2025 20:59:05'!
+generators: aCollectionOfMatrices
+	generators := aCollectionOfMatrices.
+	triangularization := Triangularization new: generators any domain rank over: generators any scalars! !
+
+!Spinning class methodsFor: 'instance creation' stamp: 'len 7/12/2025 20:58:50'!
+generators: aCollectionOfMatrices
+	^ self new generators: aCollectionOfMatrices! !
+
+!Triangularization methodsFor: 'accessing' stamp: 'len 7/13/2025 15:23:29'!
+generatorMatrix
+	"Answer the matrix of processed rows so far.
+	Its columns are a basis of the subspace spanned by the rows appended so far."
+	^ (matrix copyFrom: 1 @ 1 to: position - 1 @ (matrix height - 1)) transpose! !
+
+!Triangularization methodsFor: 'accessing' stamp: 'len 7/13/2025 15:32:58'!
+rankProfile
+	"Answer the column rank profile of the processed rows so far, i.e. the list of linearly independent columns."
+	^ rankProfile! !
+
+!Triangularization methodsFor: 'accessing' stamp: 'len 7/11/2025 15:07:27'!
+scalars
+	^ matrix scalars! !
+
+!Triangularization methodsFor: 'computing' stamp: 'len 7/13/2025 15:28:59'!
+append: aTuple
+	"Append a row and echelonize. Answer true if it was linearly independent from the previously added rows, and false otherwise."
+	| n |
+	n := aTuple size.
+	self assert: n + 1 = matrix height.
+	matrix replaceRow: position from: 1 to: n with: aTuple coefficients startingAt: 1.
+	rankProfile withIndexDo: [:j :i|
+		(matrix isZeroAt: position @ j) ifFalse: 
+			[matrix addRow: i times: (matrix at: position @ j) negated / (matrix at: i @ j) to: position from: 1 to: n]].
+	(matrix firstNonzeroAtRow: position from: 1 to: n)
+		ifNotNil: [:j|
+			rankProfile add: j.
+			position := position + 1.
+			^ true].
+	^ false! !
+
+!Triangularization methodsFor: 'computing' stamp: 'len 7/13/2025 15:27:17'!
+reset
+"	matrix atAllPut: matrix scalars zero."
+	position := 1.
+	rankProfile removeAll! !
+
+!Triangularization methodsFor: 'private' stamp: 'len 7/13/2025 15:27:17'!
+initialize: anInteger over: aField
+	matrix := aField zeros: anInteger+1 by: anInteger.
+	position := 1.
+	rankProfile := OrderedCollection new: anInteger! !
+
+!Triangularization class methodsFor: 'instance creation' stamp: 'len 7/11/2025 15:07:44'!
+new: anInteger over: aField
+	^ self new initialize: anInteger over: aField! !
+
+!ExtendedTriangularization methodsFor: 'computing' stamp: 'len 7/13/2025 15:27:17'!
+append: aTuple
+	| n |
+	n := aTuple size.
+	self assert: n + 1 = matrix height.
+	matrix replaceRow: position from: 1 to: n with: aTuple coefficients startingAt: 1.
+	matrix replaceRow: position from: n + 1 to: n + position - 1 put: matrix scalars zero.
+	matrix at: position @ (n + position) put: matrix scalars one.
+	rankProfile withIndexDo: [:j :i|
+		(matrix isZeroAt: position @ j) ifFalse: 
+			[matrix addRow: i times: (matrix at: position @ j) negated / (matrix at: i @ j) to: position from: 1 to: n + i]].
+	(matrix firstNonzeroAtRow: position from: 1 to: n)
+		ifNotNil: [:j|
+			rankProfile add: j.
+"			matrix at: position @ (n + position) put: matrix scalars one."
+			position := position + 1.
+			^ nil].
+	^ matrix copyRow: position from: n + 1 to: n + position! !
+
+!ExtendedTriangularization methodsFor: 'computing' stamp: 'len 7/8/2025 15:25:32'!
+syzygyWith: aTuple
+	^ (self append: aTuple) ifNil: [self error: 'not linearly dependent']! !
+
+!ExtendedTriangularization methodsFor: 'private' stamp: 'len 7/13/2025 15:27:17'!
+initialize: anInteger over: aField
+	matrix := aField zeros: anInteger+1 by: anInteger*2+1.
+	position := 1.
+	rankProfile := OrderedCollection new: anInteger! !
 
 !MultivariateDivision methodsFor: 'accessing' stamp: 'len 12/2/2015 02:48'!
 dividend
@@ -12181,14 +12337,14 @@ syzygiesMatrix
 	^ (self generators allSatisfy: [:each| anObject contains: each])
 		and: [anObject generators allSatisfy: [:each| self contains: each]]! !
 
-!Module methodsFor: 'comparing' stamp: 'len 6/8/2025 15:20:51'!
+!Module methodsFor: 'comparing' stamp: 'len 7/10/2025 16:06:56'!
 ~ aModule
 	"Answer true if the receiver is isomorphic to the argument."
 	self = aModule ifTrue: [^ true].
 	self scalars = aModule scalars ifFalse: [^ false].
 	(self generatorMatrix = aModule generatorMatrix and: [self syzygiesMatrix = aModule syzygiesMatrix]) ifTrue: [^ true].
 	self scalars isElementaryDivisorRing ifTrue: [^ self invariantFactors = aModule invariantFactors].
-	10 timesRepeat: [(self ⇒ aModule) atRandom isIsomorphism ifTrue: [^ true]].
+	5 timesRepeat: [(self ⇒ aModule) atRandom isIsomorphism ifTrue: [^ true]].
 	^ self notYetImplemented! !
 
 !Module methodsFor: 'comparing' stamp: 'len 1/13/2018 22:42:28'!
@@ -14565,7 +14721,7 @@ univariateExponent
 		answer _ answer + (mu - 1)].
 	^ answer! !
 
-!PolynomialIdeal methodsFor: 'converting' stamp: 'len 7/4/2025 16:53:28'!
+!PolynomialIdeal methodsFor: 'converting' stamp: 'len 7/12/2025 20:18:14'!
 orderedBy: aMonomialOrdering
 	"Apply the FGLM algorithm when the ideal is zero-dimensional. See [FGLM93]."
 	| S Q queue processed basis L G |
@@ -14578,7 +14734,7 @@ orderedBy: aMonomialOrdering
 	queue := SortedCollection with: S monomials identity.
 	processed := Set with: S monomials identity.
 	basis := OrderedCollection new.
-	L := LinearRelationFinder new: Q carrier rank over: Q scalars.
+	L := ExtendedTriangularization new: Q carrier rank over: Q scalars.
 	[queue isEmpty] whileFalse:
 		[| m v f r |
 		m := queue removeFirst.
@@ -15675,19 +15831,21 @@ rightUnitor
 to: aCodomain carrier: aMorphism
 	^ EquivariantMap from: self to: aCodomain carrier: aMorphism! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 3/29/2025 17:23:19'!
+!RepresentationModule methodsFor: 'operations' stamp: 'len 7/13/2025 15:39:33'!
 + aSubmodule
 	self assert: self ambient = aSubmodule ambient.
 	self isTrivial ifTrue: [^ aSubmodule].
 	aSubmodule isTrivial ifTrue: [^ self].
-	^ self subNoSpin: self carrier + aSubmodule carrier "or spin?"! !
+	^ self subNoSpin: self carrier + aSubmodule carrier! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 3/29/2025 17:23:33'!
+!RepresentationModule methodsFor: 'operations' stamp: 'len 7/13/2025 17:01:39'!
 / aSubmodule
-	| π |
+	| π answer |
 	self assert: self ambient = aSubmodule ambient.
 	π := self carrier → (self carrier / aSubmodule carrier).
-	^ self scalars on: π codomain action: [:g :v| π value: ((representation value: g) value: (π preimageElement: v))]! !
+	answer := self scalars on: π codomain action: [:g :v| π value: ((representation value: g) value: (π preimageElement: v))].
+	answer addMap: (self to: answer carrier: π).
+	^ answer! !
 
 !RepresentationModule methodsFor: 'operations' stamp: 'len 1/20/2025 09:07:04'!
 ↑ aMorphism
@@ -15712,14 +15870,19 @@ to: aCodomain carrier: aMorphism
 	aModule isTrivial ifTrue: [^ aModule].
 	^ self subNoSpin: self carrier ∩ aModule carrier! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 11/29/2024 15:46:33'!
-⊕ anObject
-	^ self class representation: (self scalars to: (self carrier ⊕ anObject carrier) endomorphisms map: [:g| (representation value: g) ⊕ (anObject representation value: g)])! !
+!RepresentationModule methodsFor: 'operations' stamp: 'len 7/13/2025 15:38:47'!
+⊕ aModule
+	^ self class representation: (self scalars to: (self carrier ⊕ aModule carrier) endomorphisms map: [:g| (representation value: g) ⊕ (aModule representation value: g)])! !
 
 !RepresentationModule methodsFor: 'operations' stamp: 'len 1/20/2025 09:07:50'!
 ⊗ anObject
 	(anObject isKindOf: Ring) ifTrue: [^ self ↑ (self scalars → anObject)]. "extension of scalars"
 	^ self class representation: (self scalars to: (self carrier ⊗ anObject carrier) endomorphisms map: [:g| (representation value: g) ⊗ (anObject representation value: g)])! !
+
+!RepresentationModule methodsFor: 'operations' stamp: 'len 7/13/2025 15:38:24'!
+⊠ aModule
+	"If the receiver is a k[G]-module and argument is a k[H] module, answer the external tensor product."
+	^ self notYetImplemented! !
 
 !RepresentationModule methodsFor: 'operations' stamp: 'len 2/28/2025 09:45:54'!
 annihilator
@@ -15758,26 +15921,37 @@ decomposition
 	V isTrivial ifFalse: [components add: V].
 	^ components asArray! !
 
+!RepresentationModule methodsFor: 'operations' stamp: 'len 7/13/2025 17:05:17'!
+injectiveHull
+	"A category is said to have 'enough injectives' if for every object A there is a monomorphism A ↪ I to an injective object I."
+	^ self notYetImplemented! !
+
 !RepresentationModule methodsFor: 'operations' stamp: 'len 12/13/2024 15:41:15'!
 invariants
 	"If the receiver is a k[G]-module, answer the submodule of invariants or fixed points: {v ∈ V | g · v = v for all g ∈ G}.
 	This is the largest submodule of V with trivial action of G. This is also the cohomology group H⁰(G,V)."
 	self notYetImplemented! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 7/4/2025 16:54:18'!
+!RepresentationModule methodsFor: 'operations' stamp: 'len 7/13/2025 17:04:09'!
+projectiveCover
+	"A category is said to have 'enough projectives' if for every object A there is an epimorphism P ↠ A from projective object P."
+	^ self notYetImplemented! !
+
+!RepresentationModule methodsFor: 'operations' stamp: 'len 7/13/2025 17:22:57'!
 spin: anObject
 	"Answer the smallest invariant subspace that contains the given vectors.
 	Use the spinning algorithm to compute the closure under the action of the generators of the algebra."
-	| W L |
-	self flag: #todo. "implement with incremental echelonization inplace"
+	| W |
 	W := (anObject isKindOf: Module) ifTrue: [anObject] ifFalse: [self carrier sub: anObject].
-	[L := OrderedCollection new.
+	^ self carrier sub: ((Spinning generators: (representation images collect: [:each| each asMatrix])) spin: (W generators collect: [:each| self carrier \ each]))
+
+"	[L := OrderedCollection new.
 	W generators do: [:v|
 		representation images do: [:g| | w |
 			w := g value: v.
 			(W contains: w) ifFalse: [L add: w]]].
-	L isEmpty "or: [W isAmbient]"] whileFalse: [W := W + (self carrier sub: L)].
-	^ W! !
+	L isEmpty ""or: [W isAmbient]""] whileFalse: [W := W + (self carrier sub: L)].
+	^ W"! !
 
 !RepresentationModule methodsFor: 'operations' stamp: 'len 12/16/2024 22:12:39'!
 sub: anObject
@@ -16005,14 +16179,6 @@ basisAndTransformationOf: aMatrix
 basisOf: aMatrix
 	self isEuclidean ifFalse: [^ self notYetImplemented].
 	^ aMatrix coechelon copyWithoutZeroColumns! !
-
-!Ring methodsFor: 'computing-matrices' stamp: 'len 5/19/2023 07:08:57'!
-echelonAndTransformationOf: aMatrix
-	^ (self echelonizationAlgorithm on: aMatrix) echelonAndTransformation! !
-
-!Ring methodsFor: 'computing-matrices' stamp: 'len 5/19/2023 07:11:07'!
-echelonOf: aMatrix
-	^ (self echelonizationAlgorithm on: aMatrix) echelon! !
 
 !Ring methodsFor: 'computing-matrices' stamp: 'len 6/22/2025 15:33:37'!
 matrix: B quotientBy: A
@@ -20082,10 +20248,47 @@ zero
 hash
 	^ self class hash! !
 
-!IntegerRing methodsFor: 'computing-matrices' stamp: 'len 4/4/2025 18:57:37'!
+!IntegerRing methodsFor: 'computing-matrices' stamp: 'len 7/9/2025 20:20:21'!
 matrix: B quotientBy: A
 	"Attempt to use Dixon's p-adic method [Dix82] for non-singular square matrices, and fallback to the general method for Euclidean domains if this fails."
+	| p κ C lengths m M |
+	((A isSquare and: [B width > 0]) not or: [A width = 1]) ifTrue: [^ self matrixOverEuclideanDomain: B quotientBy: A].
+"	β _ 2.
+	A do: [:each| β _ β max: each abs].
+	B do: [:each| β _ β max: each abs].
+	p _ (β min: 16rFFFFFFFF) atRandom nextPrime."
+	"Use 27-bit primes to take advantage of delayed reduction in blocked matrix-matrix multiplication in pure Smalltalk:"
+	p := 16r7FFFFFF "16rFFFFFFFF" atRandom nextPrime.
+	κ := PrimeField new: p.
+	[C := (A over: κ) inverse] on: Error do: [^ self matrixOverEuclideanDomain: B quotientBy: A].
+	lengths := OrderedCollection new: A width + 1.
+	lengths add: (B columns max: [:b| b norm sqrtFloor + 1]). "each entry is >= Euclidean length"
+	A columnsDo: [:each| lengths add: each norm sqrtFloor + 1].
+"	δ := lengths sorted allButFirst product.
+	λ := 0.6180339887498949. ""root of x^2 + x - 1""
+	m _ ((δ / λ) log / p log * 2) ceiling."
+	m := ((lengths sorted allButFirst sum: [:each| each log]) + 0.20898764024997868 / p log * 2) ceiling. "the constant is -log(λ)"
+	M := (LocalModularRing new: p to: m)^B height.
+	^ Matrix from: B domain to: A domain columns:
+		(B columns collect: [:b|
+			| v c x pp |
+			v := b.
+			x := M !! (C*(κ !!!! v)) lift.
+			c := x lift.
+			pp := 1.
+			m timesRepeat:
+				[v := v - (A*c) // p.
+				c := (C*(κ !!!! v)) lift.
+				pp := pp * p.
+				x := x + (M !! c * pp)].
+			x lift])! !
+
+!IntegerRing methodsFor: 'computing-matrices' stamp: 'len 7/13/2025 17:19:01'!
+matrix2: B quotientBy: A
+	"NOTE: the rational reconstruction at the end is not needed here, but I should use it when implementing this in RationalField."
+	"Attempt to use Dixon's p-adic method [Dix82] for non-singular square matrices, and fallback to the general method for Euclidean domains if this fails."
 	| p 𝔽ₚ C lengths m M T |
+	self flag: #todo.
 	((A isSquare and: [B width > 0]) not or: [A width = 1]) ifTrue: [^ self matrixOverEuclideanDomain: B quotientBy: A].
 "	β _ 2.
 	A do: [:each| β _ β max: each abs].
@@ -20558,16 +20761,16 @@ findDenominatorIn: anIdeal ifNone: exceptionBlock
 saturationOf: anIdeal
 	^ anIdeal numerator! !
 
-!FractionRing methodsFor: 'computing-matrices' stamp: 'len 4/4/2025 18:57:41'!
+!FractionRing methodsFor: 'computing-matrices' stamp: 'len 7/10/2025 16:10:30'!
 matrix: B quotientBy: A
-	| X d1 d2 |
+	| X d₁ d₂ |
 	X := self^0 → A domain.
-	d1 := A denominator.
-	d2 := B denominator.
+	d₁ := A denominator.
+	d₂ := B denominator.
 	B numerator columnsDo: [:b| | L i x |
 		L := (b asMatrix ⊔ A numerator) syzygies.
 		i := (1 to: L width) detect: [:k| (L at: 1@k) isZeroDivisor not] ifNone: [].
-		x := i isNil ifTrue: [A domain zero] ifFalse: [((L copyFrom: 2@i to: L height@i) over: self) * (self numerator: d1 negated denominator: d2 * (L at: 1@i))].
+		x := i isNil ifTrue: [A domain zero] ifFalse: [((L copyFrom: 2@i to: L height@i) over: self) * (self numerator: d₁ negated denominator: d₂ * (L at: 1@i))].
 		X := X ⊔ x].
 	^ X! !
 
@@ -28903,6 +29106,19 @@ denominator
 	^ self propertyAt: #denominator ifAbsentPut:
 		[self inject: self scalars numerators one into: [:d :each| each denominator lcm: d]]! !
 
+!Matrix methodsFor: 'accessing' stamp: 'len 7/10/2025 16:27:02'!
+denominatorByColumns
+	^ self domain endomorphisms diagonal: self denominatorsByColumns! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 7/10/2025 16:27:37'!
+denominatorByRows
+	^ self codomain endomorphisms diagonal: self denominatorsByRows! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 7/10/2025 16:12:28'!
+denominatorsByColumns
+	self assert: self scalars isLocalization.
+	^ self propertyAt: #denominatorsByColumns ifAbsentPut: [self columns collect: [:each| each denominator]]! !
+
 !Matrix methodsFor: 'accessing' stamp: 'len 2/19/2025 08:20:40'!
 denominatorsByRows
 	self assert: self scalars isLocalization.
@@ -28937,6 +29153,14 @@ numerator
 	self propertyAt: #numerator ifPresent: [:aMatrix| ^ aMatrix].
 	d := self scalars !! self denominator.
 	^ self propertyAt: #numerator put: (self domain numerators to: self codomain numerators fill: [:i :j| ((self at: i@j) * d) numerator])! !
+
+!Matrix methodsFor: 'accessing' stamp: 'len 7/10/2025 16:22:38'!
+numeratorByColumns
+	| denominators |
+	self assert: self scalars isLocalization.
+	self propertyAt: #numeratorByColumns ifPresent: [:aMatrix| ^ aMatrix].
+	denominators := self denominatorsByColumns.
+	^ self propertyAt: #numeratorByColumns put: (self domain numerators to: self codomain numerators fill: [:i :j| ((self at: i@j) * (denominators at: j)) numerator])! !
 
 !Matrix methodsFor: 'accessing' stamp: 'len 2/19/2025 19:28:37'!
 numeratorByRows
@@ -29192,21 +29416,21 @@ carrier
 		answer := answer ⊓ a].
 	^ self propertyAt: #carrier put: answer! !
 
-!Matrix methodsFor: 'normal forms' stamp: 'len 12/29/2022 19:55:48'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 7/9/2025 17:20:07'!
 HNF
 	"Answer the row-style Hermite normal form of the receiver."
 	self isEmpty ifTrue: [^ self].
 	self scalars isLocalization ifTrue: [^ (self numerator HNF over: self scalars) / self denominator].
-	^ (HermiteEchelonization on: self) echelon! !
+	^ (HermiteEchelonization on: self copy) echelon! !
 
-!Matrix methodsFor: 'normal forms' stamp: 'len 12/29/2022 19:56:35'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 7/9/2025 17:20:02'!
 HNFAndTransformation
 	"Answer the row-style Hermite normal form H of the receiver A and the unique unimodular matrix T such that T*A = H."
 	self scalars isLocalization ifTrue:
 		[| HT |
-		HT _ self numerator HNFAndTransformation.
+		HT := self numerator HNFAndTransformation.
 		^ {(HT first over: self scalars) / self denominator. HT second over: self scalars}].
-	^ (HermiteEchelonization on: self) echelonAndTransformation! !
+	^ (HermiteEchelonization on: self copy) echelonAndTransformation! !
 
 !Matrix methodsFor: 'normal forms' stamp: 'len 11/9/2024 20:30:49'!
 JCF
@@ -29382,16 +29606,16 @@ coechelonTransformation
 	"Answer the transformation to column echelon form."
 	^ self coechelonAndTransformation second! !
 
-!Matrix methodsFor: 'normal forms' stamp: 'len 5/19/2023 07:11:55'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 7/5/2025 15:59:13'!
 echelon
 	"Answer the row echelon form of the receiver."
 	self propertyAt: #echelonAndTransformation ifPresent: [:anArray| ^ anArray first].
-	^ self propertyAt: #echelon ifAbsentPut: [self scalars echelonOf: self]! !
+	^ self propertyAt: #echelon ifAbsentPut: [(self scalars echelonizationAlgorithm on: self copy) echelon]! !
 
-!Matrix methodsFor: 'normal forms' stamp: 'len 5/19/2023 07:12:10'!
+!Matrix methodsFor: 'normal forms' stamp: 'len 7/5/2025 15:59:46'!
 echelonAndTransformation
 	"Answer an array with the row echelon form of the receiver and the transformation to echelon form."
-	^ self propertyAt: #echelonAndTransformation ifAbsentPut: [self scalars echelonAndTransformationOf: self]! !
+	^ self propertyAt: #echelonAndTransformation ifAbsentPut: [(self scalars echelonizationAlgorithm on: self copy) echelonAndTransformation]! !
 
 !Matrix methodsFor: 'normal forms' stamp: 'len 12/22/2022 18:42:10'!
 echelonTransformation
@@ -29747,9 +29971,9 @@ content
 cosquare
 	^ self transpose inverse * self! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 2/19/2025 08:28:15'!
+!Matrix methodsFor: 'operations' stamp: 'len 7/10/2025 16:18:17'!
 determinant
-	| n a0 |
+	| n a₀ |
 	self assert: self isSquare.
 	self isEmpty ifTrue: [^ self scalars one].
 	"For localizations, compute the determinant of the numerator matrix and divide by denominator n times:"
@@ -29764,10 +29988,10 @@ determinant
 	n := self width.
 	n <= 6 ifTrue: [^ (1 to: n) sum: [:i| (self at: i@1) * (self cofactor: i@1)]].
 	"Over a field use Gaussian elimination:"
-	self scalars isField ifTrue: [^ (GaussJordanEchelonization on: self) determinant].
+	self scalars isField ifTrue: [^ (GaussJordanEchelonization on: self copy) determinant].
 	"Otherwise get the determinant from the characteristic polynomial (possibly computed by Berkowitz algorithm):"
-	a0 := self characteristicPolynomial independentCoefficient.
-	^ n even ifTrue: [a0] ifFalse: [a0 negated]! !
+	a₀ := self characteristicPolynomial independentCoefficient.
+	^ n even ifTrue: [a₀] ifFalse: [a₀ negated]! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 7/12/2019 04:58:17'!
 determinant1
@@ -29863,7 +30087,7 @@ lcm: aMatrix
 	"The LCM is well defined for scalar matrices over a ring with GCD."
 	^ self domain to: self codomain scalar: (self asScalar lcm: aMatrix asScalar)! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 6/29/2025 14:27:59'!
+!Matrix methodsFor: 'operations' stamp: 'len 7/12/2025 20:18:14'!
 minimalPolynomial
 	| P n answer L |
 	self assert: self isSquare.
@@ -29871,7 +30095,7 @@ minimalPolynomial
 	P := self scalars polynomials.
 	n := self width.
 	answer := P one.
-	L := LinearRelationFinder new: n over: self scalars.
+	L := ExtendedTriangularization new: n over: self scalars.
 	self codomain basis do: [:eᵢ| "It's not necessary to iterate over the whole basis"
 		| v s |
 		v := eᵢ.
@@ -30543,13 +30767,14 @@ over: aRing
 	self isFull ifFalse: [^ super over: aRing].
 	^ self class from: (domain over: aRing) to: (codomain over: aRing) coefficients: (aRing new: coefficients size fill: [:i| coefficients at: i])! !
 
-!DenseMatrix methodsFor: 'copying' stamp: 'len 1/7/2025 08:20:43'!
+!DenseMatrix methodsFor: 'copying' stamp: 'len 7/13/2025 17:40:57'!
 copy
+	self flag: #fixme. "fix alignment"
 	^ self class
 		from: domain
 		to: codomain
 		coefficients:
-			((self scalars new: self width * self height)
+			((self scalars new: self width * self height) "<- here, fix alignment"
 				replaceFrom: 1 by: self width withMatrix: coefficients startingAt: startIndex by: stride width: self width height: self height)! !
 
 !DenseMatrix methodsFor: 'copying' stamp: 'len 6/25/2025 15:30:34'!
@@ -45715,11 +45940,11 @@ sumFrom: start to: stop
 swapFrom: start to: stop with: anArray startingAt: start2
 	representatives swapFrom: start to: stop with: anArray representatives startingAt: start2! !
 
-!ModularArray methodsFor: 'printing' stamp: 'len 3/7/2025 06:29:30'!
+!ModularArray methodsFor: 'printing' stamp: 'len 7/7/2025 16:00:01'!
 printAsTupleOn: aStream
 	self modulus <= 16
 		ifTrue: [representatives do: [:each| each printOn: aStream base: 16]]
-		ifFalse: [representatives printElementsOn: aStream]! !
+		ifFalse: [super printAsTupleOn: aStream]! !
 
 !ModularArray methodsFor: 'printing' stamp: 'len 3/7/2025 06:29:38'!
 printOn: aStream 
@@ -46089,7 +46314,7 @@ weight
 	"Answer the Hamming weight of the receiver, i.e. the number of entries that are not zero."
 	^ words₀ bitCount! !
 
-!TernaryArray methodsFor: 'operations-low level' stamp: 'len 5/22/2023 18:18:16'!
+!TernaryArray methodsFor: 'operations-low level' stamp: 'len 7/6/2025 15:58:21'!
 · anArray
 	| n i sum x₀ x₁ y₀ y₁ h₀ h₁ |
 	n := words₀ size min: anArray words₀ size.
@@ -46100,7 +46325,7 @@ weight
 		y₀ := anArray words₀ at: i. y₁ := anArray words₁ at: i.
 		"Hadamard product:"
 		h₀ := x₀ bitAnd: y₀. h₁ := (x₁ bitXor: y₁) bitAnd: h₀.
-		"add number of ones and substract number of minus ones:"
+		"add number of ones and subtract number of minus ones:"
 		sum := (h₁ bitInvert bitAnd: h₀) bitCount32 - h₁ bitCount32 + sum.
 		i := i + 1].
 	sum := sum \\ 3.
@@ -46184,7 +46409,7 @@ replaceFrom: start plus: anArray1 from: start1 to: stop1 convolutionLong: anArra
 				self replaceFrom: j₀ to: j₀ + stop1 - start1 minus: anArray1 startingAt: start1]].
 		i := i + ℓ]! !
 
-!TernaryArray methodsFor: 'operations-low level' stamp: 'len 2/3/2024 17:09:51'!
+!TernaryArray methodsFor: 'operations-low level' stamp: 'len 7/6/2025 15:58:26'!
 replaceFrom: start to: stop plusMatrix: anArray1 startingAt: start1 by: step1 width: width1 timesVector: anArray2 startingAt: start2
 	| ℓ k |
 	start2 = 1 ifFalse: [self notYetImplemented].
@@ -46208,7 +46433,7 @@ replaceFrom: start to: stop plusMatrix: anArray1 startingAt: start1 by: step1 wi
 				y₀ := anArray2 words₀ at: s. y₁ := anArray2 words₁ at: s.
 				"Hadamard product:"
 				h₀ := x₀ bitAnd: y₀. h₁ := (x₁ bitXor: y₁) bitAnd: h₀.
-				"add number of ones and substract number of minus ones:"
+				"add number of ones and subtract number of minus ones:"
 				sum := (h₁ bitInvert bitAnd: h₀) bitCount32 - h₁ bitCount32 + sum.
 				t := t + r.
 				s := s + 1.
