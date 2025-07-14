@@ -1,4 +1,4 @@
-'From Cuis7.3 [latest update: #7158] on 13 July 2025 at 5:45:47 pm'!
+'From Cuis7.3 [latest update: #7158] on 14 July 2025 at 4:46:41 pm'!
 'Description This package implements among other things: permutation groups, linear groups, finite fields, Galois rings, affine algebras, number fields, function fields, finitely presented modules, finite-dimensional associative algebras, schemes, finite-dimensional representations of finite groups.
 
 References:
@@ -111,7 +111,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 263!
+!provides: 'Algebra' 1 264!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'GAS' 1 1 nil!
@@ -400,6 +400,26 @@ Echelonization subclass: #HowellEchelonization
 HowellEchelonization class
 	instanceVariableNames: ''!
 
+!classDefinition: #IncrementalElimination category: #'Algebra-Algorithms-Echelonization'!
+Object subclass: #IncrementalElimination
+	instanceVariableNames: 'matrix position rankProfile'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algorithms-Echelonization'!
+!classDefinition: 'IncrementalElimination class' category: #'Algebra-Algorithms-Echelonization'!
+IncrementalElimination class
+	instanceVariableNames: ''!
+
+!classDefinition: #ExtendedIncrementalElimination category: #'Algebra-Algorithms-Echelonization'!
+IncrementalElimination subclass: #ExtendedIncrementalElimination
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algorithms-Echelonization'!
+!classDefinition: 'ExtendedIncrementalElimination class' category: #'Algebra-Algorithms-Echelonization'!
+ExtendedIncrementalElimination class
+	instanceVariableNames: ''!
+
 !classDefinition: #RationalSyzygyFinder category: #'Algebra-Algorithms-Echelonization'!
 Object subclass: #RationalSyzygyFinder
 	instanceVariableNames: 'basis denominators residueSyzygyFinder'
@@ -412,32 +432,12 @@ RationalSyzygyFinder class
 
 !classDefinition: #Spinning category: #'Algebra-Algorithms-Echelonization'!
 Object subclass: #Spinning
-	instanceVariableNames: 'triangularization generators'
+	instanceVariableNames: 'elimination generators'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Algorithms-Echelonization'!
 !classDefinition: 'Spinning class' category: #'Algebra-Algorithms-Echelonization'!
 Spinning class
-	instanceVariableNames: ''!
-
-!classDefinition: #Triangularization category: #'Algebra-Algorithms-Echelonization'!
-Object subclass: #Triangularization
-	instanceVariableNames: 'matrix position rankProfile'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Echelonization'!
-!classDefinition: 'Triangularization class' category: #'Algebra-Algorithms-Echelonization'!
-Triangularization class
-	instanceVariableNames: ''!
-
-!classDefinition: #ExtendedTriangularization category: #'Algebra-Algorithms-Echelonization'!
-Triangularization subclass: #ExtendedTriangularization
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Algorithms-Echelonization'!
-!classDefinition: 'ExtendedTriangularization class' category: #'Algebra-Algorithms-Echelonization'!
-ExtendedTriangularization class
 	instanceVariableNames: ''!
 
 !classDefinition: #MultivariateDivision category: #'Algebra-Algorithms-Standard Bases'!
@@ -3201,15 +3201,15 @@ The algorithm is essentially Algorithm 2.4.4 in [Coh96] but modified to do row r
 !HowellEchelonization commentStamp: '<historical>' prior: 0!
 This is the Howell row reduction algorithm. Given a matrix with coefficients in a PIR with an extended GCD algorithm to compute Bézout coefficients (for example ℤ/nℤ or other Euclidean ring, possibly with zero divisors), it reduces the matrix to its Howell normal form. See [How86], [Sto00], [SM98], [FH16].!
 
+!IncrementalElimination commentStamp: '<historical>' prior: 0!
+This is an incremental elimination algorithm that doesn't perform row swaps. It allows to build a basis of a subspace incrementally, adding one vector at a time, and detecting linear dependencies.!
+
+!ExtendedIncrementalElimination commentStamp: '<historical>' prior: 0!
+This variation of the incremental elimination algorithm keeps track of the elementary matrix operations performed during the elimination process, and when a linear dependency is detected it returns the coefficients of the linear relation (or syzygy).
+!
+
 !Spinning commentStamp: '<historical>' prior: 0!
 This is the spinning algorithm for building invariant subspaces of representations. Given a vector or a list of square matrices corresponding to a representation, and a list of vectors, it computes the subspace spanned by the orbit of the vectors under the action of the matrices.!
-
-!Triangularization commentStamp: '<historical>' prior: 0!
-This is an incremental triangularization algorithm that doesn't perform row swaps. It allows to build a basis of a subspace incrementally, adding one vector at a time, and detecting linear dependent vectors.!
-
-!ExtendedTriangularization commentStamp: '<historical>' prior: 0!
-This variation of the incremental triangularization algorithm keeps track of the elementary matrix operations performed during the triangularization process, and when a linear dependency is detected it returns the coefficients of the linear relation (or syzygy).
-!
 
 !MultivariateDivision commentStamp: '<historical>' prior: 0!
 This is the multivariate polynomial division algorithm for polynomials over a commutative ring.
@@ -5909,6 +5909,83 @@ copyRow: i₁ to: i₂ startingAt: startColumn
 	echelon copyRow: i₁ to: i₂ startingAt: startColumn.
 	transformation ifNotNil: [transformation copyRow: i₁ to: i₂]! !
 
+!IncrementalElimination methodsFor: 'accessing' stamp: 'len 7/13/2025 15:23:29'!
+generatorMatrix
+	"Answer the matrix of processed rows so far.
+	Its columns are a basis of the subspace spanned by the rows appended so far."
+	^ (matrix copyFrom: 1 @ 1 to: position - 1 @ (matrix height - 1)) transpose! !
+
+!IncrementalElimination methodsFor: 'accessing' stamp: 'len 7/13/2025 15:32:58'!
+rankProfile
+	"Answer the column rank profile of the processed rows so far, i.e. the list of linearly independent columns."
+	^ rankProfile! !
+
+!IncrementalElimination methodsFor: 'accessing' stamp: 'len 7/11/2025 15:07:27'!
+scalars
+	^ matrix scalars! !
+
+!IncrementalElimination methodsFor: 'computing' stamp: 'len 7/13/2025 15:28:59'!
+append: aTuple
+	"Append a row and echelonize. Answer true if it was linearly independent from the previously added rows, and false otherwise."
+	| n |
+	n := aTuple size.
+	self assert: n + 1 = matrix height.
+	matrix replaceRow: position from: 1 to: n with: aTuple coefficients startingAt: 1.
+	rankProfile withIndexDo: [:j :i|
+		(matrix isZeroAt: position @ j) ifFalse: 
+			[matrix addRow: i times: (matrix at: position @ j) negated / (matrix at: i @ j) to: position from: 1 to: n]].
+	(matrix firstNonzeroAtRow: position from: 1 to: n)
+		ifNotNil: [:j|
+			rankProfile add: j.
+			position := position + 1.
+			^ true].
+	^ false! !
+
+!IncrementalElimination methodsFor: 'computing' stamp: 'len 7/13/2025 15:27:17'!
+reset
+"	matrix atAllPut: matrix scalars zero."
+	position := 1.
+	rankProfile removeAll! !
+
+!IncrementalElimination methodsFor: 'private' stamp: 'len 7/13/2025 15:27:17'!
+initialize: anInteger over: aField
+	matrix := aField zeros: anInteger+1 by: anInteger.
+	position := 1.
+	rankProfile := OrderedCollection new: anInteger! !
+
+!IncrementalElimination class methodsFor: 'instance creation' stamp: 'len 7/11/2025 15:07:44'!
+new: anInteger over: aField
+	^ self new initialize: anInteger over: aField! !
+
+!ExtendedIncrementalElimination methodsFor: 'computing' stamp: 'len 7/13/2025 15:27:17'!
+append: aTuple
+	| n |
+	n := aTuple size.
+	self assert: n + 1 = matrix height.
+	matrix replaceRow: position from: 1 to: n with: aTuple coefficients startingAt: 1.
+	matrix replaceRow: position from: n + 1 to: n + position - 1 put: matrix scalars zero.
+	matrix at: position @ (n + position) put: matrix scalars one.
+	rankProfile withIndexDo: [:j :i|
+		(matrix isZeroAt: position @ j) ifFalse: 
+			[matrix addRow: i times: (matrix at: position @ j) negated / (matrix at: i @ j) to: position from: 1 to: n + i]].
+	(matrix firstNonzeroAtRow: position from: 1 to: n)
+		ifNotNil: [:j|
+			rankProfile add: j.
+"			matrix at: position @ (n + position) put: matrix scalars one."
+			position := position + 1.
+			^ nil].
+	^ matrix copyRow: position from: n + 1 to: n + position! !
+
+!ExtendedIncrementalElimination methodsFor: 'computing' stamp: 'len 7/8/2025 15:25:32'!
+syzygyWith: aTuple
+	^ (self append: aTuple) ifNil: [self error: 'not linearly dependent']! !
+
+!ExtendedIncrementalElimination methodsFor: 'private' stamp: 'len 7/13/2025 15:27:17'!
+initialize: anInteger over: aField
+	matrix := aField zeros: anInteger+1 by: anInteger*2+1.
+	position := 1.
+	rankProfile := OrderedCollection new: anInteger! !
+
 !RationalSyzygyFinder methodsFor: 'computing' stamp: 'len 7/10/2025 16:02:47'!
 append: aTuple
 	| d v κ r p lengths m M x pp |
@@ -5940,119 +6017,42 @@ reset
 	denominators removeAll.
 	residueSyzygyFinder reset! !
 
-!RationalSyzygyFinder methodsFor: 'private' stamp: 'len 7/12/2025 20:18:14'!
+!RationalSyzygyFinder methodsFor: 'private' stamp: 'len 7/14/2025 14:44:29'!
 initialize: anInteger
 	| p |
 	basis := OrderedCollection new.
 	denominators := OrderedCollection new.
 	"Use 27-bit primes to take advantage of delayed reduction in blocked matrix-matrix multiplication in pure Smalltalk:"
 	p := 16r7FFFFFF atRandom nextPrime.
-	residueSyzygyFinder := ExtendedTriangularization new: anInteger over: (PrimeField new: p)! !
+	residueSyzygyFinder := ExtendedIncrementalElimination new: anInteger over: (PrimeField new: p)! !
 
 !RationalSyzygyFinder class methodsFor: 'instance creation' stamp: 'len 7/5/2025 20:23:46'!
 new: anInteger
 	^ self new initialize: anInteger! !
 
-!Spinning methodsFor: 'computing' stamp: 'len 7/13/2025 15:23:58'!
+!Spinning methodsFor: 'computing' stamp: 'len 7/14/2025 14:48:51'!
 spin: aCollection
 	| L |
-	triangularization reset.
+	elimination reset.
 	L := aCollection asOrderedCollection.
 	[L isEmpty] whileFalse:
 		[| v |
 		v := L removeFirst.
-		(triangularization append: v) ifTrue:
+		(elimination append: v) ifTrue:
 			[generators do:
 				[:g| | w |
 				w := g * v.
-				(triangularization append: w) ifFalse: [L add: w]]]].
-	^ triangularization generatorMatrix! !
+				(elimination append: w) ifFalse: [L add: w]]]].
+	^ elimination generatorMatrix! !
 
-!Spinning methodsFor: 'private' stamp: 'len 7/12/2025 20:59:05'!
+!Spinning methodsFor: 'private' stamp: 'len 7/14/2025 14:48:51'!
 generators: aCollectionOfMatrices
 	generators := aCollectionOfMatrices.
-	triangularization := Triangularization new: generators any domain rank over: generators any scalars! !
+	elimination := IncrementalElimination new: generators any domain rank over: generators any scalars! !
 
 !Spinning class methodsFor: 'instance creation' stamp: 'len 7/12/2025 20:58:50'!
 generators: aCollectionOfMatrices
 	^ self new generators: aCollectionOfMatrices! !
-
-!Triangularization methodsFor: 'accessing' stamp: 'len 7/13/2025 15:23:29'!
-generatorMatrix
-	"Answer the matrix of processed rows so far.
-	Its columns are a basis of the subspace spanned by the rows appended so far."
-	^ (matrix copyFrom: 1 @ 1 to: position - 1 @ (matrix height - 1)) transpose! !
-
-!Triangularization methodsFor: 'accessing' stamp: 'len 7/13/2025 15:32:58'!
-rankProfile
-	"Answer the column rank profile of the processed rows so far, i.e. the list of linearly independent columns."
-	^ rankProfile! !
-
-!Triangularization methodsFor: 'accessing' stamp: 'len 7/11/2025 15:07:27'!
-scalars
-	^ matrix scalars! !
-
-!Triangularization methodsFor: 'computing' stamp: 'len 7/13/2025 15:28:59'!
-append: aTuple
-	"Append a row and echelonize. Answer true if it was linearly independent from the previously added rows, and false otherwise."
-	| n |
-	n := aTuple size.
-	self assert: n + 1 = matrix height.
-	matrix replaceRow: position from: 1 to: n with: aTuple coefficients startingAt: 1.
-	rankProfile withIndexDo: [:j :i|
-		(matrix isZeroAt: position @ j) ifFalse: 
-			[matrix addRow: i times: (matrix at: position @ j) negated / (matrix at: i @ j) to: position from: 1 to: n]].
-	(matrix firstNonzeroAtRow: position from: 1 to: n)
-		ifNotNil: [:j|
-			rankProfile add: j.
-			position := position + 1.
-			^ true].
-	^ false! !
-
-!Triangularization methodsFor: 'computing' stamp: 'len 7/13/2025 15:27:17'!
-reset
-"	matrix atAllPut: matrix scalars zero."
-	position := 1.
-	rankProfile removeAll! !
-
-!Triangularization methodsFor: 'private' stamp: 'len 7/13/2025 15:27:17'!
-initialize: anInteger over: aField
-	matrix := aField zeros: anInteger+1 by: anInteger.
-	position := 1.
-	rankProfile := OrderedCollection new: anInteger! !
-
-!Triangularization class methodsFor: 'instance creation' stamp: 'len 7/11/2025 15:07:44'!
-new: anInteger over: aField
-	^ self new initialize: anInteger over: aField! !
-
-!ExtendedTriangularization methodsFor: 'computing' stamp: 'len 7/13/2025 15:27:17'!
-append: aTuple
-	| n |
-	n := aTuple size.
-	self assert: n + 1 = matrix height.
-	matrix replaceRow: position from: 1 to: n with: aTuple coefficients startingAt: 1.
-	matrix replaceRow: position from: n + 1 to: n + position - 1 put: matrix scalars zero.
-	matrix at: position @ (n + position) put: matrix scalars one.
-	rankProfile withIndexDo: [:j :i|
-		(matrix isZeroAt: position @ j) ifFalse: 
-			[matrix addRow: i times: (matrix at: position @ j) negated / (matrix at: i @ j) to: position from: 1 to: n + i]].
-	(matrix firstNonzeroAtRow: position from: 1 to: n)
-		ifNotNil: [:j|
-			rankProfile add: j.
-"			matrix at: position @ (n + position) put: matrix scalars one."
-			position := position + 1.
-			^ nil].
-	^ matrix copyRow: position from: n + 1 to: n + position! !
-
-!ExtendedTriangularization methodsFor: 'computing' stamp: 'len 7/8/2025 15:25:32'!
-syzygyWith: aTuple
-	^ (self append: aTuple) ifNil: [self error: 'not linearly dependent']! !
-
-!ExtendedTriangularization methodsFor: 'private' stamp: 'len 7/13/2025 15:27:17'!
-initialize: anInteger over: aField
-	matrix := aField zeros: anInteger+1 by: anInteger*2+1.
-	position := 1.
-	rankProfile := OrderedCollection new: anInteger! !
 
 !MultivariateDivision methodsFor: 'accessing' stamp: 'len 12/2/2015 02:48'!
 dividend
@@ -14721,10 +14721,10 @@ univariateExponent
 		answer _ answer + (mu - 1)].
 	^ answer! !
 
-!PolynomialIdeal methodsFor: 'converting' stamp: 'len 7/12/2025 20:18:14'!
+!PolynomialIdeal methodsFor: 'converting' stamp: 'len 7/14/2025 14:46:22'!
 orderedBy: aMonomialOrdering
 	"Apply the FGLM algorithm when the ideal is zero-dimensional. See [FGLM93]."
-	| S Q queue processed basis L G |
+	| S Q queue processed basis elimination G |
 	self flag: #todo. "see how it works with dense representation matrices instead of doing division with sparse polynomials"
 	(self ordering isGlobal and: [(S := self scalars orderedBy: aMonomialOrdering) ordering isGlobal]) ifFalse: [^ super orderedBy: aMonomialOrdering].
 	S ordering = self ordering ifTrue: [^ self].
@@ -14734,13 +14734,13 @@ orderedBy: aMonomialOrdering
 	queue := SortedCollection with: S monomials identity.
 	processed := Set with: S monomials identity.
 	basis := OrderedCollection new.
-	L := ExtendedTriangularization new: Q carrier rank over: Q scalars.
+	elimination := ExtendedIncrementalElimination new: Q carrier rank over: Q scalars.
 	[queue isEmpty] whileFalse:
 		[| m v f r |
 		m := queue removeFirst.
 		(G anySatisfy: [:g| g leadingMonomial | m]) ifFalse:
 			[v := Q carrier !! (Q !! (self scalars monomials !! m)).
-			(r := L append: v) isNil
+			(r := elimination append: v) isNil
 				ifTrue:
 					[basis add: S !! m.
 					S monomials generators do: [:each| | m′ | processed add: (m′ := each*m) ifAbsent: [queue add: m′]]]
@@ -16556,7 +16556,7 @@ decomposition
 	The answer is a list of ideals Ae₁,...,Aeₙ corresponding to a complete set of primitive central orthogonal idempotents e₁ + ⋯ + eₙ. = 1."
 	^ self primitiveCentralIdempotents collect: [:each| self asIdeal sub: {each}]! !
 
-!Ring methodsFor: 'decomposition' stamp: 'len 12/26/2024 10:20:39'!
+!Ring methodsFor: 'decomposition' stamp: 'len 7/14/2025 15:00:36'!
 primitiveCentralIdempotentDecompositionOf: anIdempotent
 	"Answer the decomposition of anIdempotent as sum of primitive central orthogonal idempotents.
 	Assumes the receiver is a commutative finite-dimensional algebra over a finite field.
@@ -16572,7 +16572,7 @@ primitiveCentralIdempotentDecompositionOf: anIdempotent
 	[v := self ambient !! E carrier atRandom.
 	p = 2
 		ifTrue: [e := (0 to: n-1) sum: [:i| v^(2^i)]. f := anIdempotent]
-		ifFalse: [t := v^(q-1/2). e := t^2+t / 2. f := t^2 - t / 2].
+		ifFalse: [| t² | t := v^(q-1/2). t² := t squared. e := t² + t / 2. f := t² - t / 2].
 	(e ~= anIdempotent and: [e isZero not])
 		ifTrue: [e₁ := e. e₂ := anIdempotent - e]
 		ifFalse: [(f ~= anIdempotent and: [f isZero not]) ifTrue: [e₁ := f. e₂ := anIdempotent - f]].
@@ -29866,15 +29866,15 @@ characteristicMatrix
 			ifTrue: [x - (P constant: (self at: i @ j))]
 			ifFalse: [P constant: (self at: i @ j) negated]]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 12/22/2024 09:28:58'!
+!Matrix methodsFor: 'operations' stamp: 'len 7/14/2025 16:39:34'!
 characteristicPolynomial
 	self scalars isLocalization ifTrue:
 		[| P x d answer |
 		P := self scalars numerators polynomials.
 		x := P x.
-		d := self denominator.
-		answer := ((self domain ⇒ self codomain over: P) asRing one * (x * d) - (self numerator over: P)) determinant over: self scalars.
-		self width timesRepeat: [answer := answer / d].
+		d := self denominatorsByRows.
+		answer := (((self domain over: P) endomorphisms diagonal: (d collect: [:each| x*each])) - (self numeratorByRows over: P)) determinant over: self scalars.
+		d do: [:each| answer := answer / each].
 		^ answer].
 	self width <= 6 ifTrue: [^ self characteristicMatrix determinant].
 	^ self scalars polynomials coefficients: self berkowitz coefficients reversed
@@ -30087,21 +30087,21 @@ lcm: aMatrix
 	"The LCM is well defined for scalar matrices over a ring with GCD."
 	^ self domain to: self codomain scalar: (self asScalar lcm: aMatrix asScalar)! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 7/12/2025 20:18:14'!
+!Matrix methodsFor: 'operations' stamp: 'len 7/14/2025 14:45:42'!
 minimalPolynomial
-	| P n answer L |
+	| P n answer elimination |
 	self assert: self isSquare.
 	self assert: self scalars isIntegralDomain.
 	P := self scalars polynomials.
 	n := self width.
 	answer := P one.
-	L := ExtendedTriangularization new: n over: self scalars.
+	elimination := ExtendedIncrementalElimination new: n over: self scalars.
 	self codomain basis do: [:eᵢ| "It's not necessary to iterate over the whole basis"
 		| v s |
 		v := eᵢ.
-		L reset; append: v.
+		elimination reset; append: v.
 		[v := self * v.
-		(s := L append: v) isNil] whileTrue.
+		(s := elimination append: v) isNil] whileTrue.
 		answer := answer lcm: (P coefficients: s / s last).
 		answer degree = n ifTrue: [^ answer]].
 	^ answer! !
@@ -32186,12 +32186,12 @@ at: anInteger
 	"Answer the anInteger-th component of the receiver (a rational function, an element of the function field of the domain)."
 	^ self coordinates at: anInteger! !
 
-!RationalMap methodsFor: 'accessing' stamp: 'len 6/8/2025 15:20:51'!
+!RationalMap methodsFor: 'accessing' stamp: 'len 7/14/2025 16:20:33'!
 base
 	"Answer the 'base locus' or 'indeterminacy locus' of the receiver, i.e. the subscheme of the domain where the receiver is indetermined."
 	| ρ |
 	self flag: #fixme. "this looks incorrect, it comes from M2 baseLocusOfMap"
-	ρ := (self coordinates numerator asMatrix over: self domain coordinateRing) image syzygiesMatrix  transpose kernel.
+	ρ := (self coordinates numerator asMatrix over: self domain coordinateRing) image syzygiesMatrix transpose kernel.
 	^ self domain sub: (ρ generators sum: [:each| self domain coordinateRing * each asArray])
 
 "this is wrong:
@@ -43461,12 +43461,12 @@ conjugatesDo: aBlock
 frobenius
 	^ parent frobenius value: self! !
 
-!GaloisFieldElement methodsFor: 'operations' stamp: 'len 1/29/2025 09:03:23'!
+!GaloisFieldElement methodsFor: 'operations' stamp: 'len 7/14/2025 15:04:49'!
 inverse
 	"Inverse using Lagrange's theorem and addition chains. See [Coh+05. Algorithm 11.47].
 	Note: this can be generalized further to Galois rings."
 	| q d a b y T i k j |
-	self flag: #fixme. "generalize to Galois rings"
+	self flag: #todo. "generalize to Galois rings"
 	self isOne ifTrue: [^ self].
 	q := parent characteristic.
 	d := parent degree.
