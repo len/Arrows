@@ -1,4 +1,4 @@
-'From Cuis7.3 [latest update: #7158] on 14 July 2025 at 4:46:41 pm'!
+'From Cuis7.3 [latest update: #7158] on 24 July 2025 at 4:56:02 pm'!
 'Description This package implements among other things: permutation groups, linear groups, finite fields, Galois rings, affine algebras, number fields, function fields, finitely presented modules, finite-dimensional associative algebras, schemes, finite-dimensional representations of finite groups.
 
 References:
@@ -111,7 +111,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 264!
+!provides: 'Algebra' 1 265!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'GAS' 1 1 nil!
@@ -2010,14 +2010,14 @@ Map subclass: #MonoidMap
 MonoidMap class
 	instanceVariableNames: ''!
 
-!classDefinition: #EquivariantMap category: #'Algebra-Representations'!
-Map subclass: #EquivariantMap
+!classDefinition: #RepresentationMorphism category: #'Algebra-Representations'!
+Map subclass: #RepresentationMorphism
 	instanceVariableNames: 'domain codomain carrier'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Representations'!
-!classDefinition: 'EquivariantMap class' category: #'Algebra-Representations'!
-EquivariantMap class
+!classDefinition: 'RepresentationMorphism class' category: #'Algebra-Representations'!
+RepresentationMorphism class
 	instanceVariableNames: ''!
 
 !classDefinition: #RingMap category: #'Algebra-Rings'!
@@ -3209,7 +3209,7 @@ This variation of the incremental elimination algorithm keeps track of the eleme
 !
 
 !Spinning commentStamp: '<historical>' prior: 0!
-This is the spinning algorithm for building invariant subspaces of representations. Given a vector or a list of square matrices corresponding to a representation, and a list of vectors, it computes the subspace spanned by the orbit of the vectors under the action of the matrices.!
+This is the spinning algorithm for building invariant subspaces of representations. Given a list of square matrices corresponding to a representation, and a list of vectors, it computes the subspace spanned by the orbit of the vectors under the action of the matrices.!
 
 !MultivariateDivision commentStamp: '<historical>' prior: 0!
 This is the multivariate polynomial division algorithm for polynomials over a commutative ring.
@@ -3907,7 +3907,7 @@ Quadratic forms as homogeneous quadratic functions M→R from a finite-rank free
 !MonoidMap commentStamp: 'len 4/26/2020 08:57:01' prior: 0!
 Monoid homomorphisms. They can be defined by an evaluable expression or Smalltalk block, or by images of generators. See Monoid.!
 
-!EquivariantMap commentStamp: '<historical>' prior: 0!
+!RepresentationMorphism commentStamp: '<historical>' prior: 0!
 Homomorphisms of finite-dimensional left A-modules of a k-algebra A over a field k.
 
 These are morphisms of the category Rep(A) of representations of A. See RepresentationCategory.!
@@ -5909,10 +5909,9 @@ copyRow: i₁ to: i₂ startingAt: startColumn
 	echelon copyRow: i₁ to: i₂ startingAt: startColumn.
 	transformation ifNotNil: [transformation copyRow: i₁ to: i₂]! !
 
-!IncrementalElimination methodsFor: 'accessing' stamp: 'len 7/13/2025 15:23:29'!
-generatorMatrix
-	"Answer the matrix of processed rows so far.
-	Its columns are a basis of the subspace spanned by the rows appended so far."
+!IncrementalElimination methodsFor: 'accessing' stamp: 'len 7/15/2025 14:59:18'!
+imageMatrix
+	"Answer a matrix whose columns are a basis of the subspace spanned by the rows appended so far."
 	^ (matrix copyFrom: 1 @ 1 to: position - 1 @ (matrix height - 1)) transpose! !
 
 !IncrementalElimination methodsFor: 'accessing' stamp: 'len 7/13/2025 15:32:58'!
@@ -5924,17 +5923,17 @@ rankProfile
 scalars
 	^ matrix scalars! !
 
-!IncrementalElimination methodsFor: 'computing' stamp: 'len 7/13/2025 15:28:59'!
+!IncrementalElimination methodsFor: 'computing' stamp: 'len 7/16/2025 15:57:57'!
 append: aTuple
 	"Append a row and echelonize. Answer true if it was linearly independent from the previously added rows, and false otherwise."
 	| n |
 	n := aTuple size.
 	self assert: n + 1 = matrix height.
-	matrix replaceRow: position from: 1 to: n with: aTuple coefficients startingAt: 1.
+	matrix rowAt: position replaceFrom: 1 to: n with: aTuple coefficients startingAt: 1.
 	rankProfile withIndexDo: [:j :i|
 		(matrix isZeroAt: position @ j) ifFalse: 
 			[matrix addRow: i times: (matrix at: position @ j) negated / (matrix at: i @ j) to: position from: 1 to: n]].
-	(matrix firstNonzeroAtRow: position from: 1 to: n)
+	(matrix rowAt: position firstNonzeroFrom: 1 to: n)
 		ifNotNil: [:j|
 			rankProfile add: j.
 			position := position + 1.
@@ -5957,24 +5956,31 @@ initialize: anInteger over: aField
 new: anInteger over: aField
 	^ self new initialize: anInteger over: aField! !
 
-!ExtendedIncrementalElimination methodsFor: 'computing' stamp: 'len 7/13/2025 15:27:17'!
+!ExtendedIncrementalElimination methodsFor: 'computing' stamp: 'len 7/16/2025 15:58:11'!
 append: aTuple
 	| n |
 	n := aTuple size.
 	self assert: n + 1 = matrix height.
-	matrix replaceRow: position from: 1 to: n with: aTuple coefficients startingAt: 1.
-	matrix replaceRow: position from: n + 1 to: n + position - 1 put: matrix scalars zero.
+	matrix rowAt: position replaceFrom: 1 to: n with: aTuple coefficients startingAt: 1.
+	matrix rowAt: position from: n + 1 to: n + position - 1 put: matrix scalars zero.
 	matrix at: position @ (n + position) put: matrix scalars one.
 	rankProfile withIndexDo: [:j :i|
 		(matrix isZeroAt: position @ j) ifFalse: 
 			[matrix addRow: i times: (matrix at: position @ j) negated / (matrix at: i @ j) to: position from: 1 to: n + i]].
-	(matrix firstNonzeroAtRow: position from: 1 to: n)
+	(matrix rowAt: position firstNonzeroFrom: 1 to: n)
 		ifNotNil: [:j|
 			rankProfile add: j.
 "			matrix at: position @ (n + position) put: matrix scalars one."
 			position := position + 1.
 			^ nil].
-	^ matrix copyRow: position from: n + 1 to: n + position! !
+	^ matrix rowAt: position copyFrom: n + 1 to: n + position! !
+
+!ExtendedIncrementalElimination methodsFor: 'computing' stamp: 'len 7/16/2025 16:05:21'!
+kernelMatrix
+	self notYetImplemented
+"	| n |
+	n := matrix height - 1.
+	^ matrix copyFrom: 1 @ (n + 1) to: n @ matrix width"! !
 
 !ExtendedIncrementalElimination methodsFor: 'computing' stamp: 'len 7/8/2025 15:25:32'!
 syzygyWith: aTuple
@@ -6030,7 +6036,7 @@ initialize: anInteger
 new: anInteger
 	^ self new initialize: anInteger! !
 
-!Spinning methodsFor: 'computing' stamp: 'len 7/14/2025 14:48:51'!
+!Spinning methodsFor: 'computing' stamp: 'len 7/15/2025 14:59:41'!
 spin: aCollection
 	| L |
 	elimination reset.
@@ -6043,7 +6049,7 @@ spin: aCollection
 				[:g| | w |
 				w := g * v.
 				(elimination append: w) ifFalse: [L add: w]]]].
-	^ elimination generatorMatrix! !
+	^ elimination imageMatrix! !
 
 !Spinning methodsFor: 'private' stamp: 'len 7/14/2025 14:48:51'!
 generators: aCollectionOfMatrices
@@ -15827,9 +15833,9 @@ leftUnitor
 rightUnitor
 	^ self ⊗ self category unitObject to: self carrier: self carrier rightUnitor! !
 
-!RepresentationModule methodsFor: 'morphisms' stamp: 'len 3/27/2025 09:28:01'!
+!RepresentationModule methodsFor: 'morphisms' stamp: 'len 7/18/2025 17:12:19'!
 to: aCodomain carrier: aMorphism
-	^ EquivariantMap from: self to: aCodomain carrier: aMorphism! !
+	^ RepresentationMorphism from: self to: aCodomain carrier: aMorphism! !
 
 !RepresentationModule methodsFor: 'operations' stamp: 'len 7/13/2025 15:39:33'!
 + aSubmodule
@@ -15879,9 +15885,9 @@ to: aCodomain carrier: aMorphism
 	(anObject isKindOf: Ring) ifTrue: [^ self ↑ (self scalars → anObject)]. "extension of scalars"
 	^ self class representation: (self scalars to: (self carrier ⊗ anObject carrier) endomorphisms map: [:g| (representation value: g) ⊗ (anObject representation value: g)])! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 7/13/2025 15:38:24'!
+!RepresentationModule methodsFor: 'operations' stamp: 'len 7/14/2025 20:59:40'!
 ⊠ aModule
-	"If the receiver is a k[G]-module and argument is a k[H] module, answer the external tensor product."
+	"If the receiver is a k[G]-module and argument is a k[H] module, answer the external tensor product, i.e. the tensor product of the underlying k-modules with the structure of a k[G×H]-module."
 	^ self notYetImplemented! !
 
 !RepresentationModule methodsFor: 'operations' stamp: 'len 2/28/2025 09:45:54'!
@@ -16337,6 +16343,10 @@ syzygiesOverEuclideanDomainOf: aMatrix
 	T _ aMatrix coechelonTransformation.
 	E _ aMatrix coechelon.
 	^ Matrix to: aMatrix domain columns: (((1 to: E width) select: [:i| E isZeroAtColumn: i]) collect: [:i| T columnAt: i])! !
+
+!Ring methodsFor: 'computing-matrices-private' stamp: 'len 7/15/2025 16:12:29'!
+syzygiesOverFieldOf: aMatrix
+	^ self syzygiesOverEuclideanDomainOf: aMatrix! !
 
 !Ring methodsFor: 'computing-matrices-private' stamp: 'len 6/22/2025 15:33:11'!
 syzygiesOverFiniteAlgebraOf: aMatrix
@@ -17258,10 +17268,11 @@ zeroDivisors
 	self isIntegralDomain ifTrue: [^ {self zero}].
 	^ self select: [:each| each isZeroDivisor]! !
 
-!Ring methodsFor: 'printing' stamp: 'len 12/19/2024 08:54:14'!
+!Ring methodsFor: 'printing' stamp: 'len 7/24/2025 16:40:26'!
 printOn: aStream
 	self isTrivial ifTrue: [aStream print: 0. ^ self].
-	aStream withAngleBrackets: [:aStream2| self generators do: [:each| aStream2 print: each] separatedBy: [aStream2 nextPutAll: ', ']].
+	aStream print: self scalars.
+	aStream withBrackets: [:aStream2| self generators do: [:each| aStream2 print: each] separatedBy: [aStream2 nextPutAll: ', ']].
 	self ambient isQuotient ifTrue: [aStream nextPut: $╱; print: self ambient relations]! !
 
 !Ring methodsFor: 'random' stamp: 'len 3/8/2025 09:05:24'!
@@ -19281,6 +19292,11 @@ from: aRing
 	anElement isZero ifTrue: [^ F zero].
 	^ anElement coefficients associations sum: [:each| ((group \ each key value: F generators) ifNil: [F one]) * each value]! !
 
+!GroupAlgebra methodsFor: 'operations' stamp: 'len 7/20/2025 16:52:36'!
+augmentationIdeal
+	"Answer the augmentation ideal as a representation module."
+	^ self representation asModule sub: self counit kernel! !
+
 !GroupAlgebra methodsFor: 'operations' stamp: 'len 12/20/2024 08:02:06'!
 center
 	^ self propertyAt: #center ifAbsentPut: [self sub: (group conjugacyClasses collect: [:each| self coefficients: (Dictionary new atAll: each put: self scalars one; yourself)])]! !
@@ -20584,6 +20600,11 @@ scalars
 zero
 	^ self embed: self numerators zero! !
 
+!LocalizationRing methodsFor: 'computing' stamp: 'len 7/19/2025 14:02:39'!
+findDenominatorGeneratedBy: anArray ifNone: exceptionBlock
+	"Given a localization R[U⁻¹] and a list of elements generating an ideal I = ⟨g₁,...,gₙ⟩ ⊆ R, find an element u ∈ U ∩ I, u = a₁g₁+...+aₙgₙ, and return the coefficients a₁,...,aₙ; or evaluate the block if the intersection is empty. See [Pos17]."
+	^ self subclassResponsibility! !
+
 !LocalizationRing methodsFor: 'computing' stamp: 'len 4/11/2025 14:42:42'!
 findDenominatorIn: anIdeal ifNone: exceptionBlock
 	"Given a localization R[U⁻¹] and an ideal I ⊆ R, find an element u ∈ U ∩ I, or evaluate the block if the intersection is empty. See [Pos17]."
@@ -20593,9 +20614,21 @@ findDenominatorIn: anIdeal ifNone: exceptionBlock
 saturationOf: anIdeal
 	^ self subclassResponsibility! !
 
-!LocalizationRing methodsFor: 'computing-matrices' stamp: 'len 4/4/2025 18:56:15'!
+!LocalizationRing methodsFor: 'computing-matrices' stamp: 'len 7/24/2025 16:24:38'!
+matrix: B quotientBy: A
+	"See [Pos17, §3]."
+	| X |
+	X := self^0 → A domain.
+	B columnsDo: [:b| | L v x |
+		L := (b asColumnMatrix ⊔ A) numeratorByRows syzygies. "<- fix this, dont compute every time"
+		v := self findDenominatorGeneratedBy: (L rowAt: 1) ifNone: [].
+		v isNil ifTrue: [x := A domain zero] ifFalse: [| y | y := L * (self numerators !!!! v). x := ((y copyFrom: 2 to: y size) over: self) / (y at: 1) negated].
+		X := X ⊔ x].
+	^ X! !
+
+!LocalizationRing methodsFor: 'computing-matrices' stamp: 'len 7/15/2025 14:55:29'!
 syzygiesOf: aMatrix
-	^ aMatrix numerator syzygies over: self! !
+	^ aMatrix numeratorByRows syzygies over: self! !
 
 !LocalizationRing methodsFor: 'computing-polynomials' stamp: 'len 5/18/2025 19:57:29'!
 polynomial: aPolynomial factorizationDo: aBlock
@@ -20753,6 +20786,13 @@ uniformizer
 hash
 	^ self numerators hash! !
 
+!FractionRing methodsFor: 'computing' stamp: 'len 7/19/2025 14:07:06'!
+findDenominatorGeneratedBy: anArray ifNone: exceptionBlock
+	| answer |
+	answer := self numerators zeros: anArray size.
+	anArray withIndexDo: [:g :i| (self denominatorsInclude: g) ifTrue: [^ answer at: i put: self numerators one; yourself]].
+	^ answer! !
+
 !FractionRing methodsFor: 'computing' stamp: 'len 4/21/2025 11:23:02'!
 findDenominatorIn: anIdeal ifNone: exceptionBlock
 	^ anIdeal generators detect: [:g| self denominatorsInclude: g] ifNone: exceptionBlock! !
@@ -20761,16 +20801,16 @@ findDenominatorIn: anIdeal ifNone: exceptionBlock
 saturationOf: anIdeal
 	^ anIdeal numerator! !
 
-!FractionRing methodsFor: 'computing-matrices' stamp: 'len 7/10/2025 16:10:30'!
+!FractionRing methodsFor: 'computing-matrices' stamp: 'len 7/24/2025 16:26:35'!
 matrix: B quotientBy: A
-	| X d₁ d₂ |
+	"See [Pos17, Construction 4.3].
+	This is duplicated from LocalRing>>matrix:quotientBy:, it works also in the total fraction ring."
+	| X |
 	X := self^0 → A domain.
-	d₁ := A denominator.
-	d₂ := B denominator.
-	B numerator columnsDo: [:b| | L i x |
-		L := (b asMatrix ⊔ A numerator) syzygies.
-		i := (1 to: L width) detect: [:k| (L at: 1@k) isZeroDivisor not] ifNone: [].
-		x := i isNil ifTrue: [A domain zero] ifFalse: [((L copyFrom: 2@i to: L height@i) over: self) * (self numerator: d₁ negated denominator: d₂ * (L at: 1@i))].
+	B columnsDo: [:b| | d L i x |
+		L := (b asColumnMatrix ⊔ A) numeratorByRows syzygies. "<- fix this, dont compute every time"
+		i := (1 to: L width) detect: [:k| self denominatorsInclude: (d := L at: 1@k)] ifNone: [].
+		x := i isNil ifTrue: [​A domain zero] ifFalse: [((L copyFrom: 2@i to: L height@i) over: self) / d negated].
 		X := X ⊔ x].
 	^ X! !
 
@@ -20794,9 +20834,10 @@ fractions
 printOn: aStream
 	aStream nextPutAll: 'Frac('; print: self numerators; nextPut: $)! !
 
-!FractionRing methodsFor: 'testing' stamp: 'len 4/9/2025 18:51:53'!
+!FractionRing methodsFor: 'testing' stamp: 'len 7/15/2025 21:41:02'!
 denominatorsInclude: anElement
-	^ (self numerators includes: anElement) and: [anElement isZeroDivisor not]! !
+	"(self numerators includes: anElement) ifFalse: [^ false]."
+	^ anElement isZeroDivisor not! !
 
 !FractionRing methodsFor: 'testing' stamp: 'len 5/28/2023 17:52:05'!
 hasCanonicalAssociates
@@ -20960,8 +21001,8 @@ algebraicClosure
 printOn: aStream
 	aStream nextPut: $ℚ! !
 
-!RationalField methodsFor: 'testing' stamp: 'len 4/2/2025 08:16:50'!
-denominatorsIncludes: anElement
+!RationalField methodsFor: 'testing' stamp: 'len 7/16/2025 16:30:36'!
+denominatorsInclude: anElement
 	^ anElement isInteger and: [anElement ~= 0]! !
 
 !RationalField methodsFor: 'testing' stamp: 'len 4/2/2025 08:17:19'!
@@ -21067,6 +21108,13 @@ size
 hash
 	^ self baseIdeal hash! !
 
+!LocalRing methodsFor: 'computing' stamp: 'len 7/19/2025 14:06:42'!
+findDenominatorGeneratedBy: anArray ifNone: exceptionBlock
+	| answer |
+	answer := self numerators zeros: anArray size.
+	anArray withIndexDo: [:g :i| (self denominatorsInclude: g) ifTrue: [^ answer at: i put: self numerators one; yourself]].
+	^ answer! !
+
 !LocalRing methodsFor: 'computing' stamp: 'len 4/11/2025 21:36:30'!
 findDenominatorIn: anIdeal ifNone: exceptionBlock
 	^ anIdeal generators detect: [:g| self denominatorsInclude: g] ifNone: exceptionBlock! !
@@ -21078,18 +21126,15 @@ saturationOf: anIdeal
 	anIdeal numerator primaryDecomposition do: [:Q| Q radical ⊆ self baseIdeal ifTrue: [answer := answer ∩ Q]].
 	^ answer! !
 
-!LocalRing methodsFor: 'computing-matrices' stamp: 'len 4/11/2025 21:32:46'!
+!LocalRing methodsFor: 'computing-matrices' stamp: 'len 7/24/2025 16:26:28'!
 matrix: B quotientBy: A
 	"See [Pos17, Construction 4.3]."
-	| X d₁ d₂ |
-	self flag: #fixme. "take denominators by rows or columns, not all at once"
+	| X |
 	X := self^0 → A domain.
-	d₁ := A denominator.
-	d₂ := B denominator.
-	B numerator columnsDo: [:b| | L i x |
-		L := (b asMatrix ⊔ A numerator) syzygies.
-		i := (1 to: L width) detect: [:k| (self baseIdeal includes: (L at: 1@k)) not] ifNone: [].
-		x := i isNil ifTrue: [A domain zero] ifFalse: [((L copyFrom: 2@i to: L height@i) over: self) * (self numerator: d₁ negated denominator: d₂ * (L at: 1@i))].
+	B columnsDo: [:b| | d L i x |
+		L := (b asColumnMatrix ⊔ A) numeratorByRows syzygies.
+		i := (1 to: L width) detect: [:k| self denominatorsInclude: (d := L at: 1@k)] ifNone: [].
+		x := i isNil ifTrue: [​A domain zero] ifFalse: [((L copyFrom: 2@i to: L height@i) over: self) / d negated].
 		X := X ⊔ x].
 	^ X! !
 
@@ -21141,9 +21186,10 @@ to: aRing
 printOn: aStream
 	aStream print: self numerators; nextPutAll: self baseIdeal printString sub! !
 
-!LocalRing methodsFor: 'testing' stamp: 'len 4/9/2025 18:50:46'!
+!LocalRing methodsFor: 'testing' stamp: 'len 7/15/2025 21:40:58'!
 denominatorsInclude: anElement
-	^ (self numerators includes: anElement) and: [(self baseIdeal includes: anElement) not]! !
+	"(self numerators includes: anElement) ifFalse: [^ false]."
+	^ (self baseIdeal includes: anElement) not! !
 
 !LocalRing methodsFor: 'testing' stamp: 'len 4/9/2025 09:17:50'!
 hasCanonicalAssociates
@@ -21265,9 +21311,9 @@ findDenominatorIn: anIdeal ifNone: exceptionBlock
 saturationOf: anIdeal
 	^ anIdeal numerator saturation: self base! !
 
-!PrincipalLocalizationRing methodsFor: 'morphisms' stamp: 'len 4/7/2025 21:20:39'!
+!PrincipalLocalizationRing methodsFor: 'morphisms' stamp: 'len 7/15/2025 21:39:42'!
 to: aRing
-	(aRing isLocalization and: [aRing denominatorsInclude: self base]) ifTrue: [^ self to: aRing map: [:f| aRing reducedNumerator: f numerator denominator: f denominator]].
+	(aRing isLocalization and: [aRing numerators = self numerators and: [aRing denominatorsInclude: self base]]) ifTrue: [^ self to: aRing map: [:f| aRing reducedNumerator: f numerator denominator: f denominator]].
 	^ super to: aRing! !
 
 !PrincipalLocalizationRing methodsFor: 'operations' stamp: 'len 4/13/2025 09:19:17'!
@@ -21303,9 +21349,9 @@ printOn: aStream
 	self base printString isAlphaNumeric ifTrue: [aStream print: self base] ifFalse: [aStream nextPut: $(; print: self base; nextPut: $)].
 	aStream nextPutAll: '⁻¹]'! !
 
-!PrincipalLocalizationRing methodsFor: 'testing' stamp: 'len 4/25/2025 15:58:04'!
+!PrincipalLocalizationRing methodsFor: 'testing' stamp: 'len 7/15/2025 21:40:23'!
 denominatorsInclude: anElement
-	(self numerators includes: anElement) ifFalse: [^ false].
+	"(self numerators includes: anElement) ifFalse: [^ false]."
 	anElement isZeroDivisor ifTrue: [^ false].
 	^ (anElement coprimeFactorizationWith: self base) into: [:gcd :f :g| g isUnit]! !
 
@@ -23052,9 +23098,9 @@ universalPolynomial
 matrix: B quotientBy: A
 	^ self matrixOverField: B quotientBy: A! !
 
-!GaloisField methodsFor: 'computing-matrices' stamp: 'len 4/4/2025 18:56:37'!
+!GaloisField methodsFor: 'computing-matrices' stamp: 'len 7/15/2025 16:13:07'!
 syzygiesOf: aMatrix
-	^ self syzygiesOverEuclideanDomainOf: aMatrix! !
+	^ self syzygiesOverFieldOf: aMatrix! !
 
 !GaloisField methodsFor: 'elements' stamp: 'len 6/11/2023 21:34:38'!
 new: anInteger
@@ -23762,9 +23808,9 @@ unitsSize
 matrix: B quotientBy: A
 	^ self matrixOverField: B quotientBy: A! !
 
-!PrimeField methodsFor: 'computing-matrices' stamp: 'len 4/4/2025 18:56:40'!
+!PrimeField methodsFor: 'computing-matrices' stamp: 'len 7/15/2025 16:13:15'!
 syzygiesOf: aMatrix
-	^ self syzygiesOverEuclideanDomainOf: aMatrix! !
+	^ self syzygiesOverFieldOf: aMatrix! !
 
 !PrimeField methodsFor: 'computing-polynomials' stamp: 'len 11/26/2023 09:52:19'!
 irreduciblePolynomialDegree: n
@@ -29106,18 +29152,9 @@ denominator
 	^ self propertyAt: #denominator ifAbsentPut:
 		[self inject: self scalars numerators one into: [:d :each| each denominator lcm: d]]! !
 
-!Matrix methodsFor: 'accessing' stamp: 'len 7/10/2025 16:27:02'!
-denominatorByColumns
-	^ self domain endomorphisms diagonal: self denominatorsByColumns! !
-
 !Matrix methodsFor: 'accessing' stamp: 'len 7/10/2025 16:27:37'!
 denominatorByRows
 	^ self codomain endomorphisms diagonal: self denominatorsByRows! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 7/10/2025 16:12:28'!
-denominatorsByColumns
-	self assert: self scalars isLocalization.
-	^ self propertyAt: #denominatorsByColumns ifAbsentPut: [self columns collect: [:each| each denominator]]! !
 
 !Matrix methodsFor: 'accessing' stamp: 'len 2/19/2025 08:20:40'!
 denominatorsByRows
@@ -29153,14 +29190,6 @@ numerator
 	self propertyAt: #numerator ifPresent: [:aMatrix| ^ aMatrix].
 	d := self scalars !! self denominator.
 	^ self propertyAt: #numerator put: (self domain numerators to: self codomain numerators fill: [:i :j| ((self at: i@j) * d) numerator])! !
-
-!Matrix methodsFor: 'accessing' stamp: 'len 7/10/2025 16:22:38'!
-numeratorByColumns
-	| denominators |
-	self assert: self scalars isLocalization.
-	self propertyAt: #numeratorByColumns ifPresent: [:aMatrix| ^ aMatrix].
-	denominators := self denominatorsByColumns.
-	^ self propertyAt: #numeratorByColumns put: (self domain numerators to: self codomain numerators fill: [:i :j| ((self at: i@j) * (denominators at: j)) numerator])! !
 
 !Matrix methodsFor: 'accessing' stamp: 'len 2/19/2025 19:28:37'!
 numeratorByRows
@@ -31387,11 +31416,6 @@ cancelRow: i₁ and: i₂ with: mgcd
 	self rowAt: i₁ put: A₁*s + (A₂*t).
 	self rowAt: i₂ put: A₁*u + (A₂*v)! !
 
-!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 6/30/2025 15:27:51'!
-copyRow: i from: start to: stop
-	| i₀ |
-	^ coefficients copyFrom: (i₀ := self rowIndexAt: i) + start - 1 to: i₀ + stop - 1! !
-
 !DenseMatrix methodsFor: 'operations-rows' stamp: 'len 1/7/2025 08:39:46'!
 copyRow: i₁ times: anElement to: i₂
 	self copyRow: i₁ times: anElement to: i₂ startingAt: 1! !
@@ -31419,12 +31443,6 @@ copyRow: i₁ to: i₂ startingAt: startColumn
 		replaceFrom: start₂ to: start₂ + self width - startColumn
 		with: coefficients startingAt: start₁! !
 
-!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 6/27/2025 15:17:25'!
-firstNonzeroAtRow: i from: startColumn to: endColumn
-	| rowIndex |
-	rowIndex := self rowIndexAt: i.
-	^ (coefficients findFirstNonzeroFrom: rowIndex + startColumn - 1 to: rowIndex + endColumn - 1) ifNotNil: [:j| j - rowIndex + 1]! !
-
 !DenseMatrix methodsFor: 'operations-rows' stamp: 'len 1/7/2025 08:36:23'!
 multiplyRow: i by: anElement
 	self multiplyRow: i by: anElement startingAt: 1! !
@@ -31445,15 +31463,26 @@ permuteRowsBy: aPermutation
 		self assert: j >= i.
 		self swapRow: i with: j]! !
 
-!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 6/30/2025 15:21:26'!
-replaceRow: i from: start to: stop put: anElement
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 7/16/2025 15:56:24'!
+rowAt: i copyFrom: start to: stop
+	| i₀ |
+	^ coefficients copyFrom: (i₀ := self rowIndexAt: i) + start - 1 to: i₀ + stop - 1! !
+
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 7/16/2025 15:57:36'!
+rowAt: i firstNonzeroFrom: startColumn to: endColumn
+	| rowIndex |
+	rowIndex := self rowIndexAt: i.
+	^ (coefficients findFirstNonzeroFrom: rowIndex + startColumn - 1 to: rowIndex + endColumn - 1) ifNotNil: [:j| j - rowIndex + 1]! !
+
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 7/16/2025 15:52:06'!
+rowAt: i from: start to: stop put: anElement
 	| rowIndex |
 	stop > self width ifTrue: [^ self error: 'index out of bounds'].
 	rowIndex := self rowIndexAt: i.
 	coefficients from: rowIndex + start - 1 to: rowIndex + stop - 1 put: anElement! !
 
-!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 6/30/2025 15:08:05'!
-replaceRow: i from: start to: stop with: anArray startingAt: start1
+!DenseMatrix methodsFor: 'operations-rows' stamp: 'len 7/16/2025 15:55:34'!
+rowAt: i replaceFrom: start to: stop with: anArray startingAt: start1
 	| rowIndex |
 	stop > self width ifTrue: [^ self error: 'index out of bounds'].
 	rowIndex := self rowIndexAt: i.
@@ -31892,70 +31921,70 @@ validate
 from: aDomain to: aCodomain images: anArray
 	^ self new domain: aDomain; codomain: aCodomain; propertyAt: #images put: anArray; yourself! !
 
-!EquivariantMap methodsFor: 'accessing' stamp: 'len 8/31/2024 18:29:57'!
+!RepresentationMorphism methodsFor: 'accessing' stamp: 'len 8/31/2024 18:29:57'!
 carrier
 	^ carrier! !
 
-!EquivariantMap methodsFor: 'accessing' stamp: 'len 8/31/2024 18:31:23'!
+!RepresentationMorphism methodsFor: 'accessing' stamp: 'len 8/31/2024 18:31:23'!
 category
 	^ domain category! !
 
-!EquivariantMap methodsFor: 'accessing' stamp: 'len 8/31/2024 18:32:08'!
+!RepresentationMorphism methodsFor: 'accessing' stamp: 'len 8/31/2024 18:32:08'!
 codomain
 	^ codomain! !
 
-!EquivariantMap methodsFor: 'accessing' stamp: 'len 8/31/2024 18:32:06'!
+!RepresentationMorphism methodsFor: 'accessing' stamp: 'len 8/31/2024 18:32:06'!
 domain
 	^ domain! !
 
-!EquivariantMap methodsFor: 'comparing' stamp: 'len 11/25/2024 15:15:54'!
+!RepresentationMorphism methodsFor: 'comparing' stamp: 'len 11/25/2024 15:15:54'!
 = anObject
 	^ self class = anObject class and: [domain = anObject domain and: [codomain = anObject codomain and: [carrier = anObject carrier]]]! !
 
-!EquivariantMap methodsFor: 'comparing' stamp: 'len 11/25/2024 15:16:05'!
+!RepresentationMorphism methodsFor: 'comparing' stamp: 'len 11/25/2024 15:16:05'!
 hash
 	^ carrier hash! !
 
-!EquivariantMap methodsFor: 'operations' stamp: 'len 11/27/2024 15:02:09'!
+!RepresentationMorphism methodsFor: 'operations' stamp: 'len 11/27/2024 15:02:09'!
 + aMorphism
 	^ domain to: codomain carrier: carrier + aMorphism carrier! !
 
-!EquivariantMap methodsFor: 'operations' stamp: 'len 8/31/2024 18:32:25'!
+!RepresentationMorphism methodsFor: 'operations' stamp: 'len 8/31/2024 18:32:25'!
 ∘ aMorphism
 	self checkCompatibleComposition: aMorphism.
 	^ aMorphism domain to: codomain carrier: carrier ∘ aMorphism carrier! !
 
-!EquivariantMap methodsFor: 'operations' stamp: 'len 11/27/2024 15:01:56'!
+!RepresentationMorphism methodsFor: 'operations' stamp: 'len 11/27/2024 15:01:56'!
 imageMorphism
 	^ (codomain sub: carrier image) to: codomain carrier: carrier imageMorphism! !
 
-!EquivariantMap methodsFor: 'operations' stamp: 'len 11/27/2024 15:01:39'!
+!RepresentationMorphism methodsFor: 'operations' stamp: 'len 11/27/2024 15:01:39'!
 kernelMorphism
 	^ (domain sub: carrier kernel) to: domain carrier: carrier kernelMorphism! !
 
-!EquivariantMap methodsFor: 'operations' stamp: 'len 11/27/2024 15:01:19'!
+!RepresentationMorphism methodsFor: 'operations' stamp: 'len 11/27/2024 15:01:19'!
 negated
 	^ domain to: codomain carrier: carrier negated! !
 
-!EquivariantMap methodsFor: 'operations' stamp: 'len 11/27/2024 15:00:20'!
+!RepresentationMorphism methodsFor: 'operations' stamp: 'len 11/27/2024 15:00:20'!
 value: anElement
 	^ codomain !! (carrier value: (domain !! anElement) carrier)! !
 
-!EquivariantMap methodsFor: 'operations' stamp: 'len 11/27/2024 15:00:57'!
+!RepresentationMorphism methodsFor: 'operations' stamp: 'len 11/27/2024 15:00:57'!
 zero
 	^ domain to: codomain carrier: carrier zero! !
 
-!EquivariantMap methodsFor: 'printing' stamp: 'len 8/31/2024 18:32:02'!
+!RepresentationMorphism methodsFor: 'printing' stamp: 'len 8/31/2024 18:32:02'!
 printOn: aStream
 	aStream print: carrier! !
 
-!EquivariantMap methodsFor: 'private' stamp: 'len 8/31/2024 18:30:58'!
+!RepresentationMorphism methodsFor: 'private' stamp: 'len 8/31/2024 18:30:58'!
 domain: aDomain codomain: aCodomain carrier: aMorphism
 	domain := aDomain.
 	codomain := aCodomain.
 	carrier := aMorphism! !
 
-!EquivariantMap class methodsFor: 'instance creation' stamp: 'len 8/31/2024 18:35:19'!
+!RepresentationMorphism class methodsFor: 'instance creation' stamp: 'len 8/31/2024 18:35:19'!
 from: aDomain to: aCodomain carrier: aMorphism
 	^ self new domain: aDomain codomain: aCodomain carrier: aMorphism! !
 
@@ -40954,6 +40983,12 @@ hash
 	(anElement isInteger or: [parent scalars includes: anElement])
 		ifTrue: [^ self class coefficients: coefficients / anElement parent: parent].
 	^ super / anElement! !
+
+!GroupAlgebraElement methodsFor: 'operations' stamp: 'len 7/20/2025 16:53:41'!
+augmentation
+	"Answer the result of applying the counit (or augmentation map) to the receiver. See GroupAlgebra>>counit and augmentationIdeal."
+	coefficients isEmpty ifTrue: [^ parent scalars zero].
+	^ coefficients sum! !
 
 !GroupAlgebraElement methodsFor: 'operations' stamp: 'len 12/30/2024 14:22:22'!
 conjugate
