@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7158] on 13 July 2025 at 5:46:03 pm'!
+'From Cuis7.3 [latest update: #7158] on 28 July 2025 at 5:01:14 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 165!
+!provides: 'Tests-Algebra' 1 166!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -161,16 +161,6 @@ Object subclass: #CASBenchmark
 CASBenchmark class
 	instanceVariableNames: ''!
 
-!classDefinition: #FiniteFieldRationalFunctionFieldMatrixTest category: #'Tests-Algebra-Matrices'!
-Object subclass: #FiniteFieldRationalFunctionFieldMatrixTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'FiniteFieldRationalFunctionFieldMatrixTest class' category: #'Tests-Algebra-Matrices'!
-FiniteFieldRationalFunctionFieldMatrixTest class
-	instanceVariableNames: ''!
-
 !classDefinition: #RationalLocalPolynomialRingMatrixTest category: #'Tests-Algebra-Matrices'!
 Object subclass: #RationalLocalPolynomialRingMatrixTest
 	instanceVariableNames: ''
@@ -179,16 +169,6 @@ Object subclass: #RationalLocalPolynomialRingMatrixTest
 	category: 'Tests-Algebra-Matrices'!
 !classDefinition: 'RationalLocalPolynomialRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
 RationalLocalPolynomialRingMatrixTest class
-	instanceVariableNames: ''!
-
-!classDefinition: #RationalRationalFunctionFieldMatrixTest category: #'Tests-Algebra-Matrices'!
-Object subclass: #RationalRationalFunctionFieldMatrixTest
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Tests-Algebra-Matrices'!
-!classDefinition: 'RationalRationalFunctionFieldMatrixTest class' category: #'Tests-Algebra-Matrices'!
-RationalRationalFunctionFieldMatrixTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #AbelianGroupTest category: #'Tests-Algebra'!
@@ -691,6 +671,16 @@ AbstractFieldMatrixTest subclass: #FiniteFieldMatrixTest
 FiniteFieldMatrixTest class
 	instanceVariableNames: ''!
 
+!classDefinition: #FiniteFieldRationalFunctionFieldMatrixTest category: #'Tests-Algebra-Matrices'!
+AbstractFieldMatrixTest subclass: #FiniteFieldRationalFunctionFieldMatrixTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'FiniteFieldRationalFunctionFieldMatrixTest class' category: #'Tests-Algebra-Matrices'!
+FiniteFieldRationalFunctionFieldMatrixTest class
+	instanceVariableNames: ''!
+
 !classDefinition: #GaussianFieldMatrixTest category: #'Tests-Algebra-Matrices'!
 AbstractFieldMatrixTest subclass: #GaussianFieldMatrixTest
 	instanceVariableNames: ''
@@ -719,6 +709,16 @@ AbstractFieldMatrixTest subclass: #RationalMatrixTest
 	category: 'Tests-Algebra-Matrices'!
 !classDefinition: 'RationalMatrixTest class' category: #'Tests-Algebra-Matrices'!
 RationalMatrixTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #RationalRationalFunctionFieldMatrixTest category: #'Tests-Algebra-Matrices'!
+AbstractFieldMatrixTest subclass: #RationalRationalFunctionFieldMatrixTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'RationalRationalFunctionFieldMatrixTest class' category: #'Tests-Algebra-Matrices'!
+RationalRationalFunctionFieldMatrixTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #SmallFiniteFieldMatrixTest category: #'Tests-Algebra-Matrices'!
@@ -3592,12 +3592,6 @@ testSum: a with: b into: c modulo: m
 	1 to: a size do: [:i| c at: i put: (a at: i) + (b at: i) \\ m].
 	^ c! !
 
-!FiniteFieldRationalFunctionFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/9/2023 19:10:37'!
-setUp
-	super setUp.
-	self flag: #fixme. "test 2 or 3 variables"
-	scalars := ((	GaloisField new: (5 atRandom: random) nextPrime to: (3 atRandom: random)) polynomials"In: 3 atRandom: random") fractions! !
-
 !RationalLocalPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 10/18/2022 12:31:01'!
 initialize
 	super initialize.
@@ -3617,11 +3611,6 @@ initialize
 		R _ ℚ polynomialsIn: #(x y z).
 		x _ R x: 1. y _ R x: 2. z _ R x: 3.
 		R @ (R * {y^4 - (z^3). y^2 - (x*z). x*(y^2) - (z^2). x^2 - z})]"} atRandom value! !
-
-!RationalRationalFunctionFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/9/2023 19:16:36'!
-setUp
-	super setUp.
-	scalars := (ℚ polynomialsIn: (3 atRandom: random)) fractions! !
 
 !AbelianGroupTest methodsFor: 'as yet unclassified' stamp: 'len 10/20/2020 19:29:17'!
 testAbelianGroup: G
@@ -9297,6 +9286,12 @@ testEchelonExample
 	A := K^3 ⇒ (K^4) !! {1. w. w^5. 0. w^3. w^4. w. 1. w^6. w^3. 1. w^4}.
 	self assert: A echelon = (A domain ⇒ A codomain !! {1. 0. 0. 0. 1. 0. 0. 0. 1. 0. 0. 0})! !
 
+!FiniteFieldRationalFunctionFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/9/2023 19:10:37'!
+setUp
+	super setUp.
+	self flag: #fixme. "test 2 or 3 variables"
+	scalars := ((	GaloisField new: (5 atRandom: random) nextPrime to: (3 atRandom: random)) polynomials"In: 3 atRandom: random") fractions! !
+
 !GaussianFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 11/5/2023 21:31:15'!
 setUp
 	super setUp.
@@ -9579,6 +9574,13 @@ testSlashWithTupleExample
 	x _ b / A.
 	self assert: x = (ℚ^3 !! #(1 2 3)).
 	self assert: x * A = b! !
+
+!RationalRationalFunctionFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/28/2025 16:23:53'!
+setUp
+	super setUp.
+	self flag: #fixme. "test with more than one variable"
+	scalars := ℚ polynomials fractions
+"	scalars := (ℚ polynomialsIn: (3 atRandom: random)) fractions"! !
 
 !SmallFiniteFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 01:00:03'!
 setUp
