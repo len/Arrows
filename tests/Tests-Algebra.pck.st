@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7158] on 28 July 2025 at 5:01:14 pm'!
+'From Cuis7.3 [latest update: #7158] on 31 July 2025 at 3:36:49 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 166!
+!provides: 'Tests-Algebra' 1 167!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -909,6 +909,16 @@ AbstractStandardRingMatrixTest subclass: #RationalPolynomialRingPolynomialRingMa
 	category: 'Tests-Algebra-Matrices'!
 !classDefinition: 'RationalPolynomialRingPolynomialRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
 RationalPolynomialRingPolynomialRingMatrixTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #RationalRationalFunctionFieldPolynomialRingMatrixTest category: #'Tests-Algebra-Matrices'!
+AbstractStandardRingMatrixTest subclass: #RationalRationalFunctionFieldPolynomialRingMatrixTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Matrices'!
+!classDefinition: 'RationalRationalFunctionFieldPolynomialRingMatrixTest class' category: #'Tests-Algebra-Matrices'!
+RationalRationalFunctionFieldPolynomialRingMatrixTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #PrimeFieldAffineAlgebraMatrixTest category: #'Tests-Algebra-Matrices'!
@@ -9242,12 +9252,12 @@ testRowExtended
 	B _ A rowExtended.
 	self assert: B = A transpose columnExtended transpose! !
 
-!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2022 09:57:52'!
+!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/30/2025 18:21:36'!
 testSimilarity
 	| n A P |
-	n _ 5 atRandom: random.
-	A _ (scalars^n) endomorphisms atRandom: random bits: 10*n*n.
-	P _ A domain automorphisms atRandom: random bits: 10*n*n.
+	n := 3 atRandom: random.
+	A := (scalars^n) endomorphisms atRandom: random bits: 10*n*n.
+	P := A domain automorphisms atRandom: random bits: 10*n*n.
 	self assert: P inverse * A * P ≃ A! !
 
 !BinaryExtensionFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:06:45'!
@@ -10154,10 +10164,15 @@ setUp
 	super setUp.
 	scalars := ℚ polynomialsIn: #(x y z)! !
 
-!RationalPolynomialRingPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2023 11:00:12'!
+!RationalPolynomialRingPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/29/2025 15:59:08'!
 setUp
 	super setUp.
-	scalars := ℚ polynomials polynomials! !
+	scalars := (ℚ polynomialsIn: #(y)) polynomials! !
+
+!RationalRationalFunctionFieldPolynomialRingMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 7/29/2025 15:46:18'!
+setUp
+	super setUp.
+	scalars := (ℚ polynomialsIn: #(y)) fractions polynomials! !
 
 !PrimeFieldAffineAlgebraMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:16:59'!
 setUp
