@@ -1,4 +1,4 @@
-'From Cuis7.3 [latest update: #7158] on 31 July 2025 at 3:36:40 pm'!
+'From Cuis7.3 [latest update: #7158] on 1 August 2025 at 4:32:34 pm'!
 'Description This package implements among other things: permutation groups, linear groups, finite fields, Galois rings, affine algebras, number fields, function fields, finitely presented modules, finite-dimensional associative algebras, schemes, finite-dimensional representations of finite groups.
 
 References:
@@ -112,7 +112,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 267!
+!provides: 'Algebra' 1 268!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'GAS' 1 1 nil!
@@ -20762,10 +20762,6 @@ elementClass
 cover
 	^ self numerators cover fractions! !
 
-!FractionRing methodsFor: 'accessing' stamp: 'len 5/30/2025 17:05:29'!
-scalars
-	^ self isField ifTrue: [self] ifFalse: [super scalars]! !
-
 !FractionRing methodsFor: 'accessing' stamp: 'len 11/20/2022 11:24:39'!
 size
 	self numerators isFinite ifFalse: [^ self numerators size].
@@ -21045,6 +21041,10 @@ extensionClass
 constants
 	"Answer the constant field of the receiver."
 	^ self scalars! !
+
+!RationalFunctionField methodsFor: 'accessing' stamp: 'len 8/1/2025 16:18:40'!
+scalars
+	^ self! !
 
 !RationalFunctionField methodsFor: 'computing-polynomials' stamp: 'len 7/31/2025 15:25:24'!
 standardBasisAndTransformationOf: aMatrix
@@ -29153,15 +29153,15 @@ columnAt: j put: aTuple
 columns
 	^ (Iterator on: self performing: #columnsDo:) asArray! !
 
-!Matrix methodsFor: 'accessing' stamp: 'len 7/31/2025 15:03:23'!
+!Matrix methodsFor: 'accessing' stamp: 'len 7/31/2025 19:50:04'!
 denominator
-	"If the receiver is a matrix A over a localization, answer the diagonal matrix D that in i-th position of the diagonal has the denominator of the i-th row of A (i.e., the LCM of the entries of the i-th row). This is the matrix with smallest entries such that DA is free of denominators.
+	"If the receiver is a matrix A over a localization, answer the diagonal matrix D that in i-th position of the diagonal has the denominator of the i-th row of A (i.e., the LCM of the denominators appearing in the i-th row). This is the matrix with smallest entries such that DA is free of denominators.
 	The answer is a matrix over the ring of numerators of the localization ring."
 	^ self codomain numerators endomorphisms diagonal: self denominatorDiagonal! !
 
-!Matrix methodsFor: 'accessing' stamp: 'len 7/31/2025 15:06:13'!
+!Matrix methodsFor: 'accessing' stamp: 'len 7/31/2025 19:50:24'!
 denominatorDiagonal
-	"If the receiver is a matrix over a localization, answer an array with the denominator of each row (i.e., the i-th entry is the LCM of the denominators of the entries in the i-th row).
+	"If the receiver is a matrix over a localization, answer an array with the denominator of each row (i.e., the i-th entry is the LCM of the denominators appearing in the i-th row).
 	This corresponds to the diagonal of a diagonal matrix D with such that DA is free of denominators, where A is the receiver."
 	^ self propertyAt: #denominatorDiagonal ifAbsentPut: [self rows collect: [:each| each denominator]]! !
 
@@ -29831,54 +29831,6 @@ apply: aMap
 	aMap isMorphism ifFalse: [^ domain to: codomain fill: [:i :j| aMap value: (self at: i@j)]].
 	^ (domain over: aMap codomain) to: (codomain over: aMap codomain) fill: [:i :j| aMap value: (self at: i@j)]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 10/19/2023 19:27:32'!
-berkowitz
-	"Answer the coefficients of the characteristic polynomial of the receiver.
-	It's computed by the Berkowitz division-free algorithm and works over any commutative ring.
-	It uses small space in comparision with classic Gaussian elimination and performs O(n^4) scalar operations."
-	| n v C Ar R S Q one |
-	self assert: self isSquare.
-	one := self scalars one.
-	(n := self width) = 0 ifTrue: [^ self scalars !!!! {one}].
-	n = 1 ifTrue: [^ self scalars !!!! {one. (self at: 1@1) negated}].
-	n = 2 ifTrue:
-			[^ self scalars !!!!
-				{one.
-				((self at: 1@1) + (self at: 2@2)) negated.
-				(self at: 1@1) * (self at: 2@2) - ((self at: 1@2) * (self at: 2@1))}].
-
-	v := self scalars !!!!
-		{one.
-		(self at: 2@2) negated - (self at: 1@1).
-		(self at: 2@2) * (self at: 1@1) - ((self at: 1@2) * (self at: 2@1))}.
-
-	3 to: n do: [:r|
-		C := (self scalars^r ⇒ (self scalars^(r+1))) zero.
-		Ar := self copyFrom: 1@1 to: r-1 @ (r-1).
-
-		R := (self rowAt: r) copyFrom: 1 to: r-1.
-		S := (self columnAt: r) copyFrom: 1 to: r-1.
-
-		C at: 1@1 put: one negated.
-		C at: 2@1 put: (self at: r@r).
-		C at: 3@1 put: (R · S).
-
-		Q := Ar * S.
-
-		C at: 4@1 put: (R · Q).
-
-		3 to: r-1 do: [:i|
-			Q := Ar * Q.
-			C at: i+2 @ 1 put: (R · Q)].
-
-		2 to: r do: [ :i |
-			0 to: r+1-i do: [ :j |
-				C at: i+j @ i put: (C at: j+1 @ 1)]].
-
-		v := C * v].
-
-	^ n even ifTrue: [v] ifFalse: [v negated]! !
-
 !Matrix methodsFor: 'operations' stamp: 'len 11/23/2022 21:36:49'!
 characteristicMatrix
 	"Answer the characteristic matrix I*x - A."
@@ -29891,8 +29843,9 @@ characteristicMatrix
 			ifTrue: [x - (P constant: (self at: i @ j))]
 			ifFalse: [P constant: (self at: i @ j) negated]]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 7/31/2025 15:11:47'!
+!Matrix methodsFor: 'operations' stamp: 'len 7/31/2025 20:06:30'!
 characteristicPolynomial
+	self assert: self isSquare.
 	self scalars isLocalization ifTrue:
 		[| P x D answer |
 		P := self scalars numerators polynomials.
@@ -29902,7 +29855,7 @@ characteristicPolynomial
 		D do: [:each| answer := answer / (self scalars !! each)].
 		^ answer].
 	self width <= 6 ifTrue: [^ self characteristicMatrix determinant].
-	^ self scalars polynomials coefficients: self berkowitz coefficients reversed
+	^ self characteristicPolynomialBerkowitz
 
 "TODO: best algorithms choices are:
 	- for Z use modular algorithm: compute modulo p for many primes p, then CRT;
@@ -29955,6 +29908,51 @@ characteristicPolynomialAndAdjoint
 	C _ self * C.
 	a add: C trace negated / i.
 	C _ C + (I * a last)] repeat! !
+
+!Matrix methodsFor: 'operations' stamp: 'len 7/31/2025 20:06:13'!
+characteristicPolynomialBerkowitz
+	"Answer the characteristic polynomial of the receiver.
+	It's computed by the Berkowitz division-free algorithm and works over any commutative ring.
+	It uses small space in comparision with classic Gaussian elimination and performs O(n⁴) scalar operations."
+	| n v C Ar R S Q one |
+	self assert: self isSquare.
+	(n := self width) = 0 ifTrue: [^ self scalars polynomials one].
+	n = 1 ifTrue: [^ self scalars polynomials x - (self at: 1@1)].
+	n = 2 ifTrue: [^ self scalars polynomials !! [:x| x^2 - (x*((self at: 1@1) + (self at: 2@2))) + ((self at: 1@1) * (self at: 2@2) - ((self at: 1@2) * (self at: 2@1)))]].
+
+	one := self scalars one.
+	v := self scalars !!!!
+		{one.
+		(self at: 2@2) negated - (self at: 1@1).
+		(self at: 2@2) * (self at: 1@1) - ((self at: 1@2) * (self at: 2@1))}.
+
+	3 to: n do: [:r|
+		C := (self scalars^r ⇒ (self scalars^(r+1))) zero.
+		Ar := self copyFrom: 1@1 to: r-1 @ (r-1).
+
+		R := (self rowAt: r) copyFrom: 1 to: r-1.
+		S := (self columnAt: r) copyFrom: 1 to: r-1.
+
+		C at: 1@1 put: one negated.
+		C at: 2@1 put: (self at: r@r).
+		C at: 3@1 put: R · S.
+
+		Q := Ar * S.
+
+		C at: 4@1 put: (R · Q).
+
+		3 to: r-1 do: [:i|
+			Q := Ar * Q.
+			C at: i+2 @ 1 put: (R · Q)].
+
+		2 to: r do: [ :i |
+			0 to: r+1-i do: [ :j |
+				C at: i+j @ i put: (C at: j+1 @ 1)]].
+
+		v := C * v].
+
+	n odd ifTrue: [v := v negated].
+	^ self scalars polynomials coefficients: v coefficients reversed! !
 
 !Matrix methodsFor: 'operations' stamp: 'len 10/13/2016 14:00'!
 cofactor: aPoint
@@ -30175,17 +30173,17 @@ minors: k
 negated
 	^ self collect: [:each| each negated]! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 12/22/2022 18:45:22'!
+!Matrix methodsFor: 'operations' stamp: 'len 7/31/2025 20:12:37'!
 normalization
 	"Answer a unit u such that 'self * u' is a unique choice of associate. See >>normalized."
-	self isSquare ifFalse: [^ self error: 'not square'].
+	self assert: self isSquare.
 	(self scalars isPID not or: [self isZero]) ifTrue: [^ self one].
 	^ self coechelonTransformation! !
 
-!Matrix methodsFor: 'operations' stamp: 'len 1/7/2022 14:23:27'!
+!Matrix methodsFor: 'operations' stamp: 'len 7/31/2025 20:12:51'!
 normalized
 	"Answer a unique choice of associate. See >>normalization."
-	self isSquare ifFalse: [^ self error: 'not square'].
+	self assert: self isSquare.
 	self scalars isPID ifFalse: [^ self].
 	^ self coechelon! !
 
@@ -43277,15 +43275,9 @@ isUnit
 isZeroDivisor
 	^ representative independentCoefficient isZeroDivisor! !
 
-!AlgebraicRational methodsFor: 'accessing' stamp: 'len 7/30/2025 19:01:09'!
-denominator
-	self flag: #fixme. "this should be an element of the ring of integers?"
+!AlgebraicRational methodsFor: 'accessing' stamp: 'len 8/1/2025 16:21:02'!
+denominatorScalar
 	^ self minimalPolynomial denominator! !
-
-!AlgebraicRational methodsFor: 'accessing' stamp: 'len 7/30/2025 19:01:21'!
-numerator
-	self flag: #fixme. "this should be an element of the ring of integers"
-	^ self * self denominator! !
 
 !AlgebraicRational methodsFor: 'converting' stamp: 'len 11/30/2023 15:51:22'!
 asScalar
