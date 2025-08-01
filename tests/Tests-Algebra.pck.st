@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7158] on 31 July 2025 at 3:36:49 pm'!
+'From Cuis7.3 [latest update: #7158] on 1 August 2025 at 4:31:12 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 167!
+!provides: 'Tests-Algebra' 1 168!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -529,6 +529,26 @@ AbstractGroebnerBasisTest subclass: #ModularGroebnerBasisTest
 	category: 'Tests-Algebra-Groebner Bases'!
 !classDefinition: 'ModularGroebnerBasisTest class' category: #'Tests-Algebra-Groebner Bases'!
 ModularGroebnerBasisTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #PolynomialsGroebnerBasisTest category: #'Tests-Algebra-Groebner Bases'!
+AbstractGroebnerBasisTest subclass: #PolynomialsGroebnerBasisTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Groebner Bases'!
+!classDefinition: 'PolynomialsGroebnerBasisTest class' category: #'Tests-Algebra-Groebner Bases'!
+PolynomialsGroebnerBasisTest class
+	instanceVariableNames: ''!
+
+!classDefinition: #RationalFunctionsGroebnerBasisTest category: #'Tests-Algebra-Groebner Bases'!
+AbstractGroebnerBasisTest subclass: #RationalFunctionsGroebnerBasisTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tests-Algebra-Groebner Bases'!
+!classDefinition: 'RationalFunctionsGroebnerBasisTest class' category: #'Tests-Algebra-Groebner Bases'!
+RationalFunctionsGroebnerBasisTest class
 	instanceVariableNames: ''!
 
 !classDefinition: #RationalGroebnerBasisTest category: #'Tests-Algebra-Groebner Bases'!
@@ -8409,6 +8429,16 @@ setUp
 setUp
 	super setUp.
 	scalars := ℤ/(1024 atRandom: random)! !
+
+!PolynomialsGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2025 16:14:46'!
+setUp
+	super setUp.
+	scalars := ℚ polynomialsIn: ((1 to: 2) atRandom: random)! !
+
+!RationalFunctionsGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 8/1/2025 16:13:30'!
+setUp
+	super setUp.
+	scalars := (ℚ polynomialsIn: ((1 to: 2) atRandom: random)) fractions! !
 
 !RationalGroebnerBasisTest methodsFor: 'as yet unclassified' stamp: 'len 5/26/2023 00:06:21'!
 setUp
