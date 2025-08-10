@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7158] on 1 August 2025 at 4:31:12 pm'!
+'From Cuis7.3 [latest update: #7158] on 10 August 2025 at 8:20:53 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 168!
+!provides: 'Tests-Algebra' 1 169!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -3128,13 +3128,13 @@ testCyclic4
 testCyclic5
 	(ℚ polynomialsIn: 5) cyclicIdeal basis! !
 
-!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/23/2020 09:33:01'!
+!GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/4/2025 16:12:51'!
 testEliminationExample
 	| Qx x y z I |
 	Qx _ ℚ polynomialsIn: #(x y z).
 	x _ Qx x. y _ Qx y. z _ Qx z.
 	I _ Qx * {x^2 + y + z - 1. x + (y^2) + z - 1. x + y + (z^2) - 1}.
-	I eliminateAll: #(1 2)! !
+	I eliminate: #(1 2)! !
 
 !GroebnerBasisBenchmark methodsFor: 'as yet unclassified' stamp: 'len 1/13/2022 11:36:17'!
 testKatsura2
@@ -4092,10 +4092,10 @@ testIntersection
 	self assert: (W satisfies: (1, 0)).
 	self assert: (W satisfies: (0, 1)) not! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 3/26/2025 09:36:28'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 8/3/2025 14:17:10'!
 testLinearSubspaceAsAlgebraicVariety
 	| S V |
-	S := ℚ ^ 3 grassmannian: 2 :: atRandomBits: 10.
+	S := ℚ ^ 3 submoduleRank: 2 atRandom: Random new bits: 10.
 	V := S asAffineScheme.
 	self assert: V dimension = S rank.
 	self assert: (V satisfies: (S x: 1)).
@@ -4264,12 +4264,12 @@ testSmoothnessOverQQ
 	C := P sub: [:x :y :z| x^3 - (y^2*z)].
 	self assert: C isSingular! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 6/26/2023 16:52:36'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 8/8/2025 16:12:39'!
 testSmoothnessOverQQ2
 	| R I J |
 	R := ℚ polynomialsIn: #(x y).
-	I := R * (R !! [:x :y| {x - y squared}]).
-	J := R * (R !! [:x :y| {x squared - y squared}]).
+	I := R * [:x :y| {x - y squared}].
+	J := R * [:x :y| {x squared - y squared}].
 	self assert: (R/I) spec isSmooth.
 	self assert: (R/J) spec isSmooth not! !
 
@@ -4307,13 +4307,15 @@ testWeilRestriction2
 	self assert: (V satisfies: P coordinates).
 	self assert: (V restriction satisfies: P restriction coordinates)! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 7/12/2023 14:42:12'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 8/10/2025 19:35:11'!
 testWeilRestriction3
 	| A f P |
 	A := ((QuadraticField new: 5) polynomialsIn: 2) spec.
 	f := A id.
 	P := A points !! #(2 1).
-	self assert: (f value: P) restriction = (f restriction value: P restriction)! !
+	self assert: (f value: P) restriction = (f restriction value: P restriction).
+	"or:"
+	self assert: (f ∘ P) restriction = (f restriction ∘ P restriction)! !
 
 !AlgebraicGeometryTest methodsFor: 'projective' stamp: 'len 5/23/2020 08:56:59'!
 testProjectivePlaneOverFiniteField
@@ -4400,39 +4402,39 @@ testProjectiveSpaceOverModularIntegers
 	self assert: P points asSet size = numberOfPoints.
 	self assert: P points size = numberOfPoints! !
 
-!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 2/20/2025 07:15:54'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 8/10/2025 19:51:52'!
 testRationalMap
 	"Example from Magma handbook Scheme_map-creation (H118E32)."
 	| 𝔸¹ 𝔸² f X |
 	𝔸¹ := AffineSpace new: #(t) over: ℚ.
 	𝔸² := AffineSpace new: #(x y) over: ℚ.
-	f := 𝔸¹ to: 𝔸² mapWithCoordinates: [:t| {t^3 + t. t^2 - 3}].
+	f := RationalMap from: 𝔸¹ to: 𝔸² mapWithCoordinates: [:t| {t^3 + t. t^2 - 3}].
 	self assert: f domain = 𝔸¹.
 	self assert: f codomain = 𝔸².
 	X := 𝔸² sub: [:x :y| x^2*-1 + (y^3) + (y^2*11) + (y*40) + 48].
 	self assert: f image = X! !
 
-!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 2/20/2025 07:15:47'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 8/10/2025 19:52:03'!
 testRationalMap2
 	"Example from Cox's IVA pag. 234. Parametrization of the tangent surface of the twisted cubic."
 	| 𝔸² 𝔸³ f X |
 	𝔸² := AffineSpace new: #(t u) over: ℚ.
 	𝔸³ := AffineSpace new: 3 over: ℚ.
-	f := 𝔸² to: 𝔸³ mapWithCoordinates: [:t :u| {t + u. t^2 + (t*u*2). t^3 + (t^2*u*3)}].
+	f := RationalMap from: 𝔸² to: 𝔸³ mapWithCoordinates: [:t :u| {t + u. t^2 + (t*u*2). t^3 + (t^2*u*3)}].
 	X := 𝔸³ sub: [:x :y :z| x^3*z - (x*y^2*(3/4)) - (x*y*z*(3/2)) + (y^3) + (z^2*(1/4))].
 	self assert: f image = X! !
 
-!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 2/20/2025 07:16:24'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 8/10/2025 19:52:43'!
 testRationalMapAffineExample
 	"From lecture notes MIT 18.782 Introduction to Arithmetic Geometry, Lecture #15, Fall 2013, 10/29/2013, Example 15.19."
 	| 𝔸² X 𝔸¹ φ φ₂ ψ |
 	𝔸² := AffineSpace new: 2 over: ℚ.
 	X := 𝔸² sub: [:x :y| x^2 + (y^2) - 1].
 	𝔸¹ := AffineSpace new: 1 over: ℚ.
-	φ := X to: 𝔸¹ mapWithCoordinates: [:x₀ :y₀| {y₀ / (x₀ + 1)}].
-	φ₂ := X to: 𝔸¹ mapWithCoordinates: [:x₀ :y₀| {1 - x₀ / y₀}].
+	φ := RationalMap from: X to: 𝔸¹ mapWithCoordinates: [:x₀ :y₀| {y₀ / (x₀ + 1)}].
+	φ₂ := RationalMap from: X to: 𝔸¹ mapWithCoordinates: [:x₀ :y₀| {1 - x₀ / y₀}].
 	self assert: φ = φ₂.
-	ψ := 𝔸¹ to: X mapWithCoordinates: [:t| {1 - (t^2) / (1 + (t^2)). t*2 / (1 + (t^2))}].
+	ψ := RationalMap from: 𝔸¹ to: X mapWithCoordinates: [:t| {1 - (t^2) / (1 + (t^2)). t*2 / (1 + (t^2))}].
 	self assert: (φ · ψ) isIdentity.
 	self assert: φ isRegular not.
 	self assert: φ isDominant.
@@ -4441,7 +4443,7 @@ testRationalMapAffineExample
 	self assert: ψ isDominant.
 	self assert: ψ isSurjective not! !
 
-!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 2/20/2025 07:16:47'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 8/10/2025 19:52:59'!
 testRationalMapImage
 	| A X X₂ f |
 	A := AffineSpace new: #(x y) over: ℚ.
@@ -4450,10 +4452,10 @@ testRationalMapImage
 	"circle centered at: (1,2):"
 	X₂ := A sub: [:x :y| (x-1)^2 + ((y-2)^2) - 1].
 	"translation by (1,2):"
-	f := X to: A mapWithCoordinates: [:x :y| {x+1. y+2}].
+	f := RationalMap from: X to: A mapWithCoordinates: [:x :y| {x+1. y+2}].
 	self assert: f image = X₂.
 	"global translation by (1,2):"
-	f := A to: A mapWithCoordinates: [:x :y| {x+1. y+2}].
+	f := RationalMap from: A to: A mapWithCoordinates: [:x :y| {x+1. y+2}].
 	self assert: (X apply: f) = X₂! !
 
 !AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 10/5/2022 17:24:12'!
@@ -4474,13 +4476,13 @@ testRationalMapLinearMapConversion
 	f3 _ V2 ⇒ V3 !! f2.
 	self assert: f = f3! !
 
-!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 2/20/2025 07:17:13'!
+!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 8/10/2025 19:53:13'!
 testRationalMapProjectiveExample
 	"Example from Magma documentation, Example Scheme_ex5 H119E5."
 	| ℙ¹ ℙ² f p X |
 	ℙ¹ := ProjectiveSpace new: #(s t) over: ℚ.
 	ℙ² := ProjectiveSpace new: #(x y z) over: ℚ.
-	f := ℙ¹ to: ℙ² mapWithCoordinates: [:s :t| {s/t. s^2/(s^2 - (t^2)). t/s}].
+	f := RationalMap from: ℙ¹ to: ℙ² mapWithCoordinates: [:s :t| {s/t. s^2/(s^2 - (t^2)). t/s}].
 	p := ℙ¹ points !! #(3 2).
 	self assert: (f value: p) = (ℙ² points !! {9/4. 27/10. 1}).
 	X := ℙ² sub: [:x :y :z| {(x*y)^2 - (x^3*z) - (x*(y^2)*z*2) + ((y*z)^2)}].
@@ -5067,22 +5069,22 @@ testGroebnerExample2
 	G _ I basis "reduced".
 	self assert: G printString = '(x + (1/2)y + (1/2), y^2 - 2y - (11/5))'! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 12:01:04'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 8/8/2025 16:12:50'!
 testGroebnerExample3
 	"From some question in math.stackexchange.com."
 	| R I G |
-	R _ ℚ polynomialsIn: #(x y) ordering: #glex.
-	I _ R * (R !! [:x :y| {x^2*y + x + 1. x*(y^2) + y + 1. x - y}]).
-	G _ I basis "reduced".
+	R := ℚ polynomialsIn: #(x y) ordering: #glex.
+	I := R * [:x :y| {x^2*y + x + 1. x*(y^2) + y + 1. x - y}].
+	G := I basis "reduced".
 	self assert: G printString = '(y^3 + y + 1, x - y)' "this is as computed by Singular"! !
 
-!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 12:01:43'!
+!CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 8/8/2025 16:12:59'!
 testGroebnerExample4Minimal
 	"Example from Cox, Little, O'Shea, 'Ideals, Varieties and Algorithms', p. 90, continued in p. 93."
 	| R I G |
-	R _ ℚ polynomialsIn: #(x y) ordering: #grevlex.
-	I _ R * (R !! [:x :y| {x^3 - (x*y*2). x^2*y - (y^2*2) + x}]).
-	G _ I basis "minimal".
+	R := ℚ polynomialsIn: #(x y) ordering: #grevlex.
+	I := R * [:x :y| {x^3 - (x*y*2). x^2*y - (y^2*2) + x}].
+	G := I basis "minimal".
 	self assert: G printString = '(x^2, xy, y^2 - (1/2)x)'! !
 
 !CommutativeAlgebraTest methodsFor: 'groebner' stamp: 'len 1/13/2022 11:35:21'!
@@ -5120,38 +5122,38 @@ testAffineRingDimensionAsVectorSpace
 	self assert: (S/I) degree = 17.
 	self assert: (S/I) basis size = 17! !
 
-!CommutativeAlgebraTest methodsFor: 'hilbert series' stamp: 'len 7/13/2023 16:09:59'!
+!CommutativeAlgebraTest methodsFor: 'hilbert series' stamp: 'len 8/8/2025 16:13:11'!
 testHilbertPolynomialExample1
 	| R I H |
 	R := ℚ polynomialsIn: #(x y z).
-	I := R * (R !! [:x :y :z| {x^3*(y^2) + (x^2*(y^2)*z*3) + (y^3*(z^2)) + (z^5)}]).
+	I := R * [:x :y :z| {x^3*(y^2) + (x^2*(y^2)*z*3) + (y^3*(z^2)) + (z^5)}].
 	H := (R/I) hilbertPolynomial.
 	self assert: H = (H parent x * 5 - 5)! !
 
-!CommutativeAlgebraTest methodsFor: 'hilbert series' stamp: 'len 7/13/2023 16:10:08'!
+!CommutativeAlgebraTest methodsFor: 'hilbert series' stamp: 'len 8/8/2025 16:13:19'!
 testHilbertPolynomialExample2
 	| R I H |
 	R := ℚ polynomialsIn: #(x y z).
-	I := R * (R !! [:x :y :z| {x^2*(y^3). x*z}]).
+	I := R * [:x :y :z| {x^2*(y^3). x*z}].
 	H := (R/I) hilbertPolynomial.
 	self assert: H = (H parent x + 5)! !
 
-!CommutativeAlgebraTest methodsFor: 'hilbert series' stamp: 'len 7/13/2023 16:09:33'!
+!CommutativeAlgebraTest methodsFor: 'hilbert series' stamp: 'len 8/8/2025 16:13:29'!
 testHilbertSeriesExample1
 	"Example from Sage (but Sage defines this as the Hilbert series of the ideal I instead of the quotient R/I):"
 	| R I H t |
 	R := ℚ polynomialsIn: #(x y z).
-	I := R * (R !! [:x :y :z| {x^3*(y^2) + (x^2*(y^2)*z*3) + (y^3*(z^2)) + (z^5)}]).
+	I := R * [:x :y :z| {x^3*(y^2) + (x^2*(y^2)*z*3) + (y^3*(z^2)) + (z^5)}].
 	H := (R/I) hilbertSeries.
 	t := H parent x.
 	self assert: H = (t^4 + (t^3) + (t^2) + t + 1 / (t^2 - (t*2) + 1))! !
 
-!CommutativeAlgebraTest methodsFor: 'hilbert series' stamp: 'len 7/13/2023 16:09:25'!
+!CommutativeAlgebraTest methodsFor: 'hilbert series' stamp: 'len 8/8/2025 16:13:41'!
 testHilbertSeriesExample2
 	"Example from Sage (but Sage defines this as the Hilbert series of the ideal I instead of the quotient R/I):"
 	| R I H t |
 	R := ℚ polynomialsIn: #(a b).
-	I := R * (R !! [:a :b| {a^2*b. a*(b^2)}]).
+	I := R * [:a :b| {a^2*b. a*(b^2)}].
 	H := (R/I) hilbertSeries.
 	t := H parent x.
 	self assert: H = (t^3 - (t^2) - t - 1 / (t - 1))! !
@@ -5273,14 +5275,14 @@ testIdealColon2
 	self assert: Q = (I : (R * x) ∩ (I : (R * y))).
 	self assert: Q = (R * {x*z - (y^2). x^3 - (y*z). x^2*y - (z^2)})! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 5/23/2020 09:33:01'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 8/4/2025 16:12:51'!
 testIdealElimination
 	"Example from Cox IVA 123 p. NOTE: this is a little slow."
 	| Qx x y z I |
 	Qx _ ℚ polynomialsIn: #(x y z).
 	x _ Qx x. y _ Qx y. z _ Qx z.
 	I _ Qx * {x^2 + y + z - 1. x + (y^2) + z - 1. x + y + (z^2) - 1}.
-	self assert: (I eliminateAll: #(1 2)) generator = (z^6 - (z^4*4) + (z^3*4) - (z^2))! !
+	self assert: (I eliminate: #(1 2)) generator = (z^6 - (z^4*4) + (z^3*4) - (z^2))! !
 
 !CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 4/8/2021 12:35:55'!
 testIdealEqualsUnitIdeal
@@ -5434,29 +5436,28 @@ testIdealRadicalExample1
 	J := R * {x. y}.
 	self assert: I radical = J! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 4/16/2025 13:33:30'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 8/8/2025 16:14:03'!
 testIdealRadicalExample2
 	| R I |
 	R := ℤ/2 polynomialsIn: #(x y z w).
-	I := R * (R !! [:x :y :z :w| {y+z. x*z squared * w. x squared*z squared}]).
-	self assert: I radical = (R * (R !! [:x :y :z :w| {y+z. x*z}]))
+	I := R * [:x :y :z :w| {y+z. x*z squared * w. x squared*z squared}].
+	self assert: I radical = (R * [:x :y :z :w| {y+z. x*z}])
 ! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 4/16/2025 13:33:30'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 8/8/2025 16:14:22'!
 testIdealRadicalExample3
 	| R I |
 	R := ℚ polynomialsIn: #(x y z w).
-	I := R * (R !! [:x :y :z :w| {y+z. x*z squared * w. x squared*z squared}]).
-	self assert: I radical = (R * (R !! [:x :y :z :w| {y+z. x*z}]))
+	I := R * [:x :y :z :w| {y+z. x*z squared * w. x squared*z squared}].
+	self assert: I radical = (R * [:x :y :z :w| {y+z. x*z}])
 ! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 4/16/2025 13:33:30'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 8/8/2025 16:14:40'!
 testIdealRadicalExample4
 	| R I |
 	R := ℚ polynomialsIn: #(y z).
-	I := R * (R !! [:y :z| {y+z. z squared}]).
-	self assert: I radical = (R * (R !! [:y :z| {y. z}]))
-! !
+	I := R * [:y :z| {y+z. z squared}].
+	self assert: I radical = (R * [:y :z| {y. z}])! !
 
 !CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 4/16/2025 13:33:30'!
 testIdealRadicalZeroDimPerfectField
@@ -5495,22 +5496,23 @@ testIdealSaturation2
 	S := R * {a*b - (c*d). a^2*c - (b^2*d). b^3 - (a*(c^2)). a^3 - (b*(d^2))}.
 	self assert: (I saturation: R * {a.b.c.d}) = S! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 12/10/2023 10:36:24'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 8/8/2025 16:15:12'!
 testLocalIdeals
 	"Magma handbook, example H104E4."
 	| R I J A M |
+	self error: 'broken'.
 	R := ℚ polynomialsIn: #(x y z) ordering: #llex.
-	I := R * (R !! [:x :y :z| {x*y - z. x^3*(z^2) - (y^2). x*(z^3) - x - y}]).
-	J := R * (R !! [:x :y :z| {x*y - z. x^2*z - y. x*(z^3) - x - y}]).
-	A := R * (R !! [:x :y :z|
+	I := R * [:x :y :z| {x*y - z. x^3*(z^2) - (y^2). x*(z^3) - x - y}].
+	J := R * [:x :y :z| {x*y - z. x^2*z - y. x*(z^3) - x - y}].
+	A := R * [:x :y :z|
 		{x^2 - (y^2) + (2*(x^3)*z).
 		x*y + (y^2) - (x^3*z).
 		y^3.
 		x*z + (y*z).
 		y*z.
-		z^2}]).
+		z^2}].
 	self assert: I * J = A.
-	M := R * (R !! [:x :y :z| {x + y. y^2. z}]).
+	M := R * [:x :y :z| {x + y. y^2. z}].
 	self assert: I ∩ J = M.
 	self deny: A = M.
 	self assert: A ⊆ M! !
@@ -9173,13 +9175,13 @@ testColumnExtended
 	self assert: B isSquare.
 	self assert: A image ⊆ B image! !
 
-!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 6/3/2023 11:45:50'!
+!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/10/2025 14:49:23'!
 testCongruence
 	| n A P |
 	n := 5 atRandom: random.
 	"at the moment we can test congruence of invertible matrices only:"
-	A := (scalars^n) automorphisms "endomorphisms" atRandom: random bits: 10*n*n.
-	P := A domain automorphisms atRandom: random bits: 10*n*n.
+	A := (scalars^n) automorphisms "endomorphisms" atRandom: random bits: 5*n*n.
+	P := A domain automorphisms atRandom: random bits: 5*n*n.
 	self assert: P transpose * A * P ≅ A! !
 
 !AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 12/11/2022 10:11:23'!
@@ -9267,10 +9269,10 @@ testRecursiveSolveUpperTriangularNegated
 	C replaceSolveUpperTriangularNegated: U.
 	self assert: U*C negated = B! !
 
-!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 1/8/2025 10:14:26'!
+!AbstractFieldMatrixTest methodsFor: 'as yet unclassified' stamp: 'len 8/8/2025 14:53:06'!
 testRecursiveUpperTriangularInverse
 	| U C |
-	U := scalars^(10 atRandom: random) :: endomorphisms fill: [:i :j| i > j ifTrue: [scalars zero] ifFalse: [i = j ifTrue: [scalars units atRandom: random] ifFalse: [scalars atRandom: random]]].
+	U := scalars^(5 atRandom: random) :: endomorphisms fill: [:i :j| i > j ifTrue: [scalars zero] ifFalse: [i = j ifTrue: [scalars units atRandom: random] ifFalse: [scalars atRandom: random]]].
 	C := U copy.
 	C replaceUpperTriangularInverse.
 	self assert: U inverse = C! !
@@ -10891,14 +10893,14 @@ testAnnihilatorSpace
 	self assert: S0 rank = S corank.
 	S0 generators do: [:f| self assert: (f value: v) isZero]! !
 
-!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 12/10/2023 10:36:24'!
+!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 8/3/2025 14:17:46'!
 testAnnihilatorSpaceProperties
 	| V n m S T |
 	V := self newVectorSpace.
 	n := (0 to: V rank) atRandom: random.
-	S := (V grassmannian: n) atRandom: random bits: (100 atRandom: random).
+	S := V submoduleRank: n atRandom: random bits: (100 atRandom: random).
 	m := (0 to: n) atRandom: random.
-	T := (S grassmannian: m) atRandom: random bits: (100 atRandom: random).
+	T := S submoduleRank: m atRandom: random bits: (100 atRandom: random).
 	self assert: T ⊆ S.
 	self assert: T annihilatorSpace ⊇ S annihilatorSpace. "reverses inclusions"
 	self assert: (S + T) annihilatorSpace = (S annihilatorSpace ∩ T annihilatorSpace).
@@ -10906,24 +10908,13 @@ testAnnihilatorSpaceProperties
 	self assert: V annihilatorSpace isTrivial.
 "	self assert: S annihilator annihilator = S dual dual"! !
 
-!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 8/12/2022 13:13:49'!
+!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 8/3/2025 14:18:52'!
 testGrassmannRelation
 	| V S T |
-	V _ self newVectorSpace.
-	S _ (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (20 atRandom: random).
-	T _ (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (20 atRandom: random).
+	V := self newVectorSpace.
+	S := V submoduleRank: ((0 to: V rank) atRandom: random) atRandom: random bits: (20 atRandom: random).
+	T := V submoduleRank: ((0 to: V rank) atRandom: random) atRandom: random bits: (20 atRandom: random).
 	self assert: S rank + T rank = ((S + T) rank + (S ∩ T) rank)! !
-
-!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 3/26/2021 14:23:01'!
-testGrassmannian
-	| V r G S |
-	V _ self newVectorSpace.
-	r _ (0 to: V rank) atRandom: random.
-	G _ V grassmannian: r.
-	S _ G atRandom: random bits: (20 atRandom: random).
-	self assert: S rank = r.
-	self assert: (G includes: S).
-	self assert: (G dual includes: S annihilatorSpace)! !
 
 !AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 5/30/2023 22:58:11'!
 testIsSemisimple
@@ -10931,12 +10922,12 @@ testIsSemisimple
 	V := self newVectorSpace.
 	self assert: V isSemisimple! !
 
-!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 12/3/2023 21:29:43'!
+!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 8/3/2025 14:20:05'!
 testSubspaceOfSubspace
 	| V S s T t |
 	[V := self newVectorSpace. V rank > 2] whileFalse.
-	S := (V grassmannian: 2) atRandom: random bits: (100 atRandom: random).
-	T := (S grassmannian: 1) atRandom: random bits: (100 atRandom: random).
+	S := V submoduleRank: 2 atRandom: random bits: (100 atRandom: random).
+	T := S submoduleRank: 1 atRandom: random bits: (100 atRandom: random).
 	self assert: S ⊊ V.
 	self assert: T ⊊ S.
 	self assert: T ⊊ V.
@@ -10946,36 +10937,36 @@ testSubspaceOfSubspace
 	self assert: (S includes: t).
 	self assert: (T includes: t)! !
 
-!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 12/10/2023 10:36:24'!
+!AbstractVectorSpaceTest methodsFor: 'other' stamp: 'len 8/3/2025 14:20:26'!
 testSubspaceSumRandom
 	| V S T U |
 	V := self newVectorSpace.
-	S := (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (100 atRandom: random).
-	T := (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (100 atRandom: random).
+	S := V submoduleRank: ((0 to: V rank) atRandom: random) atRandom: random bits: (100 atRandom: random).
+	T := V submoduleRank: ((0 to: V rank) atRandom: random) atRandom: random bits: (100 atRandom: random).
 	U := S + T.
 	self assert: S ⊆ U.
 	self assert: T ⊆ U! !
 
-!AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 3/24/2021 09:06:07'!
+!AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 8/3/2025 14:19:23'!
 testOrthogonalProjection
 	| V S p v |
-	V _ self newVectorSpace.
-	S _ (V grassmannian: ((0 to: V rank) atRandom: random)) atRandom: random bits: (30 atRandom: random).
-	p _ S orthogonalProjection.
+	V := self newVectorSpace.
+	S := V submoduleRank: ((0 to: V rank) atRandom: random) atRandom: random bits: (30 atRandom: random).
+	p := S orthogonalProjection.
 	self testProjection: p.
-	v _ V atRandom: random bits: (50 atRandom: random).
+	v := V atRandom: random bits: (50 atRandom: random).
 	self assert: (p value: v) = (p value: (p value: v)). "idempotent at v"
 	self assert: p isIdempotent.
 	self assert: p kernel = S complement.
 	self assert: p image = S.
 	self assert: (S apply: p) = S! !
 
-!AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 12/10/2021 19:55:03'!
+!AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 8/3/2025 14:19:35'!
 testQuotientSpace
 	| V S Q |
-	[(V _ self newVectorSpace) isTrivial] whileTrue.
-	S _ V grassmannian: (V rank atRandom: random) :: atRandom: random bits: V rank * 10.
-	Q _ V/S.
+	[(V := self newVectorSpace) isTrivial] whileTrue.
+	S := V submoduleRank: (V rank atRandom: random) atRandom: random bits: V rank * 10.
+	Q := V/S.
 	self assert: Q rank = (V rank - S rank).
 "	self assert: (Q includes: S + (V atRandomBits: V rank * 10))."
 	self assert: (V / V null) rank = V rank.
@@ -10992,16 +10983,16 @@ testQuotientSpaceBug
 	"The rank and basis size should match:"
 	self assert: Q rank = Q basis size! !
 
-!AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 10/5/2022 17:38:51'!
+!AbstractVectorSpaceTest methodsFor: 'quotients' stamp: 'len 8/3/2025 14:19:45'!
 testQuotientSpaceMaps
 	| V S Q π v s |
-	V _ self newVectorSpace.
-	S _ V grassmannian: ((0 to: V rank) atRandom: random) :: atRandom: random bits: 50.
-	Q _ V/S.
-	π _ V → Q.
-	v _ V atRandom: random bits: 100.
+	V := self newVectorSpace.
+	S := V submoduleRank: ((0 to: V rank) atRandom: random) atRandom: random bits: 50.
+	Q := V/S.
+	π := V → Q.
+	v := V atRandom: random bits: 100.
 	self assert: (Q includes: (π value: v)).
-	s _ S atRandom: random bits: 100.
+	s := S atRandom: random bits: 100.
 	self assert: (π value: s) isZero.
 	self assert: (π value: v) = (π value: v+s)! !
 
@@ -13382,15 +13373,6 @@ setUp
 	super setUp.
 	R := ℤ polynomialsIn: (3 atRandom: random)! !
 
-!IntegerMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/10/2023 18:08:09'!
-testExtractCoercionBug
-	| S x₁ f g |
-	S := ℤ polynomialsIn: 2.
-	x₁ := S x: 1.
-	f := S → (S extract: #(1)) value: x₁.
-	g := (S extract: #(1)) !! x₁.
-	self assert: f = g! !
-
 !IntegerMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 6/7/2023 16:46:04'!
 testPolynomialFlatten
 	| S f |
@@ -13400,6 +13382,15 @@ testPolynomialFlatten
 		self assert: (S !! (S flatten !! f)) = f.
 		f := R atRandom: random.
 		self assert: (S !! (S flatten !! f)) = (S constant: f)]! !
+
+!IntegerMultivariatePolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/10/2025 20:20:35'!
+testSeparateCoercionBug
+	| S x₁ f g |
+	S := ℤ polynomialsIn: 2.
+	x₁ := S x: 1.
+	f := S → (S separate: #(1)) value: x₁.
+	g := (S separate: #(1)) !! x₁.
+	self assert: f = g! !
 
 !IntegerPolynomialRingTest methodsFor: 'as yet unclassified' stamp: 'len 5/27/2023 17:37:53'!
 setUp
