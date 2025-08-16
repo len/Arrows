@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7158] on 10 August 2025 at 8:20:53 pm'!
+'From Cuis7.3 [latest update: #7158] on 16 August 2025 at 5:29:41 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 169!
+!provides: 'Tests-Algebra' 1 171!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -3273,9 +3273,9 @@ testFactorizationOverZ3Degree11Times20
 	f _ x^11 + (x^9 * 2) + (x^8 * 2) + (x^6) + (x^5) + (x^3 * 2) + (x^2 * 2) + one.
 	20 timesRepeat: [f factorization]! !
 
-!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 5/28/2025 16:30:05'!
+!PolynomialBenchmark methodsFor: 'as yet unclassified' stamp: 'len 8/12/2025 18:42:44'!
 testFiniteField
-	"Benchmark Polynomial>>#= and ResidueClass#>>="
+	"Benchmark equality testing of polynomials and residue classes."
 	| F |
 	F := GaloisField new: 9.
 	((F^3) elements first: 9^3) asSet size = (9^3) ifFalse: [self halt]! !
@@ -3836,6 +3836,24 @@ testTorsionAbelianGroup
 	self assert: G isMixed not.
 	self assert: G torsionFree isTrivial! !
 
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 8/14/2025 17:02:56'!
+testAffineMorphismLinearMapConversion
+	| A2 A3 V2 V3 f f2 p f3 |
+	A2 := AffineSpace new: 2 over: ℚ.
+	A3 := AffineSpace new: 3 over: ℚ.
+	V2 := ℚ^2.
+	V3 := ℚ^3.
+
+	f := V2 ⇒ V3 atRandomBits: 100.
+	f2 := f asAffineMorphism.
+	self assert: (A2 ⇒ A3 includes: f2).
+
+	p := V2 atRandomBits: 100.
+	self assert: (f value: p) = (f2 value: p).
+
+	f3 := V2 ⇒ V3 !! f2.
+	self assert: f = f3! !
+
 !AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 3/27/2025 08:52:34'!
 testAffinePlaneCurveMultiplicity
 	| A C |
@@ -4273,10 +4291,9 @@ testSmoothnessOverQQ2
 	self assert: (R/I) spec isSmooth.
 	self assert: (R/J) spec isSmooth not! !
 
-!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 3/15/2025 11:16:09'!
+!AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 8/12/2025 16:09:14'!
 testSpecZ
-	self assert: ℤ spec dimension = 1.
-	self assert: ℤ spec isNoetherian! !
+	self assert: ℤ spec dimension = 1! !
 
 !AlgebraicGeometryTest methodsFor: 'general' stamp: 'len 3/15/2025 11:15:46'!
 testSpecZPointsCodimension
@@ -4457,24 +4474,6 @@ testRationalMapImage
 	"global translation by (1,2):"
 	f := RationalMap from: A to: A mapWithCoordinates: [:x :y| {x+1. y+2}].
 	self assert: (X apply: f) = X₂! !
-
-!AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 10/5/2022 17:24:12'!
-testRationalMapLinearMapConversion
-	| A2 A3 V2 V3 f f2 p f3 |
-	A2 _ AffineSpace new: 2 over: ℚ.
-	A3 _ AffineSpace new: 3 over: ℚ.
-	V2 _ ℚ^2.
-	V3 _ ℚ^3.
-
-	f _ V2 ⇒ V3 atRandomBits: 100.
-	f2 _ f asRationalMap.
-	self assert: (A2 ⇒ A3 includes: f2).
-
-	p _ V2 atRandomBits: 100.
-	self assert: (f value: p) = (f2 value: p).
-
-	f3 _ V2 ⇒ V3 !! f2.
-	self assert: f = f3! !
 
 !AlgebraicGeometryTest methodsFor: 'rational maps' stamp: 'len 8/10/2025 19:53:13'!
 testRationalMapProjectiveExample
@@ -5275,13 +5274,13 @@ testIdealColon2
 	self assert: Q = (I : (R * x) ∩ (I : (R * y))).
 	self assert: Q = (R * {x*z - (y^2). x^3 - (y*z). x^2*y - (z^2)})! !
 
-!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 8/4/2025 16:12:51'!
+!CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 8/16/2025 17:02:38'!
 testIdealElimination
-	"Example from Cox IVA 123 p. NOTE: this is a little slow."
+	"Example from [CLO97, p. 123]."
 	| Qx x y z I |
-	Qx _ ℚ polynomialsIn: #(x y z).
-	x _ Qx x. y _ Qx y. z _ Qx z.
-	I _ Qx * {x^2 + y + z - 1. x + (y^2) + z - 1. x + y + (z^2) - 1}.
+	Qx := ℚ polynomialsIn: #(x y z).
+	x := Qx x. y := Qx y. z := Qx z.
+	I := Qx * {x^2 + y + z - 1. x + (y^2) + z - 1. x + y + (z^2) - 1}.
 	self assert: (I eliminate: #(1 2)) generator = (z^6 - (z^4*4) + (z^3*4) - (z^2))! !
 
 !CommutativeAlgebraTest methodsFor: 'ideal operations' stamp: 'len 4/8/2021 12:35:55'!
@@ -7188,6 +7187,11 @@ testNonArtinianQuotientJacobsonRadical
 	self assert: R jacobsonRadical isZero.
 	Q := ℚ polynomials / [:x| x^2].
 	self assert: Q jacobsonRadical = (Q * Q x)! !
+
+!AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 8/14/2025 16:11:10'!
+testProductFiniteAlgebraBug
+	self assert: (𝔽₂ × 𝔽₂) isFiniteAlgebra
+! !
 
 !AAANewTest methodsFor: 'as yet unclassified' stamp: 'len 3/26/2025 08:54:23'!
 testSetsBraidingIsSymmetric
@@ -11719,16 +11723,15 @@ testRingInvolution
 		self assert: (a * b) adjoint = (b adjoint * a adjoint).
 		self assert: a adjoint adjoint = a]! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 10/9/2023 09:29:22'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2025 16:09:37'!
 testRingPropertiesHierarchy
 	R isField ifTrue: [self assert: R isEuclidean & R isIntegralDomain & R isDivisionRing].
 	R isIntegralDomain ifTrue: [self assert: R isReduced].
-	R isPID ifTrue: [self assert: R isIntegralDomain & R isPIR & R isUFD & R isNoetherian & R isDedekindDomain].
-	R isEuclidean ifTrue: [self assert: R isPIR & R isBezout & R hasGCD & R isNoetherian].
+	R isPID ifTrue: [self assert: R isIntegralDomain & R isPIR & R isUFD & R isDedekindDomain].
+	R isEuclidean ifTrue: [self assert: R isPIR & R isBezout & R hasGCD].
 	R isEuclideanDomain ifTrue: [self assert: R isIntegralDomain & R isEuclidean & R isBezoutDomain].
-	R isDedekindDomain ifTrue: [self assert: R isIntegralDomain & R isNoetherian].
-	R isFinite ifTrue: [self assert: R isArtinian].
-	! !
+	R isDedekindDomain ifTrue: [self assert: R isIntegralDomain].
+	R isFinite ifTrue: [self assert: R isArtinian]! !
 
 !AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 11/12/2023 10:54:12'!
 testRingUnits

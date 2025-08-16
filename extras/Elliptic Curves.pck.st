@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7092] on 3 May 2025 at 8:48:54 pm'!
+'From Cuis7.3 [latest update: #7158] on 12 August 2025 at 8:11:14 pm'!
 'Description '!
-!provides: 'Elliptic Curves' 1 34!
+!provides: 'Elliptic Curves' 1 35!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #'Elliptic Curves'!
 
@@ -178,12 +178,12 @@ pointsWithX: x₀
 	"Answer the points with x coordinate as given by the argument."
 	^ Iterator on: [:aBlock| self pointsWithX: x₀ do: aBlock]! !
 
-!EllipticCurveGroup methodsFor: 'elements' stamp: 'len 3/14/2025 08:35:10'!
+!EllipticCurveGroup methodsFor: 'elements' stamp: 'len 8/10/2025 23:30:19'!
 pointsWithX: x₀ do: aBlock
 	"Answer the points with x coordinate as given by the argument."
 	| P |
 	P := scalars polynomials.
-	^ (codomain polynomial value: {P !! x₀. P x. P one}) roots do: [:y| aBlock value: (codomain pointAt: scalars !!!! {x₀. y. scalars one})]! !
+	^ (codomain definingPolynomial value: {P !! x₀. P x. P one}) roots do: [:y| aBlock value: (codomain pointAt: scalars !!!! {x₀. y. scalars one})]! !
 
 !EllipticCurveGroup methodsFor: 'enumerating' stamp: 'len 6/22/2023 02:15:46'!
 do: aBlock
@@ -318,11 +318,6 @@ c₆
 discriminant
 	"Note: an elliptic curve is non-singular if the discriminant is a unit (nonzero over a field)."
 	^ (self b₂ squared * self b₈) negated - (self b₄ ^ 3 * 8) - (self b₆ squared * 27) + (self b₂ * self b₄ * self b₆ * 9)! !
-
-!EllipticCurve methodsFor: 'accessing' stamp: 'len 11/10/2016 08:03'!
-genus
-	"Answer the geometric genus of the receiver."
-	^ 1! !
 
 !EllipticCurve methodsFor: 'accessing' stamp: 'len 6/19/2023 13:57:16'!
 hyperellipticPolynomials
