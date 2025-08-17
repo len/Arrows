@@ -1,4 +1,4 @@
-'From Cuis7.3 [latest update: #7158] on 16 August 2025 at 5:29:26 pm'!
+'From Cuis7.3 [latest update: #7158] on 17 August 2025 at 4:43:15 pm'!
 'Description This package implements among other things: permutation groups, linear groups, finite fields, Galois rings, affine algebras, number fields, function fields, finitely presented modules, finite-dimensional associative algebras, schemes, finite-dimensional representations of finite groups.
 
 References:
@@ -112,7 +112,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 271!
+!provides: 'Algebra' 1 272!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'GAS' 1 1 nil!
@@ -3440,7 +3440,7 @@ Localization R[x⁻¹] of a commutative ring R away from an element x. This cons
 
 The prime ideals of R[x⁻¹] correspond to the prime ideals p ⊆ R such that x ∉ p.
 
-Geometrically, the spectrums of localizations away from elements x are the principal open subsets D(x) and form a basis of the Zariski topology in Spec(R).!
+Geometrically, spectra of localizations away from elements x are the principal open subsets D(x) and form a basis of the Zariski topology in Spec(R).!
 
 !QuotientRing commentStamp: '<historical>' prior: 0!
 Quotient ring R/I of a commutative ring R modulo an ideal I. Elements are residue classes modulo the ideal I.
@@ -3752,7 +3752,9 @@ The alternating group Alt(Ω) of even permutations on the elements of a finite s
 The symmetric group Sym(Ω) of permutations on the elements of a finite set or collection Ω (which we call 'space'). This is the ambient of all PermutationGroups.!
 
 !Module commentStamp: '<historical>' prior: 0!
-Finitely presented right R-modules, for a (unital) ring R. These include finite dimensional vector spaces over any computable field, finitely generated abelian groups (i.e. finitely generated ℤ-modules), and finitely presented modules over polynomial rings or quotients of polynomial rings. Ideals are also modeled as modules.
+Finitely generated right R-modules, for a (unital) Noetherian ring R. These include finite dimensional vector spaces over any computable field, finitely generated abelian groups (i.e. finitely generated ℤ-modules), and finitely presented modules over polynomial rings or quotients of polynomial rings. Ideals are also modeled as modules.
+
+Note that these are also finitely presented and coherent R-modules, because R is assumed to be Noetherian.
 
 Objects of this category are subquotient objects given by a presentation Rᵐ → Rⁿ → M consisting of an n×m relations (syzygies) matrix and an ℓ×n generator matrix. The columns of the generator matrix are the coordinates of the generators of M in its ambient (which has ℓ generators), and the columns of the relations matrix are the relations between the generators of M.
 
@@ -4652,6 +4654,11 @@ lift: anElement
 	self parent isFinite ifTrue: [^ self parent detect: [:x| self * x = anElement] ifNone: []].
 	^ self subclassResponsibility! !
 
+!RingElement methodsFor: 'operations' stamp: 'len 8/17/2025 15:41:46'!
+localization
+	"Answer the localization away from the receiver (or localization by powers of the receiver), i.e. a new ring where the receiver is invertible."
+	^ self parent localizationAwayFrom: self! !
+
 !RingElement methodsFor: 'operations' stamp: 'len 6/23/2023 17:51:51'!
 log
 	"If the receiver is a unit and the group of units is cyclic with a fixed generator (for example a distinguished primitive element), answer the logarithm of the receiver with base the generator."
@@ -4674,18 +4681,6 @@ multiplicativeOrder
 !RingElement methodsFor: 'operations' stamp: 'len 5/29/2020 07:53:44'!
 negated
 	^ self * -1! !
-
-!RingElement methodsFor: 'operations' stamp: 'len 8/6/2025 17:25:24'!
-nonvanishingLocus
-	"Answer the principal open subscheme D(f) of Spec(R) corresponding to the spectrum of the localization of the coordinate ring R away from f, where f is the receiver.
-	Points of D(f) correspond to the prime ideals of R that don't contain f, i.e. the nonvanishing locus of f.
-	The set of all D(f) for each f ∈ R is a basis for the Zariski topology."
-	^ self nonvanishingRing spec! !
-
-!RingElement methodsFor: 'operations' stamp: 'len 8/15/2025 22:51:52'!
-nonvanishingRing
-	"Answer the localization away from the receiver (or localization by powers of the receiver), i.e. a new ring where the receiver is invertible."
-	^ self parent localizationAwayFrom: self! !
 
 !RingElement methodsFor: 'operations' stamp: 'len 12/10/2021 19:19:49'!
 normalization
@@ -15718,17 +15713,13 @@ isFiniteAlgebra
 isFiniteField
 	^ self isFinite and: [self isField]! !
 
-!Ring methodsFor: 'testing' stamp: 'len 7/2/2025 16:01:20'!
+!Ring methodsFor: 'testing' stamp: 'len 8/16/2025 21:45:50'!
 isFinitelyGenerated
-	"Answer true if the receiver is a finitely generated R-algebra. See also >>scalars, >>generators and >>freeCover."
+	"Answer true if the receiver is a finitely generated R-algebra. See also >>scalars, >>generators and >>freeCover.
+	Note that since R is assumed to be Noetherian, finitely generated R-algebras are also finitely presented. See >>syzygies and >>presentation."
 	self isFiniteAlgebra ifTrue: [^ true].
 	self isAmbient ifFalse: [^ self ambient isFinitelyGenerated].
 	^ false! !
-
-!Ring methodsFor: 'testing' stamp: 'len 8/12/2025 16:08:13'!
-isFinitelyPresented
-	"Answer true if the receiver is a finitely presented R-algebra. See >>syzygies and >>presentation."
-	^ self isFinitelyGenerated "because our rings are Noetherian"! !
 
 !Ring methodsFor: 'testing' stamp: 'len 12/1/2024 14:37:22'!
 isFlat
@@ -17067,11 +17058,11 @@ asUnivariate
 	self isUnivariate ifTrue: [^ self].
 	^ self propertyAt: #asUnivariate ifAbsentPut: [self asUnivariateIn: self rank]! !
 
-!PolynomialRing methodsFor: 'converting' stamp: 'len 8/4/2025 15:57:56'!
+!PolynomialRing methodsFor: 'converting' stamp: 'len 8/17/2025 16:20:24'!
 asUnivariateIn: anIndeterminate
 	| answer |
-	(anIndeterminate > 0 and: [anIndeterminate <= self rank]) ifFalse: [^ self error: 'undefined undeterminate'].
-	answer _ self separate: {anIndeterminate}.
+	(anIndeterminate between: 1 and: self rank) ifFalse: [^ self error: 'undefined indeterminate'].
+	answer := self separate: {anIndeterminate}.
 	answer propertyAt: #asMultivariate put: self.
 	^ answer! !
 
@@ -17737,21 +17728,18 @@ isUnivariate
 idealClass
 	^ PolynomialIdeal! !
 
-!PolynomialRing methodsFor: 'private' stamp: 'len 2/26/2017 10:37:19'!
-monomials: aFreeAbelianMonoid
-	monomials _ aFreeAbelianMonoid! !
+!PolynomialRing methodsFor: 'private' stamp: 'len 8/17/2025 15:58:09'!
+monomials: aFreeAbelianMonoid scalars: aRing
+	monomials := aFreeAbelianMonoid.
+	scalars := aRing! !
 
 !PolynomialRing methodsFor: 'private' stamp: 'len 11/20/2016 12:06:41'!
 ordering: aMonomialOrdering
 	monomials ordering: aMonomialOrdering! !
 
-!PolynomialRing methodsFor: 'private' stamp: 'len 1/2/2017 10:10:53'!
-scalars: aRing
-	scalars _ aRing! !
-
-!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 5/13/2019 22:12:50'!
+!PolynomialRing class methodsFor: 'instance creation' stamp: 'len 8/17/2025 15:57:52'!
 monomials: aFreeAbelianMonoid over: aRing
-	^ self new monomials: aFreeAbelianMonoid; scalars: aRing! !
+	^ self new monomials: aFreeAbelianMonoid scalars: aRing! !
 
 !PolynomialRing class methodsFor: 'instance creation' stamp: 'len 5/13/2019 22:12:02'!
 new: anInteger over: aRing
@@ -18464,9 +18452,9 @@ baseIdeal: anIdeal
 base
 	^ self propertyAt: #base! !
 
-!PrincipalLocalizationRing methodsFor: 'accessing' stamp: 'len 8/6/2025 17:24:37'!
+!PrincipalLocalizationRing methodsFor: 'accessing' stamp: 'len 8/17/2025 15:41:46'!
 cover
-	^ self base representative nonvanishingRing! !
+	^ self base representative localization! !
 
 !PrincipalLocalizationRing methodsFor: 'accessing' stamp: 'len 4/7/2025 12:18:49'!
 generators
@@ -18509,13 +18497,13 @@ to: aRing
 	(aRing isLocalization and: [aRing numerators = self numerators and: [aRing denominatorsInclude: self base]]) ifTrue: [^ self to: aRing map: [:f| aRing reducedNumerator: f numerator denominator: f denominator]].
 	^ super to: aRing! !
 
-!PrincipalLocalizationRing methodsFor: 'operations' stamp: 'len 8/8/2025 21:18:05'!
+!PrincipalLocalizationRing methodsFor: 'operations' stamp: 'len 8/17/2025 15:41:46'!
 / anIdeal
 	| I |
 	I := (anIdeal isKindOf: Ideal)
 		ifTrue: [anIdeal scalars = self ifTrue: [anIdeal] ifFalse: [self * anIdeal generators]]
 		ifFalse: [self * anIdeal].
-	^ ((self numerators / I contraction) !! self base) nonvanishingRing! !
+	^ ((self numerators / I contraction) !! self base) localization! !
 
 !PrincipalLocalizationRing methodsFor: 'operations' stamp: 'len 4/11/2025 14:01:51'!
 \ anElement
@@ -18527,14 +18515,14 @@ to: aRing
 	F := self freeCover.
 	^ (F !! (self numerators \ x numerator)) * (F x: F rank to: k)! !
 
-!PrincipalLocalizationRing methodsFor: 'operations' stamp: 'len 8/6/2025 17:24:37'!
+!PrincipalLocalizationRing methodsFor: 'operations' stamp: 'len 8/17/2025 15:41:46'!
 localizationAt: anIdeal
-	^ anIdeal numerator nonvanishingRing! !
+	^ anIdeal numerator localization! !
 
-!PrincipalLocalizationRing methodsFor: 'operations' stamp: 'len 8/6/2025 17:24:37'!
+!PrincipalLocalizationRing methodsFor: 'operations' stamp: 'len 8/17/2025 15:41:46'!
 localizationAwayFrom: anElement
 	anElement isUnit ifTrue: [^ self].
-	^ (self base lcm: anElement numerator) nonvanishingRing! !
+	^ (self base lcm: anElement numerator) localization! !
 
 !PrincipalLocalizationRing methodsFor: 'printing' stamp: 'len 4/7/2025 12:46:19'!
 printOn: aStream
@@ -21821,17 +21809,14 @@ isFinitelyGenerated
 isUnivariate
 	^ self rank = 1! !
 
-!FreeAlgebra methodsFor: 'private' stamp: 'len 6/29/2022 06:38:04'!
-monomials: aFreeMonoid
-	monomials _ aFreeMonoid! !
+!FreeAlgebra methodsFor: 'private' stamp: 'len 8/17/2025 15:58:31'!
+monomials: aFreeMonoid scalars: aRing
+	monomials := aFreeMonoid.
+	scalars := aRing! !
 
-!FreeAlgebra methodsFor: 'private' stamp: 'len 1/20/2016 13:39'!
-scalars: aCommutativeRing
-	scalars _ aCommutativeRing! !
-
-!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 6/29/2022 06:38:21'!
+!FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 8/17/2025 15:57:43'!
 monomials: aFreeMonoid over: aRing
-	^ self new monomials: aFreeMonoid; scalars: aRing! !
+	^ self new monomials: aFreeMonoid scalars: aRing! !
 
 !FreeAlgebra class methodsFor: 'instance creation' stamp: 'len 6/29/2022 06:38:30'!
 new: anIntegerOrCollection over: aRing
@@ -25842,7 +25827,7 @@ space
 	(anObject isKindOf: GeneralLinearGroup) ifFalse: [^ super = anObject].
 	^ self space = anObject space! !
 
-!GeneralLinearGroup methodsFor: 'converting' stamp: 'len 3/26/2025 09:35:55'!
+!GeneralLinearGroup methodsFor: 'converting' stamp: 'len 8/17/2025 16:41:57'!
 asAffineScheme
 	| n P det V endos |
 	self scalars isField ifFalse: [self notYetImplemented].
@@ -25850,7 +25835,7 @@ asAffineScheme
 	P := self scalars polynomialsIn: n squared + 1.
 	endos := (P^n) endomorphisms.
 	det := (endos !! P generators) determinant.
-	V := (P * (det * (P x: n squared + 1) - P one)) vanishingLocus.
+	V := (P * (det * (P x: n squared + 1) - P one)) vanishingSubscheme.
 	V addCoercionTo: self map: [:p| endos !! p allButLast].
 	V addCoercionFrom: self map: [:M| V !! (M asTuple, M determinant inverse)].
 	^ V! !
@@ -26065,13 +26050,13 @@ size
 	n := self dimension.
 	^ q ^ (n*(n-1)/2) * ((2 to: n) inject: 1 into: [:x :k| q^k - 1 * x])! !
 
-!SpecialLinearGroup methodsFor: 'operations' stamp: 'len 3/26/2025 09:35:55'!
+!SpecialLinearGroup methodsFor: 'operations' stamp: 'len 8/17/2025 16:42:04'!
 asAffineScheme
 	| n P det |
-	n _ self degree.
-	P _ self scalars polynomialsIn: n squared.
-	det _ ((P^n) endomorphisms fill: [:i :j| P x: i - 1 * n + j]) determinant.
-	^ (P * (det - self scalars one)) vanishingLocus! !
+	n := self degree.
+	P := self scalars polynomialsIn: n squared.
+	det := ((P^n) endomorphisms fill: [:i :j| P x: i - 1 * n + j]) determinant.
+	^ (P * (det - self scalars one)) vanishingSubscheme! !
 
 !SpecialLinearGroup methodsFor: 'operations' stamp: 'len 1/14/2025 13:42:35'!
 center
@@ -26827,12 +26812,12 @@ asAbelianGroup
 	self assert: self carrier ~= self.
 	^ self carrier asAbelianGroup! !
 
-!Module methodsFor: 'converting' stamp: 'len 3/26/2025 09:35:55'!
+!Module methodsFor: 'converting' stamp: 'len 8/17/2025 16:42:11'!
 asAffineScheme
 	| R X |
-	R _ self scalars polynomialsIn: self ambient rank.
-	X _ R !!!! R generators.
-	^ (R * (self annihilatorSpace basis asArray collect: [:each| (each asMatrix over: R) * X at: 1])) vanishingLocus! !
+	R := self scalars polynomialsIn: self ambient rank.
+	X := R !!!! R generators.
+	^ (R * (self annihilatorSpace basis asArray collect: [:each| (each asMatrix over: R) * X at: 1])) vanishingSubscheme! !
 
 !Module methodsFor: 'converting' stamp: 'len 10/5/2022 18:37:41'!
 asChainComplex
@@ -27630,10 +27615,6 @@ isFinite
 isFinitelyGenerated
 	^ true! !
 
-!Module methodsFor: 'testing' stamp: 'len 3/24/2025 08:53:31'!
-isFinitelyPresented
-	^ true! !
-
 !Module methodsFor: 'testing' stamp: 'len 6/29/2023 19:42:59'!
 isFlat
 	"A module M is called flat if, for every injective homomorphism i:N→L, the induced map i⊗M:N⊗M→L⊗M is again injective.
@@ -28084,6 +28065,10 @@ sub: aCollectionOrMatrix
 vanishingLocus
 	^ self radical quotientRing spec! !
 
+!Ideal methodsFor: 'operations' stamp: 'len 8/17/2025 15:39:39'!
+vanishingSubscheme
+	^ self quotientRing spec! !
+
 !Ideal methodsFor: 'printing' stamp: 'len 7/1/2022 10:48:22'!
 printGeneratorsOn: aStream
 	self isTrivial ifTrue: [aStream print: self zero. ^ self].
@@ -28216,10 +28201,10 @@ isSemiprime
 	self scalars = ℤ ifTrue: [^ self isTrivial or: [self generator isSquarefree]].
 	^ self notYetImplemented! !
 
-!Ideal methodsFor: 'testing' stamp: 'len 8/6/2025 15:37:44'!
+!Ideal methodsFor: 'testing' stamp: 'len 8/16/2025 22:56:43'!
 isZeroDimensional
 	"An ideal I ⊂ R is called 'zero dimensional' if the quotient ring R/I is of Krull dimension 0."
-	^ self quotientRing dimension = 0! !
+	^ self quotientRing isZeroDimensional! !
 
 !Ideal methodsFor: 'testing' stamp: 'len 4/16/2025 13:33:30'!
 radicalContains: anElement
@@ -28494,7 +28479,7 @@ radical
 		""And continue recursively:""
 		^ J ∩ (self + (self scalars * h)) radical]"! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 8/8/2025 15:15:03'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 8/16/2025 23:03:16'!
 : anIdeal
 	"See [CLO97] pag. 205, [DK02] pag. 16, and [HH11] Proposition 1.2.2."
 	| R answer |
@@ -28502,10 +28487,10 @@ radical
 	(R hasGCD and: [self generators isSingleton and: [anIdeal generators isSingleton]]) ifTrue: [^ R * (self generator / (self generator gcd: anIdeal generator))].
 	R isIntegralDomain ifFalse: [^ super : anIdeal].
 	answer := R asIdeal.
-	(self isMonomial and: [anIdeal isMonomial]) ifTrue:
+"	(self isMonomial and: [anIdeal isMonomial]) ifTrue:
 		[anIdeal minimalMonomialGeneratingSet do: [:g|
 			answer := answer ∩ (R * (self minimalMonomialGeneratingSet collect: [:each| each / (each gcd: g)]))].
-		^ answer].
+		^ answer]."
 	anIdeal generators do: [:g| answer := answer ∩ (R * ((R * g ∩ self) basis collect: [:h| h / g]))].
 	^ answer! !
 
@@ -28566,10 +28551,11 @@ dehomogenizedIn: anIndeterminate
 	S := R eliminate: {anIndeterminate}.
 	^ S * (self generators collect: [:each| S !! (each dehomogenizedIn: anIndeterminate)])! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 8/8/2025 15:55:21'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 8/17/2025 15:32:46'!
 eliminate: aCollection
 	"If the receiver is an ideal I ⊆ k[X], and the argument is Y ⊆ X, answer I ∩ k[X\Y], i.e. the subideal of polynomials that don't involve indeterminates in Y."
 	| complement G |
+	self flag: #deprecated.
 	complement := self scalars ordering indeterminates reject: [:each| aCollection includes: each].
 	G := (self orderedBy: (MonomialOrdering grevlex: aCollection), (MonomialOrdering grevlex: complement)) basis.
 	^ self scalars * (G asArray select: [:g| (aCollection noneSatisfy: [:i| g has: i])])
@@ -28619,13 +28605,6 @@ homogenized
 	"Answer the homogenization of the receiver introducing a new indeterminate."
 	"Must use a graded monomial ordering such as glex or grevlex:"
 	^ self scalars homogenization * (self gradedBasis collect: [:each| each homogenized])! !
-
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 4/6/2021 12:52:17'!
-polarization
-	"Answer the polarization of the receiver.
-	The polarization is a deformation that assigns to an arbitrary monomial ideal a squarefree monomial ideal in a new set of variables."
-	self isMonomial ifFalse: [^ self error: 'not a monomial ideal'].
-	self notYetImplemented	! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 5/22/2025 15:05:46'!
 reduce: anElement
@@ -28686,9 +28665,10 @@ singularLocusIdeal
 		D do: [:K| J == K ifFalse: [R := R ∩ (J + K)]]].
 	^ S ∩ R! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 8/6/2025 16:29:40'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 8/17/2025 15:32:33'!
 slice: anArray
 	"See >>eliminate."
+	self flag: #deprecated.
 	^ self eliminate: (self scalars indeterminates reject: [:i| anArray includes: i])! !
 
 !PolynomialIdeal methodsFor: 'printing' stamp: 'len 1/13/2022 10:32:19'!
@@ -29994,20 +29974,17 @@ do: aBlock
 	(aMonoid isKindOf: FreeAbelianMonoid) ifTrue: [^ self ⊕̂ aMonoid].
 	^ super ×̂ aMonoid! !
 
-!FreeAbelianMonoid methodsFor: 'operations' stamp: 'len 10/23/2024 16:41:01'!
+!FreeAbelianMonoid methodsFor: 'operations' stamp: 'len 8/17/2025 16:38:06'!
 ⊕ aMonoid
-	| answer |
+	| answer names xᵢ |
 	(aMonoid isKindOf: FreeAbelianMonoid) ifFalse: [^ super ⊕ aMonoid].
 	answer := self class new: self rank + aMonoid rank ordering: self ordering × aMonoid ordering.
-	(self names notNil and: [aMonoid names notNil])
-		ifTrue:
-			[| names xᵢ |
-			names := self names asOrderedCollection.
-			aMonoid names do: [:each|
-				xᵢ := each.
-				[names includes: xᵢ] whileTrue: [xᵢ := xᵢ, ''''].
-				names add: xᵢ].
-			answer names: names].
+	names := OrderedCollection withAll: self names.
+	aMonoid names do: [:each|
+		xᵢ := each.
+		[names includes: xᵢ] whileTrue: [xᵢ := xᵢ, ''''].
+		names add: xᵢ].
+	answer names: names.
 	^ answer! !
 
 !FreeAbelianMonoid methodsFor: 'operations' stamp: 'len 12/30/2024 21:02:24'!
@@ -32926,14 +32903,16 @@ to: aCodomain coordinates: anArray
 	(aScheme isKindOf: AffineScheme) ifFalse: [^ super × aScheme].
 	^ (self coordinateRing ⊗ aScheme coordinateRing) spec! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 8/16/2025 00:39:11'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 8/17/2025 15:45:33'!
 ∩ aScheme
-	self assert: self ambient = aScheme ambient.
-	self isAmbient ifTrue: [^ aScheme].
-	aScheme isAmbient ifTrue: [^ self].
-	(self isClosed and: [aScheme isClosed]) ifTrue: [^ self ambient sub: self definingIdeal + aScheme definingIdeal].
-	(self isPrincipalOpen and: [aScheme isPrincipalOpen]) ifTrue: [^ self ambient open: (self center lcm: aScheme center)].
-	^ (self → self ambient ∧ (aScheme → self ambient)) π₁ image! !
+	| X |
+	X := self ambient.
+	self assert: X = aScheme ambient.
+	X = self ifTrue: [^ aScheme].
+	X = aScheme ifTrue: [^ self].
+	(self isClosed and: [aScheme isClosed]) ifTrue: [^ (self definingIdeal + aScheme definingIdeal) vanishingSubscheme].
+	(self isPrincipalOpen and: [aScheme isPrincipalOpen]) ifTrue: [^ (self center lcm: aScheme center) localization spec].
+	^ (self → X ∧ (aScheme → X)) π₁ image! !
 
 !AffineScheme methodsFor: 'operations' stamp: 'len 8/16/2025 00:13:42'!
 ∪ aScheme
@@ -32954,10 +32933,10 @@ closure
 	self isClosed ifTrue: [^ self].
 	^ self notYetImplemented! !
 
-!AffineScheme methodsFor: 'operations' stamp: 'len 8/13/2025 17:50:13'!
+!AffineScheme methodsFor: 'operations' stamp: 'len 8/17/2025 15:41:46'!
 complement
 	"If the receiver is an hypersurface Spec(R/⟨f⟩), answer the principal open D(f) = Spec(R[f⁻¹]). And vice versa."
-	self isHypersurface ifTrue: [^ self definingIdeal generator nonvanishingRing spec].
+	self isHypersurface ifTrue: [^ self definingIdeal generator localization spec].
 	self isPrincipalOpen ifTrue: [^ self ambient sub: self coordinateRing base].
 	^ self notYetImplemented! !
 
@@ -32993,10 +32972,10 @@ printOn: aStream
 	self isEmpty ifTrue: [aStream nextPut: $∅. ^ self].
 	aStream nextPutAll: 'Spec('; print: self coordinateRing; nextPut: $)! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 8/16/2025 00:16:26'!
+!AffineScheme methodsFor: 'testing' stamp: 'len 8/17/2025 15:45:54'!
 isClosed
 	"Answer true if the receiver is a closed subscheme of its ambient."
-	^ self isAmbient or: [self coordinateRing isQuotient]! !
+	^ self = self ambient or: [self coordinateRing isQuotient]! !
 
 !AffineScheme methodsFor: 'testing' stamp: 'len 3/2/2025 07:04:53'!
 isCohenMacaulay
@@ -33014,6 +32993,10 @@ isEmpty
 !AffineScheme methodsFor: 'testing' stamp: 'len 8/8/2025 23:13:43'!
 isEquidimensional
 	^ self definingIdeal isEquidimensional! !
+
+!AffineScheme methodsFor: 'testing' stamp: 'len 8/16/2025 22:39:39'!
+isFinite
+	^ self isZeroDimensional! !
 
 !AffineScheme methodsFor: 'testing' stamp: 'len 8/14/2025 16:02:22'!
 isFiniteType
@@ -33160,10 +33143,10 @@ singularLocus
 pointAt: aTuple
 	^ AffineRationalPoint on: self coordinates: aTuple! !
 
-!AffineAlgebraicScheme methodsFor: 'points' stamp: 'len 3/26/2025 09:20:47'!
+!AffineAlgebraicScheme methodsFor: 'points' stamp: 'len 8/17/2025 15:46:19'!
 pointOver: aRing atRandom: aRandom
 	| points P |
-	self isAmbient ifTrue: [^ self subclassResponsibility].
+	self = self ambient ifTrue: [^ self subclassResponsibility].
 	points := aRing spec ⇒ self ambient.
 	[P := points atRandom: aRandom.
 	self satisfies: P coordinates] whileFalse.
@@ -33181,23 +33164,21 @@ to: aCodomain atRandom: aRandom
 	aCodomain scalars ⇢ self coordinateRing ifNotNil: [^ aCodomain pointOver: self coordinateRing atRandom: aRandom].
 	^ super to: aCodomain atRandom: aRandom! !
 
-!AffineAlgebraicScheme methodsFor: 'testing' stamp: 'len 1/9/2017 16:35:09'!
-isComplete
-	^ self isFinite! !
-
 !AffineAlgebraicScheme methodsFor: 'testing' stamp: 'len 2/23/2025 07:06:46'!
 isEquidimensional
 	"Answer true if the receiver is pure dimensional or equidimensional, i.e. if the dimension of the local ring at p is independent of p."
 	^ self singularLocus dimension < 0! !
 
-!AffineAlgebraicScheme methodsFor: 'testing' stamp: 'len 4/3/2025 14:41:27'!
+!AffineAlgebraicScheme methodsFor: 'testing' stamp: 'len 8/16/2025 22:40:12'!
 isFinite
 	"This works for any Groebner basis, no matter the ordering."
 	"Does this work for non-integral schemes?"
-	self definingIdeal scalars indeterminates do: [:x|
+	self flag: #deprecated.
+	^ super isFinite
+"	self definingIdeal scalars indeterminates do: [:x|
 		(self definingIdeal basis anySatisfy: [:f| | d m | m := f leadingMonomial. d := m degree. d > 0 and: [d = (m degreeIn: x)]])
 			ifFalse: [^ false]].
-	^ true! !
+	^ true"! !
 
 !AffineAlgebraicScheme methodsFor: 'testing' stamp: 'len 4/6/2025 09:01:57'!
 isGeometricallyReduced
@@ -33567,10 +33548,6 @@ pointsOver: aRing do: aBlock
 	generators := self definingIdeal generators.
 	self ambient pointsOver: aRing do: [:each| (generators allSatisfy: [:g| (g value: each coordinates) isZero]) ifTrue: [aBlock value: (self pointAt: each coordinates)]]! !
 
-!ProjectiveAlgebraicScheme methodsFor: 'testing' stamp: 'len 1/9/2017 16:34:57'!
-isComplete
-	^ true! !
-
 !ProjectiveAlgebraicScheme methodsFor: 'testing' stamp: 'len 6/27/2023 17:33:40'!
 isEmpty
 	"Answer true if the receiver has no points over any algebraic closure of its base field."
@@ -33807,14 +33784,14 @@ dimension
 rank
 	^ self homogeneousCoordinateRing rank! !
 
-!ProjectiveSpace methodsFor: 'accessing' stamp: 'len 3/20/2025 14:28:11'!
+!ProjectiveSpace methodsFor: 'accessing' stamp: 'len 8/17/2025 15:42:10'!
 transitions
 	| Uᵢ Uⱼ |
 	^ (1 to: self rank) collect: [:i|
 		Uᵢ := self patch: i.
 		(1 to: self rank) collect: [:j|
 			Uⱼ := self patch: j.
-			(Uᵢ coordinateRing x: j) nonvanishingLocus to: (Uⱼ coordinateRing x: i) nonvanishingLocus comap: [:f| (f homogenizedIn: j) dehomogenizedIn: i]]]! !
+			(Uᵢ coordinateRing x: j) localization spec to: (Uⱼ coordinateRing x: i) localization spec comap: [:f| (f homogenizedIn: j) dehomogenizedIn: i]]]! !
 
 !ProjectiveSpace methodsFor: 'morphisms' stamp: 'len 11/22/2023 20:16:53'!
 automorphisms
@@ -34640,7 +34617,7 @@ from: aDomain to: aCodomain map: aBlock
 from: aDomain to: aCodomain mapWithArguments: aBlock
 	^ self from: aDomain to: aCodomain map: [:each| aBlock valueWithArguments: each asArray]! !
 
-!RingMap methodsFor: 'accessing' stamp: 'len 2/24/2025 07:10:43'!
+!RingMap methodsFor: 'accessing' stamp: 'len 8/17/2025 15:48:07'!
 category
 	^ ℤ algebras
 "	^ self scalars algebras"! !
@@ -34848,7 +34825,7 @@ isZero
 	^ (self value: self domain one) isZero
 "	^ self codomain isTrivial"! !
 
-!RingMap methodsFor: 'private' stamp: 'len 8/16/2025 16:55:11'!
+!RingMap methodsFor: 'private' stamp: 'len 8/17/2025 15:25:51'!
 computeKernel
 	| A B K S J |
 	A := self domain.
@@ -34864,7 +34841,7 @@ computeKernel
 	((A isKindOf: PolynomialRing) and: [B isAffineAlgebra and: [A scalars = K and: [B scalars = K]]])
 		ifFalse: [self assert: A isFinite. ^ (A * (A select: [:x| (self value: x) isZero]))].
 	S := PolynomialRing monomials: B monomials over: A.
-	J := S * ((self images withIndexCollect: [:f :i| S !! f - (S scalars x: i)]), B relations generators).
+	J := S * ((self images withIndexCollect: [:f :i| (f value: S generators) - (S scalars x: i)]), B relations generators).
 	^ J ∩ A! !
 
 !RingMap methodsFor: 'private' stamp: 'len 8/8/2025 16:58:15'!
@@ -40868,11 +40845,11 @@ image
 inverse
 	^ self comorphism inverse spec! !
 
-!AffineMorphism methodsFor: 'operations' stamp: 'len 8/11/2025 22:56:18'!
+!AffineMorphism methodsFor: 'operations' stamp: 'len 8/17/2025 15:41:46'!
 preimage: aSubscheme
 	((aSubscheme isKindOf: AffineScheme) and: [self codomain = aSubscheme ambient]) ifFalse: [^ super preimage: aSubscheme].
 	aSubscheme isClosed ifTrue: [^ self domain sub: (aSubscheme definingIdeal apply: self comorphism)].
-	aSubscheme isPrincipalOpen ifTrue: [^ (self comorphism value: aSubscheme coordinateRing base) nonvanishingRing spec].
+	aSubscheme isPrincipalOpen ifTrue: [^ (self comorphism value: aSubscheme coordinateRing base) localization spec].
 	^ super preimage: aSubscheme! !
 
 !AffineMorphism methodsFor: 'operations' stamp: 'len 8/10/2025 16:08:39'!
@@ -43408,9 +43385,9 @@ printOn: aStream
 	indeterminates do: [:i| aStream print: (M x: i)] separatedBy: [aStream nextPut: $,].
 	aStream nextPut: $]! !
 
-!MonomialOrdering methodsFor: 'testing' stamp: 'len 1/26/2017 22:27:21'!
+!MonomialOrdering methodsFor: 'testing' stamp: 'len 8/16/2025 22:32:07'!
 isGlobal
-	"Answer true if the receiver is a noetherian or global ordering (as opposed to a local ordering).
+	"Answer true if the receiver is a global ordering (as opposed to a local or mixed ordering).
 	Global orderings satisfy 1 < m for all nontrivial monomials m."
 	^ false! !
 
@@ -43423,9 +43400,9 @@ isGraded
 isGradedWeighted
 	^ false! !
 
-!MonomialOrdering methodsFor: 'testing' stamp: 'len 1/22/2017 21:53:20'!
+!MonomialOrdering methodsFor: 'testing' stamp: 'len 8/16/2025 22:31:57'!
 isLocal
-	"Answer true if the receiver is a local (or non-noetherian) ordering.
+	"Answer true if the receiver is a local ordering.
 	Local orderings satisfy 1 > m for all nontrivial monomials m."
 	^ false! !
 
@@ -44052,11 +44029,11 @@ closure
 codimension
 	^ ideal height! !
 
-!SchemePoint methodsFor: 'accessing' stamp: 'len 5/22/2025 15:06:27'!
+!SchemePoint methodsFor: 'accessing' stamp: 'len 8/17/2025 15:42:21'!
 complement
 	"Answer the scheme corresponding to the complement of the receiver.
 	If the receiver is a point in an affine scheme Spec(R) corresponding to a principal ideal ⟨f⟩, this is Spec(R[1/f])."
-	((parent isKindOf: AffineScheme) and: [ideal generators isSingleton]) ifTrue: [^ ideal generator nonvanishingLocus].
+	((parent isKindOf: AffineScheme) and: [ideal generators isSingleton]) ifTrue: [^ ideal generator localization spec].
 	^ self notYetImplemented! !
 
 !SchemePoint methodsFor: 'accessing' stamp: 'len 3/14/2025 09:13:59'!
