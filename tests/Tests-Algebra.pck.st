@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7158] on 16 August 2025 at 5:29:41 pm'!
+'From Cuis7.3 [latest update: #7158] on 20 August 2025 at 4:02:10 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 171!
+!provides: 'Tests-Algebra' 1 172!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -7676,11 +7676,11 @@ testGeneralLinearAtRandom
 	self assert: (G atRandom: random bits: 100) isAutomorphism.
 	self assert: (G includes: (G atRandom: random bits: 100))! !
 
-!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 6/4/2023 21:24:16'!
+!LinearGroupsTest methodsFor: 'as yet unclassified' stamp: 'len 8/18/2025 21:23:51'!
 testOrthogonalAtRandom
 	| V O |
 	V := ℚ ^ 3.
-	O := V innerProduct automorphisms.
+	O := (BilinearForm on: V mapWithArguments: [:x :y| x · y]) automorphisms.
 	self assert: (O atRandom: random bits: 100) isOrthogonal.
 	self assert: (O includes: (O atRandom: random bits: 100))! !
 
@@ -11723,13 +11723,13 @@ testRingInvolution
 		self assert: (a * b) adjoint = (b adjoint * a adjoint).
 		self assert: a adjoint adjoint = a]! !
 
-!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/12/2025 16:09:37'!
+!AbstractRingTest methodsFor: 'as yet unclassified' stamp: 'len 8/18/2025 00:40:34'!
 testRingPropertiesHierarchy
 	R isField ifTrue: [self assert: R isEuclidean & R isIntegralDomain & R isDivisionRing].
 	R isIntegralDomain ifTrue: [self assert: R isReduced].
 	R isPID ifTrue: [self assert: R isIntegralDomain & R isPIR & R isUFD & R isDedekindDomain].
-	R isEuclidean ifTrue: [self assert: R isPIR & R isBezout & R hasGCD].
-	R isEuclideanDomain ifTrue: [self assert: R isIntegralDomain & R isEuclidean & R isBezoutDomain].
+	R isEuclidean ifTrue: [self assert: R isPIR & R hasGCD].
+	R isEuclideanDomain ifTrue: [self assert: R isIntegralDomain & R isEuclidean].
 	R isDedekindDomain ifTrue: [self assert: R isIntegralDomain].
 	R isFinite ifTrue: [self assert: R isArtinian]! !
 

@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 7 January 2025 at 7:49:52 am'!
+'From Cuis7.3 [latest update: #7158] on 20 August 2025 at 4:02:19 pm'!
 'Description '!
-!provides: 'Codes' 1 18!
+!provides: 'Codes' 1 19!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Codes!
 
@@ -129,13 +129,13 @@ weightEnumerator
 = anObject
 	^ (anObject isKindOf: LinearCode) and: [self asModule = anObject asModule]! !
 
-!LinearCode methodsFor: 'comparing' stamp: 'len 8/2/2020 12:11:54'!
-hash
-	^ self asModule hash! !
-
 !LinearCode methodsFor: 'comparing' stamp: 'len 12/10/2023 10:36:24'!
 ⊆ aCode
 	^ self asModule ⊆ aCode asModule! !
+
+!LinearCode methodsFor: 'comparing' stamp: 'len 8/2/2020 12:11:54'!
+hash
+	^ self asModule hash! !
 
 !LinearCode methodsFor: 'converting' stamp: 'len 8/3/2020 07:16:22'!
 asIdeal
@@ -144,15 +144,15 @@ asIdeal
 	g _ self generatorPolynomial.
 	^ g parent / {g parent x ^ self length - 1} * g! !
 
-!LinearCode methodsFor: 'converting' stamp: 'len 5/3/2021 10:56:58'!
+!LinearCode methodsFor: 'converting' stamp: 'len 8/18/2025 21:16:09'!
 asLattice
 	"A linear code in a finite field or ring can be lifted to a lattice.
 	This is called the Construction A lifting."
 	| B E H |
-	B _ self generatorMatrix lift.
-	E _ B ⊔ (B codomain endomorphisms scalar: self scalars characteristic).
-	H _ E transpose HNF over: ℚ.
-	^ Lattice on: H domain innerProduct basis: (H rows select: [:each| each isZero not])! !
+	B := self generatorMatrix lift.
+	E := B ⊔ (B codomain endomorphisms scalar: self scalars characteristic).
+	H := E transpose HNF over: ℚ.
+	^ Lattice basis: (H rows select: [:each| each isZero not])! !
 
 !LinearCode methodsFor: 'converting' stamp: 'len 8/2/2020 12:08:46'!
 asModule
@@ -210,6 +210,15 @@ isometries
 	"Answer the direct product of the receiver and the argument."
 	^ self class generatorMatrix: self generatorMatrix ⊗ aCode generatorMatrix! !
 
+!LinearCode methodsFor: 'operations' stamp: 'len 8/12/2022 13:12:21'!
+∩ aCode
+	^ self class on: self asModule ∩ aCode asModule! !
+
+!LinearCode methodsFor: 'operations' stamp: 'len 8/3/2020 20:35:57'!
+⊕ aCode
+	"Answer the direct sum of the receiver and the argument."
+	^ self class generatorMatrix: self generatorMatrix ⊕ aCode generatorMatrix! !
+
 !LinearCode methodsFor: 'operations' stamp: 'len 6/26/2023 12:59:55'!
 augmented
 	"Answer a code like the receiver but including the all-ones vector amoung its codewords."
@@ -241,15 +250,6 @@ hull
 sub: aCollection
 	"Answer the subcode spanned by the elements in aCollection."
 	^ (self class on: (self asModule sub: aCollection)) ambient: self! !
-
-!LinearCode methodsFor: 'operations' stamp: 'len 8/12/2022 13:12:21'!
-∩ aCode
-	^ self class on: self asModule ∩ aCode asModule! !
-
-!LinearCode methodsFor: 'operations' stamp: 'len 8/3/2020 20:35:57'!
-⊕ aCode
-	"Answer the direct sum of the receiver and the argument."
-	^ self class generatorMatrix: self generatorMatrix ⊕ aCode generatorMatrix! !
 
 !LinearCode methodsFor: 'printing' stamp: 'len 7/31/2020 08:46:28'!
 printOn: aStream

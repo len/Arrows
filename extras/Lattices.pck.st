@@ -1,6 +1,6 @@
-'From Cuis6.3 [latest update: #6222] on 7 December 2024 at 7:53:18 pm'!
+'From Cuis7.3 [latest update: #7158] on 20 August 2025 at 4:02:15 pm'!
 'Description '!
-!provides: 'Lattices' 1 20!
+!provides: 'Lattices' 1 21!
 !requires: 'Algebra' 1 0 nil!
 SystemOrganization addCategory: #Lattices!
 
@@ -221,9 +221,9 @@ packingSphereVolume
 	p _ self packingRadius.
 	^ p ^ n * Vn! !
 
-!Lattice methodsFor: 'operations' stamp: 'len 8/3/2020 07:30:24'!
+!Lattice methodsFor: 'operations' stamp: 'len 8/18/2025 21:19:45'!
 * aScalar
-	^ self class on: self innerProduct basis: self basis * (self space scalars !! aScalar)
+	^ self class basis: self basis * (self space scalars !! aScalar) innerProduct: self innerProduct
 
 "	^ self class gramian: self gramian * aScalar"! !
 
@@ -231,15 +231,6 @@ packingSphereVolume
 + aLattice
 	"Answer the sum of the receiver and the argument, assuming they are compatible."
 	^ self notYetImplemented! !
-
-!Lattice methodsFor: 'operations' stamp: 'len 6/24/2024 14:58:13'!
-dual
-	"Answer the dual lattice of the receiver (or reciprocal lattice, or polar lattice).
-	Given a lattice L, the dual lattice Lᵛ is defined as the lattice of vectors having integral inner product with all vectors of L."
-	| B G |
-	B := self generatorMatrix.
-	G := self gramian.
-	^ self class on: self innerProduct basis: ((B * G inverse) columns collect: [:each| self space elementAt: each])! !
 
 !Lattice methodsFor: 'operations' stamp: 'len 8/12/2022 13:15:53'!
 ∩ aLattice
@@ -253,6 +244,15 @@ dual
 !Lattice methodsFor: 'operations' stamp: 'len 8/1/2020 19:08:50'!
 ⊗ aLattice
 	self notYetImplemented! !
+
+!Lattice methodsFor: 'operations' stamp: 'len 8/18/2025 21:21:55'!
+dual
+	"Answer the dual lattice of the receiver (or reciprocal lattice, or polar lattice).
+	Given a lattice L, the dual lattice Lᵛ is defined as the lattice of vectors having integral inner product with all vectors of L."
+	| B G |
+	B := self generatorMatrix.
+	G := self gramian.
+	^ self class basis: ((B * G inverse) columns collect: [:each| self space elementAt: each]) innerProduct: self innerProduct! !
 
 !Lattice methodsFor: 'printing' stamp: 'len 5/29/2023 13:59:52'!
 printOn: aStream
@@ -324,9 +324,9 @@ isTypeII
 isUnimodular
 	^ self isIntegral and: [self determinant abs = 1]! !
 
-!Lattice methodsFor: 'private' stamp: 'len 12/9/2022 17:35:54'!
+!Lattice methodsFor: 'private' stamp: 'len 8/18/2025 21:09:25'!
 basis: aCollection innerProduct: aBilinearForm
-	aBilinearForm space scalars = ℚ ifFalse: [^ self error: 'the ambient vector space of a lattice must be rational'].
+	self assert: aBilinearForm space scalars = ℚ.
 	self propertyAt: #basis put: aCollection; propertyAt: #innerProduct put: aBilinearForm.
 	self addCoercionTo: self space map: [:each| each asVector]! !
 
@@ -354,13 +354,6 @@ Adual: n
 	B add: (V fill: [:i| i=1 ifTrue: [n negated / (n+1)] ifFalse: [1 / (n+1)]]).
 	^ self basis: B! !
 
-!Lattice class methodsFor: 'examples' stamp: 'len 8/1/2020 19:06:12'!
-D4
-	"Another basis for the D4 lattice."
-	| V |
-	V _ ℚ^4.
-	^ self basis: {V !! (1,0,0,0). V !! (0,1,0,0). V !! (0,0,1,0). V !! (1,1,1,1) / 2}! !
-
 !Lattice class methodsFor: 'examples' stamp: 'len 11/22/2023 20:54:40'!
 D: n
 	"Answer the checkboard lattice Dₙ = {(x₁,..,xₙ) in Z^n : x₁ + ... + xₙ is even}."
@@ -372,6 +365,13 @@ D: n
 	t := (V x: 1) - (V x: 2).
 	n-1 timesRepeat: [B add: t. t := t >> 1].
 	^ self basis: B! !
+
+!Lattice class methodsFor: 'examples' stamp: 'len 8/1/2020 19:06:12'!
+D4
+	"Another basis for the D4 lattice."
+	| V |
+	V _ ℚ^4.
+	^ self basis: {V !! (1,0,0,0). V !! (0,1,0,0). V !! (0,0,1,0). V !! (1,1,1,1) / 2}! !
 
 !Lattice class methodsFor: 'examples' stamp: 'len 11/23/2022 21:26:30'!
 Ddual: n
@@ -496,20 +496,22 @@ leech2
 		at: #coveringRadius put: 2 sqrt.
 	^ answer! !
 
-!Lattice class methodsFor: 'instance creation' stamp: 'len 3/21/2021 14:55:54'!
+!Lattice class methodsFor: 'instance creation' stamp: 'len 8/18/2025 21:20:16'!
 basis: aCollection
-	^ self on: aCollection first parent innerProduct basis: aCollection! !
+	| V |
+	V := aCollection first parent.
+	^ self basis: aCollection innerProduct: (BilinearForm on: V mapWithArguments: [:x :y| x · y]) ! !
 
-!Lattice class methodsFor: 'instance creation' stamp: 'len 8/1/2020 08:18:05'!
+!Lattice class methodsFor: 'instance creation' stamp: 'len 8/18/2025 21:21:35'!
+basis: aCollection innerProduct: aBilinearForm
+	^ self new basis: aCollection innerProduct: aBilinearForm! !
+
+!Lattice class methodsFor: 'instance creation' stamp: 'len 8/18/2025 21:21:18'!
 gramian: aMatrix
 	"Answer the lattice with the given Gram matrix."
 	| B |
-	B _ BilinearForm on: aMatrix domain matrix: aMatrix.
-	^ self on: B basis: B space basis! !
-
-!Lattice class methodsFor: 'instance creation' stamp: 'len 7/28/2020 19:29:35'!
-on: aBilinearForm basis: aCollection
-	^ self new basis: aCollection innerProduct: aBilinearForm! !
+	B := BilinearForm on: aMatrix domain matrix: aMatrix.
+	^ self basis: B space basis innerProduct: B! !
 
 !LLL methodsFor: 'accessing' stamp: 'len 12/23/2015 03:01'!
 reducedBasis
@@ -577,27 +579,33 @@ update: k
 	self flag: #fix. "don't need to recompute all"
 	self computeOrthogonalBasis; computeMu! !
 
-!LLL class methodsFor: 'examples' stamp: 'len 7/8/2020 08:27:58'!
+!LLL class methodsFor: 'examples' stamp: 'len 8/18/2025 21:17:11'!
 example
 	| V b1 b2 b3 reducer |
-	V _ ℚ^3.
-	b1 _ V !! (1, 1, 1).
-	b2 _ V !! (-1, 0, 2).
-	b3 _ V !! (3, 5, 6).
-	reducer _ self basis: { b1. b2. b3 } innerProduct: V innerProduct.
+	V := ℚ^3.
+	b1 := V !! (1, 1, 1).
+	b2 := V !! (-1, 0, 2).
+	b3 := V !! (3, 5, 6).
+	reducer := self basis: { b1. b2. b3 }.
 	^ reducer reducedBasis! !
 
-!LLL class methodsFor: 'examples' stamp: 'len 7/8/2020 08:28:50'!
+!LLL class methodsFor: 'examples' stamp: 'len 8/18/2025 21:18:27'!
 example2
 	"Find polynomial x^2 - x - 1 that has the golden ratio phi as root."
 	| V r b1 b2 b3 reducer |
-	V _ ℚ^4.
-	r _ 1.618034.
-	b1 _ V !! (1, 0, 0, (10000 * r squared) rounded).
-	b2 _ V !! (0, 1, 0, (10000 * r) rounded).
-	b3 _ V !! (0, 0, 1, 10000).
-	reducer _ self basis: { b1. b2. b3 } innerProduct: V innerProduct.
+	V := ℚ^4.
+	r := 1.618034.
+	b1 := V !! (1, 0, 0, (10000 * r squared) rounded).
+	b2 := V !! (0, 1, 0, (10000 * r) rounded).
+	b3 := V !! (0, 0, 1, 10000).
+	reducer := self basis: {b1. b2. b3}.
 	^ reducer reducedBasis! !
+
+!LLL class methodsFor: 'instance creation' stamp: 'len 8/18/2025 21:20:37'!
+basis: aCollection
+	| V |
+	V := aCollection first parent.
+	^ self basis: aCollection innerProduct: (BilinearForm on: V mapWithArguments: [:x :y| x · y]) ! !
 
 !LLL class methodsFor: 'instance creation' stamp: 'len 7/8/2020 08:18:40'!
 basis: aCollection innerProduct: aBilinearForm

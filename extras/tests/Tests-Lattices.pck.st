@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7034] on 28 January 2025 at 8:58:52 pm'!
+'From Cuis7.3 [latest update: #7158] on 20 August 2025 at 4:02:06 pm'!
 'Description '!
-!provides: 'Tests-Lattices' 1 4!
+!provides: 'Tests-Lattices' 1 5!
 !requires: 'Lattices' 1 0 nil!
 SystemOrganization addCategory: #'Tests-Lattices'!
 
@@ -32,24 +32,24 @@ testE8
 	self assert: E8 isEven.
 	self assert: E8 isSelfDual! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 7/8/2020 08:26:24'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 8/18/2025 21:18:02'!
 testLLL
 	| V b1 b2 b3 reducer |
-	V _ ℚ^3.
-	b1 _ V !! (1, 1, 1).
-	b2 _ V !! (-1, 0, 2).
-	b3 _ V !! (3, 5, 6).
-	reducer _ LLL basis: { b1. b2. b3 } innerProduct: V innerProduct.
+	V := ℚ^3.
+	b1 := V !! (1, 1, 1).
+	b2 := V !! (-1, 0, 2).
+	b3 := V !! (3, 5, 6).
+	reducer := LLL basis: {b1. b2. b3}.
 	self assert: reducer reducedBasis = {V !! (0,1,0). V !! (1,0,1). V !! (-1,0,2)}! !
 
-!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 7/28/2020 19:46:17'!
+!LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 8/18/2025 21:17:52'!
 testLLL2
 	"Example from Magma handbook (H30E1)."
 	| V b1 b2 reducer |
-	V _ ℚ^3.
-	b1 _ V !! (1, 2, 3).
-	b2 _ V !! (3, 2, 1).
-	reducer _ LLL basis: { b1. b2 } innerProduct: V innerProduct.
+	V := ℚ^3.
+	b1 := V !! (1, 2, 3).
+	b2 := V !! (3, 2, 1).
+	reducer := LLL basis: {b1. b2}.
 	self assert: reducer reducedBasis = {V !! (2,0,-2). V !! (1,2,3)}! !
 
 !LatticeTest methodsFor: 'as yet unclassified' stamp: 'len 6/26/2023 12:52:31'!
