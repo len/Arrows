@@ -1,6 +1,6 @@
-'From Cuis7.3 [latest update: #7158] on 20 August 2025 at 4:02:10 pm'!
+'From Cuis7.3 [latest update: #7158] on 24 August 2025 at 5:27:32 pm'!
 'Description '!
-!provides: 'Tests-Algebra' 1 172!
+!provides: 'Tests-Algebra' 1 173!
 SystemOrganization addCategory: #'Tests-Algebra'!
 SystemOrganization addCategory: #'Tests-Algebra-Rings'!
 SystemOrganization addCategory: #'Tests-Algebra-Arrays'!
@@ -3862,21 +3862,21 @@ testAffinePlaneCurveMultiplicity
 	self assert: (C !! (1,1)) multiplicity = 1.
 	self assert: (C !! (0,0)) multiplicity = 2! !
 
-!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 2/3/2025 08:14:36'!
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 8/23/2025 17:41:06'!
 testAffineSchemeCartesianProduct1
 	| X₁ X₂ P |
-	X₁ := AffineAlgebraicScheme circle × ℚ spec.
-	X₂ := AffineAlgebraicScheme romanSurface × ℚ spec.
+	X₁ := AffineScheme circle × ℚ spec.
+	X₂ := AffineScheme romanSurface × ℚ spec.
 	P := X₁ × X₂.
 	self assert: (P ambient ⇉ {X₁ ambient. X₂ ambient} collect: [:each| P apply: each]) = {X₁. X₂}.
 	self assert: X₁ dimension + X₂ dimension = P dimension.
 	self assert: X₁ ambient dimension + X₂ ambient dimension = P ambient dimension! !
 
-!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 2/3/2025 08:14:36'!
+!AlgebraicGeometryTest methodsFor: 'affine' stamp: 'len 8/23/2025 17:41:15'!
 testAffineSchemeCartesianProduct2
 	| X₁ X₂ P |
-	X₁ := AffineAlgebraicScheme circle.
-	X₂ := AffineAlgebraicScheme romanSurface.
+	X₁ := AffineScheme circle.
+	X₂ := AffineScheme romanSurface.
 	P := X₁ × X₂.
 	self assert: (𝔽₃ spec ⇒ X₁) size * (𝔽₃ spec ⇒ X₂) size = (𝔽₃ spec ⇒ P) size.
 	self assert: (P satisfies: (5,2,6,2,6) % 7)! !

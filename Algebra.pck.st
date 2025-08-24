@@ -1,4 +1,4 @@
-'From Cuis7.3 [latest update: #7158] on 20 August 2025 at 4:05:10 pm'!
+'From Cuis7.3 [latest update: #7158] on 24 August 2025 at 5:27:24 pm'!
 'Description This package implements among other things: permutation groups, linear groups, finite fields, Galois rings, affine algebras, number fields, function fields, finitely presented modules, finite-dimensional associative algebras, schemes, finite-dimensional representations of finite groups.
 
 References:
@@ -112,7 +112,7 @@ References:
 [] Ezra Miller; Bernd Sturmfels; "Combinatorial Commutative Algebra"
 [] Qing Liu; "Algebraic Geometry and Arithmetic Curves"
 '!
-!provides: 'Algebra' 1 273!
+!provides: 'Algebra' 1 274!
 !requires: 'Graphs' 1 0 nil!
 !requires: 'Collections-Extras' 1 1 nil!
 !requires: 'GAS' 1 1 nil!
@@ -131,7 +131,6 @@ SystemOrganization addCategory: #'Algebra-Groups-Linear'!
 SystemOrganization addCategory: #'Algebra-Algebras'!
 SystemOrganization addCategory: #'Algebra-Algebras-Commutative'!
 SystemOrganization addCategory: #'Algebra-Algebras-Affine'!
-SystemOrganization addCategory: #'Algebra-Algebras-Finite'!
 SystemOrganization addCategory: #'Algebra-Algebras-Solvable'!
 SystemOrganization addCategory: #'Algebra-Fields-Finite'!
 SystemOrganization addCategory: #'Algebra-Fields-Algebraic'!
@@ -142,7 +141,7 @@ SystemOrganization addCategory: #'Algebra-Modules-Orderings'!
 SystemOrganization addCategory: #'Algebra-Modules-Multilinear'!
 SystemOrganization addCategory: #'Algebra-Representations'!
 SystemOrganization addCategory: #'Algebra-Schemes'!
-SystemOrganization addCategory: #'Algebra-Schemes-Algebraic'!
+SystemOrganization addCategory: #'Algebra-Schemes-Projective'!
 SystemOrganization addCategory: #'Algebra-Simplicial Complexes'!
 SystemOrganization addCategory: #'Algebra-Algorithms'!
 SystemOrganization addCategory: #'Algebra-Algorithms-Arrays'!
@@ -158,6 +157,56 @@ Object subclass: #RingElement
 	category: 'Algebra-Algebras'!
 !classDefinition: 'RingElement class' category: #'Algebra-Algebras'!
 RingElement class
+	instanceVariableNames: ''!
+
+!classDefinition: #FiniteAlgebraElement category: #'Algebra-Algebras'!
+RingElement subclass: #FiniteAlgebraElement
+	instanceVariableNames: 'parent carrier representation'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algebras'!
+!classDefinition: 'FiniteAlgebraElement class' category: #'Algebra-Algebras'!
+FiniteAlgebraElement class
+	instanceVariableNames: ''!
+
+!classDefinition: #AlgebraicInteger category: #'Algebra-Fields-Algebraic'!
+FiniteAlgebraElement subclass: #AlgebraicInteger
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Fields-Algebraic'!
+!classDefinition: 'AlgebraicInteger class' category: #'Algebra-Fields-Algebraic'!
+AlgebraicInteger class
+	instanceVariableNames: ''!
+
+!classDefinition: #EisensteinInteger category: #'Algebra-Fields-Cyclotomic'!
+AlgebraicInteger subclass: #EisensteinInteger
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Fields-Cyclotomic'!
+!classDefinition: 'EisensteinInteger class' category: #'Algebra-Fields-Cyclotomic'!
+EisensteinInteger class
+	instanceVariableNames: ''!
+
+!classDefinition: #GaussianInteger category: #'Algebra-Fields-Cyclotomic'!
+AlgebraicInteger subclass: #GaussianInteger
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Fields-Cyclotomic'!
+!classDefinition: 'GaussianInteger class' category: #'Algebra-Fields-Cyclotomic'!
+GaussianInteger class
+	instanceVariableNames: ''!
+
+!classDefinition: #QuadraticInteger category: #'Algebra-Fields-Quadratic'!
+AlgebraicInteger subclass: #QuadraticInteger
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Fields-Quadratic'!
+!classDefinition: 'QuadraticInteger class' category: #'Algebra-Fields-Quadratic'!
+QuadraticInteger class
 	instanceVariableNames: ''!
 
 !classDefinition: #FreeAlgebraElement category: #'Algebra-Algebras'!
@@ -328,66 +377,6 @@ LocalModularInteger subclass: #PrimeFieldElement
 	category: 'Algebra-Fields-Finite'!
 !classDefinition: 'PrimeFieldElement class' category: #'Algebra-Fields-Finite'!
 PrimeFieldElement class
-	instanceVariableNames: ''!
-
-!classDefinition: #ConvolutionAlgebraElement category: #'Algebra-Algebras-Finite'!
-RingElement subclass: #ConvolutionAlgebraElement
-	instanceVariableNames: 'parent carrier'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'ConvolutionAlgebraElement class' category: #'Algebra-Algebras-Finite'!
-ConvolutionAlgebraElement class
-	instanceVariableNames: ''!
-
-!classDefinition: #FiniteAlgebraElement category: #'Algebra-Algebras-Finite'!
-RingElement subclass: #FiniteAlgebraElement
-	instanceVariableNames: 'parent carrier representation'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'FiniteAlgebraElement class' category: #'Algebra-Algebras-Finite'!
-FiniteAlgebraElement class
-	instanceVariableNames: ''!
-
-!classDefinition: #AlgebraicInteger category: #'Algebra-Fields-Algebraic'!
-FiniteAlgebraElement subclass: #AlgebraicInteger
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Fields-Algebraic'!
-!classDefinition: 'AlgebraicInteger class' category: #'Algebra-Fields-Algebraic'!
-AlgebraicInteger class
-	instanceVariableNames: ''!
-
-!classDefinition: #EisensteinInteger category: #'Algebra-Fields-Cyclotomic'!
-AlgebraicInteger subclass: #EisensteinInteger
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Fields-Cyclotomic'!
-!classDefinition: 'EisensteinInteger class' category: #'Algebra-Fields-Cyclotomic'!
-EisensteinInteger class
-	instanceVariableNames: ''!
-
-!classDefinition: #GaussianInteger category: #'Algebra-Fields-Cyclotomic'!
-AlgebraicInteger subclass: #GaussianInteger
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Fields-Cyclotomic'!
-!classDefinition: 'GaussianInteger class' category: #'Algebra-Fields-Cyclotomic'!
-GaussianInteger class
-	instanceVariableNames: ''!
-
-!classDefinition: #QuadraticInteger category: #'Algebra-Fields-Quadratic'!
-AlgebraicInteger subclass: #QuadraticInteger
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Fields-Quadratic'!
-!classDefinition: 'QuadraticInteger class' category: #'Algebra-Fields-Quadratic'!
-QuadraticInteger class
 	instanceVariableNames: ''!
 
 !classDefinition: #SolvableAlgebraElement category: #'Algebra-Algebras-Solvable'!
@@ -890,6 +879,76 @@ EndomorphismRing subclass: #MatrixRing
 MatrixRing class
 	instanceVariableNames: ''!
 
+!classDefinition: #FiniteAlgebra category: #'Algebra-Algebras'!
+Ring subclass: #FiniteAlgebra
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Algebras'!
+!classDefinition: 'FiniteAlgebra class' category: #'Algebra-Algebras'!
+FiniteAlgebra class
+	instanceVariableNames: ''!
+
+!classDefinition: #Order category: #'Algebra-Fields-Algebraic'!
+FiniteAlgebra subclass: #Order
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Fields-Algebraic'!
+!classDefinition: 'Order class' category: #'Algebra-Fields-Algebraic'!
+Order class
+	instanceVariableNames: ''!
+
+!classDefinition: #MaximalOrder category: #'Algebra-Fields-Algebraic'!
+Order subclass: #MaximalOrder
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Fields-Algebraic'!
+!classDefinition: 'MaximalOrder class' category: #'Algebra-Fields-Algebraic'!
+MaximalOrder class
+	instanceVariableNames: ''!
+
+!classDefinition: #CyclotomicRing category: #'Algebra-Fields-Cyclotomic'!
+MaximalOrder subclass: #CyclotomicRing
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Fields-Cyclotomic'!
+!classDefinition: 'CyclotomicRing class' category: #'Algebra-Fields-Cyclotomic'!
+CyclotomicRing class
+	instanceVariableNames: ''!
+
+!classDefinition: #EisensteinRing category: #'Algebra-Fields-Cyclotomic'!
+CyclotomicRing subclass: #EisensteinRing
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Fields-Cyclotomic'!
+!classDefinition: 'EisensteinRing class' category: #'Algebra-Fields-Cyclotomic'!
+EisensteinRing class
+	instanceVariableNames: ''!
+
+!classDefinition: #GaussianRing category: #'Algebra-Fields-Cyclotomic'!
+CyclotomicRing subclass: #GaussianRing
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Fields-Cyclotomic'!
+!classDefinition: 'GaussianRing class' category: #'Algebra-Fields-Cyclotomic'!
+GaussianRing class
+	instanceVariableNames: ''!
+
+!classDefinition: #QuadraticRing category: #'Algebra-Fields-Quadratic'!
+MaximalOrder subclass: #QuadraticRing
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Fields-Quadratic'!
+!classDefinition: 'QuadraticRing class' category: #'Algebra-Fields-Quadratic'!
+QuadraticRing class
+	instanceVariableNames: ''!
+
 !classDefinition: #FreeAlgebra category: #'Algebra-Algebras'!
 Ring subclass: #FreeAlgebra
 	instanceVariableNames: 'scalars monomials'
@@ -1148,86 +1207,6 @@ PrimeField subclass: #TernaryField
 	category: 'Algebra-Fields-Finite'!
 !classDefinition: 'TernaryField class' category: #'Algebra-Fields-Finite'!
 TernaryField class
-	instanceVariableNames: ''!
-
-!classDefinition: #ConvolutionAlgebra category: #'Algebra-Algebras-Finite'!
-Ring subclass: #ConvolutionAlgebra
-	instanceVariableNames: 'domain codomain'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'ConvolutionAlgebra class' category: #'Algebra-Algebras-Finite'!
-ConvolutionAlgebra class
-	instanceVariableNames: ''!
-
-!classDefinition: #FiniteAlgebra category: #'Algebra-Algebras-Finite'!
-Ring subclass: #FiniteAlgebra
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Algebras-Finite'!
-!classDefinition: 'FiniteAlgebra class' category: #'Algebra-Algebras-Finite'!
-FiniteAlgebra class
-	instanceVariableNames: ''!
-
-!classDefinition: #Order category: #'Algebra-Fields-Algebraic'!
-FiniteAlgebra subclass: #Order
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Fields-Algebraic'!
-!classDefinition: 'Order class' category: #'Algebra-Fields-Algebraic'!
-Order class
-	instanceVariableNames: ''!
-
-!classDefinition: #MaximalOrder category: #'Algebra-Fields-Algebraic'!
-Order subclass: #MaximalOrder
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Fields-Algebraic'!
-!classDefinition: 'MaximalOrder class' category: #'Algebra-Fields-Algebraic'!
-MaximalOrder class
-	instanceVariableNames: ''!
-
-!classDefinition: #CyclotomicRing category: #'Algebra-Fields-Cyclotomic'!
-MaximalOrder subclass: #CyclotomicRing
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Fields-Cyclotomic'!
-!classDefinition: 'CyclotomicRing class' category: #'Algebra-Fields-Cyclotomic'!
-CyclotomicRing class
-	instanceVariableNames: ''!
-
-!classDefinition: #EisensteinRing category: #'Algebra-Fields-Cyclotomic'!
-CyclotomicRing subclass: #EisensteinRing
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Fields-Cyclotomic'!
-!classDefinition: 'EisensteinRing class' category: #'Algebra-Fields-Cyclotomic'!
-EisensteinRing class
-	instanceVariableNames: ''!
-
-!classDefinition: #GaussianRing category: #'Algebra-Fields-Cyclotomic'!
-CyclotomicRing subclass: #GaussianRing
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Fields-Cyclotomic'!
-!classDefinition: 'GaussianRing class' category: #'Algebra-Fields-Cyclotomic'!
-GaussianRing class
-	instanceVariableNames: ''!
-
-!classDefinition: #QuadraticRing category: #'Algebra-Fields-Quadratic'!
-MaximalOrder subclass: #QuadraticRing
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Fields-Quadratic'!
-!classDefinition: 'QuadraticRing class' category: #'Algebra-Fields-Quadratic'!
-QuadraticRing class
 	instanceVariableNames: ''!
 
 !classDefinition: #SolvableAlgebra category: #'Algebra-Algebras-Solvable'!
@@ -1860,14 +1839,14 @@ Monoid subclass: #FreeMonoid
 FreeMonoid class
 	instanceVariableNames: ''!
 
-!classDefinition: #RepresentationModule category: #'Algebra-Representations'!
-Structure subclass: #RepresentationModule
-	instanceVariableNames: 'representation'
+!classDefinition: #Representation category: #'Algebra-Representations'!
+Structure subclass: #Representation
+	instanceVariableNames: 'structureMorphism'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Representations'!
-!classDefinition: 'RepresentationModule class' category: #'Algebra-Representations'!
-RepresentationModule class
+!classDefinition: 'Representation class' category: #'Algebra-Representations'!
+Representation class
 	instanceVariableNames: ''!
 
 !classDefinition: #Ensemble category: #'Algebra-Sets'!
@@ -2120,103 +2099,83 @@ Scheme subclass: #AffineScheme
 AffineScheme class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineAlgebraicScheme category: #'Algebra-Schemes-Algebraic'!
-AffineScheme subclass: #AffineAlgebraicScheme
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Schemes-Algebraic'!
-!classDefinition: 'AffineAlgebraicScheme class' category: #'Algebra-Schemes-Algebraic'!
-AffineAlgebraicScheme class
-	instanceVariableNames: ''!
-
-!classDefinition: #AffineSpace category: #'Algebra-Schemes-Algebraic'!
-AffineAlgebraicScheme subclass: #AffineSpace
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Schemes-Algebraic'!
-!classDefinition: 'AffineSpace class' category: #'Algebra-Schemes-Algebraic'!
-AffineSpace class
-	instanceVariableNames: ''!
-
-!classDefinition: #ProjectiveScheme category: #'Algebra-Schemes'!
-Scheme subclass: #ProjectiveScheme
+!classDefinition: #AffineSpace category: #'Algebra-Schemes'!
+AffineScheme subclass: #AffineSpace
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Algebra-Schemes'!
-!classDefinition: 'ProjectiveScheme class' category: #'Algebra-Schemes'!
+!classDefinition: 'AffineSpace class' category: #'Algebra-Schemes'!
+AffineSpace class
+	instanceVariableNames: ''!
+
+!classDefinition: #ProjectiveScheme category: #'Algebra-Schemes-Projective'!
+Scheme subclass: #ProjectiveScheme
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Algebra-Schemes-Projective'!
+!classDefinition: 'ProjectiveScheme class' category: #'Algebra-Schemes-Projective'!
 ProjectiveScheme class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveAlgebraicScheme category: #'Algebra-Schemes-Algebraic'!
-ProjectiveScheme subclass: #ProjectiveAlgebraicScheme
+!classDefinition: #ProjectiveHypersurface category: #'Algebra-Schemes-Projective'!
+ProjectiveScheme subclass: #ProjectiveHypersurface
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Schemes-Algebraic'!
-!classDefinition: 'ProjectiveAlgebraicScheme class' category: #'Algebra-Schemes-Algebraic'!
-ProjectiveAlgebraicScheme class
-	instanceVariableNames: ''!
-
-!classDefinition: #ProjectiveHypersurface category: #'Algebra-Schemes-Algebraic'!
-ProjectiveAlgebraicScheme subclass: #ProjectiveHypersurface
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Algebra-Schemes-Algebraic'!
-!classDefinition: 'ProjectiveHypersurface class' category: #'Algebra-Schemes-Algebraic'!
+	category: 'Algebra-Schemes-Projective'!
+!classDefinition: 'ProjectiveHypersurface class' category: #'Algebra-Schemes-Projective'!
 ProjectiveHypersurface class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectivePlaneCurve category: #'Algebra-Schemes-Algebraic'!
+!classDefinition: #ProjectivePlaneCurve category: #'Algebra-Schemes-Projective'!
 ProjectiveHypersurface subclass: #ProjectivePlaneCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Schemes-Algebraic'!
-!classDefinition: 'ProjectivePlaneCurve class' category: #'Algebra-Schemes-Algebraic'!
+	category: 'Algebra-Schemes-Projective'!
+!classDefinition: 'ProjectivePlaneCurve class' category: #'Algebra-Schemes-Projective'!
 ProjectivePlaneCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #Conic category: #'Algebra-Schemes-Algebraic'!
+!classDefinition: #Conic category: #'Algebra-Schemes-Projective'!
 ProjectivePlaneCurve subclass: #Conic
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Schemes-Algebraic'!
-!classDefinition: 'Conic class' category: #'Algebra-Schemes-Algebraic'!
+	category: 'Algebra-Schemes-Projective'!
+!classDefinition: 'Conic class' category: #'Algebra-Schemes-Projective'!
 Conic class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalCurve category: #'Algebra-Schemes-Algebraic'!
+!classDefinition: #RationalCurve category: #'Algebra-Schemes-Projective'!
 ProjectivePlaneCurve subclass: #RationalCurve
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Schemes-Algebraic'!
-!classDefinition: 'RationalCurve class' category: #'Algebra-Schemes-Algebraic'!
+	category: 'Algebra-Schemes-Projective'!
+!classDefinition: 'RationalCurve class' category: #'Algebra-Schemes-Projective'!
 RationalCurve class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveSpace category: #'Algebra-Schemes-Algebraic'!
-ProjectiveAlgebraicScheme subclass: #ProjectiveSpace
+!classDefinition: #ProjectiveSpace category: #'Algebra-Schemes-Projective'!
+ProjectiveScheme subclass: #ProjectiveSpace
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Schemes-Algebraic'!
-!classDefinition: 'ProjectiveSpace class' category: #'Algebra-Schemes-Algebraic'!
+	category: 'Algebra-Schemes-Projective'!
+!classDefinition: 'ProjectiveSpace class' category: #'Algebra-Schemes-Projective'!
 ProjectiveSpace class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveLine category: #'Algebra-Schemes-Algebraic'!
+!classDefinition: #ProjectiveLine category: #'Algebra-Schemes-Projective'!
 ProjectiveSpace subclass: #ProjectiveLine
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Schemes-Algebraic'!
-!classDefinition: 'ProjectiveLine class' category: #'Algebra-Schemes-Algebraic'!
+	category: 'Algebra-Schemes-Projective'!
+!classDefinition: 'ProjectiveLine class' category: #'Algebra-Schemes-Projective'!
 ProjectiveLine class
 	instanceVariableNames: ''!
 
@@ -2350,13 +2309,13 @@ Map subclass: #RepresentationMorphism
 RepresentationMorphism class
 	instanceVariableNames: ''!
 
-!classDefinition: #RationalMap category: #'Algebra-Schemes-Algebraic'!
+!classDefinition: #RationalMap category: #'Algebra-Schemes-Projective'!
 Map subclass: #RationalMap
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Schemes-Algebraic'!
-!classDefinition: 'RationalMap class' category: #'Algebra-Schemes-Algebraic'!
+	category: 'Algebra-Schemes-Projective'!
+!classDefinition: 'RationalMap class' category: #'Algebra-Schemes-Projective'!
 RationalMap class
 	instanceVariableNames: ''!
 
@@ -2650,33 +2609,33 @@ SchemeMorphism subclass: #AffineMorphism
 AffineMorphism class
 	instanceVariableNames: ''!
 
-!classDefinition: #AffineRationalPoint category: #'Algebra-Schemes-Algebraic'!
+!classDefinition: #AffineRationalPoint category: #'Algebra-Schemes'!
 AffineMorphism subclass: #AffineRationalPoint
 	instanceVariableNames: 'codomain coordinates'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Schemes-Algebraic'!
-!classDefinition: 'AffineRationalPoint class' category: #'Algebra-Schemes-Algebraic'!
+	category: 'Algebra-Schemes'!
+!classDefinition: 'AffineRationalPoint class' category: #'Algebra-Schemes'!
 AffineRationalPoint class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveRationalPoint category: #'Algebra-Schemes-Algebraic'!
+!classDefinition: #ProjectiveRationalPoint category: #'Algebra-Schemes-Projective'!
 SchemeMorphism subclass: #ProjectiveRationalPoint
 	instanceVariableNames: 'codomain coordinates'
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Schemes-Algebraic'!
-!classDefinition: 'ProjectiveRationalPoint class' category: #'Algebra-Schemes-Algebraic'!
+	category: 'Algebra-Schemes-Projective'!
+!classDefinition: 'ProjectiveRationalPoint class' category: #'Algebra-Schemes-Projective'!
 ProjectiveRationalPoint class
 	instanceVariableNames: ''!
 
-!classDefinition: #ProjectiveLinePoint category: #'Algebra-Schemes-Algebraic'!
+!classDefinition: #ProjectiveLinePoint category: #'Algebra-Schemes-Projective'!
 ProjectiveRationalPoint subclass: #ProjectiveLinePoint
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
-	category: 'Algebra-Schemes-Algebraic'!
-!classDefinition: 'ProjectiveLinePoint class' category: #'Algebra-Schemes-Algebraic'!
+	category: 'Algebra-Schemes-Projective'!
+!classDefinition: 'ProjectiveLinePoint class' category: #'Algebra-Schemes-Projective'!
 ProjectiveLinePoint class
 	instanceVariableNames: ''!
 
@@ -3094,6 +3053,21 @@ ContinuedFraction class
 !RingElement commentStamp: '<historical>' prior: 0!
 Elements of a Ring.!
 
+!FiniteAlgebraElement commentStamp: '<historical>' prior: 0!
+Elements of finite algebras over a commutative ring R. See FiniteAlgebra.!
+
+!AlgebraicInteger commentStamp: '<historical>' prior: 0!
+Elements of maximal orders in number fields or function fields. See MaximalOrder.!
+
+!EisensteinInteger commentStamp: '<historical>' prior: 0!
+Elements of the ring of Eisenstein integers ℤ[ω]. See EisensteinRing.!
+
+!GaussianInteger commentStamp: '<historical>' prior: 0!
+Elements of the ring of Gaussian integers ℤ[i]. See GaussianRing.!
+
+!QuadraticInteger commentStamp: '<historical>' prior: 0!
+Elements of the ring of integers of quadratic fields. See QuadraticRing.!
+
 !FreeAlgebraElement commentStamp: '<historical>' prior: 0!
 Polynomials in a finite set of noncommuting indeterminates. They are elements of a free associative algebra (see FreeAlgebra).
 
@@ -3145,21 +3119,6 @@ Elements of Galois fields. See GaloisField.!
 
 !ModularInteger commentStamp: '<historical>' prior: 0!
 Residue classes of integers modulo n, i.e. elements of the quotient ring ℤ/nℤ.!
-
-!FiniteAlgebraElement commentStamp: '<historical>' prior: 0!
-Elements of (associative unital) algebras over a commutative ring R. See FiniteAlgebra.!
-
-!AlgebraicInteger commentStamp: '<historical>' prior: 0!
-Elements of maximal orders in number fields or function fields. See MaximalOrder.!
-
-!EisensteinInteger commentStamp: '<historical>' prior: 0!
-Elements of the ring of Eisenstein integers ℤ[ω]. See EisensteinRing.!
-
-!GaussianInteger commentStamp: '<historical>' prior: 0!
-Elements of the ring of Gaussian integers ℤ[i]. See GaussianRing.!
-
-!QuadraticInteger commentStamp: '<historical>' prior: 0!
-Elements of the ring of integers of quadratic fields. See QuadraticRing.!
 
 !SolvableAlgebraElement commentStamp: '<historical>' prior: 0!
 Elements of algebras of solvable type. See SolvableAlgebra.!
@@ -3391,6 +3350,32 @@ The ring End(X) of endomorphisms of some object X in a preadditive or linear cat
 !MatrixRing commentStamp: '<historical>' prior: 0!
 Full matrix algebra, i.e. n²-dimensional associative algebra of square n×n matrices over a ring R under matrix multiplication. This is the endomorphisms algebra of the free module Rⁿ.!
 
+!FiniteAlgebra commentStamp: '<historical>' prior: 0!
+Finite (finitely generated as modules) algebras over a commutative ring R. Since they are implemented in the category of unital rings they are assumed to be associative and unital, but they don't need to be commutative.
+
+An R-algebra is constructed from a R-module, with multiplication given by an associative and unital R-bilinear map. When the module is free of rank n, the multiplication can be given by n³ structure constants (elements of R), or equivalently by n matrices of n×n.
+
+Note that a ring can be a finite algebra without being an instance of this class or any of its subclasses. For example, an affine algebra of Krull dimension 0 is a finite algebra. Being a finite R-algebra essentially means that it understands the message #carrier returning a finitely generated R-module equipped with coercion maps.!
+
+!Order commentStamp: '<historical>' prior: 0!
+Order in a global field, i.e. a subring of the global field that is also a full lattice (it generates the global field as a vector space).!
+
+!MaximalOrder commentStamp: '<historical>' prior: 0!
+Rings of integers of global fields (i.e. maximal orders). They are the integral closure of the rational integers in a number field or function field. See NumberField and FunctionField.
+!
+
+!CyclotomicRing commentStamp: '<historical>' prior: 0!
+Rings of integers of cyclotomic number fields. See CyclotomicField.!
+
+!EisensteinRing commentStamp: '<historical>' prior: 0!
+The ring of Eisenstein (or Eulerian) integers, ℤ[ω]. This is the ring of integers of the 3-th cyclotomic field defined by the polynomial ω² + ω + 1.!
+
+!GaussianRing commentStamp: '<historical>' prior: 0!
+Ring of Gaussian integers ℤ[i]. This is the ring of integers of the field of Gaussian numbers ℚ(i), i.e. the 4-th cyclotomic field.!
+
+!QuadraticRing commentStamp: '<historical>' prior: 0!
+Rings of integers of quadratic number fields. See QuadraticField.!
+
 !FreeAlgebra commentStamp: 'len 8/18/2025 21:06:51' prior: 0!
 Algebras of noncommutative polynomials in a finite set of indeterminates, the noncommutative analogue of a polynomial ring. These are finitely generated free associative unital algebras.!
 
@@ -3526,32 +3511,6 @@ Residue class field ℤ/2ℤ of integers modulo 2, or 𝔽₂.
 
 !TernaryField commentStamp: '<historical>' prior: 0!
 Residue class field ℤ/3ℤ of integers modulo 3, or 𝔽₃.!
-
-!FiniteAlgebra commentStamp: '<historical>' prior: 0!
-Finite (finitely generated as modules) algebras over a commutative ring R. Since they are implemented in the category of unital rings they are assumed to be associative and unital, but they don't need to be commutative.
-
-An R-algebra is constructed from a R-module, with multiplication given by an associative and unital R-bilinear map. When the module is free of rank n, the multiplication can be given by n³ structure constants (elements of R), or equivalently by n matrices of n×n.
-
-Note that a ring can be a finite algebra without being an instance of this class or any of its subclasses. For example, an affine algebra of Krull dimension 0 is a finite algebra. Being a finite R-algebra essentially means that it understands the message #carrier returning a finitely presented R-module equipped with coercion maps.!
-
-!Order commentStamp: '<historical>' prior: 0!
-Order in a global field, i.e. a subring of the global field that is also a full lattice (it generates the global field as a vector space).!
-
-!MaximalOrder commentStamp: '<historical>' prior: 0!
-Rings of integers of global fields (i.e. maximal orders). They are the integral closure of the rational integers in a number field or function field. See NumberField and FunctionField.
-!
-
-!CyclotomicRing commentStamp: '<historical>' prior: 0!
-Rings of integers of cyclotomic number fields. See CyclotomicField.!
-
-!EisensteinRing commentStamp: '<historical>' prior: 0!
-The ring of Eisenstein (or Eulerian) integers, ℤ[ω]. This is the ring of integers of the 3-th cyclotomic field defined by the polynomial ω² + ω + 1.!
-
-!GaussianRing commentStamp: '<historical>' prior: 0!
-Ring of Gaussian integers ℤ[i]. This is the ring of integers of the field of Gaussian numbers ℚ(i), i.e. the 4-th cyclotomic field.!
-
-!QuadraticRing commentStamp: '<historical>' prior: 0!
-Rings of integers of quadratic number fields. See QuadraticField.!
 
 !SolvableAlgebra commentStamp: '<historical>' prior: 0!
 Algebras of solvable type, or G-algebras, or PBW algebras. These are k-algebras with a Poincaré-Birkhoff-Witt (PBW) basis (the set of standard words). See [GP08, §1.9].!
@@ -3818,7 +3777,7 @@ A free monoid is a monoid whose elements are words (see Word) on a finite alphab
 See FreeAbelianMonoid for the commutative analog.
 !
 
-!RepresentationModule commentStamp: '<historical>' prior: 0!
+!Representation commentStamp: '<historical>' prior: 0!
 Finite-dimensional left A-modules of a k-algebra A over a field k.
 
 These are objects of the category Rep(A) of representations of A. See RepresentationCategory.!
@@ -3899,12 +3858,10 @@ Given a scheme X with affine open cover {Spec(Rᵢ) → X}, a coherent sheaf on 
 !Scheme commentStamp: '<historical>' prior: 0!
 A scheme is a topological space with a sheaf of local rings (which makes it a locally ringed space) such that every point has an open neighborhood that is an affine scheme.
 
-All schemes are assumed to be quasicompact, since functionality depends on them being equipped with a finite affine open cover {Spec(Rᵢ) → X}.
-
-Subclasses implement particular types of schemes, such as affine schemes, the Proj construction, and affine and projective algebraic schemes defined by equations.!
+All schemes are assumed to be quasicompact, since functionality depends on them being equipped with a finite affine open cover {Spec(Rᵢ) → X}.!
 
 !AffineScheme commentStamp: '<historical>' prior: 0!
-The prime spectrum Spec(R) of a commutative ring R, equipped with a sheaf of local rings (which makes it a locally ringed space). As a topological set, its points correspond to the prime ideals of the coordinate ring R.
+An affine scheme is the prime spectrum Spec(R) of a commutative ring R, equipped with a sheaf of local rings (which makes it a locally ringed space). As a topological set, its points correspond to the prime ideals of the coordinate ring R.
 
 The ring R should be thought as the ring of regular functions on Spec(R). Concretely, each element f of R defines a function that takes a point p of Spec(R) (i.e., a prime ideal p of R) to the image of f by the canonical map to the residue field at p.
 
@@ -3915,11 +3872,6 @@ An affine scheme is always considered as subscheme of an ambient Spec(R). Four c
 	4) the spectrum of a ring that is not constructed as localization or quotient Spec(R) is open and closed in itself.
 !
 
-!AffineAlgebraicScheme commentStamp: '<historical>' prior: 0!
-Closed subschemes of an affine space 𝔸ⁿ = Spec(k[x₁,...,xₙ]) (see AffineSpace) defined by polynomial equations. Their coordinate rings are quotients of multivariate polynomial rings by an ideal (affine algebras) k[x₁,...,xₙ]/I. For each extension K/k they have a set of K-rational points corresponding to n-tuples Kⁿ (see AffinePoint).
-
-These are schemes, not algebraic varieties: they don't need to be reduced, irreducible, or defined over an algebraically closed field.!
-
 !AffineSpace commentStamp: '<historical>' prior: 0!
 Affine space 𝔸ⁿ = Spec(k[x₁,...,xₙ]) for some commutative ring k. They are seen as schemes over Spec(k).
 
@@ -3928,10 +3880,9 @@ Note that the dimension of an affine space as scheme is the Krull dimension of i
 !ProjectiveScheme commentStamp: '<historical>' prior: 0!
 The projective or homogeneous prime spectrum Proj(R) of a graded commutative ring R, equipped with a sheaf of local rings (making it a locally ringed space). As a topological set, its points correspond to the relevant homogeneous prime ideals of the homogeneous coordinate ring R.
 
-Proj(R) is contained in its affine cone Spec(R). See also AffineScheme.!
+Proj(R) is contained in its affine cone Spec(R).
 
-!ProjectiveAlgebraicScheme commentStamp: '<historical>' prior: 0!
-Projective closed subschemes of a projective space ℙⁿ = Proj(k[x₁,...,xₙ₊₁]) (see ProjectiveSpace) defined by polynomial equations. Their homogeneous coordinate rings are quotient rings of multivariate polynomial rings by a homogeneous ideal, i.e. graded affine algebras of the form k[x₁,...,xₙ₊₁]/I. For each extension K/k they have a set of rational points corresponding to homogeneous (n+1)-tuples over K (see ProjectivePoint).
+Projective closed subschemes of a projective space ℙⁿ = Proj(k[x₁,...,xₙ₊₁]) (see ProjectiveSpace) defined by polynomial equations. Their homogeneous coordinate rings are quotient rings of multivariate polynomial rings by a homogeneous ideal, i.e. graded affine algebras of the form k[x₁,...,xₙ₊₁]/I. For each extension K/k they have a set of rational points corresponding to homogeneous (n+1)-tuples over K (see ProjectiveRationalPoint).
 
 These are schemes, not algebraic varieties: they don't need to be reduced, irreducible, or defined over an algebraically closed field.!
 
@@ -4112,7 +4063,7 @@ Scheme morphism between affine schemes Spec(R) → Spec(S). It is induced by a r
 !AffineRationalPoint commentStamp: '<historical>' prior: 0!
 K-rational points on an affine scheme X ⊆ 𝔸ⁿ, seen as morphisms Spec(K) → X. They are internally represented by a tuple of n elements of K, and the corresponding ring homomorphism is the evaluation of polynomials at this tuple.
 
-See also RationalPointSet and AffineAlgebraicScheme.!
+See also RationalPointSet and AffineScheme.!
 
 !ProjectiveRationalPoint commentStamp: '<historical>' prior: 0!
 K-rational points on a projective scheme X ⊆ ℙⁿ, seen as morphisms Spec(K) → X. They are internally represented by a homogeneous tuple of n+1 elements of K.
@@ -4921,6 +4872,321 @@ isZeroDivisor
 	self parent isPIR ifTrue: [^ self order isZero not].
 	"self parent isFiniteAlgebra ifTrue: [^ self representation isZeroDivisor and: [self parent isCommutative or: [self corepresentation isZeroDivisor]]]."
 	^ self annihilator isTrivial not! !
+
+!FiniteAlgebraElement methodsFor: 'accessing' stamp: 'len 6/10/2020 14:00:48'!
+parent
+	^ parent! !
+
+!FiniteAlgebraElement methodsFor: 'comparing' stamp: 'len 12/1/2024 14:10:59'!
+= anObject
+	^ self class = anObject class and: [carrier = anObject carrier]! !
+
+!FiniteAlgebraElement methodsFor: 'comparing' stamp: 'len 12/1/2024 14:10:59'!
+hash
+	^ carrier hash! !
+
+!FiniteAlgebraElement methodsFor: 'converting' stamp: 'len 6/21/2020 14:06:13'!
+asScalar
+	"If the receiver is the embedding of an element of the scalars ring in the parent algebra, answer the corresponding scalar."
+	^ self notYetImplemented! !
+
+!FiniteAlgebraElement methodsFor: 'converting' stamp: 'len 12/1/2024 14:10:59'!
+carrier
+	^ carrier! !
+
+!FiniteAlgebraElement methodsFor: 'operations' stamp: 'len 12/1/2024 14:13:46'!
+* anElement
+	(anElement isInteger or: [self parent scalars includes: anElement])
+		ifTrue: [^ self class parent: parent carrier: carrier * anElement].
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #*].
+	^ self class parent: parent carrier: (parent multiplicationBilinearMap value: carrier value: anElement carrier)! !
+
+!FiniteAlgebraElement methodsFor: 'operations' stamp: 'len 12/1/2024 14:13:46'!
++ anElement
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #+].
+	^ self class parent: parent carrier: carrier + anElement carrier! !
+
+!FiniteAlgebraElement methodsFor: 'operations' stamp: 'len 12/30/2024 14:40:53'!
+adjoint
+	self parent isCommutative ifTrue: [^ self].
+	self parent isInvolutive ifTrue: [^ self conjugate].
+	^ self parent opposite fromModuleElement: carrier! !
+
+!FiniteAlgebraElement methodsFor: 'operations' stamp: 'len 12/1/2024 14:13:46'!
+negated
+	^ self class parent: parent carrier: carrier negated! !
+
+!FiniteAlgebraElement methodsFor: 'operations' stamp: 'len 12/1/2024 14:49:48'!
+representation
+	"Answer the module endomorphism corresponding to the left regular representation of the receiver."
+	^ representation ifNil: [representation := self parent carrier endomorphisms !! [:x| (self * (self parent !! x)) carrier]]! !
+
+!FiniteAlgebraElement methodsFor: 'printing' stamp: 'len 12/1/2024 14:10:59'!
+printOn: aStream
+	aStream print: carrier! !
+
+!FiniteAlgebraElement methodsFor: 'testing' stamp: 'len 7/22/2021 18:35:04'!
+isNilpotent
+	"Answer true if self^n = 0 for some integer n >= 1."
+	^ (self ^ self parent rank) isZero
+
+"alternative:
+	^ self parent nilradical contains: self
+	
+or:
+	^ self representation isNilpotent"! !
+
+!FiniteAlgebraElement methodsFor: 'testing' stamp: 'len 6/21/2020 14:05:18'!
+isScalar
+	"Answer true if the receiver corresponds to the embedding of an element of the scalars ring in the parent algebra."
+	^ self notYetImplemented! !
+
+!FiniteAlgebraElement methodsFor: 'testing' stamp: 'len 10/16/2022 10:46:06'!
+isUnit
+	"Answer true if the receiver is invertible."
+"	self parent isDivisionRing ifTrue: [^ self isZero not]."
+	^ self norm isUnit! !
+
+!FiniteAlgebraElement methodsFor: 'testing' stamp: 'len 12/1/2024 14:10:59'!
+isZero
+	^ carrier isZero! !
+
+!FiniteAlgebraElement methodsFor: 'testing' stamp: 'len 6/16/2024 07:57:26'!
+isZeroDivisor
+	"Answer true if there exists a nonzero element that multiplied by the receiver is zero."
+	self parent isIntegralDomain ifTrue: [^ self isZero].
+	self flag: #fixme. "is this correct? both left and right?"
+	^ self representation isZeroDivisor and: [self parent isCommutative or: [self rightRepresentation isZeroDivisor]]! !
+
+!FiniteAlgebraElement methodsFor: 'private' stamp: 'len 12/1/2024 14:13:46'!
+parent: anAlgebra carrier: anElement
+	parent _ anAlgebra.
+	carrier _ anElement! !
+
+!FiniteAlgebraElement class methodsFor: 'instance creation' stamp: 'len 12/1/2024 14:13:46'!
+parent: anAlgebra carrier: anElement
+	^ self new parent: anAlgebra carrier: anElement! !
+
+!AlgebraicInteger methodsFor: 'operations' stamp: 'len 4/2/2025 07:51:21'!
+colift: anElement
+	^ super colift: anElement
+
+"alternative:
+	^ (self parent fractions !! self colift: self parent fractions !! anElement) ifNotNil: [:aFraction| self parent adapt: aFraction]"! !
+
+!AlgebraicInteger methodsFor: 'operations' stamp: 'len 11/17/2023 10:23:08'!
+conjugate
+	"Answer the complex conjugate of the receiver."
+	^ parent !! (parent fractions !! self) conjugate! !
+
+!AlgebraicInteger methodsFor: 'printing' stamp: 'len 7/10/2021 11:35:53'!
+printOn: aStream
+	aStream print: parent fractions !! self! !
+
+!AlgebraicInteger methodsFor: 'testing' stamp: 'len 7/11/2021 11:19:13'!
+isIntegral
+	^ true! !
+
+!EisensteinInteger methodsFor: 'operations' stamp: 'len 12/1/2024 14:13:46'!
+// anElement
+	"Answer the quotient of the Euclidean division of the receiver by the argument."
+	| a b c d n x y xC xF yC yF |
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #//].
+	anElement isZero ifTrue: [^ DivisibilityError new signalReceiver: self selector: #// argument: anElement].
+	a := carrier at: 1.
+	b := carrier at: 2.
+	c := anElement carrier at: 1.
+	d := anElement carrier at: 2.
+	n := c squared - (c*d) + d squared.
+	c := c - d.
+	d := d negated.
+	x := a*c - (b*d) / n.
+	y := b*c + (a*d) - (b*d) / n.
+	xF := x floor. yF := y floor.
+	xC := x ceiling. yC := y ceiling.
+	^ ({{xF. yF}. {xC. yF}. {xF. yC}. {xC. yC}} collect: [:each| self class parent: parent carrier: (carrier parent elementAt: each)]) detectMin: [:each| (self - (anElement*each)) norm]! !
+
+!EisensteinInteger methodsFor: 'operations' stamp: 'len 12/1/2024 14:13:46'!
+conjugate
+	"Answer the complex conjugate of the receiver."
+	| a b |
+	a _ carrier at: 1.
+	b _ carrier at: 2.
+	^ self class parent: parent carrier: (carrier parent elementAt: {a - b. b negated})! !
+
+!EisensteinInteger methodsFor: 'operations' stamp: 'len 5/18/2025 15:30:43'!
+euclideanValuation
+	^ self norm! !
+
+!EisensteinInteger methodsFor: 'operations' stamp: 'len 12/1/2024 14:10:59'!
+norm
+	| a b |
+	a _ carrier at: 1.
+	b _ carrier at: 2.
+	^ a squared - (a*b) + b squared! !
+
+!EisensteinInteger methodsFor: 'operations' stamp: 'len 4/2/2025 08:27:15'!
+normalization
+	self isZero ifTrue: [^ parent one].
+	self flag: #fixme. "there should be a more efficient way"
+	^ ((parent units elements reject: [:u| (self * u) carrier asArray <= #(0 0)]) sorted: [:u :v| (self * u) carrier asArray reversed <= (self * v) carrier asArray reversed]) first
+
+"
+	| a b ra rb |
+	a _ moduleElement at: 1.
+	b := moduleElement at: 2.
+	ra := a \\ 3.
+	rb := b \\ 3.
+	ra = 0 ifTrue:
+		[rb = 1 ifTrue: [^ parent ω squared negated].
+		rb = 2 ifTrue: [^ parent ω squared].
+		^ parent one].
+	ra = 1 ifTrue:
+		[rb = 0 ifTrue: [^ parent one negated].
+		rb = 1 ifTrue: [^ parent ω].
+		^ parent one].
+	rb = 2 ifTrue: [^ parent ω negated].
+	^ parent one"! !
+
+!EisensteinInteger methodsFor: 'testing' stamp: 'len 6/1/2025 16:12:37'!
+isPrimaryEisensteinInteger
+	"Answer true if the receiver is its own canonical associate.
+	For Eisenstein integers this is equivalent to being congruent to 2 mod 3."
+	self flag: #deprecated.
+	^ (carrier at: 1) \\ 3 = 2 and: [(carrier at: 2) \\ 3 = 0]! !
+
+!EisensteinInteger methodsFor: 'testing' stamp: 'len 12/1/2024 14:10:59'!
+isPrime
+	| a b p s |
+	a _ carrier at: 1.
+	b _ carrier at: 2.
+	b isZero ifTrue: [^ a \\ 3 = 2 and: [a isPrime]].
+	p _ a squared - (a*b) + b squared.
+	(p \\ 3 < 2 and: [p isPrime]) ifTrue: [^ true].
+	s _ p sqrtFloor.
+	^ s squared = p and: [p isPrime]! !
+
+!EisensteinInteger methodsFor: 'testing' stamp: 'len 11/7/2023 11:31:09'!
+isReal
+	^ self conjugate = self! !
+
+!EisensteinInteger methodsFor: 'testing' stamp: 'len 12/1/2024 14:10:59'!
+positive
+	"Answer true if the receiver is in the first sextant of the complex plane, taking ω = (1 + √-3)/2."
+	^ (carrier at: 1) > 0 and: [(carrier at: 2) > 0]! !
+
+!GaussianInteger methodsFor: 'accessing' stamp: 'len 12/1/2024 14:10:59'!
+imaginary
+	^ carrier at: 2! !
+
+!GaussianInteger methodsFor: 'accessing' stamp: 'len 12/1/2024 14:10:59'!
+real
+	^ carrier at: 1! !
+
+!GaussianInteger methodsFor: 'operations' stamp: 'len 7/10/2023 17:20:58'!
+// anElement
+	"Answer the quotient of the Euclidean division of the receiver by the argument."
+	| a b c d n x y xF yF xC yC |
+	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #//].
+	anElement isZero ifTrue: [^ DivisibilityError new signalReceiver: self selector: #// argument: anElement].
+	a := self real.
+	b := self imaginary.
+	c := anElement real.
+	d := anElement imaginary.
+	n := c squared + d squared.
+	x := a*c + (b*d) / n.
+	y := b*c - (a*d) / n.
+	xF := x floor. yF := y floor.
+	xC := x ceiling. yC := y ceiling.
+	^ {parent real: xF imaginary: yF. parent real: xC imaginary: yF. parent real: xF imaginary: yC. parent real: xC imaginary: yC} detectMin: [:each| (self - (anElement*each)) norm]! !
+
+!GaussianInteger methodsFor: 'operations' stamp: 'len 11/7/2023 11:27:48'!
+conjugate
+	"Answer the complex conjugate of the receiver."
+	^ parent real: self real imaginary: self imaginary negated
+
+"alternatively:
+	^ self negated + self trace
+"! !
+
+!GaussianInteger methodsFor: 'operations' stamp: 'len 5/18/2025 15:30:43'!
+euclideanValuation
+	^ self norm! !
+
+!GaussianInteger methodsFor: 'operations' stamp: 'len 3/24/2021 07:47:09'!
+inverse
+	^ self conjugate * self norm inverse! !
+
+!GaussianInteger methodsFor: 'operations' stamp: 'len 10/16/2022 10:39:03'!
+norm
+	"Answer the reduced norm of the receiver."
+	^ self real squared + self imaginary squared
+
+"	^ (self * self conjugate) asModuleElement at: 1"! !
+
+!GaussianInteger methodsFor: 'operations' stamp: 'len 4/2/2025 08:27:11'!
+normalization
+	"Choose an associate in the first quadrant of the complex plane."
+	| a b |
+	self isZero ifTrue: [^ parent one].
+	a := self real.
+	b := self imaginary.
+	a > 0 ifTrue: [
+		b >= 0 ifTrue: [^ parent one].
+		^ parent i].
+	a < 0 ifTrue: [
+		b <= 0 ifTrue: [^ parent one negated].
+		^ parent i negated].
+	^ b < 0 ifTrue: [parent i] ifFalse: [parent i negated]! !
+
+!GaussianInteger methodsFor: 'operations' stamp: 'len 12/1/2024 14:10:22'!
+trace
+	"Answer the reduced trace of the receiver."
+	^ (self + self conjugate) carrier at: 1! !
+
+!GaussianInteger methodsFor: 'testing' stamp: 'len 5/9/2023 13:15:49'!
+isPrime
+	"A Gaussian integer a+bi is prime if either:
+	- one of a, b is zero and absolute value of the other is prime congruent to 3 mod 4;
+	- both are nonzero and a^2 + b^2 is prime."
+	| a b |
+	a _ self real.
+	b _ self imaginary.
+	a = 0 ifTrue: [^ b \\ 4 = 3 and: [b abs isPrime]].
+	b = 0 ifTrue: [^ a \\ 4 = 3 and: [a abs isPrime]].
+	^ (a squared + (b \\ 2)) isPrime! !
+
+!GaussianInteger methodsFor: 'testing' stamp: 'len 11/7/2023 11:30:20'!
+isReal
+	^ self imaginary isZero! !
+
+!GaussianInteger methodsFor: 'testing' stamp: 'len 1/5/2022 09:57:39'!
+isUnit
+	"All the units are: 1, -1, i, -i."
+	^ (self real abs = 1 and: [self imaginary = 0]) or: [self real = 0 and: [self imaginary abs = 1]]! !
+
+!QuadraticInteger methodsFor: 'operations' stamp: 'len 4/2/2025 08:27:43'!
+normalization
+	self isZero ifTrue: [^ parent one].
+	self flag: #fixme. "there should be a more efficient way"
+	^ ((parent units elements reject: [:u| (self * u) carrier asArray <= #(0 0)]) sorted: [:u :v| (self * u) carrier asArray reversed <= (self * v) carrier asArray reversed]) first! !
+
+!QuadraticInteger methodsFor: 'testing' stamp: 'len 8/5/2021 08:42:38'!
+isPrime
+	"The norm of a (quadratic) prime is a (rational) integer prime or a prime squared.
+	If the norm is a prime, the number is prime."
+	| norm factors |
+	(norm _ self norm) isPrime ifTrue: [^ true].
+	factors _ norm factorization.
+	(factors size <= 2 and: [factors asSet size = 1]) ifFalse: [^ false].
+	self notYetImplemented! !
+
+!QuadraticInteger methodsFor: 'testing' stamp: 'len 10/16/2022 10:46:48'!
+isUnit
+	^ super isUnit
+"there's also equations, a + bw is a unit if:
+	a^2 - Db^2 = 1 for D = 2,3 mod 4
+	(a + b/2)^2 - (1/4)Db^2 = 1 for D = 1 mod 4"! !
 
 !FreeAlgebraElement methodsFor: 'accessing' stamp: 'len 4/28/2022 06:57:10'!
 at: aWord
@@ -9106,321 +9372,6 @@ isZeroDivisor
 	"Answer true if there exists a nonzero element that multiplied by the receiver is zero."
 	^ self isZero! !
 
-!FiniteAlgebraElement methodsFor: 'accessing' stamp: 'len 6/10/2020 14:00:48'!
-parent
-	^ parent! !
-
-!FiniteAlgebraElement methodsFor: 'comparing' stamp: 'len 12/1/2024 14:10:59'!
-= anObject
-	^ self class = anObject class and: [carrier = anObject carrier]! !
-
-!FiniteAlgebraElement methodsFor: 'comparing' stamp: 'len 12/1/2024 14:10:59'!
-hash
-	^ carrier hash! !
-
-!FiniteAlgebraElement methodsFor: 'converting' stamp: 'len 6/21/2020 14:06:13'!
-asScalar
-	"If the receiver is the embedding of an element of the scalars ring in the parent algebra, answer the corresponding scalar."
-	^ self notYetImplemented! !
-
-!FiniteAlgebraElement methodsFor: 'converting' stamp: 'len 12/1/2024 14:10:59'!
-carrier
-	^ carrier! !
-
-!FiniteAlgebraElement methodsFor: 'operations' stamp: 'len 12/1/2024 14:13:46'!
-* anElement
-	(anElement isInteger or: [self parent scalars includes: anElement])
-		ifTrue: [^ self class parent: parent carrier: carrier * anElement].
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #*].
-	^ self class parent: parent carrier: (parent multiplicationBilinearMap value: carrier value: anElement carrier)! !
-
-!FiniteAlgebraElement methodsFor: 'operations' stamp: 'len 12/1/2024 14:13:46'!
-+ anElement
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #+].
-	^ self class parent: parent carrier: carrier + anElement carrier! !
-
-!FiniteAlgebraElement methodsFor: 'operations' stamp: 'len 12/30/2024 14:40:53'!
-adjoint
-	self parent isCommutative ifTrue: [^ self].
-	self parent isInvolutive ifTrue: [^ self conjugate].
-	^ self parent opposite fromModuleElement: carrier! !
-
-!FiniteAlgebraElement methodsFor: 'operations' stamp: 'len 12/1/2024 14:13:46'!
-negated
-	^ self class parent: parent carrier: carrier negated! !
-
-!FiniteAlgebraElement methodsFor: 'operations' stamp: 'len 12/1/2024 14:49:48'!
-representation
-	"Answer the module endomorphism corresponding to the left regular representation of the receiver."
-	^ representation ifNil: [representation := self parent carrier endomorphisms !! [:x| (self * (self parent !! x)) carrier]]! !
-
-!FiniteAlgebraElement methodsFor: 'printing' stamp: 'len 12/1/2024 14:10:59'!
-printOn: aStream
-	aStream print: carrier! !
-
-!FiniteAlgebraElement methodsFor: 'testing' stamp: 'len 7/22/2021 18:35:04'!
-isNilpotent
-	"Answer true if self^n = 0 for some integer n >= 1."
-	^ (self ^ self parent rank) isZero
-
-"alternative:
-	^ self parent nilradical contains: self
-	
-or:
-	^ self representation isNilpotent"! !
-
-!FiniteAlgebraElement methodsFor: 'testing' stamp: 'len 6/21/2020 14:05:18'!
-isScalar
-	"Answer true if the receiver corresponds to the embedding of an element of the scalars ring in the parent algebra."
-	^ self notYetImplemented! !
-
-!FiniteAlgebraElement methodsFor: 'testing' stamp: 'len 10/16/2022 10:46:06'!
-isUnit
-	"Answer true if the receiver is invertible."
-"	self parent isDivisionRing ifTrue: [^ self isZero not]."
-	^ self norm isUnit! !
-
-!FiniteAlgebraElement methodsFor: 'testing' stamp: 'len 12/1/2024 14:10:59'!
-isZero
-	^ carrier isZero! !
-
-!FiniteAlgebraElement methodsFor: 'testing' stamp: 'len 6/16/2024 07:57:26'!
-isZeroDivisor
-	"Answer true if there exists a nonzero element that multiplied by the receiver is zero."
-	self parent isIntegralDomain ifTrue: [^ self isZero].
-	self flag: #fixme. "is this correct? both left and right?"
-	^ self representation isZeroDivisor and: [self parent isCommutative or: [self rightRepresentation isZeroDivisor]]! !
-
-!FiniteAlgebraElement methodsFor: 'private' stamp: 'len 12/1/2024 14:13:46'!
-parent: anAlgebra carrier: anElement
-	parent _ anAlgebra.
-	carrier _ anElement! !
-
-!FiniteAlgebraElement class methodsFor: 'instance creation' stamp: 'len 12/1/2024 14:13:46'!
-parent: anAlgebra carrier: anElement
-	^ self new parent: anAlgebra carrier: anElement! !
-
-!AlgebraicInteger methodsFor: 'operations' stamp: 'len 4/2/2025 07:51:21'!
-colift: anElement
-	^ super colift: anElement
-
-"alternative:
-	^ (self parent fractions !! self colift: self parent fractions !! anElement) ifNotNil: [:aFraction| self parent adapt: aFraction]"! !
-
-!AlgebraicInteger methodsFor: 'operations' stamp: 'len 11/17/2023 10:23:08'!
-conjugate
-	"Answer the complex conjugate of the receiver."
-	^ parent !! (parent fractions !! self) conjugate! !
-
-!AlgebraicInteger methodsFor: 'printing' stamp: 'len 7/10/2021 11:35:53'!
-printOn: aStream
-	aStream print: parent fractions !! self! !
-
-!AlgebraicInteger methodsFor: 'testing' stamp: 'len 7/11/2021 11:19:13'!
-isIntegral
-	^ true! !
-
-!EisensteinInteger methodsFor: 'operations' stamp: 'len 12/1/2024 14:13:46'!
-// anElement
-	"Answer the quotient of the Euclidean division of the receiver by the argument."
-	| a b c d n x y xC xF yC yF |
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #//].
-	anElement isZero ifTrue: [^ DivisibilityError new signalReceiver: self selector: #// argument: anElement].
-	a := carrier at: 1.
-	b := carrier at: 2.
-	c := anElement carrier at: 1.
-	d := anElement carrier at: 2.
-	n := c squared - (c*d) + d squared.
-	c := c - d.
-	d := d negated.
-	x := a*c - (b*d) / n.
-	y := b*c + (a*d) - (b*d) / n.
-	xF := x floor. yF := y floor.
-	xC := x ceiling. yC := y ceiling.
-	^ ({{xF. yF}. {xC. yF}. {xF. yC}. {xC. yC}} collect: [:each| self class parent: parent carrier: (carrier parent elementAt: each)]) detectMin: [:each| (self - (anElement*each)) norm]! !
-
-!EisensteinInteger methodsFor: 'operations' stamp: 'len 12/1/2024 14:13:46'!
-conjugate
-	"Answer the complex conjugate of the receiver."
-	| a b |
-	a _ carrier at: 1.
-	b _ carrier at: 2.
-	^ self class parent: parent carrier: (carrier parent elementAt: {a - b. b negated})! !
-
-!EisensteinInteger methodsFor: 'operations' stamp: 'len 5/18/2025 15:30:43'!
-euclideanValuation
-	^ self norm! !
-
-!EisensteinInteger methodsFor: 'operations' stamp: 'len 12/1/2024 14:10:59'!
-norm
-	| a b |
-	a _ carrier at: 1.
-	b _ carrier at: 2.
-	^ a squared - (a*b) + b squared! !
-
-!EisensteinInteger methodsFor: 'operations' stamp: 'len 4/2/2025 08:27:15'!
-normalization
-	self isZero ifTrue: [^ parent one].
-	self flag: #fixme. "there should be a more efficient way"
-	^ ((parent units elements reject: [:u| (self * u) carrier asArray <= #(0 0)]) sorted: [:u :v| (self * u) carrier asArray reversed <= (self * v) carrier asArray reversed]) first
-
-"
-	| a b ra rb |
-	a _ moduleElement at: 1.
-	b := moduleElement at: 2.
-	ra := a \\ 3.
-	rb := b \\ 3.
-	ra = 0 ifTrue:
-		[rb = 1 ifTrue: [^ parent ω squared negated].
-		rb = 2 ifTrue: [^ parent ω squared].
-		^ parent one].
-	ra = 1 ifTrue:
-		[rb = 0 ifTrue: [^ parent one negated].
-		rb = 1 ifTrue: [^ parent ω].
-		^ parent one].
-	rb = 2 ifTrue: [^ parent ω negated].
-	^ parent one"! !
-
-!EisensteinInteger methodsFor: 'testing' stamp: 'len 6/1/2025 16:12:37'!
-isPrimaryEisensteinInteger
-	"Answer true if the receiver is its own canonical associate.
-	For Eisenstein integers this is equivalent to being congruent to 2 mod 3."
-	self flag: #deprecated.
-	^ (carrier at: 1) \\ 3 = 2 and: [(carrier at: 2) \\ 3 = 0]! !
-
-!EisensteinInteger methodsFor: 'testing' stamp: 'len 12/1/2024 14:10:59'!
-isPrime
-	| a b p s |
-	a _ carrier at: 1.
-	b _ carrier at: 2.
-	b isZero ifTrue: [^ a \\ 3 = 2 and: [a isPrime]].
-	p _ a squared - (a*b) + b squared.
-	(p \\ 3 < 2 and: [p isPrime]) ifTrue: [^ true].
-	s _ p sqrtFloor.
-	^ s squared = p and: [p isPrime]! !
-
-!EisensteinInteger methodsFor: 'testing' stamp: 'len 11/7/2023 11:31:09'!
-isReal
-	^ self conjugate = self! !
-
-!EisensteinInteger methodsFor: 'testing' stamp: 'len 12/1/2024 14:10:59'!
-positive
-	"Answer true if the receiver is in the first sextant of the complex plane, taking ω = (1 + √-3)/2."
-	^ (carrier at: 1) > 0 and: [(carrier at: 2) > 0]! !
-
-!GaussianInteger methodsFor: 'accessing' stamp: 'len 12/1/2024 14:10:59'!
-imaginary
-	^ carrier at: 2! !
-
-!GaussianInteger methodsFor: 'accessing' stamp: 'len 12/1/2024 14:10:59'!
-real
-	^ carrier at: 1! !
-
-!GaussianInteger methodsFor: 'operations' stamp: 'len 7/10/2023 17:20:58'!
-// anElement
-	"Answer the quotient of the Euclidean division of the receiver by the argument."
-	| a b c d n x y xF yF xC yC |
-	(parent includes: anElement) ifFalse: [^ self adapt: anElement andSend: #//].
-	anElement isZero ifTrue: [^ DivisibilityError new signalReceiver: self selector: #// argument: anElement].
-	a := self real.
-	b := self imaginary.
-	c := anElement real.
-	d := anElement imaginary.
-	n := c squared + d squared.
-	x := a*c + (b*d) / n.
-	y := b*c - (a*d) / n.
-	xF := x floor. yF := y floor.
-	xC := x ceiling. yC := y ceiling.
-	^ {parent real: xF imaginary: yF. parent real: xC imaginary: yF. parent real: xF imaginary: yC. parent real: xC imaginary: yC} detectMin: [:each| (self - (anElement*each)) norm]! !
-
-!GaussianInteger methodsFor: 'operations' stamp: 'len 11/7/2023 11:27:48'!
-conjugate
-	"Answer the complex conjugate of the receiver."
-	^ parent real: self real imaginary: self imaginary negated
-
-"alternatively:
-	^ self negated + self trace
-"! !
-
-!GaussianInteger methodsFor: 'operations' stamp: 'len 5/18/2025 15:30:43'!
-euclideanValuation
-	^ self norm! !
-
-!GaussianInteger methodsFor: 'operations' stamp: 'len 3/24/2021 07:47:09'!
-inverse
-	^ self conjugate * self norm inverse! !
-
-!GaussianInteger methodsFor: 'operations' stamp: 'len 10/16/2022 10:39:03'!
-norm
-	"Answer the reduced norm of the receiver."
-	^ self real squared + self imaginary squared
-
-"	^ (self * self conjugate) asModuleElement at: 1"! !
-
-!GaussianInteger methodsFor: 'operations' stamp: 'len 4/2/2025 08:27:11'!
-normalization
-	"Choose an associate in the first quadrant of the complex plane."
-	| a b |
-	self isZero ifTrue: [^ parent one].
-	a := self real.
-	b := self imaginary.
-	a > 0 ifTrue: [
-		b >= 0 ifTrue: [^ parent one].
-		^ parent i].
-	a < 0 ifTrue: [
-		b <= 0 ifTrue: [^ parent one negated].
-		^ parent i negated].
-	^ b < 0 ifTrue: [parent i] ifFalse: [parent i negated]! !
-
-!GaussianInteger methodsFor: 'operations' stamp: 'len 12/1/2024 14:10:22'!
-trace
-	"Answer the reduced trace of the receiver."
-	^ (self + self conjugate) carrier at: 1! !
-
-!GaussianInteger methodsFor: 'testing' stamp: 'len 5/9/2023 13:15:49'!
-isPrime
-	"A Gaussian integer a+bi is prime if either:
-	- one of a, b is zero and absolute value of the other is prime congruent to 3 mod 4;
-	- both are nonzero and a^2 + b^2 is prime."
-	| a b |
-	a _ self real.
-	b _ self imaginary.
-	a = 0 ifTrue: [^ b \\ 4 = 3 and: [b abs isPrime]].
-	b = 0 ifTrue: [^ a \\ 4 = 3 and: [a abs isPrime]].
-	^ (a squared + (b \\ 2)) isPrime! !
-
-!GaussianInteger methodsFor: 'testing' stamp: 'len 11/7/2023 11:30:20'!
-isReal
-	^ self imaginary isZero! !
-
-!GaussianInteger methodsFor: 'testing' stamp: 'len 1/5/2022 09:57:39'!
-isUnit
-	"All the units are: 1, -1, i, -i."
-	^ (self real abs = 1 and: [self imaginary = 0]) or: [self real = 0 and: [self imaginary abs = 1]]! !
-
-!QuadraticInteger methodsFor: 'operations' stamp: 'len 4/2/2025 08:27:43'!
-normalization
-	self isZero ifTrue: [^ parent one].
-	self flag: #fixme. "there should be a more efficient way"
-	^ ((parent units elements reject: [:u| (self * u) carrier asArray <= #(0 0)]) sorted: [:u :v| (self * u) carrier asArray reversed <= (self * v) carrier asArray reversed]) first! !
-
-!QuadraticInteger methodsFor: 'testing' stamp: 'len 8/5/2021 08:42:38'!
-isPrime
-	"The norm of a (quadratic) prime is a (rational) integer prime or a prime squared.
-	If the norm is a prime, the number is prime."
-	| norm factors |
-	(norm _ self norm) isPrime ifTrue: [^ true].
-	factors _ norm factorization.
-	(factors size <= 2 and: [factors asSet size = 1]) ifFalse: [^ false].
-	self notYetImplemented! !
-
-!QuadraticInteger methodsFor: 'testing' stamp: 'len 10/16/2022 10:46:48'!
-isUnit
-	^ super isUnit
-"there's also equations, a + bw is a unit if:
-	a^2 - Db^2 = 1 for D = 2,3 mod 4
-	(a + b/2)^2 - (1/4)Db^2 = 1 for D = 1 mod 4"! !
-
 !SolvableAlgebraElement methodsFor: 'accessing' stamp: 'len 7/4/2022 12:20:47'!
 at: aMonomial
 	^ representative at: aMonomial! !
@@ -12900,6 +12851,12 @@ process: anArray
 compare: a with: b
 	^ b leadingMonomial <= a leadingMonomial! !
 
+!Domain methodsFor: 'accessing' stamp: 'len 8/22/2025 02:15:18'!
+ambient
+	"Domains can be subobjects of other domains, for example subspeces are subobjects of vector spaces.
+	Answer the ambient domain of which the receiver is a subobject, equipped with the inclusion morphism."
+	^ self propertyAt: #ambient ifAbsent: [self]! !
+
 !Domain methodsFor: 'accessing' stamp: 'len 4/1/2024 13:32:54'!
 at: anInteger
 	(self isProduct or: [self isCoproduct]) ifFalse: [^ self error: 'not a product or coproduct'].
@@ -13334,6 +13291,10 @@ to: aCodomain atRandom: aRandom bits: bitSize
 isAbelianGroup
 	^ false! !
 
+!Domain methodsFor: 'testing' stamp: 'len 8/22/2025 02:16:38'!
+isAmbient
+	^ self ambient == self! !
+
 !Domain methodsFor: 'testing' stamp: 'len 3/10/2025 08:32:09'!
 isBialgebra
 	^ false! !
@@ -13380,6 +13341,10 @@ isVectorSpace
 isZero
 	"Answer true if the receiver is the zero object of its category."
 	^ self ~ self category zeroObject! !
+
+!Domain methodsFor: 'private' stamp: 'len 8/22/2025 02:18:26'!
+ambient: aDomain
+	self propertyAt: #ambient put: aDomain! !
 
 !Domain class methodsFor: 'initialization' stamp: 'len 3/28/2025 10:32:26'!
 initializeAll
@@ -14020,12 +13985,6 @@ components: anArray
 components: anArray
 	^ self new components: anArray! !
 
-!Structure methodsFor: 'accessing' stamp: 'len 4/1/2024 14:31:47'!
-ambient
-	"Domains can be subobjects of other domains, for example subspeces are subobjects of vector spaces.
-	Answer the ambient domain of which the receiver is a subobject, equipped with the inclusion morphism."
-	^ self propertyAt: #ambient ifAbsent: [self]! !
-
 !Structure methodsFor: 'accessing' stamp: 'len 3/25/2025 08:22:40'!
 elements
 	"Answer the elements of the receiver as either a Collection or another type of Structure."
@@ -14039,11 +13998,6 @@ generator
 !Structure methodsFor: 'accessing' stamp: 'len 10/17/2016 18:53'!
 generator: anElement
 	self generators: {anElement}! !
-
-!Structure methodsFor: 'accessing' stamp: 'len 12/22/2021 14:10:56'!
-generatorNamed: anObject
-	"Answer the generator indexed or named by anObject."
-	^ self generators at: (self names indexOf: anObject)! !
 
 !Structure methodsFor: 'accessing' stamp: 'len 12/28/2016 11:22:22'!
 generators
@@ -14259,10 +14213,6 @@ contains: anElement
 includes: anElement
 	^ self elements includes: anElement! !
 
-!Structure methodsFor: 'testing' stamp: 'len 4/29/2020 21:16:49'!
-isAmbient
-	^ self ambient == self! !
-
 !Structure methodsFor: 'testing' stamp: 'len 11/2/2016 08:54'!
 isEmpty
 	^ self size = 0! !
@@ -14284,10 +14234,6 @@ isInfinite
 isOrdered
 	"Answer true if the elements of the receiver are ordered. They must implement the Magnitude protocol (<, >, <=, >=)."
 	^ false! !
-
-!Structure methodsFor: 'private' stamp: 'len 4/1/2024 14:30:40'!
-ambient: aDomain
-	self propertyAt: #ambient put: aDomain! !
 
 !Structure methodsFor: 'private' stamp: 'len 3/11/2021 16:38:21'!
 newRandom
@@ -14997,6 +14943,11 @@ isMonoid
 multiplication
 	^​ self carrier times: self carrier to: self carrier map: [:x :y| self !! x * (self !! y)]! !
 
+!Ring methodsFor: 'internalization' stamp: 'len 8/21/2025 21:24:26'!
+representation
+	"If the receiver is a finite algebra, answer the left regular representation."
+	^ Representation structureMorphism: (self to: self carrier endomorphisms map: [:x| x representation])! !
+
 !Ring methodsFor: 'internalization' stamp: 'len 12/1/2024 14:38:57'!
 to: anAlgebra carrier: aModuleMap
 	self assert: (aModuleMap domain == self carrier and: [aModuleMap codomain == anAlgebra carrier]).
@@ -15038,11 +14989,6 @@ leftUnitor
 	"Assuming the receiver is a R-algebra, answer the left unitor.
 	This is the left unitor in the symmetric monoidal category of R-algebras."
 	^ "self scalars ⊗" self to: self carrier: self carrier leftUnitor! !
-
-!Ring methodsFor: 'morphisms' stamp: 'len 8/20/2025 15:45:45'!
-representation
-	"If the receiver is a finite algebra, answer the left regular representation."
-	^ (self to: self carrier endomorphisms map: [:x| x representation]) asModule! !
 
 !Ring methodsFor: 'morphisms' stamp: 'len 12/16/2024 08:36:22'!
 rightUnitor
@@ -15406,12 +15352,12 @@ normalization
 	self flag: #fixme. "TODO: Implement de Jong algorithm."
 	^ self notYetImplemented! !
 
-!Ring methodsFor: 'operations' stamp: 'len 8/17/2025 17:04:30'!
+!Ring methodsFor: 'operations' stamp: 'len 8/21/2025 21:24:26'!
 on: aModule action: aBlock
 	"If the receiver is a finitely generated k-algebra and aModule is a k-module, answer the representation module with the action given by aBlock."
 	self assert: self isFinitelyGenerated.
 	self assert: (aModule isModule and: [aModule scalars = self scalars]).
-	^ (self to: aModule endomorphisms map: [:a| [:v| aBlock value: a value: v]]) asModule! !
+	^ Representation structureMorphism: (self to: aModule endomorphisms map: [:a| [:v| aBlock value: a value: v]])! !
 
 !Ring methodsFor: 'operations' stamp: 'len 9/5/2024 07:48:18'!
 opposite
@@ -16156,6 +16102,473 @@ isSimple
 	self scalars isField ifTrue: [^ self order > 0].
 	^ super isSimple! !
 
+!FiniteAlgebra methodsFor: 'accessing' stamp: 'len 12/1/2024 14:41:44'!
+multiplicationBilinearMap
+	"Answer the multiplication as a bilinear map on the underlying module."
+	^ self propertyAt: #multiplicationBilinearMap ifAbsentPut: [BilinearMap from: self carrier, self carrier to: self carrier mapWithArguments: [:x :y| (self !! x) * (self !! y)]]! !
+
+!FiniteAlgebra methodsFor: 'accessing' stamp: 'len 12/1/2024 14:43:45'!
+scalars
+	^ self carrier scalars! !
+
+!FiniteAlgebra methodsFor: 'accessing' stamp: 'len 12/1/2024 14:43:50'!
+size
+	^ self carrier size! !
+
+!FiniteAlgebra methodsFor: 'accessing' stamp: 'len 12/1/2024 14:44:18'!
+zero
+	^ self !! self carrier zero! !
+
+!FiniteAlgebra methodsFor: 'comparing' stamp: 'len 12/1/2024 14:40:54'!
+= anObject
+	^ self == anObject or: [(anObject isKindOf: FiniteAlgebra) and: [self ambient carrier = anObject ambient carrier and: [self carrier = anObject carrier]]]! !
+
+!FiniteAlgebra methodsFor: 'elements' stamp: 'len 12/20/2024 08:04:18'!
+adapt: anElement
+	(self carrier includes: anElement) ifTrue: [^ self fromModuleElement: anElement].
+	(self scalars includes: anElement) ifTrue: [^ self one * anElement].
+	^ super adapt: anElement! !
+
+!FiniteAlgebra methodsFor: 'elements' stamp: 'len 12/1/2024 14:13:46'!
+fromModuleElement: anElement
+	^ FiniteAlgebraElement parent: self carrier: anElement! !
+
+!FiniteAlgebra methodsFor: 'elements' stamp: 'len 5/8/2025 00:13:08'!
+newFrom: anObject
+	(anObject isSequenceable and: [anObject size = self carrier rank])
+		ifTrue: [^ self fromModuleElement: (self carrier elementAt: anObject)].
+	^ super newFrom: anObject! !
+
+!FiniteAlgebra methodsFor: 'internalization' stamp: 'len 12/1/2024 10:19:42'!
+carrier
+	^ self propertyAt: #carrier! !
+
+!FiniteAlgebra methodsFor: 'morphisms' stamp: 'len 8/17/2025 22:47:59'!
+from: aRing
+	aRing == self scalars ifTrue: [^ self addMap: ((self scalars to: self map: [:x| self one * x]) label: 'ι')].
+	aRing ⇢ self scalars ifNotNil: [:aMap| ^ aRing to: self over: aRing map: [:x| self one * (aMap value: x)]].
+	^ super from: aRing! !
+
+!FiniteAlgebra methodsFor: 'morphisms' stamp: 'len 12/1/2024 14:26:37'!
+id
+	^ self propertyAt: #id ifAbsentPut: [self to: self carrier: self carrier id]! !
+
+!FiniteAlgebra methodsFor: 'morphisms' stamp: 'len 8/15/2025 00:50:36'!
+to: aRing images: anArray
+	((aRing isKindOf: FiniteAlgebra) and: [aRing scalars = self scalars]) ifFalse: [^ super to: aRing images: anArray].
+	^ self to: aRing carrier: (self carrier to: aRing carrier images: (anArray collect: [:each| (aRing !! each) carrier]))! !
+
+!FiniteAlgebra methodsFor: 'morphisms' stamp: 'len 12/1/2024 14:27:27'!
+to: aRing map: aBlock
+	((aRing isKindOf: FiniteAlgebra) and: [self scalars = aRing scalars]) ifTrue: [^ self to: aRing carrier: (self carrier to: aRing carrier map: [:x| (aBlock value: self !! x) carrier])].
+	^ super to: aRing map: aBlock! !
+
+!FiniteAlgebra methodsFor: 'operations' stamp: 'len 10/23/2024 16:48:30'!
+× anAlgebra
+	((anAlgebra isKindOf: FiniteAlgebra) and: [self scalars = anAlgebra scalars]) ifTrue: [^ self ⊕ anAlgebra].
+	^ super × anAlgebra! !
+
+!FiniteAlgebra methodsFor: 'operations' stamp: 'len 10/22/2024 08:57:33'!
+×̂ anAlgebra
+	((anAlgebra isKindOf: FiniteAlgebra) and: [self scalars = anAlgebra scalars]) ifTrue: [^ self ⊕̂ anAlgebra].
+	^ super ×̂ anAlgebra! !
+
+!FiniteAlgebra methodsFor: 'operations' stamp: 'len 12/15/2024 17:40:01'!
+⊕ anAlgebra
+	| S multiplication one |
+	((anAlgebra isKindOf: FiniteAlgebra) and: [self scalars = anAlgebra scalars]) ifFalse: [^ super ⊕ anAlgebra].
+	S := self carrier ⊕̂ anAlgebra carrier.
+	multiplication := self multiplicationBilinearMap ⊕ anAlgebra multiplicationBilinearMap.
+	one := (S ι₁ value: self one carrier) + (S ι₂ value: anAlgebra one carrier).
+	^ FiniteAlgebra one: one multiplication: multiplication! !
+
+!FiniteAlgebra methodsFor: 'operations' stamp: 'len 7/24/2025 17:10:07'!
+⊕̂ anAlgebra
+	| S multiplication one A |
+	((anAlgebra isKindOf: FiniteAlgebra) and: [self scalars = anAlgebra scalars]) ifFalse: [^ super ⊕̂ anAlgebra].
+	S := self carrier ⊕̂ anAlgebra carrier.
+	multiplication := self multiplicationBilinearMap ⊕ anAlgebra multiplicationBilinearMap.
+	one := (S ι₁ value: self one carrier) + (S ι₂ value: anAlgebra one carrier).
+	A := FiniteAlgebra one: one multiplication: multiplication.
+	^ Cone
+		biproduct: A
+		projections: (S projections with: {self. anAlgebra} collect: [:π :codomain| A ⇒ codomain !! π])
+		coprojections: (S coprojections with: {self. anAlgebra} collect: [:ι :domain| domain ⇒ A !! ι])! !
+
+!FiniteAlgebra methodsFor: 'operations' stamp: 'len 7/6/2021 14:43:18'!
+centroid
+	"Answer the centroid of the receiver as a subalgebra of the algebra of endomorphisms."
+	^ self notYetImplemented! !
+
+!FiniteAlgebra methodsFor: 'operations' stamp: 'len 1/30/2022 05:37:57'!
+derivations
+	"Answer the derivation algebra of the receiver as a Lie subalgebra of the algebra of endomorphisms."
+	^ self notYetImplemented! !
+
+!FiniteAlgebra methodsFor: 'printing' stamp: 'len 12/20/2024 08:04:08'!
+printOn: aStream
+	aStream print: self carrier! !
+
+!FiniteAlgebra methodsFor: 'testing' stamp: 'len 12/19/2024 19:13:36'!
+includes: anObject
+	^ anObject parent = self! !
+
+!FiniteAlgebra methodsFor: 'testing' stamp: 'len 3/8/2025 09:05:24'!
+isFiniteAlgebra
+	^ true! !
+
+!FiniteAlgebra methodsFor: 'testing' stamp: 'len 12/1/2024 14:41:24'!
+isTrivial
+	^ self carrier isTrivial! !
+
+!FiniteAlgebra methodsFor: 'private' stamp: 'len 12/1/2024 14:10:22'!
+carrier: aModule
+	self propertyAt: #carrier put: aModule.
+	self addCoercionTo: aModule map: [:each| each carrier]! !
+
+!FiniteAlgebra methodsFor: 'private' stamp: 'len 12/1/2024 10:24:29'!
+one: aModuleElement multiplication: aBilinearMap
+	| V |
+	V := aBilinearMap domain at: 1.
+	self carrier: V.
+	self propertyAt: #multiplicationBilinearMap put: aBilinearMap.
+	self propertyAt: #one put: (self fromModuleElement: aModuleElement)! !
+
+!FiniteAlgebra class methodsFor: 'instance creation' stamp: 'len 11/4/2022 09:38:10'!
+one: aModuleElement multiplication: aBilinearMap
+	^ self new one: aModuleElement multiplication: aBilinearMap! !
+
+!Order methodsFor: 'morphisms' stamp: 'len 8/17/2025 23:03:33'!
+to: aRing
+	aRing = self ambient fractions ifTrue: [^ self addMap: (self to: aRing map: [:x| aRing !! x])].
+	self ambient fractions ⇢ aRing ifNotNil: [:aMap| ^ aMap ∘ (self → self ambient fractions)].
+	^ super to: aRing! !
+
+!Order methodsFor: 'testing' stamp: 'len 7/15/2021 16:31:59'!
+isField
+	^ false! !
+
+!Order methodsFor: 'testing' stamp: 'len 1/1/2022 11:50:53'!
+isIntegralDomain
+	^ true! !
+
+!Order methodsFor: 'testing' stamp: 'len 7/15/2021 16:31:42'!
+isIntegrallyClosedDomain
+	^ true! !
+
+!Order methodsFor: 'private' stamp: 'len 7/7/2023 12:11:17'!
+idealClass
+	^ IntegralIdeal! !
+
+!Order methodsFor: 'private' stamp: 'len 7/15/2021 15:44:21'!
+species
+	^ Order! !
+
+!MaximalOrder methodsFor: 'accessing' stamp: 'len 7/10/2021 11:37:20'!
+degree
+	^ self fractions degree! !
+
+!MaximalOrder methodsFor: 'elements' stamp: 'len 12/1/2024 14:44:57'!
+adapt: anElement
+	(self fractions includes: anElement) ifTrue:
+		[| coordinates |
+		coordinates := self fractions integralBasisMatrix \ (self fractions carrier !! anElement).
+		^ (coordinates allSatisfy: [:each| each isIntegral]) ifTrue: [self fromModuleElement: (self carrier elementAt: coordinates)]].
+	^ super adapt: anElement! !
+
+!MaximalOrder methodsFor: 'elements' stamp: 'len 12/1/2024 14:13:46'!
+fromModuleElement: anElement
+	^ AlgebraicInteger parent: self carrier: anElement! !
+
+!MaximalOrder methodsFor: 'operations' stamp: 'len 7/10/2021 11:37:54'!
+fractions
+	"Answer the abient number field.
+	NOTE: Magma does this differently, the fractions field of a number ring is not its ambient field but an isomorphic field made of formal fractions with denominator a rational integer."
+	^ self propertyAt: #fractions! !
+
+!MaximalOrder methodsFor: 'printing' stamp: 'len 8/9/2022 10:29:38'!
+printOn: aStream
+	aStream nextPut: $𝕆; nextPut: $(; print: self fractions; nextPut: $)! !
+
+!MaximalOrder methodsFor: 'random' stamp: 'len 6/25/2023 11:39:34'!
+unitAtRandom: aRandom
+	| f |
+	[f := self scalars polynomials atRandom: aRandom maxDegree: self degree - 2.
+	f := f << 1 + (self scalars units atRandom: aRandom) + (self scalars polynomials x: 1 to: self degree).
+	f := f over: self fractions.
+	f roots do: [:each| ^ self !! each]] repeat! !
+
+!MaximalOrder methodsFor: 'random' stamp: 'len 6/25/2023 11:39:46'!
+unitAtRandom: aRandom bits: bitSize
+	| f |
+	[f := self scalars polynomials atRandom: aRandom bits: bitSize maxDegree: self degree - 2.
+	f := f << 1 + (self scalars units atRandom: aRandom) + (self scalars polynomials x: 1 to: self degree).
+	f := f over: self fractions.
+	f roots do: [:each| ^ self !! each]] repeat! !
+
+!MaximalOrder methodsFor: 'testing' stamp: 'len 7/15/2021 16:51:30'!
+isDedekindDomain
+	"Rings of integers of number fields or function fields are Dedekind domains."
+	^ true! !
+
+!MaximalOrder methodsFor: 'testing' stamp: 'len 1/4/2022 15:11:18'!
+isInvolutive
+	^ self fractions isInvolutive! !
+
+!MaximalOrder methodsFor: 'testing' stamp: 'len 12/23/2021 19:18:20'!
+isPID
+	"A Dedekind domain is a UFD iff it is a PID."
+	self flag: #fix. "for now ignore the PID structure"
+	^ super isPID
+"	^ self fractions classNumber = 1"! !
+
+!MaximalOrder methodsFor: 'testing' stamp: 'len 7/12/2021 13:19:16'!
+isPIR
+	^ self isPID! !
+
+!MaximalOrder methodsFor: 'testing' stamp: 'len 6/16/2022 18:25:19'!
+isUFR
+	"A Dedekind domain is a UFR iff it is a PID."
+	^ self isPID! !
+
+!MaximalOrder methodsFor: 'private' stamp: 'len 12/1/2024 14:10:22'!
+fractions: aNumberField
+	| M B |
+	self propertyAt: #fractions put: aNumberField.
+	self propertyAt: #carrier put: (M := aNumberField scalars integers ^ aNumberField degree).
+	B := aNumberField integralBasisMatrix.
+	self one: (self !! aNumberField one) carrier multiplication:
+		(BilinearMap from: M, M to: M mapWithArguments: [:x :y|
+			(self !! ((aNumberField !! (B * x)) * (aNumberField !! (B * y)))) carrier])! !
+
+!MaximalOrder class methodsFor: 'instance creation' stamp: 'len 7/10/2021 11:38:54'!
+on: aNumberField
+	^ self new fractions: aNumberField! !
+
+!CyclotomicRing methodsFor: 'operations' stamp: 'len 5/26/2025 17:00:07'!
+cyclotomicUnits
+	"Answer the group of cyclotomic units of the receiver.
+	This is a finite index subgroup of the unit group."
+	| m ζ C d |
+	m := self fractions conductor.
+	m isPrimary ifFalse: [^ self notYetImplemented].
+	ζ := self !! self fractions x.
+	C := Set new.
+	C add: ζ; add: ζ negated.
+	d := ζ - 1.
+	1 to: m do: [:i| C add: ζ^i - 1 / d].
+	C := C reject: [:each| each isZero].
+	^ self units sub: C! !
+
+!CyclotomicRing methodsFor: 'printing' stamp: 'len 7/10/2021 11:36:14'!
+printOn: aStream
+	aStream print: ℤ; nextPut: $[; print: self fractions x; nextPut: $]! !
+
+!CyclotomicRing methodsFor: 'testing' stamp: 'len 11/23/2023 09:59:23'!
+isPID
+	"See [MM76]."
+	^ #(1 3 4 5 7 8 9 11 12 13 15 16 17 19 20 21 24 25 27 28 32 33 35 36 40 44 45 48 60 84) includes: self fractions conductor! !
+
+!CyclotomicRing class methodsFor: 'instance creation' stamp: 'len 6/3/2023 11:17:31'!
+new: anInteger
+	^ self on: (CyclotomicField new: anInteger)! !
+
+!EisensteinRing methodsFor: 'accessing' stamp: 'len 10/17/2022 11:58:28'!
+unitsSize
+	"Answer the order of the units group."
+	^ 6! !
+
+!EisensteinRing methodsFor: 'accessing' stamp: 'len 10/17/2022 12:02:00'!
+ω
+	^ self !! self fractions x! !
+
+!EisensteinRing methodsFor: 'elements' stamp: 'len 12/1/2024 14:13:46'!
+fromModuleElement: anElement
+	^ EisensteinInteger parent: self carrier: anElement! !
+
+!EisensteinRing methodsFor: 'enumerating' stamp: 'len 10/17/2022 11:59:17'!
+unitsDo: aBlock
+	^ self unitsList do: aBlock! !
+
+!EisensteinRing methodsFor: 'random' stamp: 'len 10/17/2022 11:59:47'!
+unitAtRandom: aRandom
+	^ self unitsList atRandom: aRandom! !
+
+!EisensteinRing methodsFor: 'random' stamp: 'len 10/17/2022 11:59:59'!
+unitAtRandom: aRandom bits: bitSize
+	^ self unitAtRandom: aRandom! !
+
+!EisensteinRing methodsFor: 'testing' stamp: 'len 5/28/2023 17:56:08'!
+hasCanonicalAssociates
+	^ true! !
+
+!EisensteinRing methodsFor: 'testing' stamp: 'len 10/17/2022 09:48:33'!
+isEuclidean
+	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder."
+	^ true! !
+
+!EisensteinRing methodsFor: 'private' stamp: 'len 10/17/2022 12:01:31'!
+unitsList
+	^ self propertyAt: #unitsList ifAbsentPut: [{self one. self one negated. self ω. self ω negated. self ω squared. self ω squared negated}]! !
+
+!EisensteinRing class methodsFor: 'instance creation' stamp: 'len 6/3/2023 11:20:46'!
+new
+	^ self on: (CyclotomicField new: 3)! !
+
+!EisensteinRing class methodsFor: 'instance creation' stamp: 'len 6/3/2023 11:20:06'!
+on: anEisensteinField
+	^ super new fractions: anEisensteinField! !
+
+!GaussianRing methodsFor: 'elements' stamp: 'len 12/1/2024 14:13:46'!
+fromModuleElement: anElement
+	^ GaussianInteger parent: self carrier: anElement! !
+
+!GaussianRing methodsFor: 'elements' stamp: 'len 1/4/2022 14:52:19'!
+i
+	^ self real: 0 imaginary: 1! !
+
+!GaussianRing methodsFor: 'elements' stamp: 'len 12/1/2024 14:45:06'!
+real: anInteger imaginary: anotherInteger
+	^ self fromModuleElement: (self carrier elementAt: {anInteger. anotherInteger})! !
+
+!GaussianRing methodsFor: 'testing' stamp: 'len 6/3/2022 06:00:46'!
+hasCanonicalAssociates
+	^ true! !
+
+!GaussianRing methodsFor: 'testing' stamp: 'len 6/3/2022 20:42:03'!
+hasCanonicalReduction
+	^ true! !
+
+!GaussianRing methodsFor: 'testing' stamp: 'len 6/3/2022 07:08:30'!
+isEuclidean
+	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder."
+	^ true! !
+
+!GaussianRing class methodsFor: 'instance creation' stamp: 'len 11/5/2023 21:31:57'!
+new
+	^ self on: (CyclotomicField new: 4)! !
+
+!GaussianRing class methodsFor: 'instance creation' stamp: 'len 6/3/2023 11:25:42'!
+on: aGaussianField
+	^ super new fractions: aGaussianField! !
+
+!QuadraticRing methodsFor: 'accessing' stamp: 'len 11/13/2024 08:15:02'!
+fundamentalUnit
+	"See [Coh96, Algorithm 5.7.2 (Fundamental Unit)]."
+	| D d b u₁ u₂ v₁ v₂ p q A t u v |
+	self propertyAt: #fundamentalUnit ifPresent: [:anElement| ^ anElement].
+	self assert: self fractions isTotallyReal.
+	D := self fractions radicand.
+	"1. Initialize:"
+	d := D sqrtFloor.
+	D - d \\ 2 = 0 ifTrue: [b := d] ifFalse: [b := d - 1].
+	u₁ := b negated. u₂ := 2. v₁ := 1. v₂ := 0. p := b. q := 2.
+	"2. Euclidean step:"
+	[A := p + d // q. t := p. p := A*q - p.
+	(t = p and: [v₂ ~= 0]) ifTrue: "Step 4"
+		[u := u₂ squared + (D * v₂ squared) // q.
+		v := u₂*v₂*2 // q.
+		^ self propertyAt: #fundamentalUnit put: self !! (self fractions !! {u. v} / 2)].
+	t := A*u₂ + u₁. u₁ := u₂. u₂ := t.
+	t := A*v₂ + v₁. v₁ := v₂. v₂ := t.
+	t := q. q := D - p squared // q.
+	"3. Odd period?"
+	(t = q and: [v₂ ~= 0]) ifTrue:
+		[u := (u₁*u₂ + (D*v₁*v₂)) abs // q.
+		v := (u₁*v₂ + (v₁*u₂)) abs // q.
+		^ self propertyAt: #fundamentalUnit put: self !! (self fractions !! {u. v} / 2)]] repeat.
+	"4. Even period:"
+	u := u₂ squared + (D * v₂ squared) // q.
+	v := u₂*v₂*2 // q.
+	^ self propertyAt: #fundamentalUnit put: self !! (self fractions !! {u. v} / 2)! !
+
+!QuadraticRing methodsFor: 'accessing' stamp: 'len 11/11/2024 15:43:23'!
+unitsSize
+	"Answer the order of the units group."
+	| d |
+	(d := self fractions radicand) < 0 ifFalse: [^ ℕ size].
+	d = -1 ifTrue: [^ 4].
+	d = -3 ifTrue: [^ 6].
+	^ 2! !
+
+!QuadraticRing methodsFor: 'elements' stamp: 'len 12/1/2024 14:13:46'!
+fromModuleElement: anElement
+	^ QuadraticInteger parent: self carrier: anElement! !
+
+!QuadraticRing methodsFor: 'enumerating' stamp: 'len 11/12/2024 07:25:43'!
+unitsDo: aBlock
+	| u α |
+	self fractions radicand < 0 ifTrue: [^ self unitsList do: aBlock].
+	α := self fundamentalUnit.
+	u := self one.
+	[aBlock value: u; value: u negated.
+	u := u * α] repeat! !
+
+!QuadraticRing methodsFor: 'printing' stamp: 'len 11/11/2024 15:44:06'!
+printOn: aStream
+	| K a |
+	K := self fractions.
+	a := K radicand \\ 4 = 1 ifTrue: [K x + K one / (K one * 2)] ifFalse: [K x].
+	aStream print: ℤ; nextPut: $[; print: a; nextPut: $]! !
+
+!QuadraticRing methodsFor: 'random' stamp: 'len 11/12/2024 07:31:27'!
+unitAtRandom: aRandom
+	self fractions radicand < 0 ifTrue: [^ self unitsList atRandom: aRandom].
+	^ self unitAtRandom: aRandom bits: [aRandom nextBoolean] count + 1! !
+
+!QuadraticRing methodsFor: 'random' stamp: 'len 12/28/2024 09:59:59'!
+unitAtRandom: aRandom bits: bitSize
+	| answer |
+	self fractions radicand < 0 ifTrue: [^ self unitsList atRandom: aRandom].
+	answer := self fundamentalUnit ^ (aRandom nextBits: bitSize truncated).
+	aRandom nextBoolean ifTrue: [answer := answer negated].
+	^ answer! !
+
+!QuadraticRing methodsFor: 'testing' stamp: 'len 5/28/2023 19:24:03'!
+hasCanonicalAssociates
+	^ self unitsSize isFinite! !
+
+!QuadraticRing methodsFor: 'testing' stamp: 'len 11/11/2024 15:47:55'!
+isEuclidean
+	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder.
+	Warning: it might be Euclidean, but in the constructive setting we may not have a way to testing if it is, or we may not have an implementation of Euclidean division."
+	^ false
+	
+"	self fractions radicand negative ifFalse: [self notYetImplemented].
+	(#(-11 -7 -3 -2 -1) includes: self fractions d) ifFalse: [^ false].
+	self notYetImplemented"
+! !
+
+!QuadraticRing methodsFor: 'testing' stamp: 'len 11/11/2024 15:45:19'!
+isNormEuclidean
+	^ #(-11 -7 -3 -2 -1 2 3 5 6 7 11 13 17 19 21 29 33 37 41 57 73) includes: self fractions radicand! !
+
+!QuadraticRing methodsFor: 'testing' stamp: 'len 11/11/2024 15:44:20'!
+isPID
+	self fractions radicand negative ifTrue: [^ #(-1 -2 -3 -7 -11 -19 -43 -67 -163) includes: self fractions radicand].
+	^ super isPID! !
+
+!QuadraticRing methodsFor: 'private' stamp: 'len 11/11/2024 15:43:32'!
+unitsList
+	| d list |
+	self propertyAt: #unitsList ifPresent: [:aCollection| ^ aCollection].
+	(d := self fractions radicand < 0) ifFalse: [^ self error: 'infinite units'].
+	list := OrderedCollection new.
+	list add: self one; add: self one negated.
+	d = -1 ifTrue:
+		[| i |
+		i := self !! self fractions x.
+		list add: i; add: i negated].
+	d = -3 ifTrue:
+		[| x |
+		x := self fractions x.
+		list add: self !! (1 + x / 2); add: self !! (1 - x / 2); add: self !! (-1 + x / 2); add: self !! (-1 - x / 2)].
+	^ self propertyAt: #unitsList put: list asArray! !
+
+!QuadraticRing class methodsFor: 'instance creation' stamp: 'len 6/3/2023 11:24:47'!
+new: anInteger
+	^ self on: (QuadraticField new: anInteger)! !
+
 !FreeAlgebra methodsFor: 'accessing' stamp: 'len 4/28/2022 07:44:16'!
 characteristic
 	^ scalars characteristic! !
@@ -16265,6 +16678,12 @@ y
 !FreeAlgebra methodsFor: 'elements' stamp: 'len 8/25/2016 08:21'!
 z
 	^ self x: self indeterminates third! !
+
+!FreeAlgebra methodsFor: 'morphisms' stamp: 'len 8/23/2025 17:45:40'!
+from: aRing
+	aRing = self scalars ifTrue: [^ self addMap: ((self scalars to: self map: [:x| self constant: x]) label: 'ι')].
+	aRing ⇢ self scalars ifNotNil: [:aMap| ^ aRing to: self over: aRing map: [:x| self one * (aMap value: x)]].
+	^ super from: aRing! !
 
 !FreeAlgebra methodsFor: 'printing' stamp: 'len 6/3/2023 12:16:55'!
 printOn: aStream
@@ -17084,12 +17503,12 @@ syzygies
 hash
 	^ scalars hash + monomials hash hashMultiply! !
 
-!PolynomialRing methodsFor: 'computing' stamp: 'len 8/19/2025 17:05:51'!
+!PolynomialRing methodsFor: 'computing' stamp: 'len 8/20/2025 23:53:05'!
 contractionOf: anIdeal
 	"If the receiver is a polynomial ring R[U⁻¹][X] over a localization R[U⁻¹], answer the ideal contracted to R[X]."
 	| h |
 	self assert: scalars isLocalization.
-	h := anIdeal basis inject: self scalars numerators one into: [:result :each| result lcm: each numerator leadingCoefficient].
+	h := anIdeal basis inject: self scalars numerators one into: [:result :each| result lcm: each leadingCoefficient numerator].
 	^ anIdeal numerator saturation: self numerators * h! !
 
 !PolynomialRing methodsFor: 'computing-matrices' stamp: 'len 6/14/2025 16:01:40'!
@@ -19139,17 +19558,6 @@ jacobsonRadical
 normalization
 	^ self notYetImplemented	! !
 
-!AffineAlgebra methodsFor: 'operations' stamp: 'len 2/19/2025 07:38:32'!
-proj
-	"This is the Proj construction. Answer the subscheme of projective space with the receiver as its homogeneous coordinate ring."
-	self assert: self isGraded.
-	^ self propertyAt: #proj ifAbsentPut: [ProjectiveAlgebraicScheme homogeneousCoordinateRing: self]! !
-
-!AffineAlgebra methodsFor: 'operations' stamp: 'len 2/3/2025 08:14:36'!
-spec
-	"This is the Spec functor. Answer the spectrum of the receiver as a subscheme of affine space."
-	^ self propertyAt: #spec ifAbsentPut: [AffineAlgebraicScheme coordinateRing: self]! !
-
 !AffineAlgebra methodsFor: 'printing' stamp: 'len 5/31/2023 09:18:14'!
 printOn: aStream
 	super printOn: aStream
@@ -21073,473 +21481,6 @@ isValidArray: anArray
 modulus: anInteger
 	self assert: anInteger = 3.
 	super modulus: anInteger! !
-
-!FiniteAlgebra methodsFor: 'accessing' stamp: 'len 12/1/2024 14:41:44'!
-multiplicationBilinearMap
-	"Answer the multiplication as a bilinear map on the underlying module."
-	^ self propertyAt: #multiplicationBilinearMap ifAbsentPut: [BilinearMap from: self carrier, self carrier to: self carrier mapWithArguments: [:x :y| (self !! x) * (self !! y)]]! !
-
-!FiniteAlgebra methodsFor: 'accessing' stamp: 'len 12/1/2024 14:43:45'!
-scalars
-	^ self carrier scalars! !
-
-!FiniteAlgebra methodsFor: 'accessing' stamp: 'len 12/1/2024 14:43:50'!
-size
-	^ self carrier size! !
-
-!FiniteAlgebra methodsFor: 'accessing' stamp: 'len 12/1/2024 14:44:18'!
-zero
-	^ self !! self carrier zero! !
-
-!FiniteAlgebra methodsFor: 'comparing' stamp: 'len 12/1/2024 14:40:54'!
-= anObject
-	^ self == anObject or: [(anObject isKindOf: FiniteAlgebra) and: [self ambient carrier = anObject ambient carrier and: [self carrier = anObject carrier]]]! !
-
-!FiniteAlgebra methodsFor: 'elements' stamp: 'len 12/20/2024 08:04:18'!
-adapt: anElement
-	(self carrier includes: anElement) ifTrue: [^ self fromModuleElement: anElement].
-	(self scalars includes: anElement) ifTrue: [^ self one * anElement].
-	^ super adapt: anElement! !
-
-!FiniteAlgebra methodsFor: 'elements' stamp: 'len 12/1/2024 14:13:46'!
-fromModuleElement: anElement
-	^ FiniteAlgebraElement parent: self carrier: anElement! !
-
-!FiniteAlgebra methodsFor: 'elements' stamp: 'len 5/8/2025 00:13:08'!
-newFrom: anObject
-	(anObject isSequenceable and: [anObject size = self carrier rank])
-		ifTrue: [^ self fromModuleElement: (self carrier elementAt: anObject)].
-	^ super newFrom: anObject! !
-
-!FiniteAlgebra methodsFor: 'internalization' stamp: 'len 12/1/2024 10:19:42'!
-carrier
-	^ self propertyAt: #carrier! !
-
-!FiniteAlgebra methodsFor: 'morphisms' stamp: 'len 8/17/2025 22:47:59'!
-from: aRing
-	aRing == self scalars ifTrue: [^ self addMap: ((self scalars to: self map: [:x| self one * x]) label: 'ι')].
-	aRing ⇢ self scalars ifNotNil: [:aMap| ^ aRing to: self over: aRing map: [:x| self one * (aMap value: x)]].
-	^ super from: aRing! !
-
-!FiniteAlgebra methodsFor: 'morphisms' stamp: 'len 12/1/2024 14:26:37'!
-id
-	^ self propertyAt: #id ifAbsentPut: [self to: self carrier: self carrier id]! !
-
-!FiniteAlgebra methodsFor: 'morphisms' stamp: 'len 8/15/2025 00:50:36'!
-to: aRing images: anArray
-	((aRing isKindOf: FiniteAlgebra) and: [aRing scalars = self scalars]) ifFalse: [^ super to: aRing images: anArray].
-	^ self to: aRing carrier: (self carrier to: aRing carrier images: (anArray collect: [:each| (aRing !! each) carrier]))! !
-
-!FiniteAlgebra methodsFor: 'morphisms' stamp: 'len 12/1/2024 14:27:27'!
-to: aRing map: aBlock
-	((aRing isKindOf: FiniteAlgebra) and: [self scalars = aRing scalars]) ifTrue: [^ self to: aRing carrier: (self carrier to: aRing carrier map: [:x| (aBlock value: self !! x) carrier])].
-	^ super to: aRing map: aBlock! !
-
-!FiniteAlgebra methodsFor: 'operations' stamp: 'len 10/23/2024 16:48:30'!
-× anAlgebra
-	((anAlgebra isKindOf: FiniteAlgebra) and: [self scalars = anAlgebra scalars]) ifTrue: [^ self ⊕ anAlgebra].
-	^ super × anAlgebra! !
-
-!FiniteAlgebra methodsFor: 'operations' stamp: 'len 10/22/2024 08:57:33'!
-×̂ anAlgebra
-	((anAlgebra isKindOf: FiniteAlgebra) and: [self scalars = anAlgebra scalars]) ifTrue: [^ self ⊕̂ anAlgebra].
-	^ super ×̂ anAlgebra! !
-
-!FiniteAlgebra methodsFor: 'operations' stamp: 'len 12/15/2024 17:40:01'!
-⊕ anAlgebra
-	| S multiplication one |
-	((anAlgebra isKindOf: FiniteAlgebra) and: [self scalars = anAlgebra scalars]) ifFalse: [^ super ⊕ anAlgebra].
-	S := self carrier ⊕̂ anAlgebra carrier.
-	multiplication := self multiplicationBilinearMap ⊕ anAlgebra multiplicationBilinearMap.
-	one := (S ι₁ value: self one carrier) + (S ι₂ value: anAlgebra one carrier).
-	^ FiniteAlgebra one: one multiplication: multiplication! !
-
-!FiniteAlgebra methodsFor: 'operations' stamp: 'len 7/24/2025 17:10:07'!
-⊕̂ anAlgebra
-	| S multiplication one A |
-	((anAlgebra isKindOf: FiniteAlgebra) and: [self scalars = anAlgebra scalars]) ifFalse: [^ super ⊕̂ anAlgebra].
-	S := self carrier ⊕̂ anAlgebra carrier.
-	multiplication := self multiplicationBilinearMap ⊕ anAlgebra multiplicationBilinearMap.
-	one := (S ι₁ value: self one carrier) + (S ι₂ value: anAlgebra one carrier).
-	A := FiniteAlgebra one: one multiplication: multiplication.
-	^ Cone
-		biproduct: A
-		projections: (S projections with: {self. anAlgebra} collect: [:π :codomain| A ⇒ codomain !! π])
-		coprojections: (S coprojections with: {self. anAlgebra} collect: [:ι :domain| domain ⇒ A !! ι])! !
-
-!FiniteAlgebra methodsFor: 'operations' stamp: 'len 7/6/2021 14:43:18'!
-centroid
-	"Answer the centroid of the receiver as a subalgebra of the algebra of endomorphisms."
-	^ self notYetImplemented! !
-
-!FiniteAlgebra methodsFor: 'operations' stamp: 'len 1/30/2022 05:37:57'!
-derivations
-	"Answer the derivation algebra of the receiver as a Lie subalgebra of the algebra of endomorphisms."
-	^ self notYetImplemented! !
-
-!FiniteAlgebra methodsFor: 'printing' stamp: 'len 12/20/2024 08:04:08'!
-printOn: aStream
-	aStream print: self carrier! !
-
-!FiniteAlgebra methodsFor: 'testing' stamp: 'len 12/19/2024 19:13:36'!
-includes: anObject
-	^ anObject parent = self! !
-
-!FiniteAlgebra methodsFor: 'testing' stamp: 'len 3/8/2025 09:05:24'!
-isFiniteAlgebra
-	^ true! !
-
-!FiniteAlgebra methodsFor: 'testing' stamp: 'len 12/1/2024 14:41:24'!
-isTrivial
-	^ self carrier isTrivial! !
-
-!FiniteAlgebra methodsFor: 'private' stamp: 'len 12/1/2024 14:10:22'!
-carrier: aModule
-	self propertyAt: #carrier put: aModule.
-	self addCoercionTo: aModule map: [:each| each carrier]! !
-
-!FiniteAlgebra methodsFor: 'private' stamp: 'len 12/1/2024 10:24:29'!
-one: aModuleElement multiplication: aBilinearMap
-	| V |
-	V := aBilinearMap domain at: 1.
-	self carrier: V.
-	self propertyAt: #multiplicationBilinearMap put: aBilinearMap.
-	self propertyAt: #one put: (self fromModuleElement: aModuleElement)! !
-
-!FiniteAlgebra class methodsFor: 'instance creation' stamp: 'len 11/4/2022 09:38:10'!
-one: aModuleElement multiplication: aBilinearMap
-	^ self new one: aModuleElement multiplication: aBilinearMap! !
-
-!Order methodsFor: 'morphisms' stamp: 'len 8/17/2025 23:03:33'!
-to: aRing
-	aRing = self ambient fractions ifTrue: [^ self addMap: (self to: aRing map: [:x| aRing !! x])].
-	self ambient fractions ⇢ aRing ifNotNil: [:aMap| ^ aMap ∘ (self → self ambient fractions)].
-	^ super to: aRing! !
-
-!Order methodsFor: 'testing' stamp: 'len 7/15/2021 16:31:59'!
-isField
-	^ false! !
-
-!Order methodsFor: 'testing' stamp: 'len 1/1/2022 11:50:53'!
-isIntegralDomain
-	^ true! !
-
-!Order methodsFor: 'testing' stamp: 'len 7/15/2021 16:31:42'!
-isIntegrallyClosedDomain
-	^ true! !
-
-!Order methodsFor: 'private' stamp: 'len 7/7/2023 12:11:17'!
-idealClass
-	^ IntegralIdeal! !
-
-!Order methodsFor: 'private' stamp: 'len 7/15/2021 15:44:21'!
-species
-	^ Order! !
-
-!MaximalOrder methodsFor: 'accessing' stamp: 'len 7/10/2021 11:37:20'!
-degree
-	^ self fractions degree! !
-
-!MaximalOrder methodsFor: 'elements' stamp: 'len 12/1/2024 14:44:57'!
-adapt: anElement
-	(self fractions includes: anElement) ifTrue:
-		[| coordinates |
-		coordinates := self fractions integralBasisMatrix \ (self fractions carrier !! anElement).
-		^ (coordinates allSatisfy: [:each| each isIntegral]) ifTrue: [self fromModuleElement: (self carrier elementAt: coordinates)]].
-	^ super adapt: anElement! !
-
-!MaximalOrder methodsFor: 'elements' stamp: 'len 12/1/2024 14:13:46'!
-fromModuleElement: anElement
-	^ AlgebraicInteger parent: self carrier: anElement! !
-
-!MaximalOrder methodsFor: 'operations' stamp: 'len 7/10/2021 11:37:54'!
-fractions
-	"Answer the abient number field.
-	NOTE: Magma does this differently, the fractions field of a number ring is not its ambient field but an isomorphic field made of formal fractions with denominator a rational integer."
-	^ self propertyAt: #fractions! !
-
-!MaximalOrder methodsFor: 'printing' stamp: 'len 8/9/2022 10:29:38'!
-printOn: aStream
-	aStream nextPut: $𝕆; nextPut: $(; print: self fractions; nextPut: $)! !
-
-!MaximalOrder methodsFor: 'random' stamp: 'len 6/25/2023 11:39:34'!
-unitAtRandom: aRandom
-	| f |
-	[f := self scalars polynomials atRandom: aRandom maxDegree: self degree - 2.
-	f := f << 1 + (self scalars units atRandom: aRandom) + (self scalars polynomials x: 1 to: self degree).
-	f := f over: self fractions.
-	f roots do: [:each| ^ self !! each]] repeat! !
-
-!MaximalOrder methodsFor: 'random' stamp: 'len 6/25/2023 11:39:46'!
-unitAtRandom: aRandom bits: bitSize
-	| f |
-	[f := self scalars polynomials atRandom: aRandom bits: bitSize maxDegree: self degree - 2.
-	f := f << 1 + (self scalars units atRandom: aRandom) + (self scalars polynomials x: 1 to: self degree).
-	f := f over: self fractions.
-	f roots do: [:each| ^ self !! each]] repeat! !
-
-!MaximalOrder methodsFor: 'testing' stamp: 'len 7/15/2021 16:51:30'!
-isDedekindDomain
-	"Rings of integers of number fields or function fields are Dedekind domains."
-	^ true! !
-
-!MaximalOrder methodsFor: 'testing' stamp: 'len 1/4/2022 15:11:18'!
-isInvolutive
-	^ self fractions isInvolutive! !
-
-!MaximalOrder methodsFor: 'testing' stamp: 'len 12/23/2021 19:18:20'!
-isPID
-	"A Dedekind domain is a UFD iff it is a PID."
-	self flag: #fix. "for now ignore the PID structure"
-	^ super isPID
-"	^ self fractions classNumber = 1"! !
-
-!MaximalOrder methodsFor: 'testing' stamp: 'len 7/12/2021 13:19:16'!
-isPIR
-	^ self isPID! !
-
-!MaximalOrder methodsFor: 'testing' stamp: 'len 6/16/2022 18:25:19'!
-isUFR
-	"A Dedekind domain is a UFR iff it is a PID."
-	^ self isPID! !
-
-!MaximalOrder methodsFor: 'private' stamp: 'len 12/1/2024 14:10:22'!
-fractions: aNumberField
-	| M B |
-	self propertyAt: #fractions put: aNumberField.
-	self propertyAt: #carrier put: (M := aNumberField scalars integers ^ aNumberField degree).
-	B := aNumberField integralBasisMatrix.
-	self one: (self !! aNumberField one) carrier multiplication:
-		(BilinearMap from: M, M to: M mapWithArguments: [:x :y|
-			(self !! ((aNumberField !! (B * x)) * (aNumberField !! (B * y)))) carrier])! !
-
-!MaximalOrder class methodsFor: 'instance creation' stamp: 'len 7/10/2021 11:38:54'!
-on: aNumberField
-	^ self new fractions: aNumberField! !
-
-!CyclotomicRing methodsFor: 'operations' stamp: 'len 5/26/2025 17:00:07'!
-cyclotomicUnits
-	"Answer the group of cyclotomic units of the receiver.
-	This is a finite index subgroup of the unit group."
-	| m ζ C d |
-	m := self fractions conductor.
-	m isPrimary ifFalse: [^ self notYetImplemented].
-	ζ := self !! self fractions x.
-	C := Set new.
-	C add: ζ; add: ζ negated.
-	d := ζ - 1.
-	1 to: m do: [:i| C add: ζ^i - 1 / d].
-	C := C reject: [:each| each isZero].
-	^ self units sub: C! !
-
-!CyclotomicRing methodsFor: 'printing' stamp: 'len 7/10/2021 11:36:14'!
-printOn: aStream
-	aStream print: ℤ; nextPut: $[; print: self fractions x; nextPut: $]! !
-
-!CyclotomicRing methodsFor: 'testing' stamp: 'len 11/23/2023 09:59:23'!
-isPID
-	"See [MM76]."
-	^ #(1 3 4 5 7 8 9 11 12 13 15 16 17 19 20 21 24 25 27 28 32 33 35 36 40 44 45 48 60 84) includes: self fractions conductor! !
-
-!CyclotomicRing class methodsFor: 'instance creation' stamp: 'len 6/3/2023 11:17:31'!
-new: anInteger
-	^ self on: (CyclotomicField new: anInteger)! !
-
-!EisensteinRing methodsFor: 'accessing' stamp: 'len 10/17/2022 11:58:28'!
-unitsSize
-	"Answer the order of the units group."
-	^ 6! !
-
-!EisensteinRing methodsFor: 'accessing' stamp: 'len 10/17/2022 12:02:00'!
-ω
-	^ self !! self fractions x! !
-
-!EisensteinRing methodsFor: 'elements' stamp: 'len 12/1/2024 14:13:46'!
-fromModuleElement: anElement
-	^ EisensteinInteger parent: self carrier: anElement! !
-
-!EisensteinRing methodsFor: 'enumerating' stamp: 'len 10/17/2022 11:59:17'!
-unitsDo: aBlock
-	^ self unitsList do: aBlock! !
-
-!EisensteinRing methodsFor: 'random' stamp: 'len 10/17/2022 11:59:47'!
-unitAtRandom: aRandom
-	^ self unitsList atRandom: aRandom! !
-
-!EisensteinRing methodsFor: 'random' stamp: 'len 10/17/2022 11:59:59'!
-unitAtRandom: aRandom bits: bitSize
-	^ self unitAtRandom: aRandom! !
-
-!EisensteinRing methodsFor: 'testing' stamp: 'len 5/28/2023 17:56:08'!
-hasCanonicalAssociates
-	^ true! !
-
-!EisensteinRing methodsFor: 'testing' stamp: 'len 10/17/2022 09:48:33'!
-isEuclidean
-	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder."
-	^ true! !
-
-!EisensteinRing methodsFor: 'private' stamp: 'len 10/17/2022 12:01:31'!
-unitsList
-	^ self propertyAt: #unitsList ifAbsentPut: [{self one. self one negated. self ω. self ω negated. self ω squared. self ω squared negated}]! !
-
-!EisensteinRing class methodsFor: 'instance creation' stamp: 'len 6/3/2023 11:20:46'!
-new
-	^ self on: (CyclotomicField new: 3)! !
-
-!EisensteinRing class methodsFor: 'instance creation' stamp: 'len 6/3/2023 11:20:06'!
-on: anEisensteinField
-	^ super new fractions: anEisensteinField! !
-
-!GaussianRing methodsFor: 'elements' stamp: 'len 12/1/2024 14:13:46'!
-fromModuleElement: anElement
-	^ GaussianInteger parent: self carrier: anElement! !
-
-!GaussianRing methodsFor: 'elements' stamp: 'len 1/4/2022 14:52:19'!
-i
-	^ self real: 0 imaginary: 1! !
-
-!GaussianRing methodsFor: 'elements' stamp: 'len 12/1/2024 14:45:06'!
-real: anInteger imaginary: anotherInteger
-	^ self fromModuleElement: (self carrier elementAt: {anInteger. anotherInteger})! !
-
-!GaussianRing methodsFor: 'testing' stamp: 'len 6/3/2022 06:00:46'!
-hasCanonicalAssociates
-	^ true! !
-
-!GaussianRing methodsFor: 'testing' stamp: 'len 6/3/2022 20:42:03'!
-hasCanonicalReduction
-	^ true! !
-
-!GaussianRing methodsFor: 'testing' stamp: 'len 6/3/2022 07:08:30'!
-isEuclidean
-	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder."
-	^ true! !
-
-!GaussianRing class methodsFor: 'instance creation' stamp: 'len 11/5/2023 21:31:57'!
-new
-	^ self on: (CyclotomicField new: 4)! !
-
-!GaussianRing class methodsFor: 'instance creation' stamp: 'len 6/3/2023 11:25:42'!
-on: aGaussianField
-	^ super new fractions: aGaussianField! !
-
-!QuadraticRing methodsFor: 'accessing' stamp: 'len 11/13/2024 08:15:02'!
-fundamentalUnit
-	"See [Coh96, Algorithm 5.7.2 (Fundamental Unit)]."
-	| D d b u₁ u₂ v₁ v₂ p q A t u v |
-	self propertyAt: #fundamentalUnit ifPresent: [:anElement| ^ anElement].
-	self assert: self fractions isTotallyReal.
-	D := self fractions radicand.
-	"1. Initialize:"
-	d := D sqrtFloor.
-	D - d \\ 2 = 0 ifTrue: [b := d] ifFalse: [b := d - 1].
-	u₁ := b negated. u₂ := 2. v₁ := 1. v₂ := 0. p := b. q := 2.
-	"2. Euclidean step:"
-	[A := p + d // q. t := p. p := A*q - p.
-	(t = p and: [v₂ ~= 0]) ifTrue: "Step 4"
-		[u := u₂ squared + (D * v₂ squared) // q.
-		v := u₂*v₂*2 // q.
-		^ self propertyAt: #fundamentalUnit put: self !! (self fractions !! {u. v} / 2)].
-	t := A*u₂ + u₁. u₁ := u₂. u₂ := t.
-	t := A*v₂ + v₁. v₁ := v₂. v₂ := t.
-	t := q. q := D - p squared // q.
-	"3. Odd period?"
-	(t = q and: [v₂ ~= 0]) ifTrue:
-		[u := (u₁*u₂ + (D*v₁*v₂)) abs // q.
-		v := (u₁*v₂ + (v₁*u₂)) abs // q.
-		^ self propertyAt: #fundamentalUnit put: self !! (self fractions !! {u. v} / 2)]] repeat.
-	"4. Even period:"
-	u := u₂ squared + (D * v₂ squared) // q.
-	v := u₂*v₂*2 // q.
-	^ self propertyAt: #fundamentalUnit put: self !! (self fractions !! {u. v} / 2)! !
-
-!QuadraticRing methodsFor: 'accessing' stamp: 'len 11/11/2024 15:43:23'!
-unitsSize
-	"Answer the order of the units group."
-	| d |
-	(d := self fractions radicand) < 0 ifFalse: [^ ℕ size].
-	d = -1 ifTrue: [^ 4].
-	d = -3 ifTrue: [^ 6].
-	^ 2! !
-
-!QuadraticRing methodsFor: 'elements' stamp: 'len 12/1/2024 14:13:46'!
-fromModuleElement: anElement
-	^ QuadraticInteger parent: self carrier: anElement! !
-
-!QuadraticRing methodsFor: 'enumerating' stamp: 'len 11/12/2024 07:25:43'!
-unitsDo: aBlock
-	| u α |
-	self fractions radicand < 0 ifTrue: [^ self unitsList do: aBlock].
-	α := self fundamentalUnit.
-	u := self one.
-	[aBlock value: u; value: u negated.
-	u := u * α] repeat! !
-
-!QuadraticRing methodsFor: 'printing' stamp: 'len 11/11/2024 15:44:06'!
-printOn: aStream
-	| K a |
-	K := self fractions.
-	a := K radicand \\ 4 = 1 ifTrue: [K x + K one / (K one * 2)] ifFalse: [K x].
-	aStream print: ℤ; nextPut: $[; print: a; nextPut: $]! !
-
-!QuadraticRing methodsFor: 'random' stamp: 'len 11/12/2024 07:31:27'!
-unitAtRandom: aRandom
-	self fractions radicand < 0 ifTrue: [^ self unitsList atRandom: aRandom].
-	^ self unitAtRandom: aRandom bits: [aRandom nextBoolean] count + 1! !
-
-!QuadraticRing methodsFor: 'random' stamp: 'len 12/28/2024 09:59:59'!
-unitAtRandom: aRandom bits: bitSize
-	| answer |
-	self fractions radicand < 0 ifTrue: [^ self unitsList atRandom: aRandom].
-	answer := self fundamentalUnit ^ (aRandom nextBits: bitSize truncated).
-	aRandom nextBoolean ifTrue: [answer := answer negated].
-	^ answer! !
-
-!QuadraticRing methodsFor: 'testing' stamp: 'len 5/28/2023 19:24:03'!
-hasCanonicalAssociates
-	^ self unitsSize isFinite! !
-
-!QuadraticRing methodsFor: 'testing' stamp: 'len 11/11/2024 15:47:55'!
-isEuclidean
-	"Answer true if the receiver is a Euclidean ring, i.e. it has Euclidean division with remainder.
-	Warning: it might be Euclidean, but in the constructive setting we may not have a way to testing if it is, or we may not have an implementation of Euclidean division."
-	^ false
-	
-"	self fractions radicand negative ifFalse: [self notYetImplemented].
-	(#(-11 -7 -3 -2 -1) includes: self fractions d) ifFalse: [^ false].
-	self notYetImplemented"
-! !
-
-!QuadraticRing methodsFor: 'testing' stamp: 'len 11/11/2024 15:45:19'!
-isNormEuclidean
-	^ #(-11 -7 -3 -2 -1 2 3 5 6 7 11 13 17 19 21 29 33 37 41 57 73) includes: self fractions radicand! !
-
-!QuadraticRing methodsFor: 'testing' stamp: 'len 11/11/2024 15:44:20'!
-isPID
-	self fractions radicand negative ifTrue: [^ #(-1 -2 -3 -7 -11 -19 -43 -67 -163) includes: self fractions radicand].
-	^ super isPID! !
-
-!QuadraticRing methodsFor: 'private' stamp: 'len 11/11/2024 15:43:32'!
-unitsList
-	| d list |
-	self propertyAt: #unitsList ifPresent: [:aCollection| ^ aCollection].
-	(d := self fractions radicand < 0) ifFalse: [^ self error: 'infinite units'].
-	list := OrderedCollection new.
-	list add: self one; add: self one negated.
-	d = -1 ifTrue:
-		[| i |
-		i := self !! self fractions x.
-		list add: i; add: i negated].
-	d = -3 ifTrue:
-		[| x |
-		x := self fractions x.
-		list add: self !! (1 + x / 2); add: self !! (1 - x / 2); add: self !! (-1 + x / 2); add: self !! (-1 - x / 2)].
-	^ self propertyAt: #unitsList put: list asArray! !
-
-!QuadraticRing class methodsFor: 'instance creation' stamp: 'len 6/3/2023 11:24:47'!
-new: anInteger
-	^ self on: (QuadraticField new: anInteger)! !
 
 !SolvableAlgebra methodsFor: 'accessing' stamp: 'len 7/2/2022 12:15:04'!
 additiveConstants
@@ -26630,21 +26571,6 @@ freeCover
 	"Answer a free cover of the receiver. This is the domain of the generator matrix and the codomain of the relations matrix."
 	^ self generatorMatrix domain! !
 
-!Module methodsFor: 'accessing' stamp: 'len 6/8/2025 15:28:07'!
-freeResolution
-	"Answer a free resolution of the receiver."
-	| differentials M |
-	differentials := OrderedCollection new.
-	differentials add: self ambient → self ambient null.
-	differentials add: self → self ambient.
-	M := self.
-	[M syzygies isTrivial]
-		whileFalse:
-			[differentials add: M syzygiesMatrix.
-			M := M syzygies].
-	differentials add: differentials last domain null → differentials last domain.
-	^ ChainComplex differentials: differentials reversed! !
-
 !Module methodsFor: 'accessing' stamp: 'len 3/13/2021 12:17:45'!
 generator
 	self isTrivial ifTrue: [^ self zero].
@@ -27317,6 +27243,21 @@ fittingIdeal: anInteger
 	(n > M height or: [n > M width]) ifTrue: [^ self scalars zero asIdeal].
 	^ self scalars * (M minors: n)! !
 
+!Module methodsFor: 'operations' stamp: 'len 6/8/2025 15:28:07'!
+freeResolution
+	"Answer a free resolution of the receiver."
+	| differentials M |
+	differentials := OrderedCollection new.
+	differentials add: self ambient → self ambient null.
+	differentials add: self → self ambient.
+	M := self.
+	[M syzygies isTrivial]
+		whileFalse:
+			[differentials add: M syzygiesMatrix.
+			M := M syzygies].
+	differentials add: differentials last domain null → differentials last domain.
+	^ ChainComplex differentials: differentials reversed! !
+
 !Module methodsFor: 'operations' stamp: 'len 4/16/2025 13:28:14'!
 jacobsonRadical
 	"Answer the Jacobson radical J(M) of the receiver M, i.e. the intersection of all maximal submodules."
@@ -27370,14 +27311,14 @@ saturation
 		ifFalse: [^ self error: 'not a submodule of a free module over a Euclidean domain'].
 	^ self ambient sub: (self generatorMatrix HNF copyWithoutZeroRows \ self generatorMatrix transpose) transpose! !
 
-!Module methodsFor: 'operations' stamp: 'len 3/31/2025 08:17:44'!
+!Module methodsFor: 'operations' stamp: 'len 8/24/2025 15:28:37'!
 saturation: anIdeal
-	"Answer the saturation ideal M : J^∞ of the receiver M with the argument J."
+	"Answer the saturation M : J^∞ of the receiver M with respect to the argument J."
 	^ (self saturationAndExponent: anIdeal) first! !
 
-!Module methodsFor: 'operations' stamp: 'len 4/28/2025 14:43:55'!
+!Module methodsFor: 'operations' stamp: 'len 8/24/2025 15:29:05'!
 saturationAndExponent: anIdeal
-	"Answer the saturation ideal M : J^∞ of the receiver M with the argument J, and the saturation exponent."
+	"Answer the saturation M : J^∞ of the receiver M with respect to the argument J, and the saturation exponent."
 	| saturation k |
 	saturation := self.
 	k := 0.
@@ -27420,6 +27361,10 @@ support
 	By definition, the support is a subset of Spec(R)."
 	^ self annihilator quotientRing spec! !
 
+!Module methodsFor: 'operations' stamp: 'len 8/24/2025 16:44:06'!
+symmetricAlgebra
+	^ self notYetImplemented! !
+
 !Module methodsFor: 'operations' stamp: 'len 12/2/2024 09:00:33'!
 symmetricSquare
 	"Answer the symmetric square of the receiver, S²(V) = {a ∈ V ⊗ V : σ(a) = -a}, where σ is the braiding σ(v⊗w) := w⊗v."
@@ -27427,9 +27372,9 @@ symmetricSquare
 	σ := self braidingWith: self.
 	^ (σ + σ domain id) kernel! !
 
-!Module methodsFor: 'operations' stamp: 'len 5/1/2021 11:25:59'!
+!Module methodsFor: 'operations' stamp: 'len 8/23/2025 17:04:22'!
 tensorAlgebra
-	^ self propertyAt: #tensorAlgebra ifAbsentPut: [self scalars freeAlgebraIn: (self coordinateNames ifNil: [self rank])]! !
+	^ self notYetImplemented! !
 
 !Module methodsFor: 'operations' stamp: 'len 6/3/2025 19:21:23'!
 top
@@ -27821,9 +27766,10 @@ associatedPrimes
 	(self generators size = 1 and: [self scalars isUFD]) ifFalse: [^ self subclassResponsibility].
 	^ self propertyAt: #associatedPrimes put: (self generator factorization asSet collect: [:each| self scalars * each])"! !
 
-!Ideal methodsFor: 'decomposition' stamp: 'len 6/6/2025 16:18:32'!
+!Ideal methodsFor: 'decomposition' stamp: 'len 8/21/2025 19:18:11'!
 equidimensionalDecomposition
 	"If the receiver is an ideal I ⊆ R, and E(-) denotes the equidimensional hull, answer a list of ideals I₁, ..., Iₙ ⊆ R such that I₁ = E(I), I₂ = E(I : I₁), Iᵢ = E(Iᵢ₋₂ : Iᵢ₋₁) for i > 2, and √I = √I₁∩...∩√Iₙ.
+	For an ideal without embedded, this computes all equidimensional parts.
 	See [GP08, Algorithm 4.4.9]."
 	| answer I |
 	self propertyAt: #equidimensionalDecomposition ifPresent: [:anArray| ^ anArray].
@@ -27860,16 +27806,17 @@ minimalAssociatedPrimes
 	| Q |
 	^ (Q := self associatedPrimes) select: [:p| Q noneSatisfy: [:q| p ⊊ q]]! !
 
-!Ideal methodsFor: 'decomposition' stamp: 'len 8/8/2025 21:23:09'!
+!Ideal methodsFor: 'decomposition' stamp: 'len 8/21/2025 16:01:51'!
 primaryDecomposition
 	"Answer the primary decomposition of the ideal I of a Noetherian commutative ring R.
 	This is the decomposition from Lasker-Noether theorem, that states that any ideal in a Noetherian commutative ring can be decomposed as the intersection of finitely many primary ideals."
-	| answer |
+	| R answer |
 	self propertyAt: #primaryDecomposition ifPresent: [:aCollection| ^ aCollection].
-	(self scalars isLocalization or: [self scalars isQuotient]) ifTrue: [^ self propertyAt: #primaryDecomposition put: (self contraction primaryDecomposition collect: [:each| self scalars * each generators] thenSelect: [:each| each isOne not])].
-	(self generators isSingleton and: [self scalars isUFD]) ifFalse: [^ self subclassResponsibility].
+	R := self scalars.
+	(R isLocalization or: [R isQuotient]) ifTrue: [^ self propertyAt: #primaryDecomposition put: (self contraction primaryDecomposition collect: [:each| R * each generators] thenSelect: [:each| each isOne not])].
+	(self generators isSingleton and: [R isUFD]) ifFalse: [^ self subclassResponsibility].
 	answer := OrderedCollection new.
-	self generator factorizationDo: [:p :e| answer add: self scalars * (p^e)].
+	self generator factorizationDo: [:p :e| answer add: R * (p^e)].
 	^ self propertyAt: #primaryDecomposition put: answer asArray! !
 
 !Ideal methodsFor: 'decomposition' stamp: 'len 8/8/2025 21:23:20'!
@@ -28340,18 +28287,16 @@ orderedBy: aMonomialOrdering
 					G add: f]]].
 	^ S * G asArray reversed! !
 
-!PolynomialIdeal methodsFor: 'decomposition' stamp: 'len 8/19/2025 17:18:19'!
+!PolynomialIdeal methodsFor: 'decomposition' stamp: 'len 8/22/2025 16:53:44'!
 equidimensionalHull
 	"See [GP08, Algorithm 4.4.2]."
 	self propertyAt: #equidimensionalHull ifPresent: [:anIdeal| ^ anIdeal].
-	self flag: #todo. "rewrite using generic fiber"
-	self reductionToZeroDimension: [:E :G :h|
-		| J H |
+	self reductionToGenericFiber: [:Iᵉ :Iᵉᶜ :h|
+		| H |
 		H := self + (self scalars * h).
-		J := (self scalars * G) : (self scalars * h).
-		^ self propertyAt: #equidimensionalHull put: (H coheight < self coheight ifTrue: [J] ifFalse: [J ∩ H equidimensionalHull])]! !
+		^ self propertyAt: #equidimensionalHull put: (H coheight < self coheight ifTrue: [Iᵉᶜ] ifFalse: [Iᵉᶜ ∩ H equidimensionalHull])]! !
 
-!PolynomialIdeal methodsFor: 'decomposition' stamp: 'len 8/6/2025 15:34:30'!
+!PolynomialIdeal methodsFor: 'decomposition' stamp: 'len 8/24/2025 17:16:56'!
 minimalAssociatedPrimes
 	"See [Lap06b]."
 	| R P g answer |
@@ -28363,12 +28308,14 @@ minimalAssociatedPrimes
 	answer := OrderedCollection new.
 	[(g := P generators detect: [:one| (self radicalContains: one) not] ifNone: []) notNil]
 		whileTrue:
-			[(self saturation: R * g) genericFiber minimalAssociatedPrimes do: [:each|
+			[| J Jᵉ |
+			J := self saturation: R * g.
+			Jᵉ := J genericFiber.
+			Jᵉ minimalAssociatedPrimes do: [:each|
 				| Pᵢ |
-				Pᵢ := each ∩ R.
-				P := P ∩ Pᵢ. "or intersect all Pᵢ first"
+				Pᵢ := each genericFiberContraction: R.
+				P := P ∩ Pᵢ.
 				answer add: Pᵢ]].
-	self propertyAt: #radical put: P.
 	^ self propertyAt: #minimalAssociatedPrimes put: answer asArray! !
 
 !PolynomialIdeal methodsFor: 'decomposition' stamp: 'len 8/6/2025 16:28:17'!
@@ -28384,7 +28331,7 @@ predecomposition
 			previous do: [:G| | H | (H := G + (p^s)) isProper ifTrue: [answer add: H]]]].
 	^ answer! !
 
-!PolynomialIdeal methodsFor: 'decomposition' stamp: 'len 8/19/2025 17:19:25'!
+!PolynomialIdeal methodsFor: 'decomposition' stamp: 'len 8/22/2025 16:55:14'!
 primaryDecomposition
 	"Answer the standard primary decomposition of the receiver.
 	This is the unique primary decomposition obtained from an irredundant intersection of irreducible ideals."
@@ -28394,18 +28341,17 @@ primaryDecomposition
 		[^ self asSimplicialComplex facets collect: [:each|
 			self scalars * (self scalars indeterminates \ each vertices collect: [:i| self scalars x: i])]].
 	self isZeroDimensional ifTrue: [^ super primaryDecomposition].
-	self reductionToZeroDimension: [:E :G :h|
+	self reductionToGenericFiber: [:Iᵉ :Iᵉᶜ :h|
 		| answer |
 		"Compute the primary decomposition in K(U)[X \ U] (zero dimensional case), and bring it back to K[X]:"
-		answer := (E * G) primaryDecomposition collect: [:each| each ∩ self scalars].
+		answer := Iᵉ primaryDecomposition collect: [:each| each ∩ self scalars]. "saturate with h here?"
 		"And continue recursively:"
 		answer := answer, (self + (self scalars * h)) primaryDecomposition.
 		^ self propertyAt: #primaryDecomposition put: answer]! !
 
-!PolynomialIdeal methodsFor: 'decomposition' stamp: 'len 8/19/2025 17:06:18'!
+!PolynomialIdeal methodsFor: 'decomposition' stamp: 'len 8/24/2025 17:17:24'!
 radical
 	| R P |
-	self flag: #todo.
 	R := self scalars.
 	self isMonomial ifTrue: [^ R * (self generators collect: [:each| each squarefreePart])]. "[HH11] Proposition 1.2.4"
 	(self generators isSingleton and: [R isUFR]) ifTrue: [^ R * self generator squarefreePart].
@@ -28420,20 +28366,7 @@ radical
 	[| g J |
 	g := P generators detect: [:one| (self radicalContains: one) not] ifNone: [^ P].
 	J := self saturation: R * g.
-	P := P ∩ (J genericFiber radical contraction * R)] repeat
-
-"
-	""If I ⊂ k[X], where k is a perfect field, and U ⊂ X is a maximal indepedent set for I, then I·k(U)[X \ U] is 0-dimensional in k(U)[X \ U] and the radical can be computed by the 0-dimensional case:""
-	""Reduction to the zero-dimensional case, see [GP08, Algorithm 4.5.3] and Krick-Logar algorithm.""
-	self reductionToZeroDimension: [:E :G :h|
-		| J p |
-		""Compute the radical in K(u)[x \ u] (zero dimensional case) and bring back to K[x]:""
-		J := E * (G collect: [:each| self scalars !! each]).
-		J := J radical.
-		p := J basis product: [:each| self scalars !! each leadingCoefficient numerator].
-		J := (self scalars * (J basis collect: [:each| each numerator])) saturation: p.
-		""And continue recursively:""
-		^ J ∩ (self + (self scalars * h)) radical]"! !
+	P := P ∩ (J genericFiber radical genericFiberContraction: R)] repeat! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 8/19/2025 17:14:31'!
 : anIdeal
@@ -28567,9 +28500,10 @@ reduce: anElement
 	^ anElement reductionFullBy: self basis
 "	^ super reduce: anElement"! !
 
-!PolynomialIdeal methodsFor: 'operations' stamp: 'len 8/15/2025 04:22:20'!
+!PolynomialIdeal methodsFor: 'operations' stamp: 'len 8/24/2025 15:32:25'!
 saturation: anIdeal
-	"Answer the saturation ideal I : J^∞ of the receiver I with the argument J."
+	"Answer the saturation ideal I : J^∞ of the receiver I with respect to the argument J.
+	When J = ⟨f⟩, this is also denoted I : f^∞ and it equals the contraction of the extension to the localization away from f, i.e. I : f^∞ = Iᵉᶜ = I*R[f⁻¹] ∩ R."
 	"See [CLO97] pag. 205, [DK02] pag. 16."
 	| R S t J |
 	R := self scalars.
@@ -28579,16 +28513,7 @@ saturation: anIdeal
 	anIdeal generators do: [:g|
 		J := J * S + (S * (S !! g * t - 1)).
 		J := J ∩ R].
-	^ J
-
-"
-	P := self scalars scalars polynomialsIn: self scalars rank + 1.
-	t := P x: P rank.
-	J := P !! self.
-	anIdeal generators do: [:each|
-		J := J + (P * (t * (P !! each) - P one)).
-		J := J eliminate: {P rank}].
-	^ self scalars * J generators"! !
+	^ J! !
 
 !PolynomialIdeal methodsFor: 'operations' stamp: 'len 4/16/2025 14:26:32'!
 singularEquidimensionalLocusIdeal
@@ -28693,14 +28618,15 @@ radicalContains: aPolynomial
 	self propertyAt: #radical ifPresent: [:anIdeal| ^ anIdeal contains: aPolynomial].
 	^ (self saturation: self scalars * aPolynomial) isOne! !
 
-!PolynomialIdeal methodsFor: 'private' stamp: 'len 8/19/2025 23:33:19'!
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 8/24/2025 17:19:30'!
 genericFiber
+	"Given an ideal of k[X], find a maximally independent subset of the indeterminates Y ⊆ X and answer the extension of the ideal to k(Y)[X \ Y]."
 	"See [GP08, Algorithm 4.3.2]."
-	| R u ū F E images k |
+	| R u ū F E images k X Y |
 	R := self scalars.
 	u := self maximalIndependentIndeterminates.
 	u isEmpty ifTrue: [^ self]. "?"
-	ū := (1 to: R rank) \ u.
+	ū := R indeterminates \ u.
 	F := (R slice: u) fractions.
 	E := PolynomialRing monomials: (R monomials slice: ū) over: F.
 	images := Array new: R rank.
@@ -28709,7 +28635,18 @@ genericFiber
 	k := 0.
 	ū do: [:i| images at: i put: (E x: (k := k + 1))].
 	E addMap: (R to: E images: images).
+	Y := u collect: [:i| R x: i].
+	X := ū collect: [:i| R x: i].
+	E numerators addMap: (E numerators to: R over: R scalars map: [:f| f associations sum: [:assoc| (assoc value value: Y) * (assoc key value: X)]]).
 	^​ E * self generators! !
+
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 8/24/2025 17:19:19'!
+genericFiberContraction: aRing
+	"Contract an ideal in k(Y)[X \ Y] to k[X]."
+	| S h |
+	S := self scalars.
+	h := self basis inject: S scalars numerators one into: [:result :each| result lcm: each leadingCoefficient numerator].
+	^ aRing * (self numerator saturation: S numerators * h) generators! !
 
 !PolynomialIdeal methodsFor: 'private' stamp: 'len 8/6/2025 16:28:09'!
 isRadicalZeroDimensional
@@ -28735,27 +28672,6 @@ radicalMatsumoto
 	I := self.
 	[J := S * ((I generators collect: [:g| g value: S generators]), F).
 	I₂ := R * ((J ∩ R) generators collect: [:f| f apply: [:a| a inverseFrobenius]]).
-	I₂ ⊆ I ifTrue: [^ I].
-	I := I₂] repeat! !
-
-!PolynomialIdeal methodsFor: 'private' stamp: 'len 8/19/2025 01:36:08'!
-radicalMatsumotoOld
-	"Matsumoto's algorithm for computing the radical ideal over a perfect field of characteristic p > 0.
-	See [DK02, Algorithm 1.5.1]."
-	| R K p n S I X Y J L I₂ |
-	self flag: #deprecated.
-	R := self scalars.
-	K := R scalars.
-	p := K characteristic.
-	n := R rank.
-	S := K polynomialsIn: n * 2 ordering: (MonomialOrdering grevlex: (1 to: n)), (MonomialOrdering grevlex: (n+1 to: n*2)).
-	I := self.
-	X := S generators copyFrom: 1 to: n.
-	Y := ((1 to: n) collect: [:i| R one]), R generators.
-	[J := S * ((I generators collect: [:g| g value: X]), ((1 to: R rank) collect: [:i| (S x: i) ^ p - (S x: n + i)])).
-	L := (J eliminate: (1 to: n)) generators.
-	L := L collect: [:g| (g value: Y) apply: [:a| a inverseFrobenius]].
-	I₂ := R * L.
 	I₂ ⊆ I ifTrue: [^ I].
 	I := I₂] repeat! !
 
@@ -28789,10 +28705,23 @@ radicalZeroDimensional2
 		μ degree = d ifTrue: [^ J]].
 	^ J! !
 
-!PolynomialIdeal methodsFor: 'private' stamp: 'len 6/6/2025 16:01:22'!
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 8/24/2025 16:41:26'!
+reductionToGenericFiber: aBlock
+	"See [GP08, Algorithm 4.3.2]."
+	| E Iᵉ Iᵉᶜ h m |
+	(Iᵉ := self genericFiber) == self ifTrue: [^ aBlock value: self value: self value: self scalars one].
+	E := Iᵉ scalars.
+	h := Iᵉ basis inject: E scalars numerators one into: [:result :each| result lcm: each leadingCoefficient numerator].
+	(Iᵉ numerator saturationAndExponent: E numerators * h) into: [:anIdeal :anInteger|
+		Iᵉᶜ := self scalars * anIdeal basis.
+		m := anInteger].
+	^ aBlock value: Iᵉ value: Iᵉᶜ value: (self scalars !! h)^m! !
+
+!PolynomialIdeal methodsFor: 'private' stamp: 'len 8/24/2025 17:21:32'!
 reductionToZeroDimension: aBlock
 	"See [GP08, Algorithm 4.3.2]."
 	| R u ū F E images k G h m data |
+	self flag: #deprecated.
 	self propertyAt: #zeroDimensionalReductionData ifPresent: [:anArray| ^ aBlock valueWithArguments: anArray].
 	R := self scalars.
 	u := self maximalIndependentIndeterminates.
@@ -28806,7 +28735,6 @@ reductionToZeroDimension: aBlock
 	ū do: [:i| images at: i put: (E x: (k := k + 1))].
 	E addMap: (R to: E images: images).
 	G := (self orderedBy: (MonomialOrdering lex: u, ū)) basis.
-	self flag: #fixme. "lcm or product? should be product in E?"
 	h := G inject: R one into: [:last :g| last lcm: R !! (E !! (R !! g)) leadingCoefficient numerator].
 	m := (self saturationAndExponent: R * h) second.
 	data := {E. G. h^m}.
@@ -28884,15 +28812,6 @@ basis
 !FreeModule methodsFor: 'accessing' stamp: 'len 4/2/2024 06:31:09'!
 components
 	^ self propertyAt: #components ifAbsentPut: [Array new: rank withAll: self scalars asIdeal]! !
-
-!FreeModule methodsFor: 'accessing' stamp: 'len 12/28/2016 12:07:59'!
-coordinateNames
-	^ self propertyAt: #coordinateNames ifAbsent: []! !
-
-!FreeModule methodsFor: 'accessing' stamp: 'len 10/20/2023 16:53:27'!
-coordinateRing
-	"The coordinate ring of a free R-module of rank n (or K-vector space of dimension n) is the polynomial ring R[x₁...xₙ] (or K[x₁...xₙ])."
-	^ self propertyAt: #coordinateRing ifAbsentPut: [self scalars polynomialsIn: (self coordinateNames ifNil: [self rank])]! !
 
 !FreeModule methodsFor: 'accessing' stamp: 'len 12/12/2023 19:07:10'!
 freeCover
@@ -29209,6 +29128,28 @@ zeroTo: aCodomain
 	self assert: scalars = aModule scalars.
 	^ scalars ^ (rank * aModule rank)! !
 
+!FreeModule methodsFor: 'operations' stamp: 'len 8/23/2025 17:12:17'!
+coordinateRing
+	"The coordinate ring of a free R-module of rank n (or K-vector space of dimension n) is the polynomial ring R[x₁...xₙ] (or K[x₁...xₙ])."
+	self flag: #deprecated.
+	^ self symmetricAlgebra! !
+
+!FreeModule methodsFor: 'operations' stamp: 'len 8/23/2025 17:46:32'!
+symmetricAlgebra
+	| S |
+	self propertyAt: #symmetricAlgebra ifPresent: [:aPolynomialRing| ^ aPolynomialRing].
+	S := self scalars polynomialsIn: self rank.
+	S addCoercionFrom: self map: [:v| (1 to: v size) inject: S zero into: [:sum :i| (S x: i) * (v at: i) + sum]].
+	^ self propertyAt: #symmetricAlgebra put: S! !
+
+!FreeModule methodsFor: 'operations' stamp: 'len 8/23/2025 17:46:22'!
+tensorAlgebra
+	| T |
+	self propertyAt: #tensorAlgebra ifPresent: [:aFreeAlgebra| ^ aFreeAlgebra].
+	T := self scalars freeAlgebraIn: self rank.
+	T addCoercionFrom: self map: [:v| (1 to: v size) inject: T zero into: [:sum :i| (T x: i) * (v at: i) + sum]].
+	^ self propertyAt: #tensorAlgebra put: T! !
+
 !FreeModule methodsFor: 'printing' stamp: 'len 5/28/2020 17:56:15'!
 printOn: aStream
 	self isTrivial ifTrue: [^ super printOn: aStream].
@@ -29398,11 +29339,6 @@ to: aModule
 	(self isDual and: [domain isDual and: [domain domain = aModule]])
 		ifTrue: [^ self addMap: (self to: aModule images: aModule generators)].
 	^ super to: aModule! !
-
-!HomModule methodsFor: 'operations' stamp: 'len 12/4/2023 11:19:32'!
-symmetricAlgebra
-	(self isDual and: [domain isFreelyGenerated]) ifTrue: [^ domain coordinateRing].
-	^ self notYetImplemented! !
 
 !HomModule methodsFor: 'printing' stamp: 'len 8/26/2024 14:30:45'!
 printOn: aStream
@@ -30121,132 +30057,132 @@ new: anIntegerOrCollection
 		ifTrue: [self new rank: anIntegerOrCollection] 
 		ifFalse: [self new rank: anIntegerOrCollection size; names: anIntegerOrCollection asArray]! !
 
-!RepresentationModule methodsFor: 'accessing' stamp: 'len 11/17/2024 17:36:51'!
+!Representation methodsFor: 'accessing' stamp: 'len 8/21/2025 20:59:52'!
 carrier
-	^ representation codomain space! !
+	^ structureMorphism codomain space! !
 
-!RepresentationModule methodsFor: 'accessing' stamp: 'len 11/29/2024 15:45:58'!
+!Representation methodsFor: 'accessing' stamp: 'len 11/29/2024 15:45:58'!
 category
 	^ self scalars representations! !
 
-!RepresentationModule methodsFor: 'accessing' stamp: 'len 2/22/2025 08:39:07'!
+!Representation methodsFor: 'accessing' stamp: 'len 8/21/2025 20:59:52'!
 character
-	^ (self scalars group classFunctionsTo: self scalars scalars) !! [:g| (representation value: g) trace]! !
+	^ (self scalars group classFunctionsTo: self scalars scalars) !! [:g| (structureMorphism value: g) trace]! !
 
-!RepresentationModule methodsFor: 'accessing' stamp: 'len 12/15/2024 08:09:25'!
+!Representation methodsFor: 'accessing' stamp: 'len 12/15/2024 08:09:25'!
 generators
 	self flag: #fixme. "can do better"
 	^ self propertyAt: #generators ifAbsent: [self carrier generators]! !
 
-!RepresentationModule methodsFor: 'accessing' stamp: 'len 11/17/2024 17:36:07'!
-representation
-	^ representation! !
-
-!RepresentationModule methodsFor: 'accessing' stamp: 'len 11/29/2024 15:45:42'!
+!Representation methodsFor: 'accessing' stamp: 'len 8/21/2025 20:59:52'!
 scalars
-	^ representation domain! !
+	^ structureMorphism domain! !
 
-!RepresentationModule methodsFor: 'comparing' stamp: 'len 11/25/2024 15:14:49'!
+!Representation methodsFor: 'accessing' stamp: 'len 8/21/2025 21:03:21'!
+structureMorphism
+	^ structureMorphism! !
+
+!Representation methodsFor: 'comparing' stamp: 'len 8/21/2025 21:01:50'!
 = anObject
-	^ self class = anObject class and: [representation domain = anObject representation domain and: [representation images = anObject representation images]]! !
+	^ self class = anObject class and: [structureMorphism domain = anObject structureMorphism domain and: [structureMorphism images = anObject structureMorphism images]]! !
 
-!RepresentationModule methodsFor: 'comparing' stamp: 'len 2/23/2025 18:11:45'!
+!Representation methodsFor: 'comparing' stamp: 'len 2/23/2025 18:11:45'!
 ~ aModule
 	self = aModule ifTrue: [^ true].
 	self carrier ~ aModule carrier ifFalse: [^ false].
 	((self scalars isKindOf: GroupAlgebra) and: [self scalars isSemisimple]) ifTrue: [^ self character = aModule character].
 	^ self notYetImplemented! !
 
-!RepresentationModule methodsFor: 'comparing' stamp: 'len 11/25/2024 15:12:51'!
+!Representation methodsFor: 'comparing' stamp: 'len 8/21/2025 20:59:52'!
 hash
-	^ representation hash! !
+	^ structureMorphism hash! !
 
-!RepresentationModule methodsFor: 'morphisms' stamp: 'len 1/12/2025 09:25:40'!
+!Representation methodsFor: 'morphisms' stamp: 'len 8/21/2025 21:02:16'!
 ⇒ anObject
 	anObject isMorphism ifTrue: [^ self ⇒ anObject domain to: self ⇒ anObject codomain map: [:f| anObject ∘ f]].
-	self scalars ambient isGroupAlgebra ifTrue: [^ self scalars on: self carrier ⇒ anObject carrier action: [:g :f| (anObject representation value: g) ∘ f ∘ (representation value: g) inverse]].
-	self scalars isCommutative ifTrue: [^ self scalars on: self carrier ⇒ anObject carrier action: [:g :f| (anObject representation value: g) ∘ f ∘ (representation value: g)]].
-	self scalars isInvolutive ifTrue: [^ self scalars on: self carrier ⇒ anObject carrier action: [:g :f| (anObject representation value: g) ∘ f ∘ (representation value: g adjoint)]].
-	self scalars isHopfAlgebra ifTrue: [^ self scalars on: self carrier ⇒ anObject carrier action: [:g :f| (anObject representation value: g) ∘ f ∘ (representation value: (self scalars antipode value: g))]].
+	self scalars ambient isGroupAlgebra ifTrue: [^ self scalars on: self carrier ⇒ anObject carrier action: [:g :f| (anObject structureMorphism value: g) ∘ f ∘ (structureMorphism value: g) inverse]].
+	self scalars isCommutative ifTrue: [^ self scalars on: self carrier ⇒ anObject carrier action: [:g :f| (anObject structureMorphism value: g) ∘ f ∘ (structureMorphism value: g)]].
+	self scalars isInvolutive ifTrue: [^ self scalars on: self carrier ⇒ anObject carrier action: [:g :f| (anObject structureMorphism value: g) ∘ f ∘ (structureMorphism value: g adjoint)]].
+	self scalars isHopfAlgebra ifTrue: [^ self scalars on: self carrier ⇒ anObject carrier action: [:g :f| (anObject structureMorphism value: g) ∘ f ∘ (structureMorphism value: (self scalars antipode value: g))]].
 	^ super ⇒ anObject! !
 
-!RepresentationModule methodsFor: 'morphisms' stamp: 'len 12/4/2024 08:32:14'!
+!Representation methodsFor: 'morphisms' stamp: 'len 12/4/2024 08:32:14'!
 ⊸ aModule
 	^ (self ⇒ aModule) invariants! !
 
-!RepresentationModule methodsFor: 'morphisms' stamp: 'len 12/25/2024 08:38:31'!
+!Representation methodsFor: 'morphisms' stamp: 'len 8/21/2025 20:59:52'!
 action
 	"Answer the left action A ⊗ V → V that sends a⊗v to a·v."
-	^ self scalars carrier times: self carrier to: self carrier map: [:a :v|  (representation value: self scalars !! a) value: v]! !
+	^ self scalars carrier times: self carrier to: self carrier map: [:a :v|  (structureMorphism value: self scalars !! a) value: v]! !
 
-!RepresentationModule methodsFor: 'morphisms' stamp: 'len 11/23/2024 09:16:35'!
+!Representation methodsFor: 'morphisms' stamp: 'len 11/23/2024 09:16:35'!
 associatorWith: anObject and: anotherObject
 	^ self ⊗ anObject ⊗ anotherObject to: self ⊗ (anObject ⊗ anotherObject) carrier: (self carrier associatorWith: anObject carrier and: anotherObject carrier)! !
 
-!RepresentationModule methodsFor: 'morphisms' stamp: 'len 11/23/2024 09:18:25'!
+!Representation methodsFor: 'morphisms' stamp: 'len 11/23/2024 09:18:25'!
 braidingWith: anObject
 	^ self ⊗ anObject to: anObject ⊗ self carrier: (self carrier braidingWith: anObject carrier)! !
 
-!RepresentationModule methodsFor: 'morphisms' stamp: 'len 11/23/2024 09:22:59'!
+!Representation methodsFor: 'morphisms' stamp: 'len 11/23/2024 09:22:59'!
 coevaluation
 	self flag: #fixme. "maybe dont need this method"
 	^ self category unitObject to: self ⊗ self dual carrier: self carrier coevaluation! !
 
-!RepresentationModule methodsFor: 'morphisms' stamp: 'len 1/12/2025 07:55:31'!
+!Representation methodsFor: 'morphisms' stamp: 'len 1/12/2025 07:55:31'!
 coevaluationWith: anObject
 	^ anObject to: self ⇒ (anObject ⊗ self) carrier: (self carrier coevaluationWith: anObject carrier)! !
 
-!RepresentationModule methodsFor: 'morphisms' stamp: 'len 11/23/2024 09:14:44'!
+!Representation methodsFor: 'morphisms' stamp: 'len 11/23/2024 09:14:44'!
 evaluationWith: anObject
 	^ self ⇒ anObject ⊗ self to: anObject carrier: (self carrier evaluationWith: anObject carrier)! !
 
-!RepresentationModule methodsFor: 'morphisms' stamp: 'len 8/28/2024 10:56:16'!
+!Representation methodsFor: 'morphisms' stamp: 'len 8/28/2024 10:56:16'!
 id
 	^ self propertyAt: #id ifAbsentPut: [self to: self carrier: self carrier id]! !
 
-!RepresentationModule methodsFor: 'morphisms' stamp: 'len 11/23/2024 09:19:34'!
+!Representation methodsFor: 'morphisms' stamp: 'len 11/23/2024 09:19:34'!
 leftUnitor
 	^ self category unitObject ⊗ self to: self carrier: self carrier leftUnitor! !
 
-!RepresentationModule methodsFor: 'morphisms' stamp: 'len 11/23/2024 09:20:00'!
+!Representation methodsFor: 'morphisms' stamp: 'len 11/23/2024 09:20:00'!
 rightUnitor
 	^ self ⊗ self category unitObject to: self carrier: self carrier rightUnitor! !
 
-!RepresentationModule methodsFor: 'morphisms' stamp: 'len 7/18/2025 17:12:19'!
+!Representation methodsFor: 'morphisms' stamp: 'len 7/18/2025 17:12:19'!
 to: aCodomain carrier: aMorphism
 	^ RepresentationMorphism from: self to: aCodomain carrier: aMorphism! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 7/13/2025 15:39:33'!
+!Representation methodsFor: 'operations' stamp: 'len 7/13/2025 15:39:33'!
 + aSubmodule
 	self assert: self ambient = aSubmodule ambient.
 	self isTrivial ifTrue: [^ aSubmodule].
 	aSubmodule isTrivial ifTrue: [^ self].
 	^ self subNoSpin: self carrier + aSubmodule carrier! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 7/13/2025 17:01:39'!
+!Representation methodsFor: 'operations' stamp: 'len 8/21/2025 20:59:52'!
 / aSubmodule
 	| π answer |
 	self assert: self ambient = aSubmodule ambient.
 	π := self carrier → (self carrier / aSubmodule carrier).
-	answer := self scalars on: π codomain action: [:g :v| π value: ((representation value: g) value: (π preimageElement: v))].
+	answer := self scalars on: π codomain action: [:g :v| π value: ((structureMorphism value: g) value: (π preimageElement: v))].
 	answer addMap: (self to: answer carrier: π).
 	^ answer! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 1/20/2025 09:07:04'!
+!Representation methodsFor: 'operations' stamp: 'len 1/20/2025 09:07:04'!
 ↑ aMorphism
 	"Answer the induced module M ↑ φ."
 	^ self notYetImplemented! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 1/20/2025 09:09:09'!
+!Representation methodsFor: 'operations' stamp: 'len 8/21/2025 21:00:28'!
 ↓ anObject
 	"Answer the restriction or inflation module M ↓ φ."
-	((anObject isKindOf: RingMap) and: [anObject scalars = self scalars scalars]) ifTrue: [^ self class representation: representation ∘ anObject].
+	((anObject isKindOf: RingMap) and: [anObject scalars = self scalars scalars]) ifTrue: [^ self class structureMorphism: structureMorphism ∘ anObject].
 	(anObject isKindOf: GroupMap) ifTrue: [^ self ↓ ((anObject domain groupAlgebraOver: self scalars scalars) to: self scalars map: [:g| g associations sum: [:each| (self scalars !! (anObject value: each key)) * each value]])]. "improve this"
 	(anObject isKindOf: Ring) ifTrue: [^ self ↓ (anObject → self scalars)].
 	(anObject isKindOf: Group) ifTrue: [^ self ↓ (anObject → self scalars group)].
 	^ self notYetImplemented! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 3/29/2025 17:23:45'!
+!Representation methodsFor: 'operations' stamp: 'len 3/29/2025 17:23:45'!
 ∩ aModule
 	self assert: self ambient = aModule ambient.
 	self isAmbient ifTrue: [^ aModule].
@@ -30255,42 +30191,42 @@ to: aCodomain carrier: aMorphism
 	aModule isTrivial ifTrue: [^ aModule].
 	^ self subNoSpin: self carrier ∩ aModule carrier! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 7/13/2025 15:38:47'!
+!Representation methodsFor: 'operations' stamp: 'len 8/21/2025 21:02:23'!
 ⊕ aModule
-	^ self class representation: (self scalars to: (self carrier ⊕ aModule carrier) endomorphisms map: [:g| (representation value: g) ⊕ (aModule representation value: g)])! !
+	^ self class structureMorphism: (self scalars to: (self carrier ⊕ aModule carrier) endomorphisms map: [:g| (structureMorphism value: g) ⊕ (aModule structureMorphism value: g)])! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 1/20/2025 09:07:50'!
+!Representation methodsFor: 'operations' stamp: 'len 8/21/2025 21:02:29'!
 ⊗ anObject
 	(anObject isKindOf: Ring) ifTrue: [^ self ↑ (self scalars → anObject)]. "extension of scalars"
-	^ self class representation: (self scalars to: (self carrier ⊗ anObject carrier) endomorphisms map: [:g| (representation value: g) ⊗ (anObject representation value: g)])! !
+	^ self class structureMorphism: (self scalars to: (self carrier ⊗ anObject carrier) endomorphisms map: [:g| (structureMorphism value: g) ⊗ (anObject structureMorphism value: g)])! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 7/14/2025 20:59:40'!
+!Representation methodsFor: 'operations' stamp: 'len 7/14/2025 20:59:40'!
 ⊠ aModule
 	"If the receiver is a k[G]-module and argument is a k[H] module, answer the external tensor product, i.e. the tensor product of the underlying k-modules with the structure of a k[G×H]-module."
 	^ self notYetImplemented! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 2/28/2025 09:45:54'!
+!Representation methodsFor: 'operations' stamp: 'len 8/21/2025 20:59:52'!
 annihilator
-	^ representation kernel! !
+	^ structureMorphism kernel! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 12/13/2024 15:40:41'!
+!Representation methodsFor: 'operations' stamp: 'len 12/13/2024 15:40:41'!
 coinvariants
 	"If the receiver is a k[G]-module, answer the submodule of coinvariants or orbit: {g · v  - v | g ∈ G, v ∈ V}.
 	This is the smallest submodule W of V such that G acts trivially on V/W. This is also the homology group H₀(G,V)."
 	self notYetImplemented! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 12/16/2024 22:19:54'!
+!Representation methodsFor: 'operations' stamp: 'len 12/16/2024 22:19:54'!
 complement
 	^ self ambient sub: self carrier complement! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 11/29/2024 15:46:12'!
+!Representation methodsFor: 'operations' stamp: 'len 8/21/2025 21:00:28'!
 contragredient
 	self flag: #deprecated. "should be the same as >>#dual"
 "	^ self scalars on: self carrier dual action: [:g :x| (representation value: g) inverse dual]
 "	
-	^ self class representation: (self scalars to: self carrier dual endomorphisms map: [:g| (representation value: g) inverse dual])! !
+	^ self class structureMorphism: (self scalars to: self carrier dual endomorphisms map: [:g| (structureMorphism value: g) inverse dual])! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 1/10/2025 18:07:32'!
+!Representation methodsFor: 'operations' stamp: 'len 1/10/2025 18:07:32'!
 decomposition
 	"Answer a decomposition of the receiver as direct sum of indecomposable submodules."
 	| components V V′ |
@@ -30306,29 +30242,29 @@ decomposition
 	V isTrivial ifFalse: [components add: V].
 	^ components asArray! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 7/13/2025 17:05:17'!
+!Representation methodsFor: 'operations' stamp: 'len 7/13/2025 17:05:17'!
 injectiveHull
 	"A category is said to have 'enough injectives' if for every object A there is a monomorphism A ↪ I to an injective object I."
 	^ self notYetImplemented! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 12/13/2024 15:41:15'!
+!Representation methodsFor: 'operations' stamp: 'len 12/13/2024 15:41:15'!
 invariants
 	"If the receiver is a k[G]-module, answer the submodule of invariants or fixed points: {v ∈ V | g · v = v for all g ∈ G}.
 	This is the largest submodule of V with trivial action of G. This is also the cohomology group H⁰(G,V)."
 	self notYetImplemented! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 7/13/2025 17:04:09'!
+!Representation methodsFor: 'operations' stamp: 'len 7/13/2025 17:04:09'!
 projectiveCover
 	"A category is said to have 'enough projectives' if for every object A there is an epimorphism P ↠ A from projective object P."
 	^ self notYetImplemented! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 7/13/2025 17:22:57'!
+!Representation methodsFor: 'operations' stamp: 'len 8/21/2025 20:59:52'!
 spin: anObject
 	"Answer the smallest invariant subspace that contains the given vectors.
 	Use the spinning algorithm to compute the closure under the action of the generators of the algebra."
 	| W |
 	W := (anObject isKindOf: Module) ifTrue: [anObject] ifFalse: [self carrier sub: anObject].
-	^ self carrier sub: ((Spinning generators: (representation images collect: [:each| each asMatrix])) spin: (W generators collect: [:each| self carrier \ each]))
+	^ self carrier sub: ((Spinning generators: (structureMorphism images collect: [:each| each asMatrix])) spin: (W generators collect: [:each| self carrier \ each]))
 
 "	[L := OrderedCollection new.
 	W generators do: [:v|
@@ -30338,7 +30274,7 @@ spin: anObject
 	L isEmpty ""or: [W isAmbient]""] whileFalse: [W := W + (self carrier sub: L)].
 	^ W"! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 12/16/2024 22:12:39'!
+!Representation methodsFor: 'operations' stamp: 'len 12/16/2024 22:12:39'!
 sub: anObject
 	"Answer the submodule generated by the argument, which can be either a submodule of the carrier, or a collection that can span a submodule of the carrier. The spinning algorithm is applied to find the smallest invariant submodule containing it."
 	| W |
@@ -30346,59 +30282,59 @@ sub: anObject
 	W = self carrier ifTrue: [^ self].
 	^ self subNoSpin: W! !
 
-!RepresentationModule methodsFor: 'operations' stamp: 'len 3/24/2025 10:45:09'!
+!Representation methodsFor: 'operations' stamp: 'len 8/21/2025 20:59:52'!
 subNoSpin: aSubmodule
 	self flag: #fixme. "maybe should set ambient?"
 "	aSubmodule = self carrier ifTrue: [^ self]."
-	^ self scalars on: aSubmodule action: [:g :v| (representation value: g) value: v]! !
+	^ self scalars on: aSubmodule action: [:g :v| (structureMorphism value: g) value: v]! !
 
-!RepresentationModule methodsFor: 'printing' stamp: 'len 6/9/2024 09:57:39'!
+!Representation methodsFor: 'printing' stamp: 'len 6/9/2024 09:57:39'!
 printOn: aStream
 	aStream print: self carrier! !
 
-!RepresentationModule methodsFor: 'testing' stamp: 'len 12/15/2024 08:10:11'!
+!Representation methodsFor: 'testing' stamp: 'len 12/15/2024 08:10:11'!
 includes: anObject
 	^ self carrier includes: anObject! !
 
-!RepresentationModule methodsFor: 'testing' stamp: 'len 11/27/2024 14:56:27'!
+!Representation methodsFor: 'testing' stamp: 'len 11/27/2024 14:56:27'!
 isAbsolutelySimple
 	"A simple A-module M over a k-algebra A is 'absolutely simple' if it is simple over the algebraic closure of k."
 	^ self isSimple and: [(self ⊗ (self scalars ⊗ self scalars scalars algebraicClosure)) isSimple]! !
 
-!RepresentationModule methodsFor: 'testing' stamp: 'len 11/23/2024 09:04:35'!
+!Representation methodsFor: 'testing' stamp: 'len 8/21/2025 20:59:52'!
 isFaithful
-	^ representation isInjective! !
+	^ structureMorphism isInjective! !
 
-!RepresentationModule methodsFor: 'testing' stamp: 'len 12/30/2024 07:55:27'!
+!Representation methodsFor: 'testing' stamp: 'len 12/30/2024 07:55:27'!
 isIndecomposable
 	"Answer true if the receiver cannot be split as the internal direct sum of two nontrivial submodules.
 	Being indecomposable is a weaker condition than being simple."
 	^ self decomposition isSingleton! !
 
-!RepresentationModule methodsFor: 'testing' stamp: 'len 4/16/2025 13:28:54'!
+!Representation methodsFor: 'testing' stamp: 'len 4/16/2025 13:28:54'!
 isSemisimple
 	"A module is 'semisimple' (or 'completely reducible') if it is the direct sum of simple (or irreducible) submodules."
 	self scalars isSemisimple ifTrue: [^ true].
 	"A finitely generated module is semisimple if and only if it is Artinian and its Jacobson radical is zero:"
 	^ self scalars isArtinian and: [self jacobsonRadical isTrivial]! !
 
-!RepresentationModule methodsFor: 'testing' stamp: 'len 12/30/2024 07:53:50'!
+!Representation methodsFor: 'testing' stamp: 'len 12/30/2024 07:53:50'!
 isSimple
 	"A nontrivial module is 'simple' if it has no nontrivial proper submodules, i.e. the only submodules are the trivial module and itself. Simple modules correspond to irreducible representations, and are sometimes also called irreducible modules."
 	^ self isTrivial not and: [self properInvariantSubspaceOrNil isNil]! !
 
-!RepresentationModule methodsFor: 'testing' stamp: 'len 11/29/2024 10:30:23'!
+!Representation methodsFor: 'testing' stamp: 'len 11/29/2024 10:30:23'!
 isTrivial
 	^ self carrier isTrivial! !
 
-!RepresentationModule methodsFor: 'private' stamp: 'len 12/16/2024 22:08:04'!
+!Representation methodsFor: 'private' stamp: 'len 8/21/2025 21:02:46'!
 properInvariantSubspaceOrNil
 	"This is the Holt-Rees variant of the Meataxe algorithm. See [HR93].
 	Answer a proper nontrivial invariant subspace, or nil if the receiver is indecomposable."
 	| random θ ξ K v X K′ |
 	self propertyAt: #properInvariantSubspace ifPresent: [:aSubspace| ^ aSubspace].
 	self assert: self carrier scalars isFiniteField.
-	random := AlgebraRandomGenerator generators: self representation images.
+	random := AlgebraRandomGenerator generators: structureMorphism images.
 	[θ := random next.
 	(θ characteristicPolynomial factorization asSet sorted: [:a :b| a degree >= b degree]) do: [:p|
 		ξ := p value: θ.
@@ -30419,23 +30355,23 @@ properInvariantSubspaceOrNil
 		X = self carrier dual ifFalse: [^ self propertyAt: #properInvariantSubspace put: X preAnnihilatorSpace]."
 		K rank = p degree ifTrue: [^ self propertyAt: #properInvariantSubspace put: nil]]] repeat! !
 
-!RepresentationModule methodsFor: 'private' stamp: 'len 12/16/2024 22:13:00'!
+!Representation methodsFor: 'private' stamp: 'len 12/16/2024 22:13:00'!
 properSubmoduleOrNil
 	^ self subNoSpin: (self properInvariantSubspaceOrNil ifNil: [^ nil])! !
 
-!RepresentationModule methodsFor: 'private' stamp: 'len 12/27/2024 08:51:15'!
-representation: aMorphism
-	representation := aMorphism.
+!Representation methodsFor: 'private' stamp: 'len 8/21/2025 21:00:28'!
+structureMorphism: aMorphism
+	structureMorphism := aMorphism.
 "	self validate"! !
 
-!RepresentationModule methodsFor: 'private' stamp: 'len 12/5/2024 08:53:33'!
+!Representation methodsFor: 'private' stamp: 'len 12/5/2024 08:53:33'!
 validate
 	super validate.
 	self assert: (self spin: self carrier) = self carrier! !
 
-!RepresentationModule class methodsFor: 'instance creation' stamp: 'len 11/17/2024 18:07:47'!
-representation: aMorphism
-	^ self new representation: aMorphism! !
+!Representation class methodsFor: 'instance creation' stamp: 'len 8/21/2025 21:00:28'!
+structureMorphism: aMorphism
+	^ self new structureMorphism: aMorphism! !
 
 !Ensemble methodsFor: 'accessing' stamp: 'len 3/25/2025 08:22:54'!
 elements
@@ -32800,12 +32736,16 @@ over: aRing
 	self flag: #deprecated.
 	^ (self coordinateRing over: aRing) spec! !
 
-!AffineScheme methodsFor: 'elements' stamp: 'len 8/13/2025 18:03:29'!
+!AffineScheme methodsFor: 'elements' stamp: 'len 8/23/2025 17:33:32'!
 !! anObject
 	((anObject isKindOf: Ideal) and: [anObject scalars = self coordinateRing]) "assume it's prime"
 		ifTrue: [^ SchemePoint parent: self ideal: anObject].
 	(self coordinateRing includes: anObject)
 		ifTrue: [^ SchemePoint parent: self ideal: self coordinateRing * anObject].
+	(anObject isTuple and: [anObject size = self ambient rank]) ifTrue:
+		[(self scalars ⇢ anObject scalars) notNil ifTrue: [^ self pointAt: anObject].
+		^ self pointAt: self scalars !!!! anObject].
+	(anObject isKindOf: AffineRationalPoint) ifTrue: [^ self !! anObject coordinates].
 	^ super !! anObject! !
 
 !AffineScheme methodsFor: 'enumerating' stamp: 'len 7/30/2022 12:11:33'!
@@ -32849,6 +32789,11 @@ to: aCodomain coordinates: anArray
 	"If the argument is an affine scheme Spec(S) of finite type, answer a morphism Spec(R) → Spec(S) defined by elements of R."
 	^ (aCodomain coordinateRing to: self coordinateRing images: anArray) spec! !
 
+!AffineScheme methodsFor: 'morphisms' stamp: 'len 8/23/2025 17:38:09'!
+to: aCodomain map: aBlock
+	self flag: #deprecated.
+	^ RationalMap from: self to: aCodomain map: aBlock! !
+
 !AffineScheme methodsFor: 'operations' stamp: 'len 4/5/2025 07:55:36'!
 - aScheme
 	"Answer the difference of the receiver with the argument, whose associated ideal is the ideal (colon) quotient of the respective ideals.
@@ -32891,6 +32836,11 @@ to: aCodomain coordinates: anArray
 	(aScheme isKindOf: AffineScheme) ifFalse: [^ super ⊔ aScheme].
 	^ (self coordinateRing × aScheme coordinateRing) spec! !
 
+!AffineScheme methodsFor: 'operations' stamp: 'len 8/23/2025 17:37:48'!
+apply: aMap
+	(aMap isKindOf: RationalMap) ifTrue: [^ aMap codomain sub: (aMap value: self definingIdeal)].
+	^ super apply: aMap! !
+
 !AffineScheme methodsFor: 'operations' stamp: 'len 8/16/2025 00:18:46'!
 closure
 	"Answer the closure of the receiver in its ambient space. See also >>neighborhood."
@@ -32918,10 +32868,55 @@ neighborhood
 normalization
 	^ self notYetImplemented! !
 
+!AffineScheme methodsFor: 'operations' stamp: 'len 8/23/2025 17:36:48'!
+projectiveClosure
+	"Answer the projective closure of the receiver. If the receiver is an affine patch of a projective variety, answer the original projective variety. Otherwise the projective closure will be a projective variety over the projective closure of the ambient space of the receiver, and the receiver will be the last affine patch."
+	| P i PX patches |
+	self propertyAt: #projectiveClosure ifPresent: [:aProjectiveScheme| ^ aProjectiveScheme].
+	P := self ambient projectiveClosure.
+	i := P patches identityIndexOf: self ambient.
+	PX := P sub: (self definingIdeal generators collect: [:each| P coordinateRing !! each homogenizedIn: i]).
+"	self addMap: (self to: PX map: [:x| x homogenizedAt: i])."
+	patches := Array new: P ambient rank.
+	patches at: i put: self.
+	PX propertyAt: #patches put: patches.
+	^ self propertyAt: #projectiveClosure put: PX! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 8/23/2025 17:34:16'!
+projectivized
+	"Answer the projectivization of the receiver."
+	^ self coordinateRing proj! !
+
 !AffineScheme methodsFor: 'operations' stamp: 'len 8/16/2025 00:22:00'!
 reduced
 	"Answer the reduced subscheme of the receiver, corresponding to the spectrum of the reduced coordinate ring."
 	^ self coordinateRing reduced spec! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 8/23/2025 17:30:07'!
+restriction
+	"If the receiver is defined over an algebraic field extension L/k, answer the Weil restriction as a scheme over k."
+	| R L K d n S p α v generators |
+	self propertyAt: #restriction ifPresent: [:aScheme| ^ aScheme].
+	R := self coordinateRing.
+	L := R scalars.
+	(d := L degree) = 1 ifTrue: [^ self].
+	K := L scalars.
+	n := R cover rank.
+	S := K polynomialsIn: n*d + 1.
+	α := S generators last.
+	p := R scalars modulus value: α.
+	v := (1 to: n) collect: [:i| (0 to: d-1) sum: [:j| α^j * (S x: d*(i-1) + j + 1)]].
+	generators := OrderedCollection new.
+	R relations generators do: [:g|
+		((g associations sum: [:each| (each key value: v) * (each value representative value: α)]) \\ p) asUnivariate coefficients do: [:each| generators add: each]].
+	^ self propertyAt: #restriction put: (self ambient restriction sub: generators)! !
+
+!AffineScheme methodsFor: 'operations' stamp: 'len 8/23/2025 17:29:24'!
+singularLocus
+	"Answer the subscheme defined by the appropriately sized minors of the jacobian matrix of the receiver.
+	If the receiver is not equidimensional, its lower-dimensional components will be contained in this scheme whether they are singular or not.
+	(See Eisenbud 'Commutative Algebra' Ch. 20, re Fitting ideal.)"
+	^ self propertyAt: #singularLocus ifAbsentPut: [self sub: self definingIdeal singularLocusIdeal]! !
 
 !AffineScheme methodsFor: 'operations' stamp: 'len 8/16/2025 00:25:26'!
 sub: anIdeal
@@ -32931,10 +32926,43 @@ sub: anIdeal
 	self assert: I scalars = self coordinateRing.
 	^ I quotientRing spec! !
 
+!AffineScheme methodsFor: 'operations' stamp: 'len 8/23/2025 17:39:36'!
+translatedBy: aTuple
+	"Answer a new affine varieity that is the translation of the receiver by aTuple.
+	The origin is mappet to aTuple (any point p on the receiver is mapped to p + aTuple)."
+	| dx |
+	dx := self ambient coordinateRing generators - aTuple asArray.
+	^ self ambient sub: (self definingIdeal apply: [:f| f value: dx])! !
+
+!AffineScheme methodsFor: 'points' stamp: 'len 8/23/2025 17:37:11'!
+pointAt: aTuple
+	^ AffineRationalPoint on: self coordinates: aTuple! !
+
+!AffineScheme methodsFor: 'points' stamp: 'len 8/23/2025 17:37:21'!
+pointOver: aRing atRandom: aRandom
+	| points P |
+	self = self ambient ifTrue: [^ self subclassResponsibility].
+	points := aRing spec ⇒ self ambient.
+	[P := points atRandom: aRandom.
+	self satisfies: P coordinates] whileFalse.
+	^ self !! P! !
+
+!AffineScheme methodsFor: 'points' stamp: 'len 8/23/2025 17:37:30'!
+pointsOver: aRing do: aBlock
+	"Naive enumeration of rational points on the receiver."
+	| generators |
+	generators := self definingIdeal generators.
+	self ambient pointsOver: aRing do: [:each| (generators allSatisfy: [:g| (g value: each coordinates) isZero]) ifTrue: [aBlock value: (self pointAt: each coordinates)]]! !
+
 !AffineScheme methodsFor: 'printing' stamp: 'len 8/14/2025 16:08:00'!
 printOn: aStream
 	self isEmpty ifTrue: [aStream nextPut: $∅. ^ self].
 	aStream nextPutAll: 'Spec('; print: self coordinateRing; nextPut: $)! !
+
+!AffineScheme methodsFor: 'random' stamp: 'len 8/23/2025 17:32:04'!
+to: aCodomain atRandom: aRandom
+	aCodomain scalars ⇢ self coordinateRing ifNotNil: [^ aCodomain pointOver: self coordinateRing atRandom: aRandom].
+	^ super to: aCodomain atRandom: aRandom! !
 
 !AffineScheme methodsFor: 'testing' stamp: 'len 8/17/2025 15:45:54'!
 isClosed
@@ -32954,9 +32982,12 @@ isConnected
 isEmpty
 	^ self coordinateRing isTrivial! !
 
-!AffineScheme methodsFor: 'testing' stamp: 'len 8/8/2025 23:13:43'!
+!AffineScheme methodsFor: 'testing' stamp: 'len 8/23/2025 17:31:08'!
 isEquidimensional
-	^ self definingIdeal isEquidimensional! !
+	^ self definingIdeal isEquidimensional
+	
+"or:
+	^ self singularLocus dimension < 0"! !
 
 !AffineScheme methodsFor: 'testing' stamp: 'len 8/16/2025 22:39:39'!
 isFinite
@@ -32965,6 +32996,11 @@ isFinite
 !AffineScheme methodsFor: 'testing' stamp: 'len 8/14/2025 16:02:22'!
 isFiniteType
 	^ self coordinateRing isEssentiallyFiniteType! !
+
+!AffineScheme methodsFor: 'testing' stamp: 'len 8/23/2025 17:30:22'!
+isGeometricallyReduced
+	self scalars isPerfectField ifTrue: [^ self isReduced].
+	^ self notYetImplemented! !
 
 !AffineScheme methodsFor: 'testing' stamp: 'len 8/16/2025 00:29:33'!
 isHypersurface
@@ -33011,9 +33047,19 @@ isReduced
 isSeparated
 	^ true! !
 
+!AffineScheme methodsFor: 'testing' stamp: 'len 8/23/2025 17:29:09'!
+isSmooth
+	"Answer true if the receiver is nonsingular."
+	^ self propertyAt: #isSmooth ifAbsentPut: [self singularLocus dimension < 0]! !
+
 !AffineScheme methodsFor: 'testing' stamp: 'len 10/11/2023 20:45:28'!
 isZeroDimensional
 	^ self coordinateRing isZeroDimensional! !
+
+!AffineScheme methodsFor: 'testing' stamp: 'len 8/23/2025 17:31:49'!
+satisfies: aTuple
+	"Answer true if the defining equations of the receiver satisfy the argument, assuming it's the coordinates of a rational point in the ambient space."
+	^ self definingIdeal generators allSatisfy: [:each| (each value: aTuple) isZero]! !
 
 !AffineScheme methodsFor: 'private' stamp: 'len 7/30/2022 12:07:23'!
 coordinateRing: aRing
@@ -33023,147 +33069,7 @@ coordinateRing: aRing
 species
 	^ AffineScheme! !
 
-!AffineScheme class methodsFor: 'instance creation' stamp: 'len 7/30/2022 12:07:51'!
-coordinateRing: aRing
-	^ self new coordinateRing: aRing! !
-
-!AffineAlgebraicScheme methodsFor: 'elements' stamp: 'len 8/1/2025 20:12:25'!
-!! anObject
-	(anObject isTuple and: [anObject size = self ambient rank]) ifTrue:
-		[(self scalars ⇢ anObject scalars) notNil ifTrue: [^ self pointAt: anObject].
-		^ self pointAt: self scalars !!!! anObject].
-	(anObject isKindOf: AffineRationalPoint) ifTrue: [^ self !! anObject coordinates].
-	^ super !! anObject! !
-
-!AffineAlgebraicScheme methodsFor: 'morphisms' stamp: 'len 2/14/2025 13:02:07'!
-to: aCodomain map: aBlock
-	^ RationalMap from: self to: aCodomain map: aBlock! !
-
-!AffineAlgebraicScheme methodsFor: 'operations' stamp: 'len 4/3/2025 14:41:13'!
-+ aTuple
-	"Answer a new affine varieity that is the translation of the receiver by aTuple.
-	The origin is mappet to aTuple (any point p on the receiver is mapped to p + aTuple)."
-	| dx |
-	dx := self ambient coordinateRing generators - aTuple asArray.
-	^ self ambient sub: (self definingIdeal apply: [:f| f value: dx])! !
-
-!AffineAlgebraicScheme methodsFor: 'operations' stamp: 'len 8/16/2025 00:11:04'!
-- aTuple
-	self flag: #deprecated.
-	aTuple isTuple ifFalse: [^ super - aTuple].
-	^ self + aTuple negated! !
-
-!AffineAlgebraicScheme methodsFor: 'operations' stamp: 'len 4/3/2025 14:41:19'!
-apply: aMap
-	(aMap isKindOf: RationalMap) ifTrue: [^ aMap codomain sub: (aMap value: self definingIdeal)].
-	^ super apply: aMap! !
-
-!AffineAlgebraicScheme methodsFor: 'operations' stamp: 'len 4/3/2025 14:41:58'!
-projectiveClosure
-	"Answer the projective closure of the receiver. If the receiver is an affine patch of a projective variety, answer the original projective variety. Otherwise the projective closure will be a projective variety over the projective closure of the ambient space of the receiver, and the receiver will be the last affine patch."
-	| P i PX patches |
-	self propertyAt: #projectiveClosure ifPresent: [:aProjectiveScheme| ^ aProjectiveScheme].
-	P := self ambient projectiveClosure.
-	i := P patches identityIndexOf: self ambient.
-	PX := P sub: (self definingIdeal generators collect: [:each| P coordinateRing !! each homogenizedIn: i]).
-"	self addMap: (self to: PX map: [:x| x homogenizedAt: i])."
-	patches := Array new: P ambient rank.
-	patches at: i put: self.
-	PX propertyAt: #patches put: patches.
-	^ self propertyAt: #projectiveClosure put: PX! !
-
-!AffineAlgebraicScheme methodsFor: 'operations' stamp: 'len 2/4/2017 09:05:48'!
-projectivized
-	"Answer the projectivization of the receiver."
-	^ self coordinateRing proj! !
-
-!AffineAlgebraicScheme methodsFor: 'operations' stamp: 'len 3/29/2025 09:33:40'!
-restriction
-	"If the receiver is defined over an algebraic field extension L/k, answer the Weil restriction as a scheme over k."
-	| R L K d n S p α v generators |
-	self propertyAt: #restriction ifPresent: [:aScheme| ^ aScheme].
-	R := self coordinateRing.
-	L := R scalars.
-	(d := L degree) = 1 ifTrue: [^ self].
-	K := L scalars.
-	n := R cover rank.
-	S := K polynomialsIn: n*d + 1.
-	α := S generators last.
-	p := R scalars modulus value: α.
-	v := (1 to: n) collect: [:i| (0 to: d-1) sum: [:j| α^j * (S x: d*(i-1) + j + 1)]].
-	generators := OrderedCollection new.
-	R relations generators do: [:g|
-		((g associations sum: [:each| (each key value: v) * (each value representative value: α)]) \\ p) asUnivariate coefficients do: [:each| generators add: each]].
-	^ self propertyAt: #restriction put: (self ambient restriction sub: generators)! !
-
-!AffineAlgebraicScheme methodsFor: 'operations' stamp: 'len 4/3/2025 14:42:11'!
-singularLocus
-	"Answer the subscheme defined by the appropriately sized minors of the jacobian matrix of the receiver.
-	If the receiver is not equidimensional, its lower-dimensional components will be contained in this scheme whether they are singular or not.
-	(See Eisenbud 'Commutative Algebra' Ch. 20, re Fitting ideal.)"
-	^ self propertyAt: #singularLocus ifAbsentPut: [self sub: self definingIdeal singularLocusIdeal]! !
-
-!AffineAlgebraicScheme methodsFor: 'points' stamp: 'len 3/17/2025 06:25:37'!
-pointAt: aTuple
-	^ AffineRationalPoint on: self coordinates: aTuple! !
-
-!AffineAlgebraicScheme methodsFor: 'points' stamp: 'len 8/17/2025 15:46:19'!
-pointOver: aRing atRandom: aRandom
-	| points P |
-	self = self ambient ifTrue: [^ self subclassResponsibility].
-	points := aRing spec ⇒ self ambient.
-	[P := points atRandom: aRandom.
-	self satisfies: P coordinates] whileFalse.
-	^ self !! P! !
-
-!AffineAlgebraicScheme methodsFor: 'points' stamp: 'len 4/3/2025 14:41:44'!
-pointsOver: aRing do: aBlock
-	"Naive enumeration of rational points on the receiver."
-	| generators |
-	generators := self definingIdeal generators.
-	self ambient pointsOver: aRing do: [:each| (generators allSatisfy: [:g| (g value: each coordinates) isZero]) ifTrue: [aBlock value: (self pointAt: each coordinates)]]! !
-
-!AffineAlgebraicScheme methodsFor: 'random' stamp: 'len 3/26/2025 09:22:00'!
-to: aCodomain atRandom: aRandom
-	aCodomain scalars ⇢ self coordinateRing ifNotNil: [^ aCodomain pointOver: self coordinateRing atRandom: aRandom].
-	^ super to: aCodomain atRandom: aRandom! !
-
-!AffineAlgebraicScheme methodsFor: 'testing' stamp: 'len 2/23/2025 07:06:46'!
-isEquidimensional
-	"Answer true if the receiver is pure dimensional or equidimensional, i.e. if the dimension of the local ring at p is independent of p."
-	^ self singularLocus dimension < 0! !
-
-!AffineAlgebraicScheme methodsFor: 'testing' stamp: 'len 8/16/2025 22:40:12'!
-isFinite
-	"This works for any Groebner basis, no matter the ordering."
-	"Does this work for non-integral schemes?"
-	self flag: #deprecated.
-	^ super isFinite
-"	self definingIdeal scalars indeterminates do: [:x|
-		(self definingIdeal basis anySatisfy: [:f| | d m | m := f leadingMonomial. d := m degree. d > 0 and: [d = (m degreeIn: x)]])
-			ifFalse: [^ false]].
-	^ true"! !
-
-!AffineAlgebraicScheme methodsFor: 'testing' stamp: 'len 4/6/2025 09:01:57'!
-isGeometricallyReduced
-	self scalars isPerfectField ifTrue: [^ self isReduced].
-	^ self notYetImplemented! !
-
-!AffineAlgebraicScheme methodsFor: 'testing' stamp: 'len 2/24/2025 07:07:13'!
-isSmooth
-	"Answer true if the receiver is nonsingular."
-	^ self propertyAt: #isSmooth ifAbsentPut: [self singularLocus dimension < 0]! !
-
-!AffineAlgebraicScheme methodsFor: 'testing' stamp: 'len 4/3/2025 14:42:06'!
-satisfies: aTuple
-	"Answer true if the defining equations of the receiver satisfy the argument, assuming it's the coordinates of a rational point in the ambient space."
-	^ self definingIdeal generators allSatisfy: [:each| (each value: aTuple) isZero]! !
-
-!AffineAlgebraicScheme methodsFor: 'private' stamp: 'len 2/3/2025 08:14:36'!
-species
-	^ AffineAlgebraicScheme! !
-
-!AffineAlgebraicScheme class methodsFor: 'examples' stamp: 'len 6/23/2023 19:52:24'!
+!AffineScheme class methodsFor: 'examples' stamp: 'len 8/23/2025 17:35:43'!
 circle
 	"The unit circle in the affine plane:"
 	| R x y I |
@@ -33173,7 +33079,7 @@ circle
 	I := R * (x^2 + (y^2) - 1).
 	^ (R / I) spec! !
 
-!AffineAlgebraicScheme class methodsFor: 'examples' stamp: 'len 6/26/2023 14:41:11'!
+!AffineScheme class methodsFor: 'examples' stamp: 'len 8/23/2025 17:35:51'!
 clebschCubic
 	"The Clebsch cubic as affine scheme in Q^3.
 	This is the unique cubic surface that has Sym(5) as symmetry group."
@@ -33190,7 +33096,7 @@ clebschCubic
 			+ 1.
 	^ A sub: f! !
 
-!AffineAlgebraicScheme class methodsFor: 'examples' stamp: 'len 2/19/2025 07:51:19'!
+!AffineScheme class methodsFor: 'examples' stamp: 'len 8/23/2025 17:35:59'!
 romanSurface
 	"The Roman surface or Steiner surface.
 	This is a self-intersecting mapping of the real projective plane into affine 3-space.
@@ -33200,20 +33106,19 @@ romanSurface
 	r := 1.
 	^ A sub: [:x :y :z| x*y^2 + (y*z^2) + (z*x^2) - (x*y*z*r squared)]! !
 
-!AffineAlgebraicScheme class methodsFor: 'examples' stamp: 'len 2/19/2025 07:56:23'!
+!AffineScheme class methodsFor: 'examples' stamp: 'len 8/23/2025 17:36:05'!
 twistedCubic
 	"This is the twisted cubic affine variety, parameterized by (x, x^2, x^3)."
 	^ (AffineSpace new: #(x y z) over: ℚ) sub: [:x :y :z| {y - (x^2). z - (x^3)}]! !
 
-!AffineAlgebraicScheme class methodsFor: 'examples' stamp: 'len 2/19/2025 07:56:44'!
+!AffineScheme class methodsFor: 'examples' stamp: 'len 8/23/2025 17:36:15'!
 whitneyUmbrella
 	"This is Whitney's umbrella in affine space Q^3."
 	^ (AffineSpace new: #(x y z) over: ℚ) sub: [:x :y :z| x^2*y - (z^2)]! !
 
-!AffineAlgebraicScheme class methodsFor: 'instance creation' stamp: 'len 2/3/2025 08:14:36'!
-newFrom: anObject
-	(anObject isKindOf: AffineAlgebraicScheme) ifTrue: [^ self coordinateRing: anObject coordinateRing].
-	^ super newFrom: anObject! !
+!AffineScheme class methodsFor: 'instance creation' stamp: 'len 7/30/2022 12:07:51'!
+coordinateRing: aRing
+	^ self new coordinateRing: aRing! !
 
 !AffineSpace methodsFor: 'accessing' stamp: 'len 8/27/2016 19:03'!
 ambient
@@ -33282,6 +33187,16 @@ new: rank over: aRing
 ambient
 	^ self propertyAt: #ambient ifAbsent: [self homogeneousCoordinateRing isQuotient ifTrue: [self homogeneousCoordinateRing cover proj] ifFalse: [self]]! !
 
+!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 8/24/2025 15:07:40'!
+arithmeticGenus
+	"Answer the arithmetic genus of the receiver."
+	| answer |
+	self assert: self ambient isOrdinaryProjectiveSpace.
+	"Assuming it is an irreducible curve:"
+	answer := (self homogeneousCoordinateRing hilbertPolynomial value: 0) - 1.
+	self dimension odd ifTrue: [answer := answer negated].
+	^ answer! !
+
 !ProjectiveScheme methodsFor: 'accessing' stamp: 'len 12/20/2021 12:47:23'!
 base
 	"Answer the base scheme of the receiver."
@@ -33292,9 +33207,56 @@ definingIdeal
 	"Answer the defining ideal of the receiver. This is a homogeneous ideal of the ambient homogeneous coordinate ring."
 	^ self homogeneousCoordinateRing isQuotient ifTrue: [self homogeneousCoordinateRing relations] ifFalse: [self homogeneousCoordinateRing null]! !
 
+!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 8/24/2025 15:08:16'!
+degree
+	| t H |
+	t := ℚ polynomials fractions x.
+	H := self homogeneousCoordinateRing hilbertSeriesAt: t.
+	^ (1 - t) ^ (H orderAt: 1) negated * H value: 1! !
+
+!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 8/24/2025 15:08:23'!
+degree2
+	| t H |
+	t := ℚ polynomials fractions x.
+	H := self homogeneousCoordinateRing hilbertSeriesAt: t.
+	^ (1 - t) ^ self homogeneousCoordinateRing dimension * H value: 1! !
+
+!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 8/24/2025 15:08:40'!
+dimension
+	self flag: #fixme. "is this right for projective schemes or should use the Hilbert series?"
+	^ self homogeneousCoordinateRing dimension - 1! !
+
+!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 8/24/2025 15:08:57'!
+functionField
+	"If K(X) is the function field of the affine cone, the function field of the projective variety is the subfield of K(X) of homogeneous elements of degree 0, that is fractions f/g with f,g in K(X) homogeneous of the same degree and g not zero.
+	This is isomorphic to the function field of any affine patch."
+	^ (self patch: self ambient rank) functionField! !
+
+!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 8/24/2025 15:09:12'!
+genus
+	"Answer the geometric genus of the receiver."
+	self flag: #todo. "compute it from the normalization or the primary decomposition"
+	^ self subclassResponsibility! !
+
 !ProjectiveScheme methodsFor: 'accessing' stamp: 'len 2/19/2025 07:39:46'!
 homogeneousCoordinateRing
 	^ self propertyAt: #homogeneousCoordinateRing! !
+
+!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 8/24/2025 15:10:21'!
+patch: i
+	"Answer the i-th affine patch of the receiver."
+	| patches answer |
+	patches := self propertyAt: #patches ifAbsentPut: [Array new: self ambient rank].
+	(patches at: i) ifNotNil: [:anAffineScheme| ^ anAffineScheme].
+	answer := self newPatch: i.
+"	answer addMap: (answer to: self map: [:x| x homogenizedAt: i])."
+	answer propertyAt: #projectiveClosure put: self.
+	^ patches at: i put: answer! !
+
+!ProjectiveScheme methodsFor: 'accessing' stamp: 'len 8/24/2025 15:10:26'!
+patches
+	"Answer the standard affine open cover of the receiver."
+	^ (1 to: self ambient rank) collect: [:i| self patch: i]! !
 
 !ProjectiveScheme methodsFor: 'accessing' stamp: 'len 2/19/2025 07:47:11'!
 scalars
@@ -33312,9 +33274,38 @@ hash
 over: aRing
 	^ self class homogeneousCoordinateRing: (self homogeneousCoordinateRing over: aRing)! !
 
+!ProjectiveScheme methodsFor: 'elements' stamp: 'len 8/24/2025 15:07:02'!
+!! anObject
+	((anObject isKindOf: Ideal) and: [anObject scalars = self homogeneousCoordinateRing and: [anObject isHomogeneous]]) "assume it's prime and relevant"
+		ifTrue: [^ SchemePoint parent: self ideal: (anObject dehomogenizedIn: self ambient rank)].
+	anObject isTuple ifTrue:
+		[(self scalars ⇢ anObject scalars) notNil
+			ifTrue:
+				[anObject size = self ambient rank ifTrue: [^ self pointAt: anObject].
+				anObject size = (self ambient rank - 1) ifTrue: [^ self pointAt: anObject, anObject scalars one]].
+		^ self !! (self scalars !!!! anObject)].
+	(anObject isKindOf: ProjectiveRationalPoint) ifTrue: [^ self !! anObject coordinates].
+	^ super !! anObject! !
+
 !ProjectiveScheme methodsFor: 'enumerating' stamp: 'len 2/19/2025 07:46:35'!
 do: aBlock
 	self homogeneousCoordinateRing relevantHomogeneousPrimeIdealsDo: [:each| aBlock value: self !! each]! !
+
+!ProjectiveScheme methodsFor: 'morphisms' stamp: 'len 8/24/2025 15:11:30'!
+to: aCodomain coordinates: anArrayOfRationalFunctions
+	^ RationalMap from: self to: aCodomain coordinates: anArrayOfRationalFunctions! !
+
+!ProjectiveScheme methodsFor: 'morphisms' stamp: 'len 8/24/2025 15:11:36'!
+to: aCodomain map: aBlock
+	^ RationalMap from: self to: aCodomain map: aBlock! !
+
+!ProjectiveScheme methodsFor: 'operations' stamp: 'len 8/24/2025 15:12:28'!
+× aScheme
+	(aScheme isKindOf: ProjectiveScheme) ifFalse: [^ super × aScheme].
+	self scalars = aScheme scalars ifFalse: [self error: 'scalars don''t match'].
+	^ (self homogeneousCoordinateRing ⊗ aScheme homogeneousCoordinateRing) proj
+		propertyAt: #ambient put: self ambient × aScheme ambient;
+		yourself! !
 
 !ProjectiveScheme methodsFor: 'operations' stamp: 'len 4/3/2025 14:42:23'!
 ∩ aScheme
@@ -33331,6 +33322,18 @@ affineCone
 	"If the receiver is defined by an homogeneous ideal I, the affine cone is the affine variety defined by I."
 	^ self homogeneousCoordinateRing spec! !
 
+!ProjectiveScheme methodsFor: 'operations' stamp: 'len 8/24/2025 15:07:27'!
+apply: aMap
+	(aMap isKindOf: RationalMap) ifTrue: [^ aMap codomain sub: (aMap value: self definingIdeal)].
+	^ super apply: aMap! !
+
+!ProjectiveScheme methodsFor: 'operations' stamp: 'len 8/24/2025 15:07:53'!
+decomposition
+	"Answer the irreducible components of the receiver.
+	This is the irreducible components of the affine cone not containing the irrelevant ideal.
+	Since the scheme is projective, remove the primes containing the irrelevant ideal:"
+	^ (self definingIdeal associatedPrimes reject: [:each| self ambient homogeneousCoordinateRing generators anySatisfy: [:xi| each includes: xi]]) collect: [:each| self sub: each]! !
+
 !ProjectiveScheme methodsFor: 'operations' stamp: 'len 4/16/2025 13:33:30'!
 reduced
 	^ self propertyAt: #reduced ifAbsentPut: [self ambient sub: self definingIdeal radical]! !
@@ -33346,6 +33349,13 @@ saturated
 	self homogeneousCoordinateRing: R / (self definingIdeal saturation: m).
 	self propertyAt: #isSaturated put: true! !
 
+!ProjectiveScheme methodsFor: 'operations' stamp: 'len 8/24/2025 15:11:00'!
+singularLocus
+	"Answer the subscheme defined by the appropriately sized minors of the jacobian matrix of the receiver.
+	If the receiver is not equidimensional, its lower-dimensional components will be contained in this scheme whether they are singular or not.
+	(See Eisenbud 'Commutative Algebra' Ch. 20, re Fitting ideal.)"
+	^ self propertyAt: #singularLocus ifAbsentPut: [self sub: self definingIdeal singularLocusIdeal]! !
+
 !ProjectiveScheme methodsFor: 'operations' stamp: 'len 6/14/2025 16:10:41'!
 sub: anObject
 	"Answer the subscheme defined by anObject as subscheme of the ambient, where anObject can be an element or an ideal of the homogeneous coordinate ring."
@@ -33354,9 +33364,34 @@ sub: anObject
 "	self assert: anObject scalars = self homogeneousCoordinateRing."
 	^ anObject quotientRing proj! !
 
+!ProjectiveScheme methodsFor: 'operations' stamp: 'len 8/24/2025 15:11:07'!
+tangentSpaceAt: aTuple
+	"Answer the projective tangent space of the receiver at the given point."
+	| R |
+	self flag: #fix. "this might be wrong, The Geometry of Schemes pag 105"
+	R := self ambient homogeneousCoordinateRing.
+	^ self ambient sub: (self definingIdeal generators collect: [:f| (1 to: R rank) sum: [:i| (R x: i) * ((f derivativeIn: i) value: aTuple)]])! !
+
+!ProjectiveScheme methodsFor: 'points' stamp: 'len 8/24/2025 15:10:41'!
+pointAt: aTuple
+	^ ProjectiveRationalPoint on: self coordinates: aTuple! !
+
+!ProjectiveScheme methodsFor: 'points' stamp: 'len 8/24/2025 15:10:47'!
+pointsOver: aRing do: aBlock
+	"Naive enumeration of rational points on the receiver."
+	| generators |
+	generators := self definingIdeal generators.
+	self ambient pointsOver: aRing do: [:each| (generators allSatisfy: [:g| (g value: each coordinates) isZero]) ifTrue: [aBlock value: (self pointAt: each coordinates)]]! !
+
 !ProjectiveScheme methodsFor: 'printing' stamp: 'len 4/9/2025 09:27:44'!
 printOn: aStream
 	aStream nextPutAll: 'Proj('; print: self homogeneousCoordinateRing; nextPut: $)! !
+
+!ProjectiveScheme methodsFor: 'testing' stamp: 'len 8/24/2025 15:09:30'!
+isEmpty
+	"Answer true if the receiver has no points over any algebraic closure of its base field."
+	self flag: #fixme.
+	^ self dimension <= -1 "or <???"! !
 
 !ProjectiveScheme methodsFor: 'testing' stamp: 'len 2/19/2025 07:46:51'!
 isIntegral
@@ -33371,196 +33406,53 @@ isIrreducible
 isReduced
 	^ self homogeneousCoordinateRing isReduced! !
 
+!ProjectiveScheme methodsFor: 'testing' stamp: 'len 8/24/2025 15:09:38'!
+isSmooth
+	"Answer true if the receiver is nonsingular."
+	^ self propertyAt: #isSmooth ifAbsentPut: [self singularLocus dimension < 0]! !
+
+!ProjectiveScheme methodsFor: 'testing' stamp: 'len 8/24/2025 15:10:53'!
+satisfies: aTuple
+	"Answer true if the defining equations of the receiver satisfy the argument, assuming it's the coordinates of a rational point in the ambient space."
+	^ self definingIdeal generators allSatisfy: [:each| (each value: aTuple) isZero]! !
+
 !ProjectiveScheme methodsFor: 'private' stamp: 'len 2/19/2025 07:37:55'!
 homogeneousCoordinateRing: aGradedRing
 	self propertyAt: #homogeneousCoordinateRing put: aGradedRing! !
+
+!ProjectiveScheme methodsFor: 'private' stamp: 'len 8/24/2025 15:10:15'!
+newPatch: i
+	^ (self ambient patch: i) sub: (self definingIdeal dehomogenizedIn: i)! !
 
 !ProjectiveScheme methodsFor: 'private' stamp: 'len 12/20/2021 12:32:29'!
 species
 	^ ProjectiveScheme! !
 
-!ProjectiveScheme class methodsFor: 'instance creation' stamp: 'len 2/19/2025 07:37:33'!
-homogeneousCoordinateRing: aGradedRing
-	^ self new homogeneousCoordinateRing: aGradedRing! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'accessing' stamp: 'len 4/5/2025 21:54:44'!
-arithmeticGenus
-	"Answer the arithmetic genus of the receiver."
-	| answer |
-	self assert: self ambient isOrdinaryProjectiveSpace.
-	"Assuming it is an irreducible curve:"
-	answer := (self homogeneousCoordinateRing hilbertPolynomial value: 0) - 1.
-	self dimension odd ifTrue: [answer := answer negated].
-	^ answer! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'accessing' stamp: 'len 2/25/2025 15:34:01'!
-coordinateRing
-	self flag: #deprecated.
-	^ self homogeneousCoordinateRing! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'accessing' stamp: 'len 2/19/2025 07:49:31'!
-degree
-	| t H |
-	t := ℚ polynomials fractions x.
-	H := self homogeneousCoordinateRing hilbertSeriesAt: t.
-	^ (1 - t) ^ (H orderAt: 1) negated * H value: 1! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'accessing' stamp: 'len 2/19/2025 07:49:45'!
-degree2
-	| t H |
-	t := ℚ polynomials fractions x.
-	H := self homogeneousCoordinateRing hilbertSeriesAt: t.
-	^ (1 - t) ^ self homogeneousCoordinateRing dimension * H value: 1! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'accessing' stamp: 'len 4/1/2025 18:18:36'!
-dimension
-	self flag: #fixme. "is this right for projective schemes or should use the Hilbert series?"
-	^ self homogeneousCoordinateRing dimension - 1! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'accessing' stamp: 'len 7/25/2022 12:03:58'!
-functionField
-	"If K(X) is the function field of the affine cone, the function field of the projective variety is the subfield of K(X) of homogeneous elements of degree 0, that is fractions f/g with f,g in K(X) homogeneous of the same degree and g not zero.
-	This is isomorphic to the function field of any affine patch."
-	^ (self patch: self ambient rank) functionField! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'accessing' stamp: 'len 4/5/2025 21:58:08'!
-genus
-	"Answer the geometric genus of the receiver."
-	self flag: #todo. "compute it from the normalization or the primary decomposition"
-	^ self subclassResponsibility! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'accessing' stamp: 'len 2/25/2025 15:46:12'!
-patch: i
-	"Answer the i-th affine patch of the receiver."
-	| patches answer |
-	patches := self propertyAt: #patches ifAbsentPut: [Array new: self ambient rank].
-	(patches at: i) ifNotNil: [:anAffineScheme| ^ anAffineScheme].
-	answer := self newPatch: i.
-"	answer addMap: (answer to: self map: [:x| x homogenizedAt: i])."
-	answer propertyAt: #projectiveClosure put: self.
-	^ patches at: i put: answer! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'accessing' stamp: 'len 3/19/2025 09:02:01'!
-patches
-	"Answer the standard affine open cover of the receiver."
-	^ (1 to: self ambient rank) collect: [:i| self patch: i]! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'elements' stamp: 'len 8/13/2025 18:03:51'!
-!! anObject
-	((anObject isKindOf: Ideal) and: [anObject scalars = self homogeneousCoordinateRing and: [anObject isHomogeneous]]) "assume it's prime and relevant"
-		ifTrue: [^ SchemePoint parent: self ideal: (anObject dehomogenizedIn: self ambient rank)].
-	anObject isTuple ifTrue:
-		[(self scalars ⇢ anObject scalars) notNil
-			ifTrue:
-				[anObject size = self ambient rank ifTrue: [^ self pointAt: anObject].
-				anObject size = (self ambient rank - 1) ifTrue: [^ self pointAt: anObject, anObject scalars one]].
-		^ self !! (self scalars !!!! anObject)].
-	(anObject isKindOf: ProjectiveRationalPoint) ifTrue: [^ self !! anObject coordinates].
-	^ super !! anObject! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'morphisms' stamp: 'len 2/6/2025 08:17:59'!
-to: aCodomain coordinates: anArrayOfRationalFunctions
-	^ RationalMap from: self to: aCodomain coordinates: anArrayOfRationalFunctions! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'morphisms' stamp: 'len 2/14/2025 13:02:03'!
-to: aCodomain map: aBlock
-	^ RationalMap from: self to: aCodomain map: aBlock! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'operations' stamp: 'len 3/19/2025 09:32:51'!
-× aScheme
-	(aScheme isKindOf: ProjectiveAlgebraicScheme) ifFalse: [^ super × aScheme].
-	self scalars = aScheme scalars ifFalse: [self error: 'scalars don''t match'].
-	^ (self homogeneousCoordinateRing ⊗ aScheme homogeneousCoordinateRing) proj
-		propertyAt: #ambient put: self ambient × aScheme ambient;
-		yourself! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'operations' stamp: 'len 4/3/2025 14:42:50'!
-apply: aMap
-	(aMap isKindOf: RationalMap) ifTrue: [^ aMap codomain sub: (aMap value: self definingIdeal)].
-	^ super apply: aMap! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'operations' stamp: 'len 6/9/2025 15:20:27'!
-decomposition
-	"Answer the irreducible components of the receiver.
-	This is the irreducible components of the affine cone not containing the irrelevant ideal.
-	Since the scheme is projective, remove the primes containing the irrelevant ideal:"
-	^ (self definingIdeal associatedPrimes reject: [:each| self ambient homogeneousCoordinateRing generators anySatisfy: [:xi| each includes: xi]]) collect: [:each| self sub: each]! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'operations' stamp: 'len 4/3/2025 14:43:28'!
-singularLocus
-	"Answer the subscheme defined by the appropriately sized minors of the jacobian matrix of the receiver.
-	If the receiver is not equidimensional, its lower-dimensional components will be contained in this scheme whether they are singular or not.
-	(See Eisenbud 'Commutative Algebra' Ch. 20, re Fitting ideal.)"
-	^ self propertyAt: #singularLocus ifAbsentPut: [self sub: self definingIdeal singularLocusIdeal]! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'operations' stamp: 'len 4/3/2025 14:43:33'!
-tangentSpaceAt: aTuple
-	"Answer the projective tangent space of the receiver at the given point."
-	| R |
-	self flag: #fix. "this might be wrong, The Geometry of Schemes pag 105"
-	R := self ambient homogeneousCoordinateRing.
-	^ self ambient sub: (self definingIdeal generators collect: [:f| (1 to: R rank) sum: [:i| (R x: i) * ((f derivativeIn: i) value: aTuple)]])! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'points' stamp: 'len 3/17/2025 06:25:07'!
-pointAt: aTuple
-	^ ProjectiveRationalPoint on: self coordinates: aTuple! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'points' stamp: 'len 4/3/2025 14:43:10'!
-pointsOver: aRing do: aBlock
-	"Naive enumeration of rational points on the receiver."
-	| generators |
-	generators := self definingIdeal generators.
-	self ambient pointsOver: aRing do: [:each| (generators allSatisfy: [:g| (g value: each coordinates) isZero]) ifTrue: [aBlock value: (self pointAt: each coordinates)]]! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'testing' stamp: 'len 6/27/2023 17:33:40'!
-isEmpty
-	"Answer true if the receiver has no points over any algebraic closure of its base field."
-	self flag: #fixme.
-	^ self dimension <= -1 "or <???"! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'testing' stamp: 'len 2/23/2025 07:06:46'!
-isSmooth
-	"Answer true if the receiver is nonsingular."
-	^ self propertyAt: #isSmooth ifAbsentPut: [self singularLocus dimension < 0]! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'testing' stamp: 'len 4/3/2025 14:43:17'!
-satisfies: aTuple
-	"Answer true if the defining equations of the receiver satisfy the argument, assuming it's the coordinates of a rational point in the ambient space."
-	^ self definingIdeal generators allSatisfy: [:each| (each value: aTuple) isZero]! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'private' stamp: 'len 4/3/2025 14:43:04'!
-newPatch: i
-	^ (self ambient patch: i) sub: (self definingIdeal dehomogenizedIn: i)! !
-
-!ProjectiveAlgebraicScheme methodsFor: 'private' stamp: 'len 2/3/2025 08:16:21'!
-species
-	^ ProjectiveAlgebraicScheme! !
-
-!ProjectiveAlgebraicScheme class methodsFor: 'examples' stamp: 'len 2/20/2025 07:32:16'!
+!ProjectiveScheme class methodsFor: 'examples' stamp: 'len 8/24/2025 15:12:43'!
 cayleyCubic
 	"The Cayley cubic as projective surface.
 	This is the unique cubic surface that has 4 ordinary nodes.
 	It is a degeneration of the Clebsh cubic and has Sym(4) as its symmetry group."
 	^ (ProjectiveSpace new: #(x y z w) over: ℚ) sub: [:x :y :z :w| x*y*z + (x*y*w) + (x*z*w) + (y*z*w)]! !
 
-!ProjectiveAlgebraicScheme class methodsFor: 'examples' stamp: 'len 2/19/2025 07:53:07'!
+!ProjectiveScheme class methodsFor: 'examples' stamp: 'len 8/24/2025 15:12:49'!
 fermat: n
 	"The n-th Fermat curve."
 	^ (ProjectiveSpace new: #(x y z) over: ℚ) sub: [:x :y :z| x^n + (y^n) - (z^n)]! !
 
-!ProjectiveAlgebraicScheme class methodsFor: 'examples' stamp: 'len 2/19/2025 07:52:38'!
+!ProjectiveScheme class methodsFor: 'examples' stamp: 'len 8/24/2025 15:12:55'!
 fermat4
 	"The 4th Fermat curve."
 	^ (ProjectiveSpace new: #(x y z) over: ℚ) sub: [:x :y :z| x^4 + (y^4) - (z^4)]! !
 
-!ProjectiveAlgebraicScheme class methodsFor: 'examples' stamp: 'len 2/19/2025 07:52:12'!
+!ProjectiveScheme class methodsFor: 'examples' stamp: 'len 8/24/2025 15:13:04'!
 kleinQuartic
 	"This is a projective variety, a curve in P^2(C)."
 	^ (ProjectiveSpace new: 2 over: ℚ) sub: [:x :y :z| x^3*y + (y^3*z) + (z^3*x)]! !
 
-!ProjectiveAlgebraicScheme class methodsFor: 'instance creation' stamp: 'len 6/8/2025 15:39:21'!
+!ProjectiveScheme class methodsFor: 'instance creation' stamp: 'len 8/24/2025 15:13:45'!
 homogeneousCoordinateRing: aGradedAffineAlgebra
-	self == ProjectiveAlgebraicScheme ifFalse: [^ self new homogeneousCoordinateRing: aGradedAffineAlgebra].
+	self == ProjectiveScheme ifFalse: [^ self new homogeneousCoordinateRing: aGradedAffineAlgebra].
 	aGradedAffineAlgebra relations generators size = 1 ifTrue:
 		[| f |
 		f := aGradedAffineAlgebra relations generators any.
@@ -33573,9 +33465,9 @@ homogeneousCoordinateRing: aGradedAffineAlgebra
 			^ ProjectiveHypersurface homogeneousCoordinateRing: aGradedAffineAlgebra]].
 	^ self new homogeneousCoordinateRing: aGradedAffineAlgebra! !
 
-!ProjectiveAlgebraicScheme class methodsFor: 'instance creation' stamp: 'len 2/19/2025 07:41:56'!
+!ProjectiveScheme class methodsFor: 'instance creation' stamp: 'len 8/24/2025 15:13:17'!
 newFrom: anObject
-	(anObject isKindOf: ProjectiveAlgebraicScheme) ifTrue: [^ self homogeneousCoordinateRing: anObject homogeneousCoordinateRing].
+	(anObject isKindOf: ProjectiveScheme) ifTrue: [^ self homogeneousCoordinateRing: anObject homogeneousCoordinateRing].
 	^ super newFrom: anObject! !
 
 !ProjectiveHypersurface methodsFor: 'accessing' stamp: 'len 8/10/2025 23:29:42'!
@@ -34628,11 +34520,11 @@ asAbelianGroupMap
 	(self isFiniteAlgebraMap and: [self scalars = ℤ]) ifTrue: [^ self carrier].
 	^ self domain asAbelianGroup to: self codomain asAbelianGroup map: [:x| self value: self domain !! x]! !
 
-!RingMap methodsFor: 'converting' stamp: 'len 12/4/2024 08:38:35'!
+!RingMap methodsFor: 'converting' stamp: 'len 8/21/2025 21:24:26'!
 asModule
 	"If the receiver is a representation (i.e., a k-algebra homomorphism to the endomorphism ring of a k-vector space), answer the receiver as an object of the corresponding category of representations."
 	self assert: self scalars = self codomain scalars.
-	^ RepresentationModule representation: self! !
+	^ Representation structureMorphism: self! !
 
 !RingMap methodsFor: 'converting' stamp: 'len 12/1/2024 14:23:06'!
 asModuleMap
@@ -38777,10 +38669,6 @@ stabilizerOf: aPoint
 	self group generators ifNotNil: [:S| ^ (SchreierTree root: aPoint generators: S action: self) stabilizer].
 	^ self group select: [:each| (self value: {each. aPoint}) = aPoint]! !
 
-!GroupAction methodsFor: 'converting' stamp: 'len 12/30/2024 21:10:28'!
-asRepresentation
-	^ self group to: self space automorphisms map: [:g| [:x| self value: {g.x}]]! !
-
 !GroupAction methodsFor: 'graphs' stamp: 'len 3/24/2021 09:25:28'!
 actionGraph
 	"Answer the action diagram with respect to the group generators.
@@ -40986,13 +40874,13 @@ homogenized
 	^ self codomain → self codomain projectiveClosure value: self
 "! !
 
-!AffineRationalPoint methodsFor: 'operations' stamp: 'len 7/12/2023 12:42:20'!
+!AffineRationalPoint methodsFor: 'operations' stamp: 'len 8/23/2025 20:45:55'!
 restriction
 	"Answer the corresponding point in the Weil restriction of the codomain."
 	| newCoordinates |
 	newCoordinates := self scalars scalars new: 0.
 	coordinates coefficients do: [:each| newCoordinates := newCoordinates, each coefficients].
-	^ self codomain restriction pointAt: (self scalars scalars !!!! newCoordinates)! !
+	^ self codomain restriction pointAt: self scalars scalars !!!! newCoordinates! !
 
 !AffineRationalPoint methodsFor: 'printing' stamp: 'len 5/8/2023 23:28:07'!
 printOn: aStream
@@ -41006,9 +40894,9 @@ isSingular
 isSmooth
 	^ (self codomain singularLocus satisfies: coordinates) not! !
 
-!AffineRationalPoint methodsFor: 'private' stamp: 'len 2/3/2025 08:20:41'!
-codomain: anAffineAlgebraicScheme
-	codomain := anAffineAlgebraicScheme! !
+!AffineRationalPoint methodsFor: 'private' stamp: 'len 8/23/2025 20:38:20'!
+codomain: anAffineScheme
+	codomain := anAffineScheme! !
 
 !AffineRationalPoint methodsFor: 'private' stamp: 'len 5/8/2023 23:07:30'!
 coordinates: aTuple
@@ -41019,9 +40907,9 @@ validate
 	super validate.
 	self assert: (codomain satisfies: coordinates)! !
 
-!AffineRationalPoint class methodsFor: 'instance creation' stamp: 'len 2/3/2025 08:26:20'!
-on: anAffineAlgebraicScheme coordinates: aTuple
-	^ self new codomain: anAffineAlgebraicScheme; coordinates: aTuple! !
+!AffineRationalPoint class methodsFor: 'instance creation' stamp: 'len 8/23/2025 20:38:29'!
+on: anAffineScheme coordinates: aTuple
+	^ self new codomain: anAffineScheme; coordinates: aTuple! !
 
 !ProjectiveRationalPoint methodsFor: 'accessing' stamp: 'len 5/8/2023 23:01:00'!
 ambient
